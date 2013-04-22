@@ -1,0 +1,15 @@
+#output folder
+
+out/**
+
+#reharper crap
+src/*[Rr]e[Ss]harper*
+
+#VS crap
+*.DotSettings.user
+*.suo
+src/*/bin/
+src/*/obj/
+src/*/*.csproj.user
+src/*.sln.cache
+src/packages/
