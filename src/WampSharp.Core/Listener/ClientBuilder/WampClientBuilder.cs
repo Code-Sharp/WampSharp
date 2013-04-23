@@ -6,33 +6,22 @@ using WampSharp.Core.Proxy;
 
 namespace WampSharp.Core.Listener
 {
-    public class WampClientBuilder<TMessage, TConnection> : IWampClientBuilder<TConnection>
+    public class WampClientBuilder<TMessage> : IWampClientBuilder<TMessage>
     {
-        private IWampClientContainer<TConnection> mContainer;
+        private readonly IWampClientContainer<TMessage> mContainer;
         private readonly ProxyGenerator mGenerator = new ProxyGenerator();
         private readonly IWampOutgoingRequestSerializer<WampMessage<TMessage>> mOutgoingSerializer;
-        private readonly IWampOutgoingMessageHandlerBuilder<TMessage, TConnection> mOutgoingHandlerBuilder;
+        private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
 
-        public WampClientBuilder(IWampOutgoingRequestSerializer<WampMessage<TMessage>> outgoingSerializer, IWampMessageFormatter<TMessage> wampMessageFormatter,
-            IWampOutgoingMessageHandlerBuilder<TMessage, TConnection> outgoingHandlerBuilder)
+        public WampClientBuilder(IWampOutgoingRequestSerializer<WampMessage<TMessage>> outgoingSerializer,
+            IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage> container)
         {
             mOutgoingSerializer = outgoingSerializer;
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
+            mContainer = container;
         }
 
-        public IWampClientContainer<TConnection> Container
-        {
-            get
-            {
-                return mContainer;
-            }
-            set
-            {
-                mContainer = value;
-            }
-        }
-
-        public IWampClient Create(TConnection connection)
+        public IWampClient Create(IWampConnection<TMessage> connection)
         {
             WampOutgoingInterceptor<TMessage> wampOutgoingInterceptor =
                 new WampOutgoingInterceptor<TMessage>
@@ -48,7 +37,7 @@ namespace WampSharp.Core.Listener
                     };
 
             proxyGenerationOptions.AddMixinInstance
-                (new WampClientContainerDisposable<TConnection>(Container, connection));
+                (new WampClientContainerDisposable<TMessage>(mContainer, connection));
 
             proxyGenerationOptions.AddMixinInstance(new WampCurieMapper());
 

@@ -3,12 +3,12 @@ using WampSharp.Core.Contracts;
 
 namespace WampSharp.Core.Listener
 {
-    public interface IWampClientContainer<TConnection>
+    public interface IWampClientContainer<TMessage>
     {
-        IWampClient GetClient(TConnection connection);
+        IWampClient GetClient(IWampConnection<TMessage> connection);
 
         IEnumerable<IWampClient> GetAllClients(); 
 
-        void RemoveClient(TConnection connection);
+        void RemoveClient(IWampConnection<TMessage> connection);
     }
 }

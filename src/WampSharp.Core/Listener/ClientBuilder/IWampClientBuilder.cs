@@ -2,8 +2,8 @@
 
 namespace WampSharp.Core.Listener
 {
-    public interface IWampClientBuilder<TConnection>
+    public interface IWampClientBuilder<TMessage>
     {
-        IWampClient Create(TConnection connection);
+        IWampClient Create(IWampConnection<TMessage> connection);
     }
 }

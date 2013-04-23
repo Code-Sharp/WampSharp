@@ -37,6 +37,18 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\Net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,12 +70,16 @@
     <Compile Include="Dispatch\Handler\WampMethodBuilder.cs" />
     <Compile Include="Dispatch\Handler\WampMethodInfo.cs" />
     <Compile Include="Dispatch\Handler\WampRequestMapper.cs" />
+    <Compile Include="Listener\ClientContainer\IWampClientBuilderFactory.cs" />
+    <Compile Include="Listener\WampListener.cs" />
     <Compile Include="Listener\ClientBuilder\IWampOutgoingMessageHandlerBuilder.cs" />
     <Compile Include="Listener\ClientBuilder\WampClientBuilder.cs" />
     <Compile Include="Listener\ClientContainer\WampClientContainer.cs" />
     <Compile Include="Listener\ClientContainer\WampClientContainerDisposable.cs" />
     <Compile Include="Listener\ClientBuilder\IWampClientBuilder.cs" />
     <Compile Include="Listener\ClientContainer\IWampClientContainer.cs" />
+    <Compile Include="Listener\Connections\IWampConnection.cs" />
+    <Compile Include="Listener\Connections\IWampConnectionListener.cs" />
     <Compile Include="Message\IWampMessageFormatter.cs" />
     <Compile Include="Message\MessageType\MessageCategory.cs" />
     <Compile Include="Message\MessageType\MessageDirection.cs" />

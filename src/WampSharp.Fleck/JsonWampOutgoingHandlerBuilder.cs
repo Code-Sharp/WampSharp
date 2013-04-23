@@ -6,7 +6,7 @@ using WampSharp.Core.Proxy;
 
 namespace WampSharp.Fleck
 {
-    public class JsonWampOutgoingHandlerBuilder : IWampOutgoingMessageHandlerBuilder<JToken, IWebSocketConnection>
+    public class JsonWampOutgoingHandlerBuilder : IWampOutgoingMessageHandlerBuilder<JToken>
     {
         private readonly IWampMessageFormatter<JToken> mFormatter;
 
@@ -15,7 +15,7 @@ namespace WampSharp.Fleck
             mFormatter = formatter;
         }
 
-        public IWampOutgoingMessageHandler<JToken> Build(IWebSocketConnection connection)
+        public IWampOutgoingMessageHandler<JToken> Build(IWampConnection<JToken> connection)
         {
             return new JsonOutgoingMessageHandler(connection, mFormatter);
         }

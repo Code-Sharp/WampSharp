@@ -3,19 +3,19 @@ using WampSharp.Core.Contracts;
 
 namespace WampSharp.Core.Listener
 {
-    public class WampClientContainer<TConnection> : IWampClientContainer<TConnection>
+    public class WampClientContainer<TMessage> : IWampClientContainer<TMessage>
     {
-        private readonly IWampClientBuilder<TConnection> mClientBuilder;
+        private readonly IWampClientBuilder<TMessage> mClientBuilder;
 
-        private readonly IDictionary<TConnection, IWampClient> mConnectionToClient = 
-            new Dictionary<TConnection, IWampClient>();
+        private readonly IDictionary<IWampConnection<TMessage>, IWampClient> mConnectionToClient =
+            new Dictionary<IWampConnection<TMessage>, IWampClient>();
 
-        public WampClientContainer(IWampClientBuilder<TConnection> clientBuilder)
+        public WampClientContainer(IWampClientBuilderFactory<TMessage> clientBuilder)
         {
-            mClientBuilder = clientBuilder;
+            mClientBuilder = clientBuilder.GetClientBuilder(this);
         }
 
-        public IWampClient GetClient(TConnection connection)
+        public IWampClient GetClient(IWampConnection<TMessage> connection)
         {
             IWampClient client;
 
@@ -36,7 +36,7 @@ namespace WampSharp.Core.Listener
             return mConnectionToClient.Values;
         }
 
-        public void RemoveClient(TConnection connection)
+        public void RemoveClient(IWampConnection<TMessage> connection)
         {
             mConnectionToClient.Remove(connection);
         }

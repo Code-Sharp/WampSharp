@@ -2,12 +2,12 @@
 
 namespace WampSharp.Core.Listener
 {
-    public class WampClientContainerDisposable<TConnection> : IDisposable
+    public class WampClientContainerDisposable<TMessage> : IDisposable
     {
-        private readonly IWampClientContainer<TConnection> mContainer;
-        private readonly TConnection mConnection;
+        private readonly IWampClientContainer<TMessage> mContainer;
+        private readonly IWampConnection<TMessage> mConnection;
 
-        public WampClientContainerDisposable(IWampClientContainer<TConnection> container, TConnection connection)
+        public WampClientContainerDisposable(IWampClientContainer<TMessage> container, IWampConnection<TMessage> connection)
         {
             mContainer = container;
             mConnection = connection;
