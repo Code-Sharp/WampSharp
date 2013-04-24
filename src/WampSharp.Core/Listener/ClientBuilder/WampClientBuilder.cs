@@ -12,13 +12,14 @@ namespace WampSharp.Core.Listener
         private readonly ProxyGenerator mGenerator = new ProxyGenerator();
         private readonly IWampOutgoingRequestSerializer<WampMessage<TMessage>> mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
+        private readonly IWampSessionIdGenerator mSessionIdGenerator;
 
-        public WampClientBuilder(IWampOutgoingRequestSerializer<WampMessage<TMessage>> outgoingSerializer,
-            IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage> container)
+        public WampClientBuilder(IWampSessionIdGenerator sessionIdGenerator, IWampOutgoingRequestSerializer<WampMessage<TMessage>> outgoingSerializer, IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage> container)
         {
             mOutgoingSerializer = outgoingSerializer;
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
             mContainer = container;
+            mSessionIdGenerator = sessionIdGenerator;
         }
 
         public IWampClient Create(IWampConnection<TMessage> connection)
@@ -37,13 +38,15 @@ namespace WampSharp.Core.Listener
                     };
 
             proxyGenerationOptions.AddMixinInstance
-                (new WampClientContainerDisposable<TMessage>(mContainer, connection));
+                (new WampClientContainerDisposable<TMessage>
+                    (mContainer, connection));
 
             proxyGenerationOptions.AddMixinInstance(new WampCurieMapper());
 
             IWampClient result =
                 mGenerator.CreateInterfaceProxyWithoutTarget<IWampClient>
-                    (proxyGenerationOptions, wampOutgoingInterceptor);
+                    (proxyGenerationOptions, wampOutgoingInterceptor,
+                    new SessionIdPropertyInterceptor(mSessionIdGenerator.Generate()));
 
             return result;
         }

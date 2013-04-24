@@ -58,6 +58,9 @@
   <ItemGroup>
     <Compile Include="Contracts\IWampClient.cs" />
     <Compile Include="Contracts\IWampServer.cs" />
+    <Compile Include="Listener\ClientBuilder\IWampSessionIdGenerator.cs" />
+    <Compile Include="Listener\ClientBuilder\SessionIdPropertyInterceptor.cs" />
+    <Compile Include="Listener\ClientBuilder\WampClientBuilderFactory.cs" />
     <Compile Include="Curie\IWampCurieMapper.cs" />
     <Compile Include="Contracts\WampHandlerAttribute.cs" />
     <Compile Include="Curie\WampCurieMapper.cs" />
@@ -70,7 +73,8 @@
     <Compile Include="Dispatch\Handler\WampMethodBuilder.cs" />
     <Compile Include="Dispatch\Handler\WampMethodInfo.cs" />
     <Compile Include="Dispatch\Handler\WampRequestMapper.cs" />
-    <Compile Include="Listener\ClientContainer\IWampClientBuilderFactory.cs" />
+    <Compile Include="Listener\ClientBuilder\WampSessionIdGenerator.cs" />
+    <Compile Include="Listener\ClientBuilder\IWampClientBuilderFactory.cs" />
     <Compile Include="Listener\WampListener.cs" />
     <Compile Include="Listener\ClientBuilder\IWampOutgoingMessageHandlerBuilder.cs" />
     <Compile Include="Listener\ClientBuilder\WampClientBuilder.cs" />
