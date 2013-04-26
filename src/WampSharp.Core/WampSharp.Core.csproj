@@ -56,6 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\IWampServerProxyBuilder.cs" />
+    <Compile Include="Client\WampServerProxyBuilder.cs" />
+    <Compile Include="Client\WampServerProxyHandler.cs" />
     <Compile Include="Contracts\IWampClient.cs" />
     <Compile Include="Contracts\IWampServer.cs" />
     <Compile Include="Listener\ClientBuilder\IWampSessionIdGenerator.cs" />

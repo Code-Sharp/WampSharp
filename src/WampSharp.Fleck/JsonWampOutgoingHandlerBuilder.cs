@@ -6,18 +6,11 @@ using WampSharp.Core.Proxy;
 
 namespace WampSharp.Fleck
 {
-    public class JsonWampOutgoingHandlerBuilder : IWampOutgoingMessageHandlerBuilder<JToken>
+    public class JsonWampOutgoingHandlerBuilder<TMessage> : IWampOutgoingMessageHandlerBuilder<TMessage>
     {
-        private readonly IWampMessageFormatter<JToken> mFormatter;
-
-        public JsonWampOutgoingHandlerBuilder(IWampMessageFormatter<JToken> formatter)
+        public IWampOutgoingMessageHandler<TMessage> Build(IWampConnection<TMessage> connection)
         {
-            mFormatter = formatter;
-        }
-
-        public IWampOutgoingMessageHandler<JToken> Build(IWampConnection<JToken> connection)
-        {
-            return new JsonOutgoingMessageHandler(connection, mFormatter);
+            return new WampClientOutgoingMessageHandler<TMessage>(connection);
         }
     }
 }

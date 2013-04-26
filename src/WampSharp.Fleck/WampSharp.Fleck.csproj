@@ -60,7 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JsonFormatter.cs" />
-    <Compile Include="JsonOutgoingMessageHandler.cs" />
+    <Compile Include="WampClientOutgoingMessageHandler.cs" />
     <Compile Include="JsonWampMessageFormatter.cs" />
     <Compile Include="JsonWampOutgoingHandlerBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
