@@ -1,5 +1,4 @@
-﻿using WampSharp.Core.Client;
-using WampSharp.Core.Contracts;
+﻿using WampSharp.Core.Contracts;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;

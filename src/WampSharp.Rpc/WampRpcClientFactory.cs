@@ -2,14 +2,6 @@
 
 namespace WampSharp.Rpc
 {
-    public interface IWampRpcClientHandlerBuilder : IWampRpcClientHandlerBuilder<object>
-    {
-        
-    }
-
-
-
-    
     public class WampRpcClientFactory : IWampRpcClientFactory
     {
         private readonly ProxyGenerator mProxyGenerator = new ProxyGenerator();

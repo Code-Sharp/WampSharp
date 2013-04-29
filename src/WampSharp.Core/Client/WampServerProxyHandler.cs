@@ -7,21 +7,6 @@ using WampSharp.Core.Proxy;
 
 namespace WampSharp.Core.Client
 {
-    public class WampServerProxyHandlerBuilder<TMessage> : IWampOutgoingMessageHandlerBuilder<TMessage>
-    {
-        private readonly IWampIncomingMessageHandler<TMessage> mIncomingHandler;
-
-        public WampServerProxyHandlerBuilder(IWampIncomingMessageHandler<TMessage> incomingHandler)
-        {
-            mIncomingHandler = incomingHandler;
-        }
-
-        public IWampOutgoingMessageHandler<TMessage> Build(IWampConnection<TMessage> connection)
-        {
-            return new WampServerProxyHandler<TMessage>(connection, mIncomingHandler);
-        }
-    }
-
     public class WampServerProxyHandler<TMessage> : IWampOutgoingMessageHandler<TMessage>
     {
         private readonly IWampConnection<TMessage> mConnection;

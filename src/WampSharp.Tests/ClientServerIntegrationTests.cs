@@ -74,11 +74,11 @@ namespace WampSharp.Tests
         {
             var serverProxyBuilder = new WampServerProxyBuilder<JToken>
                 (new WampOutgoingRequestSerializer<JToken>(mFormatter),
-                 new WampServerProxyHandlerBuilder<JToken>
-                     (GetHandler(wampClient)));
+                 new WampServerProxyOutgoingMessageHandlerBuilder<JToken>
+                     (GetHandlerBuilder()));
 
             var proxy =
-                serverProxyBuilder.Create(connection);
+                serverProxyBuilder.Create(wampClient, connection);
 
             return proxy;
         }
@@ -95,6 +95,11 @@ namespace WampSharp.Tests
                           (new WampSessionIdGenerator(),
                            new WampOutgoingRequestSerializer<JToken>(mFormatter),
                            new JsonWampOutgoingHandlerBuilder<JToken>())));
+        }
+
+        private IWampServerProxyIncomingMessageHandlerBuilder<JToken> GetHandlerBuilder()
+        {
+            return new WampServerProxyIncomingMessageHandlerBuilder<JToken>(mFormatter);
         }
 
         private IWampIncomingMessageHandler<JToken> GetHandler(object instance)

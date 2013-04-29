@@ -8,21 +8,21 @@ namespace WampSharp.Core.Client
 {
     public class WampServerProxyBuilder<TMessage> : IWampServerProxyBuilder<TMessage>
     {
-        private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
+        private readonly IWampServerProxyOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
         private readonly ProxyGenerator mProxyGenerator = new ProxyGenerator();
         private readonly IWampOutgoingRequestSerializer<WampMessage<TMessage>> mOutgoingSerializer;
 
         public WampServerProxyBuilder(IWampOutgoingRequestSerializer<WampMessage<TMessage>> outgoingSerializer,
-                                      IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder)
+                                      IWampServerProxyOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder)
         {
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
             mOutgoingSerializer = outgoingSerializer;
         }
 
-        public IWampServer Create(IWampConnection<TMessage> connection)
+        public IWampServer Create(IWampClient<TMessage> client, IWampConnection<TMessage> connection)
         {
             IWampOutgoingMessageHandler<TMessage> handler =
-                mOutgoingHandlerBuilder.Build(connection);
+                mOutgoingHandlerBuilder.Build(client, connection);
 
             WampOutgoingInterceptor<TMessage> interceptor =
                 new WampOutgoingInterceptor<TMessage>(mOutgoingSerializer,

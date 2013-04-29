@@ -59,9 +59,11 @@
     <Compile Include="WampRpcCall.cs" />
     <Compile Include="WampRpcClientFactory.cs" />
     <Compile Include="WampRpcClientHandler.cs" />
+    <Compile Include="WampRpcClientHandlerBuilder.cs" />
     <Compile Include="WampRpcClientInterceptor.cs" />
     <Compile Include="WampRpcRequest.cs" />
     <Compile Include="WampRpcSerializer.cs" />
+    <Compile Include="WampServerProxyFactory.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

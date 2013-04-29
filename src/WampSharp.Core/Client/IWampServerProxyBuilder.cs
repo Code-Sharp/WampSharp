@@ -5,6 +5,6 @@ namespace WampSharp.Core.Client
 {
     public interface IWampServerProxyBuilder<TMessage>
     {
-        IWampServer Create(IWampConnection<TMessage> connection);
+        IWampServer Create(IWampClient<TMessage> client, IWampConnection<TMessage> connection);
     }
 }

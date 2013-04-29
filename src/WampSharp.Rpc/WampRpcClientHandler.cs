@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
@@ -31,15 +32,17 @@ namespace WampSharp.Rpc
 
         private Task<object> HandleAsync(WampRpcCall<object> rpcCall)
         {
-            mServerProxy.Call(null, rpcCall.CallId, rpcCall.ProcUri, rpcCall.Arguments);
-
+            rpcCall.CallId = Guid.NewGuid().ToString(); 
+            // TODO: replace this with CallIdGenerator
             WampRpcRequest wampRpcRequest = new WampRpcRequest();
-            Subject<object> task = new Subject<object>();
+            ISubject<object> task = new ReplaySubject<object>(1);
 
             wampRpcRequest.Request = rpcCall;
             wampRpcRequest.Task = task;
 
             mCallIdToSubject[rpcCall.CallId] = wampRpcRequest;
+
+            mServerProxy.Call(null, rpcCall.CallId, rpcCall.ProcUri, rpcCall.Arguments);
 
             return task.ToTask();
         }

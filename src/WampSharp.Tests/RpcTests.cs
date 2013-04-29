@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Moq;
 using NUnit.Framework;
 using Newtonsoft.Json.Linq;
@@ -55,6 +56,39 @@ namespace WampSharp.Tests
         }
 
 
+
+        [Test]
+        public void RpcClientFactoryCallCallOnProxyAndWait()
+        {
+            var delegateProcUriMapper = new DelegateProcUriMapper(methodInfo => methodInfo.Name);
+            IWampRpcSerializer serializer = new WampRpcSerializer(delegateProcUriMapper);
+
+            MockWampServerProxyFactory<JToken> mockWampServerProxyFactory = null;
+
+            Mock<IWampServer> serverMock = new Mock<IWampServer>();
+            serverMock.Setup(x => x.Call(It.IsAny<IWampClient>(),
+                                         It.IsAny<string>(),
+                                         It.IsAny<string>(),
+                                         It.IsAny<object[]>()))
+                      .Callback((IWampClient client, string callId, string procUri, object[] args) =>
+                                mockWampServerProxyFactory.Client.CallResult(callId, JToken.FromObject(3)));
+
+            mockWampServerProxyFactory = new MockWampServerProxyFactory<JToken>(serverMock.Object);
+            
+            WampRpcClientHandlerBuilder<JToken> mockWampRpcClientHandlerBuilder = 
+                new WampRpcClientHandlerBuilder<JToken>
+                (new JsonFormatter(),
+                 mockWampServerProxyFactory);
+
+            IWampRpcClientFactory clientFactory = new WampRpcClientFactory(serializer, mockWampRpcClientHandlerBuilder);
+
+            ICalculator proxy = clientFactory.GetClient<ICalculator>();
+            int three = proxy.Square(3);
+
+            Assert.That(three, Is.EqualTo(3));
+        }
+
+
         public void AA()
         {
             
@@ -64,6 +98,63 @@ namespace WampSharp.Tests
 
     }
 
+    public class MockFormatter : IWampFormatter<object>
+    {
+        public bool CanConvert(object argument, Type type)
+        {
+            return true;
+        }
+
+        public object Parse(string message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Format(object message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TTarget Deserialize<TTarget>(object message)
+        {
+            return (TTarget) message;
+        }
+
+        public object Deserialize(Type type, object message)
+        {
+            return message;
+        }
+
+        public object Serialize(object value)
+        {
+            return value;
+        }
+    }
+
+    public class MockWampServerProxyFactory<TMessage> : IWampServerProxyFactory<TMessage>
+    {
+        private readonly IWampServer mServer;
+        private IWampClient<TMessage> mClient;
+
+        public MockWampServerProxyFactory(IWampServer server)
+        {
+            mServer = server;
+        }
+
+        public IWampClient<TMessage> Client
+        {
+            get
+            {
+                return mClient;
+            }
+        }
+
+        public IWampServer Create(IWampClient<TMessage> client)
+        {
+            mClient = client;
+            return mServer;
+        }
+    }
 
 
     public interface ICalculator
