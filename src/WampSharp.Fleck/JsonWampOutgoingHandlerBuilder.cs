@@ -1,5 +1,6 @@
 ﻿using Fleck;
 using Newtonsoft.Json.Linq;
+using WampSharp.Core.Contracts;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;

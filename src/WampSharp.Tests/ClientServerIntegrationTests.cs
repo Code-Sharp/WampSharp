@@ -44,7 +44,7 @@ namespace WampSharp.Tests
             
             MockConnection<JToken> connection = new MockConnection<JToken>();
             
-            var client = GetClient(connection.SideAToSideB, clientMock.Object);
+            IWampServer client = GetClient(connection.SideAToSideB, clientMock.Object);
 
             listener.Start();
             mockListener.OnNext(connection.SideBToSideA);

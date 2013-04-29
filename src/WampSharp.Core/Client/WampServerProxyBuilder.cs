@@ -21,7 +21,7 @@ namespace WampSharp.Core.Client
 
         public IWampServer Create(IWampConnection<TMessage> connection)
         {
-            IWampOutgoingMessageHandler<TMessage> handler = 
+            IWampOutgoingMessageHandler<TMessage> handler =
                 mOutgoingHandlerBuilder.Build(connection);
 
             WampOutgoingInterceptor<TMessage> interceptor =
@@ -31,7 +31,7 @@ namespace WampSharp.Core.Client
             WampInterceptorSelector<TMessage> selector =
                 new WampInterceptorSelector<TMessage>(interceptor);
 
-            var proxyOptions = new ProxyGenerationOptions() {Selector = selector};
+            var proxyOptions = new ProxyGenerationOptions() { Selector = selector };
 
             IWampServer result =
                 mProxyGenerator.CreateInterfaceProxyWithoutTarget<IWampServer>
