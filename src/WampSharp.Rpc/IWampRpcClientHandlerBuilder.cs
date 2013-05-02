@@ -1,11 +1,7 @@
 ﻿namespace WampSharp.Rpc
 {
-    public interface IWampRpcClientHandlerBuilder : IWampRpcClientHandlerBuilder<object>
+    public interface IWampRpcClientHandlerBuilder
     {
-    }
-
-    public interface IWampRpcClientHandlerBuilder<TMessage>
-    {
-        IWampRpcClientHandler<TMessage> Build();
+        IWampRpcClientHandler Build();
     }
 }

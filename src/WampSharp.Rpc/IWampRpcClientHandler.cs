@@ -1,11 +1,7 @@
 ﻿namespace WampSharp.Rpc
 {
-    public interface IWampRpcClientHandler<TMessage>
+    public interface IWampRpcClientHandler
     {
-        object Handle(WampRpcCall<TMessage> rpcCall);
-    }
-
-    public interface IWampRpcClientHandler : IWampRpcClientHandler<object>
-    {
+        object Handle(WampRpcCall<object> rpcCall);
     }
 }

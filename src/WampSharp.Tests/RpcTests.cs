@@ -199,7 +199,7 @@ namespace WampSharp.Tests
             mHandler = handler;
         }
 
-        public IWampRpcClientHandler<object> Build()
+        public IWampRpcClientHandler Build()
         {
             return mHandler;
         }

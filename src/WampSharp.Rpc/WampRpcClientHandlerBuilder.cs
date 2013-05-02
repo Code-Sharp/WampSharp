@@ -13,7 +13,7 @@ namespace WampSharp.Rpc
             mServerProxyFactory = serverProxyFactory;
         }
 
-        public IWampRpcClientHandler<object> Build()
+        public IWampRpcClientHandler Build()
         {
             return new WampRpcClientHandler<TMessage>(mServerProxyFactory, mFormatter);
         }

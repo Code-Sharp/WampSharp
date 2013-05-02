@@ -9,6 +9,7 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
+using WampSharp.Rpc;
 
 namespace WampSharp.Tests
 {
@@ -70,6 +71,52 @@ namespace WampSharp.Tests
                                                 It.Is((JToken result) => result.Value<string>("stuff") == "cool")));
         }
 
+        [Test]
+        public void CallServer_And_Receive_Call_Result_ViaRpcClient()
+        {
+            MockListener<JToken> mockListener = new MockListener<JToken>();
+
+            Mock<IWampServer<JToken>> serverMock = new Mock<IWampServer<JToken>>();
+            serverMock.Setup(x => x.Call(It.IsAny<IWampClient>(),
+                                         It.IsAny<string>(),
+                                         It.IsAny<string>(),
+                                         It.IsAny<JToken[]>()))
+                      .Callback((IWampClient clientParameter, string callId, string procUrl, JToken[] arguments) =>
+                                    {
+                                        clientParameter.CallResult(callId, 12);
+                                    });
+
+            WampListener<JToken> listener = GetListener(mockListener, serverMock.Object);
+
+            MockConnection<JToken> connection = new MockConnection<JToken>();
+
+            WampRpcClientFactory factory =
+                new WampRpcClientFactory(new WampRpcSerializer(new DelegateProcUriMapper(x => x.Name)),
+                    new WampRpcClientHandlerBuilder<JToken>(mFormatter,
+                        new WampServerProxyFactory<JToken>(connection.SideAToSideB,
+                            new WampServerProxyBuilder<JToken>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                                new WampServerProxyOutgoingMessageHandlerBuilder<JToken>(new WampServerProxyIncomingMessageHandlerBuilder<JToken>(mFormatter))))));
+
+            listener.Start();
+
+            ICalculator calculator = factory.GetClient<ICalculator>();
+
+            mockListener.OnNext(connection.SideBToSideA);
+
+            int four = 4;
+
+            int sixteen = calculator.Square(four);
+
+            Assert.That(sixteen, Is.EqualTo(12));
+
+            serverMock.Verify(x => x.Call(It.IsAny<IWampClient>(),
+                                          It.IsAny<string>(),
+                                          "Square",
+                                          It.Is((JToken[] parameters) => parameters[0].Value<int>() == four)));
+        }
+
+
+        
         private IWampServer GetClient(IWampConnection<JToken> connection, IWampClient<JToken> wampClient)
         {
             var serverProxyBuilder = new WampServerProxyBuilder<JToken>

@@ -5,9 +5,9 @@ namespace WampSharp.Rpc
     class WampRpcClientInterceptor : IInterceptor
     {
         private readonly IWampRpcSerializer mSerializer;
-        private readonly IWampRpcClientHandler<object> mClientHandler;
+        private readonly IWampRpcClientHandler mClientHandler;
 
-        public WampRpcClientInterceptor(IWampRpcSerializer serializer, IWampRpcClientHandler<object> clientHandler)
+        public WampRpcClientInterceptor(IWampRpcSerializer serializer, IWampRpcClientHandler clientHandler)
         {
             mSerializer = serializer;
             mClientHandler = clientHandler;

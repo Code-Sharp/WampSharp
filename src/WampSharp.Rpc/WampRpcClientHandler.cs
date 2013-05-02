@@ -67,6 +67,7 @@ namespace WampSharp.Rpc
         private class RpcWampClient : IWampClient<TMessage>
         {
             private readonly WampRpcClientHandler<TMessage> mParent;
+            private string mSessionId;
 
             public RpcWampClient(WampRpcClientHandler<TMessage> parent)
             {
@@ -75,7 +76,7 @@ namespace WampSharp.Rpc
 
             public void Welcome(string sessionId, int protocolVersion, string serverIdent)
             {
-                throw new System.NotImplementedException();
+                mSessionId = sessionId;
             }
 
             public void CallResult(string callId, TMessage result)
@@ -97,7 +98,13 @@ namespace WampSharp.Rpc
                 throw new System.NotImplementedException();
             }
 
-            public string SessionId { get; private set; }
+            public string SessionId
+            {
+                get
+                {
+                    return mSessionId;
+                }
+            }
         }
 
     }
