@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
@@ -56,13 +57,21 @@ namespace WampSharp.Fleck
         {
             mServer = new WebSocketServer(mLocation);
 
-            mServer.Start(connection =>
-                              {
-                                  FleckWampConnection wampConnection =
-                                      new FleckWampConnection(connection,
-                                                              mMessageFormatter);
+            Action<IWebSocketConnection> defaultInitializer =
+                connection =>
+                    {
+                        FleckWampConnection wampConnection =
+                            new FleckWampConnection(connection,
+                                                    mMessageFormatter);
 
-                                  connection.OnOpen = () => OnNewConnection(wampConnection);
+                        connection.OnOpen =
+                            () => OnNewConnection(wampConnection);
+                    };
+
+            mServer.Start(defaultInitializer,
+                          new Dictionary<string, Action<IWebSocketConnection>>()
+                              {
+                                  {"wamp", defaultInitializer}
                               });
         }
 

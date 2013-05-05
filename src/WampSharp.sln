@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{33DFF6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Rpc", "WampSharp.Rpc\WampSharp.Rpc.csproj", "{C3290246-2E64-4E58-96B2-65E11FE16B3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.TestConsole", "WampSharp.TestConsole\WampSharp.TestConsole.csproj", "{CAED2396-188C-4C48-BCE7-A88CF0B0A339}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,9 @@ Global
 		{C3290246-2E64-4E58-96B2-65E11FE16B3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3290246-2E64-4E58-96B2-65E11FE16B3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3290246-2E64-4E58-96B2-65E11FE16B3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAED2396-188C-4C48-BCE7-A88CF0B0A339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAED2396-188C-4C48-BCE7-A88CF0B0A339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAED2396-188C-4C48-BCE7-A88CF0B0A339}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
