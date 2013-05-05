@@ -18,6 +18,7 @@ namespace WampSharp.TestConsole
     {
         static void Main(string[] args)
         {
+            // See client at: http://autobahn.ws/static/file/autobahnjs.html
             JsonWampMessageFormatter jsonWampMessageFormatter = new JsonWampMessageFormatter();
             JsonFormatter jsonFormatter = new JsonFormatter();
             MyServer myServer = new MyServer();
