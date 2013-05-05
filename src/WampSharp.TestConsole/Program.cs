@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
+using Fleck;
+using Fleck.Handlers;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core;
+using WampSharp.Core.Client;
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Fleck;
+using WampSharp.Rpc;
 
 namespace WampSharp.TestConsole
 {
@@ -18,6 +25,9 @@ namespace WampSharp.TestConsole
     {
         static void Main(string[] args)
         {
+            FleckLog.Level = LogLevel.Debug;
+
+            // Server
             // See client at: http://autobahn.ws/static/file/autobahnjs.html
             JsonWampMessageFormatter jsonWampMessageFormatter = new JsonWampMessageFormatter();
             JsonFormatter jsonFormatter = new JsonFormatter();
@@ -40,8 +50,37 @@ namespace WampSharp.TestConsole
 
             listener.Start();
 
+
+            // RPC Client
+            WampRpcClientFactory factory =
+                new WampRpcClientFactory(new WampRpcSerializer(new DelegateProcUriMapper(x => x.Name)),
+                                         new WampRpcClientHandlerBuilder<JToken>(jsonFormatter,
+                                                                                 new WampServerProxyFactory<JToken>(
+                                                                                     new WebSocketSharpWampConnection
+                                                                                         ("ws://localhost:9000/",
+                                                                                          new JsonWampMessageFormatter()),
+                                                                                     new WampServerProxyBuilder<JToken>(
+                                                                                         new WampOutgoingRequestSerializer
+                                                                                             <JToken>(
+                                                                                             jsonFormatter),
+                                                                                         new WampServerProxyOutgoingMessageHandlerBuilder
+                                                                                             <JToken>(
+                                                                                             new WampServerProxyIncomingMessageHandlerBuilder
+                                                                                                 <JToken>(jsonFormatter))))));
+
+
+
+            IAddable proxy = factory.GetClient<IAddable>();
+
+            int result = proxy.Add(3, 4);
+
             Console.ReadLine();
         }
+    }
+
+    public interface IAddable
+    {
+        int Add(int x, int y);
     }
 
     public class MyServer : IWampServer<JToken>
