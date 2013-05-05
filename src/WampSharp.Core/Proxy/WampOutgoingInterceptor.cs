@@ -24,7 +24,8 @@ namespace WampSharp.Core.Proxy
 
             IWampClient client = null;
 
-            if (invocation.Arguments.Length >= 0)
+            //what happens when argument doesn't have client?
+            if (invocation.Arguments.Length > 0)
             {
                 client = invocation.Arguments[0] as IWampClient;
             }
