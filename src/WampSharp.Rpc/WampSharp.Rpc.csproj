@@ -56,22 +56,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IWampRpcClientHandlerBuilder.cs" />
+    <Compile Include="Client\IWampRpcClientHandlerBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DelegateProcUriMapper.cs" />
-    <Compile Include="IProcUriMapper.cs" />
-    <Compile Include="IWampRpcClientFactory.cs" />
-    <Compile Include="IWampRpcClientHandler.cs" />
-    <Compile Include="IWampRpcSerializer.cs" />
-    <Compile Include="IWampServerProxyFactory.cs" />
-    <Compile Include="WampRpcCall.cs" />
-    <Compile Include="WampRpcClientFactory.cs" />
-    <Compile Include="WampRpcClientHandler.cs" />
-    <Compile Include="WampRpcClientHandlerBuilder.cs" />
-    <Compile Include="WampRpcClientInterceptor.cs" />
-    <Compile Include="WampRpcRequest.cs" />
-    <Compile Include="WampRpcSerializer.cs" />
-    <Compile Include="WampServerProxyFactory.cs" />
+    <Compile Include="Client\DelegateProcUriMapper.cs" />
+    <Compile Include="Client\IProcUriMapper.cs" />
+    <Compile Include="Client\IWampRpcClientFactory.cs" />
+    <Compile Include="Client\IWampRpcClientHandler.cs" />
+    <Compile Include="Client\IWampRpcSerializer.cs" />
+    <Compile Include="Client\IWampServerProxyFactory.cs" />
+    <Compile Include="Server\IWampRpcServiceHost.cs" />
+    <Compile Include="Client\WampRpcCall.cs" />
+    <Compile Include="Client\WampRpcClientFactory.cs" />
+    <Compile Include="Client\WampRpcClientHandler.cs" />
+    <Compile Include="Client\WampRpcClientHandlerBuilder.cs" />
+    <Compile Include="Client\WampRpcClientInterceptor.cs" />
+    <Compile Include="Client\WampRpcRequest.cs" />
+    <Compile Include="Client\WampRpcSerializer.cs" />
+    <Compile Include="Client\WampServerProxyFactory.cs" />
+    <Compile Include="Server\IWampRpcMetadata.cs" />
+    <Compile Include="Server\IWampRpcMethod.cs" />
+    <Compile Include="Server\IWampRpcTypeMetadataProvider.cs" />
+    <Compile Include="Server\MethodInfoWampRpcMetadata.cs" />
+    <Compile Include="Server\ProcUriAlreadyMappedException.cs" />
+    <Compile Include="Server\WampRpcMethodAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

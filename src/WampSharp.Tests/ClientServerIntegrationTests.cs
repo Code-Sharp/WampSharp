@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Client;
@@ -10,6 +11,7 @@ using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
 using WampSharp.Rpc;
+using WampSharp.Rpc.Server;
 
 namespace WampSharp.Tests
 {
@@ -116,6 +118,56 @@ namespace WampSharp.Tests
         }
 
 
+        public interface IAddCalculator
+        {
+            int Add(int x, int y);
+        }
+
+        public class AddCalculator
+        {
+            [WampRpcMethod("http://www.yogev.com/pr/add")]
+            public int Add(int x, int y)
+            {
+                return x + y;
+            }
+        }
+
+        [Test]
+        public void CallServer_And_Receive_Call_Result_ViaRpcServer()
+        {
+            MockListener<JToken> mockListener = new MockListener<JToken>();
+
+            var wampRpcServiceHost = new WampRpcServiceHost();
+            wampRpcServiceHost.Host(new MethodInfoWampRpcMetadata(typeof (AddCalculator)));
+            ArgumentException
+            WampRpcServer<JToken> rpcServer =
+                new WampRpcServer<JToken>(mFormatter,
+                                          wampRpcServiceHost,
+                                          new AddCalculator());
+
+            WampListener<JToken> listener = GetListener(mockListener, rpcServer);
+
+            MockConnection<JToken> connection = new MockConnection<JToken>();
+
+            WampRpcClientFactory factory =
+                new WampRpcClientFactory(new WampRpcSerializer(new DelegateProcUriMapper(x => "http://www.yogev.com/pr/" + x.Name)),
+                    new WampRpcClientHandlerBuilder<JToken>(mFormatter,
+                        new WampServerProxyFactory<JToken>(connection.SideAToSideB,
+                            new WampServerProxyBuilder<JToken>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                                new WampServerProxyOutgoingMessageHandlerBuilder<JToken>(new WampServerProxyIncomingMessageHandlerBuilder<JToken>(mFormatter))))));
+
+            listener.Start();
+
+            IAddCalculator calculator = factory.GetClient<IAddCalculator>();
+
+            mockListener.OnNext(connection.SideBToSideA);
+
+            int sixteen = calculator.Add(10, 6);
+
+            Assert.That(sixteen, Is.EqualTo(16));
+        }
+
+
         
         private IWampServer GetClient(IWampConnection<JToken> connection, IWampClient<JToken> wampClient)
         {
@@ -130,7 +182,7 @@ namespace WampSharp.Tests
             return proxy;
         }
 
-        private WampListener<JToken> GetListener(IWampConnectionListener<JToken> listener, IWampServer<JToken> wampServer)
+        private WampListener<JToken> GetListener(IWampConnectionListener<JToken> listener, object wampServer)
         {
             IWampIncomingMessageHandler<JToken> handler = GetHandler(wampServer);
 

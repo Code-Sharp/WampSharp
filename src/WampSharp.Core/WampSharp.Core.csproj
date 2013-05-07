@@ -61,7 +61,10 @@
     <Compile Include="Client\WampServerProxyBuilder.cs" />
     <Compile Include="Client\WampServerProxyHandler.cs" />
     <Compile Include="Client\WampServerProxyOutgoingMessageHandlerBuilder.cs" />
+    <Compile Include="Contracts\IWampAuxiliaryServer.cs" />
     <Compile Include="Contracts\IWampClient.cs" />
+    <Compile Include="Contracts\IWampRpcPubSubServer.cs" />
+    <Compile Include="Contracts\IWampRpcServer.cs" />
     <Compile Include="Contracts\IWampServer.cs" />
     <Compile Include="Client\IWampServerProxyIncomingMessageHandlerBuilder.cs" />
     <Compile Include="Listener\ClientBuilder\IWampSessionIdGenerator.cs" />

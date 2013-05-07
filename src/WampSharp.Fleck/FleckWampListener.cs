@@ -80,72 +80,73 @@ namespace WampSharp.Fleck
         {
             mSubject.OnNext(wampConnection);
         }
+    }
 
-        internal class FleckWampConnection : IWampConnection<JToken>
+    internal class FleckWampConnection : IWampConnection<JToken>
+    {
+        private readonly Subject<WampMessage<JToken>> mWampMessageSubject =
+            new Subject<WampMessage<JToken>>();
+
+        private readonly IWebSocketConnection mWebSocketConnection;
+        private readonly IWampMessageFormatter<JToken> mMessageFormatter;
+
+        public FleckWampConnection(IWebSocketConnection webSocketConnection,
+                                   IWampMessageFormatter<JToken> messageFormatter)
         {
-            private readonly Subject<WampMessage<JToken>> mWampMessageSubject =
-                new Subject<WampMessage<JToken>>();
+            mWebSocketConnection = webSocketConnection;
+            mMessageFormatter = messageFormatter;
+            mWebSocketConnection.OnMessage = OnConnectionMessage;
+            mWebSocketConnection.OnError = OnConnectionError;
+            mWebSocketConnection.OnClose = OnConnectionClose;
+        }
 
-            private readonly IWebSocketConnection mWebSocketConnection;
-            private readonly IWampMessageFormatter<JToken> mMessageFormatter;
+        private void OnConnectionError(Exception exception)
+        {
+            mWampMessageSubject.OnError(exception);
+        }
 
-            public FleckWampConnection(IWebSocketConnection webSocketConnection,
-                                       IWampMessageFormatter<JToken> messageFormatter)
+        private void OnConnectionClose()
+        {
+            mWampMessageSubject.OnCompleted();
+        }
+
+        private void OnConnectionMessage(string message)
+        {
+            JToken raw = JToken.Parse(message);
+            WampMessage<JToken> parsed = mMessageFormatter.Parse(raw);
+            mWampMessageSubject.OnNext(parsed);
+        }
+
+        public void OnNext(WampMessage<JToken> value)
+        {
+            JToken raw = mMessageFormatter.Format(value);
+
+            StringWriter stringWriter = new StringWriter();
+            JsonTextWriter writer = new JsonTextWriter(stringWriter)
             {
-                mWebSocketConnection = webSocketConnection;
-                mMessageFormatter = messageFormatter;
-                mWebSocketConnection.OnMessage = OnConnectionMessage;
-                mWebSocketConnection.OnError = OnConnectionError;
-                mWebSocketConnection.OnClose = OnConnectionClose;
-            }
+                Formatting = Formatting.None
+            };
+            raw.WriteTo(writer);
 
-            private void OnConnectionError(Exception exception)
-            {
-                mWampMessageSubject.OnError(exception);
-            }
+            mWebSocketConnection.Send(stringWriter.ToString());
+        }
 
-            private void OnConnectionClose()
-            {
-                mWampMessageSubject.OnCompleted();
-            }
+        public void OnError(Exception error)
+        {
+            // Not sure what to do here.
+            // Send an error message to the client???
+            throw error;
+        }
 
-            private void OnConnectionMessage(string message)
-            {
-                JToken raw = JToken.Parse(message);
-                WampMessage<JToken> parsed = mMessageFormatter.Parse(raw);
-                mWampMessageSubject.OnNext(parsed);
-            }
+        public void OnCompleted()
+        {
+            mWebSocketConnection.Close();
+        }
 
-            public void OnNext(WampMessage<JToken> value)
-            {
-                JToken raw = mMessageFormatter.Format(value);
-
-                StringWriter stringWriter = new StringWriter();
-                JsonTextWriter writer = new JsonTextWriter(stringWriter)
-                                            {
-                                                Formatting = Formatting.None
-                                            };
-                raw.WriteTo(writer);
-                
-                mWebSocketConnection.Send(stringWriter.ToString());
-            }
-
-            public void OnError(Exception error)
-            {
-                // Not sure what to do here.
-                // Send an error message to the client???
-                throw error;
-            }
-
-            public void OnCompleted()
-            {
-                mWebSocketConnection.Close();
-            }
-
-            public IDisposable Subscribe(IObserver<WampMessage<JToken>> observer)
-            {
-                return mWampMessageSubject.Subscribe(observer);
-            }
+        public IDisposable Subscribe(IObserver<WampMessage<JToken>> observer)
+        {
+            return mWampMessageSubject.Subscribe(observer);
         }
     }
+
 }
