@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using WampSharp.Core;
 using WampSharp.Core.Client;
 using WampSharp.Core.Contracts;
+using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
@@ -74,7 +75,7 @@ namespace WampSharp.TestConsole
 
             int result = proxy.Add(3, 4);
 
-            Console.ReadLine();
+            Console.ReadLine();        
         }
     }
 

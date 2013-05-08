@@ -1,4 +1,5 @@
 ﻿using WampSharp.Core.Contracts;
+using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;

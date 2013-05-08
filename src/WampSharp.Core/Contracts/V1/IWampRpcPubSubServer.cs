@@ -1,25 +1,25 @@
 using WampSharp.Core.Message;
 
-namespace WampSharp.Core.Contracts
+namespace WampSharp.Core.Contracts.V1
 {
     public interface IWampRpcPubSubServer<TMessage>
     {
-        [WampHandler(WampMessageType.Subscribe)]
+        [WampHandler(WampMessageType.v1Subscribe)]
         void Subscribe(IWampClient client, string topicUri);
 
-        [WampHandler(WampMessageType.Unsubscribe)]
+        [WampHandler(WampMessageType.v1Unsubscribe)]
         void Unsubscribe(IWampClient client, string topicUri);
 
-        [WampHandler(WampMessageType.Publish)]
+        [WampHandler(WampMessageType.v1Publish)]
         void Publish(IWampClient client, string topicUri, TMessage @event);
 
-        [WampHandler(WampMessageType.Publish)]
+        [WampHandler(WampMessageType.v1Publish)]
         void Publish(IWampClient client, string topicUri, TMessage @event, bool excludeMe);
 
-        [WampHandler(WampMessageType.Publish)]
+        [WampHandler(WampMessageType.v1Publish)]
         void Publish(IWampClient client, string topicUri, TMessage @event, string[] exclude);
 
-        [WampHandler(WampMessageType.Publish)]
+        [WampHandler(WampMessageType.v1Publish)]
         void Publish(IWampClient client, string topicUri, TMessage @event, string[] exclude, string[] eligible);         
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Contracts;
+using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Curie;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;

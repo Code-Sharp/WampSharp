@@ -1,4 +1,4 @@
-namespace WampSharp.Core.Contracts
+namespace WampSharp.Core.Contracts.V1
 {
     public interface IWampServer : IWampServer<object>
     {

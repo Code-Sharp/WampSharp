@@ -7,11 +7,13 @@ namespace WampSharp.Core.Message
     {
         private readonly MessageDirection mDirection;
         private readonly MessageCategory mCategory;
+        private readonly int mProtocolVersion;
 
-        public MessageTypeDetailsAttribute(MessageDirection direction, MessageCategory category)
+        public MessageTypeDetailsAttribute(MessageDirection direction, MessageCategory category, int protocolVersion)
         {
             mDirection = direction;
             mCategory = category;
+            mProtocolVersion = protocolVersion;
         }
 
         public MessageDirection Direction
@@ -22,6 +24,11 @@ namespace WampSharp.Core.Message
         public MessageCategory Category
         {
             get { return mCategory; }
+        }
+
+        public int ProtocolVersion
+        {
+            get { return mProtocolVersion; }
         }
     }
 }

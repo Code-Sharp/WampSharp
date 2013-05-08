@@ -1,5 +1,6 @@
 ﻿using System;
 using WampSharp.Core.Contracts;
+using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Message;
 

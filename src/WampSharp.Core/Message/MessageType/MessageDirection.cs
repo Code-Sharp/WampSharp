@@ -2,7 +2,10 @@
 {
     public enum MessageDirection
     {
+        AnyToAny,
         ServerToClient,
-        ClientToServer
+        ClientToServer,
+        CallertoCallee = ClientToServer,
+        CalleetoCaller = ServerToClient
     }
 }

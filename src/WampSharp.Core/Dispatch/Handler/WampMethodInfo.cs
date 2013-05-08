@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Contracts;
+using WampSharp.Core.Contracts.V1;
 
 namespace WampSharp.Core.Dispatch.Handler
 {

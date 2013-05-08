@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core;
 using WampSharp.Core.Contracts;
+using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;

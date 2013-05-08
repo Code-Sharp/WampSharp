@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WampSharp.Core.Contracts;
+using WampSharp.Core.Contracts.V1;
 
 namespace WampSharp.Api
 {

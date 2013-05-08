@@ -1,4 +1,5 @@
 ﻿using WampSharp.Core.Contracts;
+using WampSharp.Core.Contracts.V1;
 
 namespace WampSharp.Core.Listener
 {

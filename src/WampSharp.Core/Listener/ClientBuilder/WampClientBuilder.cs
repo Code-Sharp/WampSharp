@@ -1,5 +1,6 @@
 using Castle.DynamicProxy;
 using WampSharp.Core.Contracts;
+using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Curie;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;

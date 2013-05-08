@@ -1,6 +1,6 @@
 ﻿using WampSharp.Core.Message;
 
-namespace WampSharp.Core.Contracts
+namespace WampSharp.Core.Contracts.V1
 {
     public interface IWampClient : IWampClient<object>
     {
@@ -8,19 +8,19 @@ namespace WampSharp.Core.Contracts
 
     public interface IWampClient<TMessage>
     {
-        [WampHandler(WampMessageType.Welcome)]
+        [WampHandler(WampMessageType.v1Welcome)]
         void Welcome(string sessionId, int protocolVersion, string serverIdent);
 
-        [WampHandler(WampMessageType.CallResult)]
+        [WampHandler(WampMessageType.v1CallResult)]
         void CallResult(string callId, TMessage result);
 
-        [WampHandler(WampMessageType.CallError)]
+        [WampHandler(WampMessageType.v1CallError)]
         void CallError(string callId, string errorUri, string errorDesc);
 
-        [WampHandler(WampMessageType.CallError)]
+        [WampHandler(WampMessageType.v1CallError)]
         void CallError(string callId, string errorUri, string errorDesc, TMessage errorDetails);
         
-        [WampHandler(WampMessageType.Event)]
+        [WampHandler(WampMessageType.v1Event)]
         void Event(string topicUri, TMessage @event);
 
         string SessionId { get; }
