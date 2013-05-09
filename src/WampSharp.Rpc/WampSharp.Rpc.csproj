@@ -58,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\IWampRpcClientHandlerBuilder.cs" />
+    <Compile Include="Client\WampRpcClientAsyncInterceptor.cs" />
+    <Compile Include="Client\WampRpcClientInterceptorSelector.cs" />
+    <Compile Include="Client\WampRpcClientInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Client\DelegateProcUriMapper.cs" />
     <Compile Include="Client\IProcUriMapper.cs" />
@@ -70,7 +73,7 @@
     <Compile Include="Client\WampRpcClientFactory.cs" />
     <Compile Include="Client\WampRpcClientHandler.cs" />
     <Compile Include="Client\WampRpcClientHandlerBuilder.cs" />
-    <Compile Include="Client\WampRpcClientInterceptor.cs" />
+    <Compile Include="Client\WampRpcClientSyncInterceptor.cs" />
     <Compile Include="Client\WampRpcRequest.cs" />
     <Compile Include="Client\WampRpcSerializer.cs" />
     <Compile Include="Client\WampServerProxyFactory.cs" />

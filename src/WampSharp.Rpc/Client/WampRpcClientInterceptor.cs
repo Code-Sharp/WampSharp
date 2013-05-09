@@ -2,7 +2,7 @@
 
 namespace WampSharp.Rpc
 {
-    class WampRpcClientInterceptor : IInterceptor
+    public abstract class WampRpcClientInterceptor : IInterceptor
     {
         private readonly IWampRpcSerializer mSerializer;
         private readonly IWampRpcClientHandler mClientHandler;
@@ -13,12 +13,22 @@ namespace WampSharp.Rpc
             mClientHandler = clientHandler;
         }
 
-        public void Intercept(IInvocation invocation)
+        public IWampRpcSerializer Serializer
         {
-            var wampRpcCall = mSerializer.Serialize(invocation.Method, invocation.Arguments);
-            var result = mClientHandler.Handle(wampRpcCall);
-
-            invocation.ReturnValue = result;
+            get
+            {
+                return mSerializer;
+            }
         }
+
+        public IWampRpcClientHandler ClientHandler
+        {
+            get
+            {
+                return mClientHandler;
+            }
+        }
+
+        public abstract void Intercept(IInvocation invocation);
     }
 }

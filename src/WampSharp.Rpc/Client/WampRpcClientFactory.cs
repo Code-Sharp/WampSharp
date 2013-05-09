@@ -14,11 +14,25 @@ namespace WampSharp.Rpc
             mClientHandlerBuilder = clientHandlerBuilder;
         }
 
-
         public TProxy GetClient<TProxy>() where TProxy : class
         {
-            var interceptor = new WampRpcClientInterceptor(mSerializer, mClientHandlerBuilder.Build());
-            TProxy result = mProxyGenerator.CreateInterfaceProxyWithoutTarget<TProxy>(interceptor);
+            IWampRpcClientHandler handler = mClientHandlerBuilder.Build();
+
+            WampRpcClientSyncInterceptor syncInterceptor =
+                new WampRpcClientSyncInterceptor(mSerializer, handler);
+
+            WampRpcClientAsyncInterceptor asyncInterceptor =
+                new WampRpcClientAsyncInterceptor(mSerializer, handler);
+
+            ProxyGenerationOptions generationOptions =
+                new ProxyGenerationOptions {Selector = new WampRpcClientInterceptorSelector()};
+
+            TProxy result =
+                mProxyGenerator.CreateInterfaceProxyWithoutTarget<TProxy>
+                    (generationOptions,
+                     syncInterceptor,
+                     asyncInterceptor);
+
             return result;
         }
     }

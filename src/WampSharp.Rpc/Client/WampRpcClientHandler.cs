@@ -3,8 +3,6 @@ using System.Collections.Concurrent;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using WampSharp.Core.Client;
-using WampSharp.Core.Contracts;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Serialization;
 
@@ -31,7 +29,7 @@ namespace WampSharp.Rpc
             return task.Result;
         }
 
-        private Task<object> HandleAsync(WampRpcCall<object> rpcCall)
+        public Task<object> HandleAsync(WampRpcCall<object> rpcCall)
         {
             rpcCall.CallId = Guid.NewGuid().ToString(); 
             // TODO: replace this with CallIdGenerator
@@ -61,7 +59,7 @@ namespace WampSharp.Rpc
             }
             else
             {
-                // Log?
+                // Probably this is some other client's call result.
             }
         }
 

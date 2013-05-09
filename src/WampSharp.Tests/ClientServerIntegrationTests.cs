@@ -1,9 +1,8 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Client;
-using WampSharp.Core.Contracts;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
@@ -118,7 +117,6 @@ namespace WampSharp.Tests
                                           "Square",
                                           It.Is((JToken[] parameters) => parameters[0].Value<int>() == four)));
         }
-
 
         public interface IAddCalculator
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using Newtonsoft.Json.Linq;
@@ -188,6 +189,13 @@ namespace WampSharp.Tests
             LastMessage = rpcCall;
 
             return mResult;
+        }
+
+        public Task<object> HandleAsync(WampRpcCall<object> rpcCall)
+        {
+            LastMessage = rpcCall;
+
+            return new Task<object>(() => mResult);
         }
     }
 
