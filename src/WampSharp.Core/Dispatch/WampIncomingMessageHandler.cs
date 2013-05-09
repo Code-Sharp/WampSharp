@@ -1,28 +1,33 @@
 ﻿using System;
-using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Dispatch
 {
-    public class WampIncomingMessageHandler<TMessage> : IWampIncomingMessageHandler<TMessage>
+    public class WampIncomingMessageHandler<TMessage, TClient> : 
+        IWampIncomingMessageHandler<TMessage, TClient>,
+        IWampIncomingMessageHandler<TMessage>
     {
         private readonly IWampRequestMapper<WampMessage<TMessage>> mWampRequestMapper;
-        private readonly DelegateCache<WampMethodInfo, Action<IWampClient, TMessage[]>> mDelegateCache;
+        private readonly DelegateCache<WampMethodInfo, Action<TClient, TMessage[]>> mDelegateCache;
 
         public WampIncomingMessageHandler(IWampRequestMapper<WampMessage<TMessage>> wampRequestMapper,
-                       IMethodBuilder<WampMethodInfo, Action<IWampClient, TMessage[]>> methodBuilder)
+                       IMethodBuilder<WampMethodInfo, Action<TClient, TMessage[]>> methodBuilder)
         {
             mWampRequestMapper = wampRequestMapper;
-            mDelegateCache = new DelegateCache<WampMethodInfo, Action<IWampClient, TMessage[]>>(methodBuilder);
+            mDelegateCache = new DelegateCache<WampMethodInfo, Action<TClient, TMessage[]>>(methodBuilder);
         }
 
-        public void HandleMessage(IWampClient client, WampMessage<TMessage> message)
+        public void HandleMessage(TClient client, WampMessage<TMessage> message)
         {
             WampMethodInfo method = mWampRequestMapper.Map(message);
-            Action<IWampClient, TMessage[]> action = mDelegateCache.Get(method);
+            Action<TClient, TMessage[]> action = mDelegateCache.Get(method);
             action(client, message.Arguments);
+        }
+
+        public void HandleMessage(WampMessage<TMessage> message)
+        {
+            HandleMessage(default(TClient), message);
         }
     }
 }

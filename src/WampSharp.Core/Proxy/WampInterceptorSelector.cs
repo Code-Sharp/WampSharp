@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using Castle.DynamicProxy;
 using WampSharp.Core.Contracts;
-using WampSharp.Core.Listener;
 
 namespace WampSharp.Core.Proxy
 {

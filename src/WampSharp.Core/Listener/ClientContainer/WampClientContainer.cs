@@ -1,24 +1,22 @@
 using System.Collections.Generic;
-using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 
 namespace WampSharp.Core.Listener
 {
-    public class WampClientContainer<TMessage> : IWampClientContainer<TMessage>
+    public class WampClientContainer<TMessage, TClient> : IWampClientContainer<TMessage, TClient>
     {
-        private readonly IWampClientBuilder<TMessage> mClientBuilder;
+        private readonly IWampClientBuilder<TMessage, TClient> mClientBuilder;
 
-        private readonly IDictionary<IWampConnection<TMessage>, IWampClient> mConnectionToClient =
-            new Dictionary<IWampConnection<TMessage>, IWampClient>();
+        private readonly IDictionary<IWampConnection<TMessage>, TClient> mConnectionToClient =
+            new Dictionary<IWampConnection<TMessage>, TClient>();
 
-        public WampClientContainer(IWampClientBuilderFactory<TMessage> clientBuilder)
+        public WampClientContainer(IWampClientBuilderFactory<TMessage, TClient> clientBuilder)
         {
             mClientBuilder = clientBuilder.GetClientBuilder(this);
         }
 
-        public IWampClient GetClient(IWampConnection<TMessage> connection)
+        public TClient GetClient(IWampConnection<TMessage> connection)
         {
-            IWampClient client;
+            TClient client;
 
             if (mConnectionToClient.TryGetValue(connection, out client))
             {
@@ -32,7 +30,7 @@ namespace WampSharp.Core.Listener
             }
         }
 
-        public IEnumerable<IWampClient> GetAllClients()
+        public IEnumerable<TClient> GetAllClients()
         {
             return mConnectionToClient.Values;
         }

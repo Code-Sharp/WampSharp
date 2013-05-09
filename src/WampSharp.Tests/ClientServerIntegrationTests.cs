@@ -8,6 +8,7 @@ using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
+using WampSharp.Core.Listener.V1;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
@@ -97,8 +98,8 @@ namespace WampSharp.Tests
                 new WampRpcClientFactory(new WampRpcSerializer(new DelegateProcUriMapper(x => x.Name)),
                     new WampRpcClientHandlerBuilder<JToken>(mFormatter,
                         new WampServerProxyFactory<JToken>(connection.SideAToSideB,
-                            new WampServerProxyBuilder<JToken>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
-                                new WampServerProxyOutgoingMessageHandlerBuilder<JToken>(new WampServerProxyIncomingMessageHandlerBuilder<JToken>(mFormatter))))));
+                            new WampServerProxyBuilder<JToken, IWampClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                                new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampClient<JToken>>(new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampClient<JToken>>(mFormatter))))));
 
             listener.Start();
 
@@ -154,8 +155,8 @@ namespace WampSharp.Tests
                 new WampRpcClientFactory(new WampRpcSerializer(new DelegateProcUriMapper(x => "http://www.yogev.com/pr/" + x.Name)),
                     new WampRpcClientHandlerBuilder<JToken>(mFormatter,
                         new WampServerProxyFactory<JToken>(connection.SideAToSideB,
-                            new WampServerProxyBuilder<JToken>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
-                                new WampServerProxyOutgoingMessageHandlerBuilder<JToken>(new WampServerProxyIncomingMessageHandlerBuilder<JToken>(mFormatter))))));
+                            new WampServerProxyBuilder<JToken, IWampClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                                new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampClient<JToken>>(new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampClient<JToken>>(mFormatter))))));
 
             listener.Start();
 
@@ -172,9 +173,9 @@ namespace WampSharp.Tests
         
         private IWampServer GetClient(IWampConnection<JToken> connection, IWampClient<JToken> wampClient)
         {
-            var serverProxyBuilder = new WampServerProxyBuilder<JToken>
+            var serverProxyBuilder = new WampServerProxyBuilder<JToken, IWampClient<JToken>, IWampServer>
                 (new WampOutgoingRequestSerializer<JToken>(mFormatter),
-                 new WampServerProxyOutgoingMessageHandlerBuilder<JToken>
+                 new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampClient<JToken>>
                      (GetHandlerBuilder()));
 
             var proxy =
@@ -185,30 +186,30 @@ namespace WampSharp.Tests
 
         private WampListener<JToken> GetListener(IWampConnectionListener<JToken> listener, object wampServer)
         {
-            IWampIncomingMessageHandler<JToken> handler = GetHandler(wampServer);
+            IWampIncomingMessageHandler<JToken, IWampClient> handler = GetHandler(wampServer);
 
             return new WampListener<JToken>
                 (listener,
                  handler,
-                 new WampClientContainer<JToken>
+                 new WampClientContainer<JToken, IWampClient>
                      (new WampClientBuilderFactory<JToken>
                           (new WampSessionIdGenerator(),
                            new WampOutgoingRequestSerializer<JToken>(mFormatter),
                            new JsonWampOutgoingHandlerBuilder<JToken>())));
         }
 
-        private IWampServerProxyIncomingMessageHandlerBuilder<JToken> GetHandlerBuilder()
+        private IWampServerProxyIncomingMessageHandlerBuilder<JToken,IWampClient<JToken>> GetHandlerBuilder()
         {
-            return new WampServerProxyIncomingMessageHandlerBuilder<JToken>(mFormatter);
+            return new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampClient<JToken>>(mFormatter);
         }
 
-        private IWampIncomingMessageHandler<JToken> GetHandler(object instance)
+        private IWampIncomingMessageHandler<JToken, IWampClient> GetHandler(object instance)
         {
-            IWampIncomingMessageHandler<JToken> handler =
-                new WampIncomingMessageHandler<JToken>
+            IWampIncomingMessageHandler<JToken, IWampClient> handler =
+                new WampIncomingMessageHandler<JToken, IWampClient>
                     (new WampRequestMapper<JToken>(instance.GetType(),
                                                    mFormatter),
-                     new WampMethodBuilder<JToken>(instance, mFormatter));
+                     new WampMethodBuilder<JToken, IWampClient>(instance, mFormatter));
 
             return handler;
         }

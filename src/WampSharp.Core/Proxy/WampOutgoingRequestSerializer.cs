@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 
@@ -38,7 +37,7 @@ namespace WampSharp.Core.Proxy
                                                 parameterInfo,
                                                 argument
                                             })
-                                   .Where(x => x.parameterInfo.ParameterType != typeof (IWampClient));
+                                   .Where(x => !x.parameterInfo.IsDefined(typeof(WampProxyParameterAttribute)));
 
             List<TMessage> messageArguments = new List<TMessage>();
 

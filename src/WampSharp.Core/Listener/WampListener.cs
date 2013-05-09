@@ -1,38 +1,44 @@
 ﻿using System;
-using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Listener
 {
-    public class WampListener<TMessage>
+    public class WampListener<TMessage, TClient>
     {
-        private readonly IWampIncomingMessageHandler<TMessage> mHandler;
-        private readonly IWampClientContainer<TMessage> mClientContainer;
+        private readonly IWampIncomingMessageHandler<TMessage, TClient> mHandler;
+        private readonly IWampClientContainer<TMessage, TClient> mClientContainer;
         private readonly IWampConnectionListener<TMessage> mListener;
 
         public WampListener(IWampConnectionListener<TMessage> listener,
-                            IWampIncomingMessageHandler<TMessage> handler,
-                            IWampClientContainer<TMessage> clientContainer)
+                            IWampIncomingMessageHandler<TMessage, TClient> handler,
+                            IWampClientContainer<TMessage, TClient> clientContainer)
         {
             mHandler = handler;
             mClientContainer = clientContainer;
             mListener = listener;
         }
 
-        public void Start()
+        public IWampClientContainer<TMessage, TClient> ClientContainer
+        {
+            get
+            {
+                return mClientContainer;
+            }
+        }
+
+        public virtual void Start()
         {
             mListener.Subscribe(x => OnNewConnection(x));
         }
 
-        private void OnConnectionException(IWampConnection<TMessage> connection, Exception exception)
+        protected virtual void OnConnectionException(IWampConnection<TMessage> connection, Exception exception)
         {
         }
 
-        private void OnCloseConnection(IWampConnection<TMessage> connection)
+        protected virtual void OnCloseConnection(IWampConnection<TMessage> connection)
         {
-            IDisposable client = mClientContainer.GetClient(connection) as IDisposable;
+            IDisposable client = ClientContainer.GetClient(connection) as IDisposable;
 
             if (client != null)
             {
@@ -40,23 +46,21 @@ namespace WampSharp.Core.Listener
             }
         }
 
-        private void OnNewMessage(IWampConnection<TMessage> connection, WampMessage<TMessage> message)
+        protected virtual void OnNewMessage(IWampConnection<TMessage> connection, WampMessage<TMessage> message)
         {
-            IWampClient client = mClientContainer.GetClient(connection);
+            TClient client = ClientContainer.GetClient(connection);
 
             mHandler.HandleMessage(client, message);
         }
 
-        private void OnNewConnection(IWampConnection<TMessage> connection)
+        protected virtual void OnNewConnection(IWampConnection<TMessage> connection)
         {
-            IWampClient client = mClientContainer.GetClient(connection);
+            TClient client = ClientContainer.GetClient(connection);
 
             connection.Subscribe
                 (x => OnNewMessage(connection, x),
                  ex => OnConnectionException(connection, ex),
                  () => OnCloseConnection(connection));
-
-            client.Welcome(client.SessionId, 1, "WampSharp");
         }
     }
 }

@@ -273,7 +273,7 @@ namespace WampSharp.Tests
 
             JToken raw = JToken.Parse(message);
 
-            IWampIncomingMessageHandler<JToken> handler =
+            IWampIncomingMessageHandler<JToken, IWampClient> handler =
                 GetHandler(mock.Object);
 
             handler.HandleMessage(client, mMessageFormatter.Parse(raw));
@@ -281,13 +281,13 @@ namespace WampSharp.Tests
             return mock;
         }
 
-        private IWampIncomingMessageHandler<JToken> GetHandler(IWampServer<JToken> wampServer)
+        private IWampIncomingMessageHandler<JToken, IWampClient> GetHandler(IWampServer<JToken> wampServer)
         {
-            IWampIncomingMessageHandler<JToken> handler =
-                new WampIncomingMessageHandler<JToken>
+            IWampIncomingMessageHandler<JToken, IWampClient> handler =
+                new WampIncomingMessageHandler<JToken, IWampClient>
                     (new WampRequestMapper<JToken>(wampServer.GetType(),
                                                    mFormatter),
-                     new WampMethodBuilder<JToken>(wampServer, mFormatter));
+                     new WampMethodBuilder<JToken, IWampClient>(wampServer, mFormatter));
 
             return handler;
         }

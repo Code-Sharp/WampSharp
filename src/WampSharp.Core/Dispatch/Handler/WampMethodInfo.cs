@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 
 namespace WampSharp.Core.Dispatch.Handler
 {
@@ -21,7 +20,7 @@ namespace WampSharp.Core.Dispatch.Handler
 
             if (parameters.Length > 0)
             {
-                if (parameters[0].ParameterType == typeof (IWampClient))
+                if (parameters[0].IsDefined(typeof(WampProxyParameterAttribute)))
                 {
                     mHasWampClientArgument = true;
                 }

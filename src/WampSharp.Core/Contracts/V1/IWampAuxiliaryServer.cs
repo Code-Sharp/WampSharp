@@ -5,6 +5,6 @@ namespace WampSharp.Core.Contracts.V1
     public interface IWampAuxiliaryServer
     {
         [WampHandler(WampMessageType.v1Prefix)]
-        void Prefix(IWampClient client, string prefix, string uri);         
+        void Prefix([WampProxyParameter]IWampClient client, string prefix, string uri);         
     }
 }

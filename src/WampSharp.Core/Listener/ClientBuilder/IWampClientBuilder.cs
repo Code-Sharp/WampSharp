@@ -1,10 +1,7 @@
-﻿using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
-
-namespace WampSharp.Core.Listener
+﻿namespace WampSharp.Core.Listener
 {
-    public interface IWampClientBuilder<TMessage>
+    public interface IWampClientBuilder<TMessage, TClient>
     {
-        IWampClient Create(IWampConnection<TMessage> connection);
+        TClient Create(IWampConnection<TMessage> connection);
     }
 }

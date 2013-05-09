@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
-using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 
 namespace WampSharp.Core.Listener
 {
-    public interface IWampClientContainer<TMessage>
+    public interface IWampClientContainer<TMessage, TClient>
     {
-        IWampClient GetClient(IWampConnection<TMessage> connection);
+        TClient GetClient(IWampConnection<TMessage> connection);
 
-        IEnumerable<IWampClient> GetAllClients(); 
+        IEnumerable<TClient> GetAllClients(); 
 
         void RemoveClient(IWampConnection<TMessage> connection);
     }

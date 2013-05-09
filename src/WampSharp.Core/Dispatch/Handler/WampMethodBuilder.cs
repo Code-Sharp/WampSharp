@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Serialization;
 
 namespace WampSharp.Core.Dispatch.Handler
 {
-    public class WampMethodBuilder<TMessage> : IMethodBuilder<WampMethodInfo, Action<IWampClient, TMessage[]>>
+    public class WampMethodBuilder<TMessage, TClient> : IMethodBuilder<WampMethodInfo, Action<TClient, TMessage[]>>
     {
         private readonly object mInstance;
         private readonly IWampFormatter<TMessage> mFormatter;
@@ -19,7 +17,7 @@ namespace WampSharp.Core.Dispatch.Handler
             mFormatter = formatter;
         }
 
-        public Action<IWampClient, TMessage[]> BuildMethod(WampMethodInfo wampMethod)
+        public Action<TClient, TMessage[]> BuildMethod(WampMethodInfo wampMethod)
         {
             MethodInfo method = wampMethod.Method;
 
@@ -27,7 +25,7 @@ namespace WampSharp.Core.Dispatch.Handler
                    method.Invoke(mInstance, GetArguments(client, arguments, wampMethod));
         }
 
-        private object[] GetArguments(IWampClient client, TMessage[] arguments, WampMethodInfo method)
+        private object[] GetArguments(TClient client, TMessage[] arguments, WampMethodInfo method)
         {
             ParameterInfo[] parameterInfos = method.Method.GetParameters();
 

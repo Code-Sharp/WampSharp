@@ -1,6 +1,4 @@
 ﻿using Castle.DynamicProxy;
-using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Proxy
@@ -23,15 +21,7 @@ namespace WampSharp.Core.Proxy
                 mOutgoingSerializer.SerializeRequest
                     (invocation.Method, invocation.Arguments);
 
-            IWampClient client = null;
-
-            //what happens when argument doesn't have client?
-            if (invocation.Arguments.Length > 0)
-            {
-                client = invocation.Arguments[0] as IWampClient;
-            }
-
-            mOutgoingHandler.Handle(client, serialized);
+            mOutgoingHandler.Handle(serialized);
         }
     }
 }

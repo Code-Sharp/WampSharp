@@ -16,6 +16,7 @@ using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
+using WampSharp.Core.Listener.V1;
 using WampSharp.Core.Proxy;
 using WampSharp.Fleck;
 using WampSharp.Rpc;
@@ -38,16 +39,16 @@ namespace WampSharp.TestConsole
                 new WampListener<JToken>
                     (new FleckWampConnectionListener("ws://localhost:9000/",
                                                      jsonWampMessageFormatter),
-                     new WampIncomingMessageHandler<JToken>
+                     new WampIncomingMessageHandler<JToken, IWampClient>
                          (new WampRequestMapper<JToken>(typeof (MyServer),
                                                         jsonFormatter),
-                          new WampMethodBuilder<JToken>(myServer, jsonFormatter)),
-                     new WampClientContainer<JToken>(new WampClientBuilderFactory<JToken>
-                                                         (new WampSessionIdGenerator(),
-                                                          new WampOutgoingRequestSerializer
-                                                              <JToken>(jsonFormatter),
-                                                          new JsonWampOutgoingHandlerBuilder
-                                                              <JToken>())));
+                          new WampMethodBuilder<JToken, IWampClient>(myServer, jsonFormatter)),
+                     new WampClientContainer<JToken, IWampClient>(new WampClientBuilderFactory<JToken>
+                                                                      (new WampSessionIdGenerator(),
+                                                                       new WampOutgoingRequestSerializer
+                                                                           <JToken>(jsonFormatter),
+                                                                       new JsonWampOutgoingHandlerBuilder
+                                                                           <JToken>())));
 
             listener.Start();
 
@@ -60,14 +61,14 @@ namespace WampSharp.TestConsole
                                                                                      new WebSocketSharpWampConnection
                                                                                          ("ws://localhost:9000/",
                                                                                           new JsonWampMessageFormatter()),
-                                                                                     new WampServerProxyBuilder<JToken>(
+                                                                                     new WampServerProxyBuilder<JToken, IWampClient<JToken>, IWampServer>(
                                                                                          new WampOutgoingRequestSerializer
                                                                                              <JToken>(
                                                                                              jsonFormatter),
                                                                                          new WampServerProxyOutgoingMessageHandlerBuilder
-                                                                                             <JToken>(
+                                                                                             <JToken, IWampClient<JToken>>(
                                                                                              new WampServerProxyIncomingMessageHandlerBuilder
-                                                                                                 <JToken>(jsonFormatter))))));
+                                                                                                 <JToken, IWampClient<JToken>>(jsonFormatter))))));
 
 
 

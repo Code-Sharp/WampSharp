@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 
@@ -82,7 +81,7 @@ namespace WampSharp.Core.Dispatch.Handler
         private bool CanBind(WampMethodInfo wampMethodInfo, TMessage[] arguments)
         {
             return wampMethodInfo.Method.GetParameters()
-                                 .Where(x => x.ParameterType != typeof (IWampClient))
+                                 .Where(x => !x.IsDefined(typeof(WampProxyParameterAttribute)))
                                  .Zip(arguments, (parameterInfo, argument) => new {parameterInfo, argument})
                                  .All(x => mFormatter.CanConvert(x.argument, x.parameterInfo.ParameterType));
         }

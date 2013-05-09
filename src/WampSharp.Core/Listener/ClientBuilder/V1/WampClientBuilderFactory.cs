@@ -1,14 +1,14 @@
+using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 
-namespace WampSharp.Core.Listener
+namespace WampSharp.Core.Listener.V1
 {
-    public class WampClientBuilderFactory<TConnection> : IWampClientBuilderFactory<TConnection>
+    public class WampClientBuilderFactory<TConnection> : IWampClientBuilderFactory<TConnection, IWampClient>
     {
         private readonly IWampSessionIdGenerator mSessionIdGenerator;
         private readonly IWampOutgoingRequestSerializer<WampMessage<TConnection>> mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TConnection> mOutgoingHandlerBuilder;
-        private WampClientBuilder<TConnection> mLastClientBuilder;
 
         public WampClientBuilderFactory(IWampSessionIdGenerator sessionIdGenerator,
                                         IWampOutgoingRequestSerializer<WampMessage<TConnection>> outgoingSerializer,
@@ -19,24 +19,16 @@ namespace WampSharp.Core.Listener
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
         }
 
-        public WampClientBuilder<TConnection> LastClientBuilder
+        public IWampClientBuilder<TConnection, IWampClient> GetClientBuilder(IWampClientContainer<TConnection, IWampClient> container)
         {
-            get
-            {
-                return mLastClientBuilder;
-            }
+            WampClientBuilder<TConnection> result =
+                new WampClientBuilder<TConnection>
+                    (mSessionIdGenerator,
+                     mOutgoingSerializer,
+                     mOutgoingHandlerBuilder,
+                     container);
+
+            return result;
         }
-
-        public IWampClientBuilder<TConnection> GetClientBuilder(IWampClientContainer<TConnection> container)
-        {
-            mLastClientBuilder = new WampClientBuilder<TConnection>
-                (mSessionIdGenerator,
-                 mOutgoingSerializer,
-                 mOutgoingHandlerBuilder,
-                 container);
-
-            return LastClientBuilder;
-        }
-
     }
 }

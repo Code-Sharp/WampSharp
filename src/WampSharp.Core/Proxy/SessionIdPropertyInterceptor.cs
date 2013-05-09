@@ -1,6 +1,6 @@
 using Castle.DynamicProxy;
 
-namespace WampSharp.Core.Listener
+namespace WampSharp.Core.Proxy
 {
     internal class SessionIdPropertyInterceptor : IInterceptor
     {

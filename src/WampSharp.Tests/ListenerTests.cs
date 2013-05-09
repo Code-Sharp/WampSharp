@@ -7,6 +7,7 @@ using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
+using WampSharp.Core.Listener.V1;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
@@ -42,34 +43,34 @@ namespace WampSharp.Tests
         {
             Mock<IWampServer<JToken>> mock = new Mock<IWampServer<JToken>>();
 
-            Mock<IWampClientBuilder<JToken>> clientBuilderMock =
-                new Mock<IWampClientBuilder<JToken>>();
+            Mock<IWampClientBuilder<JToken, IWampClient>> clientBuilderMock =
+                new Mock<IWampClientBuilder<JToken, IWampClient>>();
 
             clientBuilderMock.Setup
                 (x => x.Create(It.IsAny<IWampConnection<JToken>>()))
                              .Returns(wampClient);
 
-            IWampIncomingMessageHandler<JToken> handler = GetHandler(mock.Object);
+            IWampIncomingMessageHandler<JToken, IWampClient> handler = GetHandler(mock.Object);
 
-            Mock<IWampClientBuilderFactory<JToken>> factory = 
-                new Mock<IWampClientBuilderFactory<JToken>>();
+            Mock<IWampClientBuilderFactory<JToken, IWampClient>> factory =
+                new Mock<IWampClientBuilderFactory<JToken, IWampClient>>();
 
-            factory.Setup(x => x.GetClientBuilder(It.IsAny<IWampClientContainer<JToken>>()))
+            factory.Setup(x => x.GetClientBuilder(It.IsAny<IWampClientContainer<JToken, IWampClient>>()))
                 .Returns(clientBuilderMock.Object);
 
             return new WampListener<JToken>
                 (listener,
                  handler,
-                 new WampClientContainer<JToken>(factory.Object));
+                 new WampClientContainer<JToken, IWampClient>(factory.Object));
         }
 
-        private IWampIncomingMessageHandler<JToken> GetHandler(IWampServer<JToken> wampServer)
+        private IWampIncomingMessageHandler<JToken, IWampClient> GetHandler(IWampServer<JToken> wampServer)
         {
-            IWampIncomingMessageHandler<JToken> handler =
-                new WampIncomingMessageHandler<JToken>
+            IWampIncomingMessageHandler<JToken, IWampClient> handler =
+                new WampIncomingMessageHandler<JToken, IWampClient>
                     (new WampRequestMapper<JToken>(wampServer.GetType(),
                                                    mFormatter),
-                     new WampMethodBuilder<JToken>(wampServer, mFormatter));
+                     new WampMethodBuilder<JToken, IWampClient>(wampServer, mFormatter));
 
             return handler;
         }

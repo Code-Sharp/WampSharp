@@ -1,6 +1,4 @@
 ﻿using System;
-using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
@@ -12,7 +10,6 @@ namespace WampSharp.Core.Client
     {
         private readonly IWampConnection<TMessage> mConnection;
         private readonly IWampIncomingMessageHandler<TMessage> mIncomingHandler;
-        private IWampClient mClient;
 
         public WampServerProxyHandler(IWampConnection<TMessage> connection,
                                       IWampIncomingMessageHandler<TMessage> incomingHandler)
@@ -37,18 +34,11 @@ namespace WampSharp.Core.Client
 
         private void OnMessageArrived(WampMessage<TMessage> wampMessage)
         {
-            mIncomingHandler.HandleMessage(mClient, wampMessage);
+            mIncomingHandler.HandleMessage(wampMessage);
         }
 
-        public void Handle(IWampClient client, WampMessage<TMessage> message)
+        public void Handle(WampMessage<TMessage> message)
         {
-            // I'm not sure what is the right behavior if a couple of
-            // clients subscribe...
-            // Maybe we should be able to map a message somehow to 
-            // the client that requested it? This makes sense only in call
-            // messages which have an Id..
-            mClient = client;
-
             mConnection.OnNext(message);
         }
     }

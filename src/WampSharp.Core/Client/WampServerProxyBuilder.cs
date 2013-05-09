@@ -1,26 +1,25 @@
 ﻿using Castle.DynamicProxy;
-using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 
 namespace WampSharp.Core.Client
 {
-    public class WampServerProxyBuilder<TMessage> : IWampServerProxyBuilder<TMessage>
+    public class WampServerProxyBuilder<TMessage, TRawClient, TServer> : IWampServerProxyBuilder<TMessage, TRawClient, TServer>
+        where TServer : class
     {
-        private readonly IWampServerProxyOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
+        private readonly IWampServerProxyOutgoingMessageHandlerBuilder<TMessage, TRawClient> mOutgoingHandlerBuilder;
         private readonly ProxyGenerator mProxyGenerator = new ProxyGenerator();
         private readonly IWampOutgoingRequestSerializer<WampMessage<TMessage>> mOutgoingSerializer;
 
         public WampServerProxyBuilder(IWampOutgoingRequestSerializer<WampMessage<TMessage>> outgoingSerializer,
-                                      IWampServerProxyOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder)
+                                      IWampServerProxyOutgoingMessageHandlerBuilder<TMessage, TRawClient> outgoingHandlerBuilder)
         {
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
             mOutgoingSerializer = outgoingSerializer;
         }
 
-        public IWampServer Create(IWampClient<TMessage> client, IWampConnection<TMessage> connection)
+        public TServer Create(TRawClient client, IWampConnection<TMessage> connection)
         {
             IWampOutgoingMessageHandler<TMessage> handler =
                 mOutgoingHandlerBuilder.Build(client, connection);
@@ -34,8 +33,8 @@ namespace WampSharp.Core.Client
 
             var proxyOptions = new ProxyGenerationOptions() { Selector = selector };
 
-            IWampServer result =
-                mProxyGenerator.CreateInterfaceProxyWithoutTarget<IWampServer>
+            TServer result =
+                mProxyGenerator.CreateInterfaceProxyWithoutTarget<TServer>
                     (proxyOptions,
                      interceptor);
 

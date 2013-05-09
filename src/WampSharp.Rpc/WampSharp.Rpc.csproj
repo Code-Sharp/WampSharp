@@ -78,8 +78,12 @@
     <Compile Include="Server\IWampRpcMethod.cs" />
     <Compile Include="Server\IWampRpcTypeMetadataProvider.cs" />
     <Compile Include="Server\MethodInfoWampRpcMetadata.cs" />
+    <Compile Include="Server\MethodInfoWampRpcMethod.cs" />
     <Compile Include="Server\ProcUriAlreadyMappedException.cs" />
     <Compile Include="Server\WampRpcMethodAttribute.cs" />
+    <Compile Include="Server\WampRpcServer.cs" />
+    <Compile Include="Server\WampRpcServiceHost.cs" />
+    <Compile Include="Server\WampRpcTypeMetadataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
