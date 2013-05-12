@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Contracts;
+using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Dispatch.Handler
 {
@@ -11,6 +12,7 @@ namespace WampSharp.Core.Dispatch.Handler
         private readonly int mArgumentsCount;
         private readonly bool mHasWampClientArgument;
         private readonly bool mHasParamsArgument;
+        private readonly bool mIsRawMethod;
 
         public WampMethodInfo(MethodInfo method)
         {
@@ -25,9 +27,16 @@ namespace WampSharp.Core.Dispatch.Handler
                     mHasWampClientArgument = true;
                 }
 
-                if (parameters.Last().IsDefined(typeof (ParamArrayAttribute)))
+                ParameterInfo lastParameter = parameters.Last();
+
+                if (lastParameter.IsDefined(typeof (ParamArrayAttribute)))
                 {
                     mHasParamsArgument = true;
+                }
+
+                if (typeof (WampMessage<>).IsAssignableFromGeneric(lastParameter.ParameterType))
+                {
+                    mIsRawMethod = true;
                 }
             }
 
@@ -68,6 +77,14 @@ namespace WampSharp.Core.Dispatch.Handler
             get
             {
                 return mHasParamsArgument;
+            }
+        }
+
+        public bool IsRawMethod
+        {
+            get
+            {
+                return mIsRawMethod;
             }
         }
     }

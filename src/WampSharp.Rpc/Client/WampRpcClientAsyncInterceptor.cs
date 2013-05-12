@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
+using WampSharp.Core.Dispatch.Handler;
 
 namespace WampSharp.Rpc
 {
@@ -23,10 +24,18 @@ namespace WampSharp.Rpc
 
             Task<object> task = ClientHandler.HandleAsync(call);
 
-            Type taskType =
-                invocation.Method.ReturnType.GetGenericArguments()[0];
+            Type taskType = 
+                invocation.Method.ReturnType.GetClosedGenericTypeImplementation(typeof (Task<>));
 
-            Task convertedTask = ConvertTask(task, taskType);
+            Task convertedTask = task;
+
+            if (taskType != null)
+            {
+                Type genericType =
+                    taskType.GetGenericArguments()[0];
+
+                convertedTask = ConvertTask(task, genericType);
+            }
 
             invocation.ReturnValue = convertedTask;
         }

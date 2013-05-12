@@ -136,14 +136,14 @@ namespace WampSharp.Tests
     public class MockWampServerProxyFactory<TMessage> : IWampServerProxyFactory<TMessage>
     {
         private readonly IWampServer mServer;
-        private IWampClient<TMessage> mClient;
+        private IWampRpcClient<TMessage> mClient;
 
         public MockWampServerProxyFactory(IWampServer server)
         {
             mServer = server;
         }
 
-        public IWampClient<TMessage> Client
+        public IWampRpcClient<TMessage> Client
         {
             get
             {
@@ -151,7 +151,7 @@ namespace WampSharp.Tests
             }
         }
 
-        public IWampServer Create(IWampClient<TMessage> client)
+        public IWampServer Create(IWampRpcClient<TMessage> client)
         {
             mClient = client;
             return mServer;

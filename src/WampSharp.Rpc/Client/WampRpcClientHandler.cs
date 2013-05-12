@@ -63,7 +63,7 @@ namespace WampSharp.Rpc
             }
         }
 
-        private class RpcWampClient : IWampClient<TMessage>
+        private class RpcWampClient : IWampAuxiliaryClient, IWampRpcClient<TMessage>
         {
             private readonly WampRpcClientHandler<TMessage> mParent;
             private string mSessionId;
@@ -85,14 +85,10 @@ namespace WampSharp.Rpc
 
             public void CallError(string callId, string errorUri, string errorDesc)
             {
-            }
-
-            public void CallError(string callId, string errorUri, string errorDesc, TMessage errorDetails)
-            {
                 throw new System.NotImplementedException();
             }
 
-            public void Event(string topicUri, TMessage @event)
+            public void CallError(string callId, string errorUri, string errorDesc, TMessage errorDetails)
             {
                 throw new System.NotImplementedException();
             }
@@ -105,6 +101,5 @@ namespace WampSharp.Rpc
                 }
             }
         }
-
     }
 }

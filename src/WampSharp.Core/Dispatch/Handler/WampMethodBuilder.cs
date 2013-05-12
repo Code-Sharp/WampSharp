@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 
 namespace WampSharp.Core.Dispatch.Handler
 {
-    public class WampMethodBuilder<TMessage, TClient> : IMethodBuilder<WampMethodInfo, Action<TClient, TMessage[]>>
+    public class WampMethodBuilder<TMessage, TClient> : IMethodBuilder<WampMethodInfo, Action<TClient, WampMessage<TMessage>>>
     {
         private readonly object mInstance;
         private readonly IWampFormatter<TMessage> mFormatter;
@@ -17,15 +18,15 @@ namespace WampSharp.Core.Dispatch.Handler
             mFormatter = formatter;
         }
 
-        public Action<TClient, TMessage[]> BuildMethod(WampMethodInfo wampMethod)
+        public Action<TClient, WampMessage<TMessage>> BuildMethod(WampMethodInfo wampMethod)
         {
             MethodInfo method = wampMethod.Method;
 
-            return (client, arguments) =>
-                   method.Invoke(mInstance, GetArguments(client, arguments, wampMethod));
+            return (client, message) =>
+                   method.Invoke(mInstance, GetArguments(client, message, wampMethod));
         }
 
-        private object[] GetArguments(TClient client, TMessage[] arguments, WampMethodInfo method)
+        private object[] GetArguments(TClient client, WampMessage<TMessage> message, WampMethodInfo method)
         {
             ParameterInfo[] parameterInfos = method.Method.GetParameters();
 
@@ -39,16 +40,25 @@ namespace WampSharp.Core.Dispatch.Handler
                 parametersToConvert = parametersToConvert.Skip(1);
             }
 
-            methodArguments =
-                methodArguments.Concat(ConvertArguments(arguments, parametersToConvert));
+            if (method.IsRawMethod)
+            {
+                methodArguments = methodArguments.Concat(new[] {message});
+            }
+            else
+            {
+                methodArguments =
+                    methodArguments.Concat(ConvertArguments(message, parametersToConvert));                
+            }
 
             return methodArguments.ToArray();
         }
 
-        private object[] ConvertArguments(TMessage[] arguments, IEnumerable<ParameterInfo> parameters)
+        private object[] ConvertArguments(WampMessage<TMessage> message, IEnumerable<ParameterInfo> parameters)
         {
-            var parametersList = parameters.ToList();
+            List<ParameterInfo> parametersList = parameters.ToList();
 
+            TMessage[] arguments = message.Arguments;
+            
             IEnumerable<TMessage> relevantArguments = arguments;
 
             bool paramsArgument =

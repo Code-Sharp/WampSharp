@@ -17,6 +17,7 @@ using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Listener.V1;
+using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Fleck;
 using WampSharp.Rpc;
@@ -40,7 +41,7 @@ namespace WampSharp.TestConsole
                     (new FleckWampConnectionListener("ws://localhost:9000/",
                                                      jsonWampMessageFormatter),
                      new WampIncomingMessageHandler<JToken, IWampClient>
-                         (new WampRequestMapper<JToken>(typeof (MyServer),
+                         (new WampRequestMapper<JToken>(typeof(MyServer),
                                                         jsonFormatter),
                           new WampMethodBuilder<JToken, IWampClient>(myServer, jsonFormatter)),
                      new WampClientContainer<JToken, IWampClient>(new WampClientBuilderFactory<JToken>
@@ -54,27 +55,34 @@ namespace WampSharp.TestConsole
 
 
             // RPC Client
-            WampRpcClientFactory factory =
-                new WampRpcClientFactory(new WampRpcSerializer(new DelegateProcUriMapper(x => x.Name)),
-                                         new WampRpcClientHandlerBuilder<JToken>(jsonFormatter,
-                                                                                 new WampServerProxyFactory<JToken>(
-                                                                                     new WebSocketSharpWampConnection
-                                                                                         ("ws://localhost:9000/",
-                                                                                          new JsonWampMessageFormatter()),
-                                                                                     new WampServerProxyBuilder<JToken, IWampClient<JToken>, IWampServer>(
-                                                                                         new WampOutgoingRequestSerializer
-                                                                                             <JToken>(
-                                                                                             jsonFormatter),
-                                                                                         new WampServerProxyOutgoingMessageHandlerBuilder
-                                                                                             <JToken, IWampClient<JToken>>(
-                                                                                             new WampServerProxyIncomingMessageHandlerBuilder
-                                                                                                 <JToken, IWampClient<JToken>>(jsonFormatter))))));
+            var wampServerProxyFactory =
+                new WampServerProxyFactory<JToken>
+                    (new WebSocketSharpWampConnection("ws://localhost:9000/",
+                                                      new JsonWampMessageFormatter()),
+                     new WampServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>
+                         (new WampOutgoingRequestSerializer<JToken>
+                              (jsonFormatter),
+                          new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>
+                              (new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>
+                                   (jsonFormatter))));
 
+            WampRpcClientFactory factory =
+                new WampRpcClientFactory
+                    (new WampRpcSerializer(new DelegateProcUriMapper(x => x.Name)),
+                     new WampRpcClientHandlerBuilder<JToken>(jsonFormatter,
+                                                             wampServerProxyFactory));
 
 
             IAddable proxy = factory.GetClient<IAddable>();
 
             int result = proxy.Add(3, 4);
+
+            // Autobahn client
+            //var server =
+            //    wampServerProxyFactory.Create(new MyClient());
+
+            //server.Subscribe(null, "http://example.com/simple");
+
 
             Console.ReadLine();        
         }
@@ -135,6 +143,40 @@ namespace WampSharp.TestConsole
         public void Publish(IWampClient client, string topicUri, JToken @event, string[] exclude, string[] eligible)
         {
             client.Event(topicUri, @event);
+        }
+    }
+
+    class MyClient : IWampAuxiliaryClient, IWampRpcClient<JToken>, IWampMissingMethodContract<JToken>
+    {
+        private string mSessionId;
+
+        public void Welcome(string sessionId, int protocolVersion, string serverIdent)
+        {
+            mSessionId = sessionId;
+        }
+
+        public void CallResult(string callId, JToken result)
+        {
+        }
+
+        public void CallError(string callId, string errorUri, string errorDesc)
+        {
+        }
+
+        public void CallError(string callId, string errorUri, string errorDesc, JToken errorDetails)
+        {
+        }
+
+        public string SessionId
+        {
+            get
+            {
+                return mSessionId;
+            }
+        }
+
+        public void Missing(WampMessage<JToken> rawMessage)
+        {
         }
     }
 }

@@ -14,6 +14,7 @@ namespace WampSharp.Core.Dispatch.Handler
 
         private readonly IWampFormatter<TMessage> mFormatter; 
         private readonly IDictionary<WampMessageType, ICollection<WampMethodInfo>> mMapping;
+        private readonly WampMethodInfo mMissingMethod;
 
         #endregion
 
@@ -23,6 +24,27 @@ namespace WampSharp.Core.Dispatch.Handler
         {
             mFormatter = formatter;
             mMapping = BuildMapping(type);
+
+            mMissingMethod = FindMissingMethod(type);
+        }
+
+        private WampMethodInfo FindMissingMethod(Type type)
+        {
+            Type missingContract =
+                type.GetClosedGenericTypeImplementation(typeof (IWampMissingMethodContract<,>));
+
+            if (missingContract == null)
+            {
+                missingContract =
+                    type.GetClosedGenericTypeImplementation(typeof (IWampMissingMethodContract<>));
+            }
+
+            if (missingContract != null)
+            {
+                return new WampMethodInfo(missingContract.GetMethod("Missing"));
+            }
+
+            return null;
         }
 
         private Dictionary<WampMessageType, ICollection<WampMethodInfo>> BuildMapping(Type type)
@@ -57,24 +79,31 @@ namespace WampSharp.Core.Dispatch.Handler
 
         public WampMethodInfo Map(WampMessage<TMessage> request)
         {
-            ICollection<WampMethodInfo> candidates = mMapping[request.MessageType];
-
-            if (candidates.Count == 1)
+            ICollection<WampMethodInfo> candidates;
+            
+            if (!mMapping.TryGetValue(request.MessageType, out candidates))
             {
-                return candidates.First();
+                return mMissingMethod;
             }
             else
             {
-                List<WampMethodInfo> overloads =
-                    candidates.Where(x => x.ArgumentsCount == request.Arguments.Length)
-                              .ToList();                
-                
-                if (overloads.Count == 1)
+                if (candidates.Count == 1)
                 {
-                    return overloads.First();
+                    return candidates.First();
                 }
+                else
+                {
+                    List<WampMethodInfo> overloads =
+                        candidates.Where(x => x.ArgumentsCount == request.Arguments.Length)
+                                  .ToList();
 
-                return overloads.First(x => CanBind(x, request.Arguments));
+                    if (overloads.Count == 1)
+                    {
+                        return overloads.First();
+                    }
+
+                    return overloads.First(x => CanBind(x, request.Arguments));
+                }                
             }
         }
 

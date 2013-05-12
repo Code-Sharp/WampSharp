@@ -97,8 +97,8 @@ namespace WampSharp.Tests
                 new WampRpcClientFactory(new WampRpcSerializer(new DelegateProcUriMapper(x => x.Name)),
                     new WampRpcClientHandlerBuilder<JToken>(mFormatter,
                         new WampServerProxyFactory<JToken>(connection.SideAToSideB,
-                            new WampServerProxyBuilder<JToken, IWampClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
-                                new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampClient<JToken>>(new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampClient<JToken>>(mFormatter))))));
+                            new WampServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                                new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(mFormatter))))));
 
             listener.Start();
 
@@ -153,8 +153,8 @@ namespace WampSharp.Tests
                 new WampRpcClientFactory(new WampRpcSerializer(new DelegateProcUriMapper(x => "http://www.yogev.com/pr/" + x.Name)),
                     new WampRpcClientHandlerBuilder<JToken>(mFormatter,
                         new WampServerProxyFactory<JToken>(connection.SideAToSideB,
-                            new WampServerProxyBuilder<JToken, IWampClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
-                                new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampClient<JToken>>(new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampClient<JToken>>(mFormatter))))));
+                            new WampServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                                new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(mFormatter))))));
 
             listener.Start();
 

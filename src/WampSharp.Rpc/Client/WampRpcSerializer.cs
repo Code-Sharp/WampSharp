@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.Core.Dispatch.Handler;
 
 namespace WampSharp.Rpc
 {
@@ -32,10 +33,11 @@ namespace WampSharp.Rpc
             {
                 return typeof (object);
             }
-            
-            if (typeof (Task).IsAssignableFrom(returnType) &&
-                returnType.IsGenericType && 
-                returnType.GetGenericTypeDefinition() == typeof(Task<>))
+
+            Type taskType = 
+                returnType.GetClosedGenericTypeImplementation(typeof (Task<>));
+
+            if (taskType != null)
             {
                 return returnType.GetGenericArguments()[0];
             }
