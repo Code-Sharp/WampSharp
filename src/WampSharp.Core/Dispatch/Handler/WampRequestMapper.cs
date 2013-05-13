@@ -8,7 +8,12 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.Core.Dispatch.Handler
 {
-    public class WampRequestMapper<TMessage> : IWampRequestMapper<WampMessage<TMessage>>
+    /// <summary>
+    /// An implementation of <see cref="IWampRequestMapper{TMessage}"/> that
+    /// maps requests to methods using <see cref="WampHandlerAttribute"/>.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
+    public class WampRequestMapper<TMessage> : IWampRequestMapper<TMessage>
     {
         #region Members
 
@@ -20,6 +25,12 @@ namespace WampSharp.Core.Dispatch.Handler
 
         #region Constructor
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="WampRequestMapper{TMessage}"/>
+        /// </summary>
+        /// <param name="type">The type to map WAMP requests its methods.</param>
+        /// <param name="formatter">A <see cref="IWampFormatter{TMessage}"/> used
+        /// to check if a parameter can be binded to given type.</param>
         public WampRequestMapper(Type type, IWampFormatter<TMessage> formatter)
         {
             mFormatter = formatter;
@@ -77,6 +88,8 @@ namespace WampSharp.Core.Dispatch.Handler
 
         #endregion
 
+        #region Implementation
+
         public WampMethodInfo Map(WampMessage<TMessage> request)
         {
             ICollection<WampMethodInfo> candidates;
@@ -114,5 +127,7 @@ namespace WampSharp.Core.Dispatch.Handler
                                  .Zip(arguments, (parameterInfo, argument) => new {parameterInfo, argument})
                                  .All(x => mFormatter.CanConvert(x.argument, x.parameterInfo.ParameterType));
         }
+
+        #endregion
     }
 }

@@ -2,16 +2,19 @@
 
 namespace WampSharp.Core.Curie
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampCurieMapper"/>.
+    /// </summary>
     public class WampCurieMapper : IWampCurieMapper
     {
-        private readonly IDictionary<string, string> mCurieToUri = 
+        private readonly IDictionary<string, string> mPrefixToUri = 
             new Dictionary<string, string>();
 
         public string ResolveCurie(string curie)
         {
             string result;
 
-            if (mCurieToUri.TryGetValue(curie, out result))
+            if (mPrefixToUri.TryGetValue(curie, out result))
             {
                 return result;
             }
@@ -19,9 +22,9 @@ namespace WampSharp.Core.Curie
             return null;
         }
 
-        public void Map(string curie, string uri)
+        public void Map(string prefix, string uri)
         {
-            mCurieToUri[curie] = uri;
+            mPrefixToUri[prefix] = uri;
         }
     }
 }

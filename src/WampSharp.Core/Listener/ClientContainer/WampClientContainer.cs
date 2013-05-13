@@ -2,17 +2,38 @@ using System.Collections.Generic;
 
 namespace WampSharp.Core.Listener
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampClientContainer{TMessage,TClient}"/>.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
+    /// <typeparam name="TClient"></typeparam>
     public class WampClientContainer<TMessage, TClient> : IWampClientContainer<TMessage, TClient>
     {
+        #region Members
+
         private readonly IWampClientBuilder<TMessage, TClient> mClientBuilder;
 
         private readonly IDictionary<IWampConnection<TMessage>, TClient> mConnectionToClient =
             new Dictionary<IWampConnection<TMessage>, TClient>();
 
-        public WampClientContainer(IWampClientBuilderFactory<TMessage, TClient> clientBuilder)
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Creates a new instance of <see cref="WampClientContainer{TMessage,TClient}"/>
+        /// using a client builder that is activated using the given <
+        /// see cref="clientBuilderFactory"/> and this container.
+        /// </summary>
+        /// <param name="clientBuilderFactory">The given <see cref="IWampClientBuilderFactory{TMessage,TClient}"/>.</param>
+        public WampClientContainer(IWampClientBuilderFactory<TMessage, TClient> clientBuilderFactory)
         {
-            mClientBuilder = clientBuilder.GetClientBuilder(this);
+            mClientBuilder = clientBuilderFactory.GetClientBuilder(this);
         }
+
+        #endregion
+
+        #region Public Methods
 
         public TClient GetClient(IWampConnection<TMessage> connection)
         {
@@ -39,5 +60,7 @@ namespace WampSharp.Core.Listener
         {
             mConnectionToClient.Remove(connection);
         }
+
+        #endregion
     }
 }

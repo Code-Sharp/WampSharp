@@ -8,10 +8,18 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.Core.Proxy
 {
-    public class WampOutgoingRequestSerializer<TMessage> : IWampOutgoingRequestSerializer<WampMessage<TMessage>>
+    /// <summary>
+    /// An implementation of <see cref="IWampOutgoingRequestSerializer{TMessage}"/>.
+    /// </summary>
+    public class WampOutgoingRequestSerializer<TMessage> : IWampOutgoingRequestSerializer<TMessage>
     {
         private readonly IWampFormatter<TMessage> mFormatter;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="WampOutgoingRequestSerializer{TMessage}"/>.
+        /// </summary>
+        /// <param name="formatter">The <see cref="IWampFormatter{TMessage}"/> to
+        /// serialize arguments with.</param>
         public WampOutgoingRequestSerializer(IWampFormatter<TMessage> formatter)
         {
             mFormatter = formatter;

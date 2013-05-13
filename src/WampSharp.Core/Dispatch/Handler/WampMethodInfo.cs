@@ -6,14 +6,30 @@ using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Dispatch.Handler
 {
+    /// <summary>
+    /// Represents a structure that contains information about a
+    /// <see cref="WampHandlerAttribute"/> method.
+    /// </summary>
     public class WampMethodInfo
     {
+        #region Members
+
         private readonly MethodInfo mMethod;
         private readonly int mArgumentsCount;
         private readonly bool mHasWampClientArgument;
         private readonly bool mHasParamsArgument;
         private readonly bool mIsRawMethod;
 
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Creates a new <see cref="WampMethodInfo"/> given a
+        /// <see cref="MethodInfo"/>.
+        /// </summary>
+        /// <param name="method">The given method to obtain information
+        /// from.</param>
         public WampMethodInfo(MethodInfo method)
         {
             mMethod = method;
@@ -48,6 +64,13 @@ namespace WampSharp.Core.Dispatch.Handler
             }
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the <see cref="MethodInfo"/> this method represents.
+        /// </summary>
         public MethodInfo Method
         {
             get
@@ -56,6 +79,10 @@ namespace WampSharp.Core.Dispatch.Handler
             }
         }
 
+        /// <summary>
+        /// Gets the number of arguments this method gets, not including
+        /// <see cref="WampProxyParameterAttribute"/> parameter.
+        /// </summary>
         public int ArgumentsCount
         {
             get
@@ -64,6 +91,10 @@ namespace WampSharp.Core.Dispatch.Handler
             }
         }
 
+        /// <summary>
+        /// Returns a value indicating whether this method gets a
+        /// <see cref="WampProxyParameterAttribute"/> parameter.
+        /// </summary>
         public bool HasWampClientArgument
         {
             get
@@ -72,6 +103,10 @@ namespace WampSharp.Core.Dispatch.Handler
             }
         }
 
+        /// <summary>
+        /// Returns a value indicating whether this method has a params
+        /// argument.
+        /// </summary>
         public bool HasParamsArgument
         {
             get
@@ -80,6 +115,10 @@ namespace WampSharp.Core.Dispatch.Handler
             }
         }
 
+        /// <summary>
+        /// Returns a value indicating whether this method receives the given
+        /// <see cref="WampMessage{TMessage}"/> as is.
+        /// </summary>
         public bool IsRawMethod
         {
             get
@@ -87,5 +126,7 @@ namespace WampSharp.Core.Dispatch.Handler
                 return mIsRawMethod;
             }
         }
+
+        #endregion
     }
 }

@@ -3,12 +3,24 @@ using System.Linq;
 
 namespace WampSharp.Core.Listener
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampSessionIdGenerator"/>.
+    /// </summary>
     public class WampSessionIdGenerator : IWampSessionIdGenerator
     {
+        #region Members
+
         private const int ID_LENGTH = 16;
         private readonly char[] mCharacters;
         private readonly Random mRandom;
 
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Creates a new instance of <see cref="WampSessionIdGenerator"/>.
+        /// </summary>
         public WampSessionIdGenerator()
         {
             mCharacters =
@@ -19,6 +31,10 @@ namespace WampSharp.Core.Listener
 
             mRandom = new Random();
         }
+
+        #endregion
+
+        #region Public Methods
 
         public string Generate()
         {
@@ -31,5 +47,7 @@ namespace WampSharp.Core.Listener
 
             return new string(resultArray);
         }
+
+        #endregion
     }
 }

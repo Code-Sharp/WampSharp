@@ -1,5 +1,13 @@
 ﻿namespace WampSharp.Core.Message
 {
+    /// <summary>
+    /// Represents message types defined by the WAMP protocl.
+    /// </summary>
+    /// <remarks>
+    /// This enum comntains the message types of both WAMPv1 and WAMPv2.
+    /// The reason for this is that it would be more complicated to build
+    /// the framework if this is seperated into two enums.
+    /// </remarks>
     public enum WampMessageType
     {
         #region Version 1

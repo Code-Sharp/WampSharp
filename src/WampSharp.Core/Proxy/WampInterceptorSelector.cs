@@ -6,6 +6,12 @@ using WampSharp.Core.Contracts;
 
 namespace WampSharp.Core.Proxy
 {
+    /// <summary>
+    /// An <see cref="IInterceptorSelector"/> that chooses between
+    /// <see cref="WampOutgoingInterceptor{TMessage}"/> and 
+    /// <see cref="SessionIdPropertyInterceptor"/>.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public class WampInterceptorSelector<TMessage> : IInterceptorSelector
     {
         private readonly WampOutgoingInterceptor<TMessage> mInterceptor;

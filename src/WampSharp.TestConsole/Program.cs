@@ -28,7 +28,7 @@ namespace WampSharp.TestConsole
     {
         static void Main(string[] args)
         {
-            FleckLog.Level = LogLevel.Debug;
+            //FleckLog.Level = LogLevel.Debug;
 
             // Server
             // See client at: http://autobahn.ws/static/file/autobahnjs.html
@@ -73,9 +73,16 @@ namespace WampSharp.TestConsole
                                                              wampServerProxyFactory));
 
 
-            IAddable proxy = factory.GetClient<IAddable>();
+            //IAddable proxy = factory.GetClient<IAddable>();
 
-            int result = proxy.Add(3, 4);
+            //int result = proxy.Add(3, 4);
+
+            IAsyncAddable asyncProxy = factory.GetClient<IAsyncAddable>();
+
+            Task<int> task = asyncProxy.Add(3, 4);
+
+            
+            int taskResult = task.Result;
 
             // Autobahn client
             //var server =
@@ -86,6 +93,13 @@ namespace WampSharp.TestConsole
 
             Console.ReadLine();        
         }
+    }
+
+
+
+    public interface IAsyncAddable
+    {
+        Task<int> Add(int x, int y);         
     }
 
     public interface IAddable

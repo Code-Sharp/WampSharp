@@ -1,7 +1,17 @@
-﻿namespace WampSharp.Core.Dispatch.Handler
+﻿using WampSharp.Core.Message;
+
+namespace WampSharp.Core.Dispatch.Handler
 {
-    public interface IWampRequestMapper<TRequest>
+    /// <summary>
+    /// Maps WAMP requests to their corresponding method.
+    /// </summary>
+    public interface IWampRequestMapper<TMessage>
     {
-        WampMethodInfo Map(TRequest request);
+        /// <summary>
+        /// Maps the given WAMP request to its corresponding method.
+        /// </summary>
+        /// <param name="request">The given WAMP request.</param>
+        /// <returns>The given request's corresponding method.</returns>
+        WampMethodInfo Map(WampMessage<TMessage> request);
     }
 }
