@@ -94,7 +94,7 @@ namespace WampSharp.Tests
             MockConnection<JToken> connection = new MockConnection<JToken>();
 
             WampRpcClientFactory factory =
-                new WampRpcClientFactory(new WampRpcSerializer(new DelegateProcUriMapper(x => x.Name)),
+                new WampRpcClientFactory(new WampRpcSerializer(new WampDelegateProcUriMapper(x => x.Name)),
                     new WampRpcClientHandlerBuilder<JToken>(mFormatter,
                         new WampServerProxyFactory<JToken>(connection.SideAToSideB,
                             new WampServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
@@ -150,7 +150,7 @@ namespace WampSharp.Tests
             MockConnection<JToken> connection = new MockConnection<JToken>();
 
             WampRpcClientFactory factory =
-                new WampRpcClientFactory(new WampRpcSerializer(new DelegateProcUriMapper(x => "http://www.yogev.com/pr/" + x.Name)),
+                new WampRpcClientFactory(new WampRpcSerializer(new WampDelegateProcUriMapper(x => "http://www.yogev.com/pr/" + x.Name)),
                     new WampRpcClientHandlerBuilder<JToken>(mFormatter,
                         new WampServerProxyFactory<JToken>(connection.SideAToSideB,
                             new WampServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
@@ -193,7 +193,7 @@ namespace WampSharp.Tests
                      (new WampClientBuilderFactory<JToken>
                           (new WampSessionIdGenerator(),
                            new WampOutgoingRequestSerializer<JToken>(mFormatter),
-                           new JsonWampOutgoingHandlerBuilder<JToken>())));
+                           new WampOutgoingMessageHandlerBuilder<JToken>())));
         }
 
         private IWampServerProxyIncomingMessageHandlerBuilder<JToken,IWampClient<JToken>> GetHandlerBuilder()

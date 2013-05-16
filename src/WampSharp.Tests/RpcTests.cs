@@ -42,7 +42,7 @@ namespace WampSharp.Tests
         [Test]
         public void RpcClientFactoryCallHandlerWithSerializedCall()
         {
-            var delegateProcUriMapper = new DelegateProcUriMapper(methodInfo => methodInfo.Name);
+            var delegateProcUriMapper = new WampDelegateProcUriMapper(methodInfo => methodInfo.Name);
             IWampRpcSerializer serializer = new WampRpcSerializer(delegateProcUriMapper);
             var clientHandler = new MockWampRpcClientHandler(4);
 
@@ -62,7 +62,7 @@ namespace WampSharp.Tests
         [Test]
         public void RpcClientFactoryCallCallOnProxyAndWait()
         {
-            var delegateProcUriMapper = new DelegateProcUriMapper(methodInfo => methodInfo.Name);
+            var delegateProcUriMapper = new WampDelegateProcUriMapper(methodInfo => methodInfo.Name);
             IWampRpcSerializer serializer = new WampRpcSerializer(delegateProcUriMapper);
 
             MockWampServerProxyFactory<JToken> mockWampServerProxyFactory = null;

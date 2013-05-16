@@ -7,9 +7,9 @@ namespace WampSharp.Rpc
 {
     public class WampRpcSerializer : IWampRpcSerializer
     {
-        private readonly IProcUriMapper mProcUriMapper;
+        private readonly IWampProcUriMapper mProcUriMapper;
 
-        public WampRpcSerializer(IProcUriMapper procUriMapper)
+        public WampRpcSerializer(IWampProcUriMapper procUriMapper)
         {
             mProcUriMapper = procUriMapper;
         }

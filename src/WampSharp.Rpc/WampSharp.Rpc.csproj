@@ -57,13 +57,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Dynamic\DynamicWampRpcClient.cs" />
     <Compile Include="Client\IWampRpcClientHandlerBuilder.cs" />
+    <Compile Include="Client\TaskExtensions.cs" />
     <Compile Include="Client\WampRpcClientAsyncInterceptor.cs" />
     <Compile Include="Client\WampRpcClientInterceptorSelector.cs" />
     <Compile Include="Client\WampRpcClientInterceptor.cs" />
+    <Compile Include="Client\Dynamic\WampRpcMethodInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Client\DelegateProcUriMapper.cs" />
-    <Compile Include="Client\IProcUriMapper.cs" />
+    <Compile Include="Client\WampDelegateProcUriMapper.cs" />
+    <Compile Include="Client\IWampProcUriMapper.cs" />
     <Compile Include="Client\IWampRpcClientFactory.cs" />
     <Compile Include="Client\IWampRpcClientHandler.cs" />
     <Compile Include="Client\IWampRpcSerializer.cs" />

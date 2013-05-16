@@ -48,8 +48,7 @@ namespace WampSharp.TestConsole
                                                                       (new WampSessionIdGenerator(),
                                                                        new WampOutgoingRequestSerializer
                                                                            <JToken>(jsonFormatter),
-                                                                       new JsonWampOutgoingHandlerBuilder
-                                                                           <JToken>())));
+                                                                       new WampOutgoingMessageHandlerBuilder<JToken>())));
 
             listener.Start();
 
@@ -68,21 +67,27 @@ namespace WampSharp.TestConsole
 
             WampRpcClientFactory factory =
                 new WampRpcClientFactory
-                    (new WampRpcSerializer(new DelegateProcUriMapper(x => x.Name)),
+                    (new WampRpcSerializer(new WampDelegateProcUriMapper(x => x.Name)),
                      new WampRpcClientHandlerBuilder<JToken>(jsonFormatter,
                                                              wampServerProxyFactory));
 
 
-            //IAddable proxy = factory.GetClient<IAddable>();
+            IAddable proxy = factory.GetClient<IAddable>();
+            int seven = proxy.Add(3, 4);
 
-            //int result = proxy.Add(3, 4);
+            //dynamic dynamicProxy = factory.GetDynamicClient();
 
-            IAsyncAddable asyncProxy = factory.GetClient<IAsyncAddable>();
+            //int result = dynamicProxy.Add(3, 4);
+            //Task<int> asyncResult = dynamicProxy.Add(3, 4);
+            //dynamic dynamicResult = dynamicProxy.Add(3, 4);
+            //var resultValue = dynamicResult.Result;
+            //object objectResult = dynamicProxy.Add(3, 4);
+           
+            //IAsyncAddable asyncProxy = factory.GetClient<IAsyncAddable>();
 
-            Task<int> task = asyncProxy.Add(3, 4);
+            //Task<int> task = asyncProxy.Add(3, 4);
 
-            
-            int taskResult = task.Result;
+            //int taskResult = task.Result;
 
             // Autobahn client
             //var server =

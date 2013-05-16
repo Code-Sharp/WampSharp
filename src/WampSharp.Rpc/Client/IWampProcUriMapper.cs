@@ -2,7 +2,7 @@
 
 namespace WampSharp.Rpc
 {
-    public interface IProcUriMapper
+    public interface IWampProcUriMapper
     {
         string Map(MethodInfo method);
     }

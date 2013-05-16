@@ -7,7 +7,6 @@ namespace WampSharp.Rpc
         WampRpcCall<TMessage> Serialize(MethodInfo method, object[] arguments);
     }
 
-
     public interface IWampRpcSerializer : IWampRpcSerializer<object>
     {
     }

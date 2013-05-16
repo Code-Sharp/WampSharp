@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using WampSharp.Rpc.Dynamic;
 
 namespace WampSharp.Rpc
 {
@@ -34,6 +35,15 @@ namespace WampSharp.Rpc
                      asyncInterceptor);
 
             return result;
+        }
+
+        public dynamic GetDynamicClient()
+        {
+            IWampRpcClientHandler handler = mClientHandlerBuilder.Build();
+
+            DynamicWampRpcClient client = new DynamicWampRpcClient(handler, mSerializer);
+
+            return client;
         }
     }
 }
