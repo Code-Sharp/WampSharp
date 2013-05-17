@@ -88,7 +88,7 @@ namespace WampSharp.Tests
                   ""modified"": ""2012-03-29T10:29:16.625Z""
                }"
                 },
-            TestName = "CALL_message_for_RPC_with_2_arguments_using_CURIE")]
+            TestName = "CALL_message_for_RPC_with_2_complex_arguments_using_CURIE")]
         public void Call(string message, string callId, string procUri, string[] arguments)
         {
             var clientMock = new Mock<IWampClient>();

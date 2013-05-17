@@ -66,6 +66,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClientServerIntegrationTests.cs" />
     <Compile Include="RpcTests.cs" />
+    <Compile Include="TestHelpers\WampMessageEqualityComparer.cs" />
+    <Compile Include="TestHelpers\WampV1Messages.cs" />
+    <Compile Include="TestHelpers\Messages.cs" />
+    <Compile Include="TestHelpers\MockRaw.cs" />
+    <Compile Include="TestHelpers\MockRawFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
