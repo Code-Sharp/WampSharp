@@ -24,6 +24,11 @@ namespace WampSharp.Tests.TestHelpers
 
         public object Deserialize(Type type, MockRaw message)
         {
+            if (type == typeof (MockRaw))
+            {
+                return message;
+            }
+
             return message.Value;
         }
 

@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Message;
+﻿using System.Linq;
+using WampSharp.Core.Message;
 
 namespace WampSharp.Tests.TestHelpers
 {
@@ -21,12 +22,16 @@ namespace WampSharp.Tests.TestHelpers
         {
             WampMessage<MockRaw> result = new WampMessage<MockRaw>();
             result.MessageType = WampMessageType.v1Call;
-            result.Arguments = new MockRaw[]
-                                   {
-                                       new MockRaw(callId), 
-                                       new MockRaw(procUri),
-                                       new MockRaw(arguments)
-                                   };
+
+            MockRaw[] rawArguments = new[]
+                                         {
+                                             new MockRaw(callId),
+                                             new MockRaw(procUri)
+                                         }
+                .Concat(arguments.Select(x => new MockRaw(x)))
+                .ToArray();
+
+            result.Arguments = rawArguments;
 
             return result;
         }
