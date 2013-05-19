@@ -1,7 +1,7 @@
 ﻿using WampSharp.Core.Contracts.V1;
 using WampSharp.Tests.TestHelpers;
 
-namespace WampSharp.Tests.Dispatch
+namespace WampSharp.Tests.Dispatch.Helpers
 {
     public class MockWampServer : IWampServer<MockRaw>
     {
