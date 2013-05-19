@@ -72,7 +72,6 @@
     <Compile Include="Proxy\Helpers\MockClientContainer.cs" />
     <Compile Include="Proxy\Helpers\MockOutgoingMessageHandler.cs" />
     <Compile Include="Proxy\Helpers\MockOutgoingMessageHandlerBuilder.cs" />
-    <Compile Include="Proxy\Helpers\WampOutgoingRequestSerializerHelper.cs" />
     <Compile Include="Proxy\WampOutgoingRequestSerializerTests.cs" />
     <Compile Include="TestHelpers\MockRawComparer.cs" />
     <Compile Include="Proxy\Helpers\MockSessionGuidGenerator.cs" />
