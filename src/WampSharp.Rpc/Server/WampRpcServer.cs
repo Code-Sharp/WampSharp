@@ -46,6 +46,10 @@ namespace WampSharp.Rpc.Server
 
                 client.CallResult(callId, result);
             }
+            catch (WampRpcCallException ex)
+            {
+                client.CallError(callId, ex.ErrorUri, ex.Message, ex.ErrorDetails);                
+            }
             catch (Exception ex)
             {
                 client.CallError(callId, ex.HelpLink, ex.Message);

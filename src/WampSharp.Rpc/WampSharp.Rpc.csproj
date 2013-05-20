@@ -61,7 +61,7 @@
     <Compile Include="Client\Dynamic\DynamicWampRpcClient.cs" />
     <Compile Include="Client\IWampRpcClientHandlerBuilder.cs" />
     <Compile Include="Client\TaskExtensions.cs" />
-    <Compile Include="Client\WampRpcCallException.cs" />
+    <Compile Include="WampRpcCallException.cs" />
     <Compile Include="Client\WampRpcClientAsyncInterceptor.cs" />
     <Compile Include="Client\WampRpcClientInterceptorSelector.cs" />
     <Compile Include="Client\WampRpcClientInterceptor.cs" />
