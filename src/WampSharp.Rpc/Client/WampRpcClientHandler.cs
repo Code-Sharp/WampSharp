@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Dynamic;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
@@ -63,6 +64,31 @@ namespace WampSharp.Rpc
             }
         }
 
+        private void ErrorArrived(string callId, string errorUri, string errorDesc, TMessage errorDetails = default(TMessage))
+        {
+            WampRpcRequest request;
+
+            if (mCallIdToSubject.TryRemove(callId, out request))
+            {
+                object deserialized = null;
+                if (errorDetails != null)
+                {
+                    deserialized = mFormatter.Deserialize(typeof (ExpandoObject), errorDetails);
+                }
+
+                ISubject<object> task = request.Task;
+                task.OnError(new WampRpcCallException(request.Request.ProcUri,
+                                                      callId,
+                                                      errorUri,
+                                                      errorDesc,
+                                                      deserialized));
+            }
+            else
+            {
+                // Probably this is some other client's call result.
+            }
+        }
+
         private class RpcWampClient : IWampAuxiliaryClient, IWampRpcClient<TMessage>
         {
             private readonly WampRpcClientHandler<TMessage> mParent;
@@ -85,12 +111,12 @@ namespace WampSharp.Rpc
 
             public void CallError(string callId, string errorUri, string errorDesc)
             {
-                throw new System.NotImplementedException();
+                mParent.ErrorArrived(callId, errorUri, errorDesc);
             }
 
             public void CallError(string callId, string errorUri, string errorDesc, TMessage errorDetails)
             {
-                throw new System.NotImplementedException();
+                mParent.ErrorArrived(callId, errorUri, errorDesc, errorDetails);
             }
 
             public string SessionId

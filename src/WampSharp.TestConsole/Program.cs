@@ -6,8 +6,6 @@ using System.Net.Sockets;
 using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
-using Fleck;
-using Fleck.Handlers;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core;
 using WampSharp.Core.Client;
@@ -75,9 +73,9 @@ namespace WampSharp.TestConsole
             IAddable proxy = factory.GetClient<IAddable>();
             int seven = proxy.Add(3, 4);
 
-            //dynamic dynamicProxy = factory.GetDynamicClient();
+            dynamic dynamicProxy = factory.GetDynamicClient();
 
-            //int result = dynamicProxy.Add(3, 4);
+            int result = dynamicProxy.Add(3, 4);
             //Task<int> asyncResult = dynamicProxy.Add(3, 4);
             //dynamic dynamicResult = dynamicProxy.Add(3, 4);
             //var resultValue = dynamicResult.Result;
