@@ -14,8 +14,6 @@ namespace WampSharp.Rpc
         public WampRpcCallException(string errorUri, string errorDesc, object errorDetails)
             : this(null, null, errorUri, errorDesc, errorDetails)
         {
-            mErrorUri = errorUri;
-            mErrorDetails = errorDetails;
         }
 
         public WampRpcCallException(string procUri, string callId, string errorUri, string errorDesc, object errorDetails)
