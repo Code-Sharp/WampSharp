@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.TestConsole", "Wa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Api", "WampSharp.Api\WampSharp.Api.csproj", "{9634E498-9111-4A76-A25B-B01A07160D94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.PubSub", "WampSharp.PubSub\WampSharp.PubSub.csproj", "{F9E037CC-C8CE-48EF-B2C3-25C2AF1BEECD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{9634E498-9111-4A76-A25B-B01A07160D94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9634E498-9111-4A76-A25B-B01A07160D94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9634E498-9111-4A76-A25B-B01A07160D94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9E037CC-C8CE-48EF-B2C3-25C2AF1BEECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9E037CC-C8CE-48EF-B2C3-25C2AF1BEECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9E037CC-C8CE-48EF-B2C3-25C2AF1BEECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9E037CC-C8CE-48EF-B2C3-25C2AF1BEECD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

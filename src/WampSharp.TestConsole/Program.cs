@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reactive.Disposables;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -18,6 +20,7 @@ using WampSharp.Core.Listener.V1;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Fleck;
+using WampSharp.PubSub;
 using WampSharp.Rpc;
 
 namespace WampSharp.TestConsole
@@ -32,30 +35,33 @@ namespace WampSharp.TestConsole
             // See client at: http://autobahn.ws/static/file/autobahnjs.html
             JsonWampMessageFormatter jsonWampMessageFormatter = new JsonWampMessageFormatter();
             JsonFormatter jsonFormatter = new JsonFormatter();
-            MyServer myServer = new MyServer();
+            //MyServer myServer = new MyServer();
 
-            WampListener<JToken> listener =
-                new WampListener<JToken>
-                    (new FleckWampConnectionListener("ws://localhost:9000/",
-                                                     jsonWampMessageFormatter),
-                     new WampIncomingMessageHandler<JToken, IWampClient>
-                         (new WampRequestMapper<JToken>(typeof(MyServer),
-                                                        jsonFormatter),
-                          new WampMethodBuilder<JToken, IWampClient>(myServer, jsonFormatter)),
-                     new WampClientContainer<JToken, IWampClient>(new WampClientBuilderFactory<JToken>
-                                                                      (new WampSessionIdGenerator(),
-                                                                       new WampOutgoingRequestSerializer
-                                                                           <JToken>(jsonFormatter),
-                                                                       new WampOutgoingMessageHandlerBuilder<JToken>())));
+            //WampListener<JToken> listener =
+            //    new WampListener<JToken>
+            //        (new FleckWampConnectionListener("ws://localhost:9000/",
+            //                                         jsonWampMessageFormatter),
+            //         new WampIncomingMessageHandler<JToken, IWampClient>
+            //             (new WampRequestMapper<JToken>(typeof(MyServer),
+            //                                            jsonFormatter),
+            //              new WampMethodBuilder<JToken, IWampClient>(myServer, jsonFormatter)),
+            //         new WampClientContainer<JToken, IWampClient>(new WampClientBuilderFactory<JToken>
+            //                                                          (new WampSessionIdGenerator(),
+            //                                                           new WampOutgoingRequestSerializer
+            //                                                               <JToken>(jsonFormatter),
+            //                                                           new WampOutgoingMessageHandlerBuilder<JToken>())));
 
-            listener.Start();
+            //listener.Start();
 
 
             // RPC Client
+            var connection =
+                new WebSocketSharpWampConnection("ws://localhost:9000/",
+                                                 new JsonWampMessageFormatter());
+
             var wampServerProxyFactory =
-                new WampServerProxyFactory<JToken>
-                    (new WebSocketSharpWampConnection("ws://localhost:9000/",
-                                                      new JsonWampMessageFormatter()),
+                new Rpc.WampServerProxyFactory<JToken>
+                    (connection,
                      new WampServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>
                          (new WampOutgoingRequestSerializer<JToken>
                               (jsonFormatter),
@@ -73,19 +79,38 @@ namespace WampSharp.TestConsole
             IAddable proxy = factory.GetClient<IAddable>();
             int seven = proxy.Add(3, 4);
 
-            dynamic dynamicProxy = factory.GetDynamicClient();
+            //dynamic dynamicProxy = factory.GetDynamicClient();
 
-            int result = dynamicProxy.Add(3, 4);
+            //int result = dynamicProxy.Add(3, 4);
+
             //Task<int> asyncResult = dynamicProxy.Add(3, 4);
             //dynamic dynamicResult = dynamicProxy.Add(3, 4);
             //var resultValue = dynamicResult.Result;
             //object objectResult = dynamicProxy.Add(3, 4);
-           
+
             //IAsyncAddable asyncProxy = factory.GetClient<IAsyncAddable>();
 
             //Task<int> task = asyncProxy.Add(3, 4);
 
             //int taskResult = task.Result;
+
+            WampPubSubClientFactory<JToken> pubsubClientFactory =
+                new WampPubSubClientFactory<JToken>
+                    (new PubSub.WampServerProxyFactory<JToken>(connection,
+                                                               new WampServerProxyBuilder
+                                                                   <JToken, IWampPubSubClient<JToken>, IWampServer>(
+                                                                   new WampOutgoingRequestSerializer<JToken>(
+                                                                       jsonFormatter),
+                                                                   new WampServerProxyOutgoingMessageHandlerBuilder
+                                                                       <JToken, IWampPubSubClient<JToken>>(
+                                                                       new WampServerProxyIncomingMessageHandlerBuilder
+                                                                           <JToken, IWampPubSubClient<JToken>>(
+                                                                           jsonFormatter)))),
+                     jsonFormatter);
+
+            ISubject<object> gargamel =
+                pubsubClientFactory.GetSubject<object>("http://example.com/simple");
+
 
             // Autobahn client
             //var server =
