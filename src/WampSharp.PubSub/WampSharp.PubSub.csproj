@@ -51,6 +51,8 @@
     <Compile Include="IWampPubSubClientFactory.cs" />
     <Compile Include="IWampServerProxyFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WampPubSubClientFactory.cs" />
+    <Compile Include="WampPubSubSubject.cs" />
     <Compile Include="WampServerProxyFactory.cs" />
   </ItemGroup>
   <ItemGroup>
