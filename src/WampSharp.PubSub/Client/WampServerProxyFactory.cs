@@ -2,7 +2,7 @@
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
 
-namespace WampSharp.PubSub
+namespace WampSharp.PubSub.Client
 {
     public class WampServerProxyFactory<TMessage> : IWampServerProxyFactory<TMessage>
     {

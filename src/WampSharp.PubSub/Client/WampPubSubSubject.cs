@@ -4,7 +4,7 @@ using System.Reactive.Subjects;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Serialization;
 
-namespace WampSharp.PubSub
+namespace WampSharp.PubSub.Client
 {
     public class WampPubSubSubject<TMessage, TEvent> : ISubject<TEvent>
     {
@@ -24,7 +24,7 @@ namespace WampSharp.PubSub
 
         public void OnNext(TEvent value)
         {
-            mServerProxy.Publish(null, mTopicUri, value);
+            mServerProxy.Publish(null, mTopicUri, value, false);
         }
 
         public void OnError(Exception error)

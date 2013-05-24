@@ -21,6 +21,8 @@ using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Fleck;
 using WampSharp.PubSub;
+using WampSharp.PubSub.Client;
+using WampSharp.PubSub.Server;
 using WampSharp.Rpc;
 
 namespace WampSharp.TestConsole
@@ -37,21 +39,24 @@ namespace WampSharp.TestConsole
             JsonFormatter jsonFormatter = new JsonFormatter();
             //MyServer myServer = new MyServer();
 
-            //WampListener<JToken> listener =
-            //    new WampListener<JToken>
-            //        (new FleckWampConnectionListener("ws://localhost:9000/",
-            //                                         jsonWampMessageFormatter),
-            //         new WampIncomingMessageHandler<JToken, IWampClient>
-            //             (new WampRequestMapper<JToken>(typeof(MyServer),
-            //                                            jsonFormatter),
-            //              new WampMethodBuilder<JToken, IWampClient>(myServer, jsonFormatter)),
-            //         new WampClientContainer<JToken, IWampClient>(new WampClientBuilderFactory<JToken>
-            //                                                          (new WampSessionIdGenerator(),
-            //                                                           new WampOutgoingRequestSerializer
-            //                                                               <JToken>(jsonFormatter),
-            //                                                           new WampOutgoingMessageHandlerBuilder<JToken>())));
+            WampPubSubServer<JToken> myServer =
+                new WampPubSubServer<JToken>();
 
-            //listener.Start();
+            WampListener<JToken> listener =
+                new WampListener<JToken>
+                    (new FleckWampConnectionListener("ws://localhost:9000/",
+                                                     jsonWampMessageFormatter),
+                     new WampIncomingMessageHandler<JToken, IWampClient>
+                         (new WampRequestMapper<JToken>(myServer.GetType(),
+                                                        jsonFormatter),
+                          new WampMethodBuilder<JToken, IWampClient>(myServer, jsonFormatter)),
+                     new WampClientContainer<JToken, IWampClient>(new WampClientBuilderFactory<JToken>
+                                                                      (new WampSessionIdGenerator(),
+                                                                       new WampOutgoingRequestSerializer
+                                                                           <JToken>(jsonFormatter),
+                                                                       new WampOutgoingMessageHandlerBuilder<JToken>())));
+
+            listener.Start();
 
 
             // RPC Client
@@ -76,8 +81,8 @@ namespace WampSharp.TestConsole
                                                              wampServerProxyFactory));
 
 
-            IAddable proxy = factory.GetClient<IAddable>();
-            int seven = proxy.Add(3, 4);
+            //IAddable proxy = factory.GetClient<IAddable>();
+            //int seven = proxy.Add(3, 4);
 
             //dynamic dynamicProxy = factory.GetDynamicClient();
 
@@ -96,7 +101,7 @@ namespace WampSharp.TestConsole
 
             WampPubSubClientFactory<JToken> pubsubClientFactory =
                 new WampPubSubClientFactory<JToken>
-                    (new PubSub.WampServerProxyFactory<JToken>(connection,
+                    (new PubSub.Client.WampServerProxyFactory<JToken>(connection,
                                                                new WampServerProxyBuilder
                                                                    <JToken, IWampPubSubClient<JToken>, IWampServer>(
                                                                    new WampOutgoingRequestSerializer<JToken>(
@@ -111,6 +116,11 @@ namespace WampSharp.TestConsole
             ISubject<object> gargamel =
                 pubsubClientFactory.GetSubject<object>("http://example.com/simple");
 
+            var disposable =
+                gargamel.Subscribe(x =>
+                                   {
+                                       gargamel.OnNext(x);
+                                   });
 
             // Autobahn client
             //var server =
@@ -119,7 +129,11 @@ namespace WampSharp.TestConsole
             //server.Subscribe(null, "http://example.com/simple");
 
 
-            Console.ReadLine();        
+            Console.ReadLine();
+        
+            disposable.Dispose();
+
+            Console.ReadLine();
         }
     }
 

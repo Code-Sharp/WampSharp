@@ -1,7 +1,7 @@
 ﻿using System.Reactive.Subjects;
 using WampSharp.Core.Serialization;
 
-namespace WampSharp.PubSub
+namespace WampSharp.PubSub.Client
 {
     public class WampPubSubClientFactory<TMessage> : IWampPubSubClientFactory
     {

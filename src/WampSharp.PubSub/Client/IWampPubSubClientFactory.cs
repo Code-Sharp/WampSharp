@@ -1,6 +1,6 @@
 ﻿using System.Reactive.Subjects;
 
-namespace WampSharp.PubSub
+namespace WampSharp.PubSub.Client
 {
     public interface IWampPubSubClientFactory
     {
