@@ -86,6 +86,8 @@
     <Compile Include="Listener\ClientBuilder\IWampSessionIdGenerator.cs" />
     <Compile Include="Listener\ClientBuilder\WampOutgoingMessageHandlerBuilder.cs" />
     <Compile Include="Listener\ClientBuilder\WampOutgoingMessageHandler.cs" />
+    <Compile Include="Listener\Connections\IWampConnectionMonitor.cs" />
+    <Compile Include="Listener\Connections\WampConnectionMonitor.cs" />
     <Compile Include="Proxy\SessionIdPropertyInterceptor.cs" />
     <Compile Include="Listener\ClientBuilder\V1\WampClientBuilderFactory.cs" />
     <Compile Include="Curie\IWampCurieMapper.cs" />

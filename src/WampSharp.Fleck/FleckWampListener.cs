@@ -89,6 +89,8 @@ namespace WampSharp.Fleck
 
         private readonly IWebSocketConnection mWebSocketConnection;
         private readonly IWampMessageFormatter<JToken> mMessageFormatter;
+        private readonly object mLock = new object();
+        private bool mClosed = false;
 
         public FleckWampConnection(IWebSocketConnection webSocketConnection,
                                    IWampMessageFormatter<JToken> messageFormatter)
@@ -107,7 +109,15 @@ namespace WampSharp.Fleck
 
         private void OnConnectionClose()
         {
-            mWampMessageSubject.OnCompleted();
+            lock (mLock)
+            {
+                if (!mClosed)
+                {
+                    mWampMessageSubject.OnCompleted();
+                    mWampMessageSubject.Dispose();
+                    mClosed = true;
+                }
+            }
         }
 
         private void OnConnectionMessage(string message)

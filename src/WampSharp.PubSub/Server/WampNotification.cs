@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using TMessage = System.Object;
 
 namespace WampSharp.PubSub.Server
 {
-    public class WampNotification<TMessage>
+    public class WampNotification
     {
         private readonly TMessage mEvent;
         private readonly ICollection<string> mExcluded;

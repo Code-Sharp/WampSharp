@@ -68,10 +68,15 @@ namespace WampSharp.Core.Listener.V1
             // will be supported.
             proxyGenerationOptions.AddMixinInstance(new WampCurieMapper());
 
+            var monitor = new WampConnectionMonitor<TMessage>(connection);
+            proxyGenerationOptions.AddMixinInstance(monitor);
+
             IWampClient result =
                 mGenerator.CreateInterfaceProxyWithoutTarget<IWampClient>
                     (proxyGenerationOptions, wampOutgoingInterceptor,
                     new SessionIdPropertyInterceptor(mSessionIdGenerator.Generate()));
+
+            monitor.Client = result;
 
             return result;
         }

@@ -10,20 +10,20 @@ namespace WampSharp.PubSub.Server
 
         public void Subscribe(IWampClient client, string topicUri)
         {
-            WampTopic<TMessage> topic = mContainer.GetTopicByUri(topicUri);
-            topic.Subscribe(new WampObserver<TMessage>(topicUri, client));
+            WampTopic topic = mContainer.GetTopicByUri(topicUri);
+            topic.Subscribe(new WampObserver(topicUri, client));
         }
 
         public void Unsubscribe(IWampClient client, string topicUri)
         {
-            WampTopic<TMessage> topic = mContainer.GetTopicByUri(topicUri);
+            WampTopic topic = mContainer.GetTopicByUri(topicUri);
             topic.Unsubscribe(client.SessionId);
         }
 
         public void Publish(IWampClient client, string topicUri, TMessage @event, string[] exclude, string[] eligible)
         {
-            WampTopic<TMessage> topic = mContainer.GetTopicByUri(topicUri);
-            topic.OnNext(new WampNotification<TMessage>(@event, exclude, eligible));
+            WampTopic topic = mContainer.GetTopicByUri(topicUri);
+            topic.OnNext(new WampNotification(@event, exclude, eligible));
         }
 
         public void Publish(IWampClient client, string topicUri, TMessage @event)

@@ -6,12 +6,12 @@ namespace WampSharp.PubSub.Server
 {
     public class WampTopicContainer<TMessage>
     {
-        private readonly ConcurrentDictionary<string, WampTopic<TMessage>> mTopicUriToSubject;
+        private readonly ConcurrentDictionary<string, WampTopic> mTopicUriToSubject;
 
         public WampTopicContainer()
         {
             mTopicUriToSubject =
-                new ConcurrentDictionary<string, WampTopic<TMessage>>();
+                new ConcurrentDictionary<string, WampTopic>();
         }
 
         public IEnumerable<string> TopicUris
@@ -22,18 +22,18 @@ namespace WampSharp.PubSub.Server
             }
         }
 
-        public WampTopic<TMessage> GetTopicByUri(string topicUri)
+        public WampTopic GetTopicByUri(string topicUri)
         {
-            WampTopic<TMessage> result =
+            WampTopic result =
                 mTopicUriToSubject.GetOrAdd(topicUri, 
-                x => new WampTopic<TMessage>());
+                x => new WampTopic());
 
             return result;
         }
 
         public void RemoveTopicByUri(string topicUri)
         {
-            WampTopic<TMessage> value;
+            WampTopic value;
             mTopicUriToSubject.TryRemove(topicUri, out value);
         }
 
