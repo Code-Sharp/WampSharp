@@ -17,12 +17,12 @@ namespace WampSharp.Tests.TestHelpers
 
         public bool Equals(MockRaw x, MockRaw y)
         {
-            return object.Equals(x.Value, y.Value);
+            return StructuralComparisons.StructuralEqualityComparer.Equals(x.Value, y.Value);
         }
 
         public int GetHashCode(MockRaw obj)
         {
-            return EqualityComparer<object>.Default.GetHashCode(obj);
+            return StructuralComparisons.StructuralEqualityComparer.GetHashCode(obj);
         }
     }
 }

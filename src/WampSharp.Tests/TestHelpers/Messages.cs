@@ -473,7 +473,7 @@ namespace WampSharp.Tests.TestHelpers
 
         #region Server Packs
 
-        public IEnumerable<WampMessage<MockRaw>> ServerMessages
+        public static IEnumerable<WampMessage<MockRaw>> ServerMessages
         {
             get
             {
@@ -483,7 +483,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> ServerAuxiliaryMessages
+        public static IEnumerable<WampMessage<MockRaw>> ServerAuxiliaryMessages
         {
             get
             {
@@ -491,8 +491,8 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        
-        public IEnumerable<WampMessage<MockRaw>> ServerRpcMessages
+
+        public static IEnumerable<WampMessage<MockRaw>> ServerRpcMessages
         {
             get
             {
@@ -500,7 +500,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> ServerPubSubMessages
+        public static IEnumerable<WampMessage<MockRaw>> ServerPubSubMessages
         {
             get
             {
@@ -510,7 +510,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> PrefixMessages
+        public static IEnumerable<WampMessage<MockRaw>> PrefixMessages
         {
             get
             {
@@ -519,7 +519,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> CallMessages
+        public static IEnumerable<WampMessage<MockRaw>> CallMessages
         {
             get
             {
@@ -532,7 +532,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> SubscribeMessages
+        public static IEnumerable<WampMessage<MockRaw>> SubscribeMessages
         {
             get
             {
@@ -541,7 +541,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> UnsubscribeMessages
+        public static IEnumerable<WampMessage<MockRaw>> UnsubscribeMessages
         {
             get
             {
@@ -550,7 +550,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> PublishMessages
+        public static IEnumerable<WampMessage<MockRaw>> PublishMessages
         {
             get
             {
@@ -565,7 +565,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> PublishMessagesSimple
+        public static IEnumerable<WampMessage<MockRaw>> PublishMessagesSimple
         {
             get
             {
@@ -575,7 +575,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> PublishMessagesExcludeMe
+        public static IEnumerable<WampMessage<MockRaw>> PublishMessagesExcludeMe
         {
             get
             {
@@ -584,7 +584,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> PublishMessagesExclude
+        public static IEnumerable<WampMessage<MockRaw>> PublishMessagesExclude
         {
             get
             {
@@ -592,7 +592,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> PublishMessagesEligible
+        public static IEnumerable<WampMessage<MockRaw>> PublishMessagesEligible
         {
             get
             {
@@ -605,7 +605,7 @@ namespace WampSharp.Tests.TestHelpers
 
         #region Client Packs
 
-        public IEnumerable<WampMessage<MockRaw>> ClientMessages
+        public static IEnumerable<WampMessage<MockRaw>> ClientMessages
         {
             get
             {
@@ -616,7 +616,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> WelcomeMessages
+        public static IEnumerable<WampMessage<MockRaw>> WelcomeMessages
         {
             get
             {
@@ -624,7 +624,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> CallResultMessages
+        public static IEnumerable<WampMessage<MockRaw>> CallResultMessages
         {
             get
             {
@@ -634,7 +634,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> CallErrorMessagesSimple
+        public static IEnumerable<WampMessage<MockRaw>> CallErrorMessagesSimple
         {
             get
             {
@@ -642,7 +642,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> CallErrorMessagesDetailed
+        public static IEnumerable<WampMessage<MockRaw>> CallErrorMessagesDetailed
         {
             get
             {
@@ -651,7 +651,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> CallErrorMessages
+        public static IEnumerable<WampMessage<MockRaw>> CallErrorMessages
         {
             get
             {
@@ -660,7 +660,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public IEnumerable<WampMessage<MockRaw>> EventMessages
+        public static IEnumerable<WampMessage<MockRaw>> EventMessages
         {
             get
             {
