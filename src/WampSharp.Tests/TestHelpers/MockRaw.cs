@@ -22,7 +22,7 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public object Clone(object value)
+        private static object Clone(object value)
         {
             if (value == null)
             {
