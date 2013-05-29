@@ -109,6 +109,54 @@ namespace WampSharp.Tests.Rpc
                           .Using(StructuralComparisons.StructuralEqualityComparer));
         }
 
+        [Test]
+        public void HandleAsync_ClientCall_TaskIsAsync()
+        {
+            MockWampRpcCallManager<MockRaw> callManager =
+                new MockWampRpcCallManager<MockRaw>();
+
+            IWampRpcClientHandler handler =
+                GetHandler(client => callManager.GetServer(client));
+
+            // call a function that takes a long time, call another function
+            // the result of the latter is received first, in other words,
+            // RPC is really asynchronous
+            var slowCall = new WampRpcCall<object>()
+                               {
+                                   Arguments = new object[] {new int[] {1, 2, 3}},
+                                   ProcUri = "calc:asum",
+                                   ReturnType = typeof (int)
+                               };
+
+            var fastCall = new WampRpcCall<object>()
+                               {
+                                   Arguments = new object[] {new int[] {4, 5, 6}},
+                                   ProcUri = "calc:sum",
+                                   ReturnType = typeof (int)
+                               };
+
+            Task<object> slowTask = handler.HandleAsync(slowCall);
+
+            Task<object> fastTask = handler.HandleAsync(fastCall);
+
+            MockWampRpcCallDetails<MockRaw> slowCallDetails =
+                callManager.GetCallDetails(slowCall.CallId);
+
+            MockWampRpcCallDetails<MockRaw> fastCallDetails =
+                callManager.GetCallDetails(fastCall.CallId);
+            
+            Assert.IsFalse(slowTask.IsCompleted);
+            Assert.IsFalse(fastTask.IsCompleted);
+
+            fastCallDetails.Client.CallResult(fastCall.CallId, new MockRaw(15));
+
+            Assert.That(fastTask.Result, Is.EqualTo(15));
+            Assert.IsFalse(slowTask.IsCompleted);
+
+            slowCallDetails.Client.CallResult(slowCall.CallId, new MockRaw(6));
+            Assert.That(slowTask.Result, Is.EqualTo(6));            
+        }
+
         private static WampRpcClientHandler<MockRaw> GetHandler(Func<IWampRpcClient<MockRaw>, IWampServer> serverFactory)
         {
             return new WampRpcClientHandler<MockRaw>(new MockWampRpcServerProxyFactory<MockRaw>(serverFactory),
