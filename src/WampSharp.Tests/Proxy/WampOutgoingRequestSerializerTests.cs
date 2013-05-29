@@ -62,25 +62,25 @@ namespace WampSharp.Tests.Proxy
         }
 
         [TestCaseSource(typeof(MessagesArguments), "CallErrorMessagesSimple")]
-        public void CallError(string callId, string procUri, string errorDesc)
+        public void CallError(string callId, string errorUri, string errorDesc)
         {
             WampMessage<MockRaw> serialized =
-                SerializeCallError(callId, procUri, errorDesc);
+                SerializeCallError(callId, errorUri, errorDesc);
 
             WampMessage<MockRaw> raw =
-                WampV1Messages.CallError(callId, procUri, errorDesc);
+                WampV1Messages.CallError(callId, errorUri, errorDesc);
 
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }
 
         [TestCaseSource(typeof(MessagesArguments), "CallErrorMessagesDetailed")]
-        public void CallError(string callId, string procUri, string errorDesc, object errorDetails)
+        public void CallError(string callId, string errorUri, string errorDesc, object errorDetails)
         {
             WampMessage<MockRaw> serialized =
-                SerializeCallError(callId, procUri, errorDesc, errorDetails);
+                SerializeCallError(callId, errorUri, errorDesc, errorDetails);
 
             WampMessage<MockRaw> raw =
-                WampV1Messages.CallError(callId, procUri, errorDesc, errorDetails);
+                WampV1Messages.CallError(callId, errorUri, errorDesc, errorDetails);
 
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }

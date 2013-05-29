@@ -72,6 +72,7 @@
     <Compile Include="ListenerTests.cs" />
     <Compile Include="MockConnection.cs" />
     <Compile Include="MockListener.cs" />
+    <Compile Include="Rpc\Helpers\CallErrorDetails.cs" />
     <Compile Include="Rpc\Helpers\MockWampRpcCallDetails.cs" />
     <Compile Include="Rpc\Helpers\MockWampRpcCallManager.cs" />
     <Compile Include="Rpc\Helpers\MockWampRpcServerProxyFactory.cs" />

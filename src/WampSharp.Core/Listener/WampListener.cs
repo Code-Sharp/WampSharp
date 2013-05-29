@@ -9,6 +9,7 @@ namespace WampSharp.Core.Listener
         private readonly IWampIncomingMessageHandler<TMessage, TClient> mHandler;
         private readonly IWampClientContainer<TMessage, TClient> mClientContainer;
         private readonly IWampConnectionListener<TMessage> mListener;
+        private IDisposable mSubscription;
 
         public WampListener(IWampConnectionListener<TMessage> listener,
                             IWampIncomingMessageHandler<TMessage, TClient> handler,
@@ -29,7 +30,18 @@ namespace WampSharp.Core.Listener
 
         public virtual void Start()
         {
-            mListener.Subscribe(x => OnNewConnection(x));
+            mSubscription = mListener.Subscribe(x => OnNewConnection(x));
+        }
+
+        public virtual void Stop()
+        {
+            IDisposable subscription = mSubscription;
+
+            if (subscription != null)
+            {
+                subscription.Dispose();
+                mSubscription = null;
+            }
         }
 
         protected virtual void OnConnectionException(IWampConnection<TMessage> connection, Exception exception)

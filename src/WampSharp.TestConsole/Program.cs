@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -118,9 +118,9 @@ namespace WampSharp.TestConsole
 
             var disposable =
                 gargamel.Subscribe(x =>
-                                   {
-                                       gargamel.OnNext(x);
-                                   });
+                {
+                    gargamel.OnNext(x);
+                });
 
             // Autobahn client
             //var server =
@@ -130,7 +130,7 @@ namespace WampSharp.TestConsole
 
 
             Console.ReadLine();
-        
+
             disposable.Dispose();
 
             Console.ReadLine();
@@ -141,7 +141,7 @@ namespace WampSharp.TestConsole
 
     public interface IAsyncAddable
     {
-        Task<int> Add(int x, int y);         
+        Task<int> Add(int x, int y);
     }
 
     public interface IAddable
@@ -161,20 +161,20 @@ namespace WampSharp.TestConsole
         {
             mCallNum++;
 
-            if (mCallNum%2 == 0)
+            if (mCallNum % 2 == 0)
             {
-                client.CallError(callId, "noUri", "You called a even times number", new {x = 2});
+                client.CallError(callId, "noUri", "You called a even times number", new { x = 2 });
             }
             else
             {
                 int result = arguments.Select(x => (int)x).Sum();
-                client.CallResult(callId, result);                
+                client.CallResult(callId, result);
             }
         }
 
         public void Subscribe(IWampClient client, string topicUri)
         {
-            client.Event(topicUri, new {Name = "Yosy", LastName = "Atias"});
+            client.Event(topicUri, new { Name = "Yosy", LastName = "Atias" });
         }
 
         public void Unsubscribe(IWampClient client, string topicUri)
@@ -188,12 +188,12 @@ namespace WampSharp.TestConsole
 
         public void Publish(IWampClient client, string topicUri, JToken @event, bool excludeMe)
         {
-            Publish(client, topicUri, @event, new string[] {client.SessionId});
+            Publish(client, topicUri, @event, new string[] { client.SessionId });
         }
 
         public void Publish(IWampClient client, string topicUri, JToken @event, string[] exclude)
         {
-            Publish(client, topicUri, @event, exclude, new string[]{});
+            Publish(client, topicUri, @event, exclude, new string[] { });
         }
 
         public void Publish(IWampClient client, string topicUri, JToken @event, string[] exclude, string[] eligible)
