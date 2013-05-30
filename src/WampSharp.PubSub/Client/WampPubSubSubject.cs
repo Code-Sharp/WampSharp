@@ -78,7 +78,7 @@ namespace WampSharp.PubSub.Client
             mSubject.OnNext(deserialized);
         }
 
-        public class WampPubSubClient : IWampPubSubClient<TMessage>
+        private class WampPubSubClient : IWampPubSubClient<TMessage>
         {
             private readonly WampPubSubSubject<TMessage, TEvent> mParent;
 

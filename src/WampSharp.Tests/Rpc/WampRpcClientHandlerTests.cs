@@ -9,6 +9,7 @@ using WampSharp.Tests.TestHelpers;
 
 namespace WampSharp.Tests.Rpc
 {
+    [TestFixture]
     public class WampRpcClientHandlerTests
     {
         [TestCaseSource(typeof(RpcCalls), "SomeCalls")]

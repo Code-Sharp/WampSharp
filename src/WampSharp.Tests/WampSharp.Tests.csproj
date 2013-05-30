@@ -72,6 +72,12 @@
     <Compile Include="ListenerTests.cs" />
     <Compile Include="MockConnection.cs" />
     <Compile Include="MockListener.cs" />
+    <Compile Include="PubSub\Helpers\WampPublishRequest.cs" />
+    <Compile Include="PubSub\Helpers\MockWampPubSubRequestManager.cs" />
+    <Compile Include="PubSub\Helpers\WampSubscribeRequest.cs" />
+    <Compile Include="PubSub\Helpers\WampUnsubscribeRequest.cs" />
+    <Compile Include="PubSub\Helpers\MockWampPubSubServerProxyFactory.cs" />
+    <Compile Include="PubSub\WampPubSubSubjectTests.cs" />
     <Compile Include="Rpc\Helpers\CallErrorDetails.cs" />
     <Compile Include="Rpc\Helpers\MockWampRpcCallDetails.cs" />
     <Compile Include="Rpc\Helpers\MockWampRpcCallManager.cs" />
@@ -83,6 +89,7 @@
     <Compile Include="Proxy\Helpers\MockOutgoingMessageHandlerBuilder.cs" />
     <Compile Include="Proxy\WampOutgoingRequestSerializerTests.cs" />
     <Compile Include="Rpc\RpcCalls.cs" />
+    <Compile Include="Rpc\WampRpcClientFactoryTests.cs" />
     <Compile Include="Rpc\WampRpcClientHandlerTests.cs" />
     <Compile Include="TestHelpers\MockRawComparer.cs" />
     <Compile Include="Proxy\Helpers\MockSessionGuidGenerator.cs" />
@@ -108,11 +115,16 @@
       <Project>{B4A77C12-8430-4852-BCB9-ACFD5F30A1E4}</Project>
       <Name>WampSharp.Fleck</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WampSharp.PubSub\WampSharp.PubSub.csproj">
+      <Project>{F9E037CC-C8CE-48EF-B2C3-25C2AF1BEECD}</Project>
+      <Name>WampSharp.PubSub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WampSharp.Rpc\WampSharp.Rpc.csproj">
       <Project>{C3290246-2E64-4E58-96B2-65E11FE16B3D}</Project>
       <Name>WampSharp.Rpc</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
