@@ -13,30 +13,30 @@ namespace WampSharp.Tests.PubSub
     [TestFixture]
     public class WampPubSubSubjectTests
     {
-        [Test]
-        public void BeforeSubscribeCallNoSubscriptionsAreMade()
+        [TestCaseSource(typeof(MessagesArguments), "SubscribeMessages")]
+        public void BeforeSubscribeCallNoSubscriptionsAreMade(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
                 new MockWampPubSubRequestManager<MockRaw>();
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>("myTopic");
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
 
             Assert.That(requestManager.Subscriptions, Is.Empty);
             Assert.That(requestManager.SubscriptionRemovals, Is.Empty);
             Assert.That(requestManager.Publications, Is.Empty);
         }
 
-        [Test]
-        public void SubscribeCallCallsServerProxySubscribe()
+        [TestCaseSource(typeof(MessagesArguments), "SubscribeMessages")]
+        public void SubscribeCallCallsServerProxySubscribe(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
                 new MockWampPubSubRequestManager<MockRaw>();
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>("myTopic");
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
 
             IDisposable cancelation = subject.Subscribe(x => { });
 
@@ -47,18 +47,18 @@ namespace WampSharp.Tests.PubSub
             WampSubscribeRequest<MockRaw> subscription =
                 requestManager.Subscriptions.First();
 
-            Assert.That(subscription.TopicUri, Is.EqualTo("myTopic"));
+            Assert.That(subscription.TopicUri, Is.EqualTo(topicUri));
         }
 
-        [Test]
-        public void SubscribeCallsServerProxySubscribeOnceForAllSubscribers()
+        [TestCaseSource(typeof(MessagesArguments), "SubscribeMessages")]
+        public void SubscribeCallsServerProxySubscribeOnceForAllSubscribers(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
                 new MockWampPubSubRequestManager<MockRaw>();
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>("myTopic");
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
 
             IDisposable cancelation = subject.Subscribe(x => { });
             IDisposable cancelation2 = subject.Subscribe(x => { });
@@ -68,15 +68,15 @@ namespace WampSharp.Tests.PubSub
             Assert.That(requestManager.Subscriptions.Count, Is.EqualTo(1));
         }
 
-        [Test]
-        public void DisposeDoesntCallServerProxyUnsubscribeIfObserversAreStillSubscribed()
+        [TestCaseSource(typeof(MessagesArguments), "SubscribeMessages")]
+        public void DisposeDoesntCallServerProxyUnsubscribeIfObserversAreStillSubscribed(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
                 new MockWampPubSubRequestManager<MockRaw>();
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>("myTopic");
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
 
             IDisposable cancelation = subject.Subscribe(x => { });
             IDisposable cancelation2 = subject.Subscribe(x => { });
@@ -88,15 +88,15 @@ namespace WampSharp.Tests.PubSub
             Assert.That(requestManager.Subscriptions.Count, Is.EqualTo(1));
         }
 
-        [Test]
-        public void DisposeCallsServerProxyUnsubscribeIfNoObserversAreSubscribed()
+        [TestCaseSource(typeof(MessagesArguments), "SubscribeMessages")]
+        public void DisposeCallsServerProxyUnsubscribeIfNoObserversAreSubscribed(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
                 new MockWampPubSubRequestManager<MockRaw>();
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>("myTopic");
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
 
             IDisposable cancelation = subject.Subscribe(x => { });
             IDisposable cancelation2 = subject.Subscribe(x => { });
@@ -111,18 +111,18 @@ namespace WampSharp.Tests.PubSub
             WampSubscribeRequest<MockRaw> removal = 
                 requestManager.SubscriptionRemovals.First();
 
-            Assert.That(removal.TopicUri, Is.EqualTo("myTopic"));
+            Assert.That(removal.TopicUri, Is.EqualTo(topicUri));
         }
 
-        [Test]
-        public void ClientEventCallsObserverOnNext()
+        [TestCaseSource(typeof(MessagesArguments), "EventMessages")]
+        public void ClientEventCallsObserverOnNext(string topicUri, object @event)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
                 new MockWampPubSubRequestManager<MockRaw>();
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>("myTopic");
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
 
             List<object> events = new List<object>();
             IDisposable cancelation = subject.Subscribe(x => events.Add(x));
@@ -130,46 +130,45 @@ namespace WampSharp.Tests.PubSub
             WampSubscribeRequest<MockRaw> subscription =
                 requestManager.Subscriptions.First();
 
-            subscription.Client.Event("myTopic", new MockRaw(13));
+            subscription.Client.Event(topicUri, new MockRaw(@event));
 
             Assert.That(events.Count, Is.EqualTo(1));
-            Assert.That(events[0], Is.EqualTo(13));
+            Assert.That(events[0], Is.EqualTo(@event));
         }
 
-        [Test]
-        public void OnNextCallCallsServerProxyEvent()
+        [TestCaseSource(typeof(MessagesArguments), "PublishMessagesSimple")]
+        public void OnNextCallCallsServerProxyEvent(string topicUri, object @event)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
                 new MockWampPubSubRequestManager<MockRaw>();
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>("myTopic");
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
 
             IDisposable cancelation = subject.Subscribe(x => { });
 
-            subject.OnNext(108);
+            subject.OnNext(@event);
 
             Assert.That(requestManager.Publications.Count, Is.EqualTo(1));
 
             WampPublishRequest<MockRaw> publication =
                 requestManager.Publications.FirstOrDefault();
 
-            Assert.That(publication.Event, Is.EqualTo(108));
+            Assert.That(publication.Event, Is.EqualTo(@event));
             Assert.That(publication.ExcludeMe, Is.EqualTo(false)); // Our specification
-            Assert.That(publication.TopicUri, Is.EqualTo("myTopic"));
+            Assert.That(publication.TopicUri, Is.EqualTo(topicUri));
         }
 
-
-        [Test]
-        public void OnCompletedCallCallsObserverOnCompleted()
+        [TestCaseSource(typeof(MessagesArguments), "UnsubscribeMessages")]
+        public void OnCompletedCallCallsObserverOnCompleted(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
                 new MockWampPubSubRequestManager<MockRaw>();
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>("myTopic");
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
 
             bool onCompleted = false;
             IDisposable cancelation = subject.Subscribe(x => { }, () => onCompleted = true);
@@ -179,15 +178,15 @@ namespace WampSharp.Tests.PubSub
             Assert.That(onCompleted, Is.EqualTo(true));
         }
 
-        [Test]
-        public void OnCompletedCallCallsServerProxyUnsubscribe()
+        [TestCaseSource(typeof(MessagesArguments), "UnsubscribeMessages")]
+        public void OnCompletedCallCallsServerProxyUnsubscribe(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
                 new MockWampPubSubRequestManager<MockRaw>();
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>("myTopic");
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
 
             bool onCompleted = false;
             IDisposable cancelation = subject.Subscribe(x => { });
@@ -198,7 +197,7 @@ namespace WampSharp.Tests.PubSub
             
             WampSubscribeRequest<MockRaw> removal = 
                 requestManager.SubscriptionRemovals.First();
-            Assert.That(removal.TopicUri, Is.EqualTo("myTopic"));
+            Assert.That(removal.TopicUri, Is.EqualTo(topicUri));
         }
 
         private static WampPubSubClientFactory<MockRaw> GetClientFactory(MockWampPubSubRequestManager<MockRaw> requestManager)
