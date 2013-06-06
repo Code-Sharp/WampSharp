@@ -127,6 +127,7 @@
     <Compile Include="Proxy\WampOutgoingInterceptor.cs" />
     <Compile Include="Proxy\WampOutgoingRequestSerializer.cs" />
     <Compile Include="Serialization\IWampFormatter.cs" />
+    <Compile Include="Serialization\IWampParser.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

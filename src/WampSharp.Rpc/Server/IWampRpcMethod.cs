@@ -9,10 +9,11 @@ namespace WampSharp.Rpc.Server
 
         string ProcUri { get; }
 
-        Task<object> InvokeAsync(object instance, object[] parameters);
+        
+        Task<object> InvokeAsync(object[] parameters);
 
         Type[] Parameters { get; }
 
-        object Invoke(object instance, object[] parameters);
+        object Invoke(object[] parameters);
     }
 }

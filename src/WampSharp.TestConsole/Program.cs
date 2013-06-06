@@ -29,8 +29,19 @@ namespace WampSharp.TestConsole
 {
     class Program
     {
+        class MyClass
+        {
+            public string a { get; set; }
+
+            public string b { get; set; }
+            public int c { get; set; }
+        }
+
         static void Main(string[] args)
         {
+
+
+
             //FleckLog.Level = LogLevel.Debug;
 
             // Server
@@ -39,26 +50,24 @@ namespace WampSharp.TestConsole
             JsonFormatter jsonFormatter = new JsonFormatter();
             //MyServer myServer = new MyServer();
 
-            MyServer myServer =
-                new MyServer();
+            //WampPubSubServer<JToken> myServer =
+            //    new WampPubSubServer<JToken>();
 
-            WampListener<JToken> listener =
-                new WampListener<JToken>
-                    (new FleckWampConnectionListener("ws://localhost:9000/",
-                                                     jsonWampMessageFormatter),
-                     new WampIncomingMessageHandler<JToken, IWampClient>
-                         (new WampRequestMapper<JToken>(myServer.GetType(),
-                                                        jsonFormatter),
-                          new WampMethodBuilder<JToken, IWampClient>(myServer, jsonFormatter)),
-                     new WampClientContainer<JToken, IWampClient>(new WampClientBuilderFactory<JToken>
-                                                                      (new WampSessionIdGenerator(),
-                                                                       new WampOutgoingRequestSerializer
-                                                                           <JToken>(jsonFormatter),
-                                                                       new WampOutgoingMessageHandlerBuilder<JToken>())));
+            //WampListener<JToken> listener =
+            //    new WampListener<JToken>
+            //        (new FleckWampConnectionListener("ws://localhost:9000/", mMessageFormatter,
+            //                                         jsonWampMessageFormatter),
+            //         new WampIncomingMessageHandler<JToken, IWampClient>
+            //             (new WampRequestMapper<JToken>(myServer.GetType(),
+            //                                            jsonFormatter),
+            //              new WampMethodBuilder<JToken, IWampClient>(myServer, jsonFormatter)),
+            //         new WampClientContainer<JToken, IWampClient>(new WampClientBuilderFactory<JToken>
+            //                                                          (new WampSessionIdGenerator(),
+            //                                                           new WampOutgoingRequestSerializer
+            //                                                               <JToken>(jsonFormatter),
+            //                                                           new WampOutgoingMessageHandlerBuilder<JToken>())));
 
-            listener.Start();
-
-            Console.ReadLine();
+            //listener.Start();
 
             // RPC Client
             var connection =
@@ -115,14 +124,17 @@ namespace WampSharp.TestConsole
                                                                            jsonFormatter)))),
                      jsonFormatter);
 
-            ISubject<object> gargamel =
-                pubsubClientFactory.GetSubject<object>("http://example.com/simple");
+
+
+            ISubject<dynamic> gargamel =
+                pubsubClientFactory.GetSubject<dynamic>("http://example.com/simple");
 
             var disposable =
                 gargamel.Subscribe(x =>
-                                   {
-                                       gargamel.OnNext(x);
-                                   });
+                                       {
+                                           x.Koki = "shalom";
+                                           gargamel.OnNext((object)x);
+                                       });
 
             // Autobahn client
             //var server =
@@ -151,13 +163,13 @@ namespace WampSharp.TestConsole
         int Add(int x, int y);
     }
 
-    class MyServer : IWampMissingMethodContract<JToken, IWampClient>
-    {
-        public void Missing(IWampClient client, WampMessage<JToken> rawMessage)
-        {
+    //class MyServer : IWampMissingMethodContract<JToken, IWampClient>
+    //{
+    //    public void Missing(IWampClient client, WampMessage<JToken> rawMessage)
+    //    {
 
-        }
-    }
+    //    }
+    //}
 
     //public class MyServer :IWampMissingMethodContract<JToken> //: IWampServer<JToken>
     //{

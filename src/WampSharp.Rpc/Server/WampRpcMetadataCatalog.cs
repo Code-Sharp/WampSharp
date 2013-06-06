@@ -4,18 +4,18 @@ using System.Collections.Generic;
 
 namespace WampSharp.Rpc.Server
 {
-    public class WampRpcServiceHost : IWampRpcServiceHost
+    public class WampRpcMetadataCatalog : IWampRpcMetadataCatalog
     {
         private readonly IDictionary<string, IWampRpcMethod> mProcUriToMethod;
 
-        public WampRpcServiceHost()
+        public WampRpcMetadataCatalog()
         {
             mProcUriToMethod =
                 new ConcurrentDictionary<string, IWampRpcMethod>
                     (StringComparer.InvariantCultureIgnoreCase);
         }
 
-        public void Host(IWampRpcMetadata metadata)
+        public void Register(IWampRpcMetadata metadata)
         {
             IEnumerable<IWampRpcMethod> newMethods = metadata.GetServiceMethods();
                                                               

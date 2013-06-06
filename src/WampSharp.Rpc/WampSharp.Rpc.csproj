@@ -73,7 +73,7 @@
     <Compile Include="Client\IWampRpcClientHandler.cs" />
     <Compile Include="Client\IWampRpcSerializer.cs" />
     <Compile Include="Client\IWampServerProxyFactory.cs" />
-    <Compile Include="Server\IWampRpcServiceHost.cs" />
+    <Compile Include="Server\IWampRpcMetadataCatalog.cs" />
     <Compile Include="Client\WampRpcCall.cs" />
     <Compile Include="Client\WampRpcClientFactory.cs" />
     <Compile Include="Client\WampRpcClientHandler.cs" />
@@ -90,7 +90,7 @@
     <Compile Include="Server\ProcUriAlreadyMappedException.cs" />
     <Compile Include="Server\WampRpcMethodAttribute.cs" />
     <Compile Include="Server\WampRpcServer.cs" />
-    <Compile Include="Server\WampRpcServiceHost.cs" />
+    <Compile Include="Server\WampRpcMetadataCatalog.cs" />
     <Compile Include="Server\WampRpcTypeMetadataProvider.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -29,17 +29,6 @@ namespace WampSharp.Tests
         }
 
         [Test]
-        public void ClientShouldBeAbleToCallMethodOnTheServer()
-        {
-            var rpcFactory = new RpcFactory();
-            IWampServer server = null;
-            ICalculator proxy = rpcFactory.GetProxy<ICalculator>(server);
-            int four = proxy.Square(2);
-
-            Assert.That(four, Is.EqualTo(4));
-        }
-
-        [Test]
         public void RpcClientFactoryCallCallOnProxyAndWait()
         {
             var delegateProcUriMapper = new WampDelegateProcUriMapper(methodInfo => methodInfo.Name);
@@ -142,16 +131,6 @@ namespace WampSharp.Tests
     public interface ICalculator
     {
         int Square(int number);
-    }
-
-    public class RpcFactory
-    {
-        // THIS IS THE IDEALIC IMPLEMENTATION!!!
-        // PLEASE SUBMIT PULL REQUEST TO MAKE THIS HAPPEN! 
-        public T GetProxy<T>(IWampServer server)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 
     class MockWampRpcClientHandler : IWampRpcClientHandler

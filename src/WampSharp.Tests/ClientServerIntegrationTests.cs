@@ -138,13 +138,12 @@ namespace WampSharp.Tests
         {
             MockListener<JToken> mockListener = new MockListener<JToken>();
 
-            var wampRpcServiceHost = new WampRpcServiceHost();
-            wampRpcServiceHost.Host(new MethodInfoWampRpcMetadata(typeof (AddCalculator)));
+            var wampRpcServiceHost = new WampRpcMetadataCatalog();
+            wampRpcServiceHost.Register(new MethodInfoWampRpcMetadata(new AddCalculator()));
 
             WampRpcServer<JToken> rpcServer =
                 new WampRpcServer<JToken>(mFormatter,
-                                          wampRpcServiceHost,
-                                          new AddCalculator());
+                                          wampRpcServiceHost);
 
             WampListener<JToken> listener = GetListener(mockListener, rpcServer);
 

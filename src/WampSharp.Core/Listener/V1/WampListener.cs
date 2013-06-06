@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Contracts.V1;
+﻿using System;
+using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 
 namespace WampSharp.Core.Listener.V1
@@ -20,5 +21,6 @@ namespace WampSharp.Core.Listener.V1
 
             client.Welcome(client.SessionId, 1, "WampSharp");
         }
+
     }
 }

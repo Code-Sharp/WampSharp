@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="JsonFormatter.cs" />
     <Compile Include="JsonWampMessageFormatter.cs" />
+    <Compile Include="JTokenMessageParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FleckWampListener.cs" />
   </ItemGroup>

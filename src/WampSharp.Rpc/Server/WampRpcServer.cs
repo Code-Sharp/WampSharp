@@ -10,20 +10,19 @@ namespace WampSharp.Rpc.Server
                                            IWampRpcServer<TMessage>
     {
         private readonly IWampFormatter<TMessage> mFormatter;
-        private readonly IWampRpcServiceHost mRpcServiceHost;
-        private readonly object mInstance;
+        private readonly IWampRpcMetadataCatalog mRpcMetadataCatalog;
 
-        public WampRpcServer(IWampFormatter<TMessage> formatter, IWampRpcServiceHost rpcServiceHost, object instance)
+        public WampRpcServer(IWampFormatter<TMessage> formatter,
+            IWampRpcMetadataCatalog rpcMetadataCatalog)
         {
             mFormatter = formatter;
-            mRpcServiceHost = rpcServiceHost;
-            mInstance = instance;
+            mRpcMetadataCatalog = rpcMetadataCatalog;
         }
 
         public void Prefix(IWampClient client, string prefix, string uri)
         {
             IWampCurieMapper mapper = client as IWampCurieMapper;
-            
+
             mapper.Map(prefix, uri);
         }
 
@@ -31,7 +30,7 @@ namespace WampSharp.Rpc.Server
         {
             procUri = ResolveUri(client, procUri);
 
-            IWampRpcMethod method = mRpcServiceHost.ResolveMethodByProcUri(procUri);
+            IWampRpcMethod method = mRpcMetadataCatalog.ResolveMethodByProcUri(procUri);
 
             try
             {
@@ -42,13 +41,13 @@ namespace WampSharp.Rpc.Server
                              .ToArray();
 
 
-                object result = await method.InvokeAsync(mInstance, parameters);
+                object result = await method.InvokeAsync(parameters);
 
                 client.CallResult(callId, result);
             }
             catch (WampRpcCallException ex)
             {
-                client.CallError(callId, ex.ErrorUri, ex.Message, ex.ErrorDetails);                
+                client.CallError(callId, ex.ErrorUri, ex.Message, ex.ErrorDetails);
             }
             catch (Exception ex)
             {

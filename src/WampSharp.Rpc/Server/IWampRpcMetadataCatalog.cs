@@ -1,8 +1,8 @@
 ﻿namespace WampSharp.Rpc.Server
 {
-    public interface IWampRpcServiceHost
+    public interface IWampRpcMetadataCatalog
     {
-        void Host(IWampRpcMetadata metadata);
+        void Register(IWampRpcMetadata metadata);
 
         IWampRpcMethod ResolveMethodByProcUri(string procUri);
     }

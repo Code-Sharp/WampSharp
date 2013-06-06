@@ -6,18 +6,37 @@ namespace WampSharp.Rpc.Server
 {
     public class MethodInfoWampRpcMetadata : IWampRpcMetadata
     {
-        private readonly Type mType;
+        private readonly object mInstance;
 
-        public MethodInfoWampRpcMetadata(Type type)
+
+        public MethodInfoWampRpcMetadata(object instance)
         {
-            mType = type;
+            mInstance = instance;
         }
 
         public IEnumerable<IWampRpcMethod> GetServiceMethods()
         {
-            return mType.GetMethods()
-                        .Where(method => method.IsDefined(typeof(WampRpcMethodAttribute), true))
-                        .Select(method => new MethodInfoWampRpcMethod(method));
+            Type type = mInstance.GetType();
+            IEnumerable<Type> typesToExplore = GetTypesToExplore(type);
+
+            return typesToExplore.SelectMany(currentType => GetServiceMethodsOfType(currentType));
+        }
+
+        private IEnumerable<Type> GetTypesToExplore(Type type)
+        {
+            yield return type;
+
+            foreach (Type currentInterface in type.GetInterfaces())
+            {
+                yield return currentInterface;
+            }
+        }
+
+        private IEnumerable<MethodInfoWampRpcMethod> GetServiceMethodsOfType(Type type)
+        {
+            return type.GetMethods()
+                       .Where(method => method.IsDefined(typeof(WampRpcMethodAttribute), true))
+                       .Select(method => new MethodInfoWampRpcMethod(mInstance, method));
         }
     }
 }

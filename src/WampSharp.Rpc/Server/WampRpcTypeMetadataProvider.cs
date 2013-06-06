@@ -4,9 +4,9 @@ namespace WampSharp.Rpc.Server
 {
     class WampRpcTypeMetadataProvider : IWampRpcTypeMetadataProvider
     {
-        public IWampRpcMetadata Provide(Type type)
+        public IWampRpcMetadata Provide(object instance)
         {
-            return new MethodInfoWampRpcMetadata(type);
+            return new MethodInfoWampRpcMetadata(instance);
         }
     }
 }

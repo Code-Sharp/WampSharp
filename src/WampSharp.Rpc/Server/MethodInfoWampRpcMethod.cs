@@ -7,10 +7,12 @@ namespace WampSharp.Rpc.Server
 {
     public class MethodInfoWampRpcMethod : IWampRpcMethod
     {
+        private readonly object mInstance;
         private readonly MethodInfo mMethod;
 
-        public MethodInfoWampRpcMethod(MethodInfo method)
+        public MethodInfoWampRpcMethod(object instance,MethodInfo method)
         {
+            mInstance = instance;
             mMethod = method;
         }
 
@@ -28,23 +30,25 @@ namespace WampSharp.Rpc.Server
             }
         }
 
+        
         public Type[] Parameters
         {
             get { return mMethod.GetParameters().Select(paramterInfo => paramterInfo.ParameterType).ToArray(); }
         }
 
+        
 
-        public Task<object> InvokeAsync(object instance, object[] parameters)
+        public Task<object> InvokeAsync(object[] parameters)
         {
             Task<object> result = null;
 
             if (!typeof (Task).IsAssignableFrom(mMethod.ReturnType))
             {
-                result = Task.Factory.StartNew(() => Invoke(instance, parameters));
+                result = Task.Factory.StartNew(() => Invoke(parameters));
             }
             else
             {
-                var task = (Task) Invoke(instance, parameters);
+                var task = (Task)Invoke(parameters);
                 
                 if (task.GetType() == typeof (Task))
                 {
@@ -65,9 +69,9 @@ namespace WampSharp.Rpc.Server
             return task.ContinueWith(t => (object) t.Result);
         }
         
-        public object Invoke(object instance, object[] parameters)
+        public object Invoke(object[] parameters)
         {
-            return mMethod.Invoke(instance, parameters);
+            return mMethod.Invoke(mInstance, parameters);
         }
     }
 }
