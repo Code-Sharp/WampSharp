@@ -2,6 +2,10 @@
 
 out/**
 
+#packages
+
+packages/**
+
 #reharper crap
 src/*[Rr]e[Ss]harper*
 
@@ -12,4 +16,3 @@ src/*/bin/
 src/*/obj/
 src/*/*.csproj.user
 src/*.sln.cache
-src/packages/
