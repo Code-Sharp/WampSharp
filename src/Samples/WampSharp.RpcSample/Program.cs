@@ -2,7 +2,7 @@
 using WampSharp.Api;
 using WampSharp.Rpc.Server;
 
-namespace Wamp.RpcSample
+namespace WampSharp.RpcSample
 {
     public interface ICalculator
     {

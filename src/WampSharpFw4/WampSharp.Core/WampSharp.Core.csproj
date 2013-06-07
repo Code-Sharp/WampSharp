@@ -153,6 +153,9 @@
     <Compile Include="..\..\WampSharp.Core\Listener\Connections\WampConnectionMonitor.cs">
       <Link>Listener\Connections\WampConnectionMonitor.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Core\Utilities\CustomAttributeExtensions.cs">
+      <Link>Utilities\CustomAttributeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Core\Proxy\SessionIdPropertyInterceptor.cs">
       <Link>Proxy\SessionIdPropertyInterceptor.cs</Link>
     </Compile>
@@ -273,15 +276,10 @@
     <Compile Include="..\..\WampSharp.Core\Serialization\IWampParser.cs">
       <Link>Serialization\IWampParser.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.Core\Utilities\CustomAttributeExtensions.cs">
-      <Link>Utilities\CustomAttributeExtensions.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

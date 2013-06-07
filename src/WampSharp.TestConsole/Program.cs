@@ -92,8 +92,8 @@ namespace WampSharp.TestConsole
                                                              wampServerProxyFactory));
 
 
-            //IAddable proxy = factory.GetClient<IAddable>();
-            //int seven = proxy.Add(3, 4);
+            IAddable proxy = factory.GetClient<IAddable>();
+            int seven = proxy.Add(3, 4);
 
             //dynamic dynamicProxy = factory.GetDynamicClient();
 
