@@ -16,3 +16,5 @@ src/*/bin/
 src/*/obj/
 src/*/*.csproj.user
 src/*.sln.cache
+src/packages/
+src/*/packages/
