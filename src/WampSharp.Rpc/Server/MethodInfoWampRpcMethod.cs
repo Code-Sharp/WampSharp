@@ -25,7 +25,7 @@ namespace WampSharp.Rpc.Server
         {
             get
             {
-                var wampRpcMethodAttribute = mMethod.GetCustomAttribute<WampRpcMethodAttribute>();
+                var wampRpcMethodAttribute = mMethod.GetCustomAttribute<WampRpcMethodAttribute>(true);
                 return wampRpcMethodAttribute.ProcUri;
             }
         }

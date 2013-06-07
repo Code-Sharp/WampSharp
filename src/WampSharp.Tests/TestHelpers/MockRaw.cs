@@ -44,7 +44,7 @@ namespace WampSharp.Tests.TestHelpers
                 {
                     object[] properties =
                         type.GetProperties()
-                            .Select(x => x.GetValue(value)).ToArray();
+                            .Select(x => x.GetValue(value, null)).ToArray();
 
                     return Activator.CreateInstance(type, properties);
                 }

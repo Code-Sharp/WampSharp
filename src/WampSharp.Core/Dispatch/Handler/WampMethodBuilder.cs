@@ -87,7 +87,7 @@ namespace WampSharp.Core.Dispatch.Handler
             IEnumerable<TMessage> relevantArguments = arguments;
 
             bool paramsArgument =
-                parametersList.Last().IsDefined(typeof(ParamArrayAttribute));
+                parametersList.Last().IsDefined(typeof(ParamArrayAttribute), true);
 
             if (paramsArgument)
             {

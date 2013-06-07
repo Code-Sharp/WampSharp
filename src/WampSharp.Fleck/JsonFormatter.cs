@@ -86,6 +86,11 @@ namespace WampSharp.Fleck
 
         public JToken Serialize(object value)
         {
+            if (value == null)
+            {
+                return new JValue((object) null);
+            }
+
             return JToken.FromObject(value);
         }
     }

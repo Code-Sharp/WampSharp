@@ -28,7 +28,7 @@ namespace WampSharp.Core.Proxy
         public WampMessage<TMessage> SerializeRequest(MethodInfo method, object[] arguments)
         {
             WampHandlerAttribute attribute = 
-                method.GetCustomAttribute<WampHandlerAttribute>();
+                method.GetCustomAttribute<WampHandlerAttribute>(true);
 
             WampMessageType messageType = attribute.MessageType;
 
@@ -45,13 +45,13 @@ namespace WampSharp.Core.Proxy
                                                 parameterInfo,
                                                 argument
                                             })
-                                   .Where(x => !x.parameterInfo.IsDefined(typeof(WampProxyParameterAttribute)));
+                                   .Where(x => !x.parameterInfo.IsDefined(typeof(WampProxyParameterAttribute), true));
 
             List<TMessage> messageArguments = new List<TMessage>();
 
             foreach (var parameter in parameters)
             {
-                if (!parameter.parameterInfo.IsDefined(typeof (ParamArrayAttribute)))
+                if (!parameter.parameterInfo.IsDefined(typeof(ParamArrayAttribute), true))
                 {
                     TMessage serialized = mFormatter.Serialize(parameter.argument);
                     messageArguments.Add(serialized);

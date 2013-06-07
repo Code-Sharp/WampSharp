@@ -38,14 +38,14 @@ namespace WampSharp.Core.Dispatch.Handler
 
             if (parameters.Length > 0)
             {
-                if (parameters[0].IsDefined(typeof(WampProxyParameterAttribute)))
+                if (parameters[0].IsDefined(typeof(WampProxyParameterAttribute), true))
                 {
                     mHasWampClientArgument = true;
                 }
 
                 ParameterInfo lastParameter = parameters.Last();
 
-                if (lastParameter.IsDefined(typeof (ParamArrayAttribute)))
+                if (lastParameter.IsDefined(typeof(ParamArrayAttribute), true))
                 {
                     mHasParamsArgument = true;
                 }

@@ -23,7 +23,7 @@ namespace WampSharp.Core.Proxy
 
         public IInterceptor[] SelectInterceptors(Type type, MethodInfo method, IInterceptor[] interceptors)
         {
-            if (method.IsDefined(typeof (WampHandlerAttribute)))
+            if (method.IsDefined(typeof (WampHandlerAttribute), true))
             {
                 return new IInterceptor[] {mInterceptor};
             }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
+using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 
 namespace WampSharp.Core.Dispatch.Handler
@@ -123,7 +124,7 @@ namespace WampSharp.Core.Dispatch.Handler
         private bool CanBind(WampMethodInfo wampMethodInfo, TMessage[] arguments)
         {
             return wampMethodInfo.Method.GetParameters()
-                                 .Where(x => !x.IsDefined(typeof(WampProxyParameterAttribute)))
+                                 .Where(x => !x.IsDefined(typeof(WampProxyParameterAttribute), true))
                                  .Zip(arguments, (parameterInfo, argument) => new {parameterInfo, argument})
                                  .All(x => mFormatter.CanConvert(x.argument, x.parameterInfo.ParameterType));
         }

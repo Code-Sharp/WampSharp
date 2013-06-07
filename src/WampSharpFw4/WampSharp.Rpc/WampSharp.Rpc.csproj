@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C3290246-2E64-4E58-96B2-65E11FE16B3D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WampSharp.Rpc</RootNamespace>
+    <AssemblyName>WampSharp.Rpc</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.Core.3.2.0\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net40\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net40\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net40\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\WampSharp.Rpc\Client\Dynamic\DynamicWampRpcClient.cs">
+      <Link>Client\Dynamic\DynamicWampRpcClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\IWampRpcClientHandlerBuilder.cs">
+      <Link>Client\IWampRpcClientHandlerBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\TaskExtensions.cs">
+      <Link>Client\TaskExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\WampRpcCallException.cs">
+      <Link>WampRpcCallException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampRpcClientAsyncInterceptor.cs">
+      <Link>Client\WampRpcClientAsyncInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampRpcClientInterceptorSelector.cs">
+      <Link>Client\WampRpcClientInterceptorSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampRpcClientInterceptor.cs">
+      <Link>Client\WampRpcClientInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\Dynamic\WampRpcMethodInfo.cs">
+      <Link>Client\Dynamic\WampRpcMethodInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampDelegateProcUriMapper.cs">
+      <Link>Client\WampDelegateProcUriMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\IWampProcUriMapper.cs">
+      <Link>Client\IWampProcUriMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\IWampRpcClientFactory.cs">
+      <Link>Client\IWampRpcClientFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\IWampRpcClientHandler.cs">
+      <Link>Client\IWampRpcClientHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\IWampRpcSerializer.cs">
+      <Link>Client\IWampRpcSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\IWampServerProxyFactory.cs">
+      <Link>Client\IWampServerProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Server\IWampRpcMetadataCatalog.cs">
+      <Link>Server\IWampRpcMetadataCatalog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampRpcCall.cs">
+      <Link>Client\WampRpcCall.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampRpcClientFactory.cs">
+      <Link>Client\WampRpcClientFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampRpcClientHandler.cs">
+      <Link>Client\WampRpcClientHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampRpcClientHandlerBuilder.cs">
+      <Link>Client\WampRpcClientHandlerBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampRpcClientSyncInterceptor.cs">
+      <Link>Client\WampRpcClientSyncInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampRpcRequest.cs">
+      <Link>Client\WampRpcRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampRpcSerializer.cs">
+      <Link>Client\WampRpcSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampServerProxyFactory.cs">
+      <Link>Client\WampServerProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Server\IWampRpcMetadata.cs">
+      <Link>Server\IWampRpcMetadata.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Server\IWampRpcMethod.cs">
+      <Link>Server\IWampRpcMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Server\IWampRpcTypeMetadataProvider.cs">
+      <Link>Server\IWampRpcTypeMetadataProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Server\MethodInfoWampRpcMetadata.cs">
+      <Link>Server\MethodInfoWampRpcMetadata.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Server\MethodInfoWampRpcMethod.cs">
+      <Link>Server\MethodInfoWampRpcMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Server\ProcUriAlreadyMappedException.cs">
+      <Link>Server\ProcUriAlreadyMappedException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Server\WampRpcMethodAttribute.cs">
+      <Link>Server\WampRpcMethodAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Server\WampRpcServer.cs">
+      <Link>Server\WampRpcServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Server\WampRpcMetadataCatalog.cs">
+      <Link>Server\WampRpcMetadataCatalog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Server\WampRpcTypeMetadataProvider.cs">
+      <Link>Server\WampRpcTypeMetadataProvider.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WampSharp.Core\WampSharp.Core.csproj">
+      <Project>{BB845F45-0D5F-4A41-9FC5-6C3FE73BEC28}</Project>
+      <Name>WampSharp.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
