@@ -70,6 +70,9 @@
     <Compile Include="..\..\WampSharp.Rpc\Client\TaskExtensions.cs">
       <Link>Client\TaskExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Rpc\Client\WampRpcMethodAttributeProcUriMapper.cs">
+      <Link>Client\WampRpcMethodAttributeProcUriMapper.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Rpc\WampRpcCallException.cs">
       <Link>WampRpcCallException.cs</Link>
     </Compile>
@@ -151,8 +154,8 @@
     <Compile Include="..\..\WampSharp.Rpc\Server\ProcUriAlreadyMappedException.cs">
       <Link>Server\ProcUriAlreadyMappedException.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.Rpc\Server\WampRpcMethodAttribute.cs">
-      <Link>Server\WampRpcMethodAttribute.cs</Link>
+    <Compile Include="..\..\WampSharp.Rpc\WampRpcMethodAttribute.cs">
+      <Link>WampRpcMethodAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Rpc\Server\WampRpcServer.cs">
       <Link>Server\WampRpcServer.cs</Link>

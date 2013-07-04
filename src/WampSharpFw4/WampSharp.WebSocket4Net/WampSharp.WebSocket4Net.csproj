@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F9E037CC-C8CE-48EF-B2C3-25C2AF1BEECD}</ProjectGuid>
+    <ProjectGuid>{7D8B80FF-C0AA-41D3-A698-57BB419DE30D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WampSharp.PubSub</RootNamespace>
-    <AssemblyName>WampSharp.PubSub</AssemblyName>
+    <RootNamespace>WampSharp.WebSocket4Net</RootNamespace>
+    <AssemblyName>WampSharp.WebSocket4Net</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -20,10 +19,9 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET40</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,7 +30,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -51,40 +48,16 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebSocket4Net">
+      <HintPath>..\packages\WebSocket4Net.0.8\lib\net40\WebSocket4Net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\WampSharp.PubSub\Client\IWampPubSubClientFactory.cs">
-      <Link>Client\IWampPubSubClientFactory.cs</Link>
+    <Compile Include="..\..\WampSharp.WebSocket4Net\WebSocket4NetConnection.cs">
+      <Link>WebSocket4NetConnection.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.PubSub\Client\IWampServerProxyFactory.cs">
-      <Link>Client\IWampServerProxyFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.PubSub\Properties\AssemblyInfo.cs">
+    <Compile Include="..\..\WampSharp.WebSocket4Net\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.PubSub\Client\WampPubSubClientFactory.cs">
-      <Link>Client\WampPubSubClientFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.PubSub\Client\WampPubSubSubject.cs">
-      <Link>Client\WampPubSubSubject.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.PubSub\Client\WampServerProxyFactory.cs">
-      <Link>Client\WampServerProxyFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.PubSub\Server\WampNotification.cs">
-      <Link>Server\WampNotification.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.PubSub\Server\WampObserver.cs">
-      <Link>Server\WampObserver.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.PubSub\Server\WampPubSubServer.cs">
-      <Link>Server\WampPubSubServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.PubSub\Server\WampTopic.cs">
-      <Link>Server\WampTopic.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.PubSub\Server\WampTopicContainer.cs">
-      <Link>Server\WampTopicContainer.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

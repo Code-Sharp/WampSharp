@@ -11,6 +11,8 @@
     <AssemblyName>WampSharp.Api</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +39,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Interfaces, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net40\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,20 +50,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\WampSharp.Api\DefaultWampServer.cs">
-      <Link>DefaultWampServer.cs</Link>
+    <Compile Include="..\..\WampSharp.Api\Client\IWampChannel.cs">
+      <Link>Client\IWampChannel.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.Api\IWampHost.cs">
-      <Link>IWampHost.cs</Link>
+    <Compile Include="..\..\WampSharp.Api\Client\IWampChannelFactory.cs">
+      <Link>Client\IWampChannelFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Api\Client\WampChannel.cs">
+      <Link>Client\WampChannel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Api\Client\WampChannelFactory.cs">
+      <Link>Client\WampChannelFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Api\Client\WampChannelFactoryExtensions.cs">
+      <Link>Client\WampChannelFactoryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Api\Server\DefaultWampServer.cs">
+      <Link>Server\DefaultWampServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Api\Server\IWampHost.cs">
+      <Link>Server\IWampHost.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Api\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.Api\Sandbox.cs">
-      <Link>Sandbox.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.Api\WampHost.cs">
-      <Link>WampHost.cs</Link>
+    <Compile Include="..\..\WampSharp.Api\Server\WampHost.cs">
+      <Link>Server\WampHost.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -69,15 +87,24 @@
       <Project>{B4A77C12-8430-4852-BCB9-ACFD5F30A1E4}</Project>
       <Name>WampSharp.Fleck</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WampSharp.PubSub\WampSharp.PubSub.csproj">
+      <Project>{F9E037CC-C8CE-48EF-B2C3-25C2AF1BEECD}</Project>
+      <Name>WampSharp.PubSub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WampSharp.Rpc\WampSharp.Rpc.csproj">
       <Project>{C3290246-2E64-4E58-96B2-65E11FE16B3D}</Project>
       <Name>WampSharp.Rpc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.csproj">
+      <Project>{7D8B80FF-C0AA-41D3-A698-57BB419DE30D}</Project>
+      <Name>WampSharp.WebSocket4Net</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
