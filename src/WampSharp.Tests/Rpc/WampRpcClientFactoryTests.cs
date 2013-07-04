@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using WampSharp.Rpc;
+using WampSharp.Tests.TestHelpers;
 
 namespace WampSharp.Tests.Rpc
 {
@@ -14,10 +15,10 @@ namespace WampSharp.Tests.Rpc
             IWampRpcSerializer serializer = new WampRpcSerializer(delegateProcUriMapper); // I'm not sure if we want to mock this
             var clientHandler = new MockWampRpcClientHandler(4);
 
-            var mockWampRpcClientHandlerBuilder = new MockWampRpcClientHandlerBuilder(clientHandler);
-            IWampRpcClientFactory clientFactory = new WampRpcClientFactory(serializer, mockWampRpcClientHandlerBuilder);
+            var mockWampRpcClientHandlerBuilder = new MockWampRpcClientHandlerBuilder<MockRaw>(clientHandler);
+            IWampRpcClientFactory<MockRaw> clientFactory = new WampRpcClientFactory<MockRaw>(serializer, mockWampRpcClientHandlerBuilder);
 
-            ICalculator proxy = clientFactory.GetClient<ICalculator>();
+            ICalculator proxy = clientFactory.GetClient<ICalculator>(DummyConnection<MockRaw>.Instance);
             int nine = proxy.Square(3);
 
             WampRpcCall<object> wampRpcCall = clientHandler.LastMessage;

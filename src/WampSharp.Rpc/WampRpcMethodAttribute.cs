@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WampSharp.Rpc.Server
+namespace WampSharp.Rpc
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public sealed class WampRpcMethodAttribute : Attribute

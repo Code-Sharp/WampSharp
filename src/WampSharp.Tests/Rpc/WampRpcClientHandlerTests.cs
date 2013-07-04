@@ -161,6 +161,7 @@ namespace WampSharp.Tests.Rpc
         private static WampRpcClientHandler<MockRaw> GetHandler(Func<IWampRpcClient<MockRaw>, IWampServer> serverFactory)
         {
             return new WampRpcClientHandler<MockRaw>(new MockWampRpcServerProxyFactory<MockRaw>(serverFactory),
+                                                     DummyConnection<MockRaw>.Instance,
                                                      new MockRawFormatter());
         }
     }

@@ -2,6 +2,7 @@
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using WampSharp.Core.Contracts.V1;
+using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 
 namespace WampSharp.PubSub.Client
@@ -15,11 +16,11 @@ namespace WampSharp.PubSub.Client
         private readonly IWampServer mServerProxy;
         private bool mSubscribed;
 
-        public WampPubSubSubject(string topicUri, IWampFormatter<TMessage> formatter, IWampServerProxyFactory<TMessage> serverProxyFactory)
+        public WampPubSubSubject(string topicUri, IWampServerProxyFactory<TMessage> serverProxyFactory, IWampConnection<TMessage> connection, IWampFormatter<TMessage> formatter)
         {
             mTopicUri = topicUri;
             mFormatter = formatter;
-            mServerProxy = serverProxyFactory.Create(new WampPubSubClient(this));
+            mServerProxy = serverProxyFactory.Create(new WampPubSubClient(this), connection);
         }
 
         public void OnNext(TEvent value)
@@ -78,7 +79,7 @@ namespace WampSharp.PubSub.Client
             mSubject.OnNext(deserialized);
         }
 
-        private class WampPubSubClient : IWampPubSubClient<TMessage>
+        private class WampPubSubClient : IWampPubSubClient<TMessage>, IWampAuxiliaryClient
         {
             private readonly WampPubSubSubject<TMessage, TEvent> mParent;
 
@@ -93,6 +94,17 @@ namespace WampSharp.PubSub.Client
                 {
                     mParent.EventArrived(@event);
                 }
+            }
+
+            public void Welcome(string sessionId, int protocolVersion, string serverIdent)
+            {
+                this.SessionId = sessionId;
+            }
+
+            public string SessionId
+            {
+                get; 
+                private set;
             }
         }
     }

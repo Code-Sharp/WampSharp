@@ -63,6 +63,7 @@
     <Compile Include="Client\IWampServerProxyBuilder.cs" />
     <Compile Include="Client\IWampServerProxyOutgoingMessageHandlerBuilder.cs" />
     <Compile Include="Client\WampServerProxyBuilder.cs" />
+    <Compile Include="Client\WampServerProxyConnection.cs" />
     <Compile Include="Client\WampServerProxyHandler.cs" />
     <Compile Include="Client\WampServerProxyIncomingMessageHandlerBuilder.cs" />
     <Compile Include="Client\WampServerProxyOutgoingMessageHandlerBuilder.cs" />

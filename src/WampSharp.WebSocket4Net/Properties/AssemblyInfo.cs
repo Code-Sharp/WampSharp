@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WampSharp.RpcSample")]
+[assembly: AssemblyTitle("WampSharp.WebSocket4Net")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Wamp.RpcSample")]
+[assembly: AssemblyProduct("WampSharp.WebSocket4Net")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e3bac027-2f15-4b20-bb8c-7f6db881f31f")]
+[assembly: Guid("daae1999-e57e-4366-8845-775368e10006")]
 
 // Version information for an assembly consists of the following four values:
 //

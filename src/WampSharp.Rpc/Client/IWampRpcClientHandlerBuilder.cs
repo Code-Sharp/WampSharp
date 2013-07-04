@@ -1,7 +1,9 @@
-﻿namespace WampSharp.Rpc
+﻿using WampSharp.Core.Listener;
+
+namespace WampSharp.Rpc
 {
-    public interface IWampRpcClientHandlerBuilder
+    public interface IWampRpcClientHandlerBuilder<TMessage>
     {
-        IWampRpcClientHandler Build();
+        IWampRpcClientHandler Build(IWampConnection<TMessage> connection);
     }
 }

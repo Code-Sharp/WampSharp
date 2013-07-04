@@ -7,8 +7,8 @@
     <ProjectGuid>{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WampSharp.RpcSample</RootNamespace>
-    <AssemblyName>WampSharp.RpcSample</AssemblyName>
+    <RootNamespace>WampSharp.RpcServerSample</RootNamespace>
+    <AssemblyName>WampSharp.RpcServerSample</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

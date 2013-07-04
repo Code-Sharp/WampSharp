@@ -1,23 +1,24 @@
 ﻿using Castle.DynamicProxy;
+using WampSharp.Core.Listener;
 using WampSharp.Rpc.Dynamic;
 
 namespace WampSharp.Rpc
 {
-    public class WampRpcClientFactory : IWampRpcClientFactory
+    public class WampRpcClientFactory<TMessage> : IWampRpcClientFactory<TMessage>
     {
         private readonly ProxyGenerator mProxyGenerator = new ProxyGenerator();
         private readonly IWampRpcSerializer mSerializer;
-        private readonly IWampRpcClientHandlerBuilder mClientHandlerBuilder;
+        private readonly IWampRpcClientHandlerBuilder<TMessage> mClientHandlerBuilder;
 
-        public WampRpcClientFactory(IWampRpcSerializer serializer, IWampRpcClientHandlerBuilder clientHandlerBuilder)
+        public WampRpcClientFactory(IWampRpcSerializer serializer, IWampRpcClientHandlerBuilder<TMessage> clientHandlerBuilder)
         {
             mSerializer = serializer;
             mClientHandlerBuilder = clientHandlerBuilder;
         }
 
-        public TProxy GetClient<TProxy>() where TProxy : class
+        public TProxy GetClient<TProxy>(IWampConnection<TMessage> connection) where TProxy : class
         {
-            IWampRpcClientHandler handler = mClientHandlerBuilder.Build();
+            IWampRpcClientHandler handler = mClientHandlerBuilder.Build(connection);
 
             WampRpcClientSyncInterceptor syncInterceptor =
                 new WampRpcClientSyncInterceptor(mSerializer, handler);
@@ -37,9 +38,9 @@ namespace WampSharp.Rpc
             return result;
         }
 
-        public dynamic GetDynamicClient()
+        public dynamic GetDynamicClient(IWampConnection<TMessage> connection)
         {
-            IWampRpcClientHandler handler = mClientHandlerBuilder.Build();
+            IWampRpcClientHandler handler = mClientHandlerBuilder.Build(connection);
 
             DynamicWampRpcClient client = new DynamicWampRpcClient(handler, mSerializer);
 

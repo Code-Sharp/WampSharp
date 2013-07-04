@@ -93,16 +93,15 @@ namespace WampSharp.Tests
 
             MockConnection<JToken> connection = new MockConnection<JToken>();
 
-            WampRpcClientFactory factory =
-                new WampRpcClientFactory(new WampRpcSerializer(new WampDelegateProcUriMapper(x => x.Name)),
+            WampRpcClientFactory<JToken> factory =
+                new WampRpcClientFactory<JToken>(new WampRpcSerializer(new WampDelegateProcUriMapper(x => x.Name)),
                     new WampRpcClientHandlerBuilder<JToken>(mFormatter,
-                        new WampServerProxyFactory<JToken>(connection.SideAToSideB,
-                            new WampServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                        new WampServerProxyFactory<JToken>(new WampServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
                                 new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(mFormatter))))));
 
             listener.Start();
 
-            ICalculator calculator = factory.GetClient<ICalculator>();
+            ICalculator calculator = factory.GetClient<ICalculator>(connection.SideAToSideB);
 
             mockListener.OnNext(connection.SideBToSideA);
 
@@ -149,16 +148,15 @@ namespace WampSharp.Tests
 
             MockConnection<JToken> connection = new MockConnection<JToken>();
 
-            WampRpcClientFactory factory =
-                new WampRpcClientFactory(new WampRpcSerializer(new WampDelegateProcUriMapper(x => "http://www.yogev.com/pr/" + x.Name)),
+            WampRpcClientFactory<JToken> factory =
+                new WampRpcClientFactory<JToken>(new WampRpcSerializer(new WampDelegateProcUriMapper(x => "http://www.yogev.com/pr/" + x.Name)),
                     new WampRpcClientHandlerBuilder<JToken>(mFormatter,
-                        new WampServerProxyFactory<JToken>(connection.SideAToSideB,
-                            new WampServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                        new WampServerProxyFactory<JToken>(new WampServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
                                 new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(mFormatter))))));
 
             listener.Start();
 
-            IAddCalculator calculator = factory.GetClient<IAddCalculator>();
+            IAddCalculator calculator = factory.GetClient<IAddCalculator>(connection.SideAToSideB);
 
             mockListener.OnNext(connection.SideBToSideA);
 

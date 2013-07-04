@@ -8,7 +8,6 @@ namespace WampSharp.Rpc.Server
     {
         private readonly object mInstance;
 
-
         public MethodInfoWampRpcMetadata(object instance)
         {
             mInstance = instance;

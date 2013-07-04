@@ -1,11 +1,12 @@
 ﻿using System;
 using WampSharp.Core.Contracts.V1;
+using WampSharp.Core.Listener;
 using WampSharp.PubSub.Client;
 using WampSharp.Tests.TestHelpers;
 
 namespace WampSharp.Tests.PubSub.Helpers
 {
-    public class MockWampPubSubServerProxyFactory<T> : IWampServerProxyFactory<MockRaw>
+    public class MockWampPubSubServerProxyFactory : IWampServerProxyFactory<MockRaw>
     {
         private readonly Func<IWampPubSubClient<MockRaw>, IWampServer> mFactory;
 
@@ -14,7 +15,7 @@ namespace WampSharp.Tests.PubSub.Helpers
             mFactory = factory;
         }
 
-        public IWampServer Create(IWampPubSubClient<MockRaw> client)
+        public IWampServer Create(IWampPubSubClient<MockRaw> client, IWampConnection<MockRaw> connection)
         {
             return mFactory(client);
         }

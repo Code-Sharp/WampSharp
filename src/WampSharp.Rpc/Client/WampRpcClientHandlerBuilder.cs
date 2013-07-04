@@ -1,8 +1,9 @@
-﻿using WampSharp.Core.Serialization;
+﻿using WampSharp.Core.Listener;
+using WampSharp.Core.Serialization;
 
 namespace WampSharp.Rpc
 {
-    public class WampRpcClientHandlerBuilder<TMessage> : IWampRpcClientHandlerBuilder
+    public class WampRpcClientHandlerBuilder<TMessage> : IWampRpcClientHandlerBuilder<TMessage>
     {
         private readonly IWampServerProxyFactory<TMessage> mServerProxyFactory;
         private readonly IWampFormatter<TMessage> mFormatter;
@@ -13,9 +14,9 @@ namespace WampSharp.Rpc
             mServerProxyFactory = serverProxyFactory;
         }
 
-        public IWampRpcClientHandler Build()
+        public IWampRpcClientHandler Build(IWampConnection<TMessage> connection)
         {
-            return new WampRpcClientHandler<TMessage>(mServerProxyFactory, mFormatter);
+            return new WampRpcClientHandler<TMessage>(mServerProxyFactory, connection, mFormatter);
         }
     }
 }

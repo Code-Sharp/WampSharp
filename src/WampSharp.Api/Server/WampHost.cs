@@ -22,7 +22,6 @@ namespace WampSharp.Api
 
     public class WampHost<TMessage> : IWampHost
     {
-        private readonly IWampFormatter<TMessage> mFormatter;
         private readonly IWampServer<TMessage> mServer;
         private WampListener<TMessage> mListener;
         private readonly WampRpcMetadataCatalog mMetadataCatalog;
@@ -36,8 +35,6 @@ namespace WampSharp.Api
 
         public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
         {
-            mFormatter = formatter;
-
             mMetadataCatalog = new WampRpcMetadataCatalog();
 
             WampRpcServer<TMessage> rpcServer = new WampRpcServer<TMessage>(formatter, mMetadataCatalog);

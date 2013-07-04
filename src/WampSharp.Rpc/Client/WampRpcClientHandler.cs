@@ -5,6 +5,7 @@ using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using WampSharp.Core.Contracts.V1;
+using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 
 namespace WampSharp.Rpc
@@ -18,10 +19,10 @@ namespace WampSharp.Rpc
 
         private readonly IWampFormatter<TMessage> mFormatter;
 
-        public WampRpcClientHandler(IWampServerProxyFactory<TMessage> serverProxyFactory, IWampFormatter<TMessage> formatter)
+        public WampRpcClientHandler(IWampServerProxyFactory<TMessage> serverProxyFactory, IWampConnection<TMessage> connection, IWampFormatter<TMessage> formatter)
         {
             mFormatter = formatter;
-            mServerProxy = serverProxyFactory.Create(new RpcWampClient(this));
+            mServerProxy = serverProxyFactory.Create(new RpcWampClient(this), connection);
         }
 
         public object Handle(WampRpcCall<object> rpcCall)

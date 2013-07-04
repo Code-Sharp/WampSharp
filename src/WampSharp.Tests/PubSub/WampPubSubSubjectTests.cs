@@ -21,7 +21,7 @@ namespace WampSharp.Tests.PubSub
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri, DummyConnection<MockRaw>.Instance);
 
             Assert.That(requestManager.Subscriptions, Is.Empty);
             Assert.That(requestManager.SubscriptionRemovals, Is.Empty);
@@ -36,7 +36,7 @@ namespace WampSharp.Tests.PubSub
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri, DummyConnection<MockRaw>.Instance);
 
             IDisposable cancelation = subject.Subscribe(x => { });
 
@@ -58,7 +58,7 @@ namespace WampSharp.Tests.PubSub
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri, DummyConnection<MockRaw>.Instance);
 
             IDisposable cancelation = subject.Subscribe(x => { });
             IDisposable cancelation2 = subject.Subscribe(x => { });
@@ -76,7 +76,7 @@ namespace WampSharp.Tests.PubSub
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri, DummyConnection<MockRaw>.Instance);
 
             IDisposable cancelation = subject.Subscribe(x => { });
             IDisposable cancelation2 = subject.Subscribe(x => { });
@@ -96,7 +96,7 @@ namespace WampSharp.Tests.PubSub
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri, DummyConnection<MockRaw>.Instance);
 
             IDisposable cancelation = subject.Subscribe(x => { });
             IDisposable cancelation2 = subject.Subscribe(x => { });
@@ -122,7 +122,7 @@ namespace WampSharp.Tests.PubSub
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri, DummyConnection<MockRaw>.Instance);
 
             List<object> events = new List<object>();
             IDisposable cancelation = subject.Subscribe(x => events.Add(x));
@@ -144,7 +144,7 @@ namespace WampSharp.Tests.PubSub
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri, DummyConnection<MockRaw>.Instance);
 
             IDisposable cancelation = subject.Subscribe(x => { });
 
@@ -168,7 +168,7 @@ namespace WampSharp.Tests.PubSub
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri, DummyConnection<MockRaw>.Instance);
 
             bool onCompleted = false;
             IDisposable cancelation = subject.Subscribe(x => { }, () => onCompleted = true);
@@ -186,7 +186,7 @@ namespace WampSharp.Tests.PubSub
 
             WampPubSubClientFactory<MockRaw> clientFactory = GetClientFactory(requestManager);
 
-            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri);
+            ISubject<object> subject = clientFactory.GetSubject<object>(topicUri, DummyConnection<MockRaw>.Instance);
 
             bool onCompleted = false;
             IDisposable cancelation = subject.Subscribe(x => { });
@@ -204,9 +204,10 @@ namespace WampSharp.Tests.PubSub
         {
             WampPubSubClientFactory<MockRaw> clientFactory =
                 new WampPubSubClientFactory<MockRaw>
-                    (new MockWampPubSubServerProxyFactory<MockRaw>
+                    (new MockWampPubSubServerProxyFactory
                          (client => requestManager.GetServer(client)),
                      new MockRawFormatter());
+
             return clientFactory;
         }
     }

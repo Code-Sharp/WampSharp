@@ -64,6 +64,7 @@
     <Compile Include="Client\Dynamic\DynamicWampRpcClient.cs" />
     <Compile Include="Client\IWampRpcClientHandlerBuilder.cs" />
     <Compile Include="Client\TaskExtensions.cs" />
+    <Compile Include="Client\WampRpcMethodAttributeProcUriMapper.cs" />
     <Compile Include="WampRpcCallException.cs" />
     <Compile Include="Client\WampRpcClientAsyncInterceptor.cs" />
     <Compile Include="Client\WampRpcClientInterceptorSelector.cs" />
@@ -91,7 +92,7 @@
     <Compile Include="Server\MethodInfoWampRpcMetadata.cs" />
     <Compile Include="Server\MethodInfoWampRpcMethod.cs" />
     <Compile Include="Server\ProcUriAlreadyMappedException.cs" />
-    <Compile Include="Server\WampRpcMethodAttribute.cs" />
+    <Compile Include="WampRpcMethodAttribute.cs" />
     <Compile Include="Server\WampRpcServer.cs" />
     <Compile Include="Server\WampRpcMetadataCatalog.cs" />
     <Compile Include="Server\WampRpcTypeMetadataProvider.cs" />

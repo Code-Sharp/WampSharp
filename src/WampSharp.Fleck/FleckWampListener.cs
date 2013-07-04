@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using Fleck;
@@ -14,6 +15,7 @@ namespace WampSharp.Fleck
         private readonly Subject<IWampConnection<TMessage>> mSubject =
             new Subject<IWampConnection<TMessage>>();
 
+        private readonly Subject<Unit> mShutdown = new Subject<Unit>(); 
         private IWebSocketServer mServer;
         private readonly string mLocation;
         private readonly IWampMessageParser<TMessage> mParser;
@@ -47,6 +49,7 @@ namespace WampSharp.Fleck
                 if (!mSubject.HasObservers)
                 {
                     mServer.Dispose();
+                    mShutdown.OnNext(Unit.Default);
                     mServer = null;
                 }
             }
@@ -61,7 +64,8 @@ namespace WampSharp.Fleck
                     {
                         FleckWampConnection<TMessage> wampConnection =
                             new FleckWampConnection<TMessage>(connection,
-                                                              mParser);
+                                                              mParser,
+                                                              mShutdown);
 
                         connection.OnOpen =
                             () => OnNewConnection(wampConnection);
@@ -73,7 +77,6 @@ namespace WampSharp.Fleck
                                   {"wamp", defaultInitializer}
                               });
         }
-
 
         private void OnNewConnection(FleckWampConnection<TMessage> wampConnection)
         {
@@ -89,15 +92,18 @@ namespace WampSharp.Fleck
             private readonly IWampMessageParser<TMessage> mMessageParser;
             private readonly object mLock = new object();
             private bool mClosed = false;
+            private readonly IDisposable mShutdownSubscrition;
 
-            public FleckWampConnection(IWebSocketConnection webSocketConnection,
-                                       IWampMessageParser<TMessage> messageParser)
+            public FleckWampConnection(IWebSocketConnection webSocketConnection, IWampMessageParser<TMessage> messageParser, IObservable<Unit> shutdown)
             {
                 mWebSocketConnection = webSocketConnection;
                 mMessageParser = messageParser;
                 mWebSocketConnection.OnMessage = OnConnectionMessage;
                 mWebSocketConnection.OnError = OnConnectionError;
                 mWebSocketConnection.OnClose = OnConnectionClose;
+
+                mShutdownSubscrition = shutdown.Subscribe
+                    (x => OnCompleted());
             }
 
             private void OnConnectionError(Exception exception)
@@ -143,6 +149,7 @@ namespace WampSharp.Fleck
             public void OnCompleted()
             {
                 mWebSocketConnection.Close();
+                mShutdownSubscrition.Dispose();
             }
 
             public IDisposable Subscribe(IObserver<WampMessage<TMessage>> observer)

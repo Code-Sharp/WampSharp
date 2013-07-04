@@ -14,6 +14,7 @@ using WampSharp.Core.Proxy;
 using WampSharp.Rpc;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
+using WampSharp.Tests.TestHelpers;
 
 namespace WampSharp.Tests
 {
@@ -51,9 +52,9 @@ namespace WampSharp.Tests
                 (new JsonFormatter(),
                  mockWampServerProxyFactory);
 
-            IWampRpcClientFactory clientFactory = new WampRpcClientFactory(serializer, mockWampRpcClientHandlerBuilder);
+            IWampRpcClientFactory<JToken> clientFactory = new WampRpcClientFactory<JToken>(serializer, mockWampRpcClientHandlerBuilder);
 
-            ICalculator proxy = clientFactory.GetClient<ICalculator>();
+            ICalculator proxy = clientFactory.GetClient<ICalculator>(DummyConnection<JToken>.Instance);
             int three = proxy.Square(3);
 
             Assert.That(three, Is.EqualTo(3));
@@ -120,7 +121,7 @@ namespace WampSharp.Tests
             }
         }
 
-        public IWampServer Create(IWampRpcClient<TMessage> client)
+        public IWampServer Create(IWampRpcClient<TMessage> client, IWampConnection<TMessage> connection)
         {
             mClient = client;
             return mServer;
@@ -158,7 +159,7 @@ namespace WampSharp.Tests
         }
     }
 
-    class MockWampRpcClientHandlerBuilder : IWampRpcClientHandlerBuilder
+    class MockWampRpcClientHandlerBuilder<TMessage> : IWampRpcClientHandlerBuilder<TMessage>
     {
         private readonly MockWampRpcClientHandler mHandler;
 
@@ -167,7 +168,7 @@ namespace WampSharp.Tests
             mHandler = handler;
         }
 
-        public IWampRpcClientHandler Build()
+        public IWampRpcClientHandler Build(IWampConnection<TMessage> connection)
         {
             return mHandler;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using WampSharp.Core.Contracts.V1;
+using WampSharp.Core.Listener;
 using WampSharp.Rpc;
 
 namespace WampSharp.Tests.Rpc.Helpers
@@ -13,7 +14,7 @@ namespace WampSharp.Tests.Rpc.Helpers
             mServerFactory = serverFactory;
         }
 
-        public IWampServer Create(IWampRpcClient<TMessage> client)
+        public IWampServer Create(IWampRpcClient<TMessage> client, IWampConnection<TMessage> connection)
         {
             return mServerFactory(client);
         }
