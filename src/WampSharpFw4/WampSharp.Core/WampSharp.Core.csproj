@@ -150,6 +150,9 @@
     <Compile Include="..\..\WampSharp.Core\Listener\ClientBuilder\WampOutgoingMessageHandler.cs">
       <Link>Listener\ClientBuilder\WampOutgoingMessageHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Core\Listener\Connections\IControlledWampConnection.cs">
+      <Link>Listener\Connections\IControlledWampConnection.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Core\Listener\Connections\IWampConnectionMonitor.cs">
       <Link>Listener\Connections\IWampConnectionMonitor.cs</Link>
     </Compile>

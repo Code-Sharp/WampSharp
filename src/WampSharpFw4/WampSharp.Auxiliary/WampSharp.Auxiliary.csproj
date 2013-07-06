@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2128E477-97B6-4224-A8A9-789F79514B41}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{1C0C383C-A7B4-4C18-A6AC-159D38BFF248}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WampSharp.RpcClientSample</RootNamespace>
-    <AssemblyName>WampSharp.RpcClientSample</AssemblyName>
+    <RootNamespace>WampSharp.Auxiliary</RootNamespace>
+    <AssemblyName>WampSharp.Auxiliary</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,17 +31,20 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.5.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net40\System.Reactive.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\..\packages\Rx-Interfaces.2.1.30214.0\lib\Net40\System.Reactive.Interfaces.dll</HintPath>
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net40\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net40\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\Net40\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,25 +53,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\Samples\WampSharp.RpcClientSample\Program.cs">
-      <Link>Program.cs</Link>
+    <Compile Include="..\..\WampSharp.Auxiliary\Client\IWampAuxiliaryClientFactory.cs">
+      <Link>Client\IWampAuxiliaryClientFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Samples\WampSharp.RpcClientSample\Properties\AssemblyInfo.cs">
+    <Compile Include="..\..\WampSharp.Auxiliary\Client\IWampClientConnectionMonitor.cs">
+      <Link>Client\IWampClientConnectionMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Auxiliary\Client\WampClientConnectionMonitor.cs">
+      <Link>Client\WampClientConnectionMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Auxiliary\Client\WampConnectionEstablishedEventArgs.cs">
+      <Link>Client\WampConnectionEstablishedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Auxiliary\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Auxiliary\Server\WampAuxileryServer.cs">
+      <Link>Server\WampAuxileryServer.cs</Link>
+    </Compile>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\WampSharp.Api\WampSharp.Api.csproj">
-      <Project>{9634E498-9111-4A76-A25B-B01A07160D94}</Project>
-      <Name>WampSharp.Api</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.Core\WampSharp.Core.csproj">
-      <Project>{bb845f45-0d5f-4a41-9fc5-6c3fe73bec28}</Project>
+    <ProjectReference Include="..\WampSharp.Core\WampSharp.Core.csproj">
+      <Project>{BB845F45-0D5F-4A41-9FC5-6C3FE73BEC28}</Project>
       <Name>WampSharp.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.Rpc\WampSharp.Rpc.csproj">
-      <Project>{C3290246-2E64-4E58-96B2-65E11FE16B3D}</Project>
-      <Name>WampSharp.Rpc</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
