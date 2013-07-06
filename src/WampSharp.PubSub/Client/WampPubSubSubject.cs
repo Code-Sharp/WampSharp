@@ -79,7 +79,7 @@ namespace WampSharp.PubSub.Client
             mSubject.OnNext(deserialized);
         }
 
-        private class WampPubSubClient : IWampPubSubClient<TMessage>, IWampAuxiliaryClient
+        private class WampPubSubClient : IWampPubSubClient<TMessage>
         {
             private readonly WampPubSubSubject<TMessage, TEvent> mParent;
 
@@ -94,17 +94,6 @@ namespace WampSharp.PubSub.Client
                 {
                     mParent.EventArrived(@event);
                 }
-            }
-
-            public void Welcome(string sessionId, int protocolVersion, string serverIdent)
-            {
-                this.SessionId = sessionId;
-            }
-
-            public string SessionId
-            {
-                get; 
-                private set;
             }
         }
     }

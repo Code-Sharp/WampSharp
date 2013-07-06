@@ -90,19 +90,13 @@ namespace WampSharp.Rpc
             }
         }
 
-        private class RpcWampClient : IWampAuxiliaryClient, IWampRpcClient<TMessage>
+        private class RpcWampClient : IWampRpcClient<TMessage>
         {
             private readonly WampRpcClientHandler<TMessage> mParent;
-            private string mSessionId;
 
             public RpcWampClient(WampRpcClientHandler<TMessage> parent)
             {
                 mParent = parent;
-            }
-
-            public void Welcome(string sessionId, int protocolVersion, string serverIdent)
-            {
-                mSessionId = sessionId;
             }
 
             public void CallResult(string callId, TMessage result)
@@ -118,14 +112,6 @@ namespace WampSharp.Rpc
             public void CallError(string callId, string errorUri, string errorDesc, TMessage errorDetails)
             {
                 mParent.ErrorArrived(callId, errorUri, errorDesc, errorDetails);
-            }
-
-            public string SessionId
-            {
-                get
-                {
-                    return mSessionId;
-                }
             }
         }
     }

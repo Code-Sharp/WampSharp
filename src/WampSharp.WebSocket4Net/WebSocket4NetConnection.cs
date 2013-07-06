@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Reactive.Disposables;
 using System.Reactive.Subjects;
-using System.Threading;
 using SuperSocket.ClientEngine;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
@@ -20,8 +18,6 @@ namespace WampSharp.WebSocket4Net
         
         private readonly Subject<WampMessage<TMessage>> mSubject = 
             new Subject<WampMessage<TMessage>>();
-
-        private readonly ManualResetEvent mConnected = new ManualResetEvent(false);
 
         #endregion
 
@@ -71,6 +67,7 @@ namespace WampSharp.WebSocket4Net
 
         public void OnCompleted()
         {
+            mSubject.OnCompleted();
             mWebSocket.Close();
         }
 
