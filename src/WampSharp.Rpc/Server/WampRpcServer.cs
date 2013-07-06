@@ -7,8 +7,7 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.Rpc.Server
 {
-    public class WampRpcServer<TMessage> : IWampAuxiliaryServer,
-                                           IWampRpcServer<TMessage>
+    public class WampRpcServer<TMessage> : IWampRpcServer<TMessage>
     {
         private readonly IWampFormatter<TMessage> mFormatter;
         private readonly IWampRpcMetadataCatalog mRpcMetadataCatalog;
@@ -18,13 +17,6 @@ namespace WampSharp.Rpc.Server
         {
             mFormatter = formatter;
             mRpcMetadataCatalog = rpcMetadataCatalog;
-        }
-
-        public void Prefix(IWampClient client, string prefix, string uri)
-        {
-            IWampCurieMapper mapper = client as IWampCurieMapper;
-
-            mapper.Map(prefix, uri);
         }
 
 #if !NET45

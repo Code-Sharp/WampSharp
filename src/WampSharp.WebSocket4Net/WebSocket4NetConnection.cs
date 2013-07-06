@@ -10,7 +10,7 @@ using WebSocket4Net;
 
 namespace WampSharp.WebSocket4Net
 {
-    public class WebSocket4NetConnection<TMessage> : IWampConnection<TMessage>
+    public class WebSocket4NetConnection<TMessage> : IControlledWampConnection<TMessage>
     {
         #region Fields
 
@@ -21,10 +21,7 @@ namespace WampSharp.WebSocket4Net
         private readonly Subject<WampMessage<TMessage>> mSubject = 
             new Subject<WampMessage<TMessage>>();
 
-
         private readonly ManualResetEvent mConnected = new ManualResetEvent(false);
-
-        private readonly object mLock = new object();
 
         #endregion
 
@@ -37,7 +34,6 @@ namespace WampSharp.WebSocket4Net
             mWebSocket.Closed += WebSocketOnClosed;
             mWebSocket.MessageReceived += WebSocketOnMessageReceived;
             mWebSocket.Error += WebSocketOnError;
-            mWebSocket.Open();
         }
 
         private void WebSocketOnError(object sender, ErrorEventArgs errorEventArgs)
@@ -60,13 +56,10 @@ namespace WampSharp.WebSocket4Net
 
         private void WebSocketOnOpened(object sender, EventArgs eventArgs)
         {
-            mConnected.Set();
         }
 
         public void OnNext(WampMessage<TMessage> value)
         {
-            mConnected.WaitOne();
-
             string formatted = mMessageFormatter.Format(value);
             mWebSocket.Send(formatted);
         }
@@ -83,32 +76,14 @@ namespace WampSharp.WebSocket4Net
 
         public IDisposable Subscribe(IObserver<WampMessage<TMessage>> observer)
         {
-            lock (mLock)
-            {
-                bool hasObservers = mSubject.HasObservers;
+            IDisposable result = mSubject.Subscribe(observer);
 
-                IDisposable result = mSubject.Subscribe(observer);
-
-                //if (!hasObservers)
-                //{
-                //    mWebSocket.Open();
-                //}
-
-                return new CompositeDisposable
-                    (result,
-                     Disposable.Create(OnDisposed));
-            }
+            return result;
         }
 
-        private void OnDisposed()
+        public void Connect()
         {
-            lock (mLock)
-            {
-                //if (!mSubject.HasObservers)
-                //{
-                //    mWebSocket.Close();
-                //}
-            }
+            mWebSocket.Open();
         }
     }
 }

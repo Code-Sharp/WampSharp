@@ -27,7 +27,7 @@ namespace WampSharp.RpcClientSample
             IWampChannel<JToken> channel =
                 channelFactory.CreateChannel("ws://localhost:9000/");
 
-            //channel.Open();
+            channel.Open();
 
             ICalculator proxy = channel.GetRpcProxy<ICalculator>();
 

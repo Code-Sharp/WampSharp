@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
+using WampSharp.Auxiliary;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
@@ -38,7 +39,7 @@ namespace WampSharp.Api
             mMetadataCatalog = new WampRpcMetadataCatalog();
 
             WampRpcServer<TMessage> rpcServer = new WampRpcServer<TMessage>(formatter, mMetadataCatalog);
-            mServer = new DefaultWampServer<TMessage>(rpcServer);
+            mServer = new DefaultWampServer<TMessage>(rpcServer, auxiliaryServer:new WampAuxiliaryServer());
 
             mListener = GetWampListener(connectionListener, formatter, mServer);
         }

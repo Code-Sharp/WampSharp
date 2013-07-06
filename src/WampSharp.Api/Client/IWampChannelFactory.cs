@@ -4,6 +4,6 @@ namespace WampSharp.Api
 {
     public interface IWampChannelFactory<TMessage>
     {
-        IWampChannel<TMessage> CreateChannel(IWampConnection<TMessage> connection);
+        IWampChannel<TMessage> CreateChannel(IControlledWampConnection<TMessage> connection);
     }
 }

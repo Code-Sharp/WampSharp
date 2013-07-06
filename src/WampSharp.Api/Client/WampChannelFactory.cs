@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using WampSharp.Auxiliary;
 using WampSharp.Core.Client;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
@@ -27,6 +28,7 @@ namespace WampSharp.Api
         private readonly IWampRpcClientFactory<TMessage> mRpcClientFactory;
         private readonly IWampPubSubClientFactory<TMessage> mPubSubClientFactory;
         private readonly WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServer> mServerProxyBuilder;
+        private readonly IWampAuxiliaryClientFactory<TMessage> mWampAuxiliaryClientFactory;
 
         public WampChannelFactory(IWampFormatter<TMessage> formatter)
         {
@@ -40,6 +42,17 @@ namespace WampSharp.Api
 
             mServerProxyBuilder =
                 GetServerProxyBuilder<IWampClient<TMessage>>();
+
+            mWampAuxiliaryClientFactory =
+                GetConnectionMonitorFactory();
+        }
+
+        private WampAuxiliaryClientFactory<TMessage> GetConnectionMonitorFactory()
+        {
+            WampServerProxyBuilder<TMessage, IWampAuxiliaryClient, IWampServer> proxyBuilder = 
+                GetServerProxyBuilder<IWampAuxiliaryClient>();
+            
+            return new WampAuxiliaryClientFactory<TMessage>(proxyBuilder);
         }
 
         private IWampPubSubClientFactory<TMessage> GetPubSubClientFactory()
@@ -94,12 +107,13 @@ namespace WampSharp.Api
                 (outgoingRequestSerializer, outgoingHandlerBuilder);
         }
 
-        public IWampChannel<TMessage> CreateChannel(IWampConnection<TMessage> connection)
+        public IWampChannel<TMessage> CreateChannel(IControlledWampConnection<TMessage> connection)
         {
             return new WampChannel<TMessage>(connection,
                                              mRpcClientFactory,
                                              mPubSubClientFactory,
-                                             mServerProxyBuilder);
+                                             mServerProxyBuilder,
+                                             mWampAuxiliaryClientFactory);
         }
     }
 }
