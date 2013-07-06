@@ -59,6 +59,9 @@
     <Compile Include="..\..\WampSharp.Auxiliary\Client\IWampClientConnectionMonitor.cs">
       <Link>Client\IWampClientConnectionMonitor.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Auxiliary\Client\WampAuxiliaryClientFactory.cs">
+      <Link>Client\WampAuxiliaryClientFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Auxiliary\Client\WampClientConnectionMonitor.cs">
       <Link>Client\WampClientConnectionMonitor.cs</Link>
     </Compile>
@@ -68,8 +71,8 @@
     <Compile Include="..\..\WampSharp.Auxiliary\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.Auxiliary\Server\WampAuxileryServer.cs">
-      <Link>Server\WampAuxileryServer.cs</Link>
+    <Compile Include="..\..\WampSharp.Auxiliary\Server\WampAuxiliaryServer.cs">
+      <Link>Server\WampAuxiliaryServer.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup />

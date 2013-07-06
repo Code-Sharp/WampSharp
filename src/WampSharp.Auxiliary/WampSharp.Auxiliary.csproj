@@ -55,10 +55,11 @@
   <ItemGroup>
     <Compile Include="Client\IWampAuxiliaryClientFactory.cs" />
     <Compile Include="Client\IWampClientConnectionMonitor.cs" />
+    <Compile Include="Client\WampAuxiliaryClientFactory.cs" />
     <Compile Include="Client\WampClientConnectionMonitor.cs" />
     <Compile Include="Client\WampConnectionEstablishedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\WampAuxileryServer.cs" />
+    <Compile Include="Server\WampAuxiliaryServer.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
