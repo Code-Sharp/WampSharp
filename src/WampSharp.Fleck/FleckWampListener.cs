@@ -57,24 +57,19 @@ namespace WampSharp.Fleck
 
         private void StartServer()
         {
-            mServer = new WebSocketServer(mLocation);
+            WebSocketServer server = new WebSocketServer(mLocation);
+            mServer = server;
+            server.SupportedSubProtocols = new[] {"wamp"};
 
-            Action<IWebSocketConnection> defaultInitializer =
-                connection =>
-                    {
-                        FleckWampConnection<TMessage> wampConnection =
-                            new FleckWampConnection<TMessage>(connection,
-                                                              mParser,
-                                                              mShutdown);
-
-                        connection.OnOpen =
-                            () => OnNewConnection(wampConnection);
-                    };
-
-            mServer.Start(defaultInitializer,
-                          new Dictionary<string, Action<IWebSocketConnection>>()
+            mServer.Start(connection =>
                               {
-                                  {"wamp", defaultInitializer}
+                                  FleckWampConnection<TMessage> wampConnection =
+                                      new FleckWampConnection<TMessage>(connection,
+                                                                        mParser,
+                                                                        mShutdown);
+
+                                  connection.OnOpen =
+                                      () => OnNewConnection(wampConnection);
                               });
         }
 

@@ -42,6 +42,8 @@ namespace WampSharp.RpcClientSample
                 asyncProxy.Add(2, 3);
 
             Console.WriteLine("2 + 3 = " + asyncFive.Result);
+
+            Console.ReadLine();
         }
     }
 }

@@ -22,7 +22,6 @@ namespace WampSharp.RpcServerSample
     {
         public static void Main(string[] args)
         {
-            // https://github.com/adam-may/Fleck/tree/subprotocol
             // http://autobahn.ws/static/file/autobahnjs.html
 
             const string location = "ws://localhost:9000/";
