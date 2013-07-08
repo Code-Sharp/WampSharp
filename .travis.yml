@@ -18,7 +18,7 @@ before_install:
 script:
  - cd src/WampSharpMono
  - xbuild 
-# - .ci/RunTests.sh 
+ - .ci/RunTests.sh 
 
 branches:
  only:
