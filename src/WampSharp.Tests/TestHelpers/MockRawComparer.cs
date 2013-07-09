@@ -1,5 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+#if MONO
+using StructuralComparisons = WampSharp.Tests.TestHelpers.StructuralComparisons;
+#endif
 
 namespace WampSharp.Tests.TestHelpers
 {
