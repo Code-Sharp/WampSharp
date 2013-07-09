@@ -97,6 +97,8 @@
     <Compile Include="RpcTests.cs" />
     <Compile Include="TestHelpers\Method.cs" />
     <Compile Include="TestHelpers\MessagesArguments.cs" />
+    <Compile Include="TestHelpers\StructuralComparisons.cs" />
+    <Compile Include="TestHelpers\StructuralEqualityComparer.cs" />
     <Compile Include="TestHelpers\WampMessageEqualityComparer.cs" />
     <Compile Include="TestHelpers\WampV1Messages.cs" />
     <Compile Include="TestHelpers\Messages.cs" />

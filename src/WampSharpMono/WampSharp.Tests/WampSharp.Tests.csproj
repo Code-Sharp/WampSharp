@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45;MONO</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
@@ -164,6 +164,12 @@
     </Compile>
     <Compile Include="..\..\WampSharp.Tests\TestHelpers\MessagesArguments.cs">
       <Link>TestHelpers\MessagesArguments.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests\TestHelpers\StructuralComparisons.cs">
+      <Link>TestHelpers\StructuralComparisons.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests\TestHelpers\StructuralEqualityComparer.cs">
+      <Link>TestHelpers\StructuralEqualityComparer.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Tests\TestHelpers\WampMessageEqualityComparer.cs">
       <Link>TestHelpers\WampMessageEqualityComparer.cs</Link>
