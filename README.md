@@ -7,7 +7,7 @@ A C# implementation of [WAMP (The WebSocket Application Messaging Protocol)][Wam
 
 Currently still in development, there are a lot of things to do before this is stable.
 
-[WampLink]:https://wamp.ws
+[WampLink]:http://wamp.ws
 
 [MonoImgMaster]:https://travis-ci.org/darkl/WampSharp.png?branch=master
 [MonoLinkMaster]:https://travis-ci.org/darkl/WampSharp
