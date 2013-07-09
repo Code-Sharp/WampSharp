@@ -6,6 +6,9 @@ using WampSharp.Core.Contracts.V1;
 using WampSharp.Rpc;
 using WampSharp.Tests.Rpc.Helpers;
 using WampSharp.Tests.TestHelpers;
+#if MONO
+using StructuralComparisons = WampSharp.Tests.TestHelpers.StructuralComparisons;
+#endif
 
 namespace WampSharp.Tests.Rpc
 {
