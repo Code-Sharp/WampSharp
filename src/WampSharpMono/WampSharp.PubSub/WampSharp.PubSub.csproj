@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -71,6 +72,12 @@
     <Compile Include="..\..\WampSharp.PubSub\Client\WampServerProxyFactory.cs">
       <Link>Client\WampServerProxyFactory.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.PubSub\Server\Interfaces\IWampTopic.cs">
+      <Link>Server\Interfaces\IWampTopic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.PubSub\Server\Interfaces\IWampTopicContainer.cs">
+      <Link>Server\Interfaces\IWampTopicContainer.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.PubSub\Server\WampNotification.cs">
       <Link>Server\WampNotification.cs</Link>
     </Compile>
@@ -80,11 +87,29 @@
     <Compile Include="..\..\WampSharp.PubSub\Server\WampPubSubServer.cs">
       <Link>Server\WampPubSubServer.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.PubSub\Server\EventArgs\WampSubscriptionAddedEventArgs.cs">
+      <Link>Server\EventArgs\WampSubscriptionAddedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.PubSub\Server\EventArgs\WampSubscriptionEventArgs.cs">
+      <Link>Server\EventArgs\WampSubscriptionEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.PubSub\Server\EventArgs\WampSubscriptionRemovedEventArgs.cs">
+      <Link>Server\EventArgs\WampSubscriptionRemovedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.PubSub\Server\WampTopic.cs">
       <Link>Server\WampTopic.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.PubSub\Server\WampTopicContainer.cs">
       <Link>Server\WampTopicContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.PubSub\Server\EventArgs\WampTopicCreatedEventArgs.cs">
+      <Link>Server\EventArgs\WampTopicCreatedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.PubSub\Server\EventArgs\WampTopicEventArgs.cs">
+      <Link>Server\EventArgs\WampTopicEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.PubSub\Server\EventArgs\WampTopicRemovedEventArgs.cs">
+      <Link>Server\EventArgs\WampTopicRemovedEventArgs.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

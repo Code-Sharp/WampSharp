@@ -1,4 +1,5 @@
 ﻿using System;
+using WampSharp.PubSub.Server;
 
 namespace WampSharp.Api
 {
@@ -6,5 +7,7 @@ namespace WampSharp.Api
     {
         void Open();
         void HostService(object instance);
+
+        IWampTopicContainer TopicContainer { get; }
     }
 }

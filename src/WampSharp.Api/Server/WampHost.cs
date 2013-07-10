@@ -9,6 +9,7 @@ using WampSharp.Core.Listener.V1;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
+using WampSharp.PubSub.Server;
 using WampSharp.Rpc.Server;
 
 namespace WampSharp.Api
@@ -26,6 +27,7 @@ namespace WampSharp.Api
         private readonly IWampServer<TMessage> mServer;
         private WampListener<TMessage> mListener;
         private readonly WampRpcMetadataCatalog mMetadataCatalog;
+        private readonly IWampTopicContainer mTopicContainer;
 
         public WampHost(string location,
                         IWampMessageParser<TMessage> parser,
@@ -37,9 +39,14 @@ namespace WampSharp.Api
         public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
         {
             mMetadataCatalog = new WampRpcMetadataCatalog();
-
             WampRpcServer<TMessage> rpcServer = new WampRpcServer<TMessage>(formatter, mMetadataCatalog);
-            mServer = new DefaultWampServer<TMessage>(rpcServer, auxiliaryServer:new WampAuxiliaryServer());
+            
+            mTopicContainer = new WampTopicContainer<TMessage>();
+            WampPubSubServer<TMessage> pubSubServer = new WampPubSubServer<TMessage>(TopicContainer);
+
+            WampAuxiliaryServer auxiliaryServer = new WampAuxiliaryServer();
+
+            mServer = new DefaultWampServer<TMessage>(rpcServer, pubSubServer, auxiliaryServer);
 
             mListener = GetWampListener(connectionListener, formatter, mServer);
         }
@@ -109,6 +116,14 @@ namespace WampSharp.Api
         public void HostService(object instance)
         {
             mMetadataCatalog.Register(new MethodInfoWampRpcMetadata(instance));
+        }
+
+        public IWampTopicContainer TopicContainer
+        {
+            get
+            {
+                return mTopicContainer;
+            }
         }
     }
 }

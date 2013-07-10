@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -59,11 +60,19 @@
     <Compile Include="Client\WampPubSubClientFactory.cs" />
     <Compile Include="Client\WampPubSubSubject.cs" />
     <Compile Include="Client\WampServerProxyFactory.cs" />
+    <Compile Include="Server\Interfaces\IWampTopic.cs" />
+    <Compile Include="Server\Interfaces\IWampTopicContainer.cs" />
     <Compile Include="Server\WampNotification.cs" />
     <Compile Include="Server\WampObserver.cs" />
     <Compile Include="Server\WampPubSubServer.cs" />
+    <Compile Include="Server\EventArgs\WampSubscriptionAddedEventArgs.cs" />
+    <Compile Include="Server\EventArgs\WampSubscriptionEventArgs.cs" />
+    <Compile Include="Server\EventArgs\WampSubscriptionRemovedEventArgs.cs" />
     <Compile Include="Server\WampTopic.cs" />
     <Compile Include="Server\WampTopicContainer.cs" />
+    <Compile Include="Server\EventArgs\WampTopicCreatedEventArgs.cs" />
+    <Compile Include="Server\EventArgs\WampTopicEventArgs.cs" />
+    <Compile Include="Server\EventArgs\WampTopicRemovedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

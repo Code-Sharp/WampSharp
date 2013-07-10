@@ -8,15 +8,34 @@ using WampSharp.Core.Listener;
 
 namespace WampSharp.PubSub.Server
 {
-    public class WampTopic : 
-        ISubject<WampNotification, object>,
-        ISubject<object>
+    public class WampTopic : IWampTopic
     {
+        #region Fields
+
         private readonly Subject<WampNotification> mSubject =
             new Subject<WampNotification>();
 
         private readonly ConcurrentDictionary<string, Subscription> mSessionIdToSubscription =
             new ConcurrentDictionary<string, Subscription>();
+
+        private readonly string mTopicUri;
+        private readonly IDisposable mContainerDisposable;
+        private readonly bool mPersistent;
+
+        #endregion
+
+        #region Constructor
+
+        public WampTopic(string topicUri, IDisposable containerDisposable, bool persistent = false)
+        {
+            mTopicUri = topicUri;
+            mContainerDisposable = containerDisposable;
+            mPersistent = persistent;
+        }
+
+        #endregion
+
+        #region IWampTopic methods
 
         public void OnNext(WampNotification value)
         {
@@ -37,6 +56,25 @@ namespace WampSharp.PubSub.Server
         {
             mSubject.OnCompleted();
         }
+
+        public string TopicUri
+        {
+            get
+            {
+                return mTopicUri;
+            }
+        }
+
+        public bool Persistent
+        {
+            get
+            {
+                return mPersistent;
+            }
+        }
+
+        public event EventHandler<WampSubscriptionAddedEventArgs> SubscriptionAdded;
+        public event EventHandler<WampSubscriptionRemovedEventArgs> SubscriptionRemoved;
 
         public void Unsubscribe(string sessionId)
         {
@@ -67,10 +105,60 @@ namespace WampSharp.PubSub.Server
 
                 CompositeDisposable result =
                     GetSubscriptionDisposable(relevantMessages, observer);
-
+                
+                result.Add(Disposable.Create(() => OnClientUnsubscribed(sessionId)));
+                
                 mSessionIdToSubscription[sessionId] = new Subscription(this, casted, result);
 
+                RaiseSubscriptionAdded(casted);
+
                 return result;
+            }
+        }
+
+        public void Dispose()
+        {
+            mContainerDisposable.Dispose();
+
+            if (mSubject != null)
+            {
+                mSubject.OnCompleted();
+                mSubject.Dispose();
+            }
+
+            mSessionIdToSubscription.Clear();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void RaiseSubscriptionAdded(WampObserver observer)
+        {
+            EventHandler<WampSubscriptionAddedEventArgs> added = 
+                SubscriptionAdded;
+
+            if (added != null)
+            {
+                added(this, new WampSubscriptionAddedEventArgs(observer.SessionId,
+                                                               observer));
+            }
+        }
+
+        private void OnClientUnsubscribed(string sessionId)
+        {
+            RaiseSubscriptionRemoved(sessionId);
+        }
+
+        private void RaiseSubscriptionRemoved(string sessionId)
+        {
+            EventHandler<WampSubscriptionRemovedEventArgs> subscriptionRemoved = 
+                SubscriptionRemoved;
+
+            if (subscriptionRemoved != null)
+            {
+                subscriptionRemoved(this,
+                                    new WampSubscriptionRemovedEventArgs(sessionId));
             }
         }
 
@@ -82,6 +170,15 @@ namespace WampSharp.PubSub.Server
 
         private void OnDispose()
         {
+            // TODO: A race condition can occur here if at the same
+            // TODO: time a non-persistent topic self-destructs itself
+            // TODO: And a client tries to subscribe to the same non-persistant
+            // TODO: topic
+            if (!mSubject.HasObservers && !Persistent)
+            {
+                // Self-destruct.
+                Dispose();
+            }
         }
 
         private static bool ShouldPublishMessage(WampNotification wampNotification, string sessionId)
@@ -91,13 +188,17 @@ namespace WampSharp.PubSub.Server
                    wampNotification.Eligible.Contains(sessionId);
         }
 
+        #endregion
+
+        #region Nested Classes
+
         private class Subscription : IDisposable
         {
-            private readonly WampTopic mTopic;
+            private readonly IWampTopic mTopic;
             private readonly WampObserver mObserver;
             private readonly IDisposable mDisposable;
 
-            public Subscription(WampTopic topic, WampObserver observer, IDisposable disposable)
+            public Subscription(IWampTopic topic, WampObserver observer, IDisposable disposable)
             {
                 mTopic = topic;
                 mObserver = observer;
@@ -137,5 +238,7 @@ namespace WampSharp.PubSub.Server
                 mDisposable.Dispose();
             }
         }
+
+        #endregion
     }
 }

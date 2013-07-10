@@ -29,12 +29,12 @@ namespace WampSharp.Api
 
         public void Subscribe(IWampClient client, string topicUri)
         {
-            //mPubSubServer.Subscribe(client, topicUri);
+            mPubSubServer.Subscribe(client, topicUri);
         }
 
         public void Unsubscribe(IWampClient client, string topicUri)
         {
-            //mPubSubServer.Unsubscribe(client, topicUri);
+            mPubSubServer.Unsubscribe(client, topicUri);
         }
 
         public void Publish(IWampClient client, string topicUri, TMessage @event)

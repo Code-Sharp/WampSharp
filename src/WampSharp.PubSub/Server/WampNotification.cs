@@ -1,27 +1,27 @@
 ﻿using System.Collections.Generic;
-using TMessage = System.Object;
 
 namespace WampSharp.PubSub.Server
 {
     public class WampNotification
     {
-        private readonly TMessage mEvent;
+        private readonly object mEvent;
         private readonly ICollection<string> mExcluded;
         private readonly ICollection<string> mEligible;
+        private static readonly string[] mEmptyStringArray = new string[0];
 
-        public WampNotification(TMessage @event) :
-            this(@event, new string[0], new string[0])
+        public WampNotification(object @event) :
+            this(@event, mEmptyStringArray, mEmptyStringArray)
         {
         }
 
-        public WampNotification(TMessage @event, ICollection<string> excluded, ICollection<string> eligible)
+        public WampNotification(object @event, ICollection<string> excluded, ICollection<string> eligible)
         {
             mEvent = @event;
             mExcluded = excluded;
             mEligible = eligible;
         }
 
-        public TMessage Event
+        public object Event
         {
             get
             {
