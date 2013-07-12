@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace WampSharp.Core.Listener
@@ -13,8 +14,8 @@ namespace WampSharp.Core.Listener
 
         private readonly IWampClientBuilder<TMessage, TClient> mClientBuilder;
 
-        private readonly IDictionary<IWampConnection<TMessage>, TClient> mConnectionToClient =
-            new Dictionary<IWampConnection<TMessage>, TClient>();
+        private readonly ConcurrentDictionary<IWampConnection<TMessage>, TClient> mConnectionToClient =
+            new ConcurrentDictionary<IWampConnection<TMessage>, TClient>();
 
         #endregion
 
@@ -37,18 +38,8 @@ namespace WampSharp.Core.Listener
 
         public TClient GetClient(IWampConnection<TMessage> connection)
         {
-            TClient client;
-
-            if (mConnectionToClient.TryGetValue(connection, out client))
-            {
-                return client;
-            }
-            else
-            {
-                client = mClientBuilder.Create(connection);
-                mConnectionToClient[connection] = client;
-                return client;
-            }
+            return mConnectionToClient.GetOrAdd(connection,
+                                                key => mClientBuilder.Create(key));
         }
 
         public IEnumerable<TClient> GetAllClients()
@@ -58,7 +49,9 @@ namespace WampSharp.Core.Listener
 
         public void RemoveClient(IWampConnection<TMessage> connection)
         {
-            mConnectionToClient.Remove(connection);
+            TClient client;
+
+            mConnectionToClient.TryRemove(connection, out client);
         }
 
         #endregion

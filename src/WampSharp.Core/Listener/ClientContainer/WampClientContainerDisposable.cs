@@ -26,6 +26,7 @@ namespace WampSharp.Core.Listener
 
         public void Dispose()
         {
+            mConnection.OnCompleted();
             mContainer.RemoveClient(mConnection);
         }
     }
