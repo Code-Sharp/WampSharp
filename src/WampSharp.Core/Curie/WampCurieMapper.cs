@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace WampSharp.Core.Curie
 {
@@ -10,21 +11,37 @@ namespace WampSharp.Core.Curie
         private readonly IDictionary<string, string> mPrefixToUri = 
             new Dictionary<string, string>();
 
-        public string ResolveCurie(string curie)
-        {
-            string result;
-
-            if (mPrefixToUri.TryGetValue(curie, out result))
-            {
-                return result;
-            }
-
-            return null;
-        }
-
         public void Map(string prefix, string uri)
         {
             mPrefixToUri[prefix] = uri;
+        }
+
+        public string Resolve(string curie)
+        {
+            Uri uri;
+
+            if (Uri.TryCreate(curie, UriKind.Absolute, out uri))
+            {
+                return curie;
+            }
+
+            int index = curie.IndexOf(":", StringComparison.Ordinal);
+
+            if (index > 0)
+            {
+                string prefix = curie.Substring(0, index);
+
+                string mappedUri;
+
+                if (mPrefixToUri.TryGetValue(prefix, out mappedUri))
+                {
+                    string rest = curie.Substring(index + 1);
+                    string result = mappedUri + rest;
+                    return result;
+                }
+            }
+
+            return curie;
         }
     }
 }

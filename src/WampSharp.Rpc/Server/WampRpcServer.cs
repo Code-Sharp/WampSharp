@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Curie;
 using WampSharp.Core.Serialization;
@@ -99,13 +98,7 @@ namespace WampSharp.Rpc.Server
         {
             IWampCurieMapper mapper = client as IWampCurieMapper;
 
-            Uri uri;
-            if (!Uri.TryCreate(procUri, UriKind.Absolute, out uri))
-            {
-                procUri = mapper.ResolveCurie(procUri);
-            }
-
-            return procUri;
+            return mapper.Resolve(procUri);
         }
     }
 }

@@ -113,9 +113,9 @@ namespace WampSharp.Api
             mListener.Start();
         }
 
-        public void HostService(object instance)
+        public void HostService(object instance, string baseUri)
         {
-            mMetadataCatalog.Register(new MethodInfoWampRpcMetadata(instance));
+            mMetadataCatalog.Register(new MethodInfoWampRpcMetadata(instance, baseUri));
         }
 
         public IWampTopicContainer TopicContainer

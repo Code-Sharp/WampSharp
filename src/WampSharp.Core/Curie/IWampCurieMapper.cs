@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="curie">The given compact uri.</param>
         /// <returns>The resolved uri.</returns>
-        string ResolveCurie(string curie);
+        string Resolve(string curie);
         
         /// <summary>
         /// Maps a prefix to a uri.

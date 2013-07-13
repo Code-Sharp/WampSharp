@@ -9,34 +9,55 @@ namespace WampSharp.Rpc.Server
     {
         private readonly object mInstance;
         private readonly MethodInfo mMethod;
+        private readonly string mProcUri;
 
-        public MethodInfoWampRpcMethod(object instance,MethodInfo method)
+        public MethodInfoWampRpcMethod(object instance, MethodInfo method, string baseUri)
         {
             mInstance = instance;
             mMethod = method;
+
+            mProcUri = GetProcUri(method, baseUri);
+        }
+
+        private string GetProcUri(MethodInfo method, string baseUri)
+        {
+            WampRpcMethodAttribute wampRpcMethodAttribute =
+                mMethod.GetCustomAttribute<WampRpcMethodAttribute>(true);
+
+            string attributeUri = 
+                wampRpcMethodAttribute.ProcUri;
+
+            if (baseUri == null || !wampRpcMethodAttribute.IsRelative)
+            {
+                return attributeUri;
+            }
+            else
+            {
+                string result = baseUri + attributeUri;
+                return result;
+            }
         }
 
         public string Name
         {
-            get { return mMethod.Name; }
+            get
+            {
+                return mMethod.Name;
+            }
         }
 
         public string ProcUri
         {
             get
             {
-                var wampRpcMethodAttribute = mMethod.GetCustomAttribute<WampRpcMethodAttribute>(true);
-                return wampRpcMethodAttribute.ProcUri;
+                return mProcUri;
             }
         }
-
         
         public Type[] Parameters
         {
             get { return mMethod.GetParameters().Select(paramterInfo => paramterInfo.ParameterType).ToArray(); }
         }
-
-        
 
         public Task<object> InvokeAsync(object[] parameters)
         {
@@ -62,7 +83,6 @@ namespace WampSharp.Rpc.Server
 
             return result;
         }
-
 
         private Task<object> ConvertTask<T>(Task<T> task)
         {

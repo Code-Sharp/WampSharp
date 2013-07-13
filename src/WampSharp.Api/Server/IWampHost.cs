@@ -6,7 +6,7 @@ namespace WampSharp.Api
     public interface IWampHost : IDisposable
     {
         void Open();
-        void HostService(object instance);
+        void HostService(object instance, string baseUri = null);
 
         IWampTopicContainer TopicContainer { get; }
     }

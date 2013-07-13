@@ -1,4 +1,5 @@
 ﻿using WampSharp.Core.Contracts.V1;
+using WampSharp.Core.Curie;
 
 namespace WampSharp.PubSub.Server
 {
@@ -67,13 +68,15 @@ namespace WampSharp.PubSub.Server
 
         public void Subscribe(IWampClient client, string topicUri)
         {
-            IWampTopic topic = GetTopicByUri(topicUri);
+            string resolvedUri = ResolveUri(client, topicUri);
+            IWampTopic topic = GetTopicByUri(resolvedUri);
             topic.Subscribe(new WampObserver(topicUri, client));
         }
 
         public void Unsubscribe(IWampClient client, string topicUri)
         {
-            IWampTopic topic = GetTopicByUri(topicUri);
+            string resolvedUri = ResolveUri(client, topicUri);
+            IWampTopic topic = GetTopicByUri(resolvedUri);
             topic.Unsubscribe(client.SessionId);
         }
 
@@ -101,12 +104,20 @@ namespace WampSharp.PubSub.Server
                 exclude = new[] {client.SessionId};
             }
 
-            Publish(client, topicUri, @event, exclude);
+            string resolvedUri = ResolveUri(client, topicUri);
+            Publish(client, resolvedUri, @event, exclude);
         }
 
         public void Publish(IWampClient client, string topicUri, TMessage @event, string[] exclude)
         {
             Publish(client, topicUri, @event, exclude, new string[] {});
+        }
+
+        private static string ResolveUri(IWampClient client, string topicUri)
+        {
+            IWampCurieMapper mapper = client as IWampCurieMapper;
+
+            return mapper.Resolve(topicUri);
         }
 
         #endregion

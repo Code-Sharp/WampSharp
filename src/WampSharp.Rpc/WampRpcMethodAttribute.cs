@@ -9,12 +9,22 @@ namespace WampSharp.Rpc
 
         public WampRpcMethodAttribute(string procUri)
         {
+            IsRelative = true;
             mProcUri = procUri;
         }
 
         public string ProcUri
         {
-            get { return mProcUri; }
+            get
+            {
+                return mProcUri;
+            }
+        }
+
+        public bool IsRelative
+        {
+            get; 
+            set;
         }
     }
 }
