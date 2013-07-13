@@ -22,7 +22,7 @@ namespace WampSharp.Rpc.Server
         private string GetProcUri(MethodInfo method, string baseUri)
         {
             WampRpcMethodAttribute wampRpcMethodAttribute =
-                mMethod.GetCustomAttribute<WampRpcMethodAttribute>(true);
+                method.GetCustomAttribute<WampRpcMethodAttribute>(true);
 
             string attributeUri = 
                 wampRpcMethodAttribute.ProcUri;
