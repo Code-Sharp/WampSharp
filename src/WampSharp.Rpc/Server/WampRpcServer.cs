@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Curie;
 using WampSharp.Core.Serialization;
