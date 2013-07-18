@@ -10,8 +10,6 @@ namespace WampSharp.PubSub.Server
 
         private readonly IWampTopicContainerExtended<TMessage> mContainer;
 
-        private bool mCreateTopicOnDemand = true;
-
         public WampPubSubServer()
             : this(new WampTopicContainer<TMessage>())
         {
