@@ -143,6 +143,9 @@
     <Compile Include="..\..\WampSharp.Core\Dispatch\Handler\GenericTypeExtensions.cs">
       <Link>Dispatch\Handler\GenericTypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Core\Utilities\SwapDictionary.cs">
+      <Link>Utilities\SwapDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Core\Listener\ClientBuilder\IWampSessionIdGenerator.cs">
       <Link>Listener\ClientBuilder\IWampSessionIdGenerator.cs</Link>
     </Compile>

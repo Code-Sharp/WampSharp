@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -21,6 +22,8 @@ namespace WampSharp.PubSub.Server
         private readonly string mTopicUri;
         private readonly IDisposable mContainerDisposable;
         private readonly bool mPersistent;
+        private readonly object mLock = new object();
+        private bool mDisposed = false;
 
         #endregion
 
@@ -118,15 +121,27 @@ namespace WampSharp.PubSub.Server
 
         public void Dispose()
         {
-            mContainerDisposable.Dispose();
-
-            if (mSubject != null)
+            lock (mLock)
             {
-                mSubject.OnCompleted();
-                mSubject.Dispose();
-            }
+                if (!mDisposed)
+                {
+                    mDisposed = true;
+                    mContainerDisposable.Dispose();
 
-            mSessionIdToSubscription.Clear();
+                    if (mSubject != null)
+                    {
+                        mSubject.OnCompleted();
+                        mSubject.Dispose();
+                    }
+
+                    foreach (Subscription subscription in mSessionIdToSubscription.Values)
+                    {
+                        subscription.Dispose();
+                    }
+
+                    mSessionIdToSubscription.Clear();
+                }
+            }
         }
 
         #endregion
@@ -220,9 +235,6 @@ namespace WampSharp.PubSub.Server
                 // the subscription from the dictionary, and it calls
                 // Dispose...
                 mTopic.Unsubscribe(Observer.SessionId);
-
-                IWampConnectionMonitor monitor = sender as IWampConnectionMonitor;
-                monitor.ConnectionClosed -= OnConnectionClosed;
             }
 
             private WampObserver Observer
@@ -236,6 +248,11 @@ namespace WampSharp.PubSub.Server
             public void Dispose()
             {
                 mDisposable.Dispose();
+
+                IWampConnectionMonitor monitor =
+                    mObserver.Client as IWampConnectionMonitor;
+
+                monitor.ConnectionClosed -= OnConnectionClosed;
             }
         }
 

@@ -2,7 +2,7 @@
 {
     public class WampTopicRemovedEventArgs : WampTopicEventArgs
     {
-        public WampTopicRemovedEventArgs(string topicUri) : base(topicUri)
+        public WampTopicRemovedEventArgs(IWampTopic topic) : base(topic)
         {
         }
     }

@@ -8,7 +8,7 @@ namespace WampSharp.PubSub.Server
     {
         #region Fields
 
-        private readonly IWampTopicContainer mContainer;
+        private readonly IWampTopicContainerExtended<TMessage> mContainer;
 
         private bool mCreateTopicOnDemand = true;
 
@@ -17,42 +17,14 @@ namespace WampSharp.PubSub.Server
         {
         }
 
-        public WampPubSubServer(IWampTopicContainer container)
+        public WampPubSubServer(IWampTopicContainerExtended<TMessage> container)
         {
             mContainer = container;
         }
 
         #endregion
 
-        #region Private Methods
-
-        private IWampTopic GetTopicByUri(string topicUri)
-        {
-            if (!CreateTopicOnDemand)
-            {
-                return mContainer.GetTopicByUri(topicUri);
-            }
-            else
-            {
-                return mContainer.GetOrCreateTopicByUri(topicUri, false);
-            }
-        }
-
-        #endregion
-
         #region Properties
-
-        public bool CreateTopicOnDemand
-        {
-            get
-            {
-                return mCreateTopicOnDemand;
-            }
-            set
-            {
-                mCreateTopicOnDemand = value;
-            }
-        }
 
         public IWampTopicContainer TopicContainer
         {
@@ -69,21 +41,19 @@ namespace WampSharp.PubSub.Server
         public void Subscribe(IWampClient client, string topicUri)
         {
             string resolvedUri = ResolveUri(client, topicUri);
-            IWampTopic topic = GetTopicByUri(resolvedUri);
-            topic.Subscribe(new WampObserver(topicUri, client));
+            mContainer.Subscribe(resolvedUri, new WampObserver(topicUri, client));
         }
 
         public void Unsubscribe(IWampClient client, string topicUri)
         {
             string resolvedUri = ResolveUri(client, topicUri);
-            IWampTopic topic = GetTopicByUri(resolvedUri);
-            topic.Unsubscribe(client.SessionId);
+            mContainer.Unsubscribe(resolvedUri, client.SessionId);
         }
 
         public void Publish(IWampClient client, string topicUri, TMessage @event, string[] exclude, string[] eligible)
         {
-            IWampTopic topic = GetTopicByUri(topicUri);
-            topic.OnNext(new WampNotification(@event, exclude, eligible));
+            string resolvedUri = ResolveUri(client, topicUri);
+            mContainer.Publish(resolvedUri, @event, exclude, eligible);
         }
 
         public void Publish(IWampClient client, string topicUri, TMessage @event)

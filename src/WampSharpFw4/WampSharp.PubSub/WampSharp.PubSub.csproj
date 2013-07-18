@@ -78,6 +78,9 @@
     <Compile Include="..\..\WampSharp.PubSub\Server\Interfaces\IWampTopicContainer.cs">
       <Link>Server\Interfaces\IWampTopicContainer.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.PubSub\Server\Interfaces\IWampTopicContainerExtended.cs">
+      <Link>Server\Interfaces\IWampTopicContainerExtended.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.PubSub\Server\WampNotification.cs">
       <Link>Server\WampNotification.cs</Link>
     </Compile>

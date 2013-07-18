@@ -4,12 +4,13 @@ using System.Collections.Generic;
 
 namespace WampSharp.PubSub.Server
 {
-    public class WampTopicContainer<TMessage> : IWampTopicContainer
+    public class WampTopicContainer<TMessage> : IWampTopicContainerExtended<TMessage>
     {
         #region Fields
 
         private readonly ConcurrentDictionary<string, WampTopic> mTopicUriToSubject;
-        
+        private readonly object mLock = new object();
+
         #endregion
 
         #region Constructor
@@ -23,6 +24,42 @@ namespace WampSharp.PubSub.Server
         #endregion
 
         #region Public Methods
+
+        public IDisposable Subscribe(string topicUri, IObserver<object> observer)
+        {
+            lock (mLock)
+            {
+                IWampTopic topic = GetOrCreateTopicByUri(topicUri, false);
+
+                return topic.Subscribe(observer);
+            }
+        }
+
+        public void Unsubscribe(string topicUri, string sessionId)
+        {
+            lock (mLock)
+            {
+                IWampTopic topic = GetTopicByUri(topicUri);
+
+                if (topic != null)
+                {
+                    topic.Unsubscribe(sessionId);                    
+                }
+            }
+        }
+
+        public void Publish(string topicUri, TMessage @event, string[] exclude, string[] eligible)
+        {
+            lock (mLock)
+            {
+                IWampTopic topic = GetTopicByUri(topicUri);
+
+                if (topic != null)
+                {
+                    topic.OnNext(new WampNotification(@event, exclude, eligible));                    
+                }
+            }
+        }
 
         public IEnumerable<string> TopicUris
         {
@@ -77,7 +114,14 @@ namespace WampSharp.PubSub.Server
 
         public IWampTopic GetTopicByUri(string topicUri)
         {
-            return mTopicUriToSubject[topicUri];
+            WampTopic result;
+
+            if (mTopicUriToSubject.TryGetValue(topicUri, out result))
+            {
+                return result;
+            }
+
+            return null;
         }
 
         public bool TryRemoveTopicByUri(string topicUri, out IWampTopic topic)
@@ -88,7 +132,7 @@ namespace WampSharp.PubSub.Server
 
             if (result)
             {
-                RaiseTopicRemoved(topicUri);
+                RaiseTopicRemoved(topic);
             }
 
             return result;
@@ -123,13 +167,13 @@ namespace WampSharp.PubSub.Server
             }
         }
 
-        private void RaiseTopicRemoved(string topicUri)
+        private void RaiseTopicRemoved(IWampTopic topic)
         {
             EventHandler<WampTopicRemovedEventArgs> topicRemoved = TopicRemoved;
 
             if (topicRemoved != null)
             {
-                topicRemoved(this, new WampTopicRemovedEventArgs(topicUri));
+                topicRemoved(this, new WampTopicRemovedEventArgs(topic));
             }
         }
 
@@ -150,8 +194,12 @@ namespace WampSharp.PubSub.Server
 
             public void Dispose()
             {
-                IWampTopic topic;
-                mParent.TryRemoveTopicByUri(mTopicUri, out topic);
+                // Yuck
+                lock (mParent.mLock)
+                {
+                    IWampTopic topic;
+                    mParent.TryRemoveTopicByUri(mTopicUri, out topic);                    
+                }
             }
         }
 

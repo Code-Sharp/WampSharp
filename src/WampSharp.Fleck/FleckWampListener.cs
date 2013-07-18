@@ -89,7 +89,8 @@ namespace WampSharp.Fleck
             private bool mClosed = false;
             private readonly IDisposable mShutdownSubscrition;
 
-            public FleckWampConnection(IWebSocketConnection webSocketConnection, IWampMessageParser<TMessage> messageParser, IObservable<Unit> shutdown)
+            public FleckWampConnection(IWebSocketConnection webSocketConnection,
+                                       IWampMessageParser<TMessage> messageParser, IObservable<Unit> shutdown)
             {
                 mWebSocketConnection = webSocketConnection;
                 mMessageParser = messageParser;
@@ -121,17 +122,29 @@ namespace WampSharp.Fleck
 
             private void OnConnectionMessage(string message)
             {
-                WampMessage<TMessage> parsed =
-                    mMessageParser.Parse(message);
+                lock (mLock)
+                {
+                    if (!mClosed)
+                    {
+                        WampMessage<TMessage> parsed =
+                            mMessageParser.Parse(message);
 
-                mWampMessageSubject.OnNext(parsed);
+                        mWampMessageSubject.OnNext(parsed);
+                    }
+                }
             }
 
             public void OnNext(WampMessage<TMessage> value)
             {
-                string raw = mMessageParser.Format(value);
+                lock (mLock)
+                {
+                    if (!mClosed)
+                    {
+                        string raw = mMessageParser.Format(value);
 
-                mWebSocketConnection.Send(raw);
+                        mWebSocketConnection.Send(raw);
+                    }
+                }
             }
 
             public void OnError(Exception error)
@@ -143,13 +156,27 @@ namespace WampSharp.Fleck
 
             public void OnCompleted()
             {
-                mWebSocketConnection.Close();
-                mShutdownSubscrition.Dispose();
+                lock (mLock)
+                {
+                    if (!mClosed)
+                    {
+                        mWebSocketConnection.Close();
+                        mShutdownSubscrition.Dispose();
+                    }
+                }
             }
 
             public IDisposable Subscribe(IObserver<WampMessage<TMessage>> observer)
             {
-                return mWampMessageSubject.Subscribe(observer);
+                lock (mLock)
+                {
+                    if (!mClosed)
+                    {
+                        return mWampMessageSubject.Subscribe(observer);
+                    }
+                }
+
+                return Disposable.Empty;
             }
         }
     }

@@ -4,18 +4,18 @@ namespace WampSharp.PubSub.Server
 {
     public class WampTopicEventArgs : EventArgs
     {
-        private readonly string mTopicUri;
+        private readonly IWampTopic mTopic;
 
-        public WampTopicEventArgs(string topicUri)
+        public WampTopicEventArgs(IWampTopic topic)
         {
-            mTopicUri = topicUri;
+            mTopic = topic;
         }
 
-        public string TopicUri
+        public IWampTopic Topic
         {
             get
             {
-                return mTopicUri;
+                return mTopic;
             }
         }
     }

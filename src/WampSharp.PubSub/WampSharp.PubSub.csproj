@@ -62,6 +62,7 @@
     <Compile Include="Client\WampServerProxyFactory.cs" />
     <Compile Include="Server\Interfaces\IWampTopic.cs" />
     <Compile Include="Server\Interfaces\IWampTopicContainer.cs" />
+    <Compile Include="Server\Interfaces\IWampTopicContainerExtended.cs" />
     <Compile Include="Server\WampNotification.cs" />
     <Compile Include="Server\WampObserver.cs" />
     <Compile Include="Server\WampPubSubServer.cs" />

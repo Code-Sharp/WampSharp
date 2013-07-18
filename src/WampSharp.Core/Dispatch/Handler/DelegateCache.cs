@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.Core.Dispatch.Handler
 {
     internal class DelegateCache<TKey, TMethod>
     {
-        private readonly IDictionary<TKey, TMethod> mKeyToMethod = new Dictionary<TKey, TMethod>();
+        private readonly IDictionary<TKey, TMethod> mKeyToMethod = new SwapDictionary<TKey, TMethod>();
         private readonly IMethodBuilder<TKey, TMethod> mMethodBuilder;
 
         public DelegateCache(IMethodBuilder<TKey,TMethod> methodBuilder)

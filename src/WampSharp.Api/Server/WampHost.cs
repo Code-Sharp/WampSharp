@@ -27,7 +27,7 @@ namespace WampSharp.Api
         private readonly IWampServer<TMessage> mServer;
         private WampListener<TMessage> mListener;
         private readonly WampRpcMetadataCatalog mMetadataCatalog;
-        private readonly IWampTopicContainer mTopicContainer;
+        private readonly IWampTopicContainerExtended<TMessage> mTopicContainer;
 
         public WampHost(string location,
                         IWampMessageParser<TMessage> parser,
@@ -42,7 +42,7 @@ namespace WampSharp.Api
             WampRpcServer<TMessage> rpcServer = new WampRpcServer<TMessage>(formatter, mMetadataCatalog);
             
             mTopicContainer = new WampTopicContainer<TMessage>();
-            WampPubSubServer<TMessage> pubSubServer = new WampPubSubServer<TMessage>(TopicContainer);
+            WampPubSubServer<TMessage> pubSubServer = new WampPubSubServer<TMessage>(mTopicContainer);
 
             WampAuxiliaryServer auxiliaryServer = new WampAuxiliaryServer();
 
