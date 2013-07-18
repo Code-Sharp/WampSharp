@@ -1,15 +1,15 @@
 WampSharp
 =========
 
-Master | Provider
------- | --------
-[![Build Status][WinImgMaster]][WinLinkMaster] | Windows CI Provided By [CodeBetter][] and [JetBrains][] 
-[![Build Status][MonoImgMaster]][MonoLinkMaster] | Mono CI Provided by [travis-ci][] 
-
 
 A C# implementation of [WAMP (The WebSocket Application Messaging Protocol)][WampLink]
 
 Currently still in development.
+
+Master | Provider
+------ | --------
+[![Build Status][WinImgMaster]][WinLinkMaster] | Windows CI Provided By [CodeBetter][] and [JetBrains][] 
+[![Build Status][MonoImgMaster]][MonoLinkMaster] | Mono CI Provided by [travis-ci][] 
 
 [WampLink]:http://wamp.ws
 
