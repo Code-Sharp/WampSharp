@@ -1,27 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
-using WampSharp.Auxiliary;
+﻿using WampSharp.Auxiliary;
 using WampSharp.Core.Client;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
-using WampSharp.Fleck;
 using WampSharp.PubSub.Client;
 using WampSharp.Rpc;
 
 namespace WampSharp.Api
 {
-    public class WampChannelFactory : WampChannelFactory<JToken>
-    {
-        public WampChannelFactory() : this(new JsonFormatter())
-        {
-        }
-
-        public WampChannelFactory(IWampFormatter<JToken> formatter) : base(formatter)
-        {
-        }
-    }
-
     public class WampChannelFactory<TMessage> : IWampChannelFactory<TMessage>
     {
         private readonly IWampFormatter<TMessage> mFormatter;

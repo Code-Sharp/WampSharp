@@ -1,5 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json.Linq;
 using WampSharp.Auxiliary;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
@@ -8,33 +7,17 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Listener.V1;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
-using WampSharp.Fleck;
 using WampSharp.PubSub.Server;
 using WampSharp.Rpc.Server;
 
 namespace WampSharp.Api
 {
-    public class WampHost : WampHost<JToken>
-    {
-        public WampHost(string location) : 
-            base(location, new JTokenMessageParser(), new JsonFormatter())
-        {
-        }
-    }
-
     public class WampHost<TMessage> : IWampHost
     {
         private readonly IWampServer<TMessage> mServer;
         private WampListener<TMessage> mListener;
         private readonly WampRpcMetadataCatalog mMetadataCatalog;
         private readonly IWampTopicContainerExtended<TMessage> mTopicContainer;
-
-        public WampHost(string location,
-                        IWampMessageParser<TMessage> parser,
-                        IWampFormatter<TMessage> formatter) :
-                            this(new FleckWampConnectionListener<TMessage>(location, parser), formatter)
-        {
-        }
 
         public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
         {
