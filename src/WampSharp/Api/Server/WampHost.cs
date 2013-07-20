@@ -1,5 +1,5 @@
 ﻿using System;
-using WampSharp.Auxiliary;
+using WampSharp.Auxiliary.Server;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
@@ -10,7 +10,7 @@ using WampSharp.Core.Serialization;
 using WampSharp.PubSub.Server;
 using WampSharp.Rpc.Server;
 
-namespace WampSharp.Api
+namespace WampSharp
 {
     public class WampHost<TMessage> : IWampHost
     {

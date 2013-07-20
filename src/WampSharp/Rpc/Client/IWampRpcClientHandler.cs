@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     public interface IWampRpcClientHandler
     {

@@ -10,6 +10,7 @@ using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
+using WampSharp.Newtonsoft;
 
 namespace WampSharp.Tests
 {

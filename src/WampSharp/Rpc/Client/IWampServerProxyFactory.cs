@@ -1,7 +1,7 @@
 ﻿using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     public interface IWampServerProxyFactory<TMessage>
     {

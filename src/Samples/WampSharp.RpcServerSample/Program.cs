@@ -1,6 +1,4 @@
 ﻿using System;
-using WampSharp.Api;
-using WampSharp.Default;
 using WampSharp.Rpc;
 
 namespace WampSharp.RpcServerSample

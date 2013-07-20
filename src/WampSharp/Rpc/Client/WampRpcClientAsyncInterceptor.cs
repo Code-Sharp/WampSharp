@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Castle.DynamicProxy;
-using WampSharp.Core.Dispatch.Handler;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     internal class WampRpcClientAsyncInterceptor : WampRpcClientInterceptor
     {

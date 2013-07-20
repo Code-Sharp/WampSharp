@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     public class WampRpcClientInterceptorSelector : IInterceptorSelector
     {

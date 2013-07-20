@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     internal static class TaskExtensions
     {

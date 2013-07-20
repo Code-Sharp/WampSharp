@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using WampSharp.Rpc;
+using WampSharp.Rpc.Client;
 using WampSharp.Tests.TestHelpers;
 
 namespace WampSharp.Tests.Rpc

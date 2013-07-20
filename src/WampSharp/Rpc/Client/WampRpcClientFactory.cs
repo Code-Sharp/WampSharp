@@ -1,8 +1,8 @@
 ﻿using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
-using WampSharp.Rpc.Dynamic;
+using WampSharp.Rpc.Client.Dynamic;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     public class WampRpcClientFactory<TMessage> : IWampRpcClientFactory<TMessage>
     {

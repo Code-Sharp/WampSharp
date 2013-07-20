@@ -1,9 +1,8 @@
 ﻿using System.Linq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Message;
 
-namespace WampSharp.Core
+namespace WampSharp.Newtonsoft
 {
     public class JsonWampMessageFormatter : IWampMessageFormatter<JToken>
     {

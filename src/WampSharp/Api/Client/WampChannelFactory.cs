@@ -1,13 +1,13 @@
-﻿using WampSharp.Auxiliary;
+﻿using WampSharp.Auxiliary.Client;
 using WampSharp.Core.Client;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.PubSub.Client;
-using WampSharp.Rpc;
+using WampSharp.Rpc.Client;
 
-namespace WampSharp.Api
+namespace WampSharp
 {
     public class WampChannelFactory<TMessage> : IWampChannelFactory<TMessage>
     {
@@ -65,8 +65,8 @@ namespace WampSharp.Api
             WampServerProxyBuilder<TMessage, IWampRpcClient<TMessage>, IWampServer> serverProxyBuilder = 
                 GetServerProxyBuilder<IWampRpcClient<TMessage>>();
 
-            Rpc.WampServerProxyFactory<TMessage> serverProxyFactory =
-                new Rpc.WampServerProxyFactory<TMessage>(serverProxyBuilder);
+            Rpc.Client.WampServerProxyFactory<TMessage> serverProxyFactory =
+                new Rpc.Client.WampServerProxyFactory<TMessage>(serverProxyBuilder);
             
             WampRpcClientHandlerBuilder<TMessage> clientHandlerBuilder = 
                 new WampRpcClientHandlerBuilder<TMessage>(mFormatter, serverProxyFactory);

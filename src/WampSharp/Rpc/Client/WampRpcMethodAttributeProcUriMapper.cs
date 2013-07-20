@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     public class WampRpcMethodAttributeProcUriMapper : IWampProcUriMapper
     {

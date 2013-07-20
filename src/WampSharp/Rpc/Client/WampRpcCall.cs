@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     public class WampRpcCall<TMessage>
     {

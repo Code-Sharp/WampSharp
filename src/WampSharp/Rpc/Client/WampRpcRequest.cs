@@ -1,6 +1,6 @@
 ﻿using System.Reactive.Subjects;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     public class WampRpcRequest
     {

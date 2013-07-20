@@ -1,6 +1,6 @@
 ﻿using WampSharp.Core.Listener;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     public interface IWampRpcClientFactory<TMessage>
     {

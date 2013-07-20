@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.Core.Dispatch.Handler;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     public class WampRpcSerializer : IWampRpcSerializer
     {

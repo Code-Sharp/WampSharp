@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WampSharp.Auxiliary
+namespace WampSharp.Auxiliary.Client
 {
     public class WampConnectionEstablishedEventArgs : EventArgs
     {

@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
-using WampSharp.Fleck;
+using WampSharp.Newtonsoft;
 using WampSharp.WebSocket4Net;
 
-namespace WampSharp.Api
+namespace WampSharp
 {
     public static class WampChannelFactoryExtensions
     {

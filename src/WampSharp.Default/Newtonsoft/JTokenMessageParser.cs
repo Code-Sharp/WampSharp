@@ -1,11 +1,10 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using WampSharp.Core;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 
-namespace WampSharp.Fleck
+namespace WampSharp.Newtonsoft
 {
     public class JTokenMessageParser : IWampMessageParser<JToken>
     {

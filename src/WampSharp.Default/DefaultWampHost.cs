@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json.Linq;
-using WampSharp.Api;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
+using WampSharp.Newtonsoft;
 
-namespace WampSharp.Default
+namespace WampSharp
 {
     public class DefaultWampHost : DefaultWampHost<JToken>
     {

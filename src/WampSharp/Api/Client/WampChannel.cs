@@ -4,14 +4,14 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using WampSharp.Auxiliary;
+using WampSharp.Auxiliary.Client;
 using WampSharp.Core.Client;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
 using WampSharp.PubSub.Client;
-using WampSharp.Rpc;
+using WampSharp.Rpc.Client;
 
-namespace WampSharp.Api
+namespace WampSharp
 {
     public class WampChannel<TMessage> : IWampChannel<TMessage>
     {

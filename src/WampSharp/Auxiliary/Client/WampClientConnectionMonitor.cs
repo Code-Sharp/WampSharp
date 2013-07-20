@@ -3,7 +3,7 @@ using WampSharp.Core.Client;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
 
-namespace WampSharp.Auxiliary
+namespace WampSharp.Auxiliary.Client
 {
     public class WampClientConnectionMonitor<TMessage> : IWampClientConnectionMonitor
     {

@@ -8,7 +8,7 @@ using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     public class WampRpcClientHandler<TMessage> : IWampRpcClientHandler
     {

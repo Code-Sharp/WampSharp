@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     internal class WampRpcClientSyncInterceptor : WampRpcClientInterceptor
     {

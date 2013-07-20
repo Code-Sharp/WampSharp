@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Rpc;
+using WampSharp.Rpc.Client;
 using WampSharp.Tests.Rpc.Helpers;
 using WampSharp.Tests.TestHelpers;
 #if MONO

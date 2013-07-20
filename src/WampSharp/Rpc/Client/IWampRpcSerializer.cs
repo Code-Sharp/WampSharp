@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace WampSharp.Rpc
+namespace WampSharp.Rpc.Client
 {
     public interface IWampRpcSerializer<TMessage>
     {

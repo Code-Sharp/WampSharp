@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 
-namespace WampSharp.Rpc.Dynamic
+namespace WampSharp.Rpc.Client.Dynamic
 {
     /// <summary>
     /// An implementation of <see cref="MethodInfo"/> for

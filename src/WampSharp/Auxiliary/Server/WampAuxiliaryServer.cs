@@ -1,8 +1,7 @@
-﻿using System;
-using WampSharp.Core.Contracts.V1;
+﻿using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Curie;
 
-namespace WampSharp.Auxiliary
+namespace WampSharp.Auxiliary.Server
 {
     public class WampAuxiliaryServer : IWampAuxiliaryServer
     {

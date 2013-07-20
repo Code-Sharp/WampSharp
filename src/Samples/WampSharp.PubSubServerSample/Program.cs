@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WampSharp.Api;
-using WampSharp.Default;
 using WampSharp.PubSub.Server;
 
 namespace WampSharp.PubSubServerSample
