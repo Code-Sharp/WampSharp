@@ -64,7 +64,7 @@
   <ItemGroup>
     <Compile Include="DefaultWampChannelFactory.cs" />
     <Compile Include="DefaultWampHost.cs" />
-    <Compile Include="Fleck\FleckWampListener.cs" />
+    <Compile Include="Fleck\FleckWampConnectionListener.cs" />
     <Compile Include="Newtonsoft\JsonFormatter.cs" />
     <Compile Include="Newtonsoft\JsonWampMessageFormatter.cs" />
     <Compile Include="Newtonsoft\JTokenMessageParser.cs" />

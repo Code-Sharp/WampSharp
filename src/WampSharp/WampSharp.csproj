@@ -140,7 +140,7 @@
     <Compile Include="Core\Proxy\WampOutgoingInterceptor.cs" />
     <Compile Include="Core\Proxy\WampOutgoingRequestSerializer.cs" />
     <Compile Include="Core\Serialization\IWampFormatter.cs" />
-    <Compile Include="Core\Serialization\IWampParser.cs" />
+    <Compile Include="Core\Serialization\IWampMessageParser.cs" />
     <Compile Include="Core\Utilities\CustomAttributeExtensions.cs" />
     <Compile Include="Core\Utilities\SwapDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
