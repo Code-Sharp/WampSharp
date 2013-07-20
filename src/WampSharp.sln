@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp", "WampSharp\WampSharp.csproj", "{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Tests", "WampSharp.Tests\WampSharp.Tests.csproj", "{D3FB3310-A761-45B5-AC4B-78FE90C2829C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Default", "WampSharp.Default\WampSharp.Default.csproj", "{6AB75291-D296-457E-88A3-B41B16A1A247}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{33E2A6E5-246F-420B-A13C-AA4B617EBFB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.PubSubServerSample", "Samples\WampSharp.PubSubServerSample\WampSharp.PubSubServerSample.csproj", "{AD5C9AA6-6810-488E-9EDD-FCC945AAD627}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RpcClientSample", "Samples\WampSharp.RpcClientSample\WampSharp.RpcClientSample.csproj", "{2128E477-97B6-4224-A8A9-789F79514B41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RpcServerSample", "Samples\WampSharp.RpcServerSample\WampSharp.RpcServerSample.csproj", "{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3FB3310-A761-45B5-AC4B-78FE90C2829C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3FB3310-A761-45B5-AC4B-78FE90C2829C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3FB3310-A761-45B5-AC4B-78FE90C2829C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3FB3310-A761-45B5-AC4B-78FE90C2829C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AB75291-D296-457E-88A3-B41B16A1A247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB75291-D296-457E-88A3-B41B16A1A247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB75291-D296-457E-88A3-B41B16A1A247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB75291-D296-457E-88A3-B41B16A1A247}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD5C9AA6-6810-488E-9EDD-FCC945AAD627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD5C9AA6-6810-488E-9EDD-FCC945AAD627}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD5C9AA6-6810-488E-9EDD-FCC945AAD627}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD5C9AA6-6810-488E-9EDD-FCC945AAD627}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2128E477-97B6-4224-A8A9-789F79514B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2128E477-97B6-4224-A8A9-789F79514B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2128E477-97B6-4224-A8A9-789F79514B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2128E477-97B6-4224-A8A9-789F79514B41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AD5C9AA6-6810-488E-9EDD-FCC945AAD627} = {33E2A6E5-246F-420B-A13C-AA4B617EBFB2}
+		{2128E477-97B6-4224-A8A9-789F79514B41} = {33E2A6E5-246F-420B-A13C-AA4B617EBFB2}
+		{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77} = {33E2A6E5-246F-420B-A13C-AA4B617EBFB2}
+	EndGlobalSection
+EndGlobal

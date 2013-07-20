@@ -54,21 +54,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WampSharp.Api\WampSharp.Api.csproj">
-      <Project>{9634E498-9111-4A76-A25B-B01A07160D94}</Project>
-      <Name>WampSharp.Api</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.Core\WampSharp.Core.csproj">
-      <Project>{bb845f45-0d5f-4a41-9fc5-6c3fe73bec28}</Project>
-      <Name>WampSharp.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.Rpc\WampSharp.Rpc.csproj">
-      <Project>{C3290246-2E64-4E58-96B2-65E11FE16B3D}</Project>
-      <Name>WampSharp.Rpc</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\..\WampSharp.Default\WampSharp.Default.csproj">
+      <Project>{6ab75291-d296-457e-88a3-b41b16a1a247}</Project>
+      <Name>WampSharp.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
+      <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>
+      <Name>WampSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
