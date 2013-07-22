@@ -13,7 +13,7 @@ Master | Provider
 
 [WampLink]:http://wamp.ws
 
-[WinImgMaster]:http://teamcity.codebetter.com/app/rest/builds/buildType:\(id:bt1055\)/statusIcon
+[WinImgMaster]:http://teamcity.codebetter.com/app/rest/builds/buildType:\(id:bt1059\)/statusIcon
 [WinLinkMaster]:http://teamcity.codebetter.com/viewLog.html?buildTypeId=bt1055&buildId=lastFinished&guest=1
 [MonoImgMaster]:https://travis-ci.org/darkl/WampSharp.png?branch=master
 [MonoLinkMaster]:https://travis-ci.org/darkl/WampSharp
