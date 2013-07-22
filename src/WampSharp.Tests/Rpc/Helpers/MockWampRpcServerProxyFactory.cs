@@ -2,6 +2,7 @@
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
 using WampSharp.Rpc;
+using WampSharp.Rpc.Client;
 
 namespace WampSharp.Tests.Rpc.Helpers
 {

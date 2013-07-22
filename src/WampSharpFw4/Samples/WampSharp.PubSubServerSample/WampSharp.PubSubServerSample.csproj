@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -61,33 +61,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WampSharp.Api\WampSharp.Api.csproj">
-      <Project>{9634E498-9111-4A76-A25B-B01A07160D94}</Project>
-      <Name>WampSharp.Api</Name>
+    <ProjectReference Include="..\..\WampSharp.Default\WampSharp.Default.csproj">
+      <Project>{6ab75291-d296-457e-88a3-b41b16a1a247}</Project>
+      <Name>WampSharp.Default</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.Auxiliary\WampSharp.Auxiliary.csproj">
-      <Project>{1c0c383c-a7b4-4c18-a6ac-159d38bff248}</Project>
-      <Name>WampSharp.Auxiliary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.Core\WampSharp.Core.csproj">
-      <Project>{bb845f45-0d5f-4a41-9fc5-6c3fe73bec28}</Project>
-      <Name>WampSharp.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.Fleck\WampSharp.Fleck.csproj">
-      <Project>{b4a77c12-8430-4852-bcb9-acfd5f30a1e4}</Project>
-      <Name>WampSharp.Fleck</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.PubSub\WampSharp.PubSub.csproj">
-      <Project>{f9e037cc-c8ce-48ef-b2c3-25c2af1beecd}</Project>
-      <Name>WampSharp.PubSub</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.Rpc\WampSharp.Rpc.csproj">
-      <Project>{c3290246-2e64-4e58-96b2-65e11fe16b3d}</Project>
-      <Name>WampSharp.Rpc</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.csproj">
-      <Project>{7d8b80ff-c0aa-41d3-a698-57bb419de30d}</Project>
-      <Name>WampSharp.WebSocket4Net</Name>
+    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
+      <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>
+      <Name>WampSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
