@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>WampSharp</authors>
+    <owners />
+    <dependencies>
+      <dependency id="WampSharp" version="$version$" />
+      <dependency id="Fleck" version="0.9.7.22" />
+      <dependency id="Newtonsoft.Json" version="5.0.6" />
+      <dependency id="WebSocket4Net" version="0.8" />
+    </dependencies>
+    <id>WampSharp.Default</id>
+    <title>WampSharp default binding</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp above Fleck, Newtonsoft.Json and WebSocket4Net</description>
+    <projectUrl>https://github.com/darkl/WampSharp</projectUrl>
+  </metadata>
+  <files>
+    <file src="WampSharp.Default\bin\$Configuration$\WampSharp.Default.dll" target="lib\net45\WampSharp.Default.dll" />
+    <file src="WampSharp.Default\bin\$Configuration$\WampSharp.Default.xml" target="lib\net45\WampSharp.Default.xml" />
+    <file src="WampSharpFw4\WampSharp.Default\bin\$Configuration$\WampSharp.Default.dll" target="lib\net40\WampSharp.Default.dll" />
+    <file src="WampSharpFw4\WampSharp.Default\bin\$Configuration$\WampSharp.Default.xml" target="lib\net40\WampSharp.Default.xml" />
+  </files>
+</package>
