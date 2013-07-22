@@ -1,5 +1,4 @@
 ﻿using System;
-using WampSharp.Api;
 using WampSharp.Rpc;
 
 namespace WampSharp.RpcServerSample
@@ -25,7 +24,7 @@ namespace WampSharp.RpcServerSample
             // http://autobahn.ws/static/file/autobahnjs.html
 
             const string location = "ws://localhost:9000/";
-            using (IWampHost host = new WampHost(location))
+            using (IWampHost host = new DefaultWampHost(location))
             {
                 ICalculator instance = new Calculator();
                 host.HostService(instance);

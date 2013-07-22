@@ -11,9 +11,11 @@ using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
+using WampSharp.Newtonsoft;
 using WampSharp.Rpc;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
+using WampSharp.Rpc.Client;
 using WampSharp.Tests.TestHelpers;
 
 namespace WampSharp.Tests

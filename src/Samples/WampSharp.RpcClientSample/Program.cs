@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using WampSharp.Api;
 using WampSharp.Rpc;
 
 namespace WampSharp.RpcClientSample
@@ -22,7 +21,7 @@ namespace WampSharp.RpcClientSample
 
         static void Main(string[] args)
         {
-            WampChannelFactory channelFactory = new WampChannelFactory();
+            DefaultWampChannelFactory channelFactory = new DefaultWampChannelFactory();
 
             IWampChannel<JToken> channel =
                 channelFactory.CreateChannel("ws://localhost:9000/");

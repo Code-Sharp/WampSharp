@@ -2,6 +2,7 @@
 using System.Linq;
 using WampSharp.Core.Message;
 using WampSharp.Rpc;
+using WampSharp.Rpc.Client;
 using WampSharp.Tests.Rpc.Helpers;
 using WampSharp.Tests.TestHelpers;
 

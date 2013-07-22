@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WampSharp.Api;
 using WampSharp.PubSub.Server;
 
 namespace WampSharp.PubSubServerSample
@@ -15,7 +14,7 @@ namespace WampSharp.PubSubServerSample
             // http://autobahn.ws/static/file/autobahnjs.html
 
             const string location = "ws://localhost:9000/";
-            using (IWampHost host = new WampHost(location))
+            using (IWampHost host = new DefaultWampHost(location))
             {
                 host.Open();
                 // Use this in order to publish events to subscribers.
