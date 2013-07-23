@@ -21,3 +21,9 @@ Master | Provider
 [JetBrains]:http://www.jetbrains.com/
 [CodeBetter]:http://codebetter.com/
 [travis-ci]:https://travis-ci.org/
+
+
+Get started
+===========
+
+See [Server tutorial](https://github.com/darkl/WampSharp/wiki/Getting-started) and [Client tutorial](https://github.com/darkl/WampSharp/wiki/Getting-started-with-WAMP-client).
