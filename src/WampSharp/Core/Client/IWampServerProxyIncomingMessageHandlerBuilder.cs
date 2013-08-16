@@ -12,7 +12,7 @@ namespace WampSharp.Core.Client
     {
         /// <summary>
         /// Creates an <see cref="IWampIncomingMessageHandler{TMessage,TClient}"/>
-        /// that will use <see cref="client"/> in order to handle incoming callbacks.
+        /// that will use <paramref name="client"/> in order to handle incoming callbacks.
         /// </summary>
         /// <param name="client">The client that will be used in order to handle incoming callbacks.</param>
         /// <param name="connection">Not sure why this is here.</param>

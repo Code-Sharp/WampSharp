@@ -14,7 +14,7 @@ namespace WampSharp.Core.Client
         /// <summary>
         /// Builds a <see cref="IWampOutgoingMessageHandler{TMessage}"/> that
         /// will send messages using the given <paramref name="connection"/>
-        /// and get callbacks through the given <see cref="client"/>.
+        /// and get callbacks through the given <paramref name="client"/>.
         /// </summary>
         /// <param name="client">The client to receive callbacks from server through.</param>
         /// <param name="connection">The connection to send messages through.</param>

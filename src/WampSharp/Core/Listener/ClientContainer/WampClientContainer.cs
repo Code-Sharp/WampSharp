@@ -23,8 +23,8 @@ namespace WampSharp.Core.Listener
 
         /// <summary>
         /// Creates a new instance of <see cref="WampClientContainer{TMessage,TClient}"/>
-        /// using a client builder that is activated using the given <
-        /// see cref="clientBuilderFactory"/> and this container.
+        /// using a client builder that is activated using the given 
+        /// <paramref name="clientBuilderFactory"/> and this container.
         /// </summary>
         /// <param name="clientBuilderFactory">The given <see cref="IWampClientBuilderFactory{TMessage,TClient}"/>.</param>
         public WampClientContainer(IWampClientBuilderFactory<TMessage, TClient> clientBuilderFactory)

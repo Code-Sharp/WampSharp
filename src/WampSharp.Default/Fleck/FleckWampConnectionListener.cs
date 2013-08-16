@@ -63,22 +63,22 @@ namespace WampSharp.Fleck
 
             mServer.Start(connection =>
                               {
-                                  FleckWampConnection<TMessage> wampConnection =
-                                      new FleckWampConnection<TMessage>(connection,
-                                                                        mParser,
-                                                                        mShutdown);
+                                  FleckWampConnection wampConnection =
+                                      new FleckWampConnection(connection,
+                                                              mParser,
+                                                              mShutdown);
 
                                   connection.OnOpen =
                                       () => OnNewConnection(wampConnection);
                               });
         }
 
-        private void OnNewConnection(FleckWampConnection<TMessage> wampConnection)
+        private void OnNewConnection(FleckWampConnection wampConnection)
         {
             mSubject.OnNext(wampConnection);
         }
 
-        private class FleckWampConnection<TMessage> : IWampConnection<TMessage>
+        private class FleckWampConnection : IWampConnection<TMessage>
         {
             private readonly Subject<WampMessage<TMessage>> mWampMessageSubject =
                 new Subject<WampMessage<TMessage>>();

@@ -10,7 +10,7 @@ namespace WampSharp.Core.Listener
     public interface IWampClientContainer<TMessage, TClient>
     {
         /// <summary>
-        /// Gets a client proxy for the given <see cref="connection"/>.
+        /// Gets a client proxy for the given <paramref name="connection"/>.
         /// </summary>
         /// <param name="connection">The given connection.</param>
         /// <returns>A client proxy.</returns>
