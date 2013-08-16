@@ -337,14 +337,14 @@
     <Compile Include="..\..\WampSharp\PubSub\Client\WampServerProxyFactory.cs">
       <Link>PubSub\Client\WampServerProxyFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\PubSub\Server\EventArgs\WampSubscriptionAddedEventArgs.cs">
-      <Link>PubSub\Server\EventArgs\WampSubscriptionAddedEventArgs.cs</Link>
+    <Compile Include="..\..\WampSharp\PubSub\Server\EventArgs\WampSubscriptionAddEventArgs.cs">
+      <Link>PubSub\Server\EventArgs\WampSubscriptionAddEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\PubSub\Server\EventArgs\WampSubscriptionEventArgs.cs">
       <Link>PubSub\Server\EventArgs\WampSubscriptionEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\PubSub\Server\EventArgs\WampSubscriptionRemovedEventArgs.cs">
-      <Link>PubSub\Server\EventArgs\WampSubscriptionRemovedEventArgs.cs</Link>
+    <Compile Include="..\..\WampSharp\PubSub\Server\EventArgs\WampSubscriptionRemoveEventArgs.cs">
+      <Link>PubSub\Server\EventArgs\WampSubscriptionRemoveEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\PubSub\Server\EventArgs\WampTopicCreatedEventArgs.cs">
       <Link>PubSub\Server\EventArgs\WampTopicCreatedEventArgs.cs</Link>
