@@ -177,7 +177,6 @@ namespace WampSharp.PubSub.Server
         #region Events
 
         public event EventHandler<WampTopicCreatedEventArgs> TopicCreated;
-        public event EventHandler<WampTopicRemovedEventArgs> TopicRemoving;
 
         public event EventHandler<WampTopicRemovedEventArgs> TopicRemoved;
 
