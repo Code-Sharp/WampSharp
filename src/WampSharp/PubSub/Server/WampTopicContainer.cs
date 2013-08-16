@@ -144,9 +144,32 @@ namespace WampSharp.PubSub.Server
 
         private WampTopic CreateWampTopic(string topicUri, bool persistent)
         {
-            return new WampTopic(topicUri,
-                                 new WampTopicContainerDisposable(this, topicUri),
-                                 persistent);
+            WampTopic topic = new WampTopic(topicUri, persistent);
+
+            // Non persistent topics die when they are empty :)
+            if (!persistent)
+            {
+                topic.TopicEmpty += OnTopicEmpty;
+            }
+
+            return topic;
+        }
+
+        private void OnTopicEmpty(object sender, EventArgs e)
+        {
+            lock (mLock)
+            {
+                IWampTopic topic = sender as IWampTopic;
+                
+                if (!topic.HasObservers)
+                {
+                    topic.TopicEmpty -= OnTopicEmpty;
+                    topic.Dispose();
+
+                    IWampTopic deletedTopic;
+                    TryRemoveTopicByUri(topic.TopicUri, out deletedTopic);
+                }
+            }
         }
 
         #endregion
@@ -154,6 +177,7 @@ namespace WampSharp.PubSub.Server
         #region Events
 
         public event EventHandler<WampTopicCreatedEventArgs> TopicCreated;
+        public event EventHandler<WampTopicRemovedEventArgs> TopicRemoving;
 
         public event EventHandler<WampTopicRemovedEventArgs> TopicRemoved;
 
@@ -174,32 +198,6 @@ namespace WampSharp.PubSub.Server
             if (topicRemoved != null)
             {
                 topicRemoved(this, new WampTopicRemovedEventArgs(topic));
-            }
-        }
-
-        #endregion
-
-        #region Nested Classes
-
-        private class WampTopicContainerDisposable : IDisposable
-        {
-            private readonly WampTopicContainer<TMessage> mParent;
-            private readonly string mTopicUri;
-
-            public WampTopicContainerDisposable(WampTopicContainer<TMessage> parent, string topicUri)
-            {
-                mParent = parent;
-                mTopicUri = topicUri;
-            }
-
-            public void Dispose()
-            {
-                // Yuck
-                lock (mParent.mLock)
-                {
-                    IWampTopic topic;
-                    mParent.TryRemoveTopicByUri(mTopicUri, out topic);                    
-                }
             }
         }
 

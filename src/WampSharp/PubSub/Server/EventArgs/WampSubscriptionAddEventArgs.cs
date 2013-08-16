@@ -2,11 +2,11 @@
 
 namespace WampSharp.PubSub.Server
 {
-    public class WampSubscriptionAddedEventArgs : WampSubscriptionEventArgs
+    public class WampSubscriptionAddEventArgs : WampSubscriptionEventArgs
     {
         private readonly IObserver<object> mObserver;
 
-        public WampSubscriptionAddedEventArgs(string sessionId, IObserver<object> observer) : 
+        public WampSubscriptionAddEventArgs(string sessionId, IObserver<object> observer) : 
             base(sessionId)
         {
             mObserver = observer;

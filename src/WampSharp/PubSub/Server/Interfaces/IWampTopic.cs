@@ -10,9 +10,15 @@ namespace WampSharp.PubSub.Server
     {
         string TopicUri { get; }
         bool Persistent { get; }
-        
-        event EventHandler<WampSubscriptionAddedEventArgs> SubscriptionAdded;
-        event EventHandler<WampSubscriptionRemovedEventArgs> SubscriptionRemoved;
+
+        bool HasObservers { get; }
+
+        event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdding;
+        event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdded;
+        event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoving;
+        event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoved;
+
+        event EventHandler TopicEmpty; 
 
         void Unsubscribe(string sessionId);
     }

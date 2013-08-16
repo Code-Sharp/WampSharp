@@ -151,9 +151,9 @@
     <Compile Include="PubSub\Client\WampPubSubClientFactory.cs" />
     <Compile Include="PubSub\Client\WampPubSubSubject.cs" />
     <Compile Include="PubSub\Client\WampServerProxyFactory.cs" />
-    <Compile Include="PubSub\Server\EventArgs\WampSubscriptionAddedEventArgs.cs" />
+    <Compile Include="PubSub\Server\EventArgs\WampSubscriptionAddEventArgs.cs" />
     <Compile Include="PubSub\Server\EventArgs\WampSubscriptionEventArgs.cs" />
-    <Compile Include="PubSub\Server\EventArgs\WampSubscriptionRemovedEventArgs.cs" />
+    <Compile Include="PubSub\Server\EventArgs\WampSubscriptionRemoveEventArgs.cs" />
     <Compile Include="PubSub\Server\EventArgs\WampTopicCreatedEventArgs.cs" />
     <Compile Include="PubSub\Server\EventArgs\WampTopicEventArgs.cs" />
     <Compile Include="PubSub\Server\EventArgs\WampTopicRemovedEventArgs.cs" />
