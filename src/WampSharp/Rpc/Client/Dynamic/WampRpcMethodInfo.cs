@@ -6,7 +6,7 @@ namespace WampSharp.Rpc.Client.Dynamic
 {
     /// <summary>
     /// An implementation of <see cref="MethodInfo"/> for
-    /// <see cref="IWampRpcSerializer{TMessage}"/> and
+    /// <see cref="IWampRpcSerializer"/> and
     /// <see cref="IWampProcUriMapper"/>.
     /// </summary>
     /// <remarks>

@@ -15,7 +15,7 @@ namespace WampSharp.Rpc.Client
         /// <summary>
         /// Creates a new instance of <see cref="WampRpcSerializer"/>.
         /// </summary>
-        /// <param name="procUriMapper">A given <see cref="procUriMapper"/>
+        /// <param name="procUriMapper">A given <see cref="IWampProcUriMapper"/>
         /// used in order to map called methods to their corresponding
         /// uris.</param>
         public WampRpcSerializer(IWampProcUriMapper procUriMapper)
