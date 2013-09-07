@@ -15,6 +15,7 @@ using WampSharp.Newtonsoft;
 using WampSharp.Rpc;
 using WampSharp.Rpc.Client;
 using WampSharp.Rpc.Server;
+using WampSharp.Tests.Rpc.Helpers;
 
 namespace WampSharp.Tests
 {

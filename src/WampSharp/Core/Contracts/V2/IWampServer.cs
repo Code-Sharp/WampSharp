@@ -1,4 +1,6 @@
-﻿namespace WampSharp.Core.Contracts.V2
+﻿#pragma warning disable 1591
+
+namespace WampSharp.Core.Contracts.V2
 {
     public interface IWampServer<TMessage> : IWampAuxiliaryServer<TMessage>,
                                              IWampRpcCallee<TMessage>,
@@ -6,3 +8,5 @@
     {
     }
 }
+
+#pragma warning restore 1591

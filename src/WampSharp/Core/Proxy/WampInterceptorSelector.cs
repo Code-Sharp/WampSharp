@@ -16,6 +16,11 @@ namespace WampSharp.Core.Proxy
     {
         private readonly WampOutgoingInterceptor<TMessage> mInterceptor;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="WampInterceptorSelector{TMessage}"/>.
+        /// </summary>
+        /// <param name="interceptor">The given <see cref="WampOutgoingInterceptor{TMessage}"/> used
+        /// for WAMP method calls</param>
         public WampInterceptorSelector(WampOutgoingInterceptor<TMessage> interceptor)
         {
             mInterceptor = interceptor;

@@ -96,7 +96,7 @@ namespace WampSharp.Tests.Rpc
         }
 
 
-        private static WampRpcCall<object> GetRpcCall(MockRaw[] arguments)
+        private static WampRpcCall GetRpcCall(MockRaw[] arguments)
         {
             string callId = (string) arguments[0].Value;
 
@@ -105,7 +105,7 @@ namespace WampSharp.Tests.Rpc
             object[] methodArguments =
                 arguments.Skip(2).Select(x => x.Value).ToArray();
 
-            return new WampRpcCall<object>()
+            return new WampRpcCall()
                        {
                            Arguments = methodArguments,
                            ProcUri = procUri,

@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using WampSharp.Core.Dispatch.Handler;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.Rpc.Client
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampRpcSerializer"/>.
+    /// </summary>
     public class WampRpcSerializer : IWampRpcSerializer
     {
         private readonly IWampProcUriMapper mProcUriMapper;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="WampRpcSerializer"/>.
+        /// </summary>
+        /// <param name="procUriMapper">A given <see cref="procUriMapper"/>
+        /// used in order to map called methods to their corresponding
+        /// uris.</param>
         public WampRpcSerializer(IWampProcUriMapper procUriMapper)
         {
             mProcUriMapper = procUriMapper;
         }
 
-        public WampRpcCall<object> Serialize(MethodInfo method, object[] arguments)
+        public WampRpcCall Serialize(MethodInfo method, object[] arguments)
         {
-            WampRpcCall<object> result = new WampRpcCall<object>()
+            WampRpcCall result = new WampRpcCall()
                                              {
                                                  Arguments =  arguments,
                                                  ProcUri =  mProcUriMapper.Map(method),

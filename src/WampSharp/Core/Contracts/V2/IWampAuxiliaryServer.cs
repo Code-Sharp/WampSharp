@@ -1,4 +1,6 @@
-﻿using WampSharp.Core.Message;
+﻿#pragma warning disable 1591
+
+using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Contracts.V2
 {
@@ -17,3 +19,5 @@ namespace WampSharp.Core.Contracts.V2
         void Goodbye([WampProxyParameter] IWampAuxiliaryClient client, TMessage goodbyeDetails);
     }
 }
+
+#pragma warning restore 1591

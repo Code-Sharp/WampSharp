@@ -84,6 +84,9 @@
     <Compile Include="..\..\WampSharp.Tests\MockListener.cs">
       <Link>MockListener.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Tests\Rpc\Helpers\WampDelegateProcUriMapper.cs">
+      <Link>Rpc\Helpers\WampDelegateProcUriMapper.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Tests\TestHelpers\DummyConnection.cs">
       <Link>TestHelpers\DummyConnection.cs</Link>
     </Compile>

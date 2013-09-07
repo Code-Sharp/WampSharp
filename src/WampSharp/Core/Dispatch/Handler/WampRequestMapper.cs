@@ -6,6 +6,7 @@ using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.Core.Dispatch.Handler
 {

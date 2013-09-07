@@ -1,4 +1,6 @@
-﻿using WampSharp.Core.Message;
+﻿#pragma warning disable 1591
+
+using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Contracts.V2
 {
@@ -30,3 +32,5 @@ namespace WampSharp.Core.Contracts.V2
         void CallError(string callId, string error, string errorMessage, TMessage errorDetails);
     }
 }
+
+#pragma warning restore 1591

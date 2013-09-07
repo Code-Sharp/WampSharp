@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using WampSharp.Rpc;
 using WampSharp.Rpc.Client;
+using WampSharp.Tests.Rpc.Helpers;
 using WampSharp.Tests.TestHelpers;
 
 namespace WampSharp.Tests.Rpc
@@ -22,7 +23,7 @@ namespace WampSharp.Tests.Rpc
             ICalculator proxy = clientFactory.GetClient<ICalculator>(DummyConnection<MockRaw>.Instance);
             int nine = proxy.Square(3);
 
-            WampRpcCall<object> wampRpcCall = clientHandler.LastMessage;
+            WampRpcCall wampRpcCall = clientHandler.LastMessage;
             Assert.That(wampRpcCall.ProcUri, Is.EqualTo("Square"));
             CollectionAssert.AreEqual(wampRpcCall.Arguments, new object[] { 3 });
         }

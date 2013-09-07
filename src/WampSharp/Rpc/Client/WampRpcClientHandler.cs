@@ -10,6 +10,10 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.Rpc.Client
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampRpcClientHandler"/>.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public class WampRpcClientHandler<TMessage> : IWampRpcClientHandler
     {
         private readonly IWampServer<object> mServerProxy;
@@ -19,19 +23,22 @@ namespace WampSharp.Rpc.Client
 
         private readonly IWampFormatter<TMessage> mFormatter;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="WampRpcClientHandler{TMessage}"/>.
+        /// </summary>
         public WampRpcClientHandler(IWampServerProxyFactory<TMessage> serverProxyFactory, IWampConnection<TMessage> connection, IWampFormatter<TMessage> formatter)
         {
             mFormatter = formatter;
             mServerProxy = serverProxyFactory.Create(new RpcWampClient(this), connection);
         }
 
-        public object Handle(WampRpcCall<object> rpcCall)
+        public object Handle(WampRpcCall rpcCall)
         {
             Task<object> task = HandleAsync(rpcCall);
             return task.Result;
         }
 
-        public Task<object> HandleAsync(WampRpcCall<object> rpcCall)
+        public Task<object> HandleAsync(WampRpcCall rpcCall)
         {
             rpcCall.CallId = Guid.NewGuid().ToString(); 
             // TODO: replace this with CallIdGenerator

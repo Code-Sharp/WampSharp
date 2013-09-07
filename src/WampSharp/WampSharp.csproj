@@ -75,7 +75,6 @@
     <Compile Include="Core\Client\IWampServerProxyIncomingMessageHandlerBuilder.cs" />
     <Compile Include="Core\Client\IWampServerProxyOutgoingMessageHandlerBuilder.cs" />
     <Compile Include="Core\Client\WampServerProxyBuilder.cs" />
-    <Compile Include="Core\Client\WampServerProxyConnection.cs" />
     <Compile Include="Core\Client\WampServerProxyHandler.cs" />
     <Compile Include="Core\Client\WampServerProxyIncomingMessageHandlerBuilder.cs" />
     <Compile Include="Core\Client\WampServerProxyOutgoingMessageHandlerBuilder.cs" />
@@ -102,7 +101,6 @@
     <Compile Include="Core\Curie\WampCurieMapper.cs" />
     <Compile Include="Core\Dispatch\Handler\DelegateCache.cs" />
     <Compile Include="Core\Dispatch\Handler\DictionaryExtensions.cs" />
-    <Compile Include="Core\Dispatch\Handler\GenericTypeExtensions.cs" />
     <Compile Include="Core\Dispatch\Handler\IMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\IWampRequestMapper.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodBuilder.cs" />
@@ -144,6 +142,7 @@
     <Compile Include="Core\Serialization\IWampFormatter.cs" />
     <Compile Include="Core\Serialization\IWampMessageParser.cs" />
     <Compile Include="Core\Utilities\CustomAttributeExtensions.cs" />
+    <Compile Include="Core\Utilities\GenericTypeExtensions.cs" />
     <Compile Include="Core\Utilities\SwapDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PubSub\Client\IWampPubSubClientFactory.cs" />
@@ -174,7 +173,6 @@
     <Compile Include="Rpc\Client\IWampRpcSerializer.cs" />
     <Compile Include="Rpc\Client\IWampServerProxyFactory.cs" />
     <Compile Include="Rpc\Client\TaskExtensions.cs" />
-    <Compile Include="Rpc\Client\WampDelegateProcUriMapper.cs" />
     <Compile Include="Rpc\Client\WampRpcCall.cs" />
     <Compile Include="Rpc\Client\WampRpcClientAsyncInterceptor.cs" />
     <Compile Include="Rpc\Client\WampRpcClientFactory.cs" />
@@ -190,13 +188,11 @@
     <Compile Include="Rpc\Server\IWampRpcMetadata.cs" />
     <Compile Include="Rpc\Server\IWampRpcMetadataCatalog.cs" />
     <Compile Include="Rpc\Server\IWampRpcMethod.cs" />
-    <Compile Include="Rpc\Server\IWampRpcTypeMetadataProvider.cs" />
     <Compile Include="Rpc\Server\MethodInfoWampRpcMetadata.cs" />
     <Compile Include="Rpc\Server\MethodInfoWampRpcMethod.cs" />
     <Compile Include="Rpc\Server\ProcUriAlreadyMappedException.cs" />
     <Compile Include="Rpc\Server\WampRpcMetadataCatalog.cs" />
     <Compile Include="Rpc\Server\WampRpcServer.cs" />
-    <Compile Include="Rpc\Server\WampRpcTypeMetadataProvider.cs" />
     <Compile Include="Rpc\WampRpcCallException.cs" />
     <Compile Include="Rpc\WampRpcMethodAttribute.cs" />
   </ItemGroup>

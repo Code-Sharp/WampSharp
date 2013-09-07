@@ -2,10 +2,21 @@
 
 namespace WampSharp.Rpc.Client
 {
+    /// <summary>
+    /// Represents a RPC request that is currently
+    /// in progress.
+    /// </summary>
     public class WampRpcRequest
     {
+        /// <summary>
+        /// A task used in order to notify when
+        /// result arrived.
+        /// </summary>
         public ISubject<object> Task { get; set; }
 
-        public WampRpcCall<object> Request { get; set; } 
+        /// <summary>
+        /// The original request.
+        /// </summary>
+        public WampRpcCall Request { get; set; } 
     }
 }

@@ -16,6 +16,7 @@ using WampSharp.Rpc;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
 using WampSharp.Rpc.Client;
+using WampSharp.Tests.Rpc.Helpers;
 using WampSharp.Tests.TestHelpers;
 
 namespace WampSharp.Tests
@@ -145,15 +146,15 @@ namespace WampSharp.Tests
             mResult = result;
         }
 
-        public WampRpcCall<object> LastMessage { get; set; }
-        public object Handle(WampRpcCall<object> rpcCall)
+        public WampRpcCall LastMessage { get; set; }
+        public object Handle(WampRpcCall rpcCall)
         {
             LastMessage = rpcCall;
 
             return mResult;
         }
 
-        public Task<object> HandleAsync(WampRpcCall<object> rpcCall)
+        public Task<object> HandleAsync(WampRpcCall rpcCall)
         {
             LastMessage = rpcCall;
 

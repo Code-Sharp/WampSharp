@@ -17,7 +17,7 @@ namespace WampSharp.Tests.Rpc
     public class WampRpcClientHandlerTests
     {
         [TestCaseSource(typeof(RpcCalls), "SomeCalls")]
-        public void HandleAsync_Calls_ServerProxyCall(WampRpcCall<object> rpcCall)
+        public void HandleAsync_Calls_ServerProxyCall(WampRpcCall rpcCall)
         {
             MockWampRpcCallManager<MockRaw> callManager =
                 new MockWampRpcCallManager<MockRaw>();
@@ -40,7 +40,7 @@ namespace WampSharp.Tests.Rpc
         }
 
         [TestCaseSource(typeof(RpcCalls), "CallsWithResults")]
-        public void HandleAsync_ClientCallResult_SetsTasksResult(WampRpcCall<object> rpcCall, object result)
+        public void HandleAsync_ClientCallResult_SetsTasksResult(WampRpcCall rpcCall, object result)
         {
             MockWampRpcCallManager<MockRaw> callManager =
                 new MockWampRpcCallManager<MockRaw>();
@@ -67,7 +67,7 @@ namespace WampSharp.Tests.Rpc
 
         [TestCaseSource(typeof(RpcCalls), "CallsWithErrors")]
         public void HandleAsync_ClientCallError_SetsTasksException
-            (WampRpcCall<object> rpcCall, CallErrorDetails callErrorDetails)
+            (WampRpcCall rpcCall, CallErrorDetails callErrorDetails)
         {
             MockWampRpcCallManager<MockRaw> callManager =
                 new MockWampRpcCallManager<MockRaw>();
@@ -126,14 +126,14 @@ namespace WampSharp.Tests.Rpc
             // call a function that takes a long time, call another function
             // the result of the latter is received first, in other words,
             // RPC is really asynchronous
-            var slowCall = new WampRpcCall<object>()
+            var slowCall = new WampRpcCall()
                                {
                                    Arguments = new object[] {new int[] {1, 2, 3}},
                                    ProcUri = "calc:asum",
                                    ReturnType = typeof (int)
                                };
 
-            var fastCall = new WampRpcCall<object>()
+            var fastCall = new WampRpcCall()
                                {
                                    Arguments = new object[] {new int[] {4, 5, 6}},
                                    ProcUri = "calc:sum",

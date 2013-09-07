@@ -12,6 +12,12 @@ namespace WampSharp.Core.Listener
     /// </remarks>
     public interface IWampClientBuilderFactory<TMessage, TClient>
     {
+        /// <summary>
+        /// Creates a <see cref="IWampClientBuilder{TMessage,TClient}"/>
+        /// given a <see cref="IWampClientContainer{TMessage,TClient}"/>.
+        /// </summary>
+        /// <param name="container">The given <see cref="IWampClientContainer{TMessage,TClient}"/>.</param>
+        /// <returns>The created <see cref="IWampClientBuilder{TMessage,TClient}"/>.</returns>
         IWampClientBuilder<TMessage, TClient> GetClientBuilder(IWampClientContainer<TMessage, TClient> container);
     }
 }

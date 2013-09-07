@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.Core.Dispatch.Handler
 {
@@ -50,7 +51,7 @@ namespace WampSharp.Core.Dispatch.Handler
                     mHasParamsArgument = true;
                 }
 
-                if (typeof (WampMessage<>).IsAssignableFromGeneric(lastParameter.ParameterType))
+                if (typeof (WampMessage<>).IsGenericAssignableFrom(lastParameter.ParameterType))
                 {
                     mIsRawMethod = true;
                 }

@@ -109,9 +109,6 @@
     <Compile Include="..\..\WampSharp\Core\Client\WampServerProxyBuilder.cs">
       <Link>Core\Client\WampServerProxyBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\Core\Client\WampServerProxyConnection.cs">
-      <Link>Core\Client\WampServerProxyConnection.cs</Link>
-    </Compile>
     <Compile Include="..\..\WampSharp\Core\Client\WampServerProxyHandler.cs">
       <Link>Core\Client\WampServerProxyHandler.cs</Link>
     </Compile>
@@ -189,9 +186,6 @@
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Dispatch\Handler\DictionaryExtensions.cs">
       <Link>Core\Dispatch\Handler\DictionaryExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp\Core\Dispatch\Handler\GenericTypeExtensions.cs">
-      <Link>Core\Dispatch\Handler\GenericTypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Dispatch\Handler\IMethodBuilder.cs">
       <Link>Core\Dispatch\Handler\IMethodBuilder.cs</Link>
@@ -316,6 +310,9 @@
     <Compile Include="..\..\WampSharp\Core\Utilities\CustomAttributeExtensions.cs">
       <Link>Core\Utilities\CustomAttributeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\Core\Utilities\GenericTypeExtensions.cs">
+      <Link>Core\Utilities\GenericTypeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\Core\Utilities\SwapDictionary.cs">
       <Link>Core\Utilities\SwapDictionary.cs</Link>
     </Compile>
@@ -406,9 +403,6 @@
     <Compile Include="..\..\WampSharp\Rpc\Client\TaskExtensions.cs">
       <Link>Rpc\Client\TaskExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\Rpc\Client\WampDelegateProcUriMapper.cs">
-      <Link>Rpc\Client\WampDelegateProcUriMapper.cs</Link>
-    </Compile>
     <Compile Include="..\..\WampSharp\Rpc\Client\WampRpcCall.cs">
       <Link>Rpc\Client\WampRpcCall.cs</Link>
     </Compile>
@@ -454,9 +448,6 @@
     <Compile Include="..\..\WampSharp\Rpc\Server\IWampRpcMethod.cs">
       <Link>Rpc\Server\IWampRpcMethod.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\Rpc\Server\IWampRpcTypeMetadataProvider.cs">
-      <Link>Rpc\Server\IWampRpcTypeMetadataProvider.cs</Link>
-    </Compile>
     <Compile Include="..\..\WampSharp\Rpc\Server\MethodInfoWampRpcMetadata.cs">
       <Link>Rpc\Server\MethodInfoWampRpcMetadata.cs</Link>
     </Compile>
@@ -471,9 +462,6 @@
     </Compile>
     <Compile Include="..\..\WampSharp\Rpc\Server\WampRpcServer.cs">
       <Link>Rpc\Server\WampRpcServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp\Rpc\Server\WampRpcTypeMetadataProvider.cs">
-      <Link>Rpc\Server\WampRpcTypeMetadataProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Rpc\WampRpcCallException.cs">
       <Link>Rpc\WampRpcCallException.cs</Link>

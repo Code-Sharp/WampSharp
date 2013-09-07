@@ -10,6 +10,9 @@
     /// </remarks>
     public enum WampMessageType
     {
+        // I think the enum values are inicative,
+        // but maybe in the future I'll document them.
+#pragma warning disable 1591
         #region Version 1
 
         [MessageTypeDetails(MessageDirection.ServerToClient, MessageCategory.Auxiliary, 1)]
@@ -67,5 +70,6 @@
         v2PublishAck = 128 + 2,
         
         #endregion
+#pragma warning restore 1591
     }
 }

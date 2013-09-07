@@ -5,11 +5,18 @@ using System.Reflection;
 
 namespace WampSharp.Rpc.Server
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampRpcMetadata"/> using
+    /// Reflection.
+    /// </summary>
     public class MethodInfoWampRpcMetadata : IWampRpcMetadata
     {
         private readonly object mInstance;
         private readonly string mBaseUri;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="MethodInfoWampRpcMetadata"/>.
+        /// </summary>
         public MethodInfoWampRpcMetadata(object instance, string baseUri = null)
         {
             mInstance = instance;

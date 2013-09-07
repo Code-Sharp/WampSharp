@@ -7,13 +7,24 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.Rpc.Server
 {
+    /// <summary>
+    /// An server-side implementation of <see cref="IWampRpcServer{TMessage}"/>.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public class WampRpcServer<TMessage> : IWampRpcServer<TMessage>
     {
         private readonly IWampFormatter<TMessage> mFormatter;
         private readonly IWampRpcMetadataCatalog mRpcMetadataCatalog;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="WampRpcServer{TMessage}"/>.
+        /// </summary>
+        /// <param name="formatter">The <see cref="IWampFormatter{TMessage}"/>
+        /// used in order to deserialize method arguments.</param>
+        /// <param name="rpcMetadataCatalog">The <see cref="IWampRpcMetadataCatalog"/>
+        /// used in order to map calls to their corresponding methods.</param>
         public WampRpcServer(IWampFormatter<TMessage> formatter,
-            IWampRpcMetadataCatalog rpcMetadataCatalog)
+                             IWampRpcMetadataCatalog rpcMetadataCatalog)
         {
             mFormatter = formatter;
             mRpcMetadataCatalog = rpcMetadataCatalog;

@@ -4,12 +4,24 @@ using WampSharp.Rpc.Client.Dynamic;
 
 namespace WampSharp.Rpc.Client
 {
+    /// <summary>
+    /// A default implementation of <see cref="IWampRpcClientFactory{TMessage}"/>
+    /// using dynamic proxy.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public class WampRpcClientFactory<TMessage> : IWampRpcClientFactory<TMessage>
     {
         private readonly ProxyGenerator mProxyGenerator = new ProxyGenerator();
         private readonly IWampRpcSerializer mSerializer;
         private readonly IWampRpcClientHandlerBuilder<TMessage> mClientHandlerBuilder;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="WampRpcClientFactory{TMessage}"/>.
+        /// </summary>
+        /// <param name="serializer">The <see cref="IWampRpcSerializer"/> used
+        /// in order to serialize RPC calls.</param>
+        /// <param name="clientHandlerBuilder">The <see cref="IWampRpcClientHandlerBuilder{TMessage}"/>
+        /// used in order to build the handler that handles the <see cref="WampRpcCall"/>s.</param>
         public WampRpcClientFactory(IWampRpcSerializer serializer, IWampRpcClientHandlerBuilder<TMessage> clientHandlerBuilder)
         {
             mSerializer = serializer;

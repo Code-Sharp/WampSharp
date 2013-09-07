@@ -1,4 +1,6 @@
-﻿using WampSharp.Core.Message;
+﻿#pragma warning disable 1591
+
+using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Contracts.V2
 {
@@ -26,3 +28,5 @@ namespace WampSharp.Core.Contracts.V2
         void Unsubscribe([WampProxyParameter]IWampSubscriber subscriber, string topic, TMessage subscribeOptions);
     }
 }
+
+#pragma warning restore 1591

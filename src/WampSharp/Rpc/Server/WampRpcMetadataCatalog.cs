@@ -4,10 +4,16 @@ using System.Collections.Generic;
 
 namespace WampSharp.Rpc.Server
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampRpcMetadataCatalog"/>.
+    /// </summary>
     public class WampRpcMetadataCatalog : IWampRpcMetadataCatalog
     {
         private readonly IDictionary<string, IWampRpcMethod> mProcUriToMethod;
 
+        /// <summary>
+        /// A default constructor.
+        /// </summary>
         public WampRpcMetadataCatalog()
         {
             mProcUriToMethod =

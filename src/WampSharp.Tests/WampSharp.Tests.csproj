@@ -68,6 +68,7 @@
     <Compile Include="ListenerTests.cs" />
     <Compile Include="MockConnection.cs" />
     <Compile Include="MockListener.cs" />
+    <Compile Include="Rpc\Helpers\WampDelegateProcUriMapper.cs" />
     <Compile Include="TestHelpers\DummyConnection.cs" />
     <Compile Include="PubSub\Helpers\WampPublishRequest.cs" />
     <Compile Include="PubSub\Helpers\MockWampPubSubRequestManager.cs" />

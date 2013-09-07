@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Reflection;
+using WampSharp.Rpc.Client;
 
-namespace WampSharp.Rpc.Client
+namespace WampSharp.Tests.Rpc.Helpers
 {
     public class WampDelegateProcUriMapper : IWampProcUriMapper
     {

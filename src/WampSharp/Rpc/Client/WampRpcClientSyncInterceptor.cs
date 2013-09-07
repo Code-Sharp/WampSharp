@@ -10,7 +10,7 @@ namespace WampSharp.Rpc.Client
 
         public override void Intercept(IInvocation invocation)
         {
-            WampRpcCall<object> wampRpcCall = Serializer.Serialize(invocation.Method, invocation.Arguments);
+            WampRpcCall wampRpcCall = Serializer.Serialize(invocation.Method, invocation.Arguments);
             object result = ClientHandler.Handle(wampRpcCall);
 
             invocation.ReturnValue = result;

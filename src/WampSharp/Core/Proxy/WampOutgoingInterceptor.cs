@@ -27,6 +27,9 @@ namespace WampSharp.Core.Proxy
             mOutgoingHandler = outgoingHandler;
         }
 
+        /// <summary>
+        /// <see cref="IInterceptor.Intercept"/>
+        /// </summary>
         public void Intercept(IInvocation invocation)
         {
             WampMessage<TMessage> serialized =

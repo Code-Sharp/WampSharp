@@ -5,12 +5,21 @@ using System.Threading.Tasks;
 
 namespace WampSharp.Rpc.Server
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampRpcMethod"/> using <see cref="MethodInfo"/>.
+    /// </summary>
     public class MethodInfoWampRpcMethod : IWampRpcMethod
     {
         private readonly object mInstance;
         private readonly MethodInfo mMethod;
         private readonly string mProcUri;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="MethodInfoWampRpcMethod"/>.
+        /// </summary>
+        /// <param name="instance">The instance that this method will use.</param>
+        /// <param name="method">The <see cref="MethodInfo"/> this method wraps.</param>
+        /// <param name="baseUri">The base uri of the method.</param>
         public MethodInfoWampRpcMethod(object instance, MethodInfo method, string baseUri)
         {
             mInstance = instance;

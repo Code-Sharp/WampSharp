@@ -4,6 +4,12 @@ using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Listener
 {
+    /// <summary>
+    /// Listens to <see cref="IWampConnection{TMessage}"/>s, receives 
+    /// <see cref="WampMessage{TMessage}"/>s and dispatches them to a given <see cref="IWampIncomingMessageHandler{TMessage,TClient}"/>.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
+    /// <typeparam name="TClient"></typeparam>
     public class WampListener<TMessage, TClient>
     {
         private readonly IWampIncomingMessageHandler<TMessage, TClient> mHandler;
@@ -11,6 +17,15 @@ namespace WampSharp.Core.Listener
         private readonly IWampConnectionListener<TMessage> mListener;
         private IDisposable mSubscription;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="WampListener{TMessage, TClient}"/>
+        /// </summary>
+        /// <param name="listener">The <see cref="IWampConnectionListener{TMessage}"/> used in order to 
+        /// accept incoming connections.</param>
+        /// <param name="handler">The <see cref="IWampIncomingMessageHandler{TMessage,TClient}"/> used
+        /// in order to dispatch incoming messages.</param>
+        /// <param name="clientContainer">The <see cref="IWampClientContainer{TMessage,TClient}"/> use
+        /// in order to store the connected clients.</param>
         public WampListener(IWampConnectionListener<TMessage> listener,
                             IWampIncomingMessageHandler<TMessage, TClient> handler,
                             IWampClientContainer<TMessage, TClient> clientContainer)
@@ -20,6 +35,10 @@ namespace WampSharp.Core.Listener
             mListener = listener;
         }
 
+        /// <summary>
+        /// The <see cref="IWampClientContainer{TMessage,TClient}"/>
+        /// holding all current connected clients.
+        /// </summary>
         public IWampClientContainer<TMessage, TClient> ClientContainer
         {
             get
@@ -28,11 +47,17 @@ namespace WampSharp.Core.Listener
             }
         }
 
+        /// <summary>
+        /// Starts listening for <see cref="IWampConnection{TMessage}"/>s.
+        /// </summary>
         public virtual void Start()
         {
             mSubscription = mListener.Subscribe(x => OnNewConnection(x));
         }
 
+        /// <summary>
+        /// Stops the listener.
+        /// </summary>
         public virtual void Stop()
         {
             IDisposable subscription = mSubscription;

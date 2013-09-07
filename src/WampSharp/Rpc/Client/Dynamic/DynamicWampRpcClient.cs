@@ -5,11 +5,22 @@ using System.Threading.Tasks;
 
 namespace WampSharp.Rpc.Client.Dynamic
 {
+    /// <summary>
+    /// A dynamic rpc client. 
+    /// Allows to call rpc methods without having a given interface.
+    /// </summary>
     public class DynamicWampRpcClient : DynamicObject
     {
         private readonly IWampRpcClientHandler mClientHandler;
         private readonly IWampRpcSerializer mSerializer;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="DynamicWampRpcClient"/>.
+        /// </summary>
+        /// <param name="clientHandler">The <see cref="IWampRpcClientHandler"/>
+        /// that will deal rpc calls.</param>
+        /// <param name="serializer">The <see cref="IWampRpcSerializer"/> that will serialize
+        /// RPC calls.</param>
         public DynamicWampRpcClient(IWampRpcClientHandler clientHandler,
                                     IWampRpcSerializer serializer)
         {
@@ -96,7 +107,7 @@ namespace WampSharp.Rpc.Client.Dynamic
             {
                 Type returnType = binder.Type;
 
-                WampRpcCall<object> rpcCall = CallRpcMethod(returnType);
+                WampRpcCall rpcCall = CallRpcMethod(returnType);
 
                 if (!typeof (Task).IsAssignableFrom(returnType))
                 {
@@ -110,11 +121,11 @@ namespace WampSharp.Rpc.Client.Dynamic
                 return true;
             }
 
-            private WampRpcCall<object> CallRpcMethod(Type returnType)
+            private WampRpcCall CallRpcMethod(Type returnType)
             {
                 WampRpcMethodInfo method = new WampRpcMethodInfo(MethodName, returnType);
 
-                WampRpcCall<object> rpcCall = mClient.Serializer.Serialize(method, Arguments);
+                WampRpcCall rpcCall = mClient.Serializer.Serialize(method, Arguments);
 
                 if (mTask == null)
                 {

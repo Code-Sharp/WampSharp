@@ -2,9 +2,23 @@
 
 namespace WampSharp.Rpc.Client
 {
+    /// <summary>
+    /// Handles outgoing RPC calls.
+    /// </summary>
     public interface IWampRpcClientHandler
     {
-        object Handle(WampRpcCall<object> rpcCall);
-        Task<object> HandleAsync(WampRpcCall<object> rpcCall);
+        /// <summary>
+        /// Handles synchronous rpc calls.
+        /// </summary>
+        /// <param name="rpcCall">The given rpc call.</param>
+        /// <returns>The result of the call.</returns>
+        object Handle(WampRpcCall rpcCall);
+
+        /// <summary>
+        /// Handles asynchronous rpc calls.
+        /// </summary>
+        /// <param name="rpcCall">The given rpc call.</param>
+        /// <returns>The a task that represents result of the call.</returns>
+        Task<object> HandleAsync(WampRpcCall rpcCall);
     }
 }

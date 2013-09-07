@@ -6,6 +6,10 @@ using Castle.DynamicProxy;
 
 namespace WampSharp.Rpc.Client
 {
+    /// <summary>
+    /// Selects the right <see cref="WampRpcClientInterceptor"/> based
+    /// on whether the method is synchronous or asynchronous.
+    /// </summary>
     public class WampRpcClientInterceptorSelector : IInterceptorSelector
     {
         public IInterceptor[] SelectInterceptors(Type type, MethodInfo method, IInterceptor[] interceptors)
