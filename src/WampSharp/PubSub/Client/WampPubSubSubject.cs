@@ -7,6 +7,11 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.PubSub.Client
 {
+    /// <summary>
+    /// Represents a WAMP topic of a given topic uri.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
+    /// <typeparam name="TEvent"></typeparam>
     public class WampPubSubSubject<TMessage, TEvent> : ISubject<TEvent>
     {
         private readonly Subject<TEvent> mSubject = new Subject<TEvent>(); 
@@ -16,6 +21,16 @@ namespace WampSharp.PubSub.Client
         private readonly IWampServer mServerProxy;
         private bool mSubscribed;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="WampPubSubSubject{TMessage,TEvent}"/>.
+        /// </summary>
+        /// <param name="topicUri">The topic uri of the current topic.</param>
+        /// <param name="serverProxyFactory">The server proxy factory used to get
+        /// callbacks from the server.</param>
+        /// <param name="connection">The underlying connection this subject uses
+        /// in order to send/receive messages.</param>
+        /// <param name="formatter">The formatter used in order to serialize/deserialize
+        /// the messages sent.</param>
         public WampPubSubSubject(string topicUri, IWampServerProxyFactory<TMessage> serverProxyFactory, IWampConnection<TMessage> connection, IWampFormatter<TMessage> formatter)
         {
             mTopicUri = topicUri;

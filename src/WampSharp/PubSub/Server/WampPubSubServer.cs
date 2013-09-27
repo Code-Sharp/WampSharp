@@ -3,6 +3,10 @@ using WampSharp.Core.Curie;
 
 namespace WampSharp.PubSub.Server
 {
+    /// <summary>
+    /// An implementation of <see cref="WampPubSubServer{TMessage}"/>
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public class WampPubSubServer<TMessage> :
         IWampPubSubServer<TMessage>
     {
@@ -10,11 +14,19 @@ namespace WampSharp.PubSub.Server
 
         private readonly IWampTopicContainerExtended<TMessage> mContainer;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="WampPubSubServer{TMessage}"/>.
+        /// </summary>
         public WampPubSubServer()
             : this(new WampTopicContainer<TMessage>())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="WampPubSubServer{TMessage}"/>.
+        /// </summary>
+        /// <param name="container">The <see cref="IWampTopicContainerExtended{TMessage}"/>
+        /// the server will work against.</param>
         public WampPubSubServer(IWampTopicContainerExtended<TMessage> container)
         {
             mContainer = container;
@@ -24,6 +36,9 @@ namespace WampSharp.PubSub.Server
 
         #region Properties
 
+        /// <summary>
+        /// Gets the <see cref="IWampTopicContainer"/> this server works against.
+        /// </summary>
         public IWampTopicContainer TopicContainer
         {
             get

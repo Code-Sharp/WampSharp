@@ -3,17 +3,28 @@ using WampSharp.Core.Contracts.V1;
 
 namespace WampSharp.PubSub.Server
 {
+    /// <summary>
+    /// Represents a proxy to a topic's subscriber.
+    /// </summary>
     public class WampObserver : IObserver<object>
     {
         private readonly string mTopicUri;
         private readonly IWampClient mClient;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="WampObserver"/>.
+        /// </summary>
+        /// <param name="topicUri">The uri of the topic the observer belongs to.</param>
+        /// <param name="client">The proxy to the client.</param>
         public WampObserver(string topicUri, IWampClient client)
         {
             mTopicUri = topicUri;
             mClient = client;
         }
 
+        /// <summary>
+        /// Gets the session id of the client.
+        /// </summary>
         public string SessionId
         {
             get
@@ -22,6 +33,9 @@ namespace WampSharp.PubSub.Server
             }
         }
 
+        /// <summary>
+        /// Gets a proxy to the client.
+        /// </summary>
         public IWampClient Client
         {
             get

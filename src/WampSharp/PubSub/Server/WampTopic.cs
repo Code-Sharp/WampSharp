@@ -8,6 +8,9 @@ using WampSharp.Core.Listener;
 
 namespace WampSharp.PubSub.Server
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampTopic"/>.
+    /// </summary>
     public class WampTopic : IWampTopic
     {
         #region Fields
@@ -28,6 +31,11 @@ namespace WampSharp.PubSub.Server
 
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of <see cref="WampTopic"/>.
+        /// </summary>
+        /// <param name="topicUri">The uri of the topic.</param>
+        /// <param name="persistent">A value indicating whether the topic is persistent.</param>
         public WampTopic(string topicUri, bool persistent = false)
         {
             mTopicUri = topicUri;

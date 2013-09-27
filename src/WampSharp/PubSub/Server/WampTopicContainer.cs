@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 namespace WampSharp.PubSub.Server
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampTopicContainerExtended{TMessage}"/>.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public class WampTopicContainer<TMessage> : IWampTopicContainerExtended<TMessage>
     {
         #region Fields
@@ -15,6 +19,9 @@ namespace WampSharp.PubSub.Server
 
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of <see cref="WampTopicContainer{TMessage}"/>.
+        /// </summary>
         public WampTopicContainer()
         {
             mTopicUriToSubject =
