@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\PubSubTests.cs" />
     <Compile Include="DispatchTests.cs" />
     <Compile Include="Dispatch\Helpers\MockWampClient.cs" />
     <Compile Include="Dispatch\Helpers\MockWampServer.cs" />
@@ -89,6 +90,8 @@
     <Compile Include="Rpc\RpcCalls.cs" />
     <Compile Include="Rpc\WampRpcClientFactoryTests.cs" />
     <Compile Include="Rpc\WampRpcClientHandlerTests.cs" />
+    <Compile Include="TestHelpers\Integration\MockConnectionListener.cs" />
+    <Compile Include="TestHelpers\Integration\WampPlayground.cs" />
     <Compile Include="TestHelpers\MockRawComparer.cs" />
     <Compile Include="Proxy\Helpers\MockSessionGuidGenerator.cs" />
     <Compile Include="Proxy\WampClientBuilderTests.cs" />
