@@ -27,4 +27,4 @@ Write-Output "Building WampSharp NuGet package"
 
 # build NuGet package
 Write-Output "Building WampSharp.Default NuGet package"
-..\src\.nuget\NuGet.exe pack .\WampSharp.Default.nuspec ".\"
+..\src\.nuget\NuGet.exe pack .\WampSharp.Default.nuspec -OutputDirectory ".\"
