@@ -23,8 +23,8 @@ $xml.Save($nuspecPath)
 
 # build NuGet package
 Write-Output "Building WampSharp NuGet package"
-..\src\.nuget\NuGet.exe pack .\WampSharp.nuspec -OutputDirectory ".\"
+..\src\.nuget\NuGet.exe pack .\WampSharp.nuspec -OutputDirectory "..\"
 
 # build NuGet package
 Write-Output "Building WampSharp.Default NuGet package"
-..\src\.nuget\NuGet.exe pack .\WampSharp.Default.nuspec -OutputDirectory ".\"
+..\src\.nuget\NuGet.exe pack .\WampSharp.Default.nuspec -OutputDirectory "..\"
