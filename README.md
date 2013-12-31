@@ -9,6 +9,7 @@ Currently still in development.
 Master | Provider
 ------ | --------
 [![Build Status][WinImgMaster]][WinLinkMaster] | Windows CI Provided By [CodeBetter][] and [JetBrains][] 
+[![Build Status][AppVeyorImgMaster]][AppVeyorLinkMaster] | Windows CI Provided By [AppVeyor][]
 [![Build Status][MonoImgMaster]][MonoLinkMaster] | Mono CI Provided by [travis-ci][] 
 
 [WampLink]:http://wamp.ws
@@ -17,11 +18,13 @@ Master | Provider
 [WinLinkMaster]:http://teamcity.codebetter.com/viewLog.html?buildTypeId=bt1059&buildId=lastFinished&guest=1
 [MonoImgMaster]:https://travis-ci.org/darkl/WampSharp.png?branch=master
 [MonoLinkMaster]:https://travis-ci.org/darkl/WampSharp
+[AppVeyorLinkMaster]:https://ci.appveyor.com/project/WampSharp
+[AppVeyorImgMaster]:https://ci.appveyor.com/api/projects/status?id=jn4e5ft4n4spc4c5
 
 [JetBrains]:http://www.jetbrains.com/
 [CodeBetter]:http://codebetter.com/
 [travis-ci]:https://travis-ci.org/
-
+[AppVeyor]:http://www.appveyor.com/
 
 Get started
 ===========
