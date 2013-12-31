@@ -69,19 +69,29 @@ namespace WampSharp.Rpc.Server
 #if !NET45
         private void InnerCall(IWampClient client, string callId, Task<object> task)
         {
-            task.ContinueWith
-                (x =>
-                     {
-                         if (x.Exception == null)
-                         {
-                             client.CallResult(callId, x.Result);
-                         }
-                         else
-                         {
-                             CallError(client, callId, x.Exception);
-                         }
-                     });
+            // I guess there is a prettier way.
+            if (task.IsCompleted)
+            {
+                InnerCallCallback(client, callId, task);
+            }
+            else
+            {
+                task.ContinueWith
+                    (x => InnerCallCallback(client, callId, x));                
+            }
 
+        }
+
+        private static void InnerCallCallback(IWampClient client, string callId, Task<object> task)
+        {
+            if (task.Exception == null)
+            {
+                client.CallResult(callId, task.Result);
+            }
+            else
+            {
+                CallError(client, callId, task.Exception);
+            }
         }
 
         // TODO: Don't repeat yourself: duplicated code that appears also in the framework 4.5 version
