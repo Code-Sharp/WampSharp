@@ -60,6 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\WampSharp.Tests\Api\PubSubTests.cs">
+      <Link>Api\PubSubTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Tests\DispatchTests.cs">
       <Link>DispatchTests.cs</Link>
     </Compile>
@@ -84,8 +87,20 @@
     <Compile Include="..\..\WampSharp.Tests\MockListener.cs">
       <Link>MockListener.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Tests\Rpc\Helpers\MockRpcCatalog.cs">
+      <Link>Rpc\Helpers\MockRpcCatalog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests\Rpc\Helpers\MockRpcMethod.cs">
+      <Link>Rpc\Helpers\MockRpcMethod.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Tests\Rpc\Helpers\WampDelegateProcUriMapper.cs">
       <Link>Rpc\Helpers\WampDelegateProcUriMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests\Rpc\Helpers\MockClient.cs">
+      <Link>Rpc\Helpers\MockClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests\Rpc\RpcServerTests.cs">
+      <Link>Rpc\RpcServerTests.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Tests\TestHelpers\DummyConnection.cs">
       <Link>TestHelpers\DummyConnection.cs</Link>
@@ -146,6 +161,12 @@
     </Compile>
     <Compile Include="..\..\WampSharp.Tests\Rpc\WampRpcClientHandlerTests.cs">
       <Link>Rpc\WampRpcClientHandlerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests\TestHelpers\Integration\MockConnectionListener.cs">
+      <Link>TestHelpers\Integration\MockConnectionListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests\TestHelpers\Integration\WampPlayground.cs">
+      <Link>TestHelpers\Integration\WampPlayground.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Tests\TestHelpers\MockRawComparer.cs">
       <Link>TestHelpers\MockRawComparer.cs</Link>
