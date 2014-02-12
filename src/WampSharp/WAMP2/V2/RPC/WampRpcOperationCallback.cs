@@ -1,6 +1,6 @@
 using WampSharp.V2.Core.Contracts;
 
-namespace WampSharp.V2.RPC
+namespace WampSharp.V2.Rpc
 {
     public class WampRpcOperationCallback<TMessage> : IWampRpcOperationCallback<TMessage>
         where TMessage : class

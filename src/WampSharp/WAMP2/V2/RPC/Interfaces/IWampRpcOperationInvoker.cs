@@ -1,4 +1,4 @@
-﻿namespace WampSharp.V2.RPC
+﻿namespace WampSharp.V2.Rpc
 {
     public interface IWampRpcOperationInvoker<TMessage> where TMessage : class
     {

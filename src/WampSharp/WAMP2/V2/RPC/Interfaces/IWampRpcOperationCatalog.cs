@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using WampSharp.Core.Utilities;
-
-namespace WampSharp.V2.RPC
+﻿namespace WampSharp.V2.Rpc
 {
     public interface IWampRpcOperationCatalog<TMessage> : IWampRpcOperationInvoker<TMessage>
         where TMessage : class

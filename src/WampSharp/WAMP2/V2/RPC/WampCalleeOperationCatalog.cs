@@ -2,7 +2,7 @@
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 
-namespace WampSharp.V2.RPC
+namespace WampSharp.V2.Rpc
 {
     public class WampCalleeOperationCatalog<TMessage> : IWampCalleeOperationCatalog<TMessage> where TMessage : class
     {

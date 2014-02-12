@@ -14,7 +14,7 @@ namespace WampSharp.V2
         }
     }
 
-    public class DefaultWampHost<TMessage> : WampSharp.V2.Api.WampHost<TMessage>
+    public class DefaultWampHost<TMessage> : WampHost<TMessage>
         where TMessage : class 
     {
         public DefaultWampHost(string location,

@@ -8,9 +8,9 @@ using WampSharp.PubSub.Server;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Core.Listener.ClientBuilder;
-using WampSharp.V2.RPC;
+using WampSharp.V2.Rpc;
 
-namespace WampSharp.V2.Api
+namespace WampSharp.V2
 {
     public class WampHost<TMessage> : IWampHost
         where TMessage : class

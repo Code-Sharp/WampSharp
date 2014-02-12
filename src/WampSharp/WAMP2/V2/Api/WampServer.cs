@@ -1,7 +1,7 @@
 ﻿using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.RPC;
+using WampSharp.V2.Rpc;
 
-namespace WampSharp.V2.Api
+namespace WampSharp.V2
 {
     public class WampServer<TMessage> : WampRpcServer<TMessage>, IWampServer<TMessage>
         where TMessage : class

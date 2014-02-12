@@ -1,7 +1,7 @@
 using System;
 using WampSharp.V2.Core.Contracts;
 
-namespace WampSharp.V2.RPC
+namespace WampSharp.V2.Rpc
 {
     public class WampRpcServer<TMessage> : IWampRpcServer<TMessage>,
         IWampErrorCallback<TMessage> 

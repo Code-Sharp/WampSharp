@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace WampSharp.V2.RPC
+namespace WampSharp.V2.Rpc
 {
     public class WampRpcOperationCatalog<TMessage> : IWampRpcOperationCatalog<TMessage> where TMessage : class
     {

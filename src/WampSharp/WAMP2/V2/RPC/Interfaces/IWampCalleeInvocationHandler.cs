@@ -1,6 +1,6 @@
 ﻿using WampSharp.V2.Core.Contracts;
 
-namespace WampSharp.V2.RPC
+namespace WampSharp.V2.Rpc
 {
     public interface IWampCalleeInvocationHandler<TMessage> : IWampRpcInvocationCallback<TMessage>
         where TMessage : class
