@@ -2,6 +2,7 @@
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
+using WampSharp.V1.Core.Proxy;
 
 namespace WampSharp.Core.Client
 {

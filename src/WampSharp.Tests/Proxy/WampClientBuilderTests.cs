@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
-using WampSharp.Core.Contracts.V1;
-using WampSharp.Core.Listener.V1;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Tests.Proxy.Helpers;
 using WampSharp.Tests.TestHelpers;
+using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Listener.ClientBuilder.V1;
 
 namespace WampSharp.Tests.Proxy
 {

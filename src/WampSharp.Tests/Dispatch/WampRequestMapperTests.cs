@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using NUnit.Framework;
 using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Tests.Dispatch.Helpers;
 using WampSharp.Tests.TestHelpers;
+using WampSharp.V1.Core.Contracts.V1;
 
 namespace WampSharp.Tests.Dispatch
 {

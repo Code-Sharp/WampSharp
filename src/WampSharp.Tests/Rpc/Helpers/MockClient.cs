@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using WampSharp.Core.Contracts.V1;
-using WampSharp.Core.Curie;
+using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Curie;
 
 namespace WampSharp.Tests.Rpc.Helpers
 {

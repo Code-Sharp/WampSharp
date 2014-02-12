@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
-using WampSharp.Rpc;
-using WampSharp.Rpc.Client;
-using WampSharp.Rpc.Server;
 using WampSharp.Tests.Rpc.Helpers;
 using WampSharp.Tests.TestHelpers;
+using WampSharp.V1.Rpc;
+using WampSharp.V1.Rpc.Client;
+using WampSharp.V1.Rpc.Server;
 
 namespace WampSharp.Tests.Rpc
 {

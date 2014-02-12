@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using WampSharp.Rpc;
+using WampSharp.V1;
+using WampSharp.V1.Rpc;
 
 namespace WampSharp.RpcClientSample
 {

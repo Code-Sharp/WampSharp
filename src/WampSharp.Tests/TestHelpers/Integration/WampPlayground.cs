@@ -1,4 +1,5 @@
 ﻿using WampSharp.Core.Listener;
+using WampSharp.V1;
 
 namespace WampSharp.Tests.TestHelpers.Integration
 {

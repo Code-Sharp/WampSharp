@@ -4,13 +4,13 @@ using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core;
 using WampSharp.Core.Contracts;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
 using WampSharp.Newtonsoft;
+using WampSharp.V1.Core.Contracts.V1;
 
 namespace WampSharp.Tests
 {

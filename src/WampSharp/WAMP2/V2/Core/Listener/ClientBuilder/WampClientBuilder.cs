@@ -2,6 +2,7 @@ using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
+using WampSharp.V1.Core.Listener;
 using WampSharp.V2.Core.Contracts;
 using SessionIdPropertyInterceptor = WampSharp.V2.Core.Proxy.SessionIdPropertyInterceptor;
 
@@ -29,7 +30,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         /// <summary>
         /// Creates a new instance of <see cref="WampClientBuilder{TMessage}"/>.
         /// </summary>
-        /// <param name="sessionIdGenerator">A given <see cref="WampSharp.Core.Listener.IWampSessionIdGenerator"/> used in order
+        /// <param name="sessionIdGenerator">A given <see cref="IWampSessionIdGenerator"/> used in order
         /// to generate session ids for clients.</param>
         /// <param name="outgoingSerializer">A <see cref="IWampOutgoingRequestSerializer{TRequest}"/>
         /// used to serialize message calls into <see cref="WampMessage{TMessage}"/>s</param>

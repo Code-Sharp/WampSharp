@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using WampSharp.Rpc.Client;
+using WampSharp.V1.Rpc.Client;
 
 namespace WampSharp.Tests.Rpc.Helpers
 {

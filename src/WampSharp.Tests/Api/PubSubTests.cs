@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Reactive.Subjects;
 using NUnit.Framework;
-using WampSharp.PubSub.Server;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.TestHelpers.Integration;
+using WampSharp.V1;
+using WampSharp.V1.PubSub.Server;
 
 namespace WampSharp.Tests.Api
 {

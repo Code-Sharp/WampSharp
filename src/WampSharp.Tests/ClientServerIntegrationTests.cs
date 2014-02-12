@@ -3,19 +3,21 @@ using Moq;
 using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Client;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
-using WampSharp.Core.Listener.V1;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
 using WampSharp.Newtonsoft;
-using WampSharp.Rpc;
-using WampSharp.Rpc.Client;
-using WampSharp.Rpc.Server;
 using WampSharp.Tests.Rpc.Helpers;
+using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Listener;
+using WampSharp.V1.Core.Listener.ClientBuilder.V1;
+using WampSharp.V1.Core.Listener.V1;
+using WampSharp.V1.Rpc;
+using WampSharp.V1.Rpc.Client;
+using WampSharp.V1.Rpc.Server;
 
 namespace WampSharp.Tests
 {

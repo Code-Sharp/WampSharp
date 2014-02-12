@@ -1,5 +1,5 @@
-﻿using WampSharp.Core.Contracts.V1;
-using WampSharp.Tests.TestHelpers;
+﻿using WampSharp.Tests.TestHelpers;
+using WampSharp.V1.Core.Contracts.V1;
 
 namespace WampSharp.Tests.Dispatch.Helpers
 {

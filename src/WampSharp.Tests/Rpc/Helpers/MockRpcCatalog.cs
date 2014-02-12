@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WampSharp.Rpc.Server;
+using WampSharp.V1.Rpc.Server;
 
 namespace WampSharp.Tests.Rpc.Helpers
 {

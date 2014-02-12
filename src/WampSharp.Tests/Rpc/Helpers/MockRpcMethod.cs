@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using WampSharp.Rpc.Server;
+using WampSharp.V1.Rpc.Server;
 
 namespace WampSharp.Tests.Rpc.Helpers
 {

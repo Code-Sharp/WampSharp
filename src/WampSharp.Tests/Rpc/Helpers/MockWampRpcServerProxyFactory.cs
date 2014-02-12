@@ -1,8 +1,7 @@
 ﻿using System;
-using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Listener;
-using WampSharp.Rpc;
-using WampSharp.Rpc.Client;
+using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Rpc.Client;
 
 namespace WampSharp.Tests.Rpc.Helpers
 {

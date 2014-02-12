@@ -1,6 +1,7 @@
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
+using WampSharp.V1.Core.Listener;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Core.Listener.ClientBuilder
@@ -19,7 +20,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         /// <summary>
         /// Creates a new instance of <see cref="WampClientBuilderFactory{TMessage}"/>.
         /// </summary>
-        /// <param name="sessionIdGenerator">The <see cref="WampSharp.Core.Listener.IWampSessionIdGenerator"/> used to generate
+        /// <param name="sessionIdGenerator">The <see cref="IWampSessionIdGenerator"/> used to generate
         /// session ids.</param>
         /// <param name="outgoingSerializer">The <see cref="IWampOutgoingRequestSerializer{TMessage}"/>
         /// used to serialize methods call to <see cref="WampMessage{TMessage}"/>s.</param>
