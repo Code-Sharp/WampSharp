@@ -64,11 +64,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\WampSharp.Default\DefaultWampChannelFactory.cs">
-      <Link>DefaultWampChannelFactory.cs</Link>
+    <Compile Include="..\..\WampSharp.Default\WAMP1\V1\DefaultWampChannelFactory.cs">
+      <Link>WAMP1\V1\DefaultWampChannelFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.Default\DefaultWampHost.cs">
-      <Link>DefaultWampHost.cs</Link>
+    <Compile Include="..\..\WampSharp.Default\WAMP1\V1\DefaultWampHost.cs">
+      <Link>WAMP1\V1\DefaultWampHost.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Default\Fleck\FleckWampConnectionListener.cs">
       <Link>Fleck\FleckWampConnectionListener.cs</Link>
@@ -85,8 +85,11 @@
     <Compile Include="..\..\WampSharp.Default\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.Default\WampChannelFactoryExtensions.cs">
-      <Link>WampChannelFactoryExtensions.cs</Link>
+    <Compile Include="..\..\WampSharp.Default\WAMP2\V2\DefaultWampHost.cs">
+      <Link>WAMP2\V2\DefaultWampHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Default\WAMP1\V1\WampChannelFactoryExtensions.cs">
+      <Link>WAMP1\V1\WampChannelFactoryExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Default\WebSocket4Net\WebSocket4NetConnection.cs">
       <Link>WebSocket4Net\WebSocket4NetConnection.cs</Link>
