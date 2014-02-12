@@ -7,7 +7,6 @@ using WampSharp.Core.Serialization;
 using WampSharp.V1;
 using WampSharp.V1.Api.Server;
 using WampSharp.V1.PubSub.Server;
-using WampSharp.V1.PubSub.Server.Interfaces;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Core.Listener.ClientBuilder;

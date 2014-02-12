@@ -9,7 +9,6 @@ using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Listener;
 using WampSharp.V1.Core.Listener.ClientBuilder;
 using WampSharp.V1.PubSub.Server;
-using WampSharp.V1.PubSub.Server.Interfaces;
 using WampSharp.V1.Rpc.Server;
 
 namespace WampSharp.V1.Api.Server

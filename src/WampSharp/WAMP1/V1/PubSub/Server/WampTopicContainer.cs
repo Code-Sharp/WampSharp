@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using WampSharp.V1.PubSub.Server.EventArgs;
-using WampSharp.V1.PubSub.Server.Interfaces;
 
 namespace WampSharp.V1.PubSub.Server
 {

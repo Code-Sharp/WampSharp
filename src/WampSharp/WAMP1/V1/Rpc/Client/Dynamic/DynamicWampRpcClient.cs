@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 
-namespace WampSharp.V1.Rpc.Client.Dynamic
+namespace WampSharp.V1.Rpc.Client
 {
     /// <summary>
     /// A dynamic rpc client. 

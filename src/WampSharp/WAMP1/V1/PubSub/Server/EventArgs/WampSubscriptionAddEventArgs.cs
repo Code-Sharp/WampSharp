@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WampSharp.V1.PubSub.Server.EventArgs
+namespace WampSharp.V1.PubSub.Server
 {
     /// <summary>
     /// Represents <see cref="EventArgs"/> for a new subscription.

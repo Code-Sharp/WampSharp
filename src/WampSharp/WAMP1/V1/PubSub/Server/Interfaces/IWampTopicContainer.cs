@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using WampSharp.V1.PubSub.Server.EventArgs;
 
-namespace WampSharp.V1.PubSub.Server.Interfaces
+namespace WampSharp.V1.PubSub.Server
 {
     /// <summary>
     /// Represents a container for <see cref="IWampTopic"/>s.

@@ -1,6 +1,5 @@
 ﻿using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Curie;
-using WampSharp.V1.PubSub.Server.Interfaces;
 
 namespace WampSharp.V1.PubSub.Server
 {

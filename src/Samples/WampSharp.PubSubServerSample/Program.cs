@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using WampSharp.V1;
 using WampSharp.V1.Api.Server;
 using WampSharp.V1.PubSub.Server;
-using WampSharp.V1.PubSub.Server.Interfaces;
 
 namespace WampSharp.PubSubServerSample
 {

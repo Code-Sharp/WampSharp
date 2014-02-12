@@ -5,8 +5,6 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
-using WampSharp.V1.PubSub.Server.EventArgs;
-using WampSharp.V1.PubSub.Server.Interfaces;
 
 namespace WampSharp.V1.PubSub.Server
 {

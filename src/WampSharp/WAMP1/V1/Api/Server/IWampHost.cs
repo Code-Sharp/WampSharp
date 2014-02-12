@@ -1,5 +1,5 @@
 ﻿using System;
-using WampSharp.V1.PubSub.Server.Interfaces;
+using WampSharp.V1.PubSub.Server;
 
 namespace WampSharp.V1.Api.Server
 {
