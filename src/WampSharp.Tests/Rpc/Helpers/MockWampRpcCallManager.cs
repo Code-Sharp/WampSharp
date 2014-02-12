@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.Tests.Rpc.Helpers
 {

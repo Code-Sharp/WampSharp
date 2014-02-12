@@ -3,11 +3,11 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.V1.Auxiliary.Client;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.PubSub.Client;
 using WampSharp.V1.Rpc.Client;
 
-namespace WampSharp.V1
+namespace WampSharp.V1.Api.Client
 {
     public class WampChannelFactory<TMessage> : IWampChannelFactory<TMessage>
     {

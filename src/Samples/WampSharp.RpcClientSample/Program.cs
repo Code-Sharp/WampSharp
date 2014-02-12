@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using WampSharp.V1;
+using WampSharp.V1.Api.Client;
 using WampSharp.V1.Rpc;
 
 namespace WampSharp.RpcClientSample

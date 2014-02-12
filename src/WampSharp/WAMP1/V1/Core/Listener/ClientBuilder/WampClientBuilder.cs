@@ -2,11 +2,11 @@ using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Curie;
 using WampSharp.V1.Core.Proxy;
 
-namespace WampSharp.V1.Core.Listener.ClientBuilder.V1
+namespace WampSharp.V1.Core.Listener.ClientBuilder
 {
     /// <summary>
     /// An implementation of <see cref="IWampClientBuilder{TMessage,TClient}"/>

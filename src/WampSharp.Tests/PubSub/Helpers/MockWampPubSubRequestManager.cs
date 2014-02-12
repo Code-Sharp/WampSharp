@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.Tests.PubSub.Helpers
 {

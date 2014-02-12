@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using WampSharp.Core.Serialization;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Curie;
 
 namespace WampSharp.V1.Rpc.Server

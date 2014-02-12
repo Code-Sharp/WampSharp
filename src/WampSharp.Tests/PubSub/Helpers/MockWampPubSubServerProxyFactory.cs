@@ -1,7 +1,7 @@
 ﻿using System;
 using WampSharp.Core.Listener;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.PubSub.Client;
 
 namespace WampSharp.Tests.PubSub.Helpers

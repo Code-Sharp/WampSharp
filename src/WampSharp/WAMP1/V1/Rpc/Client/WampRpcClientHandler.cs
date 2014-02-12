@@ -6,7 +6,7 @@ using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.V1.Rpc.Client
 {

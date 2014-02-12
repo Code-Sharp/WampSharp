@@ -5,7 +5,7 @@ using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Tests.Dispatch.Helpers;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.Tests.Dispatch
 {

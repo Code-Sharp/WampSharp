@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
+using WampSharp.V1.Api.Client;
 
 namespace WampSharp.V1
 {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Reactive.Subjects;
+using WampSharp.V1.PubSub.Server.EventArgs;
 
-namespace WampSharp.V1.PubSub.Server
+namespace WampSharp.V1.PubSub.Server.Interfaces
 {
     /// <summary>
     /// Represents a WAMP topic, that some clients are subscribed to.

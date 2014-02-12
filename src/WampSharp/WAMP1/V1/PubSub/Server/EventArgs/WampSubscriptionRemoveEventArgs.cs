@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WampSharp.V1.PubSub.Server
+namespace WampSharp.V1.PubSub.Server.EventArgs
 {
     /// <summary>
     /// Represnts <see cref="EventArgs"/> for WAMP subscription removal events.

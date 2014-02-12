@@ -1,12 +1,13 @@
 ﻿using System;
+using WampSharp.V1.PubSub.Server.Interfaces;
 
-namespace WampSharp.V1.PubSub.Server
+namespace WampSharp.V1.PubSub.Server.EventArgs
 {
     /// <summary>
     /// Represents <see cref="EventArgs"/> for <see cref="IWampTopic"/>
     /// creation/destruction events.
     /// </summary>
-    public class WampTopicEventArgs : EventArgs
+    public class WampTopicEventArgs : System.EventArgs
     {
         private readonly IWampTopic mTopic;
 

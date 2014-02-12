@@ -1,9 +1,9 @@
 ﻿using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using WampSharp.V1.Auxiliary.Client;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 
-namespace WampSharp.V1
+namespace WampSharp.V1.Api.Client
 {
     public interface IWampChannel<TMessage>
     {

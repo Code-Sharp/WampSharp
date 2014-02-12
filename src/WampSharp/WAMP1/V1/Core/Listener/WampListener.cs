@@ -1,8 +1,8 @@
 ﻿using WampSharp.Core.Dispatch;
 using WampSharp.Core.Listener;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 
-namespace WampSharp.V1.Core.Listener.V1
+namespace WampSharp.V1.Core.Listener
 {
     /// <summary>
     /// A <see cref="WampListener{TMessage,TClient}"/> that is

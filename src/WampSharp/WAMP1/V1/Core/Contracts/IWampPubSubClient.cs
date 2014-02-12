@@ -1,7 +1,7 @@
 ﻿using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 
-namespace WampSharp.V1.Core.Contracts.V1
+namespace WampSharp.V1.Core.Contracts
 {
     /// <summary>
     /// Contains the pub/sub methods of a WAMP client.

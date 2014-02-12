@@ -5,14 +5,14 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.V1.Auxiliary.Server;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Listener;
-using WampSharp.V1.Core.Listener.ClientBuilder.V1;
-using WampSharp.V1.Core.Listener.V1;
+using WampSharp.V1.Core.Listener.ClientBuilder;
 using WampSharp.V1.PubSub.Server;
+using WampSharp.V1.PubSub.Server.Interfaces;
 using WampSharp.V1.Rpc.Server;
 
-namespace WampSharp.V1
+namespace WampSharp.V1.Api.Server
 {
     public class WampHost<TMessage> : IWampHost
     {

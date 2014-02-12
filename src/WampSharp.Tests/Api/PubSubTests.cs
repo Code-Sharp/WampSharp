@@ -4,7 +4,10 @@ using NUnit.Framework;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.TestHelpers.Integration;
 using WampSharp.V1;
+using WampSharp.V1.Api.Client;
+using WampSharp.V1.Api.Server;
 using WampSharp.V1.PubSub.Server;
+using WampSharp.V1.PubSub.Server.Interfaces;
 
 namespace WampSharp.Tests.Api
 {

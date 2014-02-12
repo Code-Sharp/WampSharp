@@ -3,7 +3,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.V1.PubSub.Client
 {

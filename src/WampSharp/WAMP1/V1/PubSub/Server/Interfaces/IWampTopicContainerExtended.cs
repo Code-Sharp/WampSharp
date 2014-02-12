@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WampSharp.V1.PubSub.Server
+namespace WampSharp.V1.PubSub.Server.Interfaces
 {
     /// <summary>
     /// A <see cref="IWampTopicContainer"/> with extra thread-safe

@@ -3,7 +3,7 @@ using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Tests.Proxy.Helpers;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.Tests.Proxy
 {

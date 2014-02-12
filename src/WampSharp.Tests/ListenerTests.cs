@@ -10,8 +10,8 @@ using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
 using WampSharp.Newtonsoft;
-using WampSharp.V1.Core.Contracts.V1;
-using WampSharp.V1.Core.Listener.V1;
+using WampSharp.V1.Core.Contracts;
+using WampSharp.V1.Core.Listener;
 
 namespace WampSharp.Tests
 {

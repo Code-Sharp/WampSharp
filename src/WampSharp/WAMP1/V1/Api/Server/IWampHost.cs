@@ -1,7 +1,7 @@
 ﻿using System;
-using WampSharp.V1.PubSub.Server;
+using WampSharp.V1.PubSub.Server.Interfaces;
 
-namespace WampSharp.V1
+namespace WampSharp.V1.Api.Server
 {
     public interface IWampHost : IDisposable
     {

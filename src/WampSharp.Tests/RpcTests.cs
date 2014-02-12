@@ -15,7 +15,7 @@ using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
 using WampSharp.Tests.Rpc.Helpers;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Rpc.Client;
 
 namespace WampSharp.Tests

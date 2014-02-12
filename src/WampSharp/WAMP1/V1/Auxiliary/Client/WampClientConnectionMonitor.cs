@@ -1,7 +1,7 @@
 ﻿using System;
 using WampSharp.Core.Client;
 using WampSharp.Core.Listener;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.V1.Auxiliary.Client
 {

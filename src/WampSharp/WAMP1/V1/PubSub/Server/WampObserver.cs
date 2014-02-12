@@ -1,5 +1,5 @@
 ﻿using System;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.V1.PubSub.Server
 {

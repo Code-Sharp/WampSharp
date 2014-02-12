@@ -1,4 +1,4 @@
-﻿namespace WampSharp.V1.Core.Contracts.V1
+﻿namespace WampSharp.V1.Core.Contracts
 {
     /// <summary>
     /// An object version of <see cref="IWampClient{TMessage}"/>

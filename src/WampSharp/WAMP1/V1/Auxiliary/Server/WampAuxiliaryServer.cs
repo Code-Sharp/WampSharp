@@ -1,4 +1,4 @@
-﻿using WampSharp.V1.Core.Contracts.V1;
+﻿using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Curie;
 
 namespace WampSharp.V1.Auxiliary.Server

@@ -1,7 +1,7 @@
 ﻿using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.V1.Core.Contracts.V1;
+using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.Tests.Dispatch.Helpers
 {
