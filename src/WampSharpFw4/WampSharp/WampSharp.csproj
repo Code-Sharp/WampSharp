@@ -121,29 +121,29 @@
     <Compile Include="..\..\WampSharp\Core\Contracts\IWampMissingMethodContract.cs">
       <Link>Core\Contracts\IWampMissingMethodContract.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\V1\IWampAuxiliaryClient.cs">
-      <Link>WAMP1\V1\Core\Contracts\V1\IWampAuxiliaryClient.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\IWampAuxiliaryClient.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampAuxiliaryClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\V1\IWampAuxiliaryServer.cs">
-      <Link>WAMP1\V1\Core\Contracts\V1\IWampAuxiliaryServer.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\IWampAuxiliaryServer.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampAuxiliaryServer.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\V1\IWampClient.cs">
-      <Link>WAMP1\V1\Core\Contracts\V1\IWampClient.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\IWampClient.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\V1\IWampPubSubClient.cs">
-      <Link>WAMP1\V1\Core\Contracts\V1\IWampPubSubClient.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\IWampPubSubClient.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampPubSubClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\V1\IWampPubSubServer.cs">
-      <Link>WAMP1\V1\Core\Contracts\V1\IWampPubSubServer.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\IWampPubSubServer.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampPubSubServer.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\V1\IWampRpcClient.cs">
-      <Link>WAMP1\V1\Core\Contracts\V1\IWampRpcClient.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\IWampRpcClient.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampRpcClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\V1\IWampRpcServer.cs">
-      <Link>WAMP1\V1\Core\Contracts\V1\IWampRpcServer.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\IWampRpcServer.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampRpcServer.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\V1\IWampServer.cs">
-      <Link>WAMP1\V1\Core\Contracts\V1\IWampServer.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Contracts\IWampServer.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampServer.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Api\WampHost.cs">
       <Link>WAMP2\V2\Api\WampHost.cs</Link>
@@ -205,11 +205,11 @@
     <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Listener\IWampSessionIdGenerator.cs">
       <Link>WAMP1\V1\Core\Listener\IWampSessionIdGenerator.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Listener\ClientBuilder\V1\WampClientBuilder.cs">
-      <Link>WAMP1\V1\Core\Listener\ClientBuilder\V1\WampClientBuilder.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilder.cs">
+      <Link>WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Listener\ClientBuilder\V1\WampClientBuilderFactory.cs">
-      <Link>WAMP1\V1\Core\Listener\ClientBuilder\V1\WampClientBuilderFactory.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs">
+      <Link>WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Listener\ClientBuilder\WampOutgoingMessageHandler.cs">
       <Link>Core\Listener\ClientBuilder\WampOutgoingMessageHandler.cs</Link>
@@ -244,8 +244,8 @@
     <Compile Include="..\..\WampSharp\Core\Listener\Connections\WampConnectionMonitor.cs">
       <Link>Core\Listener\Connections\WampConnectionMonitor.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Listener\V1\WampListener.cs">
-      <Link>WAMP1\V1\Core\Listener\V1\WampListener.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Listener\WampListener.cs">
+      <Link>WAMP1\V1\Core\Listener\WampListener.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Listener\WampListener.cs">
       <Link>Core\Listener\WampListener.cs</Link>
