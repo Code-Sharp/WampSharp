@@ -4,7 +4,7 @@ using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
 using WampSharp.Newtonsoft;
 
-namespace WampSharp
+namespace WampSharp.V2
 {
     public class DefaultWampHost : DefaultWampHost<JToken>
     {
@@ -14,12 +14,13 @@ namespace WampSharp
         }
     }
 
-    public class DefaultWampHost<TMessage> : WampHost<TMessage>
+    public class DefaultWampHost<TMessage> : WampSharp.V2.Api.WampHost<TMessage>
+        where TMessage : class 
     {
         public DefaultWampHost(string location,
                                IWampMessageParser<TMessage> parser,
                                IWampFormatter<TMessage> formatter) :
-                                   this(new FleckWampConnectionListener<TMessage>(location, parser), formatter)
+            this(new FleckWampConnectionListener<TMessage>("wamp.2.json", location, parser), formatter)
         {
         }
 

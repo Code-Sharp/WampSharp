@@ -20,12 +20,15 @@ namespace WampSharp.Fleck
         private readonly string mLocation;
         private readonly IWampMessageParser<TMessage> mParser;
         private readonly object mLock = new object();
+        private string mProtocol;
 
-        public FleckWampConnectionListener(string location,
+        public FleckWampConnectionListener(string protocol,
+                                           string location,
                                            IWampMessageParser<TMessage> parser)
         {
             mLocation = location;
             mParser = parser;
+            mProtocol = protocol;
         }
 
         public IDisposable Subscribe(IObserver<IWampConnection<TMessage>> observer)
@@ -59,7 +62,7 @@ namespace WampSharp.Fleck
         {
             WebSocketServer server = new WebSocketServer(mLocation);
             mServer = server;
-            server.SupportedSubProtocols = new[] {"wamp"};
+            server.SupportedSubProtocols = new[] {mProtocol};
 
             mServer.Start(connection =>
                               {

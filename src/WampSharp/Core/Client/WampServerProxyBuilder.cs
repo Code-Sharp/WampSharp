@@ -42,6 +42,7 @@ namespace WampSharp.Core.Client
                 new WampOutgoingInterceptor<TMessage>(mOutgoingSerializer,
                                                       handler);
 
+            // TODO: I think the WampInterceptorSelector isn't necessary.
             WampInterceptorSelector<TMessage> selector =
                 new WampInterceptorSelector<TMessage>(interceptor);
 

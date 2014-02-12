@@ -39,22 +39,36 @@
         #region Version 2
 
         [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.Auxiliary, 2)]
-        v2Hello = 0,
+        v2Hello = 1,
         [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.Auxiliary, 2)]
-        v2Heartbeat = 1,
+        v2Welcome = 2,
         [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.Auxiliary, 2)]
-        v2Goodbye = 2,
+        v2Goodbye = 5,
+        [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.Auxiliary, 2)]
+        v2Heartbeat = 6,
+        [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.Auxiliary, 2)]
+        v2Error = 7,
 
         [MessageTypeDetails(MessageDirection.CallertoCallee, MessageCategory.RemoteProcedureCall, 2)]
-        v2Call = 16 + 0,
+        v2Call = 48,
         [MessageTypeDetails(MessageDirection.CallertoCallee, MessageCategory.RemoteProcedureCall, 2)]
-        v2CallCancel = 16 + 1,
+        v2Cancel = 49,
         [MessageTypeDetails(MessageDirection.CalleetoCaller, MessageCategory.RemoteProcedureCall, 2)]
-        v2CallResult = 32 + 0,
+        v2Result = 50,
         [MessageTypeDetails(MessageDirection.CalleetoCaller, MessageCategory.RemoteProcedureCall, 2)]
-        v2CallProgress = 32 + 1,
+        v2Register = 64,
         [MessageTypeDetails(MessageDirection.CalleetoCaller, MessageCategory.RemoteProcedureCall, 2)]
-        v2CallError = 32 + 2,
+        v2Registered = 65,
+        [MessageTypeDetails(MessageDirection.CalleetoCaller, MessageCategory.RemoteProcedureCall, 2)]
+        v2Unregister = 66,
+        [MessageTypeDetails(MessageDirection.CalleetoCaller, MessageCategory.RemoteProcedureCall, 2)]
+        v2Unregistered = 67,
+        [MessageTypeDetails(MessageDirection.CalleetoCaller, MessageCategory.RemoteProcedureCall, 2)]
+        v2Invocation = 68,
+        [MessageTypeDetails(MessageDirection.CalleetoCaller, MessageCategory.RemoteProcedureCall, 2)]
+        v2Interrupt = 69,
+        [MessageTypeDetails(MessageDirection.CalleetoCaller, MessageCategory.RemoteProcedureCall, 2)]
+        v2Yield = 70,
 
         [MessageTypeDetails(MessageDirection.CallertoCallee, MessageCategory.PublishSubscribe, 2)]
         v2Subscribe = 64 + 0,
