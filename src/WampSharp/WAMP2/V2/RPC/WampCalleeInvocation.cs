@@ -2,12 +2,12 @@
 {
     internal class WampCalleeInvocation<TMessage> where TMessage : class
     {
-        private readonly IWampRpcOperationCallback<TMessage> mCaller;
+        private readonly IWampRpcOperationCallback mCaller;
         private readonly TMessage mOptions;
         private readonly TMessage[] mArguments;
         private readonly TMessage mArgumentsKeywords;
 
-        public WampCalleeInvocation(IWampRpcOperationCallback<TMessage> caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+        public WampCalleeInvocation(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
         {
             mCaller = caller;
             mOptions = options;
@@ -15,7 +15,7 @@
             mArgumentsKeywords = argumentsKeywords;
         }
 
-        public IWampRpcOperationCallback<TMessage> Caller
+        public IWampRpcOperationCallback Caller
         {
             get
             {

@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
-using WampSharp.V1;
-using WampSharp.V1.Api.Server;
-using WampSharp.V1.PubSub.Server;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Core.Listener.ClientBuilder;
@@ -14,13 +14,12 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2
 {
-    public class WampHost<TMessage> : IWampHost
+    public class WampHost<TMessage>
         where TMessage : class
     {
         private readonly WampServer<TMessage> mServer;
         private WampListener<TMessage> mListener;
         private readonly WampRpcOperationCatalog<TMessage> mOperationCatalog;
-        private readonly IWampTopicContainerExtended<TMessage> mTopicContainer;
 
         public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
         {
@@ -59,7 +58,7 @@ namespace WampSharp.V2
 
         private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampFormatter<TMessage> formatter)
         {
-            WampIdGenerator wampSessionIdGenerator =
+            WampIdGenerator wampIdGenerator =
                 new WampIdGenerator();
 
             WampOutgoingRequestSerializer<TMessage> wampOutgoingRequestSerializer =
@@ -69,7 +68,7 @@ namespace WampSharp.V2
                 new WampOutgoingMessageHandlerBuilder<TMessage>();
 
             return new WampClientBuilderFactory<TMessage>
-                (wampSessionIdGenerator,
+                (wampIdGenerator,
                  wampOutgoingRequestSerializer,
                  wampOutgoingMessageHandlerBuilder);
         }
@@ -93,15 +92,23 @@ namespace WampSharp.V2
             mListener.Start();
         }
 
-        public void HostService(object instance, string baseUri)
+        public void HostService(object instance)
         {
-        }
+            Type type = instance.GetType();
 
-        public IWampTopicContainer TopicContainer
-        {
-            get
+            foreach (Type currentType in type.GetInterfaces())
             {
-                return mTopicContainer;
+                IEnumerable<MethodInfo> relevantMethods =
+                    currentType.GetMethods()
+                               .Where(x => x.IsDefined(typeof (WampProcedureAttribute), true));
+
+                foreach (MethodInfo method in relevantMethods)
+                {
+                    mOperationCatalog.Register
+                        (new MethodInfoRpcOperation<TMessage>
+                             (method,
+                              instance));
+                }
             }
         }
     }

@@ -2,8 +2,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class WampRpcOperationCallback<TMessage> : IWampRpcOperationCallback<TMessage>
-        where TMessage : class
+    public class WampRpcOperationCallback : IWampRpcOperationCallback
     {
         private readonly IWampCaller mCaller;
         private readonly long mRequestId;
@@ -14,32 +13,32 @@ namespace WampSharp.V2.Rpc
             mRequestId = requestId;
         }
 
-        public void Result(TMessage details)
+        public void Result(object details)
         {
             mCaller.Result(mRequestId, details);
         }
 
-        public void Result(TMessage details, TMessage[] arguments)
+        public void Result(object details, object[] arguments)
         {
             mCaller.Result(mRequestId, details, arguments);
         }
 
-        public void Result(TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Result(object details, object[] arguments, object argumentsKeywords)
         {
             mCaller.Result(mRequestId, details, arguments, argumentsKeywords);
         }
 
-        public void Error(TMessage details, string error)
+        public void Error(object details, string error)
         {
             mCaller.CallError(mRequestId, details, error);
         }
 
-        public void Error(TMessage details, string error, TMessage[] arguments)
+        public void Error(object details, string error, object[] arguments)
         {
             mCaller.CallError(mRequestId, details, error, arguments);
         }
 
-        public void Error(TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Error(object details, string error, object[] arguments, object argumentsKeywords)
         {
             mCaller.CallError(mRequestId, details, error, arguments, argumentsKeywords);
         }

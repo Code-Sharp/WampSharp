@@ -1,5 +1,11 @@
 ﻿namespace WampSharp.V2.Rpc
 {
+    public interface IWampRpcOperationCallback :
+        IWampRpcOperationCallback<object>
+    {
+        
+    }
+
     public interface IWampRpcOperationCallback<TMessage>
         where TMessage : class
     {

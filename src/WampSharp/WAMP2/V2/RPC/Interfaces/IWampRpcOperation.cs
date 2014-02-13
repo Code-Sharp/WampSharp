@@ -4,10 +4,10 @@
     {
         string Procedure { get; }
 
-        void Invoke(IWampRpcOperationCallback<TMessage> caller, TMessage options);
+        void Invoke(IWampRpcOperationCallback caller, TMessage options);
 
-        void Invoke(IWampRpcOperationCallback<TMessage> caller, TMessage options, TMessage[] arguments);
+        void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments);
 
-        void Invoke(IWampRpcOperationCallback<TMessage> caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords);         
+        void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords);         
     }
 }

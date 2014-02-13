@@ -72,7 +72,7 @@ namespace WampSharp.V2.Rpc
                 }
             }
 
-            public void Invoke(IWampRpcOperationCallback<TMessage> caller, TMessage options)
+            public void Invoke(IWampRpcOperationCallback caller, TMessage options)
             {
                 long requestId = 
                     mHandler.RegisterInvocation(caller, options);
@@ -80,7 +80,7 @@ namespace WampSharp.V2.Rpc
                 mCallee.Invocation(mRegistrationId, requestId, options);
             }
 
-            public void Invoke(IWampRpcOperationCallback<TMessage> caller, TMessage options, TMessage[] arguments)
+            public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments)
             {
                 long requestId = 
                     mHandler.RegisterInvocation(caller, options);
@@ -88,7 +88,7 @@ namespace WampSharp.V2.Rpc
                 mCallee.Invocation(mRegistrationId, requestId, options, arguments);
             }
 
-            public void Invoke(IWampRpcOperationCallback<TMessage> caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+            public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
             {
                 long requestId = 
                     mHandler.RegisterInvocation(caller, options);

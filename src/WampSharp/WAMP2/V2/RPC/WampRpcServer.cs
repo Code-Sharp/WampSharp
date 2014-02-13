@@ -58,14 +58,14 @@ namespace WampSharp.V2.Rpc
 
         public void Call(IWampCaller caller, long requestId, TMessage options, string procedure)
         {
-            IWampRpcOperationCallback<TMessage> callback = GetCallback(caller, requestId);
+            IWampRpcOperationCallback callback = GetCallback(caller, requestId);
 
             mInvoker.Invoke(callback, options, procedure);
         }
 
         public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments)
         {
-            IWampRpcOperationCallback<TMessage> callback = GetCallback(caller, requestId);
+            IWampRpcOperationCallback callback = GetCallback(caller, requestId);
 
             mInvoker.Invoke(callback, options, procedure, arguments);
         }
@@ -73,7 +73,7 @@ namespace WampSharp.V2.Rpc
         public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments,
                          TMessage argumentsKeywords)
         {
-            IWampRpcOperationCallback<TMessage> callback = GetCallback(caller, requestId);
+            IWampRpcOperationCallback callback = GetCallback(caller, requestId);
 
             mInvoker.Invoke(callback, options, procedure, arguments, argumentsKeywords);
         }
@@ -93,9 +93,9 @@ namespace WampSharp.V2.Rpc
             mHandler.Yield(callee, requestId, options, arguments, argumentsKeywords);
         }
 
-        private IWampRpcOperationCallback<TMessage> GetCallback(IWampCaller caller, long requestId)
+        private IWampRpcOperationCallback GetCallback(IWampCaller caller, long requestId)
         {
-            return new WampRpcOperationCallback<TMessage>(caller, requestId);
+            return new WampRpcOperationCallback(caller, requestId);
         }
 
         public void Error(IWampClient client, int reqestType, long requestId, TMessage details, string error)

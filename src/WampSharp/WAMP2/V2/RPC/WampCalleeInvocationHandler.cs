@@ -11,7 +11,7 @@ namespace WampSharp.V2.Rpc
         private ConcurrentDictionary<long, WampCalleeInvocation<TMessage>> mRequestIdToInvocation =
             new ConcurrentDictionary<long, WampCalleeInvocation<TMessage>>();
 
-        public long RegisterInvocation(IWampRpcOperationCallback<TMessage> caller, TMessage options,
+        public long RegisterInvocation(IWampRpcOperationCallback caller, TMessage options,
                                        TMessage[] arguments, TMessage argumentsKeywords)
         {
             WampCalleeInvocation<TMessage> invocation =
