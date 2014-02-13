@@ -457,20 +457,20 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\IWampErrorCallback.cs">
       <Link>WAMP2\V2\Core\Contracts\IWampErrorCallback.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\RPC\IWampCallee.cs">
-      <Link>WAMP2\V2\Core\Contracts\RPC\IWampCallee.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Rpc\IWampCallee.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\IWampCallee.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\RPC\IWampCaller.cs">
-      <Link>WAMP2\V2\Core\Contracts\RPC\IWampCaller.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Rpc\IWampCaller.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\IWampCaller.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\RPC\IWampDealer.cs">
-      <Link>WAMP2\V2\Core\Contracts\RPC\IWampDealer.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Rpc\IWampDealer.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\IWampDealer.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\IWampError.cs">
       <Link>WAMP2\V2\Core\Contracts\IWampError.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\RPC\IWampRpcInvocationCallback.cs">
-      <Link>WAMP2\V2\Core\Contracts\RPC\IWampRpcInvocationCallback.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Rpc\IWampRpcInvocationCallback.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\IWampRpcInvocationCallback.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\IWampServer.cs">
       <Link>WAMP2\V2\Core\Contracts\IWampServer.cs</Link>
@@ -505,44 +505,50 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\WampIdGenerator.cs">
       <Link>WAMP2\V2\Core\Listener\WampIdGenerator.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\Interfaces\IWampCalleeInvocationHandler.cs">
-      <Link>WAMP2\V2\RPC\Interfaces\IWampCalleeInvocationHandler.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\Interfaces\IWampCalleeOperationCatalog.cs">
-      <Link>WAMP2\V2\RPC\Interfaces\IWampCalleeOperationCatalog.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampCalleeOperationCatalog.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampCalleeOperationCatalog.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\Interfaces\IWampRpcOperationCatalog.cs">
-      <Link>WAMP2\V2\RPC\Interfaces\IWampRpcOperationCatalog.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCatalog.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCatalog.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\Interfaces\IWampRpcOperation.cs">
-      <Link>WAMP2\V2\RPC\Interfaces\IWampRpcOperation.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRpcOperation.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampRpcOperation.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\Interfaces\IWampRpcOperationCallback.cs">
-      <Link>WAMP2\V2\RPC\Interfaces\IWampRpcOperationCallback.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCallback.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCallback.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\Interfaces\IWampRpcOperationInvoker.cs">
-      <Link>WAMP2\V2\RPC\Interfaces\IWampRpcOperationInvoker.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRpcOperationInvoker.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampRpcOperationInvoker.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\Interfaces\IWampRpcServer.cs">
-      <Link>WAMP2\V2\RPC\Interfaces\IWampRpcServer.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRpcServer.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampRpcServer.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\WampCalleeOperationCatalog.cs">
-      <Link>WAMP2\V2\RPC\WampCalleeOperationCatalog.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\MethodInfoRpcOperation.cs">
+      <Link>WAMP2\V2\Rpc\MethodInfoRpcOperation.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\WampCalleeInvocationHandler.cs">
-      <Link>WAMP2\V2\RPC\WampCalleeInvocationHandler.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\WampCalleeOperationCatalog.cs">
+      <Link>WAMP2\V2\Rpc\WampCalleeOperationCatalog.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\WampCalleeInvocation.cs">
-      <Link>WAMP2\V2\RPC\WampCalleeInvocation.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\WampCalleeInvocationHandler.cs">
+      <Link>WAMP2\V2\Rpc\WampCalleeInvocationHandler.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\WampRpcOperationCatalog.cs">
-      <Link>WAMP2\V2\RPC\WampRpcOperationCatalog.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\WampCalleeInvocation.cs">
+      <Link>WAMP2\V2\Rpc\WampCalleeInvocation.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\WampRpcOperationCallback.cs">
-      <Link>WAMP2\V2\RPC\WampRpcOperationCallback.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\WampProcedureAttribute.cs">
+      <Link>WAMP2\V2\Rpc\WampProcedureAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\RPC\WampRpcServer.cs">
-      <Link>WAMP2\V2\RPC\WampRpcServer.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\WampRpcOperationCatalog.cs">
+      <Link>WAMP2\V2\Rpc\WampRpcOperationCatalog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\WampRpcOperationCallback.cs">
+      <Link>WAMP2\V2\Rpc\WampRpcOperationCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\WampRpcServer.cs">
+      <Link>WAMP2\V2\Rpc\WampRpcServer.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
