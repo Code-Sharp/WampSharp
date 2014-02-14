@@ -19,5 +19,8 @@ namespace WampSharp.V2.Core.Contracts
 
         [WampHandler(WampMessageType.v2Call)]
         void Call([WampProxyParameter] IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments, TMessage argumentsKeywords);
+
+        [WampHandler(WampMessageType.v2Cancel)]
+        void Cancel([WampProxyParameter] IWampCaller caller, long requestId, TMessage options);
     }
 }

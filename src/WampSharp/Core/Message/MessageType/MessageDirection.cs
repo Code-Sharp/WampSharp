@@ -6,8 +6,6 @@
         AnyToAny,
         ServerToClient,
         ClientToServer,
-        CallertoCallee = ClientToServer,
-        CalleetoCaller = ServerToClient
     }
 #pragma warning restore 1591
 }

@@ -78,6 +78,11 @@ namespace WampSharp.V2.Rpc
             mInvoker.Invoke(callback, options, procedure, arguments, argumentsKeywords);
         }
 
+        public void Cancel(IWampCaller caller, long requestId, TMessage options)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Yield(IWampCallee callee, long requestId, TMessage options)
         {
             mHandler.Yield(callee, requestId, options);

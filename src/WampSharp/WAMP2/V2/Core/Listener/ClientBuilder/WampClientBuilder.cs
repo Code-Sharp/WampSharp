@@ -2,15 +2,14 @@ using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
-using WampSharp.V1.Core.Listener;
 using WampSharp.V2.Core.Contracts;
-using SessionIdPropertyInterceptor = WampSharp.V2.Core.Proxy.SessionIdPropertyInterceptor;
+using WampSharp.V2.Core.Proxy;
 
 namespace WampSharp.V2.Core.Listener.ClientBuilder
 {
     /// <summary>
     /// An implementation of <see cref="IWampClientBuilder{TMessage,TClient}"/>
-    /// that is a bit specific to WAMPv1 (because of curies).
+    /// that is a bit specific to WAMPv2.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public class WampClientBuilder<TMessage> : IWampClientBuilder<TMessage, IWampClient>
@@ -58,9 +57,12 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                 new ProxyGenerationOptions()
                     {
                         Selector =
-                            new Proxy.WampInterceptorSelector<TMessage>
+                            new WampInterceptorSelector<TMessage>
                             (wampOutgoingInterceptor)
                     };
+
+            proxyGenerationOptions.AddMixinInstance
+                (new WampConnectionMonitor<TMessage>(connection));
 
             proxyGenerationOptions.AddMixinInstance
                 (new WampClientContainerDisposable<TMessage, IWampClient>

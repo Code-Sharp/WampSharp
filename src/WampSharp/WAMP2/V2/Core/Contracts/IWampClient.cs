@@ -1,7 +1,11 @@
 ﻿namespace WampSharp.V2.Core.Contracts
 {
-    public interface IWampClient : IWampSessionManagementClient, IWampCallee,
-                                    IWampCaller
+    public interface IWampClient :
+        IWampSessionClient,
+        IWampCallee,
+        IWampCaller,
+        IWampPublisher,
+        IWampSubscriber
     {
         long Session { get; }
     }

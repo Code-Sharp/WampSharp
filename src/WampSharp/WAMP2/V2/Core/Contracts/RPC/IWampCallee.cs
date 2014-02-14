@@ -23,5 +23,8 @@ namespace WampSharp.V2.Core.Contracts
 
         [WampHandler(WampMessageType.v2Invocation)]
         void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords);
+
+        [WampHandler(WampMessageType.v2Interrupt)]
+        void Interrupt(long requestId, TMessage options);
     }
 }

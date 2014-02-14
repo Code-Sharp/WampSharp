@@ -190,15 +190,19 @@
     <Compile Include="WAMP1\V1\Rpc\Server\WampRpcServer.cs" />
     <Compile Include="WAMP1\V1\Rpc\WampRpcCallException.cs" />
     <Compile Include="WAMP1\V1\Rpc\WampRpcMethodAttribute.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\IWampErrorCallback.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Error\IWampErrorCallback.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampBroker.cs" />
+    <Compile Include="WAMP2\V2\PubSub\IWampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\IWampCallee.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\IWampCaller.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\IWampDealer.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\IWampError.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Error\IWampError.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampPublisher.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\IWampRpcInvocationCallback.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampServer.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\IWampSessionManagementClient.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\IWampSessionManagementServer.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Session\IWampSessionClient.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Session\IWampSessionServer.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampSubscriber.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampErrorExtensions.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\IWampIdGenerator.cs" />
     <Compile Include="WAMP2\V2\Core\Proxy\SessionIdPropertyInterceptor.cs" />
@@ -207,6 +211,7 @@
     <Compile Include="WAMP2\V2\Core\Proxy\WampInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\WampListener.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\WampIdGenerator.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCalleeOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCatalog.cs" />
@@ -222,6 +227,7 @@
     <Compile Include="WAMP2\V2\Rpc\WampRpcOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampRpcOperationCallback.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampRpcServer.cs" />
+    <Compile Include="WAMP2\V2\Session\WampSessionServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

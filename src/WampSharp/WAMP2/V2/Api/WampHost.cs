@@ -10,14 +10,16 @@ using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Core.Listener.ClientBuilder;
+using WampSharp.V2.PubSub;
 using WampSharp.V2.Rpc;
+using WampSharp.V2.Session;
 
 namespace WampSharp.V2
 {
     public class WampHost<TMessage>
         where TMessage : class
     {
-        private readonly WampServer<TMessage> mServer;
+        private readonly IWampServer<TMessage> mServer; 
         private WampListener<TMessage> mListener;
         private readonly WampRpcOperationCatalog<TMessage> mOperationCatalog;
 
@@ -25,12 +27,21 @@ namespace WampSharp.V2
         {
             mOperationCatalog = new WampRpcOperationCatalog<TMessage>();
 
-            mServer = new WampServer<TMessage>(mOperationCatalog);
+            IWampRpcServer<TMessage> dealer = 
+                new WampRpcServer<TMessage>(mOperationCatalog);
+
+            IWampSessionServer<TMessage> session =
+                new WampSessionServer<TMessage>();
+
+            IWampPubSubServer<TMessage> broker =
+                new WampPubSubServer<TMessage>();
+
+            mServer = new WampServer<TMessage>(session, dealer, broker);
 
             mListener = GetWampListener(connectionListener, formatter, mServer);
         }
 
-        private static WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter, object server)
+        private static WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter, IWampServer<TMessage> server)
         {
             IWampClientBuilderFactory<TMessage, IWampClient> clientBuilderFactory =
                 GetWampClientBuilder(formatter);
@@ -53,7 +64,8 @@ namespace WampSharp.V2
             return new WampListener<TMessage>
                 (connectionListener,
                  wampIncomingMessageHandler,
-                 clientContainer);
+                 clientContainer,
+                 server);
         }
 
         private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampFormatter<TMessage> formatter)

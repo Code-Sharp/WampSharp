@@ -2,8 +2,10 @@
 {
     internal enum MessageCategory
     {
+        General,
         Auxiliary,
         RemoteProcedureCall,
-        PublishSubscribe
+        PublishSubscribe,
+        Session = Auxiliary
     }
 }
