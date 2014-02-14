@@ -7,8 +7,6 @@ namespace WampSharp.V2.Rpc
     {
         long Register(IWampCallee callee, TMessage options, string procedure);
 
-        void Unregister(IWampCallee callee);
-
         void Unregister(IWampCallee callee, long registrationId);
     }
 }
