@@ -42,7 +42,7 @@ namespace WampSharp.V2.Rpc
         {
             if (!IsSyncMethod)
             {
-#if NET40 
+#if !NET40 
                 HandleAsync(caller, arguments);
 #endif
             }
