@@ -454,8 +454,14 @@
     <Compile Include="..\..\WampSharp\WAMP1\V1\Rpc\WampRpcMethodAttribute.cs">
       <Link>WAMP1\V1\Rpc\WampRpcMethodAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\IWampErrorCallback.cs">
-      <Link>WAMP2\V2\Core\Contracts\IWampErrorCallback.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Error\IWampErrorCallback.cs">
+      <Link>WAMP2\V2\Core\Contracts\Error\IWampErrorCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\PubSub\IWampBroker.cs">
+      <Link>WAMP2\V2\Core\Contracts\PubSub\IWampBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\IWampPubSubServer.cs">
+      <Link>WAMP2\V2\PubSub\IWampPubSubServer.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Rpc\IWampCallee.cs">
       <Link>WAMP2\V2\Core\Contracts\Rpc\IWampCallee.cs</Link>
@@ -466,8 +472,11 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Rpc\IWampDealer.cs">
       <Link>WAMP2\V2\Core\Contracts\Rpc\IWampDealer.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\IWampError.cs">
-      <Link>WAMP2\V2\Core\Contracts\IWampError.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Error\IWampError.cs">
+      <Link>WAMP2\V2\Core\Contracts\Error\IWampError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\PubSub\IWampPublisher.cs">
+      <Link>WAMP2\V2\Core\Contracts\PubSub\IWampPublisher.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Rpc\IWampRpcInvocationCallback.cs">
       <Link>WAMP2\V2\Core\Contracts\Rpc\IWampRpcInvocationCallback.cs</Link>
@@ -475,11 +484,14 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\IWampServer.cs">
       <Link>WAMP2\V2\Core\Contracts\IWampServer.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\IWampSessionManagementClient.cs">
-      <Link>WAMP2\V2\Core\Contracts\IWampSessionManagementClient.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Session\IWampSessionClient.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\IWampSessionClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\IWampSessionManagementServer.cs">
-      <Link>WAMP2\V2\Core\Contracts\IWampSessionManagementServer.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Session\IWampSessionServer.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\IWampSessionServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\PubSub\IWampSubscriber.cs">
+      <Link>WAMP2\V2\Core\Contracts\PubSub\IWampSubscriber.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\WampErrorExtensions.cs">
       <Link>WAMP2\V2\Core\Contracts\WampErrorExtensions.cs</Link>
@@ -504,6 +516,9 @@
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\WampIdGenerator.cs">
       <Link>WAMP2\V2\Core\Listener\WampIdGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\WampPubSubServer.cs">
+      <Link>WAMP2\V2\PubSub\WampPubSubServer.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs</Link>
@@ -549,6 +564,9 @@
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\WampRpcServer.cs">
       <Link>WAMP2\V2\Rpc\WampRpcServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Session\WampSessionServer.cs">
+      <Link>WAMP2\V2\Session\WampSessionServer.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

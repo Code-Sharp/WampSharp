@@ -34,11 +34,17 @@ namespace WampSharp.V2.Rpc
             Invoke(caller, options, null);
         }
 
+#if NET45
         public async void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments)
+#else
+        public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments)
+#endif
         {
             if (!IsSyncMethod)
             {
+#if NET40 
                 HandleAsync(caller, arguments);
+#endif
             }
             else
             {
@@ -46,6 +52,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
+#if NET45
         private async Task HandleAsync(IWampRpcOperationCallback caller, TMessage[] arguments)
         {
             // TODO: Convert parameters.
@@ -67,16 +74,26 @@ namespace WampSharp.V2.Rpc
             }
         }
 
+#endif
+
+#if NET45
         public async void Invoke(IWampRpcOperationCallback caller,
-                                 TMessage options,
-                                 TMessage[] arguments,
-                                 TMessage argumentsKeywords)
+                           TMessage options,
+                           TMessage[] arguments,
+                           TMessage argumentsKeywords)
+#else
+        public void Invoke(IWampRpcOperationCallback caller,
+                           TMessage options,
+                           TMessage[] arguments,
+                           TMessage argumentsKeywords)
+#endif
         {
             // TODO: order the arguments by the keywords.
             TMessage[] orderedArguments = arguments;
 
             Invoke(caller, options, orderedArguments);
         }
+
 
         private Task<object> InvokeAsync(object[] parameters)
         {
