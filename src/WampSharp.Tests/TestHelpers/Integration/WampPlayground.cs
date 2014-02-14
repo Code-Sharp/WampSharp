@@ -1,7 +1,5 @@
 ﻿using WampSharp.Core.Listener;
 using WampSharp.V1;
-using WampSharp.V1.Api.Client;
-using WampSharp.V1.Api.Server;
 
 namespace WampSharp.Tests.TestHelpers.Integration
 {

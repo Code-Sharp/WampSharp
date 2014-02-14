@@ -1,6 +1,6 @@
 ﻿using WampSharp.V1.Core.Contracts;
 
-namespace WampSharp.V1.Api.Server
+namespace WampSharp.V1
 {
     public class DefaultWampServer<TMessage> : IWampServer<TMessage>
     {

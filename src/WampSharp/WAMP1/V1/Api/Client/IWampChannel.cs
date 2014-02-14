@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using WampSharp.V1.Auxiliary.Client;
 using WampSharp.V1.Core.Contracts;
 
-namespace WampSharp.V1.Api.Client
+namespace WampSharp.V1
 {
     public interface IWampChannel<TMessage>
     {

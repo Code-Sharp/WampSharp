@@ -7,7 +7,7 @@ using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.PubSub.Client;
 using WampSharp.V1.Rpc.Client;
 
-namespace WampSharp.V1.Api.Client
+namespace WampSharp.V1
 {
     public class WampChannelFactory<TMessage> : IWampChannelFactory<TMessage>
     {

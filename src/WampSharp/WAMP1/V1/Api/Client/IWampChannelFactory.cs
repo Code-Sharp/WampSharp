@@ -1,6 +1,6 @@
 ﻿using WampSharp.Core.Listener;
 
-namespace WampSharp.V1.Api.Client
+namespace WampSharp.V1
 {
     public interface IWampChannelFactory<TMessage>
     {

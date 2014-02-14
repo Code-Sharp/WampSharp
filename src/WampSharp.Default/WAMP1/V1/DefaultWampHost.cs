@@ -3,7 +3,6 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
 using WampSharp.Newtonsoft;
-using WampSharp.V1.Api.Server;
 
 namespace WampSharp.V1
 {
