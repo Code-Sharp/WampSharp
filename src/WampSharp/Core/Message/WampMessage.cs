@@ -7,6 +7,23 @@
     public class WampMessage<TMessage>
     {
         /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public WampMessage()
+        {
+        }
+
+        /// <summary>
+        /// Copy constructor for inherited classes.
+        /// </summary>
+        /// <param name="other"></param>
+        protected WampMessage(WampMessage<TMessage> other)
+        {
+            MessageType = other.MessageType;
+            Arguments = other.Arguments;
+        }
+
+        /// <summary>
         /// Gets or sets the message type.
         /// </summary>
         public WampMessageType MessageType

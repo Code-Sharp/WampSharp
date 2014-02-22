@@ -15,6 +15,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         private readonly IWampIdGenerator mSessionIdGenerator;
         private readonly IWampOutgoingRequestSerializer<TMessage> mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
+        private IWampBinding<TMessage> mBinding;
 
         /// <summary>
         /// Creates a new instance of <see cref="WampClientBuilderFactory{TMessage}"/>.
@@ -28,11 +29,12 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         /// handle outgoing <see cref="WampMessage{TMessage}"/>s.</param>
         public WampClientBuilderFactory(IWampIdGenerator sessionIdGenerator,
                                         IWampOutgoingRequestSerializer<TMessage> outgoingSerializer,
-                                        IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder)
+                                        IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampBinding<TMessage> binding)
         {
             mSessionIdGenerator = sessionIdGenerator;
             mOutgoingSerializer = outgoingSerializer;
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
+            mBinding = binding;
         }
 
         public IWampClientBuilder<TMessage, IWampClient> GetClientBuilder(IWampClientContainer<TMessage, IWampClient> container)
@@ -42,7 +44,8 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                     (mSessionIdGenerator,
                      mOutgoingSerializer,
                      mOutgoingHandlerBuilder,
-                     container);
+                     container,
+                     mBinding);
 
             return result;
         }

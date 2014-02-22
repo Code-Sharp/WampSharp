@@ -8,11 +8,13 @@ namespace WampSharp.V2.PubSub
         {
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topic, TMessage[] arguments)
+        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topic,
+                            TMessage[] arguments)
         {
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topic, TMessage[] arguments,
+        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topic,
+                            TMessage[] arguments,
                             TMessage argumentKeywords)
         {
         }

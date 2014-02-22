@@ -43,15 +43,17 @@
         [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.Session, 2)]
         v2Welcome = 2,
         [MessageTypeDetails(MessageDirection.ServerToClient, MessageCategory.Session, 2)]
-        v2Challenge = 3,
+        v2Abort = 3,
+        [MessageTypeDetails(MessageDirection.ServerToClient, MessageCategory.Session, 2)]
+        v2Challenge = 4,
         [MessageTypeDetails(MessageDirection.ClientToServer, MessageCategory.Session, 2)]
-        v2Authenticate = 4,
+        v2Authenticate = 5,
         [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.Session, 2)]
-        v2Goodbye = 5,
+        v2Goodbye = 6,
         [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.Session, 2)]
-        v2Heartbeat = 6,
+        v2Heartbeat = 7,
         [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.General, 2)]
-        v2Error = 7,
+        v2Error = 8,
 
         [MessageTypeDetails(MessageDirection.ClientToServer, MessageCategory.RemoteProcedureCall, 2)]
         v2Call = 48,

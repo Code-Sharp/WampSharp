@@ -23,7 +23,7 @@ namespace WampSharp.V2
         private WampListener<TMessage> mListener;
         private readonly WampRpcOperationCatalog<TMessage> mOperationCatalog;
 
-        public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
+        public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
         {
             mOperationCatalog = new WampRpcOperationCatalog<TMessage>();
 
@@ -33,28 +33,31 @@ namespace WampSharp.V2
             IWampSessionServer<TMessage> session =
                 new WampSessionServer<TMessage>();
 
+            IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer =
+                new WampOutgoingRequestSerializer<TMessage>(binding.Formatter);
+
             IWampPubSubServer<TMessage> broker =
                 new WampPubSubServer<TMessage>();
 
             mServer = new WampServer<TMessage>(session, dealer, broker);
-
-            mListener = GetWampListener(connectionListener, formatter, mServer);
+            
+            mListener = GetWampListener(connectionListener, binding, mServer, outgoingRequestSerializer);
         }
 
-        private static WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter, IWampServer<TMessage> server)
+        private static WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding, IWampServer<TMessage> server, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
         {
             IWampClientBuilderFactory<TMessage, IWampClient> clientBuilderFactory =
-                GetWampClientBuilder(formatter);
+                GetWampClientBuilder(binding, outgoingRequestSerializer);
 
             IWampClientContainer<TMessage, IWampClient> clientContainer =
                 new WampClientContainer<TMessage, IWampClient>(clientBuilderFactory);
 
             IWampRequestMapper<TMessage> requestMapper =
                 new WampRequestMapper<TMessage>(server.GetType(),
-                                                formatter);
+                                                binding.Formatter);
 
             WampMethodBuilder<TMessage, IWampClient> methodBuilder =
-                new WampMethodBuilder<TMessage, IWampClient>(server, formatter);
+                new WampMethodBuilder<TMessage, IWampClient>(server, binding.Formatter);
 
             IWampIncomingMessageHandler<TMessage, IWampClient> wampIncomingMessageHandler =
                 new WampIncomingMessageHandler<TMessage, IWampClient>
@@ -68,21 +71,19 @@ namespace WampSharp.V2
                  server);
         }
 
-        private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampFormatter<TMessage> formatter)
+        private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
         {
             WampIdGenerator wampIdGenerator =
                 new WampIdGenerator();
-
-            WampOutgoingRequestSerializer<TMessage> wampOutgoingRequestSerializer =
-                new WampOutgoingRequestSerializer<TMessage>(formatter);
 
             WampOutgoingMessageHandlerBuilder<TMessage> wampOutgoingMessageHandlerBuilder =
                 new WampOutgoingMessageHandlerBuilder<TMessage>();
 
             return new WampClientBuilderFactory<TMessage>
                 (wampIdGenerator,
-                 wampOutgoingRequestSerializer,
-                 wampOutgoingMessageHandlerBuilder);
+                 outgoingRequestSerializer,
+                 wampOutgoingMessageHandlerBuilder,
+                 binding);
         }
 
         public void Dispose()

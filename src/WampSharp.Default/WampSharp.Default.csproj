@@ -64,6 +64,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WAMP2\Binding\JsonBinding.cs" />
+    <Compile Include="WAMP2\Binding\JTokenBinding.cs" />
+    <Compile Include="WAMP2\Binding\TextMessage.cs" />
     <Compile Include="WAMP1\V1\DefaultWampChannelFactory.cs" />
     <Compile Include="WAMP1\V1\DefaultWampHost.cs" />
     <Compile Include="Fleck\FleckWampConnectionListener.cs" />

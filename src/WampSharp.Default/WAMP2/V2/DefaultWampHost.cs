@@ -1,15 +1,17 @@
 ﻿using Newtonsoft.Json.Linq;
+using WampSharp.Binding;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
 using WampSharp.Newtonsoft;
+using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2
 {
     public class DefaultWampHost : DefaultWampHost<JToken>
     {
         public DefaultWampHost(string location) :
-            base(location, new JTokenMessageParser(), new JsonFormatter())
+            base(location, new JTokenMessageParser(), new JTokenBinding())
         {
         }
     }
@@ -19,13 +21,13 @@ namespace WampSharp.V2
     {
         public DefaultWampHost(string location,
                                IWampMessageParser<TMessage> parser,
-                               IWampFormatter<TMessage> formatter) :
-            this(new FleckWampConnectionListener<TMessage>("wamp.2.json", location, parser), formatter)
+                               IWampBinding<TMessage> binding) :
+            this(new FleckWampConnectionListener<TMessage>(binding.Name, location, parser), binding)
         {
         }
 
-        public DefaultWampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
-            : base(connectionListener, formatter)
+        public DefaultWampHost(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
+            : base(connectionListener, binding)
         {
         }
     }

@@ -21,6 +21,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         private readonly IWampOutgoingRequestSerializer<TMessage> mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
         private readonly IWampIdGenerator mSessionIdGenerator;
+        private readonly BindingPropertyInterceptor<TMessage> mBindingInterceptor; 
 
         #endregion
 
@@ -29,37 +30,46 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         /// <summary>
         /// Creates a new instance of <see cref="WampClientBuilder{TMessage}"/>.
         /// </summary>
-        /// <param name="sessionIdGenerator">A given <see cref="IWampSessionIdGenerator"/> used in order
+        /// <param name="sessionIdGenerator">A given <see cref="IWampIdGenerator"/> used in order
         /// to generate session ids for clients.</param>
         /// <param name="outgoingSerializer">A <see cref="IWampOutgoingRequestSerializer{TRequest}"/>
         /// used to serialize message calls into <see cref="WampMessage{TMessage}"/>s</param>
         /// <param name="outgoingHandlerBuilder">An <see cref="IWampOutgoingMessageHandlerBuilder{TMessage}"/> used to build
         /// a <see cref="IWampOutgoingMessageHandler{TMessage}"/> per connection.</param>
         /// <param name="container">A <see cref="IWampClientContainer{TMessage,TClient}"/> that contains all clients.</param>
-        public WampClientBuilder(IWampIdGenerator sessionIdGenerator, IWampOutgoingRequestSerializer<TMessage> outgoingSerializer, IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage, IWampClient> container)
+        public WampClientBuilder(IWampIdGenerator sessionIdGenerator, IWampOutgoingRequestSerializer<TMessage> outgoingSerializer, IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage, IWampClient> container, IWampBinding<TMessage> binding)
         {
             mOutgoingSerializer = outgoingSerializer;
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
             mContainer = container;
             mSessionIdGenerator = sessionIdGenerator;
+            mBindingInterceptor = new BindingPropertyInterceptor<TMessage>(binding);
         }
 
         #endregion
 
         public IWampClient Create(IWampConnection<TMessage> connection)
         {
+            IWampOutgoingMessageHandler<TMessage> outgoingHandler = 
+                mOutgoingHandlerBuilder.Build(connection);
+
             WampOutgoingInterceptor<TMessage> wampOutgoingInterceptor =
                 new WampOutgoingInterceptor<TMessage>
                     (mOutgoingSerializer,
-                     mOutgoingHandlerBuilder.Build(connection));
+                     outgoingHandler);
+
+            WampRawOutgoingInterceptor<TMessage> wampRawOutgoingInterceptor =
+                new WampRawOutgoingInterceptor<TMessage>(outgoingHandler);
 
             ProxyGenerationOptions proxyGenerationOptions =
                 new ProxyGenerationOptions()
                     {
                         Selector =
                             new WampInterceptorSelector<TMessage>
-                            (wampOutgoingInterceptor)
+                            (wampOutgoingInterceptor,
+                             wampRawOutgoingInterceptor)
                     };
+
 
             proxyGenerationOptions.AddMixinInstance
                 (new WampConnectionMonitor<TMessage>(connection));
@@ -69,9 +79,13 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                     (mContainer, connection));
 
             IWampClient result =
-                mGenerator.CreateInterfaceProxyWithoutTarget<IWampClient>
-                    (proxyGenerationOptions, wampOutgoingInterceptor,
-                    new SessionIdPropertyInterceptor(mSessionIdGenerator.Generate()));
+                mGenerator.CreateInterfaceProxyWithoutTarget
+                    (typeof (IWampClient), new[] {typeof (IWampClient<TMessage>)},
+                     proxyGenerationOptions,
+                     mBindingInterceptor,
+                     wampOutgoingInterceptor,
+                     new SessionIdPropertyInterceptor(mSessionIdGenerator.Generate()))
+                as IWampClient;
 
             return result;
         }

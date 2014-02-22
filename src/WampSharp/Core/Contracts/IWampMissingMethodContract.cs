@@ -14,6 +14,7 @@ namespace WampSharp.Core.Contracts
         /// method of the handler.
         /// </summary>
         /// <param name="rawMessage">The message.</param>
+        [WampRawHandler]
         void Missing(WampMessage<TMessage> rawMessage);
     }
 
@@ -29,6 +30,7 @@ namespace WampSharp.Core.Contracts
         /// </summary>
         /// <param name="client">The client who sent the message.</param>
         /// <param name="rawMessage">The message.</param>
+        [WampRawHandler]
         void Missing([WampProxyParameter] TClient client, WampMessage<TMessage> rawMessage);
     }
 }

@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using Fleck;
+using WampSharp.Binding;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
@@ -143,8 +144,20 @@ namespace WampSharp.Fleck
                 {
                     if (!mClosed)
                     {
-                        string raw = mMessageParser.Format(value);
+                        TextMessage<TMessage> casted = 
+                            value as TextMessage<TMessage>;
 
+                        string raw;
+
+                        if (casted != null)
+                        {
+                            raw = casted.Text;
+                        }
+                        else
+                        {
+                            raw = mMessageParser.Format(value);
+                        }                        
+ 
                         mWebSocketConnection.Send(raw);
                     }
                 }
