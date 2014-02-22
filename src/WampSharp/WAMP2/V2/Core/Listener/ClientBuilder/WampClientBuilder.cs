@@ -71,8 +71,10 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                     };
 
 
-            proxyGenerationOptions.AddMixinInstance
-                (new WampConnectionMonitor<TMessage>(connection));
+            WampConnectionMonitor<TMessage> monitor = 
+                new WampConnectionMonitor<TMessage>(connection);
+            
+            proxyGenerationOptions.AddMixinInstance(monitor);
 
             proxyGenerationOptions.AddMixinInstance
                 (new WampClientContainerDisposable<TMessage, IWampClient>
@@ -86,6 +88,8 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                      wampOutgoingInterceptor,
                      new SessionIdPropertyInterceptor(mSessionIdGenerator.Generate()))
                 as IWampClient;
+
+            monitor.Client = result;
 
             return result;
         }

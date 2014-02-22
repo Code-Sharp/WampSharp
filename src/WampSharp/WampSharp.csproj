@@ -201,7 +201,6 @@
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampBroker.cs" />
     <Compile Include="Core\Serialization\WampSerializationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Core\Proxy\BindingPropertyInterceptor.cs" />
-    <Compile Include="WAMP2\V2\PubSub\IWampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\IWampCallee.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\IWampCaller.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\IWampDealer.cs" />
@@ -220,10 +219,16 @@
     <Compile Include="WAMP2\V2\Core\Proxy\WampInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\WampListener.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\WampIdGenerator.cs" />
-    <Compile Include="WAMP2\V2\PubSub\IWampTopic.cs" />
-    <Compile Include="WAMP2\V2\PubSub\IWampTopicSubscriber.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IRawWampTopic.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampTopic.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampTopicSubscriber.cs" />
+    <Compile Include="WAMP2\V2\PubSub\RawWampTopic.cs" />
     <Compile Include="WAMP2\V2\PubSub\RemoteWampTopicSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampPubSubServer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WampRawTopicContainer.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCalleeOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCatalog.cs" />
@@ -244,6 +249,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

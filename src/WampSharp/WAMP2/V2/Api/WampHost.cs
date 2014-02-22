@@ -36,12 +36,23 @@ namespace WampSharp.V2
             IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer =
                 new WampOutgoingRequestSerializer<TMessage>(binding.Formatter);
 
+            IWampEventSerializer<TMessage> eventSerializer = GetEventSerializer(outgoingRequestSerializer);
+
             IWampPubSubServer<TMessage> broker =
-                new WampPubSubServer<TMessage>();
+                new WampPubSubServer<TMessage>(eventSerializer, binding);
 
             mServer = new WampServer<TMessage>(session, dealer, broker);
             
             mListener = GetWampListener(connectionListener, binding, mServer, outgoingRequestSerializer);
+        }
+
+        private static IWampEventSerializer<TMessage> GetEventSerializer(
+            IWampOutgoingRequestSerializer<TMessage> outgoingSerializer)
+        {
+            WampMessageSerializerBuilder<TMessage> serializerGenerator =
+                new WampMessageSerializerBuilder<TMessage>(outgoingSerializer);
+
+            return serializerGenerator.GetSerializer<IWampEventSerializer<TMessage>>();
         }
 
         private static WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding, IWampServer<TMessage> server, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)

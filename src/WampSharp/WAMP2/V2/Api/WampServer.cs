@@ -22,20 +22,20 @@ namespace WampSharp.V2
             mBroker = broker;
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topic)
+        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri)
         {
-            mBroker.Publish(publisher, requestId, options, topic);
+            mBroker.Publish(publisher, requestId, options, topicUri);
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topic, TMessage[] arguments)
+        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri, TMessage[] arguments)
         {
-            mBroker.Publish(publisher, requestId, options, topic, arguments);
+            mBroker.Publish(publisher, requestId, options, topicUri, arguments);
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topic, TMessage[] arguments,
+        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri, TMessage[] arguments,
                             TMessage argumentKeywords)
         {
-            mBroker.Publish(publisher, requestId, options, topic, arguments, argumentKeywords);
+            mBroker.Publish(publisher, requestId, options, topicUri, arguments, argumentKeywords);
         }
 
         public void Subscribe(IWampSubscriber subscriber, long requestId, TMessage options, string topicUri)

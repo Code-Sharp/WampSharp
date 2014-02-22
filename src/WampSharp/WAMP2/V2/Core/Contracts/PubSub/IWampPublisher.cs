@@ -3,7 +3,7 @@ using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
-    public interface IWampPublisher : IWampPublisher<object>
+    public interface IWampPublisher : IWampPublisher<object>, IWampError<object>
     {
          
     }

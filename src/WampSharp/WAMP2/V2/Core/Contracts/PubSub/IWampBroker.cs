@@ -6,11 +6,11 @@ namespace WampSharp.V2.Core.Contracts
     public interface IWampBroker<TMessage>
     {
         [WampHandler(WampMessageType.v2Publish)]
-        void Publish([WampProxyParameter]IWampPublisher publisher, long requestId, TMessage options, string topic);
+        void Publish([WampProxyParameter]IWampPublisher publisher, long requestId, TMessage options, string topicUri);
         [WampHandler(WampMessageType.v2Publish)]
-        void Publish([WampProxyParameter]IWampPublisher publisher, long requestId, TMessage options, string topic, TMessage[] arguments);
+        void Publish([WampProxyParameter]IWampPublisher publisher, long requestId, TMessage options, string topicUri, TMessage[] arguments);
         [WampHandler(WampMessageType.v2Publish)]
-        void Publish([WampProxyParameter]IWampPublisher publisher, long requestId, TMessage options, string topic, TMessage[] arguments, TMessage argumentKeywords);
+        void Publish([WampProxyParameter]IWampPublisher publisher, long requestId, TMessage options, string topicUri, TMessage[] arguments, TMessage argumentKeywords);
         [WampHandler(WampMessageType.v2Subscribe)]
         void Subscribe([WampProxyParameter]IWampSubscriber subscriber, long requestId, TMessage options, string topicUri);
         [WampHandler(WampMessageType.v2Subscribe)]
