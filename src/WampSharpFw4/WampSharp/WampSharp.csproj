@@ -58,6 +58,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\WampSharp\Core\Contracts\WampRawHandlerAttribute.cs">
+      <Link>Core\Contracts\WampRawHandlerAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Core\Proxy\WampRawOutgoingInterceptor.cs">
+      <Link>Core\Proxy\WampRawOutgoingInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Core\Serialization\IWampMessageSerializerBuilder.cs">
+      <Link>Core\Serialization\IWampMessageSerializerBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Core\Serialization\WampMessageSerializerBuilder.cs">
+      <Link>Core\Serialization\WampMessageSerializerBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP1\V1\Api\Client\IWampChannel.cs">
       <Link>WAMP1\V1\Api\Client\IWampChannel.cs</Link>
     </Compile>
@@ -150,6 +162,12 @@
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Api\WampServer.cs">
       <Link>WAMP2\V2\Api\WampServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\PubSub\IWampEventSerializer.cs">
+      <Link>WAMP2\V2\Core\Contracts\PubSub\IWampEventSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\IWampBinding.cs">
+      <Link>WAMP2\V2\Core\Listener\IWampBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\IWampClient.cs">
       <Link>WAMP2\V2\Core\Contracts\IWampClient.cs</Link>
@@ -457,11 +475,17 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Error\IWampErrorCallback.cs">
       <Link>WAMP2\V2\Core\Contracts\Error\IWampErrorCallback.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\IWampRawClient.cs">
+      <Link>WAMP2\V2\Core\Contracts\IWampRawClient.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\PubSub\IWampBroker.cs">
       <Link>WAMP2\V2\Core\Contracts\PubSub\IWampBroker.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\IWampPubSubServer.cs">
-      <Link>WAMP2\V2\PubSub\IWampPubSubServer.cs</Link>
+    <Compile Include="..\..\WampSharp\Core\Serialization\WampSerializationInterceptor.cs">
+      <Link>Core\Serialization\WampSerializationInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Proxy\BindingPropertyInterceptor.cs">
+      <Link>WAMP2\V2\Core\Proxy\BindingPropertyInterceptor.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Rpc\IWampCallee.cs">
       <Link>WAMP2\V2\Core\Contracts\Rpc\IWampCallee.cs</Link>
@@ -517,8 +541,35 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\WampIdGenerator.cs">
       <Link>WAMP2\V2\Core\Listener\WampIdGenerator.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\IRawWampTopic.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IRawWampTopic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampRawTopicContainer.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IWampRawTopicContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampTopic.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IWampTopic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampTopicContainer.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IWampTopicContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampTopicSubscriber.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IWampTopicSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\RawWampTopic.cs">
+      <Link>WAMP2\V2\PubSub\RawWampTopic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\RemoteWampTopicSubscriber.cs">
+      <Link>WAMP2\V2\PubSub\RemoteWampTopicSubscriber.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\WampPubSubServer.cs">
       <Link>WAMP2\V2\PubSub\WampPubSubServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\WampRawTopicContainer.cs">
+      <Link>WAMP2\V2\PubSub\WampRawTopicContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs</Link>
@@ -572,6 +623,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

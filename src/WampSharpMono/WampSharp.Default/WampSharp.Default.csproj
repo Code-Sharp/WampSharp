@@ -64,6 +64,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\WampSharp.Default\WAMP2\Binding\JsonBinding.cs">
+      <Link>WAMP2\Binding\JsonBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Default\WAMP2\Binding\JTokenBinding.cs">
+      <Link>WAMP2\Binding\JTokenBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Default\WAMP2\Binding\TextMessage.cs">
+      <Link>WAMP2\Binding\TextMessage.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Default\WAMP1\V1\DefaultWampChannelFactory.cs">
       <Link>WAMP1\V1\DefaultWampChannelFactory.cs</Link>
     </Compile>
