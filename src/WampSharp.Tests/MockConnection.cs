@@ -26,36 +26,57 @@ namespace WampSharp.Tests
             }
         }
 
-        private class DirectedConnection : IWampConnection<TMessage>
+        public class DirectedConnection : IWampConnection<TMessage>
         {
             private readonly IObservable<WampMessage<TMessage>> mIncoming;
             private readonly IObserver<WampMessage<TMessage>> mOutgoing;
+            private IDisposable mSubscription;
 
             public DirectedConnection(IObservable<WampMessage<TMessage>> incoming,
                                       IObserver<WampMessage<TMessage>> outgoing)
             {
                 mIncoming = incoming;
                 mOutgoing = outgoing;
+
+                mSubscription = mIncoming.Subscribe(x => OnNewMessage(x));
             }
 
-            public void OnNext(WampMessage<TMessage> value)
+            private void OnNewMessage(WampMessage<TMessage> wampMessage)
             {
-                mOutgoing.OnNext(value);
+                EventHandler<WampMessageArrivedEventArgs<TMessage>> messageArrived = 
+                    this.MessageArrived;
+
+                if (messageArrived != null)
+                {
+                    messageArrived(this, new WampMessageArrivedEventArgs<TMessage>(wampMessage));
+                }
             }
 
-            public void OnError(Exception error)
+            public void Dispose()
             {
-                mOutgoing.OnError(error);
+                mSubscription.Dispose();
+                mSubscription = null;
             }
 
-            public void OnCompleted()
+            public void Send(WampMessage<TMessage> message)
             {
-                mOutgoing.OnCompleted();
+                mOutgoing.OnNext(message);
             }
 
-            public IDisposable Subscribe(IObserver<WampMessage<TMessage>> observer)
+            public event EventHandler ConnectionOpen;
+            public event EventHandler ConnectionOpening;
+            public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
+            public event EventHandler ConnectionClosing;
+            public event EventHandler ConnectionClosed;
+
+            public void RaiseConnectionOpen()
             {
-                return mIncoming.Subscribe(observer);
+                EventHandler connectionOpen = ConnectionOpen;
+
+                if (connectionOpen != null)
+                {
+                    connectionOpen(this, EventArgs.Empty);
+                }
             }
         }
     }

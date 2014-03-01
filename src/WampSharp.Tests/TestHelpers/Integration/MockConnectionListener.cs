@@ -23,6 +23,10 @@ namespace WampSharp.Tests.TestHelpers.Integration
         private void OnNewConnection(IWampConnection<MockRaw> connection)
         {
             mSubject.OnNext(connection);
+
+            // Yuck
+            MockConnection<MockRaw>.DirectedConnection casted = connection as MockConnection<MockRaw>.DirectedConnection;
+            casted.RaiseConnectionOpen();
         }
 
         private class ListenerControlledConnection : IControlledWampConnection<MockRaw>
@@ -36,29 +40,79 @@ namespace WampSharp.Tests.TestHelpers.Integration
                 mListener = listener;
             }
 
-            public void OnCompleted()
-            {
-                mConnection.SideAToSideB.OnCompleted();
-            }
-
-            public void OnError(Exception error)
-            {
-                mConnection.SideAToSideB.OnError(error);
-            }
-
-            public void OnNext(WampMessage<MockRaw> value)
-            {
-                mConnection.SideAToSideB.OnNext(value);
-            }
-
-            public IDisposable Subscribe(IObserver<WampMessage<MockRaw>> observer)
-            {
-                return mConnection.SideAToSideB.Subscribe(observer);
-            }
-
             public void Connect()
             {
                 mListener.OnNewConnection(mConnection.SideBToSideA);
+            }
+
+            public void Dispose()
+            {
+                mConnection.SideAToSideB.Dispose();
+            }
+
+            public void Send(WampMessage<MockRaw> message)
+            {
+                mConnection.SideAToSideB.Send(message);
+            }
+
+            public event EventHandler ConnectionOpen
+            {
+                add
+                {
+                    mConnection.SideAToSideB.ConnectionOpen += value;
+                }
+                remove
+                {
+                    mConnection.SideAToSideB.ConnectionOpen -= value;                    
+                }
+            }
+
+            public event EventHandler ConnectionOpening
+            {
+                add
+                {
+                    mConnection.SideAToSideB.ConnectionOpening += value;
+                }
+                remove
+                {
+                    mConnection.SideAToSideB.ConnectionOpening -= value;
+                }
+            }
+
+            public event EventHandler<WampMessageArrivedEventArgs<MockRaw>> MessageArrived
+            {
+                add
+                {
+                    mConnection.SideAToSideB.MessageArrived += value;
+                }
+                remove
+                {
+                    mConnection.SideAToSideB.MessageArrived -= value;
+                }
+            }
+
+            public event EventHandler ConnectionClosing
+            {
+                add
+                {
+                    mConnection.SideAToSideB.ConnectionClosing += value;
+                }
+                remove
+                {
+                    mConnection.SideAToSideB.ConnectionClosing -= value;                    
+                }
+            }
+
+            public event EventHandler ConnectionClosed
+            {
+                add
+                {
+                    mConnection.SideAToSideB.ConnectionClosed += value;
+                }
+                remove
+                {
+                    mConnection.SideAToSideB.ConnectionClosed -= value;
+                }                
             }
         }
     }

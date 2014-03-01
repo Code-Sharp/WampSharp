@@ -11,14 +11,19 @@ namespace WampSharp.Core.Listener
     {
         private readonly IWampConnection<TMessage> mConnection;
         private EventHandler mConnectionClosed;
-        private IDisposable mSubscription;
 
         public WampConnectionMonitor(IWampConnection<TMessage> connection)
         {
             mConnection = connection;
+            mConnection.ConnectionClosed += OnConnectionClosed;
         }
 
         public object Client { private get; set; }
+
+        private void OnConnectionClosed(object sender, EventArgs e)
+        {
+            OnConnectionClosed();
+        }
 
         private void OnConnectionClosed()
         {
@@ -39,12 +44,6 @@ namespace WampSharp.Core.Listener
         {
             add
             {
-                if (mSubscription == null)
-                {
-                    mSubscription =
-                        mConnection.Subscribe(x => { }, OnConnectionClosed);
-                }
-
                 mConnectionClosed += value;
             }
             remove

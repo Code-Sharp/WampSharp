@@ -90,7 +90,7 @@ namespace WampSharp.V1
 
         public void Close()
         {
-            mConnection.OnCompleted();
+            mConnection.Dispose();
         }
     }
 }

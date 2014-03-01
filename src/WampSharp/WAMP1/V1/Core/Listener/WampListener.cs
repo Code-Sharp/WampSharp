@@ -27,7 +27,7 @@ namespace WampSharp.V1.Core.Listener
         {
         }
 
-        protected override void OnNewConnection(IWampConnection<TMessage> connection)
+        protected override void OnConnectionOpen(IWampConnection<TMessage> connection)
         {
             base.OnNewConnection(connection);
 

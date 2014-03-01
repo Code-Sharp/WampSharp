@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core;
@@ -36,7 +37,12 @@ namespace WampSharp.Tests
             WampListener<JToken> listener = GetListener(mockListener, clientMock.Object);
             listener.Start();
             Mock<IWampConnection<JToken>> connectionMock = new Mock<IWampConnection<JToken>>();
+            
             mockListener.OnNext(connectionMock.Object);
+            
+            connectionMock.Raise(x => x.ConnectionOpen += (sender, args) => {},
+                                 EventArgs.Empty);
+            
             clientMock.Verify(x => x.Welcome(sessionId, 1, "WampSharp"));
         }
 

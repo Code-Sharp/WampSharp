@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
+using WampSharp.Tests.TestHelpers;
 
 namespace WampSharp.Tests
 {
@@ -16,6 +17,14 @@ namespace WampSharp.Tests
         public void OnNext(IWampConnection<TMessage> value)
         {
             mSubject.OnNext(value);
+
+            // Yuck
+            MockConnection<TMessage>.DirectedConnection casted = value as MockConnection<TMessage>.DirectedConnection;
+            
+            if (casted != null)
+            {
+                casted.RaiseConnectionOpen();                
+            }
         }
 
         public void OnError(Exception error)

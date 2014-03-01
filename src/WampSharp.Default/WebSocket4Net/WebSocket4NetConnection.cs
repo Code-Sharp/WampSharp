@@ -82,5 +82,22 @@ namespace WampSharp.WebSocket4Net
         {
             mWebSocket.Open();
         }
+
+        // TODO: Port to the new API
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Send(WampMessage<TMessage> message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public event EventHandler ConnectionOpen;
+        public event EventHandler ConnectionOpening;
+        public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
+        public event EventHandler ConnectionClosing;
+        public event EventHandler ConnectionClosed;
     }
 }

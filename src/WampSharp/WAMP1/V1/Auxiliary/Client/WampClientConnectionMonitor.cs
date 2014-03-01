@@ -20,14 +20,14 @@ namespace WampSharp.V1.Auxiliary.Client
              IWampConnection<TMessage> connection)
         {
             mProxy = serverProxyBuilder.Create(new WampAuxiliaryClient(this), connection);
-            connection.Subscribe(x => { }, OnConnectionLost);
+            connection.ConnectionClosed += OnConnectionLost;
         }
 
         #endregion
 
         #region Private Methods
 
-        private void OnConnectionLost()
+        private void OnConnectionLost(object sender, EventArgs e)
         {
             RaiseConnectionLost();
 

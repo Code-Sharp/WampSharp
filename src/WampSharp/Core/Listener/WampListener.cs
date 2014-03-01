@@ -94,10 +94,34 @@ namespace WampSharp.Core.Listener
         {
             TClient client = ClientContainer.GetClient(connection);
 
-            connection.Subscribe
-                (x => OnNewMessage(connection, x),
-                 ex => OnConnectionException(connection, ex),
-                 () => OnCloseConnection(connection));
+            connection.MessageArrived += OnNewMessage;
+            connection.ConnectionOpen += OnConnectionOpen;
+            connection.ConnectionClosed += OnConnectionClose;
+        }
+
+        protected virtual void OnConnectionOpen(IWampConnection<TMessage> connection)
+        {
+        }
+
+        private void OnNewMessage(object sender, WampMessageArrivedEventArgs<TMessage> e)
+        {
+            IWampConnection<TMessage> connection = sender as IWampConnection<TMessage>;
+            OnNewMessage(connection, e.Message);
+        }
+
+        private void OnConnectionOpen(object sender, EventArgs e)
+        {
+            IWampConnection<TMessage> connection = sender as IWampConnection<TMessage>;
+            connection.ConnectionOpen -= OnConnectionOpen;
+            OnConnectionOpen(connection);
+        }
+
+        private void OnConnectionClose(object sender, EventArgs e)
+        {
+            IWampConnection<TMessage> connection = sender as IWampConnection<TMessage>;
+            connection.ConnectionClosed -= OnConnectionClose;
+            connection.MessageArrived -= OnNewMessage;
+            OnCloseConnection(connection);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace WampSharp.Core.Listener
 
         public void Handle(WampMessage<TMessage> message)
         {
-            mConnection.OnNext(message);
+            mConnection.Send(message);
         }
     }
 }

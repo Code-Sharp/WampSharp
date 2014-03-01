@@ -6,11 +6,12 @@ namespace WampSharp.V2.Session
     {
         public void OnNewClient(IWampClient client)
         {
-            client.Welcome(client.Session, null);
         }
 
         public void Hello(IWampSessionClient client, string realm, TMessage details)
         {
+            IWampClient wampClient = client as IWampClient;
+            client.Welcome(wampClient.Session, details);
         }
 
         public void Authenticate(IWampSessionClient client, string signature, TMessage extra)

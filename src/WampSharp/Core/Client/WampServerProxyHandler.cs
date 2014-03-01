@@ -29,19 +29,12 @@ namespace WampSharp.Core.Client
             mConnection = connection;
             mIncomingHandler = incomingHandler;
 
-            mConnection.Subscribe(x => OnMessageArrived(x),
-                                  x => OnError(x),
-                                  () => OnConnectionClosed());
+            mConnection.MessageArrived += MessageArrived;
         }
 
-        private void OnConnectionClosed()
+        private void MessageArrived(object sender, WampMessageArrivedEventArgs<TMessage> e)
         {
-            // Not sure what to do.
-        }
-
-        private void OnError(Exception exception)
-        {
-            // Not sure what to do.
+            OnMessageArrived(e.Message);
         }
 
         private void OnMessageArrived(WampMessage<TMessage> wampMessage)
@@ -51,7 +44,7 @@ namespace WampSharp.Core.Client
 
         public void Handle(WampMessage<TMessage> message)
         {
-            mConnection.OnNext(message);
+            mConnection.Send(message);
         }
     }
 }
