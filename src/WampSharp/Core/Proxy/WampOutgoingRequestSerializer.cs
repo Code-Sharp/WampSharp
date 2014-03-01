@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using WampSharp.Core.Contracts;
+using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.Core.Proxy
 {
@@ -13,6 +13,9 @@ namespace WampSharp.Core.Proxy
     /// </summary>
     public class WampOutgoingRequestSerializer<TMessage> : IWampOutgoingRequestSerializer<TMessage>
     {
+        private readonly IDictionary<MethodInfo, WampMethodInfo> mMethodToWampMethod =
+            new SwapDictionary<MethodInfo, WampMethodInfo>();
+
         private readonly IWampFormatter<TMessage> mFormatter;
 
         /// <summary>
@@ -27,48 +30,65 @@ namespace WampSharp.Core.Proxy
 
         public WampMessage<TMessage> SerializeRequest(MethodInfo method, object[] arguments)
         {
-            WampHandlerAttribute attribute = 
-                method.GetCustomAttribute<WampHandlerAttribute>(true);
+            WampMethodInfo wampMethod = GetWampMethod(method);
 
-            WampMessageType messageType = attribute.MessageType;
+            WampMessageType messageType = wampMethod.MessageType;
 
             WampMessage<TMessage> result = new WampMessage<TMessage>()
                                                {
                                                    MessageType = messageType
                                                };
 
-            var parameters = method.GetParameters()
-                                   .Zip(arguments,
-                                        (parameterInfo, argument) =>
-                                        new
-                                            {
-                                                parameterInfo,
-                                                argument
-                                            })
-                                   .Where(x => !x.parameterInfo.IsDefined(typeof(WampProxyParameterAttribute), true));
+            List<object> argumentsToSerialize = arguments.ToList();
+
+            if (wampMethod.HasWampClientArgument)
+            {
+                argumentsToSerialize.RemoveAt(0);
+            }
+
+            object[] paramsArgument = null;
+
+            if (wampMethod.HasParamsArgument)
+            {
+                paramsArgument = (object[])argumentsToSerialize.Last();
+                argumentsToSerialize.RemoveAt(argumentsToSerialize.Count - 1);
+            }
 
             List<TMessage> messageArguments = new List<TMessage>();
 
-            foreach (var parameter in parameters)
+            foreach (object argument in argumentsToSerialize)
             {
-                if (!parameter.parameterInfo.IsDefined(typeof(ParamArrayAttribute), true))
-                {
-                    TMessage serialized = mFormatter.Serialize(parameter.argument);
-                    messageArguments.Add(serialized);
-                }
-                else
-                {
-                    object[] paramsArray = parameter.argument as object[];
+                TMessage serialized = mFormatter.Serialize(argument);
+                messageArguments.Add(serialized);
+            }
 
-                    foreach (object param in paramsArray)
-                    {
-                        TMessage serialized = mFormatter.Serialize(param);
-                        messageArguments.Add(serialized);
-                    }
-                }
+            if (wampMethod.HasParamsArgument)
+            {
+                foreach (object argument in paramsArgument)
+                {
+                    TMessage serialized = mFormatter.Serialize(argument);
+                    messageArguments.Add(serialized);
+                }                
             }
 
             result.Arguments = messageArguments.ToArray();
+
+            return result;
+        }
+
+        private WampMethodInfo GetWampMethod(MethodInfo method)
+        {
+            WampMethodInfo result;
+
+            if (mMethodToWampMethod.TryGetValue(method, out result))
+            {
+                return result;
+            }
+            else
+            {
+                result = new WampMethodInfo(method);
+                mMethodToWampMethod[method] = result;
+            }
 
             return result;
         }

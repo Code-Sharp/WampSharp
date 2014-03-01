@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Contracts;
@@ -17,9 +18,13 @@ namespace WampSharp.Core.Dispatch.Handler
 
         private readonly MethodInfo mMethod;
         private readonly int mArgumentsCount;
+        private readonly int mTotalArgumentsCount;
         private readonly bool mHasWampClientArgument;
         private readonly bool mHasParamsArgument;
         private readonly bool mIsRawMethod;
+        private readonly ParameterInfo[] mParameters;
+        private readonly ParameterInfo[] mParametersToConvert;
+        private readonly WampMessageType mMessageType;
 
         #endregion
 
@@ -35,13 +40,29 @@ namespace WampSharp.Core.Dispatch.Handler
         {
             mMethod = method;
 
+            WampHandlerAttribute handlerAttribute = 
+                method.GetCustomAttribute<WampHandlerAttribute>();
+
+            if (handlerAttribute != null)
+            {
+                mMessageType = handlerAttribute.MessageType;
+            }
+            else
+            {
+                mMessageType = WampMessageType.Unknown;
+            }
+
             ParameterInfo[] parameters = method.GetParameters();
+
+            mParameters = parameters;
+            List<ParameterInfo> parametersToConvert = mParameters.ToList();
 
             if (parameters.Length > 0)
             {
                 if (parameters[0].IsDefined(typeof(WampProxyParameterAttribute), true))
                 {
                     mHasWampClientArgument = true;
+                    parametersToConvert.RemoveAt(0);
                 }
 
                 ParameterInfo lastParameter = parameters.Last();
@@ -54,10 +75,13 @@ namespace WampSharp.Core.Dispatch.Handler
                 if (typeof (WampMessage<>).IsGenericAssignableFrom(lastParameter.ParameterType))
                 {
                     mIsRawMethod = true;
+                    parametersToConvert.RemoveAt(parametersToConvert.Count - 1);
                 }
             }
 
-            mArgumentsCount = parameters.Length;
+            mTotalArgumentsCount = parameters.Length;
+            mArgumentsCount = mTotalArgumentsCount;
+            mParametersToConvert = parametersToConvert.ToArray();
 
             if (mHasWampClientArgument)
             {
@@ -128,6 +152,35 @@ namespace WampSharp.Core.Dispatch.Handler
             }
         }
 
+        public ParameterInfo[] Parameters
+        {
+            get
+            {
+                return mParameters;
+            }
+        }
+
+        public ParameterInfo[] ParametersToConvert
+        {
+            get
+            {
+                return mParametersToConvert;
+            }
+        }
+
+        public int TotalArgumentsCount
+        {
+            get { return mTotalArgumentsCount; }
+        }
+
+        public WampMessageType MessageType
+        {
+            get
+            {
+                return mMessageType;
+            }
+        }
+
         #endregion
-    }
+   }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
@@ -9,7 +10,7 @@ namespace WampSharp.Core.Dispatch.Handler
 {
     /// <summary>
     /// An implementation of <see cref="IMethodBuilder{TKey,TMethod}"/>.
-    /// Builds non efficient delegates using <see cref="MethodInfo"/>'s invoke.
+    /// Builds efficient delegates using compiled expressions.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     /// <typeparam name="TClient"></typeparam>
@@ -41,10 +42,41 @@ namespace WampSharp.Core.Dispatch.Handler
 
         public Action<TClient, WampMessage<TMessage>> BuildMethod(WampMethodInfo wampMethod)
         {
-            MethodInfo method = wampMethod.Method;
+            Action<object, object[]> action = BuildAction(wampMethod);
 
             return (client, message) =>
-                   method.Invoke(mInstance, GetArguments(client, message, wampMethod));
+                   action(mInstance, GetArguments(client, message, wampMethod));
+        }
+
+        private Action<object, object[]> BuildAction(WampMethodInfo wampMethod)
+        {
+            MethodInfo method = wampMethod.Method;
+
+            ParameterInfo[] parameters = wampMethod.Parameters;
+
+            ParameterExpression instance =
+                Expression.Parameter(typeof (object), "instance");
+
+            ParameterExpression arguments =
+                Expression.Parameter(typeof (object[]), "arguments");
+
+            IEnumerable<Expression> converted =
+                parameters.Select((x, i) =>
+                                  Expression.Convert
+                                      (Expression.ArrayIndex(arguments,
+                                                             Expression.Constant(i)),
+                                       x.ParameterType))
+                          .ToArray();
+
+            MethodCallExpression body =
+                Expression.Call(Expression.Convert(instance, mInstance.GetType()),
+                                method,
+                                converted);
+
+            Expression<Action<object, object[]>> lambda =
+                Expression.Lambda<Action<object, object[]>>(body, instance, arguments);
+
+            return lambda.Compile();
         }
 
         #endregion
@@ -53,45 +85,37 @@ namespace WampSharp.Core.Dispatch.Handler
 
         private object[] GetArguments(TClient client, WampMessage<TMessage> message, WampMethodInfo method)
         {
-            ParameterInfo[] parameterInfos = method.Method.GetParameters();
-
-            IEnumerable<ParameterInfo> parametersToConvert = parameterInfos;
-
-            IEnumerable<object> methodArguments = Enumerable.Empty<object>();
+            List<object> methodArguments = new List<object>(method.TotalArgumentsCount);
 
             if (method.HasWampClientArgument)
             {
-                methodArguments = new object[] { client };
-                parametersToConvert = parametersToConvert.Skip(1);
+                methodArguments.Add(client);
             }
 
             if (method.IsRawMethod)
             {
-                methodArguments = methodArguments.Concat(new[] {message});
+                methodArguments.Add(message);
             }
             else
             {
-                methodArguments =
-                    methodArguments.Concat(ConvertArguments(message, parametersToConvert));                
+                methodArguments.AddRange
+                    (ConvertArguments(message, method));                
             }
 
             return methodArguments.ToArray();
         }
 
-        private object[] ConvertArguments(WampMessage<TMessage> message, IEnumerable<ParameterInfo> parameters)
+        private object[] ConvertArguments(WampMessage<TMessage> message, WampMethodInfo method)
         {
-            List<ParameterInfo> parametersList = parameters.ToList();
+            ParameterInfo[] parametersList = method.ParametersToConvert;
 
             TMessage[] arguments = message.Arguments;
             
             IEnumerable<TMessage> relevantArguments = arguments;
 
-            bool paramsArgument =
-                parametersList.Last().IsDefined(typeof(ParamArrayAttribute), true);
-
-            if (paramsArgument)
+            if (method.HasParamsArgument)
             {
-                relevantArguments = relevantArguments.Take(parametersList.Count - 1);
+                relevantArguments = relevantArguments.Take(parametersList.Length - 1);
             }
 
             List<object> converted =
@@ -100,10 +124,10 @@ namespace WampSharp.Core.Dispatch.Handler
                                    mFormatter.Deserialize(parameter.ParameterType, argument))
                               .ToList();
 
-            if (paramsArgument)
+            if (method.HasParamsArgument)
             {
                 IEnumerable<TMessage> otherArgumets =
-                    arguments.Skip(parametersList.Count - 1);
+                    arguments.Skip(parametersList.Length - 1);
 
                 converted.Add(otherArgumets.ToArray());
             }

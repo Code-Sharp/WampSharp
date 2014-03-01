@@ -13,6 +13,8 @@
         // I think the enum values are inicative,
         // but maybe in the future I'll document them.
 #pragma warning disable 1591
+        Unknown = -404,
+
         #region Version 1
 
         [MessageTypeDetails(MessageDirection.ServerToClient, MessageCategory.Auxiliary, 1)]
