@@ -41,7 +41,7 @@ namespace WampSharp.Core.Dispatch.Handler
             mMethod = method;
 
             WampHandlerAttribute handlerAttribute = 
-                method.GetCustomAttribute<WampHandlerAttribute>();
+                method.GetCustomAttribute<WampHandlerAttribute>(true);
 
             if (handlerAttribute != null)
             {
