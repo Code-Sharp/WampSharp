@@ -93,6 +93,7 @@
     <Compile Include="WAMP1\V1\Core\Contracts\IWampServer.cs" />
     <Compile Include="WAMP2\V2\Api\WampHost.cs" />
     <Compile Include="WAMP2\V2\Api\WampServer.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Error\WampErrors.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampEventSerializer.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\IWampBinding.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />

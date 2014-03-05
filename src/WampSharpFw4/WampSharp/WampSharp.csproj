@@ -163,6 +163,9 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Api\WampServer.cs">
       <Link>WAMP2\V2\Api\WampServer.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Error\WampErrors.cs">
+      <Link>WAMP2\V2\Core\Contracts\Error\WampErrors.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\PubSub\IWampEventSerializer.cs">
       <Link>WAMP2\V2\Core\Contracts\PubSub\IWampEventSerializer.cs</Link>
     </Compile>
