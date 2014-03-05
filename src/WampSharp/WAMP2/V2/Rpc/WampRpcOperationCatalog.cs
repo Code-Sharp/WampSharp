@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
@@ -11,7 +12,7 @@ namespace WampSharp.V2.Rpc
         {
             if (!mProcedureToOperation.TryAdd(operation.Procedure, operation))
             {
-                // throw something to the poor WAMP callee.
+                throw new WampException(WampErrors.ProcedureAlreadyExists, operation.Procedure);
             }
         }
 
@@ -21,7 +22,7 @@ namespace WampSharp.V2.Rpc
 
             if (!mProcedureToOperation.TryRemove(operation.Procedure, out result))
             {
-                // throw something to the poor WAMP callee.
+                throw new WampException(WampErrors.NoSuchRegistration, operation.Procedure);
             }
         }
 
@@ -65,8 +66,7 @@ namespace WampSharp.V2.Rpc
 
             if (!mProcedureToOperation.TryGetValue(procedure, out operation))
             {
-                // throw something to the poor WAMP callee.
-                //caller.Error();
+                caller.Error(procedure, WampErrors.NoSuchProcedure);
                 return null;
             }
             else

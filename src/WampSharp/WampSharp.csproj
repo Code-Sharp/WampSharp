@@ -95,6 +95,7 @@
     <Compile Include="WAMP2\V2\Api\WampServer.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Error\WampErrors.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampEventSerializer.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\WampException.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\IWampBinding.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
     <Compile Include="Core\Contracts\WampHandlerAttribute.cs" />

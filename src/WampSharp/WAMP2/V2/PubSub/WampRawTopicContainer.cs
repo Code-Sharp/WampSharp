@@ -60,36 +60,30 @@ namespace WampSharp.V2.PubSub
             }
             else
             {
-                // TODO: throw an exception
+                throw new WampException(WampErrors.NoSuchSubscription, subscriptionId);
             }
         }
 
         public long Publish(TMessage options, string topicUri)
         {
             // TODO: publish to the real topic
-            RawWampTopic<TMessage> rawTopic;
+            RawWampTopic<TMessage> rawTopic = GetTopic(topicUri);
 
             long publicationId = mGenerator.Generate();
 
-            if (mTopicUriToRawTopic.TryGetValue(topicUri, out rawTopic))
-            {
-                rawTopic.Event(publicationId, options);
-            }
-
+            rawTopic.Event(publicationId, options);
+         
             return publicationId;
         }
 
         public long Publish(TMessage options, string topicUri, TMessage[] arguments)
         {
             // TODO: publish to the real topic
-            RawWampTopic<TMessage> rawTopic;
+            RawWampTopic<TMessage> rawTopic = GetTopic(topicUri);
 
             long publicationId = mGenerator.Generate();
 
-            if (mTopicUriToRawTopic.TryGetValue(topicUri, out rawTopic))
-            {
-                rawTopic.Event(publicationId, options, arguments);
-            }
+            rawTopic.Event(publicationId, options, arguments);
 
             return publicationId;
         }
@@ -97,16 +91,26 @@ namespace WampSharp.V2.PubSub
         public long Publish(TMessage options, string topicUri, TMessage[] arguments, TMessage argumentKeywords)
         {
             // TODO: publish to the real topic
-            RawWampTopic<TMessage> rawTopic;
+            RawWampTopic<TMessage> rawTopic = GetTopic(topicUri);
 
             long publicationId = mGenerator.Generate();
 
-            if (mTopicUriToRawTopic.TryGetValue(topicUri, out rawTopic))
-            {
-                rawTopic.Event(publicationId, options, arguments, argumentKeywords);
-            }
+            rawTopic.Event(publicationId, options, arguments, argumentKeywords);
 
             return publicationId;
         }
+
+        private RawWampTopic<TMessage> GetTopic(string topicUri)
+        {
+            RawWampTopic<TMessage> rawWampTopic;
+
+            if (!mTopicUriToRawTopic.TryGetValue(topicUri, out rawWampTopic))
+            {
+                throw new WampException(WampErrors.InvalidTopic, topicUri);
+            }
+
+            return rawWampTopic;
+        }
+
     }
 }

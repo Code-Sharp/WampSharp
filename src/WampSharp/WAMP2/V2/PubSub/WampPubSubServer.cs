@@ -83,11 +83,7 @@ namespace WampSharp.V2.PubSub
             }
             catch (Exception ex)
             {
-                object details = ex;
-
-                string error = ex.Message;
-
-                subscriber.SubscribeError(requestId, details, error);
+                subscriber.SubscribeError(requestId, ex);
             }
         }
 
@@ -101,11 +97,7 @@ namespace WampSharp.V2.PubSub
             }
             catch (Exception ex)
             {
-                object details = ex;
-
-                string error = ex.Message;
-
-                subscriber.UnsubscribeError(requestId, details, error);
+                subscriber.UnsubscribeError(requestId, ex);
             }
         }
     }

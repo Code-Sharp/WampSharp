@@ -29,12 +29,7 @@ namespace WampSharp.V2.Rpc
             }
             catch (Exception exception)
             {
-                // TODO: Get details
-                Exception details = exception;
-                // TODO: Get error:
-                string error = details.Message; 
-
-                callee.RegisterError(requestId, details, error);
+                callee.RegisterError(requestId, exception);
             }
         }
 
@@ -47,12 +42,7 @@ namespace WampSharp.V2.Rpc
             }
             catch (Exception exception)
             {
-                // TODO: Get details
-                Exception details = exception;
-                // TODO: Get error:
-                string error = details.Message;
-
-                callee.UnregisterError(requestId, details, error);
+                callee.UnregisterError(requestId, exception);
             }
         }
 
