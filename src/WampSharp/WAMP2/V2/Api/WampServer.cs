@@ -140,7 +140,7 @@ namespace WampSharp.V2
             mSession.Heartbeat(client, incomingSeq, outgoingSeq, discard);
         }
 
-        public void OnNewClient(IWampClient client)
+        public void OnNewClient(IWampClient<TMessage> client)
         {
             mSession.OnNewClient(client);
         }

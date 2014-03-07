@@ -92,6 +92,7 @@
     <Compile Include="WAMP1\V1\Core\Contracts\IWampRpcServer.cs" />
     <Compile Include="WAMP1\V1\Core\Contracts\IWampServer.cs" />
     <Compile Include="WAMP2\V2\Api\WampHost.cs" />
+    <Compile Include="WAMP2\V2\Core\Dispatch\WampRealmMethodBuilder.cs" />
     <Compile Include="WAMP2\V2\Api\WampServer.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Error\WampErrors.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampEventSerializer.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampSubscriber.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampErrorExtensions.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\IWampIdGenerator.cs" />
+    <Compile Include="WAMP2\V2\Core\Proxy\RealmProperty.cs" />
     <Compile Include="WAMP2\V2\Core\Proxy\SessionIdPropertyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\ClientBuilder\WampClientBuilder.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs" />
@@ -231,6 +233,10 @@
     <Compile Include="WAMP2\V2\PubSub\RemoteWampTopicSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampRawTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\Realm\Interfaces\IWampRealm.cs" />
+    <Compile Include="WAMP2\V2\Realm\Interfaces\IWampRealmContainer.cs" />
+    <Compile Include="WAMP2\V2\Realm\WampRealm.cs" />
+    <Compile Include="WAMP2\V2\Realm\WampRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCalleeOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCatalog.cs" />

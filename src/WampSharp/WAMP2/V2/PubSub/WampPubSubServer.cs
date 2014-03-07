@@ -11,11 +11,11 @@ namespace WampSharp.V2.PubSub
         private readonly IWampBinding<TMessage> mBinding;
         private readonly IWampRawTopicContainer<TMessage> mRawTopicContainer;
 
-        public WampPubSubServer(IWampEventSerializer<TMessage> eventSerializer, IWampBinding<TMessage> binding)
+        public WampPubSubServer(IWampTopicContainer topicContainer, IWampEventSerializer<TMessage> eventSerializer, IWampBinding<TMessage> binding)
         {
             mBinding = binding;
             mEventSerializer = eventSerializer;
-            mRawTopicContainer = new WampRawTopicContainer<TMessage>(null, mEventSerializer, mBinding);
+            mRawTopicContainer = new WampRawTopicContainer<TMessage>(topicContainer, mEventSerializer, mBinding);
         }
 
         public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri)
@@ -27,11 +27,7 @@ namespace WampSharp.V2.PubSub
             }
             catch (Exception ex)
             {
-                object details = ex;
-
-                string error = ex.Message;
-                
-                publisher.PublishError(requestId, details, error);
+                publisher.PublishError(requestId, ex);
             }
         }
 
@@ -45,11 +41,7 @@ namespace WampSharp.V2.PubSub
             }
             catch (Exception ex)
             {
-                object details = ex;
-
-                string error = ex.Message;
-
-                publisher.PublishError(requestId, details, error);
+                publisher.PublishError(requestId, ex, arguments);
             }
         }
 
@@ -64,11 +56,7 @@ namespace WampSharp.V2.PubSub
             }
             catch (Exception ex)
             {
-                object details = ex;
-
-                string error = ex.Message;
-
-                publisher.PublishError(requestId, details, error);
+                publisher.PublishError(requestId, ex, arguments, argumentKeywords);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using WampSharp.V2.Core.Listener;
+using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Core.Contracts
 {
@@ -20,10 +21,13 @@ namespace WampSharp.V2.Core.Contracts
         IWampPublisher<TMessage>,
         IWampSubscriber<TMessage>,
         IWampRawClient<TMessage>
+        where TMessage : class
     {
         // Maybe not such a good idea.
         long Session { get; }
 
+        IWampRealm<TMessage> Realm { get; set; } 
+        
         IWampBinding<TMessage> Binding { get; }
     }
 }

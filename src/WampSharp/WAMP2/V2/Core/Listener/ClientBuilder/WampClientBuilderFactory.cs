@@ -10,7 +10,8 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
     /// using <see cref="WampClientBuilder{TMessage}"/>.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public class WampClientBuilderFactory<TMessage> : IWampClientBuilderFactory<TMessage, IWampClient>
+    public class WampClientBuilderFactory<TMessage> : IWampClientBuilderFactory<TMessage, IWampClient<TMessage>>
+        where TMessage : class 
     {
         private readonly IWampIdGenerator mSessionIdGenerator;
         private readonly IWampOutgoingRequestSerializer<TMessage> mOutgoingSerializer;
@@ -37,7 +38,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
             mBinding = binding;
         }
 
-        public IWampClientBuilder<TMessage, IWampClient> GetClientBuilder(IWampClientContainer<TMessage, IWampClient> container)
+        public IWampClientBuilder<TMessage, IWampClient<TMessage>> GetClientBuilder(IWampClientContainer<TMessage, IWampClient<TMessage>> container)
         {
             WampClientBuilder<TMessage> result =
                 new WampClientBuilder<TMessage>

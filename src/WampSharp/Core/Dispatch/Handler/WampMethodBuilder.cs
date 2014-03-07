@@ -45,7 +45,7 @@ namespace WampSharp.Core.Dispatch.Handler
             Action<object, object[]> action = BuildAction(wampMethod);
 
             return (client, message) =>
-                   action(mInstance, GetArguments(client, message, wampMethod));
+                   action(GetInstance(client, message, wampMethod), GetArguments(client, message, wampMethod));
         }
 
         private Action<object, object[]> BuildAction(WampMethodInfo wampMethod)
@@ -69,7 +69,7 @@ namespace WampSharp.Core.Dispatch.Handler
                           .ToArray();
 
             MethodCallExpression body =
-                Expression.Call(Expression.Convert(instance, mInstance.GetType()),
+                Expression.Call(Expression.Convert(instance, method.DeclaringType),
                                 method,
                                 converted);
 
@@ -81,9 +81,24 @@ namespace WampSharp.Core.Dispatch.Handler
 
         #endregion
 
+        #region Protected Members
+
+        // Maybe these should be in a seperated interface.
+        protected virtual object GetInstance(TClient client, WampMessage<TMessage> message, WampMethodInfo method)
+        {
+            return mInstance;
+        }
+
+        protected virtual object[] GetArguments(TClient client, WampMessage<TMessage> message, WampMethodInfo method)
+        {
+            return InnerGetArguments(client, message, method);
+        }
+
+        #endregion
+
         #region Private Members
 
-        private object[] GetArguments(TClient client, WampMessage<TMessage> message, WampMethodInfo method)
+        private object[] InnerGetArguments(TClient client, WampMessage<TMessage> message, WampMethodInfo method)
         {
             List<object> methodArguments = new List<object>(method.TotalArgumentsCount);
 

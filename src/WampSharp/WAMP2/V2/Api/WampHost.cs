@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Core.Dispatch;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Core.Listener.ClientBuilder;
-using WampSharp.V2.PubSub;
-using WampSharp.V2.Rpc;
+using WampSharp.V2.Realm;
 using WampSharp.V2.Session;
 
 namespace WampSharp.V2
@@ -19,31 +16,27 @@ namespace WampSharp.V2
     public class WampHost<TMessage>
         where TMessage : class
     {
-        private readonly IWampServer<TMessage> mServer; 
         private WampListener<TMessage> mListener;
-        private readonly WampRpcOperationCatalog<TMessage> mOperationCatalog;
+        private readonly IWampSessionServer<TMessage> mSession;
+        private readonly WampRealmContainer<TMessage> mRealmContainer;
 
         public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
         {
-            mOperationCatalog = new WampRpcOperationCatalog<TMessage>();
-
-            IWampRpcServer<TMessage> dealer = 
-                new WampRpcServer<TMessage>(mOperationCatalog);
-
-            IWampSessionServer<TMessage> session =
-                new WampSessionServer<TMessage>();
+            WampSessionServer<TMessage> session = new WampSessionServer<TMessage>();
 
             IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer =
                 new WampOutgoingRequestSerializer<TMessage>(binding.Formatter);
 
             IWampEventSerializer<TMessage> eventSerializer = GetEventSerializer(outgoingRequestSerializer);
 
-            IWampPubSubServer<TMessage> broker =
-                new WampPubSubServer<TMessage>(eventSerializer, binding);
+            mRealmContainer = new WampRealmContainer<TMessage>(session, eventSerializer, binding);
 
-            mServer = new WampServer<TMessage>(session, dealer, broker);
-            
-            mListener = GetWampListener(connectionListener, binding, mServer, outgoingRequestSerializer);
+            // TODO: implement the constructor interface pattern.
+            session.RealmContainer = mRealmContainer;
+
+            mSession = session;
+
+            mListener = GetWampListener(connectionListener, binding, outgoingRequestSerializer);
         }
 
         private static IWampEventSerializer<TMessage> GetEventSerializer(
@@ -55,23 +48,23 @@ namespace WampSharp.V2
             return serializerGenerator.GetSerializer<IWampEventSerializer<TMessage>>();
         }
 
-        private static WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding, IWampServer<TMessage> server, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
+        private WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
         {
-            IWampClientBuilderFactory<TMessage, IWampClient> clientBuilderFactory =
+            IWampClientBuilderFactory<TMessage, IWampClient<TMessage>> clientBuilderFactory =
                 GetWampClientBuilder(binding, outgoingRequestSerializer);
 
-            IWampClientContainer<TMessage, IWampClient> clientContainer =
-                new WampClientContainer<TMessage, IWampClient>(clientBuilderFactory);
+            IWampClientContainer<TMessage, IWampClient<TMessage>> clientContainer =
+                new WampClientContainer<TMessage, IWampClient<TMessage>>(clientBuilderFactory);
 
             IWampRequestMapper<TMessage> requestMapper =
-                new WampRequestMapper<TMessage>(server.GetType(),
+                new WampRequestMapper<TMessage>(typeof(WampServer<TMessage>),
                                                 binding.Formatter);
 
-            WampMethodBuilder<TMessage, IWampClient> methodBuilder =
-                new WampMethodBuilder<TMessage, IWampClient>(server, binding.Formatter);
+            WampRealmMethodBuilder<TMessage> methodBuilder =
+                new WampRealmMethodBuilder<TMessage>(mSession, binding.Formatter);
 
-            IWampIncomingMessageHandler<TMessage, IWampClient> wampIncomingMessageHandler =
-                new WampIncomingMessageHandler<TMessage, IWampClient>
+            IWampIncomingMessageHandler<TMessage, IWampClient<TMessage>> wampIncomingMessageHandler =
+                new WampIncomingMessageHandler<TMessage, IWampClient<TMessage>>
                     (requestMapper,
                      methodBuilder);
 
@@ -79,7 +72,7 @@ namespace WampSharp.V2
                 (connectionListener,
                  wampIncomingMessageHandler,
                  clientContainer,
-                 server);
+                 mSession);
         }
 
         private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
@@ -114,26 +107,6 @@ namespace WampSharp.V2
             }
 
             mListener.Start();
-        }
-
-        public void HostService(object instance)
-        {
-            Type type = instance.GetType();
-
-            foreach (Type currentType in type.GetInterfaces())
-            {
-                IEnumerable<MethodInfo> relevantMethods =
-                    currentType.GetMethods()
-                               .Where(x => x.IsDefined(typeof (WampProcedureAttribute), true));
-
-                foreach (MethodInfo method in relevantMethods)
-                {
-                    mOperationCatalog.Register
-                        (new MethodInfoRpcOperation<TMessage>
-                             (method,
-                              instance));
-                }
-            }
         }
     }
 }

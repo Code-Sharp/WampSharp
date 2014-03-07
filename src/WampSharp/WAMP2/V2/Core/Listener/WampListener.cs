@@ -9,7 +9,7 @@ namespace WampSharp.V2.Core.Listener
     /// WAMPv1 specific.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public class WampListener<TMessage> : WampListener<TMessage, IWampClient>
+    public class WampListener<TMessage> : WampListener<TMessage, IWampClient<TMessage>> where TMessage : class
     {
         private readonly IWampSessionServer<TMessage> mSessionHandler;
 
@@ -24,8 +24,8 @@ namespace WampSharp.V2.Core.Listener
         /// in order to store the connected clients.</param>
         /// <param name="sessionHandler">A session handler that handles new clients.</param>
         public WampListener(IWampConnectionListener<TMessage> listener,
-                            IWampIncomingMessageHandler<TMessage, IWampClient> handler,
-                            IWampClientContainer<TMessage, IWampClient> clientContainer,
+                            IWampIncomingMessageHandler<TMessage, IWampClient<TMessage>> handler,
+                            IWampClientContainer<TMessage, IWampClient<TMessage>> clientContainer,
                             IWampSessionServer<TMessage> sessionHandler)
             : base(listener, handler, clientContainer)
         {
@@ -36,7 +36,7 @@ namespace WampSharp.V2.Core.Listener
         {
             base.OnNewConnection(connection);
 
-            IWampClient client = ClientContainer.GetClient(connection);
+            IWampClient<TMessage> client = ClientContainer.GetClient(connection);
 
             mSessionHandler.OnNewClient(client);
         }
