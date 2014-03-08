@@ -1,14 +1,15 @@
 ﻿using System.Collections.Concurrent;
+using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class WampRpcOperationCatalog<TMessage> : IWampRpcOperationCatalog<TMessage> where TMessage : class
+    public class WampRpcOperationCatalog : IWampRpcOperationCatalog
     {
-        private readonly ConcurrentDictionary<string, IWampRpcOperation<TMessage>> mProcedureToOperation =
-            new ConcurrentDictionary<string, IWampRpcOperation<TMessage>>();
+        private readonly ConcurrentDictionary<string, IWampRpcOperation> mProcedureToOperation =
+            new ConcurrentDictionary<string, IWampRpcOperation>();
 
-        public void Register(IWampRpcOperation<TMessage> operation)
+        public void Register(IWampRpcOperation operation)
         {
             if (!mProcedureToOperation.TryAdd(operation.Procedure, operation))
             {
@@ -16,9 +17,9 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Unregister(IWampRpcOperation<TMessage> operation)
+        public void Unregister(IWampRpcOperation operation)
         {
-            IWampRpcOperation<TMessage> result;
+            IWampRpcOperation result;
 
             if (!mProcedureToOperation.TryRemove(operation.Procedure, out result))
             {
@@ -26,43 +27,51 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke(IWampRpcOperationCallback caller, TMessage options, string procedure)
+        public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure) where TMessage : class
         {
-            IWampRpcOperation<TMessage> operation = TryGetOperation(caller, options, procedure);
+            IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
 
             if (operation != null)
             {
-                operation.Invoke(caller, options);
+                IWampRpcOperation<TMessage> casted = 
+                    CastOperation(operation, formatter);
+
+                casted.Invoke(caller, options);
             }
         }
 
-        public void Invoke(IWampRpcOperationCallback caller, TMessage options, string procedure,
-                           TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure,
+                                     TMessage[] arguments) where TMessage : class
         {
-            IWampRpcOperation<TMessage> operation = TryGetOperation(caller, options, procedure);
+            IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
 
             if (operation != null)
             {
-                operation.Invoke(caller, options, arguments);
+                IWampRpcOperation<TMessage> casted =
+                    CastOperation(operation, formatter);
+
+                casted.Invoke(caller, options, arguments);
             }
         }
 
-        public void Invoke(IWampRpcOperationCallback caller, TMessage options, string procedure,
-                           TMessage[] arguments,
-                           TMessage argumentsKeywords)
+        public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure,
+                                     TMessage[] arguments, TMessage argumentsKeywords) where TMessage : class
         {
-            IWampRpcOperation<TMessage> operation = TryGetOperation(caller, options, procedure);
+            IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
 
             if (operation != null)
             {
-                operation.Invoke(caller, options, arguments, argumentsKeywords);
+                IWampRpcOperation<TMessage> casted =
+                    CastOperation(operation, formatter);
+
+                casted.Invoke(caller, options, arguments, argumentsKeywords);
             }
         }
 
-        private IWampRpcOperation<TMessage> TryGetOperation(IWampRpcOperationCallback caller, TMessage options,
-                                                            string procedure)
+        private IWampRpcOperation TryGetOperation(IWampRpcOperationCallback caller, object options,
+                                                          string procedure)
         {
-            IWampRpcOperation<TMessage> operation;
+            IWampRpcOperation operation;
 
             if (!mProcedureToOperation.TryGetValue(procedure, out operation))
             {
@@ -72,6 +81,21 @@ namespace WampSharp.V2.Rpc
             else
             {
                 return operation;
+            }
+        }
+
+        private IWampRpcOperation<TMessage> CastOperation<TMessage>(IWampRpcOperation operation, IWampFormatter<TMessage> formatter)
+            where TMessage : class
+        {
+            IWampRpcOperation<TMessage> casted = operation as IWampRpcOperation<TMessage>;
+
+            if (casted != null)
+            {
+                return casted;
+            }
+            else
+            {
+                return new CastedRpcOperation<TMessage>(operation, formatter);
             }
         }
     }

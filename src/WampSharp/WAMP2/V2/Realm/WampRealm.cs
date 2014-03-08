@@ -8,12 +8,12 @@ namespace WampSharp.V2.Realm
     public class WampRealm<TMessage> : IWampRealm<TMessage> where TMessage : class
     {
         private readonly string mName;
-        private readonly IWampRpcOperationCatalog<TMessage> mCatalog;
+        private readonly IWampRpcOperationCatalog mCatalog;
         private readonly IWampTopicContainer mTopicContainer;
         private readonly IWampServer<TMessage> mServer;
 
         public WampRealm(string name,
-                         IWampRpcOperationCatalog<TMessage> catalog,
+                         IWampRpcOperationCatalog catalog,
                          IWampTopicContainer topicContainer,
                          IWampSessionServer<TMessage> session,
                          IWampEventSerializer<TMessage> eventSerializer,
@@ -24,7 +24,7 @@ namespace WampSharp.V2.Realm
             mName = name;
 
             IWampRpcServer<TMessage> dealer =
-                new WampRpcServer<TMessage>(catalog);
+                new WampRpcServer<TMessage>(catalog, binding);
 
             IWampPubSubServer<TMessage> broker =
                 new WampPubSubServer<TMessage>(topicContainer,
@@ -43,7 +43,7 @@ namespace WampSharp.V2.Realm
             }
         }
 
-        public IWampRpcOperationCatalog<TMessage> RpcCatalog
+        public IWampRpcOperationCatalog RpcCatalog
         {
             get
             {

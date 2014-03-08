@@ -33,7 +33,7 @@ namespace WampSharp.V2.Realm
         {
             WampRealm<TMessage> result =
                 new WampRealm<TMessage>(realmName,
-                                        new WampRpcOperationCatalog<TMessage>(),
+                                        new WampRpcOperationCatalog(),
                                         null,
                                         mSession,
                                         mEventSerializer,

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Concurrent;
+using System.Linq;
 using WampSharp.Core.Listener;
+using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 
@@ -8,13 +10,13 @@ namespace WampSharp.V2.Rpc
     public class WampCalleeOperationCatalog<TMessage> : IWampCalleeOperationCatalog<TMessage> where TMessage : class
     {
         private readonly IWampIdGenerator mGenerator = new WampIdGenerator();
-        private readonly IWampRpcOperationCatalog<TMessage> mCatalog;
+        private readonly IWampRpcOperationCatalog mCatalog;
         private IWampCalleeInvocationHandler<TMessage> mInvocationHandler;
 
         private ConcurrentDictionary<long, WampCalleeRpcOperation> mRegistrationIdToOperation =
             new ConcurrentDictionary<long, WampCalleeRpcOperation>();
 
-        public WampCalleeOperationCatalog(IWampRpcOperationCatalog<TMessage> catalog, IWampCalleeInvocationHandler<TMessage> invocationHandler)
+        public WampCalleeOperationCatalog(IWampRpcOperationCatalog catalog, IWampCalleeInvocationHandler<TMessage> invocationHandler)
         {
             mCatalog = catalog;
             mInvocationHandler = invocationHandler;
@@ -43,7 +45,8 @@ namespace WampSharp.V2.Rpc
             mCatalog.Unregister(operation);
         }
 
-        private class WampCalleeRpcOperation : IWampRpcOperation<TMessage>
+        private class WampCalleeRpcOperation : IWampRpcOperation<TMessage>,
+            IWampRpcOperation
         {
             private readonly IWampCallee mCallee;
             private readonly IWampCalleeInvocationHandler<TMessage> mHandler;
@@ -82,6 +85,45 @@ namespace WampSharp.V2.Rpc
                 }
             }
 
+            public void Invoke<TOther>(IWampRpcOperationCallback caller,
+                                       IWampFormatter<TOther> formatter,
+                                       TOther options)
+            {
+                TMessage castedOptions = formatter.Deserialize<TMessage>(options);
+
+                this.Invoke(caller, castedOptions);
+            }
+
+            public void Invoke<TOther>(IWampRpcOperationCallback caller,
+                                       IWampFormatter<TOther> formatter,
+                                       TOther options,
+                                       TOther[] arguments)
+            {
+                TMessage castedOptions = formatter.Deserialize<TMessage>(options);
+
+                TMessage[] castedArguments =
+                    CastArguments(formatter, arguments);
+
+                this.Invoke(caller, castedOptions, castedArguments);
+            }
+
+            public void Invoke<TOther>(IWampRpcOperationCallback caller,
+                                       IWampFormatter<TOther> formatter,
+                                       TOther options,
+                                       TOther[] arguments,
+                                       TOther argumentsKeywords)
+            {
+                TMessage castedOptions = formatter.Deserialize<TMessage>(options);
+
+                TMessage[] castedArguments =
+                    CastArguments(formatter, arguments);
+
+                TMessage castedArgumentsKeywords =
+                    formatter.Deserialize<TMessage>(argumentsKeywords);
+
+                this.Invoke(caller, castedOptions, castedArguments, castedArgumentsKeywords);
+            }
+
             public void Invoke(IWampRpcOperationCallback caller, TMessage options)
             {
                 long requestId = 
@@ -104,6 +146,13 @@ namespace WampSharp.V2.Rpc
                     mHandler.RegisterInvocation(caller, options);
 
                 mCallee.Invocation(requestId, mRegistrationId, options, arguments, argumentsKeywords);
+            }
+
+            private static TMessage[] CastArguments<TMessage1>(IWampFormatter<TMessage1> formatter, TMessage1[] arguments)
+            {
+                return arguments.Select(x =>
+                                        formatter.Deserialize<TMessage>(x))
+                                .ToArray();
             }
         }
     }

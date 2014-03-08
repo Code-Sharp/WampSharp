@@ -9,7 +9,7 @@ namespace WampSharp.V2.Realm
     {
         string Name { get; }
 
-        IWampRpcOperationCatalog<TMessage> RpcCatalog { get; }
+        IWampRpcOperationCatalog RpcCatalog { get; }
 
         IWampTopicContainer TopicContainer { get; }
 

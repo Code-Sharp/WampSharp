@@ -1,11 +1,10 @@
 ﻿namespace WampSharp.V2.Rpc
 {
-    public interface IWampRpcOperationCatalog<TMessage> : IWampRpcOperationInvoker<TMessage>
-        where TMessage : class
+    public interface IWampRpcOperationCatalog : IWampRpcOperationInvoker
     {
-        void Register(IWampRpcOperation<TMessage> operation);
+        void Register(IWampRpcOperation operation);
 
-        void Unregister(IWampRpcOperation<TMessage> operation);
+        void Unregister(IWampRpcOperation operation);
 
         // TODO: add methods for reflection :)
     }

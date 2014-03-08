@@ -1,5 +1,7 @@
 using System;
+using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Rpc
 {
@@ -7,13 +9,16 @@ namespace WampSharp.V2.Rpc
         IWampErrorCallback<TMessage> 
         where TMessage : class
     {
-        private readonly IWampRpcOperationInvoker<TMessage> mInvoker;
+        private readonly IWampFormatter<TMessage> mFormatter; 
+        private readonly IWampRpcOperationInvoker mInvoker;
         private readonly IWampCalleeOperationCatalog<TMessage> mCalleeCatalog;
         private readonly IWampCalleeInvocationHandler<TMessage> mHandler; 
 
-        public WampRpcServer(IWampRpcOperationCatalog<TMessage> catalog)
+        public WampRpcServer(IWampRpcOperationCatalog catalog, IWampBinding<TMessage> binding)
         {
             mInvoker = catalog;
+            mFormatter = binding.Formatter;
+
             mHandler = new WampCalleeInvocationHandler<TMessage>();
 
             mCalleeCatalog = new WampCalleeOperationCatalog<TMessage>
@@ -50,14 +55,14 @@ namespace WampSharp.V2.Rpc
         {
             IWampRpcOperationCallback callback = GetCallback(caller, requestId);
 
-            mInvoker.Invoke(callback, options, procedure);
+            mInvoker.Invoke(callback, mFormatter, options, procedure);
         }
 
         public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments)
         {
             IWampRpcOperationCallback callback = GetCallback(caller, requestId);
 
-            mInvoker.Invoke(callback, options, procedure, arguments);
+            mInvoker.Invoke(callback, mFormatter, options, procedure, arguments);
         }
 
         public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments,
@@ -65,7 +70,7 @@ namespace WampSharp.V2.Rpc
         {
             IWampRpcOperationCallback callback = GetCallback(caller, requestId);
 
-            mInvoker.Invoke(callback, options, procedure, arguments, argumentsKeywords);
+            mInvoker.Invoke(callback, mFormatter, options, procedure, arguments, argumentsKeywords);
         }
 
         public void Cancel(IWampCaller caller, long requestId, TMessage options)
