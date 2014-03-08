@@ -112,10 +112,11 @@ namespace WampSharp.Fleck
                 {
                     if (!mClosed)
                     {
-                        RaiseConnectionClosed();
                         mClosed = true;
                     }
                 }
+
+                RaiseConnectionClosed();
             }
 
             private void RaiseConnectionOpen()
@@ -140,16 +141,10 @@ namespace WampSharp.Fleck
 
             private void OnConnectionMessage(string message)
             {
-                lock (mLock)
-                {
-                    if (!mClosed)
-                    {
-                        WampMessage<TMessage> parsed =
-                            mMessageParser.Parse(message);
+                WampMessage<TMessage> parsed =
+                    mMessageParser.Parse(message);
 
-                        RaiseNewMessageArrived(parsed);
-                    }
-                }
+                RaiseNewMessageArrived(parsed);
             }
 
             private void RaiseNewMessageArrived(WampMessage<TMessage> parsed)
