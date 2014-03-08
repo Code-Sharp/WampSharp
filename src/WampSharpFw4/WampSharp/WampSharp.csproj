@@ -595,6 +595,9 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Realm\WampRealmContainer.cs">
       <Link>WAMP2\V2\Realm\WampRealmContainer.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\CastedRpcOperation.cs">
+      <Link>WAMP2\V2\Rpc\CastedRpcOperation.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs</Link>
     </Compile>
