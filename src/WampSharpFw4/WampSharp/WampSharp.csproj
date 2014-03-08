@@ -160,6 +160,9 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Api\WampHost.cs">
       <Link>WAMP2\V2\Api\WampHost.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Dispatch\WampRealmMethodBuilder.cs">
+      <Link>WAMP2\V2\Core\Dispatch\WampRealmMethodBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Api\WampServer.cs">
       <Link>WAMP2\V2\Api\WampServer.cs</Link>
     </Compile>
@@ -529,6 +532,9 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\IWampIdGenerator.cs">
       <Link>WAMP2\V2\Core\Listener\IWampIdGenerator.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Proxy\RealmProperty.cs">
+      <Link>WAMP2\V2\Core\Proxy\RealmProperty.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Proxy\SessionIdPropertyInterceptor.cs">
       <Link>WAMP2\V2\Core\Proxy\SessionIdPropertyInterceptor.cs</Link>
     </Compile>
@@ -576,6 +582,18 @@
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\WampRawTopicContainer.cs">
       <Link>WAMP2\V2\PubSub\WampRawTopicContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Realm\Interfaces\IWampRealm.cs">
+      <Link>WAMP2\V2\Realm\Interfaces\IWampRealm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Realm\Interfaces\IWampRealmContainer.cs">
+      <Link>WAMP2\V2\Realm\Interfaces\IWampRealmContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Realm\WampRealm.cs">
+      <Link>WAMP2\V2\Realm\WampRealm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Realm\WampRealmContainer.cs">
+      <Link>WAMP2\V2\Realm\WampRealmContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs</Link>
