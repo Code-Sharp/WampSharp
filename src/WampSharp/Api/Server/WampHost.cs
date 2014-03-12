@@ -100,6 +100,11 @@ namespace WampSharp
         {
             mMetadataCatalog.Register(new MethodInfoWampRpcMetadata(instance, baseUri));
         }
+        
+        public void Register(IWampRpcMetadata rpcMetadata)
+        {
+            mMetadataCatalog.Register(rpcMetadata);
+        }
 
         public IWampTopicContainer TopicContainer
         {
