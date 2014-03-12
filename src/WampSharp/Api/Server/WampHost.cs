@@ -105,6 +105,11 @@ namespace WampSharp
         {
             mMetadataCatalog.Register(rpcMetadata);
         }
+        
+        public void Unregister(IWampRpcMetadata rpcMetadata)
+        {
+            mMetadataCatalog.Unregister(rpcMetadata);
+        }
 
         public IWampTopicContainer TopicContainer
         {
