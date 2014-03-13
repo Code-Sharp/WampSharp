@@ -12,8 +12,9 @@ namespace WampSharp.Core.Listener.V1
     /// <typeparam name="TMessage"></typeparam>
     public class WampListener<TMessage> : WampListener<TMessage, IWampClient>
     {
-    	public Action<string> SessionCreated;
-    	public Action<string> SessionClosed;
+    	public event EventHandler<WampSessionEventArgs> SessionCreated;
+    	public event EventHandler<WampSessionEventArgs> SessionClosed;
+    	//event EventHandler AfterMessageReceived;
     	public Action<string, string> CallInvoked;
     	
         /// <summary>
@@ -41,7 +42,6 @@ namespace WampSharp.Core.Listener.V1
 				IWampClient client = ClientContainer.GetClient(connection);
 				CallInvoked(client.SessionId, "");
 			}
-				
 		}
 		
         protected override void OnNewConnection(IWampConnection<TMessage> connection)
@@ -52,16 +52,18 @@ namespace WampSharp.Core.Listener.V1
 
             client.Welcome(client.SessionId, 1, "WampSharp");
             
-            if (SessionCreated != null)
-            	SessionCreated(client.SessionId);
+            var sessionCreated = SessionCreated;
+            if (sessionCreated != null)
+            	sessionCreated(this, new WampSessionEventArgs(client.SessionId));
         }
         
         protected override void OnCloseConnection(IWampConnection<TMessage> connection)
         {
-            if (SessionClosed != null)
+        	var sessionClosed = SessionClosed;
+            if (sessionClosed != null)
             {
-            	IWampClient client = ClientContainer.GetClient(connection);
-            	SessionClosed(client.SessionId);
+				IWampClient client = ClientContainer.GetClient(connection);
+				sessionClosed(this, new WampSessionEventArgs(client.SessionId));
             }
             
         	base.OnCloseConnection(connection);
