@@ -126,6 +126,7 @@
     <Compile Include="Core\Listener\Connections\IWampConnectionMonitor.cs" />
     <Compile Include="Core\Listener\Connections\WampConnectionMonitor.cs" />
     <Compile Include="Core\Listener\V1\WampListener.cs" />
+    <Compile Include="Core\Listener\V1\WampSessionEventArgs.cs" />
     <Compile Include="Core\Listener\WampListener.cs" />
     <Compile Include="Core\Message\IWampMessageFormatter.cs" />
     <Compile Include="Core\Message\MessageType\MessageCategory.cs" />

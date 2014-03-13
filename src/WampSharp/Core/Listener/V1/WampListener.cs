@@ -1,5 +1,7 @@
-﻿using WampSharp.Core.Contracts.V1;
+﻿using System;
+using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
+using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Listener.V1
 {
@@ -10,6 +12,9 @@ namespace WampSharp.Core.Listener.V1
     /// <typeparam name="TMessage"></typeparam>
     public class WampListener<TMessage> : WampListener<TMessage, IWampClient>
     {
+    	public event EventHandler<WampSessionEventArgs> SessionCreated;
+    	public event EventHandler<WampSessionEventArgs> SessionClosed;
+    	
         /// <summary>
         /// Creates a new instance of <see cref="WampListener{TMessage}"/>
         /// </summary>
@@ -33,6 +38,22 @@ namespace WampSharp.Core.Listener.V1
             IWampClient client = ClientContainer.GetClient(connection);
 
             client.Welcome(client.SessionId, 1, "WampSharp");
+            
+            var sessionCreated = SessionCreated;
+            if (sessionCreated != null)
+            	sessionCreated(this, new WampSessionEventArgs(client.SessionId));
+        }
+        
+        protected override void OnCloseConnection(IWampConnection<TMessage> connection)
+        {
+        	var sessionClosed = SessionClosed;
+            if (sessionClosed != null)
+            {
+				IWampClient client = ClientContainer.GetClient(connection);
+				sessionClosed(this, new WampSessionEventArgs(client.SessionId));
+            }
+            
+        	base.OnCloseConnection(connection);
         }
     }
 }
