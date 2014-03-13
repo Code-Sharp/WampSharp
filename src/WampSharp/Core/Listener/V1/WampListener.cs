@@ -14,8 +14,6 @@ namespace WampSharp.Core.Listener.V1
     {
     	public event EventHandler<WampSessionEventArgs> SessionCreated;
     	public event EventHandler<WampSessionEventArgs> SessionClosed;
-    	//event EventHandler AfterMessageReceived;
-    	public Action<string, string> CallInvoked;
     	
         /// <summary>
         /// Creates a new instance of <see cref="WampListener{TMessage}"/>
@@ -33,17 +31,6 @@ namespace WampSharp.Core.Listener.V1
         {
         }
 
-		protected override void OnNewMessage(IWampConnection<TMessage> connection, WampSharp.Core.Message.WampMessage<TMessage> message)
-		{
-			base.OnNewMessage(connection, message);
-			
-			if ((message.MessageType == WampMessageType.v1Call) && (CallInvoked != null))
-			{
-				IWampClient client = ClientContainer.GetClient(connection);
-				CallInvoked(client.SessionId, "");
-			}
-		}
-		
         protected override void OnNewConnection(IWampConnection<TMessage> connection)
         {
             base.OnNewConnection(connection);
