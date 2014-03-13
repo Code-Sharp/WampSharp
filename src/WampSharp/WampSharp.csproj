@@ -185,7 +185,6 @@
     <Compile Include="Rpc\Client\WampRpcRequest.cs" />
     <Compile Include="Rpc\Client\WampRpcSerializer.cs" />
     <Compile Include="Rpc\Client\WampServerProxyFactory.cs" />
-    <Compile Include="Rpc\Server\DynamicRPC.cs" />
     <Compile Include="Rpc\Server\IWampRpcMetadata.cs" />
     <Compile Include="Rpc\Server\IWampRpcMetadataCatalog.cs" />
     <Compile Include="Rpc\Server\IWampRpcMethod.cs" />
