@@ -37,6 +37,17 @@ namespace WampSharp.Rpc.Server
                 }
             }
         }
+        
+        public void Unregister(IWampRpcMetadata metadata)
+		{
+			IEnumerable<IWampRpcMethod> newMethods = metadata.GetServiceMethods();
+			
+			foreach (var procUriToMethod in newMethods)
+			{
+				if (mProcUriToMethod.ContainsKey(procUriToMethod.ProcUri))
+					mProcUriToMethod.Remove(procUriToMethod.ProcUri);
+			}
+		}
 
         public IWampRpcMethod ResolveMethodByProcUri(string procUri)
         {
