@@ -9,7 +9,7 @@ namespace WampSharp.Rpc.Server
     /// </summary>
     public class WampRpcMetadataCatalog : IWampRpcMetadataCatalog
     {
-        private readonly IDictionary<string, IWampRpcMethod> mProcUriToMethod;
+        private readonly ConcurrentDictionary<string, IWampRpcMethod> mProcUriToMethod;
 
         /// <summary>
         /// A default constructor.
@@ -27,27 +27,27 @@ namespace WampSharp.Rpc.Server
                                                               
             foreach (var procUriToMethod in newMethods)
             {
-                try
-                {
-                    mProcUriToMethod.Add(procUriToMethod.ProcUri, procUriToMethod);
-                }
-                catch (ArgumentException e)
+                bool added = 
+                    mProcUriToMethod.TryAdd(procUriToMethod.ProcUri, procUriToMethod);
+                
+                if (!added)
                 {
                     throw new ProcUriAlreadyMappedException(procUriToMethod.ProcUri);
                 }
             }
         }
         
-        public void Unregister(IWampRpcMetadata metadata)
-		{
-			IEnumerable<IWampRpcMethod> newMethods = metadata.GetServiceMethods();
-			
-			foreach (var procUriToMethod in newMethods)
-			{
-				if (mProcUriToMethod.ContainsKey(procUriToMethod.ProcUri))
-					mProcUriToMethod.Remove(procUriToMethod.ProcUri);
-			}
-		}
+        public bool Unregister(IWampRpcMethod method)
+        {
+            IWampRpcMethod originalMethod;
+
+            if (mProcUriToMethod.TryRemove(method.ProcUri, out originalMethod))
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         public IWampRpcMethod ResolveMethodByProcUri(string procUri)
         {
