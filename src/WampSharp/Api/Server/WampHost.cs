@@ -18,8 +18,30 @@ namespace WampSharp
         private WampListener<TMessage> mListener;
         private readonly WampRpcMetadataCatalog mMetadataCatalog;
         private readonly IWampTopicContainerExtended<TMessage> mTopicContainer;
-        public event EventHandler<WampSessionEventArgs> SessionCreated;
-        public event EventHandler<WampSessionEventArgs> SessionClosed;
+        
+        public event EventHandler<WampSessionEventArgs> SessionCreated
+        {
+            add
+            {
+                mListener.SessionCreated += value;
+            }
+            remove
+            {
+                mListener.SessionCreated -= value;
+            }
+        }
+
+        public event EventHandler<WampSessionEventArgs> SessionClosed
+        {
+            add
+            {
+                mListener.SessionClosed += value;
+            }
+            remove
+            {
+                mListener.SessionClosed -= value;
+            }
+        }
 
         public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
         {
@@ -34,22 +56,6 @@ namespace WampSharp
             mServer = new DefaultWampServer<TMessage>(rpcServer, pubSubServer, auxiliaryServer);
 
             mListener = GetWampListener(connectionListener, formatter, mServer);
-            mListener.SessionCreated += mListener_SessionCreated;
-            mListener.SessionClosed += mListener_SessionClosed;
-		}
-
-		void mListener_SessionClosed(object sender, WampSessionEventArgs e)
-		{
-			var sessionClosed = SessionClosed;
-			if (sessionClosed != null)
-				sessionClosed(sender, e);
-		}
-
-		void mListener_SessionCreated(object sender, WampSessionEventArgs e)
-		{
-			var sessionCreated = SessionCreated;
-			if (sessionCreated != null)
-				sessionCreated(sender, e);
 		}
 
         private static WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter, IWampServer<TMessage> server)
@@ -100,8 +106,6 @@ namespace WampSharp
             if (mListener != null)
             {
                 mListener.Stop();
-                mListener.SessionCreated -= mListener_SessionCreated;
-                mListener.SessionClosed -= mListener_SessionClosed;
                 mListener = null;
             }
         }

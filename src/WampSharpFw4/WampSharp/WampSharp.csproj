@@ -262,6 +262,9 @@
     <Compile Include="..\..\WampSharp\Core\Listener\V1\WampListener.cs">
       <Link>Core\Listener\V1\WampListener.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\Core\Listener\V1\WampSessionEventArgs.cs">
+      <Link>Core\Listener\V1\WampSessionEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\Core\Listener\WampListener.cs">
       <Link>Core\Listener\WampListener.cs</Link>
     </Compile>
