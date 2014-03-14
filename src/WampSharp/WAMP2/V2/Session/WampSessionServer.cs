@@ -37,7 +37,7 @@ namespace WampSharp.V2.Session
         {
         }
 
-        public void Goodbye(IWampSessionClient client, string reason, TMessage details)
+        public void Goodbye(IWampSessionClient client, TMessage details, string reason)
         {
         }
 

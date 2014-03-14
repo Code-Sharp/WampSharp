@@ -6,7 +6,7 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.Newtonsoft
 {
-    public class JTokenMessageParser : IWampMessageParser<JToken>
+    public class JTokenMessageParser : IWampTextMessageParser<JToken>
     {
         private readonly IWampMessageFormatter<JToken> mMessageFormatter;
 

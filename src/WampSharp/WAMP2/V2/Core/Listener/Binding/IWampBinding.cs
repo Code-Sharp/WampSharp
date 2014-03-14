@@ -10,16 +10,6 @@ namespace WampSharp.V2.Core.Listener
         IWampFormatter<TMessage> Formatter { get; }        
     }
 
-    public interface IWampTextBinding<TMessage> : IWampBinding<TMessage>
-    {
-        WampMessage<TMessage> Parse(string message);
-    }
-
-    public interface IWampBinaryBinding<TMessage> : IWampBinding<TMessage>
-    {
-        WampMessage<TMessage> Parse(byte[] bytes);
-    }
-
     public interface IWampBinding
     {
         string Name { get; }

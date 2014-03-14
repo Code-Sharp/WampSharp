@@ -4,17 +4,22 @@ using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.Binding
 {
-    public abstract class JsonBinding<TMessage> : IWampBinding<TMessage>
+    public abstract class JsonBinding<TMessage> : IWampTextBinding<TMessage>
     {
         private readonly IWampFormatter<TMessage> mFormatter;
         private readonly string mName;
-        private readonly IWampMessageParser<TMessage> mParser;
+        private readonly IWampTextMessageParser<TMessage> mParser;
 
-        protected JsonBinding(IWampFormatter<TMessage> formatter, IWampMessageParser<TMessage> parser)
+        protected JsonBinding(IWampFormatter<TMessage> formatter, IWampTextMessageParser<TMessage> parser, string protocolName = "wamp.2.json")
         {
             mFormatter = formatter;
             mParser = parser;
-            mName = "wamp.2.json";
+            mName = protocolName;
+        }
+
+        public WampMessage<TMessage> Parse(string message)
+        {
+            return mParser.Parse(message);
         }
 
         public string Name

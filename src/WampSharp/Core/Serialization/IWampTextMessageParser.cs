@@ -7,7 +7,7 @@ namespace WampSharp.Core.Serialization
     /// and vice versa.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public interface IWampMessageParser<TMessage>
+    public interface IWampTextMessageParser<TMessage>
     {
         /// <summary>
         /// Parses a text message to <see cref="WampMessage{TMessage}"/>.

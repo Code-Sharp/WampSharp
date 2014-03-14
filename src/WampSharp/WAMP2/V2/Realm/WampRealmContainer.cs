@@ -5,23 +5,49 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Realm
 {
+    public class WampRealmContainer : IWampRealmContainer
+    {
+        private readonly ConcurrentDictionary<string, IWampRealm> mRealmNameToRealm =
+            new ConcurrentDictionary<string, IWampRealm>();
+
+        public IWampRealm GetRealmByName(string name)
+        {
+            return mRealmNameToRealm.GetOrAdd(name, realmName => CreateRealm(realmName));
+        }
+
+        private IWampRealm CreateRealm(string realmName)
+        {
+            WampRealm result =
+                new WampRealm(realmName,
+                              new WampRpcOperationCatalog(),
+                              null);
+
+            return result;
+        }
+    }
+
+    // TODO: Rename this and IWampRealmContainer<TMessage>.
+    // TODO: Think about a suitable name.
     public class WampRealmContainer<TMessage> : IWampRealmContainer<TMessage>
     {
+        private readonly IWampRealmContainer mRealmContainer;
         private readonly IWampSessionServer<TMessage> mSession;
         private readonly IWampEventSerializer<TMessage> mEventSerializer;
         private readonly IWampBinding<TMessage> mBinding;
 
-        private ConcurrentDictionary<string, IWampRealm<TMessage>> mRealmNameToRealm =
+        private readonly ConcurrentDictionary<string, IWampRealm<TMessage>> mRealmNameToRealm =
             new ConcurrentDictionary<string, IWampRealm<TMessage>>();
 
 
-        public WampRealmContainer(IWampSessionServer<TMessage> session,
+        public WampRealmContainer(IWampRealmContainer realmContainer,
+                                  IWampSessionServer<TMessage> session,
                                   IWampEventSerializer<TMessage> eventSerializer,
                                   IWampBinding<TMessage> binding)
         {
             mSession = session;
             mEventSerializer = eventSerializer;
             mBinding = binding;
+            mRealmContainer = realmContainer;
         }
 
         public IWampRealm<TMessage> GetRealmByName(string name)
@@ -31,15 +57,12 @@ namespace WampSharp.V2.Realm
 
         private IWampRealm<TMessage> CreateRealm(string realmName)
         {
-            WampRealm<TMessage> result =
-                new WampRealm<TMessage>(realmName,
-                                        new WampRpcOperationCatalog(),
-                                        null,
-                                        mSession,
-                                        mEventSerializer,
-                                        mBinding);
+            IWampRealm realm = mRealmContainer.GetRealmByName(realmName);
 
-            return result;
+            return new WampRealm<TMessage>(realm,
+                                           mSession,
+                                           mEventSerializer,
+                                           mBinding);
         }
     }
 }

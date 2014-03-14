@@ -15,7 +15,7 @@ namespace WampSharp.V2.Core.Contracts
         void Welcome([WampProxyParameter]IWampSessionClient client, long session, TMessage details);
 
         [WampHandler(WampMessageType.v2Goodbye)]
-        void Goodbye([WampProxyParameter]IWampSessionClient client, string reason, TMessage details);
+        void Goodbye([WampProxyParameter] IWampSessionClient client, TMessage details, string reason);
 
         [WampHandler(WampMessageType.v2Heartbeat)]
         void Heartbeat([WampProxyParameter]IWampSessionClient client, int incomingSeq, int outgoingSeq);

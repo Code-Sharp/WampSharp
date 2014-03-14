@@ -124,9 +124,9 @@ namespace WampSharp.V2
             mSession.Welcome(client, session, details);
         }
 
-        public void Goodbye(IWampSessionClient client, string reason, TMessage details)
+        public void Goodbye(IWampSessionClient client, TMessage details, string reason)
         {
-            mSession.Goodbye(client, reason, details);
+            mSession.Goodbye(client, details, reason);
         }
 
         public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)

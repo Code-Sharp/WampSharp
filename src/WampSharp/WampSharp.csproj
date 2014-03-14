@@ -59,7 +59,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Contracts\WampRawHandlerAttribute.cs" />
+    <Compile Include="WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs" />
+    <Compile Include="Core\Listener\Connections\WampMessageArrivedEventArgs.cs" />
     <Compile Include="Core\Proxy\WampRawOutgoingInterceptor.cs" />
+    <Compile Include="Core\Serialization\IWampBinaryMessageParser.cs" />
     <Compile Include="Core\Serialization\IWampMessageSerializerBuilder.cs" />
     <Compile Include="Core\Serialization\WampMessageSerializerBuilder.cs" />
     <Compile Include="WAMP1\V1\Api\Client\IWampChannel.cs" />
@@ -91,13 +94,15 @@
     <Compile Include="WAMP1\V1\Core\Contracts\IWampRpcClient.cs" />
     <Compile Include="WAMP1\V1\Core\Contracts\IWampRpcServer.cs" />
     <Compile Include="WAMP1\V1\Core\Contracts\IWampServer.cs" />
+    <Compile Include="WAMP2\V2\Api\WampBindingHost.cs" />
     <Compile Include="WAMP2\V2\Api\WampHost.cs" />
     <Compile Include="WAMP2\V2\Core\Dispatch\WampRealmMethodBuilder.cs" />
     <Compile Include="WAMP2\V2\Api\WampServer.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Error\WampErrors.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampEventSerializer.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampException.cs" />
-    <Compile Include="WAMP2\V2\Core\Listener\IWampBinding.cs" />
+    <Compile Include="WAMP2\V2\Core\Listener\Binding\IWampBinaryBinding.cs" />
+    <Compile Include="WAMP2\V2\Core\Listener\Binding\IWampBinding.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
     <Compile Include="Core\Contracts\WampHandlerAttribute.cs" />
     <Compile Include="Core\Contracts\WampProxyParameterAttribute.cs" />
@@ -144,7 +149,7 @@
     <Compile Include="Core\Proxy\WampOutgoingInterceptor.cs" />
     <Compile Include="Core\Proxy\WampOutgoingRequestSerializer.cs" />
     <Compile Include="Core\Serialization\IWampFormatter.cs" />
-    <Compile Include="Core\Serialization\IWampMessageParser.cs" />
+    <Compile Include="Core\Serialization\IWampTextMessageParser.cs" />
     <Compile Include="Core\Utilities\CustomAttributeExtensions.cs" />
     <Compile Include="Core\Utilities\GenericTypeExtensions.cs" />
     <Compile Include="Core\Utilities\SwapDictionary.cs" />
@@ -203,6 +208,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\IWampRawClient.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampBroker.cs" />
     <Compile Include="Core\Serialization\WampSerializationInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Core\Listener\Binding\IWampTextBinding.cs" />
     <Compile Include="WAMP2\V2\Core\Proxy\BindingPropertyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\IWampCallee.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\IWampCaller.cs" />

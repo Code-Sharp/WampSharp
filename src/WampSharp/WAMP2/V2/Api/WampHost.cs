@@ -1,111 +1,72 @@
 ﻿using System;
-using WampSharp.Core.Dispatch;
-using WampSharp.Core.Dispatch.Handler;
+using System.Collections.Generic;
 using WampSharp.Core.Listener;
-using WampSharp.Core.Proxy;
-using WampSharp.Core.Serialization;
-using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Dispatch;
 using WampSharp.V2.Core.Listener;
-using WampSharp.V2.Core.Listener.ClientBuilder;
 using WampSharp.V2.Realm;
-using WampSharp.V2.Session;
 
 namespace WampSharp.V2
 {
-    public class WampHost<TMessage>
+    public class WampHost : IDisposable
     {
-        private WampListener<TMessage> mListener;
-        private readonly IWampSessionServer<TMessage> mSession;
-        private readonly WampRealmContainer<TMessage> mRealmContainer;
+        private readonly IWampConnectionListenerProvider mListenerProvider; 
+        private readonly IWampRealmContainer mRealmContainer;
 
-        public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
+        private readonly IDictionary<string, IDisposable> mBindingNameToHost =
+            new Dictionary<string, IDisposable>();
+
+        public WampHost(IWampConnectionListenerProvider connectionListener, IEnumerable<IWampBinding> bindings) :
+            this(new WampRealmContainer(), connectionListener, bindings)
         {
-            WampSessionServer<TMessage> session = new WampSessionServer<TMessage>();
-
-            IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer =
-                new WampOutgoingRequestSerializer<TMessage>(binding.Formatter);
-
-            IWampEventSerializer<TMessage> eventSerializer = GetEventSerializer(outgoingRequestSerializer);
-
-            mRealmContainer = new WampRealmContainer<TMessage>(session, eventSerializer, binding);
-
-            // TODO: implement the constructor interface pattern.
-            session.RealmContainer = mRealmContainer;
-
-            mSession = session;
-
-            mListener = GetWampListener(connectionListener, binding, outgoingRequestSerializer);
         }
 
-        private static IWampEventSerializer<TMessage> GetEventSerializer(
-            IWampOutgoingRequestSerializer<TMessage> outgoingSerializer)
+        public WampHost(IWampRealmContainer realmContainer, IWampConnectionListenerProvider listenerProvider, IEnumerable<IWampBinding> bindings)
         {
-            WampMessageSerializerBuilder<TMessage> serializerGenerator =
-                new WampMessageSerializerBuilder<TMessage>(outgoingSerializer);
+            mRealmContainer = realmContainer;
+            mListenerProvider = listenerProvider;
 
-            return serializerGenerator.GetSerializer<IWampEventSerializer<TMessage>>();
-        }
-
-        private WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
-        {
-            IWampClientBuilderFactory<TMessage, IWampClient<TMessage>> clientBuilderFactory =
-                GetWampClientBuilder(binding, outgoingRequestSerializer);
-
-            IWampClientContainer<TMessage, IWampClient<TMessage>> clientContainer =
-                new WampClientContainer<TMessage, IWampClient<TMessage>>(clientBuilderFactory);
-
-            IWampRequestMapper<TMessage> requestMapper =
-                new WampRequestMapper<TMessage>(typeof(WampServer<TMessage>),
-                                                binding.Formatter);
-
-            WampRealmMethodBuilder<TMessage> methodBuilder =
-                new WampRealmMethodBuilder<TMessage>(mSession, binding.Formatter);
-
-            IWampIncomingMessageHandler<TMessage, IWampClient<TMessage>> wampIncomingMessageHandler =
-                new WampIncomingMessageHandler<TMessage, IWampClient<TMessage>>
-                    (requestMapper,
-                     methodBuilder);
-
-            return new WampListener<TMessage>
-                (connectionListener,
-                 wampIncomingMessageHandler,
-                 clientContainer,
-                 mSession);
-        }
-
-        private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
-        {
-            WampIdGenerator wampIdGenerator =
-                new WampIdGenerator();
-
-            WampOutgoingMessageHandlerBuilder<TMessage> wampOutgoingMessageHandlerBuilder =
-                new WampOutgoingMessageHandlerBuilder<TMessage>();
-
-            return new WampClientBuilderFactory<TMessage>
-                (wampIdGenerator,
-                 outgoingRequestSerializer,
-                 wampOutgoingMessageHandlerBuilder,
-                 binding);
-        }
-
-        public void Dispose()
-        {
-            if (mListener != null)
+            foreach (IWampBinding wampBinding in bindings)
             {
-                mListener.Stop();
-                mListener = null;
+                Host((dynamic) wampBinding);
             }
+        }
+
+        protected void Host<TMessage>(IWampTextBinding<TMessage> binding)
+        {
+            IWampConnectionListener<TMessage> listener =
+                mListenerProvider.GetTextListener(binding);
+
+            Host(binding, listener);
+        }
+
+        protected void Host<TMessage>(IWampBinaryBinding<TMessage> binding)
+        {
+            IWampConnectionListener<TMessage> listener =
+                mListenerProvider.GetBinaryListener(binding);
+
+            Host(binding, listener);
+        }
+
+        private void Host<TMessage>(IWampBinding<TMessage> binding, IWampConnectionListener<TMessage> listener)
+        {
+            WampBindingHost<TMessage> host =
+                new WampBindingHost<TMessage>(mRealmContainer, listener, binding);
+
+            host.Open();
+
+            mBindingNameToHost[binding.Name] = host;
         }
 
         public void Open()
         {
-            if (mListener == null)
-            {
-                throw new ObjectDisposedException("mListener");
-            }
+            mListenerProvider.Open();
+        }
 
-            mListener.Start();
+        public void Dispose()
+        {
+            foreach (IDisposable disposable in mBindingNameToHost.Values)
+            {
+                disposable.Dispose();
+            }
         }
     }
 }

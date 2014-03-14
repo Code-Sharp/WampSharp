@@ -12,7 +12,7 @@ namespace WampSharp.V1
             return factory.CreateChannel(address, new JTokenMessageParser());
         }
 
-        public static IWampChannel<TMessage> CreateChannel<TMessage>(this IWampChannelFactory<TMessage> factory, string address, IWampMessageParser<TMessage> parser)
+        public static IWampChannel<TMessage> CreateChannel<TMessage>(this IWampChannelFactory<TMessage> factory, string address, IWampTextMessageParser<TMessage> parser)
         {
             return factory.CreateChannel(new WebSocket4NetConnection<TMessage>(address, parser));
         }

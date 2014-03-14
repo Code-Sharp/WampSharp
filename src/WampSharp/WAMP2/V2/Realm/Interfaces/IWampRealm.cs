@@ -4,16 +4,17 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Realm
 {
-    // TODO: Realms should be message type (TMessage) free.
-    public interface IWampRealm<TMessage>
+    public interface IWampRealm
     {
         string Name { get; }
 
         IWampRpcOperationCatalog RpcCatalog { get; }
 
         IWampTopicContainer TopicContainer { get; }
+    }
 
-        // TODO: Internal mechanism, should not be here.
+    public interface IWampRealm<TMessage> : IWampRealm
+    {
         IWampServer<TMessage> Server { get; }
     }
 }

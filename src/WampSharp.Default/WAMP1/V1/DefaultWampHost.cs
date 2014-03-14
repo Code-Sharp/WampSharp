@@ -17,9 +17,9 @@ namespace WampSharp.V1
     public class DefaultWampHost<TMessage> : WampHost<TMessage>
     {
         public DefaultWampHost(string location,
-                               IWampMessageParser<TMessage> parser,
+                               IWampTextMessageParser<TMessage> parser,
                                IWampFormatter<TMessage> formatter) :
-                                   this(new FleckWampConnectionListener<TMessage>("wamp", location, parser), formatter)
+                                   this(new FleckWampConnectionListener<TMessage>(location, new Wamp1Binding<TMessage>(parser, formatter)), formatter)
         {
         }
 

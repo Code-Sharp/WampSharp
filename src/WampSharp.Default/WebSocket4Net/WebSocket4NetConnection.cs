@@ -12,7 +12,7 @@ namespace WampSharp.WebSocket4Net
     {
         #region Fields
 
-        private readonly IWampMessageParser<TMessage> mMessageFormatter;
+        private readonly IWampTextMessageParser<TMessage> mMessageFormatter;
         
         private readonly WebSocket mWebSocket;
         
@@ -22,7 +22,7 @@ namespace WampSharp.WebSocket4Net
         #endregion
 
         public WebSocket4NetConnection(string serverAddress,
-                                       IWampMessageParser<TMessage> messageFormatter)
+                                       IWampTextMessageParser<TMessage> messageFormatter)
         {
             mMessageFormatter = messageFormatter;
             mWebSocket = new WebSocket(serverAddress, "wamp");

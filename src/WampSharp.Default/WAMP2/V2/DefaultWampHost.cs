@@ -1,33 +1,24 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Collections.Generic;
 using WampSharp.Binding;
-using WampSharp.Core.Listener;
-using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
-using WampSharp.Newtonsoft;
 using WampSharp.V2.Core.Listener;
+using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
 {
-    public class DefaultWampHost : DefaultWampHost<JToken>
+    public class DefaultWampHost : WampHost
     {
         public DefaultWampHost(string location) :
-            base(location, new JTokenMessageParser(), new JTokenBinding())
-        {
-        }
-    }
-
-    public class DefaultWampHost<TMessage> : WampHost<TMessage>
-        where TMessage : class 
-    {
-        public DefaultWampHost(string location,
-                               IWampMessageParser<TMessage> parser,
-                               IWampBinding<TMessage> binding) :
-            this(new FleckWampConnectionListener<TMessage>(binding.Name, location, parser), binding)
+            this(location, new IWampBinding[] {new JTokenBinding(), new MessagePackObjectBinding()})
         {
         }
 
-        public DefaultWampHost(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
-            : base(connectionListener, binding)
+        public DefaultWampHost(string location, IEnumerable<IWampBinding> bindings) : base(new FleckWampConnectionListenerProvider(location), bindings)
+        {
+        }
+
+        public DefaultWampHost(string location, IWampRealmContainer realmContainer, IEnumerable<IWampBinding> bindings)
+            : base(realmContainer, new FleckWampConnectionListenerProvider(location), bindings)
         {
         }
     }
