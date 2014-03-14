@@ -1,10 +1,11 @@
 ﻿using System.Collections.Concurrent;
+using System.Linq;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Rpc
 {
-    public class WampCalleeInvocationHandler<TMessage> : IWampCalleeInvocationHandler<TMessage> where TMessage : class
+    public class WampCalleeInvocationHandler<TMessage> : IWampCalleeInvocationHandler<TMessage>
     {
         private IWampIdGenerator mGenerator = new WampIdGenerator();
 
@@ -40,14 +41,14 @@ namespace WampSharp.V2.Rpc
         {
             WampCalleeInvocation<TMessage> invocation = GetInvocation(requestId, options);
 
-            invocation.Caller.Result(options, arguments);
+            invocation.Caller.Result(options, arguments.Cast<object>().ToArray());
         }
 
         public void Yield(IWampCallee callee, long requestId, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
         {
             WampCalleeInvocation<TMessage> invocation = GetInvocation(requestId, options);
 
-            invocation.Caller.Result(options, arguments, argumentsKeywords);
+            invocation.Caller.Result(options, arguments.Cast<object>().ToArray(), argumentsKeywords);
         }
 
         public void Error(IWampCallee wampCallee, long requestId, TMessage details, string error)
@@ -61,7 +62,7 @@ namespace WampSharp.V2.Rpc
         {
             WampCalleeInvocation<TMessage> invocation = GetInvocation(requestId);
 
-            invocation.Caller.Error(details, error, arguments);
+            invocation.Caller.Error(details, error, arguments.Cast<object>().ToArray());
         }
 
         public void Error(IWampClient wampCallee, long requestId, TMessage details, string error, TMessage[] arguments,
@@ -69,7 +70,7 @@ namespace WampSharp.V2.Rpc
         {
             WampCalleeInvocation<TMessage> invocation = GetInvocation(requestId);
 
-            invocation.Caller.Error(details, error, arguments, argumentsKeywords);
+            invocation.Caller.Error(details, error, arguments.Cast<object>().ToArray(), argumentsKeywords);
         }
 
         private WampCalleeInvocation<TMessage> GetInvocation(long requestId)

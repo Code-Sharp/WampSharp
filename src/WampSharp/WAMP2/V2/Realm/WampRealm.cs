@@ -5,7 +5,7 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Realm
 {
-    public class WampRealm<TMessage> : IWampRealm<TMessage> where TMessage : class
+    public class WampRealm<TMessage> : IWampRealm<TMessage>
     {
         private readonly string mName;
         private readonly IWampRpcOperationCatalog mCatalog;

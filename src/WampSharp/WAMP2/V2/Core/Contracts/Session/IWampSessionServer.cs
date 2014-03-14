@@ -3,7 +3,7 @@ using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
-    public interface IWampSessionServer<TMessage> where TMessage : class
+    public interface IWampSessionServer<TMessage>
     {
         [WampHandler(WampMessageType.v2Hello)]
         void Hello([WampProxyParameter]IWampSessionClient client, string realm, TMessage details);

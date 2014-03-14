@@ -7,7 +7,7 @@ using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Rpc
 {
-    public class WampCalleeOperationCatalog<TMessage> : IWampCalleeOperationCatalog<TMessage> where TMessage : class
+    public class WampCalleeOperationCatalog<TMessage> : IWampCalleeOperationCatalog<TMessage>
     {
         private readonly IWampIdGenerator mGenerator = new WampIdGenerator();
         private readonly IWampRpcOperationCatalog mCatalog;
@@ -137,7 +137,7 @@ namespace WampSharp.V2.Rpc
                 long requestId = 
                     mHandler.RegisterInvocation(caller, options);
 
-                mCallee.Invocation(requestId, mRegistrationId, options, arguments);
+                mCallee.Invocation(requestId, mRegistrationId, options, arguments.Cast<object>().ToArray());
             }
 
             public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
@@ -145,7 +145,7 @@ namespace WampSharp.V2.Rpc
                 long requestId = 
                     mHandler.RegisterInvocation(caller, options);
 
-                mCallee.Invocation(requestId, mRegistrationId, options, arguments, argumentsKeywords);
+                mCallee.Invocation(requestId, mRegistrationId, options, arguments.Cast<object>().ToArray(), argumentsKeywords);
             }
 
             private static TMessage[] CastArguments<TMessage1>(IWampFormatter<TMessage1> formatter, TMessage1[] arguments)

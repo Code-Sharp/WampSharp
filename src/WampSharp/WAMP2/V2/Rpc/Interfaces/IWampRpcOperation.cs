@@ -13,7 +13,7 @@ namespace WampSharp.V2.Rpc
         void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, TMessage argumentsKeywords);
     }
 
-    public interface IWampRpcOperation<TMessage> where TMessage : class
+    public interface IWampRpcOperation<TMessage>
     {
         string Procedure { get; }
 

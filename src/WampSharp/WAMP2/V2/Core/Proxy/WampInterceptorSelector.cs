@@ -15,7 +15,6 @@ namespace WampSharp.V2.Core.Proxy
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public class WampInterceptorSelector<TMessage> : IInterceptorSelector
-        where TMessage : class 
     {
         private readonly WampOutgoingInterceptor<TMessage> mInterceptor;
         private readonly WampRawOutgoingInterceptor<TMessage> mRawInterceptor;

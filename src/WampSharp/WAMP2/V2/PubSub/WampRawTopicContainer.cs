@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Linq;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 
@@ -6,7 +7,6 @@ namespace WampSharp.V2.PubSub
 {
     // TODO: this class is not complete, review and fix this.
     public class WampRawTopicContainer<TMessage> : IWampRawTopicContainer<TMessage>
-        where TMessage : class 
     {
         private IWampIdGenerator mGenerator = new WampIdGenerator();
         private IWampTopicContainer mTopicContainer;
@@ -83,7 +83,7 @@ namespace WampSharp.V2.PubSub
 
             long publicationId = mGenerator.Generate();
 
-            rawTopic.Event(publicationId, options, arguments);
+            rawTopic.Event(publicationId, options, arguments.Cast<object>().ToArray());
 
             return publicationId;
         }
@@ -95,7 +95,7 @@ namespace WampSharp.V2.PubSub
 
             long publicationId = mGenerator.Generate();
 
-            rawTopic.Event(publicationId, options, arguments, argumentKeywords);
+            rawTopic.Event(publicationId, options, arguments.Cast<object>().ToArray(), argumentKeywords);
 
             return publicationId;
         }

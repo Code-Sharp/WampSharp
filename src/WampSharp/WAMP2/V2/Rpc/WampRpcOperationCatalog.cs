@@ -27,7 +27,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure) where TMessage : class
+        public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure)
         {
             IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
 
@@ -41,7 +41,7 @@ namespace WampSharp.V2.Rpc
         }
 
         public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure,
-                                     TMessage[] arguments) where TMessage : class
+                                     TMessage[] arguments)
         {
             IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
 
@@ -55,7 +55,7 @@ namespace WampSharp.V2.Rpc
         }
 
         public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure,
-                                     TMessage[] arguments, TMessage argumentsKeywords) where TMessage : class
+                                     TMessage[] arguments, TMessage argumentsKeywords)
         {
             IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
 
@@ -85,7 +85,7 @@ namespace WampSharp.V2.Rpc
         }
 
         private IWampRpcOperation<TMessage> CastOperation<TMessage>(IWampRpcOperation operation, IWampFormatter<TMessage> formatter)
-            where TMessage : class
+            
         {
             IWampRpcOperation<TMessage> casted = operation as IWampRpcOperation<TMessage>;
 

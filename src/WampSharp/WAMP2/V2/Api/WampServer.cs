@@ -7,7 +7,6 @@ using WampSharp.V2.Rpc;
 namespace WampSharp.V2
 {
     public class WampServer<TMessage> : IWampServer<TMessage>, IWampMissingMethodContract<TMessage, IWampClient>
-        where TMessage : class
     {
         private readonly IWampSessionServer<TMessage> mSession;
         private readonly IWampRpcServer<TMessage> mDealer;

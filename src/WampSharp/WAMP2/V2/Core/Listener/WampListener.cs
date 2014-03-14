@@ -9,7 +9,7 @@ namespace WampSharp.V2.Core.Listener
     /// WAMPv1 specific.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public class WampListener<TMessage> : WampListener<TMessage, IWampClient<TMessage>> where TMessage : class
+    public class WampListener<TMessage> : WampListener<TMessage, IWampClient<TMessage>>
     {
         private readonly IWampSessionServer<TMessage> mSessionHandler;
 

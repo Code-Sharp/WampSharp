@@ -6,7 +6,6 @@ using WampSharp.V2.Realm;
 namespace WampSharp.V2.Core.Dispatch
 {
     internal class WampRealmMethodBuilder<TMessage> : WampMethodBuilder<TMessage, IWampClient<TMessage>>
-        where TMessage : class 
     {
         public WampRealmMethodBuilder(object instance, IWampFormatter<TMessage> formatter) : 
             base(instance, formatter)

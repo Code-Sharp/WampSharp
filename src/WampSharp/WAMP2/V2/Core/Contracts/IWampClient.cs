@@ -21,7 +21,6 @@ namespace WampSharp.V2.Core.Contracts
         IWampPublisher<TMessage>,
         IWampSubscriber<TMessage>,
         IWampRawClient<TMessage>
-        where TMessage : class
     {
         // Maybe not such a good idea.
         long Session { get; }

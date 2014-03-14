@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Linq;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.PubSub
 {
     public class WampPubSubServer<TMessage> : IWampPubSubServer<TMessage>
-        where TMessage : class 
     {
         private readonly IWampEventSerializer<TMessage> mEventSerializer;
         private readonly IWampBinding<TMessage> mBinding;
@@ -41,7 +41,7 @@ namespace WampSharp.V2.PubSub
             }
             catch (Exception ex)
             {
-                publisher.PublishError(requestId, ex, arguments);
+                publisher.PublishError(requestId, ex, arguments.Cast<object>().ToArray());
             }
         }
 
@@ -56,7 +56,7 @@ namespace WampSharp.V2.PubSub
             }
             catch (Exception ex)
             {
-                publisher.PublishError(requestId, ex, arguments, argumentKeywords);
+                publisher.PublishError(requestId, ex, arguments.Cast<object>().ToArray(), argumentKeywords);
             }
         }
 

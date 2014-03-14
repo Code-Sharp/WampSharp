@@ -14,7 +14,6 @@ using WampSharp.V2.Session;
 namespace WampSharp.V2
 {
     public class WampHost<TMessage>
-        where TMessage : class
     {
         private WampListener<TMessage> mListener;
         private readonly IWampSessionServer<TMessage> mSession;

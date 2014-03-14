@@ -11,7 +11,6 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public class WampClientBuilderFactory<TMessage> : IWampClientBuilderFactory<TMessage, IWampClient<TMessage>>
-        where TMessage : class 
     {
         private readonly IWampIdGenerator mSessionIdGenerator;
         private readonly IWampOutgoingRequestSerializer<TMessage> mOutgoingSerializer;

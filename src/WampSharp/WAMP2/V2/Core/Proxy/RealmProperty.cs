@@ -3,7 +3,7 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Core.Proxy
 {
-    internal class RealmProperty<TMessage> where TMessage : class
+    internal class RealmProperty<TMessage>
     {
         private IWampRealm<TMessage> mRealm;
 

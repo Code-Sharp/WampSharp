@@ -7,7 +7,6 @@ namespace WampSharp.V2.Rpc
 {
     public class WampRpcServer<TMessage> : IWampRpcServer<TMessage>,
         IWampErrorCallback<TMessage> 
-        where TMessage : class
     {
         private readonly IWampFormatter<TMessage> mFormatter; 
         private readonly IWampRpcOperationInvoker mInvoker;

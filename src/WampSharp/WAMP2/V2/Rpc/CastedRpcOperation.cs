@@ -3,7 +3,6 @@
 namespace WampSharp.V2.Rpc
 {
     internal class CastedRpcOperation<TMessage> : IWampRpcOperation<TMessage>
-        where TMessage : class 
     {
         private readonly IWampRpcOperation mOperation;
         private readonly IWampFormatter<TMessage> mFormatter;

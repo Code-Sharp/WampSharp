@@ -5,7 +5,7 @@ using WampSharp.V2.Rpc;
 namespace WampSharp.V2.Realm
 {
     // TODO: Realms should be message type (TMessage) free.
-    public interface IWampRealm<TMessage> where TMessage : class
+    public interface IWampRealm<TMessage>
     {
         string Name { get; }
 

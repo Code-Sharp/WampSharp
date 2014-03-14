@@ -13,7 +13,6 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public class WampClientBuilder<TMessage> : IWampClientBuilder<TMessage, IWampClient<TMessage>>
-        where TMessage : class 
     {
         #region Members
 

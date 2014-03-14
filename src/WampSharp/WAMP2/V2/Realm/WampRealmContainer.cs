@@ -5,7 +5,7 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Realm
 {
-    public class WampRealmContainer<TMessage> : IWampRealmContainer<TMessage> where TMessage : class
+    public class WampRealmContainer<TMessage> : IWampRealmContainer<TMessage>
     {
         private readonly IWampSessionServer<TMessage> mSession;
         private readonly IWampEventSerializer<TMessage> mEventSerializer;

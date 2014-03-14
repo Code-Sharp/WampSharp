@@ -6,7 +6,7 @@ namespace WampSharp.V2.Core.Contracts
         IWampSessionServer<TMessage>,
         IWampRpcServer<TMessage>,
         IWampErrorCallback<TMessage>,
-        IWampBroker<TMessage> where TMessage : class
+        IWampBroker<TMessage>
     {
     }
 }

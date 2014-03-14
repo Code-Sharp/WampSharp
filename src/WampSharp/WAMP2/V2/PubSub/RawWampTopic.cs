@@ -9,7 +9,6 @@ using WampSharp.V2.Core.Listener;
 namespace WampSharp.V2.PubSub
 {
     public class RawWampTopic<TMessage> : IRawWampTopic<TMessage>, IWampTopicSubscriber
-        where TMessage : class 
     {
         private readonly ConcurrentDictionary<long, Subscription> mSesssionIdToSubscription =
             new ConcurrentDictionary<long, Subscription>();

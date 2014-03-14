@@ -1,6 +1,6 @@
 ﻿namespace WampSharp.V2.Rpc
 {
-    internal class WampCalleeInvocation<TMessage> where TMessage : class
+    internal class WampCalleeInvocation<TMessage>
     {
         private readonly IWampRpcOperationCallback mCaller;
         private readonly TMessage mOptions;

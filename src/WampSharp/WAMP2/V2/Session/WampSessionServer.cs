@@ -1,9 +1,10 @@
-﻿using WampSharp.V2.Core.Contracts;
+﻿using System.Collections.Generic;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Session
 {
-    internal class WampSessionServer<TMessage> : IWampSessionServer<TMessage> where TMessage : class
+    internal class WampSessionServer<TMessage> : IWampSessionServer<TMessage>
     {
         private IWampRealmContainer<TMessage> mRealmContainer;
 
@@ -17,7 +18,15 @@ namespace WampSharp.V2.Session
             wampClient.Realm = mRealmContainer.GetRealmByName(realm);
             
             // TODO: Send real details to the client.
-            client.Welcome(wampClient.Session, details);
+            client.Welcome(wampClient.Session, new Dictionary<string,object>()
+                                                   {
+                                                       {"roles",
+                                                   new Dictionary<string,object>()
+                                                       {
+                                                           {"dealer", new Dictionary<string,object>()},
+                                                           {"broker", new Dictionary<string,object>()},
+                                                       }}
+                                                   });
         }
 
         public void Authenticate(IWampSessionClient client, string signature, TMessage extra)
