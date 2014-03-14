@@ -130,9 +130,9 @@ namespace WampSharp
             mMetadataCatalog.Register(rpcMetadata);
         }
         
-        public void Unregister(IWampRpcMetadata rpcMetadata)
+        public void Unregister(IWampRpcMethod method)
         {
-            mMetadataCatalog.Unregister(rpcMetadata);
+            mMetadataCatalog.Unregister(method);
         }
 
         public IWampTopicContainer TopicContainer

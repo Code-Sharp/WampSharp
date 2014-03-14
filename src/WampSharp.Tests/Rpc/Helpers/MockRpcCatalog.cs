@@ -17,6 +17,11 @@ namespace WampSharp.Tests.Rpc.Helpers
         {
         }
 
+        public bool Unregister(IWampRpcMethod method)
+        {
+            return true;
+        }
+
         public IWampRpcMethod ResolveMethodByProcUri(string procUri)
         {
             return mProcUriToMethod[procUri];
