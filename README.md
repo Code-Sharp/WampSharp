@@ -18,8 +18,8 @@ Master | Provider
 [WinLinkMaster]:http://teamcity.codebetter.com/viewLog.html?buildTypeId=bt1059&buildId=lastFinished&guest=1
 [MonoImgMaster]:https://travis-ci.org/darkl/WampSharp.png?branch=master
 [MonoLinkMaster]:https://travis-ci.org/darkl/WampSharp
-[AppVeyorLinkMaster]:https://ci.appveyor.com/project/WampSharp
-[AppVeyorImgMaster]:https://ci.appveyor.com/api/projects/status?id=jn4e5ft4n4spc4c5
+[AppVeyorLinkMaster]:https://ci.appveyor.com/project/darkl/WampSharp
+[AppVeyorImgMaster]:https://ci.appveyor.com/api/projects/status/jn4e5ft4n4spc4c5
 
 [JetBrains]:http://www.jetbrains.com/
 [CodeBetter]:http://codebetter.com/
