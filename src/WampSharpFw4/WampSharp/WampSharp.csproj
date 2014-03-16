@@ -661,6 +661,9 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Operations\Reflection\MethodInfoRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Operations\Reflection\MethodInfoRpcOperation.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Operations\Reflection\ParameterInfoExtensions.cs">
+      <Link>WAMP2\V2\Rpc\Operations\Reflection\ParameterInfoExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Operations\RpcParameter.cs">
       <Link>WAMP2\V2\Rpc\Operations\RpcParameter.cs</Link>
     </Compile>

@@ -259,6 +259,7 @@
     <Compile Include="WAMP2\V2\Rpc\Operations\LocalRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Operations\Reflection\MethodInfoHelper.cs" />
     <Compile Include="WAMP2\V2\Rpc\Operations\Reflection\MethodInfoRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Operations\Reflection\ParameterInfoExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\Operations\RpcParameter.cs" />
     <Compile Include="WAMP2\V2\Rpc\Operations\SyncLocalRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampCalleeOperationCatalog.cs" />

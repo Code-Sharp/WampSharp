@@ -37,7 +37,7 @@ namespace WampSharp.V2.Rpc
                               new RpcParameter(parameter.Name,
                                                parameter.ParameterType,
                                                parameter.DefaultValue,
-                                               parameter.HasDefaultValue,
+                                               parameter.HasDefaultValue(),
                                                index))
                       .ToArray();
         }
