@@ -59,6 +59,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Contracts\WampRawHandlerAttribute.cs" />
+    <Compile Include="WAMP1\V2\Adapters\Wamp1BindingHost.cs" />
+    <Compile Include="WAMP1\V2\Adapters\WampPubSubServerAdapter.cs" />
+    <Compile Include="WAMP1\V2\Adapters\WampRpcServerAdapter.cs" />
+    <Compile Include="WAMP2\V2\Core\Listener\Binding\IWampBindingHost.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs" />
     <Compile Include="Core\Listener\Connections\WampMessageArrivedEventArgs.cs" />
     <Compile Include="Core\Proxy\WampRawOutgoingInterceptor.cs" />
@@ -251,7 +255,12 @@
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCallback.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRpcOperationInvoker.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRpcServer.cs" />
-    <Compile Include="WAMP2\V2\Rpc\MethodInfoRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Operations\AsyncLocalRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Operations\LocalRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Operations\Reflection\MethodInfoHelper.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Operations\Reflection\MethodInfoRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Operations\RpcParameter.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Operations\SyncLocalRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampCalleeOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampCalleeInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampCalleeInvocation.cs" />

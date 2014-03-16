@@ -13,7 +13,7 @@ using WampSharp.V2.Session;
 
 namespace WampSharp.V2
 {
-    public class WampBindingHost<TMessage> : IDisposable
+    public class WampBindingHost<TMessage> : IDisposable, IWampBindingHost
     {
         private WampListener<TMessage> mListener;
         private readonly IWampSessionServer<TMessage> mSession;

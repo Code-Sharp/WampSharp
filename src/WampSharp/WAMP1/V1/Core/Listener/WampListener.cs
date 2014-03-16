@@ -29,7 +29,7 @@ namespace WampSharp.V1.Core.Listener
 
         protected override void OnConnectionOpen(IWampConnection<TMessage> connection)
         {
-            base.OnNewConnection(connection);
+            base.OnConnectionOpen(connection);
 
             IWampClient client = ClientContainer.GetClient(connection);
 

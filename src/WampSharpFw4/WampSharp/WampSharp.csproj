@@ -61,6 +61,18 @@
     <Compile Include="..\..\WampSharp\Core\Contracts\WampRawHandlerAttribute.cs">
       <Link>Core\Contracts\WampRawHandlerAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP1\V2\Adapters\Wamp1BindingHost.cs">
+      <Link>WAMP1\V2\Adapters\Wamp1BindingHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP1\V2\Adapters\WampPubSubServerAdapter.cs">
+      <Link>WAMP1\V2\Adapters\WampPubSubServerAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP1\V2\Adapters\WampRpcServerAdapter.cs">
+      <Link>WAMP1\V2\Adapters\WampRpcServerAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\Binding\IWampBindingHost.cs">
+      <Link>WAMP2\V2\Core\Listener\Binding\IWampBindingHost.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs">
       <Link>WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs</Link>
     </Compile>
@@ -637,8 +649,23 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRpcServer.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampRpcServer.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\MethodInfoRpcOperation.cs">
-      <Link>WAMP2\V2\Rpc\MethodInfoRpcOperation.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Operations\AsyncLocalRpcOperation.cs">
+      <Link>WAMP2\V2\Rpc\Operations\AsyncLocalRpcOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Operations\LocalRpcOperation.cs">
+      <Link>WAMP2\V2\Rpc\Operations\LocalRpcOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Operations\Reflection\MethodInfoHelper.cs">
+      <Link>WAMP2\V2\Rpc\Operations\Reflection\MethodInfoHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Operations\Reflection\MethodInfoRpcOperation.cs">
+      <Link>WAMP2\V2\Rpc\Operations\Reflection\MethodInfoRpcOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Operations\RpcParameter.cs">
+      <Link>WAMP2\V2\Rpc\Operations\RpcParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Operations\SyncLocalRpcOperation.cs">
+      <Link>WAMP2\V2\Rpc\Operations\SyncLocalRpcOperation.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\WampCalleeOperationCatalog.cs">
       <Link>WAMP2\V2\Rpc\WampCalleeOperationCatalog.cs</Link>

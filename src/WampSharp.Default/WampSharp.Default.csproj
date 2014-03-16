@@ -72,6 +72,7 @@
     <Compile Include="Fleck\FleckWampConnectionListenerProvider.cs" />
     <Compile Include="Fleck\FleckWampTextConnection.cs" />
     <Compile Include="WAMP1\V1\Wamp1Binding.cs" />
+    <Compile Include="WAMP2\Binding\Contracts\WampBinding.cs" />
     <Compile Include="WAMP2\Binding\Messages\BinaryMessage.cs" />
     <Compile Include="WAMP2\Binding\Contracts\JsonBinding.cs" />
     <Compile Include="WAMP2\Binding\JTokenBinding.cs" />

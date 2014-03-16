@@ -30,6 +30,14 @@ namespace WampSharp.V2
             }
         }
 
+        public IWampRealmContainer RealmContainer
+        {
+            get
+            {
+                return mRealmContainer;
+            }
+        }
+
         protected void Host<TMessage>(IWampTextBinding<TMessage> binding)
         {
             IWampConnectionListener<TMessage> listener =
@@ -48,8 +56,8 @@ namespace WampSharp.V2
 
         private void Host<TMessage>(IWampBinding<TMessage> binding, IWampConnectionListener<TMessage> listener)
         {
-            WampBindingHost<TMessage> host =
-                new WampBindingHost<TMessage>(mRealmContainer, listener, binding);
+            IWampBindingHost host =
+                binding.CreateHost(RealmContainer, listener);
 
             host.Open();
 
