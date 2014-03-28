@@ -5,9 +5,6 @@ namespace WampSharp.V2.Core.Contracts
 {
     public interface IWampSessionClient
     {        
-        [WampHandler(WampMessageType.v2Hello)]
-        void Hello(string realm, object details);
-
         [WampHandler(WampMessageType.v2Challenge)]
         void Challenge(string challenge, object extra);
 
