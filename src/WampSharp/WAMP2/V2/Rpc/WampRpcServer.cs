@@ -97,17 +97,17 @@ namespace WampSharp.V2.Rpc
             return new WampRpcOperationCallback(caller, requestId);
         }
 
-        public void Error(IWampClient client, int reqestType, long requestId, TMessage details, string error)
+        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error)
         {
             mHandler.Error(client, requestId, details, error);
         }
 
-        public void Error(IWampClient client, int reqestType, long requestId, TMessage details, string error, TMessage[] arguments)
+        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
         {
             mHandler.Error(client, requestId, details, error, arguments);
         }
 
-        public void Error(IWampClient client, int reqestType, long requestId, TMessage details, string error, TMessage[] arguments,
+        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
                           TMessage argumentsKeywords)
         {
             mHandler.Error(client, requestId, details, error, arguments, argumentsKeywords);

@@ -33,11 +33,7 @@ namespace WampSharp.V2.Session
         {
         }
 
-        public void Welcome(IWampSessionClient client, long session, TMessage details)
-        {
-        }
-
-        public void Goodbye(IWampSessionClient client, TMessage details, string reason)
+        public void Goodbye(IWampSessionClient client, string reason, TMessage details)
         {
         }
 

@@ -93,20 +93,20 @@ namespace WampSharp.V2
             mDealer.Yield(callee, requestId, options, arguments, argumentsKeywords);
         }
 
-        public void Error(IWampClient client, int reqestType, long requestId, TMessage details, string error)
+        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error)
         {
-            mDealer.Error(client, reqestType, requestId, details, error);
+            mDealer.Error(client, requestType, requestId, details, error);
         }
 
-        public void Error(IWampClient client, int reqestType, long requestId, TMessage details, string error, TMessage[] arguments)
+        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            mDealer.Error(client, reqestType, requestId, details, error, arguments);
+            mDealer.Error(client, requestType, requestId, details, error, arguments);
         }
 
-        public void Error(IWampClient client, int reqestType, long requestId, TMessage details, string error, TMessage[] arguments,
+        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
                           TMessage argumentsKeywords)
         {
-            mDealer.Error(client, reqestType, requestId, details, error, arguments, argumentsKeywords);
+            mDealer.Error(client, requestType, requestId, details, error, arguments, argumentsKeywords);
         }
 
         public void Hello(IWampSessionClient client, string realm, TMessage details)
@@ -119,14 +119,9 @@ namespace WampSharp.V2
             mSession.Authenticate(client, signature, extra);
         }
 
-        public void Welcome(IWampSessionClient client, long session, TMessage details)
+        public void Goodbye(IWampSessionClient client, string reason, TMessage details)
         {
-            mSession.Welcome(client, session, details);
-        }
-
-        public void Goodbye(IWampSessionClient client, TMessage details, string reason)
-        {
-            mSession.Goodbye(client, details, reason);
+            mSession.Goodbye(client, reason, details);
         }
 
         public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)
