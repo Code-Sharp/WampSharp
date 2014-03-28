@@ -8,11 +8,14 @@ namespace WampSharp.V2.Core.Contracts
         [WampHandler(WampMessageType.v2Hello)]
         void Hello([WampProxyParameter]IWampSessionClient client, string realm, TMessage details);
 
+        [WampHandler(WampMessageType.v2Abort)]
+        void Abort([WampProxyParameter] IWampSessionClient client, TMessage details, string reason);
+
         [WampHandler(WampMessageType.v2Authenticate)]
         void Authenticate([WampProxyParameter]IWampSessionClient client, string signature, TMessage extra);
 
         [WampHandler(WampMessageType.v2Goodbye)]
-        void Goodbye([WampProxyParameter] IWampSessionClient client, string reason, TMessage details);
+        void Goodbye([WampProxyParameter] IWampSessionClient client, TMessage details, string reason);
 
         [WampHandler(WampMessageType.v2Heartbeat)]
         void Heartbeat([WampProxyParameter]IWampSessionClient client, int incomingSeq, int outgoingSeq);

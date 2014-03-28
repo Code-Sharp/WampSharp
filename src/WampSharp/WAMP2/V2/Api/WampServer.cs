@@ -114,14 +114,19 @@ namespace WampSharp.V2
             mSession.Hello(client, realm, details);
         }
 
+        public void Abort(IWampSessionClient client, TMessage details, string reason)
+        {
+            mSession.Abort(client, details, reason);
+        }
+
         public void Authenticate(IWampSessionClient client, string signature, TMessage extra)
         {
             mSession.Authenticate(client, signature, extra);
         }
 
-        public void Goodbye(IWampSessionClient client, string reason, TMessage details)
+        public void Goodbye(IWampSessionClient client, TMessage details, string reason)
         {
-            mSession.Goodbye(client, reason, details);
+            mSession.Goodbye(client, details, reason);
         }
 
         public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)

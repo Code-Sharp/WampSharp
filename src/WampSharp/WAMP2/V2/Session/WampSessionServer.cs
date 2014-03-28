@@ -29,11 +29,15 @@ namespace WampSharp.V2.Session
                                                    });
         }
 
+        public void Abort(IWampSessionClient client, TMessage details, string reason)
+        {
+        }
+
         public void Authenticate(IWampSessionClient client, string signature, TMessage extra)
         {
         }
 
-        public void Goodbye(IWampSessionClient client, string reason, TMessage details)
+        public void Goodbye(IWampSessionClient client, TMessage details, string reason)
         {
         }
 

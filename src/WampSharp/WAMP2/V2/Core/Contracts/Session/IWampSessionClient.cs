@@ -11,8 +11,11 @@ namespace WampSharp.V2.Core.Contracts
         [WampHandler(WampMessageType.v2Welcome)]
         void Welcome(long session, object details);
 
+        [WampHandler(WampMessageType.v2Abort)]
+        void Abort(object details, string reason);
+
         [WampHandler(WampMessageType.v2Goodbye)]
-        void Goodbye(string reason, object details);
+        void Goodbye(object details, string reason);
 
         [WampHandler(WampMessageType.v2Heartbeat)]
         void Heartbeat(int incomingSeq, int outgoingSeq);
