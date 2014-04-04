@@ -78,6 +78,9 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Client\SessionClient.cs">
       <Link>WAMP2\V2\Client\SessionClient.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\Interfaces\IWampSessionClientExtended.cs">
+      <Link>WAMP2\V2\Client\Tryout\Interfaces\IWampSessionClientExtended.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\WampRealmProxy.cs">
       <Link>WAMP2\V2\Client\Tryout\WampRealmProxy.cs</Link>
     </Compile>

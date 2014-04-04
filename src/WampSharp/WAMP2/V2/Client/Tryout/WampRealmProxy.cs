@@ -9,10 +9,12 @@ namespace WampSharp.V2.Client
         private IWampTopicContainerProxy mTopicContainer;
         private readonly IWampRpcOperationCatalogProxy mRpcCatalog;
         private readonly string mName;
+        private readonly IWampServerProxy mProxy;
 
         public WampRealmProxy(string name, IWampServerProxy proxy, IWampBinding<TMessage> binding)
         {
             mName = name;
+            mProxy = proxy;
             IWampFormatter<TMessage> formatter = binding.Formatter;
             mRpcCatalog = new WampRpcOperationCatalogProxy<TMessage>(proxy, formatter);
         }
@@ -39,6 +41,11 @@ namespace WampSharp.V2.Client
             {
                 return mRpcCatalog;
             }
+        }
+
+        public IWampServerProxy Proxy
+        {
+            get { return mProxy; }
         }
     }
 }

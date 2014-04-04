@@ -1,4 +1,6 @@
-﻿namespace WampSharp.V2.Client
+﻿using WampSharp.V2.Core.Contracts;
+
+namespace WampSharp.V2.Client
 {
     public interface IWampRealmProxy
     {
@@ -7,5 +9,8 @@
         IWampTopicContainerProxy TopicContainer { get; }
 
         IWampRpcOperationCatalogProxy RpcCatalog { get; }
+
+        // Not sure this should be exposed.
+        IWampServerProxy Proxy { get; }
     }
 }

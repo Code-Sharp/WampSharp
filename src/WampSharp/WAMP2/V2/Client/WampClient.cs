@@ -1,101 +1,136 @@
-﻿using WampSharp.Core.Listener;
+﻿using System;
+using System.Threading.Tasks;
+using WampSharp.Core.Listener;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Client
 {
-    public class WampClient<TMessage> : IWampSessionClient<TMessage>,
+    public class WampClient<TMessage> : IWampSessionClientExtended<TMessage>,
                                         IWampCallee<TMessage>,
                                         IWampCaller<TMessage>,
                                         IWampPublisher<TMessage>,
                                         IWampSubscriber<TMessage>
     {
-        private readonly IWampConnection<TMessage> mConnection;
         private readonly IWampBinding<TMessage> mBinding;
-        private IWampSessionClient<TMessage> mSession;
-        private IWampCallee<TMessage> mCallee;
-        private IWampCaller<TMessage> mCaller;
+        private readonly Lazy<IWampSessionClientExtended<TMessage>> mSession;
         private IWampPublisher<TMessage> mPublisher;
         private IWampSubscriber<TMessage> mSubscriber;
-        private IWampRealmProxy mRealm;
+        private IWampServerProxy mProxy;
 
-        public WampClient(IWampConnection<TMessage> connection, IWampBinding<TMessage> binding)
+        public WampClient()
         {
-            mSession = new SessionClient<TMessage>(this);
-            mConnection = connection;
-            mBinding = binding;
-        }
-
-        public IWampRealmProxy Realm
-        {
-            get
-            {
-                return mRealm;
-            }
-            set
-            {
-                mRealm = value;
-            }
+            mSession = new Lazy<IWampSessionClientExtended<TMessage>>
+                (() => new SessionClient<TMessage>(this.Realm), true);
         }
 
         public void Challenge(string challenge, TMessage extra)
         {
-            mSession.Challenge(challenge, extra);
+            SessionClient.Challenge(challenge, extra);
         }
 
         public void Welcome(long session, TMessage details)
         {
-            mSession.Welcome(session, details);
+            SessionClient.Welcome(session, details);
         }
 
         public void Abort(TMessage details, string reason)
         {
-            mSession.Abort(details, reason);
+            SessionClient.Abort(details, reason);
         }
 
         public void Goodbye(TMessage details, string reason)
         {
-            mSession.Goodbye(details, reason);
+            SessionClient.Goodbye(details, reason);
         }
 
         public void Heartbeat(int incomingSeq, int outgoingSeq)
         {
-            mSession.Heartbeat(incomingSeq, outgoingSeq);
+            SessionClient.Heartbeat(incomingSeq, outgoingSeq);
         }
 
         public void Heartbeat(int incomingSeq, int outgoingSeq, string discard)
         {
-            mSession.Heartbeat(incomingSeq, outgoingSeq, discard);
+            SessionClient.Heartbeat(incomingSeq, outgoingSeq, discard);
+        }
+
+        public long Session
+        {
+            get { return SessionClient.Session; }
+        }
+
+        public IWampRealmProxy Realm { get; set; }
+
+        public IWampCallee<TMessage> Callee
+        {
+            get
+            {
+                return this.Realm.RpcCatalog as IWampCallee<TMessage>;
+            }
+        }
+
+        public IWampCaller<TMessage> Caller
+        {
+            get
+            {
+                return this.Realm.RpcCatalog as IWampCaller<TMessage>;
+            }
+        }
+
+        public Task OpenTask
+        {
+            get
+            {
+                return SessionClient.OpenTask;
+            }
+        }
+
+        protected IWampSessionClientExtended<TMessage> SessionClient
+        {
+            get
+            {
+                return mSession.Value;
+            }
+        }
+
+        public void OnConnectionOpen()
+        {
+            SessionClient.OnConnectionOpen();
+        }
+
+        public void OnConnectionClosed()
+        {
+            SessionClient.OnConnectionClosed();
         }
 
         public void Registered(long requestId, long registrationId)
         {
-            mCallee.Registered(requestId, registrationId);
+            Callee.Registered(requestId, registrationId);
         }
 
         public void Unregistered(long requestId)
         {
-            mCallee.Unregistered(requestId);
+            Callee.Unregistered(requestId);
         }
 
         public void Invocation(long requestId, long registrationId, TMessage details)
         {
-            mCallee.Invocation(requestId, registrationId, details);
+            Callee.Invocation(requestId, registrationId, details);
         }
 
         public void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments)
         {
-            mCallee.Invocation(requestId, registrationId, details, arguments);
+            Callee.Invocation(requestId, registrationId, details, arguments);
         }
 
         public void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            mCallee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);
+            Callee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);
         }
 
         public void Interrupt(long requestId, TMessage options)
         {
-            mCallee.Interrupt(requestId, options);
+            Callee.Interrupt(requestId, options);
         }
 
         public void Subscribed(long requestId, long subscriptionId)
@@ -125,28 +160,22 @@ namespace WampSharp.V2.Client
 
         public void Result(long requestId, TMessage details)
         {
-            mCaller.Result(requestId, details);
+            Caller.Result(requestId, details);
         }
 
         public void Result(long requestId, TMessage details, TMessage[] arguments)
         {
-            mCaller.Result(requestId, details, arguments);
+            Caller.Result(requestId, details, arguments);
         }
 
         public void Result(long requestId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            mCaller.Result(requestId, details, arguments, argumentsKeywords);
+            Caller.Result(requestId, details, arguments, argumentsKeywords);
         }
 
         public void Published(long requestId, long publicationId)
         {
             mPublisher.Published(requestId, publicationId);
-        }
-
-        internal void Connected()
-        {
-            mCallee = Realm.RpcCatalog as IWampCallee<TMessage>;
-            mCaller = Realm.RpcCatalog as IWampCaller<TMessage>;
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
@@ -10,37 +13,27 @@ namespace WampSharp.V2.Client
         private readonly IControlledWampConnection<TMessage> mConnection;
         private readonly WampClient<TMessage> mClient;
         private readonly IWampServerProxy mServer;
-        private readonly IWampRealmProxy mRealmProxy;
+        private int mConnectCalled;
 
         public WampChannel(IControlledWampConnection<TMessage> connection,
-                           IWampBinding<TMessage> binding,
                            WampClient<TMessage> client,
-                           IWampServerProxy server, string realm)
+                           IWampServerProxy server)
         {
             mConnection = connection;
-            mConnection.ConnectionOpen += mConnection_ConnectionOpen;
+            mConnection.ConnectionOpen += OnConnectionOpen;
+            mConnection.ConnectionClosed += OnConnectionClosed;
             mClient = client;
             mServer = server;
-            mRealmProxy = new WampRealmProxy<TMessage>(realm, server, binding);
-            mClient.Realm = mRealmProxy;
         }
 
-        private void mConnection_ConnectionOpen(object sender, System.EventArgs e)
+        private void OnConnectionOpen(object sender, EventArgs e)
         {
-            mServer.Hello(RealmProxy.Name,
-                          new Dictionary<string, object>()
-                              {
-                                  {
-                                      "roles",
-                                      new Dictionary<string, object>()
-                                          {
-                                              {"caller", new Dictionary<string, object>()},
-                                              {"callee", new Dictionary<string, object>()},
-                                              {"publisher", new Dictionary<string, object>()},
-                                              {"subscriber", new Dictionary<string, object>()},
-                                          }
-                                  }
-                              });
+            mClient.OnConnectionOpen();
+        }
+
+        private void OnConnectionClosed(object sender, EventArgs e)
+        {
+            mClient.OnConnectionClosed();
         }
 
         public IWampServerProxy Server
@@ -53,12 +46,24 @@ namespace WampSharp.V2.Client
 
         public IWampRealmProxy RealmProxy
         {
-            get { return mRealmProxy; }
+            get
+            {
+                return mClient.Realm;
+            }
         }
 
-        public void Open()
+        public Task Open()
         {
-            mConnection.Connect();
+            if (Interlocked.CompareExchange(ref mConnectCalled, 1, 0) != 0)
+            {
+                // Throw something that says that "Open was already called."
+                throw new ArgumentException();
+            }
+            else
+            {
+                mConnection.Connect();
+                return mClient.OpenTask;
+            }
         }
     }
 }

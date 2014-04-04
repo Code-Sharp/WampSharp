@@ -29,11 +29,14 @@ namespace WampSharp.V2.Client
         public WampChannel<TMessage> CreateChannel(string realm, IControlledWampConnection<TMessage> connection)
         {
             WampClient<TMessage> client = 
-                new WampClient<TMessage>(connection, mBinding);
+                new WampClient<TMessage>();
             
             IWampServerProxy proxy = mFactory.Create(client, connection);
 
-            return new WampChannel<TMessage>(connection, mBinding, client, proxy, realm);
+            client.Realm = 
+                new WampRealmProxy<TMessage>(realm, proxy, mBinding);
+
+            return new WampChannel<TMessage>(connection, client, proxy);
         }
     }
 }
