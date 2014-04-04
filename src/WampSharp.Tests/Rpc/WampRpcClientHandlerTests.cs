@@ -8,10 +8,6 @@ using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Rpc;
 using WampSharp.V1.Rpc.Client;
 
-#if MONO
-using StructuralComparisons = WampSharp.Tests.TestHelpers.StructuralComparisons;
-#endif
-
 namespace WampSharp.Tests.Rpc
 {
     [TestFixture]

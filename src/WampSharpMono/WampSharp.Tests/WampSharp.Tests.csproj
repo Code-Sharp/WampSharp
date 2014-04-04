@@ -192,12 +192,6 @@
     <Compile Include="..\..\WampSharp.Tests\TestHelpers\MessagesArguments.cs">
       <Link>TestHelpers\MessagesArguments.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.Tests\TestHelpers\StructuralComparisons.cs">
-      <Link>TestHelpers\StructuralComparisons.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.Tests\TestHelpers\StructuralEqualityComparer.cs">
-      <Link>TestHelpers\StructuralEqualityComparer.cs</Link>
-    </Compile>
     <Compile Include="..\..\WampSharp.Tests\TestHelpers\WampMessageEqualityComparer.cs">
       <Link>TestHelpers\WampMessageEqualityComparer.cs</Link>
     </Compile>
