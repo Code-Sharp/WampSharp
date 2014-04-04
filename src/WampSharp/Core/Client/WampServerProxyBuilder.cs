@@ -2,7 +2,6 @@
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
-using WampSharp.V1.Core.Proxy;
 
 namespace WampSharp.Core.Client
 {
@@ -43,11 +42,7 @@ namespace WampSharp.Core.Client
                 new WampOutgoingInterceptor<TMessage>(mOutgoingSerializer,
                                                       handler);
 
-            // TODO: I think the WampInterceptorSelector isn't necessary.
-            WampInterceptorSelector<TMessage> selector =
-                new WampInterceptorSelector<TMessage>(interceptor);
-
-            var proxyOptions = new ProxyGenerationOptions() { Selector = selector };
+            var proxyOptions = new ProxyGenerationOptions();
 
             TServer result =
                 mProxyGenerator.CreateInterfaceProxyWithoutTarget<TServer>

@@ -1,81 +1,62 @@
 ﻿using System;
-using System.Reactive.Subjects;
 using SuperSocket.ClientEngine;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
-using WampSharp.Core.Serialization;
+using WampSharp.V2.Core.Listener;
 using WebSocket4Net;
 
 namespace WampSharp.WebSocket4Net
 {
-    public class WebSocket4NetConnection<TMessage> : IControlledWampConnection<TMessage>
+    public abstract class WebSocket4NetConnection<TMessage> : IControlledWampConnection<TMessage>
     {
         #region Fields
 
-        private readonly IWampTextMessageParser<TMessage> mMessageFormatter;
-        
+        private readonly IWampBinding<TMessage> mBinding;
+
         private readonly WebSocket mWebSocket;
         
-        private readonly Subject<WampMessage<TMessage>> mSubject = 
-            new Subject<WampMessage<TMessage>>();
-
         #endregion
 
         public WebSocket4NetConnection(string serverAddress,
-                                       IWampTextMessageParser<TMessage> messageFormatter)
+                                       IWampBinding<TMessage> binding)
         {
-            mMessageFormatter = messageFormatter;
-            mWebSocket = new WebSocket(serverAddress, "wamp");
+            mBinding = binding;
+            mWebSocket = new WebSocket(serverAddress, binding.Name);
             mWebSocket.Opened += WebSocketOnOpened;
             mWebSocket.Closed += WebSocketOnClosed;
-            mWebSocket.MessageReceived += WebSocketOnMessageReceived;
             mWebSocket.Error += WebSocketOnError;
         }
 
-        private void WebSocketOnError(object sender, ErrorEventArgs errorEventArgs)
+        public IWampBinding<TMessage> Binding
         {
-            mSubject.OnError(errorEventArgs.Exception);
+            get
+            {
+                return mBinding;
+            }
         }
 
-        private void WebSocketOnMessageReceived(object sender, MessageReceivedEventArgs messageReceivedEventArgs)
+        protected WebSocket WebSocket
         {
-            WampMessage<TMessage> parsed = 
-                mMessageFormatter.Parse(messageReceivedEventArgs.Message);
+            get
+            {
+                return mWebSocket;
+            }
+        }
 
-            mSubject.OnNext(parsed);
+
+        private void WebSocketOnOpened(object sender, EventArgs eventArgs)
+        {
+            RaiseConnectionOpen();
         }
 
         private void WebSocketOnClosed(object sender, EventArgs eventArgs)
         {
-            mSubject.OnCompleted();
+            RaiseConnectionClosed();
         }
 
-        private void WebSocketOnOpened(object sender, EventArgs eventArgs)
+        private void WebSocketOnError(object sender, ErrorEventArgs e)
         {
-        }
-
-        public void OnNext(WampMessage<TMessage> value)
-        {
-            string formatted = mMessageFormatter.Format(value);
-            mWebSocket.Send(formatted);
-        }
-
-        public void OnError(Exception error)
-        {
-            // No can do.
-        }
-
-        public void OnCompleted()
-        {
-            mSubject.OnCompleted();
-            mWebSocket.Close();
-        }
-
-        public IDisposable Subscribe(IObserver<WampMessage<TMessage>> observer)
-        {
-            IDisposable result = mSubject.Subscribe(observer);
-
-            return result;
+            RaiseConnectionClosed();
         }
 
         public void Connect()
@@ -83,21 +64,48 @@ namespace WampSharp.WebSocket4Net
             mWebSocket.Open();
         }
 
-        // TODO: Port to the new API
-        public void Dispose()
+        public virtual void Dispose()
         {
-            throw new NotImplementedException();
+            mWebSocket.Close();
         }
 
-        public void Send(WampMessage<TMessage> message)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Send(WampMessage<TMessage> message);
 
         public event EventHandler ConnectionOpen;
-        public event EventHandler ConnectionOpening;
+
         public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
-        public event EventHandler ConnectionClosing;
+
         public event EventHandler ConnectionClosed;
+
+        protected virtual void RaiseMessageArrived(WampMessage<TMessage> message)
+        {
+            EventHandler<WampMessageArrivedEventArgs<TMessage>> handler = MessageArrived;
+            
+            if (handler != null)
+            {
+                WampMessageArrivedEventArgs<TMessage> eventArgs = new WampMessageArrivedEventArgs<TMessage>(message);
+                handler(this, eventArgs);
+            }
+        }
+        
+        protected virtual void RaiseConnectionOpen()
+        {
+            EventHandler handler = ConnectionOpen;
+            
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
+        protected virtual void RaiseConnectionClosed()
+        {
+            EventHandler handler = ConnectionClosed;
+            
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
     }
 }

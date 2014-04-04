@@ -1,4 +1,4 @@
-namespace WampSharp.V2.Core.Listener
+namespace WampSharp.V2.Core
 {
     public interface IWampIdGenerator
     {

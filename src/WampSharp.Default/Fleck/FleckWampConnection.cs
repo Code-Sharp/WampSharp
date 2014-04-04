@@ -97,9 +97,7 @@ namespace WampSharp.Fleck
         protected abstract void InnerSend(WampMessage<TMessage> message);
 
         public event EventHandler ConnectionOpen;
-        public event EventHandler ConnectionOpening;
         public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
-        public event EventHandler ConnectionClosing;
         public event EventHandler ConnectionClosed;
     }
 }

@@ -1,13 +1,13 @@
 ﻿namespace WampSharp.V2.Rpc
 {
-    internal class WampCalleeInvocation<TMessage>
+    internal class WampRpcInvocation<TMessage>
     {
         private readonly IWampRpcOperationCallback mCaller;
         private readonly TMessage mOptions;
         private readonly TMessage[] mArguments;
         private readonly TMessage mArgumentsKeywords;
 
-        public WampCalleeInvocation(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+        public WampRpcInvocation(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
         {
             mCaller = caller;
             mOptions = options;
@@ -45,6 +45,12 @@
             {
                 return mArgumentsKeywords;
             }
+        }
+
+        public long InvocationId
+        {
+            get; 
+            set;
         }
     }
 }

@@ -1,66 +1,59 @@
-﻿using System.Collections.Concurrent;
-using System.Linq;
+﻿using System.Linq;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Rpc
 {
     public class WampCalleeInvocationHandler<TMessage> : IWampCalleeInvocationHandler<TMessage>
     {
-        private IWampIdGenerator mGenerator = new WampIdGenerator();
-
-        private ConcurrentDictionary<long, WampCalleeInvocation<TMessage>> mRequestIdToInvocation =
-            new ConcurrentDictionary<long, WampCalleeInvocation<TMessage>>();
+        private readonly WampIdMapper<WampRpcInvocation<TMessage>> mRequestIdToInvocation =
+            new WampIdMapper<WampRpcInvocation<TMessage>>();
 
         public long RegisterInvocation(IWampRpcOperationCallback caller, TMessage options,
                                        TMessage[] arguments, TMessage argumentsKeywords)
         {
-            WampCalleeInvocation<TMessage> invocation =
-                new WampCalleeInvocation<TMessage>
+            WampRpcInvocation<TMessage> invocation =
+                new WampRpcInvocation<TMessage>
                     (caller, options, arguments, argumentsKeywords);
 
-            long invocationId = mGenerator.Generate();
+            long invocationId = mRequestIdToInvocation.Add(invocation);
 
-            // TODO: yuck
-            while (!mRequestIdToInvocation.TryAdd(invocationId, invocation))
-            {
-                invocationId = mGenerator.Generate();
-            }
+            invocation.InvocationId = invocationId;
 
             return invocationId;
         }
 
         public void Yield(IWampCallee callee, long requestId, TMessage options)
         {
-            WampCalleeInvocation<TMessage> invocation = GetInvocation(requestId, options);
+            WampRpcInvocation<TMessage> invocation = GetInvocation(requestId, options);
 
             invocation.Caller.Result(options);
         }
 
         public void Yield(IWampCallee callee, long requestId, TMessage options, TMessage[] arguments)
         {
-            WampCalleeInvocation<TMessage> invocation = GetInvocation(requestId, options);
+            WampRpcInvocation<TMessage> invocation = GetInvocation(requestId, options);
 
             invocation.Caller.Result(options, arguments.Cast<object>().ToArray());
         }
 
         public void Yield(IWampCallee callee, long requestId, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            WampCalleeInvocation<TMessage> invocation = GetInvocation(requestId, options);
+            WampRpcInvocation<TMessage> invocation = GetInvocation(requestId, options);
 
             invocation.Caller.Result(options, arguments.Cast<object>().ToArray(), argumentsKeywords);
         }
 
         public void Error(IWampCallee wampCallee, long requestId, TMessage details, string error)
         {
-            WampCalleeInvocation<TMessage> invocation = GetInvocation(requestId);
+            WampRpcInvocation<TMessage> invocation = GetInvocation(requestId);
 
             invocation.Caller.Error(details, error);
         }
 
         public void Error(IWampClient wampCallee, long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            WampCalleeInvocation<TMessage> invocation = GetInvocation(requestId);
+            WampRpcInvocation<TMessage> invocation = GetInvocation(requestId);
 
             invocation.Caller.Error(details, error, arguments.Cast<object>().ToArray());
         }
@@ -68,15 +61,15 @@ namespace WampSharp.V2.Rpc
         public void Error(IWampClient wampCallee, long requestId, TMessage details, string error, TMessage[] arguments,
                           TMessage argumentsKeywords)
         {
-            WampCalleeInvocation<TMessage> invocation = GetInvocation(requestId);
+            WampRpcInvocation<TMessage> invocation = GetInvocation(requestId);
 
             invocation.Caller.Error(details, error, arguments.Cast<object>().ToArray(), argumentsKeywords);
         }
 
-        private WampCalleeInvocation<TMessage> GetInvocation(long requestId)
+        private WampRpcInvocation<TMessage> GetInvocation(long requestId)
         {
             // This overload only removes - an error is an error
-            WampCalleeInvocation<TMessage> invocation;
+            WampRpcInvocation<TMessage> invocation;
 
             if (mRequestIdToInvocation.TryRemove(requestId, out invocation))
             {
@@ -86,11 +79,11 @@ namespace WampSharp.V2.Rpc
             return null;
         }
 
-        private WampCalleeInvocation<TMessage> GetInvocation(long requestId, TMessage options)
+        private WampRpcInvocation<TMessage> GetInvocation(long requestId, TMessage options)
         {
             // This should consider the options, since yield can also 
             // return a call progress.
-            WampCalleeInvocation<TMessage> invocation;
+            WampRpcInvocation<TMessage> invocation;
 
             if (mRequestIdToInvocation.TryRemove(requestId, out invocation))
             {

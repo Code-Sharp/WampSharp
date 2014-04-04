@@ -25,12 +25,8 @@ namespace WampSharp.Fleck
 
         protected override void InnerSend(WampMessage<TMessage> message)
         {
-            BinaryMessage<TMessage> casted = message as BinaryMessage<TMessage>; 
-
-            if (casted == null)
-            {
-                casted = mBinding.GetRawMessage(message) as BinaryMessage<TMessage>;
-            }
+            BinaryMessage<TMessage> casted = 
+                mBinding.GetRawMessage(message) as BinaryMessage<TMessage>; 
 
             mWebSocketConnection.Send(casted.Bytes);
         }

@@ -22,8 +22,14 @@ namespace WampSharp.Binding
 
         public override WampMessage<TMessage> GetRawMessage(WampMessage<TMessage> message)
         {
-            TextMessage<TMessage> result = new TextMessage<TMessage>(message);
-            result.Text = mParser.Format(message);
+            TextMessage<TMessage> result = message as TextMessage<TMessage>;
+
+            if (result == null)
+            {
+                result = new TextMessage<TMessage>(message);
+                result.Text = mParser.Format(message);
+            }
+
             return result;
         }
     }

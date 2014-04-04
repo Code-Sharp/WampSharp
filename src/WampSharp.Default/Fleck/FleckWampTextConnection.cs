@@ -28,12 +28,7 @@ namespace WampSharp.Fleck
         protected override void InnerSend(WampMessage<TMessage> message)
         {
             TextMessage<TMessage> casted =
-                message as TextMessage<TMessage>;
-
-            if (casted == null)
-            {
-                casted = mBinding.GetRawMessage(message) as TextMessage<TMessage>;
-            }
+                mBinding.GetRawMessage(message) as TextMessage<TMessage>;
 
             string raw = casted.Text;
 

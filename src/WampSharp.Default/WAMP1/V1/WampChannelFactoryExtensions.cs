@@ -14,7 +14,8 @@ namespace WampSharp.V1
 
         public static IWampChannel<TMessage> CreateChannel<TMessage>(this IWampChannelFactory<TMessage> factory, string address, IWampTextMessageParser<TMessage> parser)
         {
-            return factory.CreateChannel(new WebSocket4NetConnection<TMessage>(address, parser));
+            return null;
+            //return factory.CreateChannel(new WebSocket4NetConnection<TMessage>(address, parser));
         }
     }
 }

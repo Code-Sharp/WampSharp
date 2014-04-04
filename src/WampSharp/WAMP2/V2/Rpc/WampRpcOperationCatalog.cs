@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 
@@ -20,6 +21,12 @@ namespace WampSharp.V2.Rpc
         public void Unregister(IWampRpcOperation operation)
         {
             IWampRpcOperation result;
+
+            if (operation == null)
+            {
+                var dummy = new Dictionary<string, string>();
+                throw new WampException(WampErrors.NoSuchRegistration, dummy);
+            }
 
             if (!mProcedureToOperation.TryRemove(operation.Procedure, out result))
             {
@@ -69,7 +76,7 @@ namespace WampSharp.V2.Rpc
         }
 
         private IWampRpcOperation TryGetOperation(IWampRpcOperationCallback caller, object options,
-                                                          string procedure)
+                                                  string procedure)
         {
             IWampRpcOperation operation;
 

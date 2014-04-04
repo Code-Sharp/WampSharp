@@ -67,18 +67,6 @@ namespace WampSharp.Tests.TestHelpers.Integration
                 }
             }
 
-            public event EventHandler ConnectionOpening
-            {
-                add
-                {
-                    mConnection.SideAToSideB.ConnectionOpening += value;
-                }
-                remove
-                {
-                    mConnection.SideAToSideB.ConnectionOpening -= value;
-                }
-            }
-
             public event EventHandler<WampMessageArrivedEventArgs<MockRaw>> MessageArrived
             {
                 add
@@ -91,17 +79,6 @@ namespace WampSharp.Tests.TestHelpers.Integration
                 }
             }
 
-            public event EventHandler ConnectionClosing
-            {
-                add
-                {
-                    mConnection.SideAToSideB.ConnectionClosing += value;
-                }
-                remove
-                {
-                    mConnection.SideAToSideB.ConnectionClosing -= value;                    
-                }
-            }
 
             public event EventHandler ConnectionClosed
             {

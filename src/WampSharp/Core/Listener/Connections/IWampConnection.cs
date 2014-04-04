@@ -12,9 +12,7 @@ namespace WampSharp.Core.Listener
         void Send(WampMessage<TMessage> message);
         
         event EventHandler ConnectionOpen;
-        event EventHandler ConnectionOpening;
         event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
-        event EventHandler ConnectionClosing;
         event EventHandler ConnectionClosed;
     }
 }
