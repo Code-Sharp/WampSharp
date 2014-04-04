@@ -86,6 +86,21 @@
     <Compile Include="..\..\WampSharp.Default\Fleck\FleckWampTextConnection.cs">
       <Link>Fleck\FleckWampTextConnection.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Default\Json2Msgpack\JTokenMessagePackSerializer.cs">
+      <Link>Json2Msgpack\JTokenMessagePackSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Default\Json2Msgpack\JTokenToMsgPackProcessor.cs">
+      <Link>Json2Msgpack\JTokenToMsgPackProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Default\Json2Msgpack\MsgPackJsonConverter.cs">
+      <Link>Json2Msgpack\MsgPackJsonConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Default\Json2Msgpack\MsgpackToJsonConvert.cs">
+      <Link>Json2Msgpack\MsgpackToJsonConvert.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Default\Json2Msgpack\MsgPackToJTokenProcessor.cs">
+      <Link>Json2Msgpack\MsgPackToJTokenProcessor.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Default\WAMP1\V1\Wamp1Binding.cs">
       <Link>WAMP1\V1\Wamp1Binding.cs</Link>
     </Compile>
