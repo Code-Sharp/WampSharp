@@ -6,7 +6,7 @@ namespace WampSharp.V2.Core.Listener
 {
     /// <summary>
     /// A <see cref="WampListener{TMessage}"/> that is
-    /// WAMPv1 specific.
+    /// WAMPv2 specific.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public class WampListener<TMessage> : WampListener<TMessage, IWampClient<TMessage>>

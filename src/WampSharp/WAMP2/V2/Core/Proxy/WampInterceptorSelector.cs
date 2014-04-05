@@ -4,14 +4,13 @@ using System.Reflection;
 using Castle.DynamicProxy;
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Proxy;
-using WampSharp.V1.Core.Proxy;
 
 namespace WampSharp.V2.Core.Proxy
 {
     /// <summary>
     /// An <see cref="IInterceptorSelector"/> that chooses between
     /// <see cref="WampOutgoingInterceptor{TMessage}"/> and 
-    /// <see cref="V1.Core.Proxy.SessionIdPropertyInterceptor"/>.
+    /// <see cref="SessionIdPropertyInterceptor"/>.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public class WampInterceptorSelector<TMessage> : IInterceptorSelector
@@ -20,7 +19,7 @@ namespace WampSharp.V2.Core.Proxy
         private readonly WampRawOutgoingInterceptor<TMessage> mRawInterceptor;
 
         /// <summary>
-        /// Creates a new instance of <see cref="V1.Core.Proxy.WampInterceptorSelector{TMessage}"/>.
+        /// Creates a new instance of <see cref="WampInterceptorSelector{TMessage}"/>.
         /// </summary>
         /// <param name="interceptor">The given <see cref="WampOutgoingInterceptor{TMessage}"/> used
         /// for WAMP method calls</param>
