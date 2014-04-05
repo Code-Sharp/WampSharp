@@ -191,9 +191,7 @@ namespace WampSharp.RawTcp
             }
         }
 
-        public event EventHandler ConnectionOpening;
         public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
-        public event EventHandler ConnectionClosing;
         public event EventHandler ConnectionClosed;
     }
 }
