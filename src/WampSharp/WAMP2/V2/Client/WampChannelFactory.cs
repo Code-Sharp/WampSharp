@@ -28,15 +28,41 @@ namespace WampSharp.V2.Client
 
         public WampChannel<TMessage> CreateChannel(string realm, IControlledWampConnection<TMessage> connection)
         {
+            var wampRealmProxyFactory = 
+                new WampRealmProxyFactory(this, realm, connection);
+
             WampClient<TMessage> client = 
-                new WampClient<TMessage>();
+                new WampClient<TMessage>(wampRealmProxyFactory);
             
             IWampServerProxy proxy = mFactory.Create(client, connection);
 
-            client.Realm = 
-                new WampRealmProxy<TMessage>(realm, proxy, mBinding);
-
             return new WampChannel<TMessage>(connection, client, proxy);
+        }
+
+        private class WampRealmProxyFactory : IWampRealmProxyFactory<TMessage>
+        {
+            private readonly WampChannelFactory<TMessage> mParent;
+            private readonly string mRealmName;
+            private readonly IWampConnection<TMessage> mConnection;
+
+            public WampRealmProxyFactory(WampChannelFactory<TMessage> parent,
+                                         string realmName,
+                                         IWampConnection<TMessage> connection)
+            {
+                mParent = parent;
+                mRealmName = realmName;
+                mConnection = connection;
+            }
+
+            public IWampRealmProxy Build(WampClient<TMessage> client)
+            {
+                IWampServerProxy proxy = mParent.mFactory.Create(client, mConnection);
+                
+                WampRealmProxy<TMessage> realm = 
+                    new WampRealmProxy<TMessage>(mRealmName, proxy, mParent.mBinding);
+
+                return realm;
+            }
         }
     }
 }

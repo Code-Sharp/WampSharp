@@ -67,6 +67,7 @@
     <Compile Include="WAMP1\V2\Adapters\Wamp1BindingHost.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampPubSubServerAdapter.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampRpcServerAdapter.cs" />
+    <Compile Include="WAMP2\V2\Client\IWampRealmProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Client\SessionClient.cs" />
     <Compile Include="WAMP2\V2\Client\Tryout\Interfaces\IWampSessionClientExtended.cs" />
     <Compile Include="WAMP2\V2\Client\Tryout\WampRealmProxy.cs" />

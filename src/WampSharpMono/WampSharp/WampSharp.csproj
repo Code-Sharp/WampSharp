@@ -75,6 +75,9 @@
     <Compile Include="..\..\WampSharp\WAMP1\V2\Adapters\WampRpcServerAdapter.cs">
       <Link>WAMP1\V2\Adapters\WampRpcServerAdapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\IWampRealmProxyFactory.cs">
+      <Link>WAMP2\V2\Client\IWampRealmProxyFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Client\SessionClient.cs">
       <Link>WAMP2\V2\Client\SessionClient.cs</Link>
     </Compile>

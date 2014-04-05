@@ -12,16 +12,15 @@ namespace WampSharp.V2.Client
                                         IWampPublisher<TMessage>,
                                         IWampSubscriber<TMessage>
     {
-        private readonly IWampBinding<TMessage> mBinding;
-        private readonly Lazy<IWampSessionClientExtended<TMessage>> mSession;
+        private readonly IWampRealmProxy mRealm;
+        private readonly IWampSessionClientExtended<TMessage> mSession;
         private IWampPublisher<TMessage> mPublisher;
         private IWampSubscriber<TMessage> mSubscriber;
-        private IWampServerProxy mProxy;
 
-        public WampClient()
+        public WampClient(IWampRealmProxyFactory<TMessage> realmFactory)
         {
-            mSession = new Lazy<IWampSessionClientExtended<TMessage>>
-                (() => new SessionClient<TMessage>(this.Realm), true);
+            mRealm = realmFactory.Build(this);
+            mSession = new SessionClient<TMessage>(this.Realm);
         }
 
         public void Challenge(string challenge, TMessage extra)
@@ -59,7 +58,13 @@ namespace WampSharp.V2.Client
             get { return SessionClient.Session; }
         }
 
-        public IWampRealmProxy Realm { get; set; }
+        public IWampRealmProxy Realm
+        {
+            get
+            {
+                return mRealm;
+            }
+        }
 
         public IWampCallee<TMessage> Callee
         {
@@ -85,11 +90,11 @@ namespace WampSharp.V2.Client
             }
         }
 
-        protected IWampSessionClientExtended<TMessage> SessionClient
+        private IWampSessionClientExtended<TMessage> SessionClient
         {
             get
             {
-                return mSession.Value;
+                return mSession;
             }
         }
 

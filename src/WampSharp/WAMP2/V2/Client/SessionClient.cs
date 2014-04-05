@@ -93,6 +93,7 @@ namespace WampSharp.V2.Client
 
         public void OnConnectionClosed()
         {
+            mOpenTask = new TaskCompletionSource<bool>();
         }
     }
 }
