@@ -16,14 +16,13 @@ namespace WampSharp.V2.Client
         private int mConnectCalled;
 
         public WampChannel(IControlledWampConnection<TMessage> connection,
-                           WampClient<TMessage> client,
-                           IWampServerProxy server)
+                           WampClient<TMessage> client)
         {
             mConnection = connection;
             mConnection.ConnectionOpen += OnConnectionOpen;
             mConnection.ConnectionClosed += OnConnectionClosed;
             mClient = client;
-            mServer = server;
+            mServer = client.Realm.Proxy;
         }
 
         private void OnConnectionOpen(object sender, EventArgs e)

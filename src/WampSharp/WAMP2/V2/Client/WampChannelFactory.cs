@@ -34,9 +34,7 @@ namespace WampSharp.V2.Client
             WampClient<TMessage> client = 
                 new WampClient<TMessage>(wampRealmProxyFactory);
             
-            IWampServerProxy proxy = mFactory.Create(client, connection);
-
-            return new WampChannel<TMessage>(connection, client, proxy);
+            return new WampChannel<TMessage>(connection, client);
         }
 
         private class WampRealmProxyFactory : IWampRealmProxyFactory<TMessage>
