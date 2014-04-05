@@ -25,6 +25,11 @@ namespace WampSharp.V2.Core
             return currentId;
         }
 
+        public bool TryGetValue(long key, out T value)
+        {
+            return mIdToValue.TryGetValue(key, out value);
+        }
+
         public bool TryRemove(long id, out T value)
         {
             return mIdToValue.TryRemove(id, out value);

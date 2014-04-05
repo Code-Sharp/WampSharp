@@ -2,8 +2,10 @@
 
 namespace WampSharp.V2.PubSub
 {
-    public interface IWampTopic
+    public interface IWampTopic : ISubscriptionNotifier, IDisposable
     {
+        bool HasSubscribers { get; }
+
         string TopicUri { get; }
 
         long Publish(object options);

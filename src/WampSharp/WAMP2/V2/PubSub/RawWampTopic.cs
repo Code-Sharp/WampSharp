@@ -8,29 +8,37 @@ using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.PubSub
 {
-    public class RawWampTopic<TMessage> : IRawWampTopic<TMessage>, IWampTopicSubscriber
+    internal class RawWampTopic<TMessage> : IRawWampTopic<TMessage>, IWampTopicSubscriber, IDisposable
     {
+        #region Data Members
+
         private readonly ConcurrentDictionary<long, Subscription> mSesssionIdToSubscription =
             new ConcurrentDictionary<long, Subscription>();
 
         private readonly IWampBinding<TMessage> mBinding; 
         private readonly IWampEventSerializer<TMessage> mSerializer;
-        private readonly ISubject<WampMessage<TMessage>> mSubject = new Subject<WampMessage<TMessage>>();
-        private readonly long mSubscriptionId;
+        private readonly Subject<WampMessage<TMessage>> mSubject = new Subject<WampMessage<TMessage>>();
         private readonly string mTopicUri;
 
-        public RawWampTopic(string topicUri, long subscriptionId, IWampEventSerializer<TMessage> serializer, IWampBinding<TMessage> binding)
+        #endregion
+
+        #region Constructor
+
+        public RawWampTopic(string topicUri, IWampEventSerializer<TMessage> serializer, IWampBinding<TMessage> binding)
         {
             mSerializer = serializer;
             mTopicUri = topicUri;
             mBinding = binding;
-            mSubscriptionId = subscriptionId;
         }
+
+        #endregion
+
+        #region IRawWampTopic<TMessage> Members
 
         public void Event(long publicationId, object details)
         {
             WampMessage<TMessage> message =
-                mSerializer.Event(mSubscriptionId, publicationId, details);
+                mSerializer.Event(SubscriptionId, publicationId, details);
 
             Publish(message);
         }
@@ -38,7 +46,7 @@ namespace WampSharp.V2.PubSub
         public void Event(long publicationId, object details, object[] arguments)
         {
             WampMessage<TMessage> message =
-                mSerializer.Event(mSubscriptionId, publicationId, details, arguments);
+                mSerializer.Event(SubscriptionId, publicationId, details, arguments);
 
             Publish(message);
         }
@@ -46,7 +54,7 @@ namespace WampSharp.V2.PubSub
         public void Event(long publicationId, object details, object[] arguments, object argumentsKeywords)
         {
             WampMessage<TMessage> message =
-                mSerializer.Event(mSubscriptionId, publicationId, details, arguments, argumentsKeywords);
+                mSerializer.Event(SubscriptionId, publicationId, details, arguments, argumentsKeywords);
 
             Publish(message);
         }
@@ -57,12 +65,18 @@ namespace WampSharp.V2.PubSub
             mSubject.OnNext(raw);
         }
 
-        public long SubscriptionId
+        public bool HasSubscribers
         {
             get
             {
-                return mSubscriptionId;
+                return mSubject.HasObservers;
             }
+        }
+
+        public long SubscriptionId
+        {
+            get; 
+            set;
         }
 
         public string TopicUri
@@ -73,8 +87,19 @@ namespace WampSharp.V2.PubSub
             }
         }
 
+        public IDisposable SubscriptionDisposable
+        {
+            get; 
+            set;
+        }
+
         public void Subscribe(IWampSubscriber subscriber, TMessage options)
         {
+            RemoteWampTopicSubscriber remoteSubscriber = 
+                new RemoteWampTopicSubscriber(this.SubscriptionId, subscriber);
+
+            this.RaiseSubscriptionAdding(remoteSubscriber, options);
+
             IWampClient<TMessage> client = subscriber as IWampClient<TMessage>;
 
             RemoteObserver observer = new RemoteObserver(client);
@@ -84,6 +109,8 @@ namespace WampSharp.V2.PubSub
             Subscription subscription = new Subscription(this, client, disposable);
 
             mSesssionIdToSubscription.TryAdd(client.Session, subscription);
+
+            this.RaiseSubscriptionAdded(remoteSubscriber, options);
         }
 
         public void Unsubscribe(IWampSubscriber subscriber)
@@ -94,9 +121,104 @@ namespace WampSharp.V2.PubSub
             
             if (mSesssionIdToSubscription.TryRemove(client.Session, out subscription))
             {
+                this.RaiseSubscriptionRemoving(client.Session);
+
                 subscription.Dispose();
+
+                this.RaiseSubscriptionRemoved(client.Session);
+
+                if (!this.HasSubscribers)
+                {
+                    this.RaiseTopicEmpty();
+                }
             }
         }
+
+        public void Dispose()
+        {
+            SubscriptionDisposable.Dispose();
+            SubscriptionDisposable = null;
+        }
+
+        #endregion
+
+        #region ISubscriptionNotifier
+
+        public event EventHandler<SubscriptionAddEventArgs> SubscriptionAdding;
+        public event EventHandler<SubscriptionAddEventArgs> SubscriptionAdded;
+        public event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoving;
+        public event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoved;
+        public event EventHandler TopicEmpty;
+
+        protected virtual void RaiseSubscriptionAdding(RemoteWampTopicSubscriber subscriber, TMessage options)
+        {
+            EventHandler<SubscriptionAddEventArgs> handler = SubscriptionAdding;
+
+            if (handler != null)
+            {
+                SubscriptionAddEventArgs args = GetAddEventArgs(subscriber, options);
+
+                handler(this, args);
+            }
+        }
+
+        protected virtual void RaiseSubscriptionAdded(RemoteWampTopicSubscriber subscriber, TMessage options)
+        {
+            EventHandler<SubscriptionAddEventArgs> handler = SubscriptionAdded;
+
+            if (handler != null)
+            {
+                SubscriptionAddEventArgs args = GetAddEventArgs(subscriber, options);
+
+                handler(this, args);
+            }
+        }
+
+        protected virtual void RaiseSubscriptionRemoving(long sessionId)
+        {
+            EventHandler<SubscriptionRemoveEventArgs> handler = SubscriptionRemoving;
+
+            if (handler != null)
+            {
+                SubscriptionRemoveEventArgs args = GetRemoveEventArgs(sessionId);
+                handler(this, args);
+            }
+        }
+
+        protected virtual void RaiseSubscriptionRemoved(long sessionId)
+        {
+            EventHandler<SubscriptionRemoveEventArgs> handler = SubscriptionRemoved;
+
+            if (handler != null)
+            {
+                SubscriptionRemoveEventArgs args = GetRemoveEventArgs(sessionId);
+                handler(this, args);
+            }
+        }
+
+        protected virtual void RaiseTopicEmpty()
+        {
+            EventHandler handler = TopicEmpty;
+
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
+        private static SubscriptionAddEventArgs GetAddEventArgs(RemoteWampTopicSubscriber subscriber, TMessage options)
+        {
+            return new RemoteSubscriptionAddEventArgs(subscriber, options);
+        }
+
+        private static SubscriptionRemoveEventArgs GetRemoveEventArgs(long sessionId)
+        {
+            return new RemoteSubscriptionRemoveEventArgs(sessionId);
+        }
+
+        #endregion
+
+        #region Nested Types
 
         private class Subscription : IDisposable
         {
@@ -149,5 +271,7 @@ namespace WampSharp.V2.PubSub
             {
             }
         }
+
+        #endregion
     }
 }

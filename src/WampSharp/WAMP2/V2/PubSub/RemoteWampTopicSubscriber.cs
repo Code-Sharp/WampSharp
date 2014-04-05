@@ -4,18 +4,29 @@ namespace WampSharp.V2.PubSub
 {
     public class RemoteWampTopicSubscriber : IWampTopicSubscriber
     {
-        private readonly IWampSubscriber mSubscriber;
+        private readonly IWampClient mSubscriber;
+        private readonly long mSubscriptionId;
 
-        public RemoteWampTopicSubscriber(IWampSubscriber subscriber)
+        public RemoteWampTopicSubscriber(long subscriptionId, IWampSubscriber subscriber)
         {
-            mSubscriber = subscriber;
+            mSubscriber = subscriber as IWampClient;
+            mSubscriptionId = subscriptionId;
+        }
+
+        public long Session
+        {
+            get
+            {
+                return mSubscriber.Session;
+            }
         }
 
         public long SubscriptionId
         {
-            get; 
-            // TODO: I'm Not happy with this setter
-            set;
+            get
+            {
+                return mSubscriptionId;
+            }
         }
 
         public void Event(long publicationId, object details)

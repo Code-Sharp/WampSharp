@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -6,22 +7,22 @@ using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.PubSub
 {
-    // TODO: this class is not complete, review and fix this.
-    public class WampRawTopicContainer<TMessage> : IWampRawTopicContainer<TMessage>
+    internal class WampRawTopicContainer<TMessage> : IWampRawTopicContainer<TMessage>
     {
-        private IWampIdGenerator mGenerator = new WampIdGenerator();
-        private IWampTopicContainer mTopicContainer;
-        
-        private readonly ConcurrentDictionary<string, RawWampTopic<TMessage>> mTopicUriToRawTopic = 
-            new ConcurrentDictionary<string, RawWampTopic<TMessage>>();
-
-        private readonly ConcurrentDictionary<long, RawWampTopic<TMessage>> mSubscriptionIdToRawTopic =
-            new ConcurrentDictionary<long, RawWampTopic<TMessage>>();
-
+        private readonly IWampTopicContainer mTopicContainer;
         private readonly IWampEventSerializer<TMessage> mEventSerializer;
         private readonly IWampBinding<TMessage> mBinding;
+        private readonly object mLock = new object();
 
-        public WampRawTopicContainer(IWampTopicContainer topicContainer, IWampEventSerializer<TMessage> eventSerializer, IWampBinding<TMessage> binding)
+        private readonly WampIdMapper<RawWampTopic<TMessage>> mSubscriptionIdToTopic =
+            new WampIdMapper<RawWampTopic<TMessage>>();
+
+        private readonly ConcurrentDictionary<string, RawWampTopic<TMessage>> mTopicUriToTopic =
+            new ConcurrentDictionary<string, RawWampTopic<TMessage>>();
+
+        public WampRawTopicContainer(IWampTopicContainer topicContainer,
+                                     IWampEventSerializer<TMessage> eventSerializer,
+                                     IWampBinding<TMessage> binding)
         {
             mTopicContainer = topicContainer;
             mEventSerializer = eventSerializer;
@@ -30,88 +31,93 @@ namespace WampSharp.V2.PubSub
 
         public long Subscribe(IWampSubscriber subscriber, TMessage options, string topicUri)
         {
-            RawWampTopic<TMessage> rawTopic;
-            if (mTopicUriToRawTopic.TryGetValue(topicUri, out rawTopic))
+            lock (mLock)
             {
+                RawWampTopic<TMessage> rawTopic;
+
+                if (!mTopicUriToTopic.TryGetValue(topicUri, out rawTopic))
+                {
+                    rawTopic = CreateRawTopic(topicUri);
+                    
+                    IDisposable disposable =
+                        mTopicContainer.Subscribe(rawTopic, options, topicUri);
+
+                    rawTopic.SubscriptionDisposable = disposable;
+                }
+
                 rawTopic.Subscribe(subscriber, options);
+                
+                return rawTopic.SubscriptionId;
             }
-            else
-            {
-                // TODO: subscribe to the real topic, from the topic container
-                rawTopic = 
-                    new RawWampTopic<TMessage>(topicUri, 
-                        mGenerator.Generate(),
-                        mEventSerializer,
-                        mBinding);
-
-                mTopicUriToRawTopic.TryAdd(topicUri, rawTopic);
-                mSubscriptionIdToRawTopic.TryAdd(rawTopic.SubscriptionId, rawTopic);
-            }
-
-            return rawTopic.SubscriptionId;
         }
 
         public void Unsubscribe(IWampSubscriber subscriber, long subscriptionId)
         {
-            RawWampTopic<TMessage> rawTopic;
+            lock (mLock)
+            {
+                RawWampTopic<TMessage> rawTopic;
 
-            if (mSubscriptionIdToRawTopic.TryGetValue(subscriptionId, out rawTopic))
-            {
+                if (!mSubscriptionIdToTopic.TryGetValue(subscriptionId, out rawTopic))
+                {
+                    throw new WampException(WampErrors.NoSuchSubscription, subscriptionId);
+                }
+
                 rawTopic.Unsubscribe(subscriber);
-            }
-            else
-            {
-                throw new WampException(WampErrors.NoSuchSubscription, subscriptionId);
             }
         }
 
         public long Publish(TMessage options, string topicUri)
         {
-            // TODO: publish to the real topic
-            RawWampTopic<TMessage> rawTopic = GetTopic(topicUri);
-
-            long publicationId = mGenerator.Generate();
-
-            rawTopic.Event(publicationId, options);
-         
-            return publicationId;
+            return mTopicContainer.Publish(options, topicUri);
         }
 
         public long Publish(TMessage options, string topicUri, TMessage[] arguments)
         {
-            // TODO: publish to the real topic
-            RawWampTopic<TMessage> rawTopic = GetTopic(topicUri);
-
-            long publicationId = mGenerator.Generate();
-
-            rawTopic.Event(publicationId, options, arguments.Cast<object>().ToArray());
-
-            return publicationId;
+            object[] castedArguments = arguments.Cast<object>().ToArray();
+            return mTopicContainer.Publish(options, topicUri, castedArguments);
         }
 
         public long Publish(TMessage options, string topicUri, TMessage[] arguments, TMessage argumentKeywords)
         {
-            // TODO: publish to the real topic
-            RawWampTopic<TMessage> rawTopic = GetTopic(topicUri);
-
-            long publicationId = mGenerator.Generate();
-
-            rawTopic.Event(publicationId, options, arguments.Cast<object>().ToArray(), argumentKeywords);
-
-            return publicationId;
+            object[] castedArguments = arguments.Cast<object>().ToArray();
+            return mTopicContainer.Publish(options, topicUri, castedArguments, argumentKeywords);
         }
 
-        private RawWampTopic<TMessage> GetTopic(string topicUri)
+        private void OnTopicEmpty(object sender, EventArgs e)
         {
-            RawWampTopic<TMessage> rawWampTopic;
+            RawWampTopic<TMessage> rawTopic = sender as RawWampTopic<TMessage>;
 
-            if (!mTopicUriToRawTopic.TryGetValue(topicUri, out rawWampTopic))
+            if (rawTopic != null)
             {
-                throw new WampException(WampErrors.InvalidTopic, topicUri);
+                lock (mLock)
+                {
+                    if (!rawTopic.HasSubscribers)
+                    {
+                        mSubscriptionIdToTopic.TryRemove(rawTopic.SubscriptionId, out rawTopic);
+                        mTopicUriToTopic.TryRemove(rawTopic.TopicUri, out rawTopic);
+                        rawTopic.Dispose();
+                    }
+                }
             }
-
-            return rawWampTopic;
         }
 
+        private RawWampTopic<TMessage> CreateRawTopic(string topicUri)
+        {
+            RawWampTopic<TMessage> newTopic =
+                new RawWampTopic<TMessage>(topicUri,
+                                           mEventSerializer,
+                                           mBinding);
+
+            long subscriptionId =
+                mSubscriptionIdToTopic.Add(newTopic);
+
+            newTopic.SubscriptionId = subscriptionId;
+
+            mTopicUriToTopic.TryAdd(topicUri, newTopic);
+
+            newTopic.TopicEmpty += OnTopicEmpty;
+
+            return newTopic;
+        }
     }
 }
