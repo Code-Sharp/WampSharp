@@ -648,8 +648,26 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\WampIdGenerator.cs">
       <Link>WAMP2\V2\Core\WampIdGenerator.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\RemoteSubscriptionAddEventArgs.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\RemoteSubscriptionAddEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\RemoteSubscriptionRemoveEventArgs.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\RemoteSubscriptionRemoveEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicCreatedEventArgs.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicCreatedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicEventArgs.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicRemovedEventArgs.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicRemovedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\IRawWampTopic.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\IRawWampTopic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\ISubscriptionNotifier.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\ISubscriptionNotifier.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs</Link>
@@ -666,6 +684,12 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampTopicSubscriber.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\IWampTopicSubscriber.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionAddEventArgs.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionAddEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionRemoveEventArgs.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionRemoveEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\RawWampTopic.cs">
       <Link>WAMP2\V2\PubSub\RawWampTopic.cs</Link>
     </Compile>
@@ -680,6 +704,9 @@
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\WampTopic.cs">
       <Link>WAMP2\V2\PubSub\WampTopic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\WampTopicContainer.cs">
+      <Link>WAMP2\V2\PubSub\WampTopicContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Realm\Interfaces\IWampRealm.cs">
       <Link>WAMP2\V2\Realm\Interfaces\IWampRealm.cs</Link>
