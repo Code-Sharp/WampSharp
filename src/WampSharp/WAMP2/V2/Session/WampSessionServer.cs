@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 
@@ -39,6 +40,10 @@ namespace WampSharp.V2.Session
 
         public void Goodbye(IWampSessionClient client, TMessage details, string reason)
         {
+            using (IDisposable disposable = client as IDisposable)
+            {
+                client.Goodbye(details, WampErrors.GoodbyeAndOut);
+            }
         }
 
         public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)
