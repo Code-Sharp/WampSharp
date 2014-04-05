@@ -41,8 +41,17 @@ namespace WampSharp.V2.Rpc
         {
             WampCalleeRpcOperation operation;
             
-            mRegistrationIdToOperation.TryRemove(registrationId, out operation);
+            if (!mRegistrationIdToOperation.TryGetValue(registrationId, out operation))
+            {
+                throw new WampException(WampErrors.NoSuchRegistration, registrationId);
+            }
 
+            if (operation.Callee != callee)
+            {
+                throw new WampException(WampErrors.NotAuthorized, registrationId);
+            }
+
+            mRegistrationIdToOperation.TryRemove(registrationId, out operation);
             mCatalog.Unregister(operation);
         }
 
@@ -70,10 +79,10 @@ namespace WampSharp.V2.Rpc
 
             private void OnClientDisconnect(object sender, System.EventArgs e)
             {
-                IWampConnectionMonitor monitor = mCallee as IWampConnectionMonitor;
+                IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;
                 monitor.ConnectionClosed -= OnClientDisconnect;
 
-                mCatalog.Unregister(mCallee, RegistrationId);
+                mCatalog.Unregister(Callee, RegistrationId);
             }
 
             public string Procedure
@@ -88,6 +97,14 @@ namespace WampSharp.V2.Rpc
             {
                 get; 
                 set;
+            }
+
+            public IWampCallee Callee
+            {
+                get
+                {
+                    return mCallee;
+                }
             }
 
             public void Invoke<TOther>(IWampRpcOperationCallback caller,
@@ -134,7 +151,7 @@ namespace WampSharp.V2.Rpc
                 long requestId = 
                     mHandler.RegisterInvocation(caller, options);
 
-                mCallee.Invocation(requestId, RegistrationId, options);
+                Callee.Invocation(requestId, RegistrationId, options);
             }
 
             public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments)
@@ -142,7 +159,7 @@ namespace WampSharp.V2.Rpc
                 long requestId = 
                     mHandler.RegisterInvocation(caller, options, arguments);
 
-                mCallee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray());
+                Callee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray());
             }
 
             public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
@@ -150,7 +167,7 @@ namespace WampSharp.V2.Rpc
                 long requestId = 
                     mHandler.RegisterInvocation(caller, options, arguments, argumentsKeywords);
 
-                mCallee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray(), argumentsKeywords);
+                Callee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray(), argumentsKeywords);
             }
 
             private static TMessage[] CastArguments<TOther>(IWampFormatter<TOther> formatter, TOther[] arguments)
