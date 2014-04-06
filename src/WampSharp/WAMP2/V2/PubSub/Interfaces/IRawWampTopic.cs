@@ -2,12 +2,12 @@
 
 namespace WampSharp.V2.PubSub
 {
-    public interface IRawWampTopic<TMessage> : ISubscriptionNotifier
+    internal interface IRawWampTopic<TMessage> : ISubscriptionNotifier
     {
         bool HasSubscribers { get; }
         long SubscriptionId { get; }
         string TopicUri { get; }
-        void Subscribe(IWampSubscriber subscriber, TMessage options);
-        void Unsubscribe(IWampSubscriber subscriber);
+        void Subscribe(ISubscribeRequest<TMessage> request, TMessage options);
+        void Unsubscribe(IUnsubscribeRequest<TMessage> request);
     }
 }

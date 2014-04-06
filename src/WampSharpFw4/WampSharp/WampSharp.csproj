@@ -669,6 +669,12 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\ISubscriptionNotifier.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\ISubscriptionNotifier.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\ISubscribeRequest.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\ISubscribeRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\IUnsubscribeRequest.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IUnsubscribeRequest.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs</Link>
     </Compile>
@@ -695,6 +701,12 @@
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\RemoteWampTopicSubscriber.cs">
       <Link>WAMP2\V2\PubSub\RemoteWampTopicSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\SubscribeRequest.cs">
+      <Link>WAMP2\V2\PubSub\SubscribeRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\UnsubscribeRequest.cs">
+      <Link>WAMP2\V2\PubSub\UnsubscribeRequest.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\PubSub\WampPubSubServer.cs">
       <Link>WAMP2\V2\PubSub\WampPubSubServer.cs</Link>

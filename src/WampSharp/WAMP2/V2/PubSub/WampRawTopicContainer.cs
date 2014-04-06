@@ -29,7 +29,7 @@ namespace WampSharp.V2.PubSub
             mBinding = binding;
         }
 
-        public long Subscribe(IWampSubscriber subscriber, TMessage options, string topicUri)
+        public long Subscribe(ISubscribeRequest<TMessage> request, TMessage options, string topicUri)
         {
             lock (mLock)
             {
@@ -45,13 +45,13 @@ namespace WampSharp.V2.PubSub
                     rawTopic.SubscriptionDisposable = disposable;
                 }
 
-                rawTopic.Subscribe(subscriber, options);
+                rawTopic.Subscribe(request, options);
                 
                 return rawTopic.SubscriptionId;
             }
         }
 
-        public void Unsubscribe(IWampSubscriber subscriber, long subscriptionId)
+        public void Unsubscribe(IUnsubscribeRequest<TMessage> request, long subscriptionId)
         {
             lock (mLock)
             {
@@ -62,7 +62,7 @@ namespace WampSharp.V2.PubSub
                     throw new WampException(WampErrors.NoSuchSubscription, subscriptionId);
                 }
 
-                rawTopic.Unsubscribe(subscriber);
+                rawTopic.Unsubscribe(request);
             }
         }
 

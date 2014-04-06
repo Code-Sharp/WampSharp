@@ -265,6 +265,8 @@
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicRemovedEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IRawWampTopic.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\ISubscriptionNotifier.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\ISubscribeRequest.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IUnsubscribeRequest.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampTopic.cs" />
@@ -274,6 +276,8 @@
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionRemoveEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\RawWampTopic.cs" />
     <Compile Include="WAMP2\V2\PubSub\RemoteWampTopicSubscriber.cs" />
+    <Compile Include="WAMP2\V2\PubSub\SubscribeRequest.cs" />
+    <Compile Include="WAMP2\V2\PubSub\UnsubscribeRequest.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampRawTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopic.cs" />

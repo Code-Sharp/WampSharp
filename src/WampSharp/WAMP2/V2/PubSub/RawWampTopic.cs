@@ -93,14 +93,15 @@ namespace WampSharp.V2.PubSub
             set;
         }
 
-        public void Subscribe(IWampSubscriber subscriber, TMessage options)
+        public void Subscribe(ISubscribeRequest<TMessage> request, TMessage options)
         {
-            RemoteWampTopicSubscriber remoteSubscriber = 
-                new RemoteWampTopicSubscriber(this.SubscriptionId, subscriber);
+            RemoteWampTopicSubscriber remoteSubscriber =
+                new RemoteWampTopicSubscriber(this.SubscriptionId,
+                                              request.Client as IWampSubscriber);
 
             this.RaiseSubscriptionAdding(remoteSubscriber, options);
 
-            IWampClient<TMessage> client = subscriber as IWampClient<TMessage>;
+            IWampClient<TMessage> client = request.Client;
 
             RemoteObserver observer = new RemoteObserver(client);
             
@@ -110,12 +111,14 @@ namespace WampSharp.V2.PubSub
 
             mSesssionIdToSubscription.TryAdd(client.Session, subscription);
 
+            request.Subscribed(this.SubscriptionId);
+
             this.RaiseSubscriptionAdded(remoteSubscriber, options);
         }
 
-        public void Unsubscribe(IWampSubscriber subscriber)
+        public void Unsubscribe(IUnsubscribeRequest<TMessage> request)
         {
-            IWampClient<TMessage> client = subscriber as IWampClient<TMessage>;
+            IWampClient<TMessage> client = request.Client;
 
             Subscription subscription;
             
@@ -124,6 +127,8 @@ namespace WampSharp.V2.PubSub
                 this.RaiseSubscriptionRemoving(client.Session);
 
                 subscription.Dispose();
+
+                request.Unsubscribed();
 
                 this.RaiseSubscriptionRemoved(client.Session);
 
@@ -238,7 +243,7 @@ namespace WampSharp.V2.PubSub
 
             private void OnConnectionClosed(object sender, EventArgs e)
             {
-                mParent.Unsubscribe(mClient as IWampSubscriber);
+                mParent.Unsubscribe(new DisconnectUnsubscribeRequest(mClient));
                 IWampConnectionMonitor monitor = sender as IWampConnectionMonitor;
                 monitor.ConnectionClosed -= OnConnectionClosed;
             }
@@ -246,6 +251,28 @@ namespace WampSharp.V2.PubSub
             public void Dispose()
             {
                 mDisposable.Dispose();
+            }
+
+            private class DisconnectUnsubscribeRequest : IUnsubscribeRequest<TMessage>
+            {
+                private readonly IWampClient<TMessage> mClient;
+
+                public DisconnectUnsubscribeRequest(IWampClient<TMessage> client)
+                {
+                    mClient = client;
+                }
+
+                public IWampClient<TMessage> Client
+                {
+                    get
+                    {
+                        return mClient;
+                    }
+                }
+
+                public void Unsubscribed()
+                {
+                }
             }
         }
 

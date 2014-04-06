@@ -71,10 +71,10 @@ namespace WampSharp.V2.PubSub
         {
             try
             {
-                long subscriptionId =
-                    mRawTopicContainer.Subscribe(subscriber, options, topicUri);
-
-                subscriber.Subscribed(requestId, subscriptionId);
+                SubscribeRequest<TMessage> subscribeRequest = 
+                    new SubscribeRequest<TMessage>(subscriber, requestId);
+                
+                mRawTopicContainer.Subscribe(subscribeRequest, options, topicUri);
             }
             catch (Exception ex)
             {
@@ -86,9 +86,10 @@ namespace WampSharp.V2.PubSub
         {
             try
             {
-                mRawTopicContainer.Unsubscribe(subscriber, subscriptionId);
+                UnsubscribeRequest<TMessage> unsubscribeRequest =
+                    new UnsubscribeRequest<TMessage>(subscriber, requestId, subscriptionId);
 
-                subscriber.Unsubscribed(requestId, subscriptionId);
+                mRawTopicContainer.Unsubscribe(unsubscribeRequest, subscriptionId);
             }
             catch (Exception ex)
             {
