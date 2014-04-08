@@ -56,6 +56,7 @@ namespace WampSharp.WebSocket4Net
 
         private void WebSocketOnError(object sender, ErrorEventArgs e)
         {
+            RaiseConnectionError(e.Exception);
             RaiseConnectionClosed();
         }
 
@@ -76,6 +77,18 @@ namespace WampSharp.WebSocket4Net
         public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
 
         public event EventHandler ConnectionClosed;
+
+        public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
+
+        protected virtual void RaiseConnectionError(Exception ex)
+        {
+            EventHandler<WampConnectionErrorEventArgs> handler = ConnectionError;
+            
+            if (handler != null)
+            {
+                handler(this, new WampConnectionErrorEventArgs(ex));
+            }
+        }
 
         protected virtual void RaiseMessageArrived(WampMessage<TMessage> message)
         {

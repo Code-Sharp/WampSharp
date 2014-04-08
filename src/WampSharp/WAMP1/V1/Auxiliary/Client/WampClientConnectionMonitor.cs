@@ -21,6 +21,7 @@ namespace WampSharp.V1.Auxiliary.Client
         {
             mProxy = serverProxyBuilder.Create(new WampAuxiliaryClient(this), connection);
             connection.ConnectionClosed += OnConnectionLost;
+            connection.ConnectionError += OnConnectionError;
         }
 
         #endregion
@@ -32,6 +33,11 @@ namespace WampSharp.V1.Auxiliary.Client
             RaiseConnectionLost();
 
             // TODO: Reconnection logic.
+        }
+
+        private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
+        {
+            RaiseConnectionError(e.Exception);
         }
 
         private void OnWelcome(string sessionId, int protocolVersion, string serverIdent)
@@ -73,6 +79,17 @@ namespace WampSharp.V1.Auxiliary.Client
             }
         }
 
+
+        private void RaiseConnectionError(Exception exception)
+        {
+            EventHandler<WampConnectionErrorEventArgs> connectionError = ConnectionError;
+
+            if (connectionError != null)
+            {
+                connectionError(this, new WampConnectionErrorEventArgs(exception));
+            }
+        }
+
         public void MapPrefix(string prefix, string uri)
         {
             mProxy.Prefix(null, prefix, uri);
@@ -96,6 +113,8 @@ namespace WampSharp.V1.Auxiliary.Client
 
         public event EventHandler ConnectionLost;
 
+        public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
+        
         #endregion
 
         #region Nested Classes

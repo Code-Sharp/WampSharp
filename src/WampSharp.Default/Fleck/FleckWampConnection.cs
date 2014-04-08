@@ -26,7 +26,7 @@ namespace WampSharp.Fleck
 
         private void OnConnectionError(Exception exception)
         {
-            // throw event :)
+            RaiseConnectionError(exception);
         }
 
         private void OnConnectionClose()
@@ -99,5 +99,16 @@ namespace WampSharp.Fleck
         public event EventHandler ConnectionOpen;
         public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
         public event EventHandler ConnectionClosed;
+        public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
+
+        protected virtual void RaiseConnectionError(Exception ex)
+        {
+            EventHandler<WampConnectionErrorEventArgs> handler = ConnectionError;
+            
+            if (handler != null)
+            {
+                handler(this, new WampConnectionErrorEventArgs(ex));
+            }
+        }
     }
 }

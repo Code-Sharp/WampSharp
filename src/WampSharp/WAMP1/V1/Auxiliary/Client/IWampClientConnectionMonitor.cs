@@ -1,4 +1,5 @@
 ﻿using System;
+using WampSharp.Core.Listener;
 
 namespace WampSharp.V1.Auxiliary.Client
 {
@@ -8,5 +9,6 @@ namespace WampSharp.V1.Auxiliary.Client
         
         event EventHandler<WampConnectionEstablishedEventArgs> ConnectionEstablished;
         event EventHandler ConnectionLost;
+        event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
     }
 }

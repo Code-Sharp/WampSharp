@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Dispatch;
+using System;
+using WampSharp.Core.Dispatch;
 using WampSharp.Core.Listener;
 using WampSharp.V1.Core.Contracts;
 
@@ -11,6 +12,16 @@ namespace WampSharp.V1.Core.Listener
     /// <typeparam name="TMessage"></typeparam>
     public class WampListener<TMessage> : WampListener<TMessage, IWampClient>
     {
+        /// <summary>
+        /// Occurs when a WAMP session is created.
+        /// </summary>
+    	public event EventHandler<WampSessionEventArgs> SessionCreated;
+
+        /// <summary>
+        /// Occurs when a WAMP session is closed.
+        /// </summary>
+        public event EventHandler<WampSessionEventArgs> SessionClosed;
+    	
         /// <summary>
         /// Creates a new instance of <see cref="WampListener{TMessage}"/>
         /// </summary>
@@ -34,6 +45,36 @@ namespace WampSharp.V1.Core.Listener
             IWampClient client = ClientContainer.GetClient(connection);
 
             client.Welcome(client.SessionId, 1, "WampSharp");
+            
+            RaiseSessionCreated(client);
+        }
+
+        private void RaiseSessionCreated(IWampClient client)
+        {
+            EventHandler<WampSessionEventArgs> sessionCreated = SessionCreated;
+
+            if (sessionCreated != null)
+            {
+                sessionCreated(this, new WampSessionEventArgs(client.SessionId));
+            }
+        }
+
+        protected override void OnCloseConnection(IWampConnection<TMessage> connection)
+        {
+            RaiseSessionClosed(connection);
+
+            base.OnCloseConnection(connection);
+        }
+
+        private void RaiseSessionClosed(IWampConnection<TMessage> connection)
+        {
+            EventHandler<WampSessionEventArgs> sessionClosed = SessionClosed;
+
+            if (sessionClosed != null)
+            {
+                IWampClient client = ClientContainer.GetClient(connection);
+                sessionClosed(this, new WampSessionEventArgs(client.SessionId));
+            }
         }
     }
 }

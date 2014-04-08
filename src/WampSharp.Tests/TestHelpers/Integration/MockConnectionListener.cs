@@ -91,6 +91,19 @@ namespace WampSharp.Tests.TestHelpers.Integration
                     mConnection.SideAToSideB.ConnectionClosed -= value;
                 }                
             }
+
+            public event EventHandler<WampConnectionErrorEventArgs> ConnectionError
+            {
+                add
+                {
+                    mConnection.SideAToSideB.ConnectionError += value;
+                }
+                remove
+                {
+                    mConnection.SideAToSideB.ConnectionError -= value;
+                }
+            }
+
         }
     }
 }

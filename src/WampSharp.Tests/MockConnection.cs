@@ -64,10 +64,9 @@ namespace WampSharp.Tests
             }
 
             public event EventHandler ConnectionOpen;
-            public event EventHandler ConnectionOpening;
             public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
-            public event EventHandler ConnectionClosing;
             public event EventHandler ConnectionClosed;
+            public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
 
             public void RaiseConnectionOpen()
             {

@@ -66,6 +66,12 @@
     <Compile Include="..\..\WampSharp\Core\Contracts\WampRawHandlerAttribute.cs">
       <Link>Core\Contracts\WampRawHandlerAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\Core\Listener\Connections\WampConnectionErrorEventArgs.cs">
+      <Link>Core\Listener\Connections\WampConnectionErrorEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP1\V1\Core\Listener\WampSessionEventArgs.cs">
+      <Link>WAMP1\V1\Core\Listener\WampSessionEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP1\V2\Adapters\Wamp1BindingHost.cs">
       <Link>WAMP1\V2\Adapters\Wamp1BindingHost.cs</Link>
     </Compile>

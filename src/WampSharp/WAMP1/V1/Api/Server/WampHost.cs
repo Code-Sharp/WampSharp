@@ -19,6 +19,30 @@ namespace WampSharp.V1
         private WampListener<TMessage> mListener;
         private readonly WampRpcMetadataCatalog mMetadataCatalog;
         private readonly IWampTopicContainerExtended<TMessage> mTopicContainer;
+        
+        public event EventHandler<WampSessionEventArgs> SessionCreated
+        {
+            add
+            {
+                mListener.SessionCreated += value;
+            }
+            remove
+            {
+                mListener.SessionCreated -= value;
+            }
+        }
+
+        public event EventHandler<WampSessionEventArgs> SessionClosed
+        {
+            add
+            {
+                mListener.SessionClosed += value;
+            }
+            remove
+            {
+                mListener.SessionClosed -= value;
+            }
+        }
 
         public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
         {
@@ -33,7 +57,7 @@ namespace WampSharp.V1
             mServer = new DefaultWampServer<TMessage>(rpcServer, pubSubServer, auxiliaryServer);
 
             mListener = GetWampListener(connectionListener, formatter, mServer);
-        }
+		}
 
         private static WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter, IWampServer<TMessage> server)
         {
@@ -100,6 +124,16 @@ namespace WampSharp.V1
         public void HostService(object instance, string baseUri)
         {
             mMetadataCatalog.Register(new MethodInfoWampRpcMetadata(instance, baseUri));
+        }
+        
+        public void Register(IWampRpcMetadata rpcMetadata)
+        {
+            mMetadataCatalog.Register(rpcMetadata);
+        }
+        
+        public void Unregister(IWampRpcMethod method)
+        {
+            mMetadataCatalog.Unregister(method);
         }
 
         public IWampTopicContainer TopicContainer

@@ -1,5 +1,6 @@
 using System;
 using WampSharp.Core.Message;
+using WampSharp.V1.Auxiliary.Client;
 
 namespace WampSharp.Core.Listener
 {
@@ -14,5 +15,6 @@ namespace WampSharp.Core.Listener
         event EventHandler ConnectionOpen;
         event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
         event EventHandler ConnectionClosed;
+        event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
     }
 }

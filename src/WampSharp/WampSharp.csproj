@@ -64,6 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Contracts\WampRawHandlerAttribute.cs" />
+    <Compile Include="Core\Listener\Connections\WampConnectionErrorEventArgs.cs" />
+    <Compile Include="WAMP1\V1\Core\Listener\WampSessionEventArgs.cs" />
     <Compile Include="WAMP1\V2\Adapters\Wamp1BindingHost.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampPubSubServerAdapter.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampRpcServerAdapter.cs" />
