@@ -69,6 +69,7 @@
     <Compile Include="Auxiliary\Client\IWampClientConnectionMonitor.cs" />
     <Compile Include="Auxiliary\Client\WampAuxiliaryClientFactory.cs" />
     <Compile Include="Auxiliary\Client\WampClientConnectionMonitor.cs" />
+    <Compile Include="Auxiliary\Client\WampConnectionErrorEventArgs.cs" />
     <Compile Include="Auxiliary\Client\WampConnectionEstablishedEventArgs.cs" />
     <Compile Include="Auxiliary\Server\WampAuxiliaryServer.cs" />
     <Compile Include="Core\Client\IWampServerProxyBuilder.cs" />

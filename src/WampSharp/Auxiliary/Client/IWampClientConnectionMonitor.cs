@@ -8,5 +8,6 @@ namespace WampSharp.Auxiliary.Client
         
         event EventHandler<WampConnectionEstablishedEventArgs> ConnectionEstablished;
         event EventHandler ConnectionLost;
+        event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
     }
 }

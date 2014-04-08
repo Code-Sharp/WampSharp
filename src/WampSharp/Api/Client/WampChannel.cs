@@ -72,16 +72,27 @@ namespace WampSharp
 
         public Task OpenAsync()
         {
-            var observable =
+            var connectedObservable =
                 Observable.FromEventPattern<WampConnectionEstablishedEventArgs>
                     (x => mConnectionMonitor.ConnectionEstablished += x,
                      x => mConnectionMonitor.ConnectionEstablished -= x)
                           .Select(x => Unit.Default);
 
-            IObservable<Unit> firstConnection =
-                observable.Take(1);
+            var errorObservable = 
+                Observable.FromEventPattern<WampConnectionErrorEventArgs>
+                    (x => mConnectionMonitor.ConnectionError += x,
+                     x => mConnectionMonitor.ConnectionError -= x)
+                          .Select(x => Unit.Default);
 
-            Task task = firstConnection.ToTask();
+            // Combining the observables and propagating the one that reatcs first
+            // because we have to complete the task either when a connection is established or
+            // an error (i.e. exception) occurs.
+            IObservable<Unit> combined = connectedObservable.Amb(errorObservable);
+
+            IObservable<Unit> firstConnectionOrError =
+                combined.Take(1);
+
+            Task task = firstConnectionOrError.ToTask();
 
             mConnection.Connect();
             
