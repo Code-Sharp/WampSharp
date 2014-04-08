@@ -91,6 +91,9 @@
     <Compile Include="..\..\WampSharp\Auxiliary\Client\WampClientConnectionMonitor.cs">
       <Link>Auxiliary\Client\WampClientConnectionMonitor.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\Auxiliary\Client\WampConnectionErrorEventArgs.cs">
+      <Link>Auxiliary\Client\WampConnectionErrorEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\Auxiliary\Client\WampConnectionEstablishedEventArgs.cs">
       <Link>Auxiliary\Client\WampConnectionEstablishedEventArgs.cs</Link>
     </Compile>
