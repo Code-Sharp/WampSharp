@@ -105,6 +105,8 @@ namespace WampSharp.V2.PubSub
 
             RemoteObserver observer = new RemoteObserver(client);
             
+            // TODO: race conition: events are allowed to be sent only after client
+            // TODO: received the SUBSCRIBED message.
             IDisposable disposable = mSubject.Subscribe(observer);
             
             Subscription subscription = new Subscription(this, client, disposable);

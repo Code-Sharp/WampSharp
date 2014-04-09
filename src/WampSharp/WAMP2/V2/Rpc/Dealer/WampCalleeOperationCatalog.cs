@@ -32,6 +32,8 @@ namespace WampSharp.V2.Rpc
 
             operation.RegistrationId = registrationId; // Hate this setter.
 
+            // TODO: race condition: we can only to allow these requests
+            // TODO: after the callee gets the "registered" message.
             mCatalog.Register(operation);
 
             return registrationId;
@@ -81,6 +83,10 @@ namespace WampSharp.V2.Rpc
             {
                 IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;
                 monitor.ConnectionClosed -= OnClientDisconnect;
+
+                // TODO: notify the handler about disconnection, so
+                // TODO: it will remove all pending requests
+                // TODO: and send errors.
 
                 mCatalog.Unregister(Callee, RegistrationId);
             }
