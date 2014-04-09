@@ -35,6 +35,9 @@ namespace WampSharp.V2.Rpc
             // TODO: race condition: we can only to allow these requests
             // TODO: after the callee gets the "registered" message.
             mCatalog.Register(operation);
+            
+            // TODO: If the catalog throws an exception, remove the operation
+            // TODO: from mRegistrationIdToOperation
 
             return registrationId;
         }
