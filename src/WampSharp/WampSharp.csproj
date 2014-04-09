@@ -90,6 +90,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Proxy\IWampServerProxy.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Proxy\IWampSessionProxy.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\Binding\IWampBindingHost.cs" />
+    <Compile Include="WAMP2\V2\Core\Listener\Binding\WampBinding.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs" />
     <Compile Include="Core\Listener\Connections\WampMessageArrivedEventArgs.cs" />
     <Compile Include="Core\Proxy\WampRawOutgoingInterceptor.cs" />

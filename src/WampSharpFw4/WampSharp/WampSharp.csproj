@@ -144,6 +144,9 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\Binding\IWampBindingHost.cs">
       <Link>WAMP2\V2\Core\Listener\Binding\IWampBindingHost.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\Binding\WampBinding.cs">
+      <Link>WAMP2\V2\Core\Listener\Binding\WampBinding.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs">
       <Link>WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs</Link>
     </Compile>

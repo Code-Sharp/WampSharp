@@ -104,9 +104,6 @@
     <Compile Include="..\..\WampSharp.Default\WAMP1\V1\Wamp1Binding.cs">
       <Link>WAMP1\V1\Wamp1Binding.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.Default\WAMP2\Binding\Contracts\WampBinding.cs">
-      <Link>WAMP2\Binding\Contracts\WampBinding.cs</Link>
-    </Compile>
     <Compile Include="..\..\WampSharp.Default\WAMP2\Binding\Messages\BinaryMessage.cs">
       <Link>WAMP2\Binding\Messages\BinaryMessage.cs</Link>
     </Compile>

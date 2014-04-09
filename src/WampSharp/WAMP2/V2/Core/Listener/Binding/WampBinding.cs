@@ -1,11 +1,9 @@
 ﻿using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
-using WampSharp.V2;
-using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Realm;
 
-namespace WampSharp.Binding
+namespace WampSharp.V2.Core.Listener
 {
     public abstract class WampBinding<TMessage> : IWampBinding<TMessage>
     {
