@@ -139,7 +139,7 @@ namespace WampSharp.Tests.Wampv2
                                                         BindingFlags.Public);
 
                 IEnumerable<WampMessage<MockRaw>> calls =
-                    callsProperty.GetValue(null) as IEnumerable<WampMessage<MockRaw>>;
+                    callsProperty.GetValue(null, null) as IEnumerable<WampMessage<MockRaw>>;
 
                 Registration[] registration =
                     calls.Where(x => x.MessageType == WampMessageType.v2Register)
@@ -164,7 +164,7 @@ namespace WampSharp.Tests.Wampv2
                                                         BindingFlags.Public);
 
                 IEnumerable<WampMessage<MockRaw>> calls =
-                    callsProperty.GetValue(null) as IEnumerable<WampMessage<MockRaw>>;
+                    callsProperty.GetValue(null, null) as IEnumerable<WampMessage<MockRaw>>;
 
                 IEnumerable<Call> callsToCall =
                     calls.Where(x => x.MessageType == WampMessageType.v2Call)
