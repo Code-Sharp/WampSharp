@@ -2,7 +2,7 @@
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
 
-namespace WampSharp.Test.Wampv2
+namespace WampSharp.Tests.Wampv2.TestHelpers
 {
     public class PubSub
     {

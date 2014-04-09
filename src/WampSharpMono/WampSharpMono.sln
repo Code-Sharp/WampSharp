@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RpcServerSample",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RawTcp", "WampSharp.RawTcp\WampSharp.RawTcp.csproj", "{678473BD-87FC-4788-A444-4ABF45FDCFEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Test.Wampv2", "WampSharp.Test.Wampv2\WampSharp.Test.Wampv2.csproj", "{710B61C1-E7E0-4D8F-BF39-F82086D610ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Tests.Wampv2", "WampSharp.Test.Wampv2\WampSharp.Tests.Wampv2.csproj", "{710B61C1-E7E0-4D8F-BF39-F82086D610ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

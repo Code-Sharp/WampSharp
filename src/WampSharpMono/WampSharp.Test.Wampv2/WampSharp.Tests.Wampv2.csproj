@@ -7,8 +7,8 @@
     <ProjectGuid>{710B61C1-E7E0-4D8F-BF39-F82086D610ED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WampSharp.Test.Wampv2</RootNamespace>
-    <AssemblyName>WampSharp.Test.Wampv2</AssemblyName>
+    <RootNamespace>WampSharp.Tests.Wampv2</RootNamespace>
+    <AssemblyName>WampSharp.Tests.Wampv2</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq, Version=4.2.1402.2112, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,11 +47,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Rpc.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PubSub.cs" />
+    <Compile Include="..\..\WampSharp.Test.Wampv2\Binding\MockBinding.cs">
+      <Link>Binding\MockBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Test.Wampv2\Binding\MockWampMessage.cs">
+      <Link>Binding\MockWampMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Test.Wampv2\Dealer\Call.cs">
+      <Link>Dealer\Call.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Test.Wampv2\Dealer\Registration.cs">
+      <Link>Dealer\Registration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Test.Wampv2\Dealer\DealerTests.cs">
+      <Link>Dealer\DealerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Test.Wampv2\TestHelpers\Rpc.cs">
+      <Link>TestHelpers\Rpc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Test.Wampv2\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Test.Wampv2\TestHelpers\PubSub.cs">
+      <Link>TestHelpers\PubSub.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WampSharp.Default\WampSharp.Default.csproj">
+      <Project>{6AB75291-D296-457E-88A3-B41B16A1A247}</Project>
+      <Name>WampSharp.Default</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WampSharp.Tests\WampSharp.Tests.csproj">
       <Project>{D3FB3310-A761-45B5-AC4B-78FE90C2829C}</Project>
       <Name>WampSharp.Tests</Name>
@@ -52,6 +85,9 @@
       <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>
       <Name>WampSharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

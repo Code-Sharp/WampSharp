@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
 
-namespace WampSharp.Test.Wampv2
+namespace WampSharp.Tests.Wampv2.TestHelpers
 {
     public class Rpc
     {
@@ -903,7 +903,7 @@ new object[] {
                     }
                     mRequest13 = new WampMessage<MockRaw>();
                     {
-                        mRequest13.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest13.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
@@ -1169,7 +1169,7 @@ new object[] {
                     }
                     mRequest13 = new WampMessage<MockRaw>();
                     {
-                        mRequest13.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest13.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
@@ -1509,7 +1509,7 @@ new object[] {
                     }
                     mRequest3 = new WampMessage<MockRaw>();
                     {
-                        mRequest3.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest3.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
@@ -1601,7 +1601,7 @@ new object[] {
                     }
                     mRequest3 = new WampMessage<MockRaw>();
                     {
-                        mRequest3.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest3.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
@@ -1705,7 +1705,7 @@ new object[] {
                     }
                     mRequest3 = new WampMessage<MockRaw>();
                     {
-                        mRequest3.MessageType = WampMessageType.v1Event;
+                        mRequest3.MessageType = WampMessageType.v2Error;
                         MockRaw[] arguments = new MockRaw[5];
                         arguments[0] = new MockRaw(68);
                         arguments[1] = new MockRaw(7260234764466627);
@@ -1720,7 +1720,7 @@ new object[] {
                     }
                     mRequest4 = new WampMessage<MockRaw>();
                     {
-                        mRequest4.MessageType = WampMessageType.v1Event;
+                        mRequest4.MessageType = WampMessageType.v2Error;
                         MockRaw[] arguments = new MockRaw[6];
                         arguments[0] = new MockRaw(68);
                         arguments[1] = new MockRaw(2198486081163059);
@@ -1952,7 +1952,7 @@ new object[] {
                     }
                     mRequest4 = new WampMessage<MockRaw>();
                     {
-                        mRequest4.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest4.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
@@ -2028,7 +2028,7 @@ new object[] {
                     }
                     mRequest2 = new WampMessage<MockRaw>();
                     {
-                        mRequest2.MessageType = WampMessageType.v1Event;
+                        mRequest2.MessageType = WampMessageType.v2Error;
                         MockRaw[] arguments = new MockRaw[5];
                         arguments[0] = new MockRaw(48);
                         arguments[1] = new MockRaw(8012652739559424);
@@ -2043,7 +2043,7 @@ new object[] {
                     }
                     mRequest3 = new WampMessage<MockRaw>();
                     {
-                        mRequest3.MessageType = WampMessageType.v1Event;
+                        mRequest3.MessageType = WampMessageType.v2Error;
                         MockRaw[] arguments = new MockRaw[6];
                         arguments[0] = new MockRaw(48);
                         arguments[1] = new MockRaw(3778261177860096);
@@ -2063,7 +2063,7 @@ new object[] {
                     }
                     mRequest4 = new WampMessage<MockRaw>();
                     {
-                        mRequest4.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest4.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
@@ -2880,7 +2880,7 @@ new object[] {
                     }
                     mRequest2 = new WampMessage<MockRaw>();
                     {
-                        mRequest2.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest2.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
@@ -2997,7 +2997,7 @@ new object[] {
                     }
                     mRequest5 = new WampMessage<MockRaw>();
                     {
-                        mRequest5.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest5.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
@@ -3318,7 +3318,7 @@ new object[] {
                     }
                     mRequest3 = new WampMessage<MockRaw>();
                     {
-                        mRequest3.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest3.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
@@ -3405,7 +3405,7 @@ new object[] {
                     }
                     mRequest3 = new WampMessage<MockRaw>();
                     {
-                        mRequest3.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest3.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
@@ -3649,7 +3649,7 @@ new DateTime(2014, 4, 8, 19, 48, 36, 956),
                     }
                     mRequest2 = new WampMessage<MockRaw>();
                     {
-                        mRequest2.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest2.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
@@ -3721,7 +3721,7 @@ new DateTime(2014, 4, 8, 19, 48, 36, 956),
                     }
                     mRequest2 = new WampMessage<MockRaw>();
                     {
-                        mRequest2.MessageType = WampMessageType.v1Unsubscribe;
+                        mRequest2.MessageType = WampMessageType.v2Goodbye;
                         MockRaw[] arguments = new MockRaw[2];
                         arguments[0] = new MockRaw(new
                         {
