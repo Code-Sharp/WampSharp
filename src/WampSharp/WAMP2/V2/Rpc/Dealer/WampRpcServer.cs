@@ -52,7 +52,6 @@ namespace WampSharp.V2.Rpc
 
         public void Call(IWampCaller caller, long requestId, TMessage options, string procedure)
         {
-            // TODO: clean requests of disconnected callers.
             IWampRpcOperationCallback callback = GetCallback(caller, requestId);
 
             mInvoker.Invoke(callback, mFormatter, options, procedure);

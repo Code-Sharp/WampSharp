@@ -141,7 +141,7 @@
     <Compile Include="WAMP1\V1\Core\Curie\IWampCurieMapper.cs" />
     <Compile Include="WAMP1\V1\Core\Curie\WampCurieMapper.cs" />
     <Compile Include="Core\Dispatch\Handler\DelegateCache.cs" />
-    <Compile Include="Core\Dispatch\Handler\DictionaryExtensions.cs" />
+    <Compile Include="Core\Utilities\DictionaryExtensions.cs" />
     <Compile Include="Core\Dispatch\Handler\IMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\IWampRequestMapper.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodBuilder.cs" />
@@ -290,6 +290,7 @@
     <Compile Include="WAMP2\V2\Realm\WampRealm.cs" />
     <Compile Include="WAMP2\V2\Realm\WampRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Interfaces\ICallbackDisconnectionNotifier.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IRegisterRequest.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\RegisterRequest.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs" />

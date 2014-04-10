@@ -297,8 +297,8 @@
     <Compile Include="..\..\WampSharp\Core\Dispatch\Handler\DelegateCache.cs">
       <Link>Core\Dispatch\Handler\DelegateCache.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\Core\Dispatch\Handler\DictionaryExtensions.cs">
-      <Link>Core\Dispatch\Handler\DictionaryExtensions.cs</Link>
+    <Compile Include="..\..\WampSharp\Core\Utilities\DictionaryExtensions.cs">
+      <Link>Core\Utilities\DictionaryExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Dispatch\Handler\IMethodBuilder.cs">
       <Link>Core\Dispatch\Handler\IMethodBuilder.cs</Link>
@@ -743,6 +743,9 @@
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\ICallbackDisconnectionNotifier.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\ICallbackDisconnectionNotifier.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IRegisterRequest.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IRegisterRequest.cs</Link>

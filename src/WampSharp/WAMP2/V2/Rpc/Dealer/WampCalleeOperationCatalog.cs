@@ -25,8 +25,11 @@ namespace WampSharp.V2.Rpc
         public long Register(IRegisterRequest request, TMessage options, string procedure)
         {
             WampCalleeRpcOperation operation =
-                new WampCalleeRpcOperation(procedure, request.Callee, options,
-                                           mInvocationHandler, this);
+                new WampCalleeRpcOperation(procedure,
+                                           request.Callee,
+                                           options,
+                                           mInvocationHandler,
+                                           this);
 
             long registrationId = 
                 mRegistrationIdToOperation.Add(operation);
@@ -70,6 +73,7 @@ namespace WampSharp.V2.Rpc
 
             mRegistrationIdToOperation.TryRemove(registrationId, out operation);
             mCatalog.Unregister(operation);
+            mInvocationHandler.Unregistered(operation);
         }
 
         private class WampCalleeRpcOperation : IWampRpcOperation<TMessage>,
@@ -100,11 +104,8 @@ namespace WampSharp.V2.Rpc
                 IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;
                 monitor.ConnectionClosed -= OnClientDisconnect;
 
-                // TODO: notify the handler about disconnection, so
-                // TODO: it will remove all pending requests
-                // TODO: and send errors.
-
                 mCatalog.Unregister(Callee, RegistrationId);
+                mHandler.Unregistered(this);
             }
 
             public string Procedure
@@ -173,7 +174,7 @@ namespace WampSharp.V2.Rpc
                 mResetEvent.WaitOne();
 
                 long requestId = 
-                    mHandler.RegisterInvocation(caller, options);
+                    mHandler.RegisterInvocation(this, caller, options);
 
                 Callee.Invocation(requestId, RegistrationId, options);
             }
@@ -183,7 +184,7 @@ namespace WampSharp.V2.Rpc
                 mResetEvent.WaitOne();
 
                 long requestId = 
-                    mHandler.RegisterInvocation(caller, options, arguments);
+                    mHandler.RegisterInvocation(this, caller, options, arguments);
 
                 Callee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray());
             }
@@ -193,7 +194,7 @@ namespace WampSharp.V2.Rpc
                 mResetEvent.WaitOne();
 
                 long requestId = 
-                    mHandler.RegisterInvocation(caller, options, arguments, argumentsKeywords);
+                    mHandler.RegisterInvocation(this, caller, options, arguments, argumentsKeywords);
 
                 Callee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray(), argumentsKeywords);
             }
@@ -207,6 +208,9 @@ namespace WampSharp.V2.Rpc
 
             public void Open()
             {
+                // TODO: Race condition: What happens if the callee registers and disconnects
+                // TODO: quickly? in this case the invoke will be called after OnClientDisconnect
+                // TODO: was called. Problematic.
                 mResetEvent.Set();
             }
         }

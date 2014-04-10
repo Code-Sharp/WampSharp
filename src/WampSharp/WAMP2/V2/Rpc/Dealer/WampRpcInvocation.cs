@@ -2,24 +2,34 @@
 {
     internal class WampRpcInvocation<TMessage>
     {
-        private readonly IWampRpcOperationCallback mCaller;
+        private readonly IWampRpcOperation mOperation;
+        private readonly IWampRpcOperationCallback mCallback;
         private readonly TMessage mOptions;
         private readonly TMessage[] mArguments;
         private readonly TMessage mArgumentsKeywords;
 
-        public WampRpcInvocation(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+        public WampRpcInvocation(IWampRpcOperation operation, IWampRpcOperationCallback callback, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            mCaller = caller;
+            mOperation = operation;
+            mCallback = callback;
             mOptions = options;
             mArguments = arguments;
             mArgumentsKeywords = argumentsKeywords;
         }
 
-        public IWampRpcOperationCallback Caller
+        public IWampRpcOperation Operation
         {
             get
             {
-                return mCaller;
+                return mOperation;
+            }
+        }
+
+        public IWampRpcOperationCallback Callback
+        {
+            get
+            {
+                return mCallback;
             }
         }
 
