@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Reactive.Subjects;
+using System.Threading;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Core.Contracts;
@@ -114,6 +115,8 @@ namespace WampSharp.V2.PubSub
             mSesssionIdToSubscription.TryAdd(client.Session, subscription);
 
             request.Subscribed(this.SubscriptionId);
+
+            observer.Open();
 
             this.RaiseSubscriptionAdded(remoteSubscriber, options);
         }
@@ -280,6 +283,8 @@ namespace WampSharp.V2.PubSub
 
         private class RemoteObserver : IObserver<WampMessage<TMessage>>
         {
+            private bool mOpen = false;
+
             private readonly IWampRawClient<TMessage> mClient;
 
             public RemoteObserver(IWampRawClient<TMessage> client)
@@ -289,7 +294,15 @@ namespace WampSharp.V2.PubSub
 
             public void OnNext(WampMessage<TMessage> value)
             {
-                mClient.Message(value);
+                if (mOpen)
+                {
+                    mClient.Message(value);                    
+                }
+            }
+
+            public void Open()
+            {
+                mOpen = true;
             }
 
             public void OnError(Exception error)

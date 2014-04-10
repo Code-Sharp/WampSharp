@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
@@ -21,10 +22,10 @@ namespace WampSharp.V2.Rpc
             mInvocationHandler = invocationHandler;
         }
 
-        public long Register(IWampCallee callee, TMessage options, string procedure)
+        public long Register(IRegisterRequest request, TMessage options, string procedure)
         {
             WampCalleeRpcOperation operation =
-                new WampCalleeRpcOperation(procedure, callee, options,
+                new WampCalleeRpcOperation(procedure, request.Callee, options,
                                            mInvocationHandler, this);
 
             long registrationId = 
@@ -32,14 +33,25 @@ namespace WampSharp.V2.Rpc
 
             operation.RegistrationId = registrationId; // Hate this setter.
 
-            // TODO: race condition: we can only to allow these requests
-            // TODO: after the callee gets the "registered" message.
-            mCatalog.Register(operation);
-            
-            // TODO: If the catalog throws an exception, remove the operation
-            // TODO: from mRegistrationIdToOperation
+            try
+            {
+                mCatalog.Register(operation);
 
-            return registrationId;
+                request.Registered(registrationId);
+
+                operation.Open();
+
+                return registrationId;
+            }
+            catch (Exception ex)
+            {
+                WampCalleeRpcOperation removedOperation;
+
+                mRegistrationIdToOperation.TryRemove
+                    (registrationId, out removedOperation);
+
+                throw;
+            }
         }
 
         public void Unregister(IWampCallee callee, long registrationId)
@@ -63,6 +75,7 @@ namespace WampSharp.V2.Rpc
         private class WampCalleeRpcOperation : IWampRpcOperation<TMessage>,
             IWampRpcOperation
         {
+            private readonly ManualResetEvent mResetEvent = new ManualResetEvent(false);
             private readonly IWampCallee mCallee;
             private readonly IWampCalleeInvocationHandler<TMessage> mHandler;
             private readonly WampCalleeOperationCatalog<TMessage> mCatalog;
@@ -82,7 +95,7 @@ namespace WampSharp.V2.Rpc
                 monitor.ConnectionClosed += OnClientDisconnect;
             }
 
-            private void OnClientDisconnect(object sender, System.EventArgs e)
+            private void OnClientDisconnect(object sender, EventArgs e)
             {
                 IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;
                 monitor.ConnectionClosed -= OnClientDisconnect;
@@ -157,6 +170,8 @@ namespace WampSharp.V2.Rpc
 
             public void Invoke(IWampRpcOperationCallback caller, TMessage options)
             {
+                mResetEvent.WaitOne();
+
                 long requestId = 
                     mHandler.RegisterInvocation(caller, options);
 
@@ -165,6 +180,8 @@ namespace WampSharp.V2.Rpc
 
             public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments)
             {
+                mResetEvent.WaitOne();
+
                 long requestId = 
                     mHandler.RegisterInvocation(caller, options, arguments);
 
@@ -173,6 +190,8 @@ namespace WampSharp.V2.Rpc
 
             public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
             {
+                mResetEvent.WaitOne();
+
                 long requestId = 
                     mHandler.RegisterInvocation(caller, options, arguments, argumentsKeywords);
 
@@ -184,6 +203,11 @@ namespace WampSharp.V2.Rpc
                 return arguments.Select(x =>
                                         formatter.Deserialize<TMessage>(x))
                                 .ToArray();
+            }
+
+            public void Open()
+            {
+                mResetEvent.Set();
             }
         }
     }

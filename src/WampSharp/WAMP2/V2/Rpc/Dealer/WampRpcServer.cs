@@ -28,8 +28,8 @@ namespace WampSharp.V2.Rpc
         {
             try
             {
-                long registrationId = mCalleeCatalog.Register(callee, options, procedure);
-                callee.Registered(requestId, registrationId);
+                RegisterRequest registerRequest = new RegisterRequest(callee, requestId);
+                mCalleeCatalog.Register(registerRequest, options, procedure);
             }
             catch (Exception exception)
             {

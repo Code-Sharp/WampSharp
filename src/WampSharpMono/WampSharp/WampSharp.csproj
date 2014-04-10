@@ -744,6 +744,12 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IRegisterRequest.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IRegisterRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Dealer\RegisterRequest.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\RegisterRequest.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs</Link>
     </Compile>
