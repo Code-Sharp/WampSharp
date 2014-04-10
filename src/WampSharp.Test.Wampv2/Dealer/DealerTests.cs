@@ -87,6 +87,7 @@ namespace WampSharp.Tests.Wampv2
             Mock<IWampRpcOperationCatalog> catalog = new Mock<IWampRpcOperationCatalog>();
 
             Mock<IWampCaller> caller = new Mock<IWampCaller>();
+            caller.As<IWampConnectionMonitor>();
 
             WampRpcServer<MockRaw> server =
                 new WampRpcServer<MockRaw>
