@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using WampSharp.Core.Listener;
@@ -79,12 +80,15 @@ namespace WampSharp.V2.Rpc
         private class WampCalleeRpcOperation : IWampRpcOperation<TMessage>,
             IWampRpcOperation
         {
+            private const string CalleeDisconnected = "wamp.error.callee_disconnected";
+            private readonly ReaderWriterLockSlim mLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
             private readonly ManualResetEvent mResetEvent = new ManualResetEvent(false);
             private readonly IWampCallee mCallee;
             private readonly IWampCalleeInvocationHandler<TMessage> mHandler;
             private readonly WampCalleeOperationCatalog<TMessage> mCatalog;
             private readonly string mProcedure;
             private readonly TMessage mOptions;
+            private bool mClientDisconnected = false;
 
             public WampCalleeRpcOperation(string procedure, IWampCallee callee, TMessage options, IWampCalleeInvocationHandler<TMessage> handler,
                 WampCalleeOperationCatalog<TMessage> catalog)
@@ -101,11 +105,22 @@ namespace WampSharp.V2.Rpc
 
             private void OnClientDisconnect(object sender, EventArgs e)
             {
-                IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;
-                monitor.ConnectionClosed -= OnClientDisconnect;
+                try
+                {
+                    mLock.EnterWriteLock();
 
-                mCatalog.Unregister(Callee, RegistrationId);
-                mHandler.Unregistered(this);
+                    mClientDisconnected = true;
+
+                    IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;
+                    monitor.ConnectionClosed -= OnClientDisconnect;
+
+                    mCatalog.Unregister(Callee, RegistrationId);
+                    mHandler.Unregistered(this);
+                }
+                finally
+                {
+                    mLock.ExitWriteLock();
+                }
             }
 
             public string Procedure
@@ -171,32 +186,66 @@ namespace WampSharp.V2.Rpc
 
             public void Invoke(IWampRpcOperationCallback caller, TMessage options)
             {
-                mResetEvent.WaitOne();
+                InvokePattern(caller, () => InnerInvoke(caller, options));
+            }
 
-                long requestId = 
+            public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments)
+            {
+                InvokePattern(caller, () => InnerInvoke(caller, options, arguments));
+            }
+
+            public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+            {
+                InvokePattern(caller, () => InnerInvoke(caller, options, arguments, argumentsKeywords));
+            }
+
+            private void InnerInvoke(IWampRpcOperationCallback caller, TMessage options)
+            {
+                long requestId =
                     mHandler.RegisterInvocation(this, caller, options);
 
                 Callee.Invocation(requestId, RegistrationId, options);
             }
 
-            public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments)
+            private void InnerInvoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments)
             {
-                mResetEvent.WaitOne();
-
-                long requestId = 
+                long requestId =
                     mHandler.RegisterInvocation(this, caller, options, arguments);
 
                 Callee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray());
             }
 
-            public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+            private void InnerInvoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments,
+                                     TMessage argumentsKeywords)
             {
-                mResetEvent.WaitOne();
-
-                long requestId = 
+                long requestId =
                     mHandler.RegisterInvocation(this, caller, options, arguments, argumentsKeywords);
 
                 Callee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray(), argumentsKeywords);
+            }
+
+            private void InvokePattern(IWampRpcOperationCallback caller, Action action)
+            {
+                mResetEvent.WaitOne();
+
+                try
+                {
+                    mLock.EnterReadLock();
+
+                    if (!mClientDisconnected)
+                    {
+                        action();
+                    }
+                    else
+                    {
+                        caller.Error(new Dictionary<string, string>(),
+                                     CalleeDisconnected);
+                    }
+                }
+                finally
+                {
+                    mLock.ExitReadLock();
+                }
             }
 
             private static TMessage[] CastArguments<TOther>(IWampFormatter<TOther> formatter, TOther[] arguments)
