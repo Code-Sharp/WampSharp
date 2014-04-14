@@ -13,7 +13,7 @@ namespace WampSharp.V2.Core.Contracts
         void Publish([WampProxyParameter]IWampPublisher publisher, long requestId, TMessage options, string topicUri, TMessage[] arguments, TMessage argumentKeywords);
         [WampHandler(WampMessageType.v2Subscribe)]
         void Subscribe([WampProxyParameter]IWampSubscriber subscriber, long requestId, TMessage options, string topicUri);
-        [WampHandler(WampMessageType.v2Subscribe)]
+        [WampHandler(WampMessageType.v2Unsubscribe)]
         void Unsubscribe([WampProxyParameter]IWampSubscriber subscriber, long requestId, long subscriptionId);
     }
 }
