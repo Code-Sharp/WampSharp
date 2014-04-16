@@ -101,14 +101,11 @@
     <Compile Include="..\..\WampSharp.Default\Json2Msgpack\MsgPackToJTokenProcessor.cs">
       <Link>Json2Msgpack\MsgPackToJTokenProcessor.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Default\Newtonsoft\IWampMessageFormatter.cs">
+      <Link>Newtonsoft\IWampMessageFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Default\WAMP1\V1\Wamp1Binding.cs">
       <Link>WAMP1\V1\Wamp1Binding.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.Default\WAMP2\Binding\Messages\BinaryMessage.cs">
-      <Link>WAMP2\Binding\Messages\BinaryMessage.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.Default\WAMP2\Binding\Contracts\JsonBinding.cs">
-      <Link>WAMP2\Binding\Contracts\JsonBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Default\WAMP2\Binding\JTokenBinding.cs">
       <Link>WAMP2\Binding\JTokenBinding.cs</Link>
@@ -121,9 +118,6 @@
     </Compile>
     <Compile Include="..\..\WampSharp.Default\MsgPack\MessagePackParser.cs">
       <Link>MsgPack\MessagePackParser.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.Default\WAMP2\Binding\Messages\TextMessage.cs">
-      <Link>WAMP2\Binding\Messages\TextMessage.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Default\WAMP1\V1\DefaultWampChannelFactory.cs">
       <Link>WAMP1\V1\DefaultWampChannelFactory.cs</Link>
@@ -148,9 +142,6 @@
     </Compile>
     <Compile Include="..\..\WampSharp.Default\WAMP1\V1\WampChannelFactoryExtensions.cs">
       <Link>WAMP1\V1\WampChannelFactoryExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\WampSharp.Default\WAMP2\Binding\Contracts\MsgPackBinding.cs">
-      <Link>WAMP2\Binding\Contracts\MsgPackBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Default\WAMP2\V2\DefaultWampHost.cs">
       <Link>WAMP2\V2\DefaultWampHost.cs</Link>

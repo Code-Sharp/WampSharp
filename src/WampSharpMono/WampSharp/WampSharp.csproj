@@ -81,6 +81,18 @@
     <Compile Include="..\..\WampSharp\WAMP1\V2\Adapters\WampRpcServerAdapter.cs">
       <Link>WAMP1\V2\Adapters\WampRpcServerAdapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\Contracts\JsonBinding.cs">
+      <Link>WAMP2\V2\Binding\Contracts\JsonBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\Contracts\MsgPackBinding.cs">
+      <Link>WAMP2\V2\Binding\Contracts\MsgPackBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\Messages\BinaryMessage.cs">
+      <Link>WAMP2\V2\Binding\Messages\BinaryMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\Messages\TextMessage.cs">
+      <Link>WAMP2\V2\Binding\Messages\TextMessage.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Client\IWampRealmProxyFactory.cs">
       <Link>WAMP2\V2\Client\IWampRealmProxyFactory.cs</Link>
     </Compile>
@@ -156,8 +168,8 @@
     <Compile Include="..\..\WampSharp\Core\Proxy\WampRawOutgoingInterceptor.cs">
       <Link>Core\Proxy\WampRawOutgoingInterceptor.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\Core\Serialization\IWampBinaryMessageParser.cs">
-      <Link>Core\Serialization\IWampBinaryMessageParser.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\Parsers\IWampBinaryMessageParser.cs">
+      <Link>WAMP2\V2\Binding\Parsers\IWampBinaryMessageParser.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Serialization\IWampMessageSerializerBuilder.cs">
       <Link>Core\Serialization\IWampMessageSerializerBuilder.cs</Link>
@@ -378,9 +390,6 @@
     <Compile Include="..\..\WampSharp\Core\Listener\WampListener.cs">
       <Link>Core\Listener\WampListener.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\Core\Message\IWampMessageFormatter.cs">
-      <Link>Core\Message\IWampMessageFormatter.cs</Link>
-    </Compile>
     <Compile Include="..\..\WampSharp\Core\Message\MessageType\MessageCategory.cs">
       <Link>Core\Message\MessageType\MessageCategory.cs</Link>
     </Compile>
@@ -417,8 +426,8 @@
     <Compile Include="..\..\WampSharp\Core\Serialization\IWampFormatter.cs">
       <Link>Core\Serialization\IWampFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\Core\Serialization\IWampTextMessageParser.cs">
-      <Link>Core\Serialization\IWampTextMessageParser.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\Parsers\IWampTextMessageParser.cs">
+      <Link>WAMP2\V2\Binding\Parsers\IWampTextMessageParser.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Utilities\CustomAttributeExtensions.cs">
       <Link>Core\Utilities\CustomAttributeExtensions.cs</Link>
