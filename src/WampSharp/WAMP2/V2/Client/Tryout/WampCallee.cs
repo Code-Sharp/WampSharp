@@ -21,6 +21,9 @@ namespace WampSharp.V2.Client
         private readonly ConcurrentDictionary<long, IWampRpcOperation> mRegistrations =
             new ConcurrentDictionary<long, IWampRpcOperation>();
 
+        private readonly ConcurrentDictionary<IWampRpcOperation, long> mOperationToRegistrationId =
+            new ConcurrentDictionary<IWampRpcOperation, long>();
+
         private readonly WampIdMapper<Request> mPendingUnregistrations =
             new WampIdMapper<Request>();
 
@@ -51,6 +54,7 @@ namespace WampSharp.V2.Client
             if (mPendingRegistrations.TryRemove(requestId, out request))
             {
                 mRegistrations[registrationId] = request.Operation;
+                mOperationToRegistrationId[request.Operation] = registrationId;
                 request.Complete();
             }
         }
@@ -80,17 +84,7 @@ namespace WampSharp.V2.Client
 
         private bool TryGetOperationRegistrationId(IWampRpcOperation operation, out long registrationId)
         {
-            KeyValuePair<long, IWampRpcOperation> pair = 
-                mRegistrations.FirstOrDefault(x => x.Value == operation);
-
-            if (pair.Value == operation)
-            {
-                registrationId = pair.Key;
-                return true;
-            }
-
-            registrationId = default(long);
-            return false;
+            return mOperationToRegistrationId.TryGetValue(operation, out registrationId);
         }
 
         public void Unregistered(long requestId)
@@ -100,7 +94,9 @@ namespace WampSharp.V2.Client
             if (mPendingUnregistrations.TryRemove(requestId, out unregistration))
             {
                 IWampRpcOperation operation;
+                long registrationId;
                 mRegistrations.TryRemove(requestId, out operation);
+                mOperationToRegistrationId.TryRemove(unregistration.Operation, out registrationId);
                 unregistration.Complete();
             }
         }
@@ -234,17 +230,17 @@ namespace WampSharp.V2.Client
 
             public void Error(object details, string error)
             {
-                mProxy.CallError(RequestId, details, error);
+                mProxy.InvocationError(RequestId, details, error);
             }
 
             public void Error(object details, string error, object[] arguments)
             {
-                mProxy.CallError(RequestId, details, error, arguments);
+                mProxy.InvocationError(RequestId, details, error, arguments);
             }
 
             public void Error(object details, string error, object[] arguments, object argumentsKeywords)
             {
-                mProxy.CallError(RequestId, details, error, arguments, argumentsKeywords);
+                mProxy.InvocationError(RequestId, details, error, arguments, argumentsKeywords);
             }
         }
     }

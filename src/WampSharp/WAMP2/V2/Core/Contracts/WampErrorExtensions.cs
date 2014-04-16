@@ -160,6 +160,62 @@ namespace WampSharp.V2.Core.Contracts
             client.Error(WampMessageType.v2Call, requestId, exception, arguments, argumentsKeywords);
         }
 
+        public static void InvocationError<TMessage>
+            (this IWampError<TMessage> client,
+             long requestId,
+             TMessage details,
+             string error)
+        {
+            client.Error(WampMessageType.v2Invocation, requestId, details, error);
+        }
+
+        public static void InvocationError<TMessage>
+            (this IWampError<TMessage> client,
+             long requestId,
+             TMessage details,
+             string error,
+             TMessage[] arguments)
+        {
+            client.Error(WampMessageType.v2Invocation, requestId, details, error, arguments);
+        }
+
+        public static void InvocationError<TMessage>
+            (this IWampError<TMessage> client,
+             long requestId,
+             TMessage details,
+             string error,
+             TMessage[] arguments,
+             TMessage argumentsKeywords)
+        {
+            client.Error(WampMessageType.v2Invocation, requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public static void InvocationError
+            (this IWampError<object> client,
+             long requestId,
+             Exception exception)
+        {
+            client.Error(WampMessageType.v2Invocation, requestId, exception);
+        }
+
+        public static void InvocationError
+            (this IWampError<object> client,
+             long requestId,
+             Exception exception,
+             object[] arguments)
+        {
+            client.Error(WampMessageType.v2Invocation, requestId, exception, arguments);
+        }
+
+        public static void InvocationError
+            (this IWampError<object> client,
+             long requestId,
+             Exception exception,
+             object[] arguments,
+             object argumentsKeywords)
+        {
+            client.Error(WampMessageType.v2Invocation, requestId, exception, arguments, argumentsKeywords);
+        }
 
         public static void PublishError<TMessage>
             (this IWampError<TMessage> client,
