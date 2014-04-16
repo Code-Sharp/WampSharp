@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.PubSub;

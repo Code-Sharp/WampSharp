@@ -9,6 +9,7 @@ using WampSharp.V1.Auxiliary.Server;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Listener;
 using WampSharp.V1.Core.Listener.ClientBuilder;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Realm;
 

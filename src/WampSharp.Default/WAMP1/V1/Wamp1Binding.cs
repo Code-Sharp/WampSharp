@@ -4,6 +4,7 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
 using WampSharp.V2.Adapters;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Contracts;
 using WampSharp.V2.Binding.Parsers;
 using WampSharp.V2.Core.Listener;

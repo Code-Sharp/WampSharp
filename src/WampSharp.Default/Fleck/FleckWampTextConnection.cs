@@ -1,6 +1,7 @@
 ﻿using Fleck;
 using WampSharp.Binding;
 using WampSharp.Core.Message;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.Fleck

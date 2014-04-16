@@ -4,6 +4,7 @@ using System.Reactive.Subjects;
 using System.Threading;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 

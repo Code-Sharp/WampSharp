@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WampSharp.Core.Listener;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Realm;
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using WampSharp.Binding;
 using WampSharp.Fleck;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Realm;
 

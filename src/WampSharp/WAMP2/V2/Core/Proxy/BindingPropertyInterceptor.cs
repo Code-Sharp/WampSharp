@@ -1,4 +1,5 @@
 using Castle.DynamicProxy;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Core.Proxy

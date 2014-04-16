@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WampSharp.V2.Core.Listener
+namespace WampSharp.V2.Binding
 {
     public interface IWampBindingHost : IDisposable
     {

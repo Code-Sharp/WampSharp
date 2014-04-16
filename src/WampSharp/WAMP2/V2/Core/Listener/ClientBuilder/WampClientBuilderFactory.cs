@@ -1,6 +1,7 @@
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Core.Listener.ClientBuilder

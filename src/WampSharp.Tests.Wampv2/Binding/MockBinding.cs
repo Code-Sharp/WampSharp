@@ -1,5 +1,6 @@
 ﻿using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.Tests.Wampv2.Binding

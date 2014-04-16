@@ -3,7 +3,7 @@ using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Realm;
 
-namespace WampSharp.V2.Core.Listener
+namespace WampSharp.V2.Binding
 {
     public abstract class WampBinding<TMessage> : IWampBinding<TMessage>
     {

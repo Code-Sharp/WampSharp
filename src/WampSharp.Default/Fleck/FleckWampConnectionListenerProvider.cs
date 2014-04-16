@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Subjects;
 using Fleck;
 using WampSharp.Core.Listener;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.Fleck

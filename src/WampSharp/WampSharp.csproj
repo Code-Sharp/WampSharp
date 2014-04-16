@@ -93,8 +93,8 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Proxy\IWampDealerProxy.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Proxy\IWampServerProxy.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Proxy\IWampSessionProxy.cs" />
-    <Compile Include="WAMP2\V2\Core\Listener\Binding\IWampBindingHost.cs" />
-    <Compile Include="WAMP2\V2\Core\Listener\Binding\WampBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\IWampBindingHost.cs" />
+    <Compile Include="WAMP2\V2\Binding\WampBinding.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs" />
     <Compile Include="Core\Listener\Connections\WampMessageArrivedEventArgs.cs" />
     <Compile Include="Core\Proxy\WampRawOutgoingInterceptor.cs" />
@@ -137,8 +137,8 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Error\WampErrors.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampEventSerializer.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampException.cs" />
-    <Compile Include="WAMP2\V2\Core\Listener\Binding\IWampBinaryBinding.cs" />
-    <Compile Include="WAMP2\V2\Core\Listener\Binding\IWampBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\IWampBinaryBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\IWampBinding.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
     <Compile Include="Core\Contracts\WampHandlerAttribute.cs" />
     <Compile Include="Core\Contracts\WampProxyParameterAttribute.cs" />
@@ -243,7 +243,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\IWampRawClient.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\IWampBroker.cs" />
     <Compile Include="Core\Serialization\WampSerializationInterceptor.cs" />
-    <Compile Include="WAMP2\V2\Core\Listener\Binding\IWampTextBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\IWampTextBinding.cs" />
     <Compile Include="WAMP2\V2\Core\Proxy\BindingPropertyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\IWampCallee.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\IWampCaller.cs" />

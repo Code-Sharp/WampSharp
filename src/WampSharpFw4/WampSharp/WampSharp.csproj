@@ -153,11 +153,11 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Proxy\IWampSessionProxy.cs">
       <Link>WAMP2\V2\Core\Contracts\Proxy\IWampSessionProxy.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\Binding\IWampBindingHost.cs">
-      <Link>WAMP2\V2\Core\Listener\Binding\IWampBindingHost.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\IWampBindingHost.cs">
+      <Link>WAMP2\V2\Binding\IWampBindingHost.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\Binding\WampBinding.cs">
-      <Link>WAMP2\V2\Core\Listener\Binding\WampBinding.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\WampBinding.cs">
+      <Link>WAMP2\V2\Binding\WampBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs">
       <Link>WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs</Link>
@@ -285,11 +285,11 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\WampException.cs">
       <Link>WAMP2\V2\Core\Contracts\WampException.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\Binding\IWampBinaryBinding.cs">
-      <Link>WAMP2\V2\Core\Listener\Binding\IWampBinaryBinding.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\IWampBinaryBinding.cs">
+      <Link>WAMP2\V2\Binding\IWampBinaryBinding.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\Binding\IWampBinding.cs">
-      <Link>WAMP2\V2\Core\Listener\Binding\IWampBinding.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\IWampBinding.cs">
+      <Link>WAMP2\V2\Binding\IWampBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\IWampClient.cs">
       <Link>WAMP2\V2\Core\Contracts\IWampClient.cs</Link>
@@ -603,8 +603,8 @@
     <Compile Include="..\..\WampSharp\Core\Serialization\WampSerializationInterceptor.cs">
       <Link>Core\Serialization\WampSerializationInterceptor.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Listener\Binding\IWampTextBinding.cs">
-      <Link>WAMP2\V2\Core\Listener\Binding\IWampTextBinding.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\IWampTextBinding.cs">
+      <Link>WAMP2\V2\Binding\IWampTextBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Proxy\BindingPropertyInterceptor.cs">
       <Link>WAMP2\V2\Core\Proxy\BindingPropertyInterceptor.cs</Link>
