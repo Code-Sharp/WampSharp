@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
+using WampSharp.V2.Binding.Parsers;
 using WampSharp.WebSocket4Net;
 
 namespace WampSharp.V1

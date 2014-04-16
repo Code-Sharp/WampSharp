@@ -83,14 +83,12 @@
     <Compile Include="Json2Msgpack\MsgPackJsonConverter.cs" />
     <Compile Include="Json2Msgpack\MsgpackToJsonConvert.cs" />
     <Compile Include="Json2Msgpack\MsgPackToJTokenProcessor.cs" />
+    <Compile Include="Newtonsoft\IWampMessageFormatter.cs" />
     <Compile Include="WAMP1\V1\Wamp1Binding.cs" />
-    <Compile Include="WAMP2\Binding\Messages\BinaryMessage.cs" />
-    <Compile Include="WAMP2\Binding\Contracts\JsonBinding.cs" />
     <Compile Include="WAMP2\Binding\JTokenBinding.cs" />
     <Compile Include="WAMP2\Binding\MessagePackObjectBinding.cs" />
     <Compile Include="MsgPack\MessagePackFormatter.cs" />
     <Compile Include="MsgPack\MessagePackParser.cs" />
-    <Compile Include="WAMP2\Binding\Messages\TextMessage.cs" />
     <Compile Include="WAMP1\V1\DefaultWampChannelFactory.cs" />
     <Compile Include="WAMP1\V1\DefaultWampHost.cs" />
     <Compile Include="Fleck\FleckWampConnectionListener.cs" />
@@ -99,7 +97,6 @@
     <Compile Include="Newtonsoft\JTokenMessageParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WAMP1\V1\WampChannelFactoryExtensions.cs" />
-    <Compile Include="WAMP2\Binding\Contracts\MsgPackBinding.cs" />
     <Compile Include="WAMP2\V2\DefaultWampHost.cs" />
     <Compile Include="WebSocket4Net\WebSocket4NetBinaryConnection.cs" />
     <Compile Include="WebSocket4Net\WebSocket4NetConnection.cs" />

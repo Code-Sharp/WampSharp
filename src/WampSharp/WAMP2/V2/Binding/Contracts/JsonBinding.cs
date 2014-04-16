@@ -1,8 +1,10 @@
 ﻿using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Binding.Messages;
+using WampSharp.V2.Binding.Parsers;
 using WampSharp.V2.Core.Listener;
 
-namespace WampSharp.Binding
+namespace WampSharp.V2.Binding.Contracts
 {
     public abstract class JsonBinding<TMessage> : WampBinding<TMessage>,
         IWampTextBinding<TMessage>
@@ -20,7 +22,18 @@ namespace WampSharp.Binding
             return mParser.Parse(message);
         }
 
+        public string Format(WampMessage<TMessage> message)
+        {
+            TextMessage<TMessage> textMessage = GetTextMessage(message);
+            return textMessage.Text;
+        }
+
         public override WampMessage<TMessage> GetRawMessage(WampMessage<TMessage> message)
+        {
+            return GetTextMessage(message);
+        }
+
+        private TextMessage<TMessage> GetTextMessage(WampMessage<TMessage> message)
         {
             TextMessage<TMessage> result = message as TextMessage<TMessage>;
 

@@ -24,10 +24,9 @@ namespace WampSharp.WebSocket4Net
 
         public override void Send(WampMessage<TMessage> message)
         {
-            TextMessage<TMessage> textMessage =
-                mBinding.GetRawMessage(message) as TextMessage<TMessage>;
+            string text = mBinding.Format(message);
 
-            WebSocket.Send(textMessage.Text);
+            WebSocket.Send(text);
         }
 
         public override void Dispose()

@@ -1,6 +1,6 @@
 ﻿using WampSharp.Core.Message;
 
-namespace WampSharp.Binding
+namespace WampSharp.V2.Binding.Messages
 {
     internal class BinaryMessage<TMessage> : WampMessage<TMessage>
     {

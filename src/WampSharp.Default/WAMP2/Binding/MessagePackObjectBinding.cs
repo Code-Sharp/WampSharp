@@ -1,5 +1,6 @@
 ﻿using MsgPack;
 using WampSharp.MsgPack;
+using WampSharp.V2.Binding.Contracts;
 
 namespace WampSharp.Binding
 {

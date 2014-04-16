@@ -69,6 +69,10 @@
     <Compile Include="WAMP1\V2\Adapters\Wamp1BindingHost.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampPubSubServerAdapter.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampRpcServerAdapter.cs" />
+    <Compile Include="WAMP2\V2\Binding\Contracts\JsonBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\Contracts\MsgPackBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\Messages\BinaryMessage.cs" />
+    <Compile Include="WAMP2\V2\Binding\Messages\TextMessage.cs" />
     <Compile Include="WAMP2\V2\Client\IWampRealmProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Client\SessionClient.cs" />
     <Compile Include="WAMP2\V2\Client\Tryout\Interfaces\IWampSessionClientExtended.cs" />
@@ -94,7 +98,7 @@
     <Compile Include="WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs" />
     <Compile Include="Core\Listener\Connections\WampMessageArrivedEventArgs.cs" />
     <Compile Include="Core\Proxy\WampRawOutgoingInterceptor.cs" />
-    <Compile Include="Core\Serialization\IWampBinaryMessageParser.cs" />
+    <Compile Include="WAMP2\V2\Binding\Parsers\IWampBinaryMessageParser.cs" />
     <Compile Include="Core\Serialization\IWampMessageSerializerBuilder.cs" />
     <Compile Include="Core\Serialization\WampMessageSerializerBuilder.cs" />
     <Compile Include="WAMP1\V1\Api\Client\IWampChannel.cs" />
@@ -168,7 +172,6 @@
     <Compile Include="Core\Listener\Connections\WampConnectionMonitor.cs" />
     <Compile Include="WAMP1\V1\Core\Listener\WampListener.cs" />
     <Compile Include="Core\Listener\WampListener.cs" />
-    <Compile Include="Core\Message\IWampMessageFormatter.cs" />
     <Compile Include="Core\Message\MessageType\MessageCategory.cs" />
     <Compile Include="Core\Message\MessageType\MessageDirection.cs" />
     <Compile Include="Core\Message\MessageType\MessageTypeDetailsAttribute.cs" />
@@ -181,7 +184,7 @@
     <Compile Include="Core\Proxy\WampOutgoingInterceptor.cs" />
     <Compile Include="Core\Proxy\WampOutgoingRequestSerializer.cs" />
     <Compile Include="Core\Serialization\IWampFormatter.cs" />
-    <Compile Include="Core\Serialization\IWampTextMessageParser.cs" />
+    <Compile Include="WAMP2\V2\Binding\Parsers\IWampTextMessageParser.cs" />
     <Compile Include="Core\Utilities\CustomAttributeExtensions.cs" />
     <Compile Include="Core\Utilities\GenericTypeExtensions.cs" />
     <Compile Include="Core\Utilities\SwapDictionary.cs" />

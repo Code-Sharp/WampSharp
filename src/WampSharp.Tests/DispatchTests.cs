@@ -18,7 +18,7 @@ namespace WampSharp.Tests
     public class DispatchTests
     {
         private IWampFormatter<JToken> mFormatter;
-        private IWampMessageFormatter<JToken> mMessageFormatter;
+        private JsonWampMessageFormatter mMessageFormatter;
 
         [SetUp]
         public void Setup()

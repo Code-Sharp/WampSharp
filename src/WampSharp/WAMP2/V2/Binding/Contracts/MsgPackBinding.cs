@@ -1,8 +1,10 @@
 ﻿using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Binding.Messages;
+using WampSharp.V2.Binding.Parsers;
 using WampSharp.V2.Core.Listener;
 
-namespace WampSharp.Binding
+namespace WampSharp.V2.Binding.Contracts
 {
     public abstract class MsgPackBinding<TMessage> : WampBinding<TMessage>,
         IWampBinaryBinding<TMessage>
@@ -20,7 +22,18 @@ namespace WampSharp.Binding
             return mParser.Parse(bytes);
         }
 
+        public byte[] Format(WampMessage<TMessage> message)
+        {
+            BinaryMessage<TMessage> binaryMessage = GetBinaryMessage(message);
+            return binaryMessage.Bytes;
+        }
+
         public override WampMessage<TMessage> GetRawMessage(WampMessage<TMessage> message)
+        {
+            return GetBinaryMessage(message);
+        }
+
+        private BinaryMessage<TMessage> GetBinaryMessage(WampMessage<TMessage> message)
         {
             BinaryMessage<TMessage> result = message as BinaryMessage<TMessage>;
 

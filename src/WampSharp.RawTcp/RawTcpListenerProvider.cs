@@ -152,10 +152,7 @@ namespace WampSharp.RawTcp
 
         public void Send(WampMessage<TMessage> message)
         {
-            TextMessage<TMessage> raw = 
-                mBinding.GetRawMessage(message) as TextMessage<TMessage>;
-
-            string text = raw.Text;
+            string text = mBinding.Format(message);
 
             int length = text.Length;
 

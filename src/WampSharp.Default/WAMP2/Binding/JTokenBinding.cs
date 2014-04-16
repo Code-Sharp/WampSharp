@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using WampSharp.Newtonsoft;
+using WampSharp.V2.Binding.Contracts;
 
 namespace WampSharp.Binding
 {

@@ -1,11 +1,13 @@
-namespace WampSharp.Core.Message
+using WampSharp.Core.Message;
+
+namespace WampSharp.Newtonsoft
 {
     /// <summary>
     /// Used in order to convert a JSON message to a
     /// <see cref="WampMessage{TMessage}"/> and vice-versa.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public interface IWampMessageFormatter<TMessage>
+    internal interface IWampMessageFormatter<TMessage>
     {
         /// <summary>
         /// Parses a <see cref="WampMessage{TMessage}"/>

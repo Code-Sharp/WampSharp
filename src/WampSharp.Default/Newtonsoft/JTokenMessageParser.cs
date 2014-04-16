@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Binding.Parsers;
 
 namespace WampSharp.Newtonsoft
 {

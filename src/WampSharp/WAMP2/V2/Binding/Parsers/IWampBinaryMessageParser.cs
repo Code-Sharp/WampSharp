@@ -1,6 +1,6 @@
 ﻿using WampSharp.Core.Message;
 
-namespace WampSharp.Core.Serialization
+namespace WampSharp.V2.Binding.Parsers
 {
     /// <summary>
     /// Parses binary messages from the stream into <see cref="WampMessage{TMessage}"/>s
