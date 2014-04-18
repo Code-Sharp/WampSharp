@@ -93,44 +93,62 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\Messages\TextMessage.cs">
       <Link>WAMP2\V2\Binding\Messages\TextMessage.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\IWampRealmProxyFactory.cs">
-      <Link>WAMP2\V2\Client\IWampRealmProxyFactory.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\PubSub\Interfaces\IWampTopicSubscriptionProxy.cs">
+      <Link>WAMP2\V2\Client\PubSub\Interfaces\IWampTopicSubscriptionProxy.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\SessionClient.cs">
-      <Link>WAMP2\V2\Client\SessionClient.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\PubSub\Interfaces\IWampTopicPublicationProxy.cs">
+      <Link>WAMP2\V2\Client\PubSub\Interfaces\IWampTopicPublicationProxy.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\Interfaces\IWampSessionClientExtended.cs">
-      <Link>WAMP2\V2\Client\Tryout\Interfaces\IWampSessionClientExtended.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\PubSub\WampPublisher.cs">
+      <Link>WAMP2\V2\Client\PubSub\WampPublisher.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\WampRealmProxy.cs">
-      <Link>WAMP2\V2\Client\Tryout\WampRealmProxy.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\PubSub\WampSubscriber.cs">
+      <Link>WAMP2\V2\Client\PubSub\WampSubscriber.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\WampCaller.cs">
-      <Link>WAMP2\V2\Client\Tryout\WampCaller.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\PubSub\WampTopicContainerProxy.cs">
+      <Link>WAMP2\V2\Client\PubSub\WampTopicContainerProxy.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\Interfaces\IWampRealmProxy.cs">
-      <Link>WAMP2\V2\Client\Tryout\Interfaces\IWampRealmProxy.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\PubSub\WampTopicProxySection.cs">
+      <Link>WAMP2\V2\Client\PubSub\WampTopicProxySection.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\Interfaces\IWampRpcOperationCatalogProxy.cs">
-      <Link>WAMP2\V2\Client\Tryout\Interfaces\IWampRpcOperationCatalogProxy.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Realm\IWampRealmProxyFactory.cs">
+      <Link>WAMP2\V2\Client\Realm\IWampRealmProxyFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\Interfaces\IWampRpcOperationInvokerProxy.cs">
-      <Link>WAMP2\V2\Client\Tryout\Interfaces\IWampRpcOperationInvokerProxy.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Session\SessionClient.cs">
+      <Link>WAMP2\V2\Client\Session\SessionClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\Interfaces\IWampRpcOperationRegistrationProxy.cs">
-      <Link>WAMP2\V2\Client\Tryout\Interfaces\IWampRpcOperationRegistrationProxy.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Session\IWampSessionClientExtended.cs">
+      <Link>WAMP2\V2\Client\Session\IWampSessionClientExtended.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\Interfaces\IWampTopicContainerProxy.cs">
-      <Link>WAMP2\V2\Client\Tryout\Interfaces\IWampTopicContainerProxy.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Realm\WampRealmProxy.cs">
+      <Link>WAMP2\V2\Client\Realm\WampRealmProxy.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\Interfaces\IWampTopicProxy.cs">
-      <Link>WAMP2\V2\Client\Tryout\Interfaces\IWampTopicProxy.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Rpc\WampCaller.cs">
+      <Link>WAMP2\V2\Client\Rpc\WampCaller.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\WampCallee.cs">
-      <Link>WAMP2\V2\Client\Tryout\WampCallee.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Realm\IWampRealmProxy.cs">
+      <Link>WAMP2\V2\Client\Realm\IWampRealmProxy.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Tryout\WampRpcOperationCatalogProxy.cs">
-      <Link>WAMP2\V2\Client\Tryout\WampRpcOperationCatalogProxy.cs</Link>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs">
+      <Link>WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationInvokerProxy.cs">
+      <Link>WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationInvokerProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationRegistrationProxy.cs">
+      <Link>WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationRegistrationProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\PubSub\Interfaces\IWampTopicContainerProxy.cs">
+      <Link>WAMP2\V2\Client\PubSub\Interfaces\IWampTopicContainerProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\PubSub\Interfaces\IWampTopicProxy.cs">
+      <Link>WAMP2\V2\Client\PubSub\Interfaces\IWampTopicProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Rpc\WampCallee.cs">
+      <Link>WAMP2\V2\Client\Rpc\WampCallee.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Rpc\WampRpcOperationCatalogProxy.cs">
+      <Link>WAMP2\V2\Client\Rpc\WampRpcOperationCatalogProxy.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Client\WampChannel.cs">
       <Link>WAMP2\V2\Client\WampChannel.cs</Link>
@@ -140,6 +158,9 @@
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Client\WampClient.cs">
       <Link>WAMP2\V2\Client\WampClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\PubSub\WampTopicProxy.cs">
+      <Link>WAMP2\V2\Client\PubSub\WampTopicProxy.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Core\Contracts\Proxy\IWampBrokerProxy.cs">
       <Link>WAMP2\V2\Core\Contracts\Proxy\IWampBrokerProxy.cs</Link>

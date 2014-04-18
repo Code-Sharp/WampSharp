@@ -14,8 +14,6 @@ namespace WampSharp.V2.Client
     {
         private readonly IWampRealmProxy mRealm;
         private readonly IWampSessionClientExtended<TMessage> mSession;
-        private IWampPublisher<TMessage> mPublisher;
-        private IWampSubscriber<TMessage> mSubscriber;
 
         public WampClient(IWampRealmProxyFactory<TMessage> realmFactory)
         {
@@ -98,6 +96,22 @@ namespace WampSharp.V2.Client
             }
         }
 
+        public IWampPublisher<TMessage> Publisher
+        {
+            get
+            {
+                return Realm.TopicContainer as IWampPublisher<TMessage>;
+            }
+        }
+
+        public IWampSubscriber<TMessage> Subscriber
+        {
+            get
+            {
+                return Realm.TopicContainer as IWampSubscriber<TMessage>;
+            }
+        }
+
         public void OnConnectionOpen()
         {
             SessionClient.OnConnectionOpen();
@@ -140,27 +154,27 @@ namespace WampSharp.V2.Client
 
         public void Subscribed(long requestId, long subscriptionId)
         {
-            mSubscriber.Subscribed(requestId, subscriptionId);
+            Subscriber.Subscribed(requestId, subscriptionId);
         }
 
         public void Unsubscribed(long requestId, long subscriptionId)
         {
-            mSubscriber.Unsubscribed(requestId, subscriptionId);
+            Subscriber.Unsubscribed(requestId, subscriptionId);
         }
 
         public void Event(long subscriptionId, long publicationId, TMessage details)
         {
-            mSubscriber.Event(subscriptionId, publicationId, details);
+            Subscriber.Event(subscriptionId, publicationId, details);
         }
 
         public void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments)
         {
-            mSubscriber.Event(subscriptionId, publicationId, details, arguments);
+            Subscriber.Event(subscriptionId, publicationId, details, arguments);
         }
 
         public void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            mSubscriber.Event(subscriptionId, publicationId, details, arguments, argumentsKeywords);
+            Subscriber.Event(subscriptionId, publicationId, details, arguments, argumentsKeywords);
         }
 
         public void Result(long requestId, TMessage details)
@@ -180,7 +194,7 @@ namespace WampSharp.V2.Client
 
         public void Published(long requestId, long publicationId)
         {
-            mPublisher.Published(requestId, publicationId);
+            Publisher.Published(requestId, publicationId);
         }
     }
 }

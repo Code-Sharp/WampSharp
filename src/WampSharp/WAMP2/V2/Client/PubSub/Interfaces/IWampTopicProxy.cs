@@ -4,7 +4,7 @@ using WampSharp.V2.PubSub;
 
 namespace WampSharp.V2.Client
 {
-    public interface IWampTopicProxy
+    public interface IWampTopicProxy : IDisposable
     {
         string TopicUri { get; }
 
