@@ -81,6 +81,7 @@
     <Compile Include="WAMP2\V2\Client\PubSub\WampTopicContainerProxy.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\WampTopicProxySection.cs" />
     <Compile Include="WAMP2\V2\Client\Realm\IWampRealmProxyFactory.cs" />
+    <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRawRpcOperationCallback.cs" />
     <Compile Include="WAMP2\V2\Client\Session\SessionClient.cs" />
     <Compile Include="WAMP2\V2\Client\Session\IWampSessionClientExtended.cs" />
     <Compile Include="WAMP2\V2\Client\Realm\WampRealmProxy.cs" />

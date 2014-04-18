@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MsgPack;
 using Newtonsoft.Json.Linq;
 using WampSharp.Binding;
+using WampSharp.Core.Serialization;
 using WampSharp.V2;
 using WampSharp.V2.Client;
 using WampSharp.V2.PubSub;
@@ -75,6 +76,12 @@ namespace WampSharp.RpcServerSample
 
                 channel2.Open().Wait();
 
+                channel2.RealmProxy.RpcCatalog.Invoke
+                    (new MyCallback(),
+                     new Dictionary<string, string>(),
+                     "com.arguments.add2",
+                     new object[] { 1024, 768 });
+
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
                 Task<IDisposable> disposable1 =
                     channel2.RealmProxy.TopicContainer.GetTopic("com.myapp.topic2")
@@ -98,11 +105,6 @@ namespace WampSharp.RpcServerSample
                 Console.ReadLine();
 
                 disposable3.Result.Dispose();
-                //channel2.RealmProxy.RpcCatalog.Invoke
-                //    (new MyCallback(),
-                //     new Dictionary<string, string>(),
-                //     "com.arguments.add2",
-                //     new object[]{1024,768});
                        
                 Console.WriteLine("Server is running on " + location);
                 Console.ReadLine();
@@ -110,7 +112,7 @@ namespace WampSharp.RpcServerSample
         }
     }
 
-    internal class MySubscriber : IWampTopicSubscriber
+    internal class MySubscriber : IWampRawTopicSubscriber
     {
         private string mName;
 
@@ -119,44 +121,47 @@ namespace WampSharp.RpcServerSample
             mName = name;
         }
 
-        public void Event(long publicationId, object details)
-        {
-            
-        }
-
-        public void Event(long publicationId, object details, object[] arguments)
+        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details)
         {
         }
 
-        public void Event(long publicationId, object details, object[] arguments, object argumentsKeywords)
+        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details, TMessage[] arguments)
         {
+        }
+
+        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details, TMessage[] arguments,
+                                    TMessage argumentsKeywords)
+        {
+            var parsed =
+                formatter.Deserialize<Dictionary<string, object>>(argumentsKeywords);
             Console.WriteLine(mName + publicationId);
         }
     }
 
-    internal class MyCallback : IWampRpcOperationCallback
+    internal class MyCallback : IWampRawRpcOperationCallback
     {
-        public void Result(object details)
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details)
         {
         }
 
-        public void Result(object details, object[] arguments)
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, TMessage[] arguments)
         {
         }
 
-        public void Result(object details, object[] arguments, object argumentsKeywords)
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
         {
         }
 
-        public void Error(object details, string error)
+        public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error)
         {
         }
 
-        public void Error(object details, string error, object[] arguments)
+        public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments)
         {
         }
 
-        public void Error(object details, string error, object[] arguments, object argumentsKeywords)
+        public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments,
+                                    TMessage argumentsKeywords)
         {
         }
     }

@@ -13,6 +13,12 @@ namespace WampSharp.V2.Client
 
         void Invoke(IWampRpcOperationCallback caller, TMessage options, string procedure, TMessage[] arguments);
 
-        void Invoke(IWampRpcOperationCallback caller, TMessage options, string procedure, TMessage[] arguments, TMessage argumentsKeywords);    
+        void Invoke(IWampRpcOperationCallback caller, TMessage options, string procedure, TMessage[] arguments, TMessage argumentsKeywords);
+
+        void Invoke(IWampRawRpcOperationCallback caller, TMessage options, string procedure);
+
+        void Invoke(IWampRawRpcOperationCallback caller, TMessage options, string procedure, TMessage[] arguments);
+
+        void Invoke(IWampRawRpcOperationCallback caller, TMessage options, string procedure, TMessage[] arguments, TMessage argumentsKeywords);    
     }
 }

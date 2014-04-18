@@ -16,7 +16,7 @@ namespace WampSharp.V2.Client
         public WampRpcOperationCatalogProxy(IWampServerProxy proxy, IWampFormatter<TMessage> formatter)
         {
             mCallee = new WampCallee<TMessage>(proxy, formatter);
-            mCaller = new WampCaller<TMessage>(proxy);
+            mCaller = new WampCaller<TMessage>(proxy, formatter);
         }
 
         public Task Register(IWampRpcOperation operation, object options)
@@ -52,6 +52,22 @@ namespace WampSharp.V2.Client
         public void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
         {
             mCallee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);
+        }
+
+        public void Invoke(IWampRawRpcOperationCallback caller, object options, string procedure)
+        {
+            mCaller.Invoke(caller, options, procedure);
+        }
+
+        public void Invoke(IWampRawRpcOperationCallback caller, object options, string procedure, object[] arguments)
+        {
+            mCaller.Invoke(caller, options, procedure, arguments);
+        }
+
+        public void Invoke(IWampRawRpcOperationCallback caller, object options, string procedure, object[] arguments,
+                           object argumentsKeywords)
+        {
+            mCaller.Invoke(caller, options, procedure, arguments, argumentsKeywords);
         }
 
         public void Interrupt(long requestId, TMessage options)

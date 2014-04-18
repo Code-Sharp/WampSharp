@@ -117,6 +117,9 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Realm\IWampRealmProxyFactory.cs">
       <Link>WAMP2\V2\Client\Realm\IWampRealmProxyFactory.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Rpc\Interfaces\IWampRawRpcOperationCallback.cs">
+      <Link>WAMP2\V2\Client\Rpc\Interfaces\IWampRawRpcOperationCallback.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Client\Session\SessionClient.cs">
       <Link>WAMP2\V2\Client\Session\SessionClient.cs</Link>
     </Compile>
