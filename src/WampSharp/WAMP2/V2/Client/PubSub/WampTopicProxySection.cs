@@ -61,7 +61,7 @@ namespace WampSharp.V2.Client
 
             if (externalSubscription == null)
             {
-                return Task.FromResult(disposable);
+                return CreateDisposableTask(disposable);
             }
             else
             {
@@ -72,6 +72,17 @@ namespace WampSharp.V2.Client
                                          return disposable;
                                      });
             }
+        }
+
+        private static Task<IDisposable> CreateDisposableTask(IDisposable disposable)
+        {
+            // Framework 4 doesn't have a Task.FromResult method.
+            TaskCompletionSource<IDisposable> task =
+                new TaskCompletionSource<IDisposable>();
+
+            task.SetResult(disposable);
+
+            return task.Task;
         }
 
         private IDisposable SubscribeInternal(IWampRawTopicSubscriber subscriber)
