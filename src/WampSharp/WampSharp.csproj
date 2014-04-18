@@ -73,6 +73,7 @@
     <Compile Include="WAMP2\V2\Binding\Contracts\MsgPackBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\Messages\BinaryMessage.cs" />
     <Compile Include="WAMP2\V2\Binding\Messages\TextMessage.cs" />
+    <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampRawTopicSubscriber.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampTopicSubscriptionProxy.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampTopicPublicationProxy.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\WampPublisher.cs" />

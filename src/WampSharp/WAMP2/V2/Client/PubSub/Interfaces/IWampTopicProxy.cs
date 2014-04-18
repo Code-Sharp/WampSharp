@@ -13,5 +13,6 @@ namespace WampSharp.V2.Client
         Task<long> Publish(object options, object[] arguments, object argumentKeywords);
 
         Task<IDisposable> Subscribe(IWampTopicSubscriber subscriber, object options);
+        Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, object options);
     }
 }

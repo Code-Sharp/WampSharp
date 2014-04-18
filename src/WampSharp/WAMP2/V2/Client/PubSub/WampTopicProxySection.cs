@@ -3,21 +3,22 @@ using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
+using WampSharp.Core.Serialization;
 using WampSharp.V2.PubSub;
 
 namespace WampSharp.V2.Client
 {
-    internal class WampTopicProxySection<TMessage> : IWampTopicSubscriber, IDisposable
+    internal class WampTopicProxySection : IWampRawTopicSubscriber, IDisposable
     {
         private int mSubscribed = 0;
-        private readonly WampSubscriber<TMessage> mSubscriber;
+        private readonly IWampTopicSubscriptionProxy mSubscriber;
         private Subject<IPublication> mSubject = new Subject<IPublication>();
         private readonly string mTopicUri;
         private readonly object mOptions;
         private readonly object mLock = new object();
         private IDisposable mExternalSubscription;
 
-        public WampTopicProxySection(string topicUri, WampSubscriber<TMessage> subscriber, object options)
+        public WampTopicProxySection(string topicUri, IWampTopicSubscriptionProxy subscriber, object options)
         {
             mTopicUri = topicUri;
             mSubscriber = subscriber;
@@ -50,7 +51,7 @@ namespace WampSharp.V2.Client
 
         public event EventHandler SectionEmpty;
 
-        public Task<IDisposable> Subscribe(IWampTopicSubscriber subscriber)
+        public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber)
         {
             object options = Options;
             Task<IDisposable> externalSubscription = SubscribeExternal(options);
@@ -73,22 +74,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void Event(long publicationId, object details)
-        {
-            PublishInternal(subscriber => subscriber.Event(publicationId, details));
-        }
-
-        public void Event(long publicationId, object details, object[] arguments)
-        {
-            PublishInternal(subscriber => subscriber.Event(publicationId, details, arguments));
-        }
-
-        public void Event(long publicationId, object details, object[] arguments, object argumentsKeywords)
-        {
-            PublishInternal(subscriber => subscriber.Event(publicationId, details, arguments, argumentsKeywords));
-        }
-
-        private IDisposable SubscribeInternal(IWampTopicSubscriber subscriber)
+        private IDisposable SubscribeInternal(IWampRawTopicSubscriber subscriber)
         {
             IDisposable result = 
                 mSubject.Subscribe(new TopicSubscriberObserver(subscriber));
@@ -97,7 +83,33 @@ namespace WampSharp.V2.Client
                                            Disposable.Create(() => OnSubscriberRemoved(subscriber)));
         }
 
-        private void OnSubscriberRemoved(IWampTopicSubscriber subscriber)
+        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details)
+        {
+            PublishInternal(subscriber =>
+                subscriber.Event(formatter, publicationId, details));
+        }
+
+        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details, TMessage[] arguments)
+        {
+            PublishInternal(subscriber =>
+                            subscriber.Event(formatter,
+                                             publicationId,
+                                             details,
+                                             arguments));
+        }
+
+        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details, TMessage[] arguments,
+                                    TMessage argumentsKeywords)
+        {
+            PublishInternal(subscriber =>
+                            subscriber.Event(formatter,
+                                             publicationId,
+                                             details,
+                                             arguments,
+                                             argumentsKeywords));
+        }
+        
+        private void OnSubscriberRemoved(IWampRawTopicSubscriber subscriber)
         {
             if (!HasSubscribers)
             {
@@ -125,7 +137,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        private void PublishInternal(Action<IWampTopicSubscriber> action)
+        private void PublishInternal(Action<IWampRawTopicSubscriber> action)
         {
             mSubject.OnNext(new Publication(action));
         }
@@ -150,19 +162,19 @@ namespace WampSharp.V2.Client
 
         private interface IPublication
         {
-            void Publish(IWampTopicSubscriber subscriber);
+            void Publish(IWampRawTopicSubscriber subscriber);
         }
 
         private class Publication : IPublication
         {
-            private readonly Action<IWampTopicSubscriber> mAction;
+            private readonly Action<IWampRawTopicSubscriber> mAction;
 
-            public Publication(Action<IWampTopicSubscriber> action)
+            public Publication(Action<IWampRawTopicSubscriber> action)
             {
                 mAction = action;
             }
 
-            public void Publish(IWampTopicSubscriber subscriber)
+            public void Publish(IWampRawTopicSubscriber subscriber)
             {
                 mAction(subscriber);
             }
@@ -170,9 +182,9 @@ namespace WampSharp.V2.Client
 
         private class TopicSubscriberObserver : IObserver<IPublication>
         {
-            private readonly IWampTopicSubscriber mSubscriber;
+            private readonly IWampRawTopicSubscriber mSubscriber;
 
-            public TopicSubscriberObserver(IWampTopicSubscriber subscriber)
+            public TopicSubscriberObserver(IWampRawTopicSubscriber subscriber)
             {
                 mSubscriber = subscriber;
             }

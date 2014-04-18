@@ -6,6 +6,6 @@ namespace WampSharp.V2.Client
 {
     internal interface IWampTopicSubscriptionProxy
     {
-        Task<IDisposable> Subscribe(IWampTopicSubscriber subscriber, object options, string topicUri);
+        Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, object options, string topicUri);
     }
 }

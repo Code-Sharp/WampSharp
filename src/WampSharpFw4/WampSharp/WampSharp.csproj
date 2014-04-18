@@ -93,6 +93,9 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Binding\Messages\TextMessage.cs">
       <Link>WAMP2\V2\Binding\Messages\TextMessage.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Client\PubSub\Interfaces\IWampRawTopicSubscriber.cs">
+      <Link>WAMP2\V2\Client\PubSub\Interfaces\IWampRawTopicSubscriber.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Client\PubSub\Interfaces\IWampTopicSubscriptionProxy.cs">
       <Link>WAMP2\V2\Client\PubSub\Interfaces\IWampTopicSubscriptionProxy.cs</Link>
     </Compile>

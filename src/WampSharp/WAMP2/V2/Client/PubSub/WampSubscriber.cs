@@ -2,6 +2,8 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using WampSharp.Core.Serialization;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
@@ -17,16 +19,19 @@ namespace WampSharp.V2.Client
             new WampIdMapper<UnsubscribeRequest>();
 
         private readonly IWampServerProxy mProxy;
+        private readonly IWampFormatter<TMessage> mFormatter;
 
         private readonly ConcurrentDictionary<long, Subscription> mSubscriptionIdToSubscription =
             new ConcurrentDictionary<long, Subscription>();
 
-        public WampSubscriber(IWampServerProxy proxy)
+        public WampSubscriber(IWampServerProxy proxy,
+                              IWampFormatter<TMessage> formatter)
         {
             mProxy = proxy;
+            mFormatter = formatter;
         }
 
-        public Task<IDisposable> Subscribe(IWampTopicSubscriber subscriber, object options, string topicUri)
+        public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, object options, string topicUri)
         {
             SubscribeRequest request = new SubscribeRequest(subscriber, options, topicUri);
             long requestId = mPendingSubscriptions.Add(request);
@@ -78,27 +83,29 @@ namespace WampSharp.V2.Client
         public void Event(long subscriptionId, long publicationId, TMessage details)
         {
             InnerEvent(subscriptionId, 
-                subscriber => subscriber.Event(publicationId, details));
+                subscriber => subscriber.Event(Formatter, publicationId, details));
         }
 
         public void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments)
         {
             InnerEvent(subscriptionId,
-                       subscriber => subscriber.Event(publicationId,
+                       subscriber => subscriber.Event(Formatter,
+                                                      publicationId,
                                                       details,
-                                                      arguments.Cast<object>().ToArray()));
+                                                      arguments));
         }
 
         public void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
         {
             InnerEvent(subscriptionId,
-                       subscriber => subscriber.Event(publicationId,
+                       subscriber => subscriber.Event(Formatter,
+                                                      publicationId,
                                                       details,
-                                                      arguments.Cast<object>().ToArray(),
+                                                      arguments,
                                                       argumentsKeywords));
         }
 
-        private void InnerEvent(long subscriptionId, Action<IWampTopicSubscriber> action)
+        private void InnerEvent(long subscriptionId, Action<IWampRawTopicSubscriber> action)
         {
             Subscription subscription;
 
@@ -108,23 +115,31 @@ namespace WampSharp.V2.Client
             }
         }
 
+        private IWampFormatter<TMessage> Formatter
+        {
+            get
+            {
+                return mFormatter;
+            }
+        }
+
         private class SubscribeRequest
         {
-            private readonly IWampTopicSubscriber mSubscriber;
+            private readonly IWampRawTopicSubscriber mSubscriber;
             private readonly object mOptions;
             private readonly string mTopicUri;
 
             private readonly TaskCompletionSource<IDisposable> mTask =
                 new TaskCompletionSource<IDisposable>();
             
-            public SubscribeRequest(IWampTopicSubscriber subscriber, object options, string topicUri)
+            public SubscribeRequest(IWampRawTopicSubscriber subscriber, object options, string topicUri)
             {
                 mSubscriber = subscriber;
                 mOptions = options;
                 mTopicUri = topicUri;
             }
 
-            public IWampTopicSubscriber Subscriber
+            public IWampRawTopicSubscriber Subscriber
             {
                 get
                 {
@@ -171,11 +186,11 @@ namespace WampSharp.V2.Client
         private class Subscription
         {
             private readonly long mSubscriptionId;
-            private readonly IWampTopicSubscriber mSubscriber;
+            private readonly IWampRawTopicSubscriber mSubscriber;
             private readonly object mOptions;
             private readonly string mTopicUri;
 
-            public Subscription(long subscriptionId, IWampTopicSubscriber subscriber, object options, string topicUri)
+            public Subscription(long subscriptionId, IWampRawTopicSubscriber subscriber, object options, string topicUri)
             {
                 mSubscriptionId = subscriptionId;
                 mSubscriber = subscriber;
@@ -191,7 +206,7 @@ namespace WampSharp.V2.Client
                 }
             }
 
-            public IWampTopicSubscriber Subscriber
+            public IWampRawTopicSubscriber Subscriber
             {
                 get
                 {

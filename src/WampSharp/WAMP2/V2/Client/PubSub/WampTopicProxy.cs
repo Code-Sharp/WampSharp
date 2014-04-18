@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using WampSharp.Core.Serialization;
 using WampSharp.V2.PubSub;
 
 namespace WampSharp.V2.Client
 {
-    internal class WampTopicProxy<TMessage> : IWampTopicProxy
+    internal class WampTopicProxy : IWampTopicProxy
     {
         private bool mDisposed = false;
         private readonly string mTopicUri;
-        private readonly WampSubscriber<TMessage> mSubscriber;
-        private readonly WampPublisher<TMessage> mPublisher;
+        private readonly IWampTopicSubscriptionProxy mSubscriber;
+        private readonly IWampTopicPublicationProxy mPublisher;
         private readonly IDisposable mConatinerDisposable;
 
         private readonly object mLock = new object();
         
-        private ConcurrentDictionary<object, WampTopicProxySection<TMessage>> mOptionsToSection =
-            new ConcurrentDictionary<object, WampTopicProxySection<TMessage>>();
+        private ConcurrentDictionary<object, WampTopicProxySection> mOptionsToSection =
+            new ConcurrentDictionary<object, WampTopicProxySection>();
 
         public WampTopicProxy(string topicUri,
-                              WampSubscriber<TMessage> subscriber,
-                              WampPublisher<TMessage> publisher,
+                              IWampTopicSubscriptionProxy subscriber,
+                              IWampTopicPublicationProxy publisher,
                               IDisposable conatinerDisposable)
         {
             mTopicUri = topicUri;
@@ -62,27 +64,34 @@ namespace WampSharp.V2.Client
 
         public Task<IDisposable> Subscribe(IWampTopicSubscriber subscriber, object options)
         {
+            RawSubscriberAdapter rawSubscriberAdapter = new RawSubscriberAdapter(subscriber);
+            return Subscribe(rawSubscriberAdapter, options);
+        }
+
+        public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, object options)
+        {
             lock (mLock)
             {
                 CheckDisposed();
 
-                WampTopicProxySection<TMessage> section = GetSection(options);
+                WampTopicProxySection section = GetSection(options);
 
                 Task<IDisposable> task = section.Subscribe(subscriber);
 
-                return task;                
+                return task;
             }
         }
 
-        private WampTopicProxySection<TMessage> GetSection(object options)
+
+        private WampTopicProxySection GetSection(object options)
         {
             return mOptionsToSection.GetOrAdd(options, x => CreateSection(options));
         }
 
-        private WampTopicProxySection<TMessage> CreateSection(object options)
+        private WampTopicProxySection CreateSection(object options)
         {
-            WampTopicProxySection<TMessage> result =
-                new WampTopicProxySection<TMessage>(TopicUri, mSubscriber, options);
+            WampTopicProxySection result =
+                new WampTopicProxySection(TopicUri, mSubscriber, options);
 
             result.SectionEmpty += OnSectionEmpty;
 
@@ -91,14 +100,14 @@ namespace WampSharp.V2.Client
 
         private void OnSectionEmpty(object sender, EventArgs e)
         {
-            WampTopicProxySection<TMessage> section = sender as WampTopicProxySection<TMessage>;
+            WampTopicProxySection section = sender as WampTopicProxySection;
 
             lock (mLock)
             {
                 if (!section.HasSubscribers)
                 {
                     section.SectionEmpty -= OnSectionEmpty;
-                    WampTopicProxySection<TMessage> removed;
+                    WampTopicProxySection removed;
                     mOptionsToSection.TryRemove(section.Options, out removed);
                     section.Dispose();
                 }
@@ -133,6 +142,32 @@ namespace WampSharp.V2.Client
                         mDisposed = true;
                     }
                 }                
+            }
+        }
+
+        private class RawSubscriberAdapter : IWampRawTopicSubscriber
+        {
+            private readonly IWampTopicSubscriber mSubscriber;
+
+            public RawSubscriberAdapter(IWampTopicSubscriber subscriber)
+            {
+                mSubscriber = subscriber;
+            }
+
+            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details)
+            {
+                mSubscriber.Event(publicationId, details);
+            }
+
+            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details, TMessage[] arguments)
+            {
+                mSubscriber.Event(publicationId, details, arguments.Cast<object>().ToArray());
+            }
+
+            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details, TMessage[] arguments,
+                                        TMessage argumentsKeywords)
+            {
+                mSubscriber.Event(publicationId, details, arguments.Cast<object>().ToArray(), argumentsKeywords);
             }
         }
     }

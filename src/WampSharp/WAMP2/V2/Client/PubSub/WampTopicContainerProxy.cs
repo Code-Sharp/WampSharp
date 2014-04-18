@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using WampSharp.Core.Serialization;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
@@ -11,13 +13,13 @@ namespace WampSharp.V2.Client
         private readonly WampSubscriber<TMessage> mSubscriber;
         private readonly WampPublisher<TMessage> mPublisher;
         
-        private readonly ConcurrentDictionary<string, WampTopicProxy<TMessage>> mTopicUriToProxy =
-            new ConcurrentDictionary<string, WampTopicProxy<TMessage>>();
+        private readonly ConcurrentDictionary<string, WampTopicProxy> mTopicUriToProxy =
+            new ConcurrentDictionary<string, WampTopicProxy>();
 
-        public WampTopicContainerProxy(IWampServerProxy proxy)
+        public WampTopicContainerProxy(IWampServerProxy proxy, IWampFormatter<TMessage> formatter)
         {
             mProxy = proxy;
-            mSubscriber = new WampSubscriber<TMessage>(proxy);
+            mSubscriber = new WampSubscriber<TMessage>(proxy, formatter);
             mPublisher = new WampPublisher<TMessage>(proxy);
         }
 
@@ -26,10 +28,10 @@ namespace WampSharp.V2.Client
             return mTopicUriToProxy.GetOrAdd(topicUri, uri => CreateTopicUri(uri));
         }
 
-        private WampTopicProxy<TMessage> CreateTopicUri(string topicUri)
+        private WampTopicProxy CreateTopicUri(string topicUri)
         {
-            WampTopicProxy<TMessage> result =
-                new WampTopicProxy<TMessage>
+            WampTopicProxy result =
+                new WampTopicProxy
                     (topicUri, 
                     mSubscriber, 
                     mPublisher,
@@ -82,7 +84,7 @@ namespace WampSharp.V2.Client
 
             public void Dispose()
             {
-                WampTopicProxy<TMessage> value;
+                WampTopicProxy value;
                 mParent.mTopicUriToProxy.TryRemove(mTopicUri, out value);
             }
         }
