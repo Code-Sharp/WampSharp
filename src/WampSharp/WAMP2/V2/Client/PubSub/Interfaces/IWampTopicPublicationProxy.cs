@@ -2,7 +2,7 @@
 
 namespace WampSharp.V2.Client
 {
-    public interface IWampTopicPublicationProxy
+    internal interface IWampTopicPublicationProxy
     {
         Task<long> Publish(string topicUri, object options);
         Task<long> Publish(string topicUri, object options, object[] arguments);

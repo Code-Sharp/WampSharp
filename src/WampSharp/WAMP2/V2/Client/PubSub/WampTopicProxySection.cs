@@ -83,6 +83,16 @@ namespace WampSharp.V2.Client
                                            Disposable.Create(() => OnSubscriberRemoved(subscriber)));
         }
 
+        private Task<IDisposable> SubscribeExternal(object options)
+        {
+            if (Interlocked.CompareExchange(ref mSubscribed, 1, 0) == 0)
+            {
+                return mSubscriber.Subscribe(this, options, TopicUri);
+            }
+
+            return null;
+        }
+
         public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details)
         {
             PublishInternal(subscriber =>
@@ -115,16 +125,6 @@ namespace WampSharp.V2.Client
             {
                 RaiseSectionEmpty();
             }
-        }
-
-        private Task<IDisposable> SubscribeExternal(object options)
-        {
-            if (Interlocked.CompareExchange(ref mSubscribed, 1, 0) == 0)
-            {
-                return mSubscriber.Subscribe(this, options, TopicUri);
-            }
-
-            return null;
         }
 
         private void RaiseSectionEmpty()

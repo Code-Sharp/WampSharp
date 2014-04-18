@@ -15,7 +15,7 @@ namespace WampSharp.V2.Client
         private readonly string mTopicUri;
         private readonly IWampTopicSubscriptionProxy mSubscriber;
         private readonly IWampTopicPublicationProxy mPublisher;
-        private readonly IDisposable mConatinerDisposable;
+        private readonly IDisposable mContainerDisposable;
 
         private readonly object mLock = new object();
         
@@ -25,12 +25,12 @@ namespace WampSharp.V2.Client
         public WampTopicProxy(string topicUri,
                               IWampTopicSubscriptionProxy subscriber,
                               IWampTopicPublicationProxy publisher,
-                              IDisposable conatinerDisposable)
+                              IDisposable containerDisposable)
         {
             mTopicUri = topicUri;
             mSubscriber = subscriber;
             mPublisher = publisher;
-            mConatinerDisposable = conatinerDisposable;
+            mContainerDisposable = containerDisposable;
         }
 
         public string TopicUri
@@ -137,7 +137,7 @@ namespace WampSharp.V2.Client
 
                         mOptionsToSection = null;
 
-                        mConatinerDisposable.Dispose();
+                        mContainerDisposable.Dispose();
                         
                         mDisposed = true;
                     }

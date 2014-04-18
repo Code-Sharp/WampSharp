@@ -123,16 +123,13 @@ namespace WampSharp.V2.Client
             }
         }
 
-        private class SubscribeRequest
+        private class BaseSubscription
         {
             private readonly IWampRawTopicSubscriber mSubscriber;
             private readonly object mOptions;
             private readonly string mTopicUri;
 
-            private readonly TaskCompletionSource<IDisposable> mTask =
-                new TaskCompletionSource<IDisposable>();
-            
-            public SubscribeRequest(IWampRawTopicSubscriber subscriber, object options, string topicUri)
+            public BaseSubscription(IWampRawTopicSubscriber subscriber, object options, string topicUri)
             {
                 mSubscriber = subscriber;
                 mOptions = options;
@@ -153,6 +150,25 @@ namespace WampSharp.V2.Client
                 {
                     return mOptions;
                 }
+            }
+
+            public string TopicUri
+            {
+                get
+                {
+                    return mTopicUri;
+                }
+            }
+        }
+
+        private class SubscribeRequest : BaseSubscription
+        {
+            private readonly TaskCompletionSource<IDisposable> mTask =
+                new TaskCompletionSource<IDisposable>();
+
+            public SubscribeRequest(IWampRawTopicSubscriber subscriber, object options, string topicUri) : 
+                base(subscriber, options, topicUri)
+            {
             }
 
             public long RequestId
@@ -169,33 +185,20 @@ namespace WampSharp.V2.Client
                 }
             }
 
-            public string TopicUri
-            {
-                get
-                {
-                    return mTopicUri;
-                }
-            }
-
             public void Complete(IDisposable disposable)
             {
                 mTask.TrySetResult(disposable);
             }
         }
 
-        private class Subscription
+        private class Subscription : BaseSubscription
         {
             private readonly long mSubscriptionId;
-            private readonly IWampRawTopicSubscriber mSubscriber;
-            private readonly object mOptions;
-            private readonly string mTopicUri;
 
-            public Subscription(long subscriptionId, IWampRawTopicSubscriber subscriber, object options, string topicUri)
+            public Subscription(long subscriptionId, IWampRawTopicSubscriber subscriber, object options, string topicUri) : 
+                base(subscriber, options, topicUri)
             {
                 mSubscriptionId = subscriptionId;
-                mSubscriber = subscriber;
-                mOptions = options;
-                mTopicUri = topicUri;
             }
 
             public long SubscriptionId
@@ -203,30 +206,6 @@ namespace WampSharp.V2.Client
                 get
                 {
                     return mSubscriptionId;
-                }
-            }
-
-            public IWampRawTopicSubscriber Subscriber
-            {
-                get
-                {
-                    return mSubscriber;
-                }
-            }
-
-            public object Options
-            {
-                get
-                {
-                    return mOptions;
-                }
-            }
-
-            public string TopicUri
-            {
-                get
-                {
-                    return mTopicUri;
                 }
             }
         }
@@ -262,6 +241,7 @@ namespace WampSharp.V2.Client
 
             public void Complete()
             {
+                mTaskCompletionSource.SetResult(true);
             }
         }
 
