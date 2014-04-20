@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Dispatch;
-using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
-using WampSharp.Core.Serialization;
-using WampSharp.Tests.TestHelpers;
 using WampSharp.V2.Core.Contracts;
 
-namespace WampSharp.Tests.Wampv2.MockBuilder
+namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
     public abstract class MessagePlayer<TMessage> : IMessagePlayer<TMessage>
     {
@@ -55,14 +52,5 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
                                                                             WampMessage<TMessage> request);
 
         protected abstract WampMessage<TMessage> FindRequest(WampMessage<TMessage> message);
-
-
-        private static WampIncomingMessageHandler<TMessage, IWampClient<TMessage>> GetMessageHandler(object server, IWampFormatter<TMessage> formatter)
-        {
-            return new WampIncomingMessageHandler<TMessage, IWampClient<TMessage>>
-                (new WampRequestMapper<TMessage>(server.GetType(), formatter),
-                 new WampMethodBuilder<TMessage, IWampClient<TMessage>>(server,
-                                                                        formatter));
-        }
     }
 }

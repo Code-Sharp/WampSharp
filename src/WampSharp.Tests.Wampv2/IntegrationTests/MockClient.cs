@@ -1,5 +1,5 @@
 using WampSharp.Tests.TestHelpers;
-using WampSharp.Tests.Wampv2.MockBuilder;
+using WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder;
 
 namespace WampSharp.Tests.Wampv2.IntegrationTests
 {

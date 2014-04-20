@@ -6,12 +6,12 @@ using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.V2.Core.Contracts;
 
-namespace WampSharp.Tests.Wampv2.MockBuilder
+namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
     public class MessageMapper : IMessageMapper
     {
         private readonly IWampRequestMapper<MockRaw> mMapper =
-            new WampRequestMapper<MockRaw>(typeof (IWampClient), new MockRawFormatter());
+            new RequestMapper();
 
         private readonly JTokenEqualityComparer mComparer = new JTokenEqualityComparer();
         

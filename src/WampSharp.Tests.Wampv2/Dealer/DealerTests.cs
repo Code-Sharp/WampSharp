@@ -4,17 +4,15 @@ using System.Linq;
 using System.Reflection;
 using Moq;
 using NUnit.Framework;
-using WampSharp.Binding;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.Wampv2.Binding;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Realm;
 using WampSharp.V2.Rpc;
 
-namespace WampSharp.Tests.Wampv2
+namespace WampSharp.Tests.Wampv2.Dealer
 {
     [TestFixture]
     public class DealerTests

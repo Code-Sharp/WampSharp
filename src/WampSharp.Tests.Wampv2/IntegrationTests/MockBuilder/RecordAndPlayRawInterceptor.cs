@@ -1,8 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using WampSharp.Core.Message;
-using WampSharp.Tests.TestHelpers;
 
-namespace WampSharp.Tests.Wampv2.MockBuilder
+namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
     public class RecordAndPlayRawInterceptor<TMessage> : IInterceptor
     {

@@ -5,7 +5,7 @@ using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.V2.Core.Contracts;
 
-namespace WampSharp.Tests.Wampv2.MockBuilder
+namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
     class ResponsiveMessageRecorder : MessageRecorder<MockRaw>
     {
@@ -13,8 +13,7 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
         private readonly Dictionary<WampMessageType, string> mMessageTypeToParameter;
 
         private readonly IWampRequestMapper<MockRaw> mRequestMapper =
-            new WampRequestMapper<MockRaw>
-                (typeof (IWampClient<>), new MockRawFormatter());
+            new RequestMapper();
 
         public ResponsiveMessageRecorder(IEnumerable<WampMessage<MockRaw>> calls,
                                    Dictionary<WampMessageType, string> messageTypeToParameter)
@@ -32,7 +31,7 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
             if (mMessageTypeToParameter.TryGetValue(message.MessageType, out argumentName))
             {
                 int relevantIndex =
-                    GetIndex(message, argumentName);
+                    GetIndex(message, argumentName).Value;
 
                 long? newId = GetArgumentValue(message, relevantIndex);
 
@@ -46,14 +45,17 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
 
                 foreach (WampMessage<MockRaw> call in mCalls)
                 {
-                    int currentIndex =
+                    int? currentIndex =
                         GetIndex(call, argumentName);
 
-                    long? current = GetArgumentValue(call, currentIndex);
-
-                    if (current == originalId)
+                    if (currentIndex != null)
                     {
-                        call.Arguments[currentIndex] = new MockRaw(newId);
+                        long? current = GetArgumentValue(call, currentIndex.Value);
+
+                        if (current == originalId)
+                        {
+                            call.Arguments[currentIndex.Value] = new MockRaw(newId);
+                        }                        
                     }
                 }
             }
@@ -64,12 +66,19 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
             return message.Arguments[relevantIndex].Value as long?;
         }
 
-        private int GetIndex(WampMessage<MockRaw> message, string argumentName)
+        private int? GetIndex(WampMessage<MockRaw> message, string argumentName)
         {
-            return mRequestMapper.Map(message).Method.GetParameters()
-                                 .Select((parameter, index) => new {parameter, index})
-                                 .FirstOrDefault(x => x.parameter.Name == argumentName)
-                                 .index;
+            var argumentWithIndex =
+                mRequestMapper.Map(message).Method.GetParameters()
+                              .Select((parameter, index) => new {parameter, index})
+                              .FirstOrDefault(x => x.parameter.Name == argumentName);
+
+            if (argumentWithIndex != null)
+            {
+                return argumentWithIndex.index;
+            }
+
+            return null;
         }
     }
 }

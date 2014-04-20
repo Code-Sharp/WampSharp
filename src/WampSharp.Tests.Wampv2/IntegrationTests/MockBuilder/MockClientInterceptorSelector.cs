@@ -5,7 +5,7 @@ using Castle.DynamicProxy;
 using WampSharp.Core.Contracts;
 using WampSharp.Tests.TestHelpers;
 
-namespace WampSharp.Tests.Wampv2.MockBuilder
+namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
     internal class MockClientInterceptorSelector : IInterceptorSelector
     {

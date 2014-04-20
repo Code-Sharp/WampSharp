@@ -59,7 +59,8 @@
   <ItemGroup>
     <Compile Include="Binding\MockBinding.cs" />
     <Compile Include="Binding\MockWampMessage.cs" />
-    <Compile Include="Binding\WampMessagePrinter.cs" />
+    <Compile Include="RequestMapper.cs" />
+    <Compile Include="WampMessagePrinter.cs" />
     <Compile Include="Dealer\Call.cs" />
     <Compile Include="IntegrationTests\BaseScenario.cs" />
     <Compile Include="IntegrationTests\BrokerScenario.cs" />

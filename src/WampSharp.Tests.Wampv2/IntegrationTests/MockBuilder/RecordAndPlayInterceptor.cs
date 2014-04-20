@@ -2,7 +2,7 @@
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 
-namespace WampSharp.Tests.Wampv2.MockBuilder
+namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
     public class RecordAndPlayInterceptor<TMessage> : IInterceptor
     {

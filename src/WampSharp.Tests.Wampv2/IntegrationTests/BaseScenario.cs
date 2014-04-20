@@ -2,7 +2,7 @@ using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.Wampv2.Binding;
-using WampSharp.Tests.Wampv2.MockBuilder;
+using WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Tests.Wampv2.IntegrationTests

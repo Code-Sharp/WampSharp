@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using WampSharp.Core.Message;
 
-namespace WampSharp.Tests.Wampv2.MockBuilder
+namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
     public interface IMessageRecorder<TMessage>
     {

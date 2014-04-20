@@ -5,18 +5,12 @@ using Newtonsoft.Json.Linq;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.V2.Core.Contracts;
 
-namespace WampSharp.Tests.Wampv2.Binding
+namespace WampSharp.Tests.Wampv2
 {
     internal static class WampMessagePrinter
     {
-        private interface IWampAll : IWampClient, IWampServerProxy
-        {
-        }
-
-        private static readonly WampRequestMapper<MockRaw> mRequestMapper =
-            new WampRequestMapper<MockRaw>(typeof(IWampAll), new MockRawFormatter());
+        private static readonly RequestMapper mRequestMapper = new RequestMapper();
 
         public static string ToString(WampMessage<MockRaw> message)
         {

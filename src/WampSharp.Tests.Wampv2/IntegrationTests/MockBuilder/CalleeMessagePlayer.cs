@@ -3,10 +3,9 @@ using System.Linq;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.Tests.Wampv2.Binding;
 using WampSharp.V2.Core.Contracts;
 
-namespace WampSharp.Tests.Wampv2.MockBuilder
+namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
     public class CalleeMessagePlayer : MessagePlayer<MockRaw>
     {
