@@ -11,13 +11,17 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
     {
         public IInterceptor[] SelectInterceptors(Type type, MethodInfo method, IInterceptor[] interceptors)
         {
-            if (method.IsDefined(typeof (WampHandlerAttribute)))
+            if (method.IsDefined(typeof(WampHandlerAttribute), true))
             {
-                return interceptors.OfType<RecordAndPlayInterceptor<MockRaw>>().ToArray();                
+                return interceptors.OfType<RecordAndPlayInterceptor<MockRaw>>()
+                    .Cast<IInterceptor>()
+                    .ToArray();                
             }
             if (method.Name == "get_Session")
             {
-                return interceptors.OfType<SessionPropertyInterceptor>().ToArray();
+                return interceptors.OfType<SessionPropertyInterceptor>()
+                    .Cast<IInterceptor>()
+                    .ToArray();
             }
 
             return new IInterceptor[] { new NullInterceptor() };

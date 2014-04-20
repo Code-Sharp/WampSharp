@@ -17,7 +17,7 @@ namespace WampSharp.Tests.TestHelpers
             {
                 mValue = Clone(raw.Value);
             }
-            else if (rawArray != null)
+            else if (rawArray != null && rawArray.GetType() == typeof(object[]))
             {
                 mValue = ConvertToMockRawArray(rawArray);
             }
