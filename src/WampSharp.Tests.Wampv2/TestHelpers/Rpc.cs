@@ -2417,7 +2417,8 @@ new object[] {
                     mRequest2 = new WampMessage<MockRaw>();
                     {
                         mRequest2.MessageType = WampMessageType.v2Call;
-                        MockRaw[] arguments = new MockRaw[5];
+                        //MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(7234508589891584);
                         arguments[1] = new MockRaw(new
                         {
@@ -2427,15 +2428,16 @@ new object[] {
                         arguments[3] = new MockRaw(new object[] {
 2,
 });
-                        arguments[4] = new MockRaw(new
-                        {
-                        });
+                        //arguments[4] = new MockRaw(new
+                        //{
+                        //});
                         mRequest2.Arguments = arguments;
                     }
                     mRequest3 = new WampMessage<MockRaw>();
                     {
                         mRequest3.MessageType = WampMessageType.v2Call;
-                        MockRaw[] arguments = new MockRaw[5];
+                        //MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(5522270709612544);
                         arguments[1] = new MockRaw(new
                         {
@@ -2445,15 +2447,16 @@ new object[] {
                         arguments[3] = new MockRaw(new object[] {
 0,
 });
-                        arguments[4] = new MockRaw(new
-                        {
-                        });
+                        //arguments[4] = new MockRaw(new
+                        //{
+                        //});
                         mRequest3.Arguments = arguments;
                     }
                     mRequest4 = new WampMessage<MockRaw>();
                     {
                         mRequest4.MessageType = WampMessageType.v2Call;
-                        MockRaw[] arguments = new MockRaw[5];
+                        //MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(788260695572480);
                         arguments[1] = new MockRaw(new
                         {
@@ -2463,9 +2466,9 @@ new object[] {
                         arguments[3] = new MockRaw(new object[] {
 -2,
 });
-                        arguments[4] = new MockRaw(new
-                        {
-                        });
+                        //arguments[4] = new MockRaw(new
+                        //{
+                        //});
                         mRequest4.Arguments = arguments;
                     }
                 }
@@ -2863,7 +2866,8 @@ new object[] {
                     mRequest1 = new WampMessage<MockRaw>();
                     {
                         mRequest1.MessageType = WampMessageType.v2Call;
-                        MockRaw[] arguments = new MockRaw[5];
+                        //MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(7814261684305920);
                         arguments[1] = new MockRaw(new
                         {
@@ -2873,9 +2877,9 @@ new object[] {
                         arguments[3] = new MockRaw(new object[] {
 3,
 });
-                        arguments[4] = new MockRaw(new
-                        {
-                        });
+                        //arguments[4] = new MockRaw(new
+                        //{
+                        //});
                         mRequest1.Arguments = arguments;
                     }
                     mRequest2 = new WampMessage<MockRaw>();

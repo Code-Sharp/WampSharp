@@ -20,7 +20,7 @@
         protected WampMessage(WampMessage<TMessage> other)
         {
             MessageType = other.MessageType;
-            Arguments = other.Arguments;
+            Arguments = (TMessage[]) other.Arguments.Clone();
         }
 
         /// <summary>

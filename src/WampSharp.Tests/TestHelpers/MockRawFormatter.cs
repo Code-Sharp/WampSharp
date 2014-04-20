@@ -19,7 +19,7 @@ namespace WampSharp.Tests.TestHelpers
 
         public TTarget Deserialize<TTarget>(MockRaw message)
         {
-            return (TTarget) message.Value;
+            return (TTarget) Deserialize(typeof(TTarget), message);
         }
 
         public object Deserialize(Type type, MockRaw message)

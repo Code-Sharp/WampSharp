@@ -13,7 +13,7 @@ namespace WampSharp.Tests.Wampv2.Binding
 
         public override WampMessage<MockRaw> GetRawMessage(WampMessage<MockRaw> message)
         {
-            return new MockWampMessage<MockRaw>(message);
+            return new MockWampMessage(message);
         }
     }
 }

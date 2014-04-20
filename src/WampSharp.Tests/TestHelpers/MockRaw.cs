@@ -11,15 +11,26 @@ namespace WampSharp.Tests.TestHelpers
         public MockRaw(object value)
         {
             MockRaw raw = value as MockRaw;
-            
+            object[] rawArray = value as object[];
+
             if (raw != null)
             {
                 mValue = Clone(raw.Value);
             }
+            else if (rawArray != null)
+            {
+                mValue = ConvertToMockRawArray(rawArray);
+            }
             else
             {
-                mValue = Clone(value);                
+                mValue = Clone(value);
             }
+        }
+
+
+        private static object ConvertToMockRawArray(object[] value)
+        {
+            return value.Select(x => new MockRaw(x)).ToArray();
         }
 
         private static object Clone(object value)
