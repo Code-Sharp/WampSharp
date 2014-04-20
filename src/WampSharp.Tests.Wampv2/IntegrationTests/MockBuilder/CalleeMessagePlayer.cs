@@ -8,11 +8,11 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Tests.Wampv2.MockBuilder
 {
-    public class MessagePlayerImpl : MessagePlayer<MockRaw>
+    public class CalleeMessagePlayer : MessagePlayer<MockRaw>
     {
         private readonly MessageMapper mMapper = new MessageMapper();
         
-        public MessagePlayerImpl(IEnumerable<WampMessage<MockRaw>> messages, WampMessageType[] categories, IWampIncomingMessageHandler<MockRaw, IWampClient<MockRaw>> handler)
+        public CalleeMessagePlayer(IEnumerable<WampMessage<MockRaw>> messages, WampMessageType[] categories, IWampIncomingMessageHandler<MockRaw, IWampClient<MockRaw>> handler)
             : base(messages, categories, handler)
         {
         }

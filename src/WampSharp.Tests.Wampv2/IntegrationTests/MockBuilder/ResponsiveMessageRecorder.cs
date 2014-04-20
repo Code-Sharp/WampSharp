@@ -7,7 +7,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Tests.Wampv2.MockBuilder
 {
-    class MessageRecorderImpl : MessageRecorder<MockRaw>
+    class ResponsiveMessageRecorder : MessageRecorder<MockRaw>
     {
         private readonly IEnumerable<WampMessage<MockRaw>> mCalls;
         private readonly Dictionary<WampMessageType, string> mMessageTypeToParameter;
@@ -16,7 +16,7 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
             new WampRequestMapper<MockRaw>
                 (typeof (IWampClient<>), new MockRawFormatter());
 
-        public MessageRecorderImpl(IEnumerable<WampMessage<MockRaw>> calls,
+        public ResponsiveMessageRecorder(IEnumerable<WampMessage<MockRaw>> calls,
                                    Dictionary<WampMessageType, string> messageTypeToParameter)
         {
             mCalls = calls;
@@ -47,7 +47,7 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
                 foreach (WampMessage<MockRaw> call in mCalls)
                 {
                     int currentIndex =
-                        GetIndex(message, argumentName);
+                        GetIndex(call, argumentName);
 
                     long? current = GetArgumentValue(call, currentIndex);
 

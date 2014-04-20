@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
 
 namespace WampSharp.Tests.TestHelpers
@@ -28,8 +29,17 @@ namespace WampSharp.Tests.TestHelpers
             {
                 return message;
             }
+            else if (type.IsInstanceOfType(message.Value))
+            {
+                return message.Value;                
+            }
+            else
+            {
+                JToken token =
+                    JToken.FromObject(message.Value);
 
-            return message.Value;
+                return token.ToObject(type);
+            }
         }
 
         public MockRaw Serialize(object value)

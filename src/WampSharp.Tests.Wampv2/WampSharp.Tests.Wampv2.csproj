@@ -61,11 +61,16 @@
     <Compile Include="Binding\MockWampMessage.cs" />
     <Compile Include="Binding\WampMessagePrinter.cs" />
     <Compile Include="Dealer\Call.cs" />
+    <Compile Include="IntegrationTests\BaseScenario.cs" />
+    <Compile Include="IntegrationTests\BrokerScenario.cs" />
+    <Compile Include="IntegrationTests\IntegrationTestsBase.cs" />
+    <Compile Include="IntegrationTests\BrokerIntegrationTests.cs" />
     <Compile Include="IntegrationTests\DealerCall.cs" />
     <Compile Include="IntegrationTests\DealerIntegrationTests.cs" />
     <Compile Include="IntegrationTests\Channel.cs" />
     <Compile Include="IntegrationTests\DealerScenario.cs" />
-    <Compile Include="IntegrationTests\MockBuilder\MessageRecorderImpl.cs" />
+    <Compile Include="IntegrationTests\MockBuilder\ResponsiveMessageRecorder.cs" />
+    <Compile Include="IntegrationTests\MockBuilder\RecordAndPlayRawInterceptor.cs" />
     <Compile Include="IntegrationTests\MockClient.cs" />
     <Compile Include="MessageTypes.cs" />
     <Compile Include="Dealer\Registration.cs" />
@@ -75,7 +80,7 @@
     <Compile Include="IntegrationTests\MockBuilder\IMessageRecorder.cs" />
     <Compile Include="IntegrationTests\MockBuilder\MessageMapper.cs" />
     <Compile Include="IntegrationTests\MockBuilder\MessagePlayer.cs" />
-    <Compile Include="IntegrationTests\MockBuilder\MessagePlayerImpl.cs" />
+    <Compile Include="IntegrationTests\MockBuilder\CalleeMessagePlayer.cs" />
     <Compile Include="IntegrationTests\MockBuilder\MessageRecorder.cs" />
     <Compile Include="IntegrationTests\MockBuilder\NullInterceptor.cs" />
     <Compile Include="IntegrationTests\MockBuilder\NullPlayer.cs" />

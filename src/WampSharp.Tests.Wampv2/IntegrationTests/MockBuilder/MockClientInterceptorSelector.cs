@@ -17,6 +17,12 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
                     .Cast<IInterceptor>()
                     .ToArray();                
             }
+            else if (method.IsDefined(typeof(WampRawHandlerAttribute), true))
+            {
+                return interceptors.OfType<RecordAndPlayRawInterceptor<MockRaw>>()
+                    .Cast<IInterceptor>()
+                    .ToArray();
+            }
             if (method.Name == "get_Session")
             {
                 return interceptors.OfType<SessionPropertyInterceptor>()

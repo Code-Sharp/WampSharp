@@ -69,6 +69,18 @@
     <Compile Include="..\..\WampSharp.Tests.Wampv2\Dealer\Call.cs">
       <Link>Dealer\Call.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\BaseScenario.cs">
+      <Link>IntegrationTests\BaseScenario.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\BrokerScenario.cs">
+      <Link>IntegrationTests\BrokerScenario.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\IntegrationTestsBase.cs">
+      <Link>IntegrationTests\IntegrationTestsBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\BrokerIntegrationTests.cs">
+      <Link>IntegrationTests\BrokerIntegrationTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\DealerCall.cs">
       <Link>IntegrationTests\DealerCall.cs</Link>
     </Compile>
@@ -81,8 +93,11 @@
     <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\DealerScenario.cs">
       <Link>IntegrationTests\DealerScenario.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\MockBuilder\MessageRecorderImpl.cs">
-      <Link>IntegrationTests\MockBuilder\MessageRecorderImpl.cs</Link>
+    <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\MockBuilder\ResponsiveMessageRecorder.cs">
+      <Link>IntegrationTests\MockBuilder\ResponsiveMessageRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\MockBuilder\RecordAndPlayRawInterceptor.cs">
+      <Link>IntegrationTests\MockBuilder\RecordAndPlayRawInterceptor.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\MockClient.cs">
       <Link>IntegrationTests\MockClient.cs</Link>
@@ -111,8 +126,8 @@
     <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\MockBuilder\MessagePlayer.cs">
       <Link>IntegrationTests\MockBuilder\MessagePlayer.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\MockBuilder\MessagePlayerImpl.cs">
-      <Link>IntegrationTests\MockBuilder\MessagePlayerImpl.cs</Link>
+    <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\MockBuilder\CalleeMessagePlayer.cs">
+      <Link>IntegrationTests\MockBuilder\CalleeMessagePlayer.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\MockBuilder\MessageRecorder.cs">
       <Link>IntegrationTests\MockBuilder\MessageRecorder.cs</Link>

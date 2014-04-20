@@ -30,7 +30,8 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
             {
                 indexes =
                     map.Method.GetParameters().Select((x, i) => new {parameter = x, index = i})
-                       .Where(x => x.parameter.Name != "requestId")
+                       .Where(x => x.parameter.Name != "requestId" &&
+                           x.parameter.Name != "publicationId")
                        .Select(x => x.index)
                        .ToArray();
             }

@@ -38,7 +38,8 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
                              typeof (IWampClient<TMessage>),
                              typeof (IWampConnectionMonitor)
                          },
-                         options,
+                     options,
+                     new RecordAndPlayRawInterceptor<TMessage>(player, recorder),
                      new RecordAndPlayInterceptor<TMessage>
                          (mOutgoingSerializer, player, recorder),
                      new SessionPropertyInterceptor(sessionId))

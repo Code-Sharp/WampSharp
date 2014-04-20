@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using NUnit.Framework;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.Tests.Wampv2.Binding;
 using WampSharp.Tests.Wampv2.MockBuilder;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
@@ -15,16 +13,8 @@ using WampSharp.V2.Rpc;
 namespace WampSharp.Tests.Wampv2.IntegrationTests
 {
     [TestFixture]
-    internal class DealerIntegrationTests
+    internal class DealerIntegrationTests : IntegrationTestsBase
     {
-        private MessageMapper mMapper;
-
-        [SetUp]
-        public void Setup()
-        {
-            mMapper = new MessageMapper();
-        }
-
         [TestCaseSource("TestCases")]
         [Test]
         public void DealerTest(DealerScenario scenario)
@@ -137,13 +127,13 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
 
             long sessionId = (long)welcome.Arguments[0].Value;
 
-            MessagePlayerImpl player =
-                new MessagePlayerImpl(calls,
+            CalleeMessagePlayer player =
+                new CalleeMessagePlayer(calls,
                                       new[] { WampMessageType.v2Invocation },
                                       handler);
 
             IMessageRecorder<MockRaw> recorder =
-                new MessageRecorderImpl(calls,
+                new ResponsiveMessageRecorder(calls,
                                         new Dictionary<WampMessageType, string>()
                                             {
                                                 {WampMessageType.v2Registered, "registrationId"}
@@ -159,24 +149,6 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                 new MockClient<IWampClient<MockRaw>>(built, recorder);
 
             return result;
-        }
-
-        private static IEnumerable<WampMessage<MockRaw>> GetCalls(Type scenario, Channel channel, WampMessageType[] category)
-        {
-            Type calleeToDealer = scenario.GetNestedType(channel.ToString());
-
-            PropertyInfo callsProperty =
-                calleeToDealer.GetProperty("Calls", BindingFlags.Static |
-                                                    BindingFlags.Public);
-
-            IEnumerable<WampMessage<MockRaw>> calls =
-                callsProperty.GetValue(null, null) as IEnumerable<WampMessage<MockRaw>>;
-
-            var filtered =
-                calls.Where(x => category.Contains(x.MessageType))
-                     .Select(x => new MockWampMessage(x));
-
-            return filtered;
         }
     }
 }
