@@ -102,5 +102,13 @@ namespace WampSharp.V1
                                              mServerProxyBuilder,
                                              mWampAuxiliaryClientFactory);
         }
+
+        public IWampFormatter<TMessage> Formatter
+        {
+            get
+            {
+                return mFormatter;
+            }
+        }
     }
 }
