@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using WampSharp.Core.Message;
+using WampSharp.V2.Client;
 
 namespace WampSharp.Tests.Wampv2.MockBuilder
 {
@@ -8,7 +9,11 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
         private readonly ICollection<WampMessage<TMessage>> mRecordedMessages =
             new List<WampMessage<TMessage>>();
 
-        public void Record(WampMessage<TMessage> message)
+        public MessageRecorder()
+        {
+        }
+
+        public virtual void Record(WampMessage<TMessage> message)
         {
             mRecordedMessages.Add(message);
         }

@@ -15,13 +15,13 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
 
         private readonly JTokenEqualityComparer mComparer = new JTokenEqualityComparer();
         
-        public WampMessage<MockRaw> MapRequest(WampMessage<MockRaw> message, IEnumerable<WampMessage<MockRaw>> messages, bool notOnlyArguments)
+        public WampMessage<MockRaw> MapRequest(WampMessage<MockRaw> message, IEnumerable<WampMessage<MockRaw>> messages, bool ignoreRequestId)
         {
             WampMethodInfo map = mMapper.Map(message);
 
             int[] indexes;
             
-            if (!notOnlyArguments)
+            if (!ignoreRequestId)
             {
                 indexes = Enumerable.Range(0, map.Method.GetParameters().Length)
                                     .ToArray();
@@ -30,10 +30,7 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
             {
                 indexes =
                     map.Method.GetParameters().Select((x, i) => new {parameter = x, index = i})
-                       .Where(x => !(x.parameter.Name.EndsWith("Id")
-                           // || x.parameter.Name == "options" ||
-                           // x.parameter.Name == "details"
-                           ))
+                       .Where(x => x.parameter.Name != "requestId")
                        .Select(x => x.index)
                        .ToArray();
             }

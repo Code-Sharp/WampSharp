@@ -59,11 +59,13 @@
   <ItemGroup>
     <Compile Include="Binding\MockBinding.cs" />
     <Compile Include="Binding\MockWampMessage.cs" />
+    <Compile Include="Binding\WampMessagePrinter.cs" />
     <Compile Include="Dealer\Call.cs" />
     <Compile Include="IntegrationTests\DealerCall.cs" />
     <Compile Include="IntegrationTests\DealerIntegrationTests.cs" />
     <Compile Include="IntegrationTests\Channel.cs" />
     <Compile Include="IntegrationTests\DealerScenario.cs" />
+    <Compile Include="IntegrationTests\MockBuilder\MessageRecorderImpl.cs" />
     <Compile Include="IntegrationTests\MockClient.cs" />
     <Compile Include="MessageTypes.cs" />
     <Compile Include="Dealer\Registration.cs" />

@@ -12,7 +12,7 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
     {
         private readonly MessageMapper mMapper = new MessageMapper();
         
-        public MessagePlayerImpl(ICollection<WampMessage<MockRaw>> messages, WampMessageType[] categories, IWampIncomingMessageHandler<MockRaw, IWampClient<MockRaw>> handler)
+        public MessagePlayerImpl(IEnumerable<WampMessage<MockRaw>> messages, WampMessageType[] categories, IWampIncomingMessageHandler<MockRaw, IWampClient<MockRaw>> handler)
             : base(messages, categories, handler)
         {
         }
@@ -28,19 +28,6 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
                 mMessages.Where(x => x.GetRequestId() == recordedId &&
                                      x.MessageType != request.MessageType)
                          .ToArray();
-
-            foreach (WampMessage<MockRaw> currentMessage in messages)
-            {
-                // Yuck: ( 
-                mMessages.Remove(currentMessage);
-            }
-
-            // Yuck: This request belongs only to the following test case.
-            // Once we finished with it, we remove it, so other requests won't
-            // get confused and think this is the request representing them.
-            // There can be a better way doing this by finding registrations by
-            // their registration ids, but I'm not going to do this soon. :(
-            mMessages.Remove(request);
 
             foreach (WampMessage<MockRaw> currentMessage in messages)
             {

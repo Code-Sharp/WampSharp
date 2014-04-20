@@ -12,11 +12,11 @@ namespace WampSharp.Tests.Wampv2.MockBuilder
     public abstract class MessagePlayer<TMessage> : IMessagePlayer<TMessage>
     {
         private readonly IWampIncomingMessageHandler<TMessage, IWampClient<TMessage>> mServerPipe;
-        protected readonly ICollection<WampMessage<TMessage>> mMessages;
+        protected readonly IEnumerable<WampMessage<TMessage>> mMessages;
         private readonly WampMessageType[] mCategories;
         private IWampClient<TMessage> mClient;
 
-        public MessagePlayer(ICollection<WampMessage<TMessage>> messages,
+        public MessagePlayer(IEnumerable<WampMessage<TMessage>> messages,
                              WampMessageType[] categories,
                              IWampIncomingMessageHandler<TMessage, IWampClient<TMessage>> handler)
         {

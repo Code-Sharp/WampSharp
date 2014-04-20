@@ -66,17 +66,11 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                     GetCalls(nestedType, Channel.CalleeToDealer,
                              new WampMessageType[] {WampMessageType.v2Register});
 
-                // Yuck
-                ICollection<WampMessage<MockRaw>> calls =
-                    GetCalls(nestedType, Channel.CalleeToDealer, MessageTypes.Rpc).Concat
-                    (GetCalls(nestedType, Channel.DealerToCallee, MessageTypes.Rpc))
-                    .ToList();
-
                 foreach (var currentCase in scenarioCalls)
                 {
                     DealerScenario scenario = new DealerScenario();
 
-                    MockClient<IWampClient<MockRaw>> callee = GetCallee(nestedType, scenario.ClientBuilder, scenario.Handler, calls);
+                    MockClient<IWampClient<MockRaw>> callee = GetCallee(nestedType, scenario.ClientBuilder, scenario.Handler);
                     MockClient<IWampClient<MockRaw>> caller = GetCaller(nestedType, scenario.ClientBuilder);
 
                     WampMessage<MockRaw> request =
@@ -130,22 +124,30 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
             return result;
         }
 
-        private static MockClient<IWampClient<MockRaw>> GetCallee(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClient<MockRaw>> handler, ICollection<WampMessage<MockRaw>> allCalls)
+        private static MockClient<IWampClient<MockRaw>> GetCallee(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClient<MockRaw>> handler)
         {
             WampMessage<MockRaw> welcome =
                 GetCalls(scenario, Channel.DealerToCallee,
                          new WampMessageType[] { WampMessageType.v2Welcome })
                     .FirstOrDefault();
 
+            IEnumerable<WampMessage<MockRaw>> calls =
+                GetCalls(scenario, Channel.CalleeToDealer, MessageTypes.Rpc).Concat
+                    (GetCalls(scenario, Channel.DealerToCallee, MessageTypes.Rpc)).ToList();
+
             long sessionId = (long)welcome.Arguments[0].Value;
 
             MessagePlayerImpl player =
-                new MessagePlayerImpl(allCalls,
+                new MessagePlayerImpl(calls,
                                       new[] { WampMessageType.v2Invocation },
                                       handler);
 
             IMessageRecorder<MockRaw> recorder =
-                new MessageRecorder<MockRaw>();
+                new MessageRecorderImpl(calls,
+                                        new Dictionary<WampMessageType, string>()
+                                            {
+                                                {WampMessageType.v2Registered, "registrationId"}
+                                            });
 
             IWampClient<MockRaw> built =
                 clientBuilder.Create(sessionId, player,

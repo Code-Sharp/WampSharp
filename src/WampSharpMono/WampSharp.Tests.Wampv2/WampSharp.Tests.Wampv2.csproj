@@ -63,6 +63,9 @@
     <Compile Include="..\..\WampSharp.Tests.Wampv2\Binding\MockWampMessage.cs">
       <Link>Binding\MockWampMessage.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Tests.Wampv2\Binding\WampMessagePrinter.cs">
+      <Link>Binding\WampMessagePrinter.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Tests.Wampv2\Dealer\Call.cs">
       <Link>Dealer\Call.cs</Link>
     </Compile>
@@ -77,6 +80,9 @@
     </Compile>
     <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\DealerScenario.cs">
       <Link>IntegrationTests\DealerScenario.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\MockBuilder\MessageRecorderImpl.cs">
+      <Link>IntegrationTests\MockBuilder\MessageRecorderImpl.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp.Tests.Wampv2\IntegrationTests\MockClient.cs">
       <Link>IntegrationTests\MockClient.cs</Link>
