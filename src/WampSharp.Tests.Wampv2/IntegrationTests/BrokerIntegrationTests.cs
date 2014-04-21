@@ -105,6 +105,11 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                 testCase.SetName(string.Format("PubSubIntegrationTest.{0}",
                                                nestedType.Name));
 
+                if (nestedType.Name == "Options")
+                {
+                    testCase.Ignore("WAMP2 Advanced profile feature.");
+                }
+
                 yield return testCase;
             }
         }

@@ -83,7 +83,12 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                     testCase.SetName(string.Format("DealerIntegrationTest.{0}.{1}",
                                                    nestedType.Name,
                                                    request.Arguments[2].Value));
-                 
+
+                    if (nestedType.Name == "Options" || nestedType.Name == "Progress")
+                    {
+                        testCase.Ignore("WAMP2 Advanced profile feature.");
+                    }
+
                     yield return testCase;
                 }
             }
