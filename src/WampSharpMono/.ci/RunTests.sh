@@ -11,5 +11,6 @@ runTest(){
 }
 
 runTest WampSharp.Tests/bin/Debug/WampSharp.Tests.dll -exclude=Performance
+runTest WampSharp.Tests.Wampv2/bin/Debug/WampSharp.Tests.Wampv2.dll -exclude=Performance
 
 exit $?
