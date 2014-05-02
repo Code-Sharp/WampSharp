@@ -9,6 +9,7 @@
       <dependency id="Fleck" version="[0.9.8.25]" />
       <dependency id="Newtonsoft.Json" version="[6.0.3]" />
       <dependency id="WebSocket4Net" version="[0.9]" />
+      <dependency id="MsgPack.Cli" version="[0.5.0-alpha1]" />
     </dependencies>
     <id>WampSharp.Default</id>
     <title>WampSharp default binding</title>
