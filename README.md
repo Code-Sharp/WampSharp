@@ -3,19 +3,19 @@ WampSharp
 
 
 A C# implementation of [WAMP (The WebSocket Application Messaging Protocol)][WampLink]
-
 =========
-
 This branch is a dev branch of a WAMPv2 implementation.
 
 It is still under development and isn't very mature right now.
 
 The implementation includes both Json and MsgPack support, and both Router (Broker and Dealer roles) and Client (Publisher/Subscriber and Callee/Caller) roles.
 
-There is now documentation yet, but you can find examples in the Samples/WAMP2 directory.
+There is no documentation yet, but you can find examples in the Samples/WAMP2 directory.
 
 If you want to test it, you can use Teamcity NuGet feed:
 http://teamcity.codebetter.com/httpAuth/app/nuget/v1/FeedService.svc/
+
+(You need a TeamCity account. Register here: http://teamcity.codebetter.com/login.html)
 
 Master | Provider
 ------ | --------
