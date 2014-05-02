@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
@@ -12,6 +14,7 @@ namespace WampSharp.V2.Rpc
         private readonly MethodInfoHelper mHelper;
         private readonly RpcParameter[] mParameters;
         private readonly bool mHasResult;
+        private readonly CollectionResultTreatment mCollectionResultTreatment;
 
         public SyncMethodInfoRpcOperation(object instance, MethodInfo method) :
             base(GetProcedure(method))
@@ -26,6 +29,19 @@ namespace WampSharp.V2.Rpc
             else
             {
                 mHasResult = false;
+            }
+
+            WampResultAttribute wampResultAttribute = 
+                method.ReturnParameter.GetCustomAttribute<WampResultAttribute>();
+
+            if (wampResultAttribute == null)
+            {
+                mCollectionResultTreatment = CollectionResultTreatment.Multivalued;
+            }
+            else
+            {
+                mCollectionResultTreatment =
+                    wampResultAttribute.CollectionResultTreatment;
             }
 
             mHelper = new MethodInfoHelper(method);
@@ -71,6 +87,14 @@ namespace WampSharp.V2.Rpc
             }
         }
 
+        public override CollectionResultTreatment CollectionResultTreatment
+        {
+            get
+            {
+                return mCollectionResultTreatment;
+            }
+        }
+
         protected override object InvokeSync<TMessage>
             (IWampRpcOperationCallback caller, 
             IWampFormatter<TMessage> formatter, 
@@ -85,12 +109,29 @@ namespace WampSharp.V2.Rpc
             object[] parameters = 
                 mHelper.GetArguments(unpacked);
 
-            object result = 
-                mMethod.Invoke(mInstance, parameters);
+            try
+            {
+                object result =
+                    mMethod.Invoke(mInstance, parameters);
 
-            outputs = mHelper.GetOutOrRefValues(parameters);
+                outputs = mHelper.GetOutOrRefValues(parameters);
 
-            return result;
+                return result;
+            }
+            catch (TargetInvocationException ex)
+            {
+                Exception actual = ex.InnerException;
+                
+                if (actual is WampException)
+                {
+                    throw actual;
+                }
+                else
+                {
+                    // TODO: throw new WampException("wamp.error.runtime_error");
+                    throw actual;
+                }
+            }
         }
     }
 }

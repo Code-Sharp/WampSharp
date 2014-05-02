@@ -35,6 +35,16 @@ namespace WampSharp.V2.Rpc
             get;
         }
 
+        /// <summary>
+        /// Returns a value indicating whether to treat an ICollection{T} result
+        /// as the arguments yield argument. (If false, treats an ICollection{T} result
+        /// value as a single argument).
+        /// </summary>
+        public abstract CollectionResultTreatment CollectionResultTreatment
+        {
+            get;
+        }
+
         public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage details)
         {
             InnerInvoke(caller, formatter, details, null, null);
@@ -67,7 +77,14 @@ namespace WampSharp.V2.Rpc
 
             if (this.HasResult)
             {
-                resultArguments = new object[] { result };
+                if (this.CollectionResultTreatment == CollectionResultTreatment.Multivalued)
+                {
+                    resultArguments = GetFlattenResult((dynamic) result);
+                }
+                else
+                {
+                    resultArguments = new object[] {result};
+                }
             }
 
             if (outputs != null)
@@ -82,6 +99,16 @@ namespace WampSharp.V2.Rpc
             {
                 caller.Result(details, resultArguments);
             }
+        }
+
+        private object[] GetFlattenResult<T>(ICollection<T> result)
+        {
+            return result.Cast<object>().ToArray();
+        }
+
+        private object[] GetFlattenResult(object result)
+        {
+            return new object[] {result};
         }
 
         protected object[] UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,

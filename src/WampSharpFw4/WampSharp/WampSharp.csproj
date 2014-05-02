@@ -780,6 +780,12 @@
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\WampResultAttribute.cs">
+      <Link>WAMP2\V2\Rpc\WampResultAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\CollectionResultTreatment.cs">
+      <Link>WAMP2\V2\Rpc\CollectionResultTreatment.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\WAMP2\V2\Rpc\Interfaces\ICallbackDisconnectionNotifier.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\ICallbackDisconnectionNotifier.cs</Link>
     </Compile>

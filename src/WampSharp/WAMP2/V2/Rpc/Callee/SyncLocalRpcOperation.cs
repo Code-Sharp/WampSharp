@@ -29,6 +29,7 @@ namespace WampSharp.V2.Rpc
             }
             catch (WampException ex)
             {
+                // TODO: support arguments?
                 caller.Error(ex.Details, ex.ErrorUri);
             }
         }
