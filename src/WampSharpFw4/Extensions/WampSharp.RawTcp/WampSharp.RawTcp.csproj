@@ -9,9 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WampSharp.RawTcp</RootNamespace>
     <AssemblyName>WampSharp.RawTcp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,36 +37,36 @@
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.Common, Version=1.6.0.4, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SuperSocket.1.6\lib\Net45\Release\SuperSocket.Common.dll</HintPath>
+      <HintPath>..\..\packages\SuperSocket.1.6\lib\Net40\Release\SuperSocket.Common.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.Facility">
-      <HintPath>..\packages\SuperSocket.1.6\lib\Net45\Debug\SuperSocket.Facility.dll</HintPath>
+      <HintPath>..\..\packages\SuperSocket.1.6\lib\Net40\Debug\SuperSocket.Facility.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.SocketBase, Version=1.6.0.4, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SuperSocket.1.6\lib\Net45\Release\SuperSocket.SocketBase.dll</HintPath>
+      <HintPath>..\..\packages\SuperSocket.1.6\lib\Net40\Release\SuperSocket.SocketBase.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.SocketEngine">
-      <HintPath>..\packages\SuperSocket.1.6\lib\Net45\Debug\SuperSocket.SocketEngine.dll</HintPath>
+      <HintPath>..\..\packages\SuperSocket.1.6\lib\Net40\Debug\SuperSocket.SocketEngine.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Core.2.2.4\lib\net45\System.Reactive.Core.dll</HintPath>
+      <HintPath>..\..\packages\Rx-Core.2.2.4\lib\net40\System.Reactive.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.Interfaces, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Interfaces.2.2.4\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <HintPath>..\..\packages\Rx-Interfaces.2.2.4\lib\net40\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.Linq, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Linq.2.2.4\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <HintPath>..\..\packages\Rx-Linq.2.2.4\lib\net40\System.Reactive.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -75,23 +75,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageArrivedEventArgs.cs" />
-    <Compile Include="RawServer.cs" />
-    <Compile Include="RawSession.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RawTcpListenerProvider.cs" />
-    <Compile Include="RawWampFilter.cs" />
+    <Compile Include="..\..\..\Extensions\WampSharp.RawTcp\MessageArrivedEventArgs.cs">
+      <Link>MessageArrivedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Extensions\WampSharp.RawTcp\RawServer.cs">
+      <Link>RawServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Extensions\WampSharp.RawTcp\RawSession.cs">
+      <Link>RawSession.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Extensions\WampSharp.RawTcp\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Extensions\WampSharp.RawTcp\RawTcpListenerProvider.cs">
+      <Link>RawTcpListenerProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Extensions\WampSharp.RawTcp\RawWampFilter.cs">
+      <Link>RawWampFilter.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WampSharp.Default\WampSharp.Default.csproj">
+    <ProjectReference Include="..\..\WampSharp.Default\WampSharp.Default.csproj">
       <Project>{6ab75291-d296-457e-88a3-b41b16a1a247}</Project>
       <Name>WampSharp.Default</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WampSharp\WampSharp.csproj">
+    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>
       <Name>WampSharp</Name>
     </ProjectReference>
