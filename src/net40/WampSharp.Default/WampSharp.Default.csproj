@@ -38,6 +38,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Fleck.0.9.8.25\lib\net40\Fleck.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="MsgPack, Version=0.5.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MsgPack.Cli.0.5.0-alpha1\lib\net40-client\MsgPack.Net40.dll</HintPath>
@@ -48,6 +49,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Reactive.Core, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Rx-Core.2.2.4\lib\net40\System.Reactive.Core.dll</HintPath>
@@ -64,11 +67,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Rx-PlatformServices.2.2.4\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebSocket4Net, Version=0.9.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WebSocket4Net.0.9\lib\net40\WebSocket4Net.dll</HintPath>
@@ -80,6 +80,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\Fleck\FleckWampConnection.cs">
       <Link>Fleck\FleckWampConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default\Fleck\FleckWampConnectionListener.cs">
+      <Link>Fleck\FleckWampConnectionListener.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\Fleck\FleckWampConnectionListenerProvider.cs">
       <Link>Fleck\FleckWampConnectionListenerProvider.cs</Link>
@@ -102,32 +105,14 @@
     <Compile Include="..\..\net45\WampSharp.Default\Json2Msgpack\MsgPackToJTokenProcessor.cs">
       <Link>Json2Msgpack\MsgPackToJTokenProcessor.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\Newtonsoft\IWampMessageFormatter.cs">
-      <Link>Newtonsoft\IWampMessageFormatter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\WAMP1\V1\Wamp1Binding.cs">
-      <Link>WAMP1\V1\Wamp1Binding.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\WAMP2\Binding\JTokenBinding.cs">
-      <Link>WAMP2\Binding\JTokenBinding.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\WAMP2\Binding\MessagePackObjectBinding.cs">
-      <Link>WAMP2\Binding\MessagePackObjectBinding.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\MsgPack\MessagePackFormatter.cs">
       <Link>MsgPack\MessagePackFormatter.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\MsgPack\MessagePackParser.cs">
       <Link>MsgPack\MessagePackParser.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\WAMP1\V1\DefaultWampChannelFactory.cs">
-      <Link>WAMP1\V1\DefaultWampChannelFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\WAMP1\V1\DefaultWampHost.cs">
-      <Link>WAMP1\V1\DefaultWampHost.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\Fleck\FleckWampConnectionListener.cs">
-      <Link>Fleck\FleckWampConnectionListener.cs</Link>
+    <Compile Include="..\..\net45\WampSharp.Default\Newtonsoft\IWampMessageFormatter.cs">
+      <Link>Newtonsoft\IWampMessageFormatter.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\Newtonsoft\JsonFormatter.cs">
       <Link>Newtonsoft\JsonFormatter.cs</Link>
@@ -141,8 +126,23 @@
     <Compile Include="..\..\net45\WampSharp.Default\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default\WAMP1\V1\DefaultWampChannelFactory.cs">
+      <Link>WAMP1\V1\DefaultWampChannelFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default\WAMP1\V1\DefaultWampHost.cs">
+      <Link>WAMP1\V1\DefaultWampHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default\WAMP1\V1\Wamp1Binding.cs">
+      <Link>WAMP1\V1\Wamp1Binding.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\WAMP1\V1\WampChannelFactoryExtensions.cs">
       <Link>WAMP1\V1\WampChannelFactoryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default\WAMP2\Binding\JTokenBinding.cs">
+      <Link>WAMP2\Binding\JTokenBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default\WAMP2\Binding\MessagePackObjectBinding.cs">
+      <Link>WAMP2\Binding\MessagePackObjectBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\WAMP2\V2\DefaultWampHost.cs">
       <Link>WAMP2\V2\DefaultWampHost.cs</Link>

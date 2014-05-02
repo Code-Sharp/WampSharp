@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Tests", "Tests\Wa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Tests.Wampv2", "Tests\WampSharp.Tests.Wampv2\WampSharp.Tests.Wampv2.csproj", "{710B61C1-E7E0-4D8F-BF39-F82086D610ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.SignalR", "Extensions\WampSharp.SignalR\WampSharp.SignalR.csproj", "{F5B01D7B-14C3-419C-9887-C0A24FF2DE59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{710B61C1-E7E0-4D8F-BF39-F82086D610ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{710B61C1-E7E0-4D8F-BF39-F82086D610ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{710B61C1-E7E0-4D8F-BF39-F82086D610ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5B01D7B-14C3-419C-9887-C0A24FF2DE59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5B01D7B-14C3-419C-9887-C0A24FF2DE59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B01D7B-14C3-419C-9887-C0A24FF2DE59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5B01D7B-14C3-419C-9887-C0A24FF2DE59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +91,6 @@ Global
 		{D3FB3310-A761-45B5-AC4B-78FE90C2829C} = {D07452C1-0C0A-45C3-8A1B-33BD8FF93C5E}
 		{710B61C1-E7E0-4D8F-BF39-F82086D610ED} = {D07452C1-0C0A-45C3-8A1B-33BD8FF93C5E}
 		{678473BD-87FC-4788-A444-4ABF45FDCFEC} = {FA4B348E-3BBD-4F98-B429-891376EBA17E}
+		{F5B01D7B-14C3-419C-9887-C0A24FF2DE59} = {FA4B348E-3BBD-4F98-B429-891376EBA17E}
 	EndGlobalSection
 EndGlobal
