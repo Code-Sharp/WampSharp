@@ -36,7 +36,7 @@
   <ItemGroup>
     <Reference Include="MsgPack, Version=0.5.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\MsgPack.Cli.0.5.0-alpha1\lib\net40\MsgPack.dll</HintPath>
+      <HintPath>..\..\..\packages\MsgPack.Cli.0.5.0-alpha1\lib\net40-client\MsgPack.Net40.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
