@@ -26,6 +26,14 @@ namespace WampSharp.Fleck
 
         private void OnConnectionError(Exception exception)
         {
+            lock (mLock)
+            {
+                if (!mClosed)
+                {
+                    mClosed = true;
+                }
+            }
+
             RaiseConnectionError(exception);
         }
 

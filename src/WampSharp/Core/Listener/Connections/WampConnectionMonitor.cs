@@ -15,10 +15,16 @@ namespace WampSharp.Core.Listener
         public WampConnectionMonitor(IWampConnection<TMessage> connection)
         {
             mConnection = connection;
+            mConnection.ConnectionError += OnConnectionError;
             mConnection.ConnectionClosed += OnConnectionClosed;
         }
 
         public object Client { private get; set; }
+
+        private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
+        {
+            OnConnectionClosed();
+        }
 
         private void OnConnectionClosed(object sender, EventArgs e)
         {
