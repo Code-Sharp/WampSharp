@@ -3,7 +3,7 @@ WampSharp
 
 
 A C# implementation of [WAMP (The WebSocket Application Messaging Protocol)][WampLink]
-=========
+
 This branch is a dev branch of a WAMPv2 implementation.
 
 It is still under development and isn't very mature right now.
@@ -36,8 +36,3 @@ Master | Provider
 [CodeBetter]:http://codebetter.com/
 [travis-ci]:https://travis-ci.org/
 [AppVeyor]:http://www.appveyor.com/
-
-Get started
-===========
-
-See [Server tutorial](https://github.com/darkl/WampSharp/wiki/Getting-started) and [Client tutorial](https://github.com/darkl/WampSharp/wiki/Getting-started-with-WAMP-client).
