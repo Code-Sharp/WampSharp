@@ -33,6 +33,8 @@ namespace WampSharp.Core.Listener
 
         private void OnConnectionClosed()
         {
+            mConnection.ConnectionError -= OnConnectionError;
+            mConnection.ConnectionClosed -= OnConnectionClosed;
             RaiseConnectionClosed(Client, EventArgs.Empty);
         }
 
