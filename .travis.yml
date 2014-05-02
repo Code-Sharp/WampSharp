@@ -15,7 +15,7 @@ before_install:
  - sudo installer -pkg "MonoFramework-MDK-${MONO_VER}.macos10.xamarin.x86.pkg" -target /
 
 script:
- - cd src/WampSharpMono
+ - cd src/mono
  - xbuild 
  - .ci/RunTests.sh 
 
