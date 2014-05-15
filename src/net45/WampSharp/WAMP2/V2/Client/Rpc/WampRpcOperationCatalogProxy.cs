@@ -8,7 +8,8 @@ using WampSharp.V2.Rpc;
 namespace WampSharp.V2.Client
 {
     internal class WampRpcOperationCatalogProxy<TMessage> :
-        IWampRpcOperationCatalogProxy, IWampCallee<TMessage>, IWampCaller<TMessage>
+        IWampRpcOperationCatalogProxy, IWampCallee<TMessage>, IWampCaller<TMessage>,
+        IWampCalleeError<TMessage>, IWampCallerError<TMessage>
     {
         private readonly WampCallee<TMessage> mCallee;
         private readonly WampCaller<TMessage> mCaller;
@@ -104,6 +105,51 @@ namespace WampSharp.V2.Client
         public void Result(long requestId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
         {
             mCaller.Result(requestId, details, arguments, argumentsKeywords);
+        }
+
+        public void RegisterError(long requestId, TMessage details, string error)
+        {
+            mCallee.RegisterError(requestId, details, error);
+        }
+
+        public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            mCallee.RegisterError(requestId, details, error, arguments);
+        }
+
+        public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            mCallee.RegisterError(requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public void UnregisterError(long requestId, TMessage details, string error)
+        {
+            mCallee.UnregisterError(requestId, details, error);
+        }
+
+        public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            mCallee.UnregisterError(requestId, details, error, arguments);
+        }
+
+        public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            mCallee.UnregisterError(requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public void CallError(long requestId, TMessage details, string error)
+        {
+            mCaller.CallError(requestId, details, error);
+        }
+
+        public void CallError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            mCaller.CallError(requestId, details, error, arguments);
+        }
+
+        public void CallError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            mCaller.CallError(requestId, details, error, arguments, argumentsKeywords);
         }
     }
 }
