@@ -48,7 +48,10 @@ namespace WampSharp.V2.Rpc
         {
             ICallbackDisconnectionNotifier notifier = callback as ICallbackDisconnectionNotifier;
 
-            notifier.Disconnected += OnCallbackDisconnected;
+            if (notifier != null)
+            {
+                notifier.Disconnected += OnCallbackDisconnected;
+            }
         }
 
         private void OnCallbackDisconnected(object sender, EventArgs e)
@@ -75,7 +78,11 @@ namespace WampSharp.V2.Rpc
         private void UnregisterDisconnectionNotifier(object sender)
         {
             ICallbackDisconnectionNotifier notifier = sender as ICallbackDisconnectionNotifier;
-            notifier.Disconnected -= OnCallbackDisconnected;
+            
+            if (notifier != null)
+            {
+                notifier.Disconnected -= OnCallbackDisconnected;
+            }
         }
 
         public void Yield(IWampCallee callee, long requestId, TMessage options)

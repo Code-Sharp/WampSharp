@@ -519,6 +519,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\WampBinding.cs">
       <Link>WAMP2\V2\Binding\WampBinding.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\ErrorForwarder.cs">
+      <Link>WAMP2\V2\Client\ErrorForwarder.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\PubSub\Interfaces\IWampRawTopicSubscriber.cs">
       <Link>WAMP2\V2\Client\PubSub\Interfaces\IWampRawTopicSubscriber.cs</Link>
     </Compile>
@@ -594,11 +597,26 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampClient.cs">
       <Link>WAMP2\V2\Client\WampClient.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Error\IWampCalleeError.cs">
+      <Link>WAMP2\V2\Core\Contracts\Error\IWampCalleeError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Error\IWampCallerError.cs">
+      <Link>WAMP2\V2\Core\Contracts\Error\IWampCallerError.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Error\IWampError.cs">
       <Link>WAMP2\V2\Core\Contracts\Error\IWampError.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Error\IWampErrorCallback.cs">
       <Link>WAMP2\V2\Core\Contracts\Error\IWampErrorCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Error\IWampPublisherError.cs">
+      <Link>WAMP2\V2\Core\Contracts\Error\IWampPublisherError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Error\IWampSubscriberError.cs">
+      <Link>WAMP2\V2\Core\Contracts\Error\IWampSubscriberError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Error\WampErrorHandlerAttribute.cs">
+      <Link>WAMP2\V2\Core\Contracts\Error\WampErrorHandlerAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Error\WampErrors.cs">
       <Link>WAMP2\V2\Core\Contracts\Error\WampErrors.cs</Link>

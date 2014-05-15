@@ -1,23 +1,26 @@
-﻿using System;
-using System.Threading.Tasks;
-using WampSharp.Core.Listener;
+﻿using System.Threading.Tasks;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Client
 {
     public class WampClient<TMessage> : IWampSessionClientExtended<TMessage>,
                                         IWampCallee<TMessage>,
+                                        IWampCalleeError<TMessage>,
                                         IWampCaller<TMessage>,
+                                        IWampCallerError<TMessage>,
                                         IWampPublisher<TMessage>,
-                                        IWampSubscriber<TMessage>
+                                        IWampPublisherError<TMessage>,
+                                        IWampSubscriber<TMessage>,
+                                        IWampSubscriberError<TMessage>
     {
         private readonly IWampRealmProxy mRealm;
         private readonly IWampSessionClientExtended<TMessage> mSession;
+        private readonly IWampError<TMessage> mErrorHandler;
 
         public WampClient(IWampRealmProxyFactory<TMessage> realmFactory)
         {
             mRealm = realmFactory.Build(this);
+            mErrorHandler = new ErrorForwarder<TMessage>(this);
             mSession = new SessionClient<TMessage>(this.Realm);
         }
 
@@ -58,58 +61,62 @@ namespace WampSharp.V2.Client
 
         public IWampRealmProxy Realm
         {
-            get
-            {
-                return mRealm;
-            }
+            get { return mRealm; }
         }
 
         public IWampCallee<TMessage> Callee
         {
-            get
-            {
-                return this.Realm.RpcCatalog as IWampCallee<TMessage>;
-            }
+            get { return this.Realm.RpcCatalog as IWampCallee<TMessage>; }
         }
 
         public IWampCaller<TMessage> Caller
         {
-            get
-            {
-                return this.Realm.RpcCatalog as IWampCaller<TMessage>;
-            }
+            get { return this.Realm.RpcCatalog as IWampCaller<TMessage>; }
+        }
+
+        public IWampCalleeError<TMessage> CalleeError
+        {
+            get { return this.Realm.RpcCatalog as IWampCalleeError<TMessage>; }
+        }
+
+        public IWampCallerError<TMessage> CallerError
+        {
+            get { return this.Realm.RpcCatalog as IWampCallerError<TMessage>; }
         }
 
         public Task OpenTask
         {
-            get
-            {
-                return SessionClient.OpenTask;
-            }
+            get { return SessionClient.OpenTask; }
         }
 
         private IWampSessionClientExtended<TMessage> SessionClient
         {
-            get
-            {
-                return mSession;
-            }
+            get { return mSession; }
         }
 
         public IWampPublisher<TMessage> Publisher
         {
-            get
-            {
-                return Realm.TopicContainer as IWampPublisher<TMessage>;
-            }
+            get { return Realm.TopicContainer as IWampPublisher<TMessage>; }
         }
 
         public IWampSubscriber<TMessage> Subscriber
         {
-            get
-            {
-                return Realm.TopicContainer as IWampSubscriber<TMessage>;
-            }
+            get { return Realm.TopicContainer as IWampSubscriber<TMessage>; }
+        }
+
+        public IWampPublisherError<TMessage> PublisherError
+        {
+            get { return Realm.TopicContainer as IWampPublisherError<TMessage>; }
+        }
+
+        public IWampSubscriberError<TMessage> SubscriberError
+        {
+            get { return Realm.TopicContainer as IWampSubscriberError<TMessage>; }
+        }
+
+        public IWampError<TMessage> ErrorHandler
+        {
+            get { return mErrorHandler; }
         }
 
         public void OnConnectionOpen()
@@ -142,7 +149,8 @@ namespace WampSharp.V2.Client
             Callee.Invocation(requestId, registrationId, details, arguments);
         }
 
-        public void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments,
+                               TMessage argumentsKeywords)
         {
             Callee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);
         }
@@ -172,7 +180,8 @@ namespace WampSharp.V2.Client
             Subscriber.Event(subscriptionId, publicationId, details, arguments);
         }
 
-        public void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments,
+                          TMessage argumentsKeywords)
         {
             Subscriber.Event(subscriptionId, publicationId, details, arguments, argumentsKeywords);
         }
@@ -195,6 +204,112 @@ namespace WampSharp.V2.Client
         public void Published(long requestId, long publicationId)
         {
             Publisher.Published(requestId, publicationId);
+        }
+
+        public void Error(int requestType, long requestId, TMessage details, string error)
+        {
+            ErrorHandler.Error(requestType, requestId, details, error);
+        }
+
+        public void Error(int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            ErrorHandler.Error(requestType, requestId, details, error, arguments);
+        }
+
+        public void Error(int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
+                          TMessage argumentsKeywords)
+        {
+            ErrorHandler.Error(requestType, requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public void SubscribeError(long requestId, TMessage details, string error)
+        {
+            SubscriberError.SubscribeError(requestId, details, error);
+        }
+
+        public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            SubscriberError.SubscribeError(requestId, details, error, arguments);
+        }
+
+        public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            SubscriberError.SubscribeError(requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public void UnsubscribeError(long requestId, TMessage details, string error)
+        {
+            SubscriberError.UnsubscribeError(requestId, details, error);
+        }
+
+        public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            SubscriberError.UnsubscribeError(requestId, details, error, arguments);
+        }
+
+        public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            SubscriberError.UnsubscribeError(requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public void RegisterError(long requestId, TMessage details, string error)
+        {
+            CalleeError.RegisterError(requestId, details, error);
+        }
+
+        public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            CalleeError.RegisterError(requestId, details, error, arguments);
+        }
+
+        public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            CalleeError.RegisterError(requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public void UnregisterError(long requestId, TMessage details, string error)
+        {
+            CalleeError.UnregisterError(requestId, details, error);
+        }
+
+        public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            CalleeError.UnregisterError(requestId, details, error, arguments);
+        }
+
+        public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            CalleeError.UnregisterError(requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public void PublishError(long requestId, TMessage details, string error)
+        {
+            PublisherError.PublishError(requestId, details, error);
+        }
+
+        public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            PublisherError.PublishError(requestId, details, error, arguments);
+        }
+
+        public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            PublisherError.PublishError(requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public void CallError(long requestId, TMessage details, string error)
+        {
+            CallerError.CallError(requestId, details, error);
+        }
+
+        public void CallError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            CallerError.CallError(requestId, details, error, arguments);
+        }
+
+        public void CallError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            CallerError.CallError(requestId, details, error, arguments, argumentsKeywords);
         }
     }
 }

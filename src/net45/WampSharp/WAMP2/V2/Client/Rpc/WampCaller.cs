@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
@@ -7,7 +6,8 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Client
 {
-    internal class WampCaller<TMessage> : IWampRpcOperationInvokerProxy, IWampCaller<TMessage>
+    internal class WampCaller<TMessage> : IWampRpcOperationInvokerProxy, IWampCaller<TMessage>,
+        IWampCallerError<TMessage>
     {
         private readonly IWampServerProxy mProxy;
         private readonly WampIdMapper<CallDetails> mPendingCalls = new WampIdMapper<CallDetails>();
@@ -104,6 +104,36 @@ namespace WampSharp.V2.Client
             if (callDetails != null)
             {
                 callDetails.Caller.Result(this.Formatter, details, arguments, argumentsKeywords);
+            }
+        }
+
+        public void CallError(long requestId, TMessage details, string error)
+        {
+            CallDetails callDetails = TryGetCallDetails(requestId);
+
+            if (callDetails != null)
+            {
+                callDetails.Caller.Error(this.Formatter, details, error);
+            }
+        }
+
+        public void CallError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            CallDetails callDetails = TryGetCallDetails(requestId);
+
+            if (callDetails != null)
+            {
+                callDetails.Caller.Error(this.Formatter, details, error, arguments);
+            }
+        }
+
+        public void CallError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            CallDetails callDetails = TryGetCallDetails(requestId);
+
+            if (callDetails != null)
+            {
+                callDetails.Caller.Error(this.Formatter, details, error, arguments, argumentsKeywords);
             }
         }
 

@@ -10,7 +10,8 @@ using WampSharp.V2.PubSub;
 
 namespace WampSharp.V2.Client
 {
-    internal class WampSubscriber<TMessage> : IWampSubscriber<TMessage>, IWampTopicSubscriptionProxy
+    internal class WampSubscriber<TMessage> : IWampSubscriber<TMessage>, IWampTopicSubscriptionProxy,
+        IWampSubscriberError<TMessage>
     {
         private readonly WampIdMapper<SubscribeRequest> mPendingSubscriptions =
             new WampIdMapper<SubscribeRequest>();
@@ -78,6 +79,36 @@ namespace WampSharp.V2.Client
                 Subscription subscription;
                 mSubscriptionIdToSubscription.TryRemove(subscriptionId, out subscription);
             }
+        }
+
+        public void SubscribeError(long requestId, TMessage details, string error)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnsubscribeError(long requestId, TMessage details, string error)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            throw new NotImplementedException();
         }
 
         public void Event(long subscriptionId, long publicationId, TMessage details)

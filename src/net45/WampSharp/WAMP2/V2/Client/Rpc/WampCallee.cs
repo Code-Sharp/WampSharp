@@ -9,7 +9,8 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Client
 {
-    internal class WampCallee<TMessage> : IWampRpcOperationRegistrationProxy, IWampCallee<TMessage>
+    internal class WampCallee<TMessage> : IWampRpcOperationRegistrationProxy, IWampCallee<TMessage>,
+        IWampCalleeError<TMessage>
     {
         private readonly IWampServerProxy mProxy;
 
@@ -150,6 +151,36 @@ namespace WampSharp.V2.Client
                 IWampRpcOperationCallback callback = GetCallback(requestId);
                 operation.Invoke(callback, mFormatter, details, arguments, argumentsKeywords);
             }
+        }
+
+        public void RegisterError(long requestId, TMessage details, string error)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UnregisterError(long requestId, TMessage details, string error)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void Interrupt(long requestId, TMessage options)
