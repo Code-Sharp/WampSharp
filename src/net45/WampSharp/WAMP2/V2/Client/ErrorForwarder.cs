@@ -39,6 +39,11 @@ namespace WampSharp.V2.Client
                         mInstance.SubscribeError(requestId, details, error);
                         break;
                     }
+                case WampMessageType.v2Unsubscribe:
+                    {
+                        mInstance.UnsubscribeError(requestId, details, error);
+                        break;
+                    }
                 case WampMessageType.v2Publish:
                     {
                         mInstance.PublishError(requestId, details, error);
@@ -71,6 +76,11 @@ namespace WampSharp.V2.Client
                 case WampMessageType.v2Subscribe:
                     {
                         mInstance.SubscribeError(requestId, details, error, arguments);
+                        break;
+                    }
+                case WampMessageType.v2Unsubscribe:
+                    {
+                        mInstance.UnsubscribeError(requestId, details, error, arguments);
                         break;
                     }
                 case WampMessageType.v2Publish:
@@ -106,6 +116,11 @@ namespace WampSharp.V2.Client
                 case WampMessageType.v2Subscribe:
                     {
                         mInstance.SubscribeError(requestId, details, error, arguments, argumentsKeywords);
+                        break;
+                    }
+                case WampMessageType.v2Unsubscribe:
+                    {
+                        mInstance.UnsubscribeError(requestId, details, error, arguments, argumentsKeywords);
                         break;
                     }
                 case WampMessageType.v2Publish:

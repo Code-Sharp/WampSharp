@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
 {
     public class WampTopicContainerProxy<TMessage> : IWampTopicContainerProxy,
-        IWampSubscriber<TMessage>, IWampPublisher<TMessage>
+        IWampSubscriber<TMessage>, IWampPublisher<TMessage>,
+        IWampSubscriberError<TMessage>, IWampPublisherError<TMessage>
     {
         private readonly IWampServerProxy mProxy;
+
         private readonly WampSubscriber<TMessage> mSubscriber;
+
         private readonly WampPublisher<TMessage> mPublisher;
-        
+
         private readonly ConcurrentDictionary<string, WampTopicProxy> mTopicUriToProxy =
             new ConcurrentDictionary<string, WampTopicProxy>();
 
@@ -68,6 +70,51 @@ namespace WampSharp.V2.Client
         public void Published(long requestId, long publicationId)
         {
             mPublisher.Published(requestId, publicationId);
+        }
+
+        public void PublishError(long requestId, TMessage details, string error)
+        {
+            mPublisher.PublishError(requestId, details, error);
+        }
+
+        public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            mPublisher.PublishError(requestId, details, error, arguments);
+        }
+
+        public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            mPublisher.PublishError(requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public void SubscribeError(long requestId, TMessage details, string error)
+        {
+            mSubscriber.SubscribeError(requestId, details, error);
+        }
+
+        public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            mSubscriber.SubscribeError(requestId, details, error, arguments);
+        }
+
+        public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            mSubscriber.SubscribeError(requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public void UnsubscribeError(long requestId, TMessage details, string error)
+        {
+            mSubscriber.UnsubscribeError(requestId, details, error);
+        }
+
+        public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
+        {
+            mSubscriber.UnsubscribeError(requestId, details, error, arguments);
+        }
+
+        public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            mSubscriber.UnsubscribeError(requestId, details, error, arguments, argumentsKeywords);
         }
 
         private class ConatinerDisposable : IDisposable
