@@ -30,7 +30,7 @@ Master | Provider
 [MonoImgMaster]:https://travis-ci.org/Code-Sharp/WampSharp.png?branch=wampv2
 [MonoLinkMaster]:https://travis-ci.org/Code-Sharp/WampSharp
 [AppVeyorLinkMaster]:https://ci.appveyor.com/project/darkl/wampsharp-759
-[AppVeyorImgMaster]:https://ci.appveyor.com/api/projects/status/7winrk0b1x8imi0r
+[AppVeyorImgMaster]:https://ci.appveyor.com/api/projects/status/fgbqbgwqx4j8jain
 
 [JetBrains]:http://www.jetbrains.com/
 [CodeBetter]:http://codebetter.com/
