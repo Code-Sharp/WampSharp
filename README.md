@@ -27,8 +27,8 @@ Master | Provider
 
 [WinImgMaster]:http://teamcity.codebetter.com/app/rest/builds/buildType:\(id:bt1199\)/statusIcon
 [WinLinkMaster]:http://teamcity.codebetter.com/viewLog.html?buildTypeId=bt1199&buildId=lastFinished&guest=1
-[MonoImgMaster]:https://travis-ci.org/darkl/WampSharp.png?branch=wampv2
-[MonoLinkMaster]:https://travis-ci.org/darkl/WampSharp
+[MonoImgMaster]:https://travis-ci.org/Code-Sharp/WampSharp.png?branch=wampv2
+[MonoLinkMaster]:https://travis-ci.org/Code-Sharp/WampSharp
 [AppVeyorLinkMaster]:https://ci.appveyor.com/project/darkl/wampsharp-wampv2
 [AppVeyorImgMaster]:https://ci.appveyor.com/api/projects/status/5p03p1mkwuaxnoav
 
