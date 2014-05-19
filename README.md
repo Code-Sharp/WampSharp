@@ -36,4 +36,3 @@ Master | Provider
 [CodeBetter]:http://codebetter.com/
 [travis-ci]:https://travis-ci.org/
 [AppVeyor]:http://www.appveyor.com/
-
