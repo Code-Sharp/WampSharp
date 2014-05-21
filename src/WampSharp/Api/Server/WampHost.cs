@@ -1,5 +1,4 @@
 ﻿using System;
-using WampSharp.Auxiliary.Server;
 using WampSharp.Core.Contracts.V1;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
@@ -18,42 +17,19 @@ namespace WampSharp
         private WampListener<TMessage> mListener;
         private readonly WampRpcMetadataCatalog mMetadataCatalog;
         private readonly IWampTopicContainerExtended<TMessage> mTopicContainer;
-        
-        public event EventHandler<WampSessionEventArgs> SessionCreated
+
+        public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter) : 
+            this(new WampServerBuilder<TMessage>(), connectionListener, formatter)
         {
-            add
-            {
-                mListener.SessionCreated += value;
-            }
-            remove
-            {
-                mListener.SessionCreated -= value;
-            }
         }
 
-        public event EventHandler<WampSessionEventArgs> SessionClosed
-        {
-            add
-            {
-                mListener.SessionClosed += value;
-            }
-            remove
-            {
-                mListener.SessionClosed -= value;
-            }
-        }
-
-        public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
+        public WampHost(IWampServerBuilder<TMessage> serverBuilder, IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
         {
             mMetadataCatalog = new WampRpcMetadataCatalog();
-            WampRpcServer<TMessage> rpcServer = new WampRpcServer<TMessage>(formatter, mMetadataCatalog);
             
             mTopicContainer = new WampTopicContainer<TMessage>();
-            WampPubSubServer<TMessage> pubSubServer = new WampPubSubServer<TMessage>(mTopicContainer);
 
-            WampAuxiliaryServer auxiliaryServer = new WampAuxiliaryServer();
-
-            mServer = new DefaultWampServer<TMessage>(rpcServer, pubSubServer, auxiliaryServer);
+            mServer = serverBuilder.Build(formatter, mMetadataCatalog, mTopicContainer);
 
             mListener = GetWampListener(connectionListener, formatter, mServer);
 		}
@@ -140,6 +116,30 @@ namespace WampSharp
             get
             {
                 return mTopicContainer;
+            }
+        }
+
+        public event EventHandler<WampSessionEventArgs> SessionCreated
+        {
+            add
+            {
+                mListener.SessionCreated += value;
+            }
+            remove
+            {
+                mListener.SessionCreated -= value;
+            }
+        }
+
+        public event EventHandler<WampSessionEventArgs> SessionClosed
+        {
+            add
+            {
+                mListener.SessionClosed += value;
+            }
+            remove
+            {
+                mListener.SessionClosed -= value;
             }
         }
     }

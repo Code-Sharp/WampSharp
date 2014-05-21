@@ -64,7 +64,9 @@
     <Compile Include="Api\Client\WampChannelFactory.cs" />
     <Compile Include="Api\Server\DefaultWampServer.cs" />
     <Compile Include="Api\Server\IWampHost.cs" />
+    <Compile Include="Api\Server\IWampServerBuilder.cs" />
     <Compile Include="Api\Server\WampHost.cs" />
+    <Compile Include="Api\Server\WampServerBuilder.cs" />
     <Compile Include="Auxiliary\Client\IWampAuxiliaryClientFactory.cs" />
     <Compile Include="Auxiliary\Client\IWampClientConnectionMonitor.cs" />
     <Compile Include="Auxiliary\Client\WampAuxiliaryClientFactory.cs" />
