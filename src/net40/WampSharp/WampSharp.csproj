@@ -699,11 +699,11 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Proxy\BindingPropertyInterceptor.cs">
       <Link>WAMP2\V2\Core\Proxy\BindingPropertyInterceptor.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Proxy\RealmProperty.cs">
-      <Link>WAMP2\V2\Core\Proxy\RealmProperty.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\IWampClientProperties.cs">
+      <Link>WAMP2\V2\Core\Contracts\IWampClientProperties.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Proxy\SessionIdPropertyInterceptor.cs">
-      <Link>WAMP2\V2\Core\Proxy\SessionIdPropertyInterceptor.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Proxy\WampClientPropertyBag.cs">
+      <Link>WAMP2\V2\Core\Proxy\WampClientPropertyBag.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Proxy\WampInterceptorSelector.cs">
       <Link>WAMP2\V2\Core\Proxy\WampInterceptorSelector.cs</Link>

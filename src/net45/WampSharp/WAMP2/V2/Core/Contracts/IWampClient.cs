@@ -1,19 +1,13 @@
-﻿using WampSharp.V2.Binding;
-using WampSharp.V2.Core.Listener;
-using WampSharp.V2.Realm;
-
-namespace WampSharp.V2.Core.Contracts
+﻿namespace WampSharp.V2.Core.Contracts
 {
     public interface IWampClient :
         IWampSessionClient,
         IWampCallee,
         IWampCaller,
         IWampPublisher,
-        IWampSubscriber
+        IWampSubscriber,
+        IWampClientProperties
     {
-        long Session { get; }
-
-        IWampBinding Binding { get; }
     }
 
     public interface IWampClient<TMessage> :
@@ -21,13 +15,8 @@ namespace WampSharp.V2.Core.Contracts
         IWampCaller<TMessage>,
         IWampPublisher<TMessage>,
         IWampSubscriber<TMessage>,
-        IWampRawClient<TMessage>
+        IWampRawClient<TMessage>,
+        IWampClientProperties<TMessage>
     {
-        // Maybe not such a good idea.
-        long Session { get; }
-
-        IWampRealm<TMessage> Realm { get; set; } 
-        
-        IWampBinding<TMessage> Binding { get; }
     }
 }

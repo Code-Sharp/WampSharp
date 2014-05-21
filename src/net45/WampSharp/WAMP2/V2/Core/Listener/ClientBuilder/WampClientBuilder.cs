@@ -22,7 +22,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         private readonly IWampOutgoingRequestSerializer<TMessage> mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
         private readonly IWampIdGenerator mSessionIdGenerator;
-        private readonly BindingPropertyInterceptor<TMessage> mBindingInterceptor; 
+        private readonly IWampBinding<TMessage> mBinding;
 
         #endregion
 
@@ -43,8 +43,8 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
             mOutgoingSerializer = outgoingSerializer;
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
             mContainer = container;
+            mBinding = binding;
             mSessionIdGenerator = sessionIdGenerator;
-            mBindingInterceptor = new BindingPropertyInterceptor<TMessage>(binding);
         }
 
         #endregion
@@ -71,28 +71,27 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                              wampRawOutgoingInterceptor)
                     };
 
-
             WampConnectionMonitor<TMessage> monitor = 
                 new WampConnectionMonitor<TMessage>(connection);
             
             proxyGenerationOptions.AddMixinInstance(monitor);
 
+            long session = mSessionIdGenerator.Generate();
+            
+            WampClientPropertyBag<TMessage> propertyBag = 
+                new WampClientPropertyBag<TMessage>(session, mBinding);
+            
+            proxyGenerationOptions.AddMixinInstance(propertyBag);
+
             proxyGenerationOptions.AddMixinInstance
                 (new WampClientContainerDisposable<TMessage, IWampClient<TMessage>>
                     (mContainer, connection));
-
-            RealmProperty<TMessage> realm =
-                new RealmProperty<TMessage>();
 
             IWampClient<TMessage> result =
                 mGenerator.CreateInterfaceProxyWithoutTarget
                     (typeof (IWampClient), new[] {typeof (IWampClient<TMessage>)},
                      proxyGenerationOptions,
-                     mBindingInterceptor,
-                     wampOutgoingInterceptor,
-                     new SessionIdPropertyInterceptor(mSessionIdGenerator.Generate()),
-                     realm.Getter,
-                     realm.Setter)
+                     wampOutgoingInterceptor)
                 as IWampClient<TMessage>;
 
             monitor.Client = result;

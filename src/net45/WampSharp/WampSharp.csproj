@@ -275,8 +275,8 @@
     <Compile Include="WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\WampListener.cs" />
     <Compile Include="WAMP2\V2\Core\Proxy\BindingPropertyInterceptor.cs" />
-    <Compile Include="WAMP2\V2\Core\Proxy\RealmProperty.cs" />
-    <Compile Include="WAMP2\V2\Core\Proxy\SessionIdPropertyInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\IWampClientProperties.cs" />
+    <Compile Include="WAMP2\V2\Core\Proxy\WampClientPropertyBag.cs" />
     <Compile Include="WAMP2\V2\Core\Proxy\WampInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Core\WampIdGenerator.cs" />
     <Compile Include="WAMP2\V2\Core\WampIdMapper.cs" />
