@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Contracts.V1;
+﻿using System.Collections.Generic;
+using WampSharp.Core.Contracts.V1;
 using WampSharp.Tests.TestHelpers;
 
 namespace WampSharp.Tests.Dispatch.Helpers
@@ -8,6 +9,11 @@ namespace WampSharp.Tests.Dispatch.Helpers
         public void Welcome(string sessionId, int protocolVersion, string serverIdent)
         {
             throw new System.NotImplementedException();
+        }
+
+        public IDictionary<string, object> ClientContext
+        {
+            get { throw new System.NotImplementedException(); }
         }
 
         public string SessionId

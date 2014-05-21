@@ -40,6 +40,13 @@ namespace WampSharp.Core.Proxy
                                    .Cast<IInterceptor>()
                                    .ToArray();
             }
+            else if (method.IsSpecialName &&
+                     method.Name == "get_ClientContext")
+            {
+                return interceptors.OfType<ClientContextPropertyInterceptor>()
+                                   .Cast<IInterceptor>()
+                                   .ToArray();
+            }
 
             return null;
         }
