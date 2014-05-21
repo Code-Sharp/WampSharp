@@ -43,17 +43,17 @@ namespace WampSharp
             }
         }
 
-        public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
+        public WampHost(IWampHostBuilder<TMessage> hostBuilder,IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
         {
             mMetadataCatalog = new WampRpcMetadataCatalog();
-            WampRpcServer<TMessage> rpcServer = new WampRpcServer<TMessage>(formatter, mMetadataCatalog);
+            IWampRpcServer<TMessage> rpcServer = hostBuilder.BuildRpcServer(formatter, mMetadataCatalog);
             
             mTopicContainer = new WampTopicContainer<TMessage>();
-            WampPubSubServer<TMessage> pubSubServer = new WampPubSubServer<TMessage>(mTopicContainer);
+            IWampPubSubServer<TMessage> pubSubServer = hostBuilder.BuildPubSubServer(mTopicContainer);
 
-            WampAuxiliaryServer auxiliaryServer = new WampAuxiliaryServer();
+            IWampAuxiliaryServer auxiliaryServer = hostBuilder.BuildAuxiliaryServer();
 
-            mServer = new DefaultWampServer<TMessage>(rpcServer, pubSubServer, auxiliaryServer);
+            mServer = hostBuilder.BuildWampServer(rpcServer, pubSubServer, auxiliaryServer);
 
             mListener = GetWampListener(connectionListener, formatter, mServer);
 		}

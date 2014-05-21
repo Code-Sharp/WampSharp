@@ -24,7 +24,12 @@ namespace WampSharp
         }
 
         public DefaultWampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
-            : base(connectionListener, formatter)
+            : base(new DefaultWampHostBuilder<TMessage>(), connectionListener, formatter)
+        {
+        }
+
+        public DefaultWampHost(IWampHostBuilder<TMessage> hostBuilder, IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
+            : base(hostBuilder, connectionListener, formatter)
         {
         }
     }

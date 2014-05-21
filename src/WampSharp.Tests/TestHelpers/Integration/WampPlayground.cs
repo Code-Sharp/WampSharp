@@ -15,7 +15,7 @@ namespace WampSharp.Tests.TestHelpers.Integration
             mFormatter = new MockRawFormatter();
             mChannelFactory = new WampChannelFactory<MockRaw>(mFormatter);
             mListener = new MockConnectionListener();
-            mHost = new WampHost<MockRaw>(mListener, mFormatter);
+            mHost = new WampHost<MockRaw>(new DefaultWampHostBuilder<MockRaw>(), mListener, mFormatter);
         }
 
         public IControlledWampConnection<MockRaw> CreateClientConnection()
