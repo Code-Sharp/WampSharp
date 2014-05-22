@@ -85,6 +85,7 @@
     <Compile Include="Core\Contracts\V1\IWampAuxiliaryClient.cs" />
     <Compile Include="Core\Contracts\V1\IWampAuxiliaryServer.cs" />
     <Compile Include="Core\Contracts\V1\IWampClient.cs" />
+    <Compile Include="Core\Contracts\V1\IWampClientContext.cs" />
     <Compile Include="Core\Contracts\V1\IWampPubSubClient.cs" />
     <Compile Include="Core\Contracts\V1\IWampPubSubServer.cs" />
     <Compile Include="Core\Contracts\V1\IWampRpcClient.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Core\Message\MessageType\MessageTypeDetailsAttribute.cs" />
     <Compile Include="Core\Message\MessageType\WampMessageType.cs" />
     <Compile Include="Core\Message\WampMessage.cs" />
+    <Compile Include="Core\Proxy\ClientContextPropertyInterceptor.cs" />
     <Compile Include="Core\Proxy\IWampOutgoingMessageHandler.cs" />
     <Compile Include="Core\Proxy\IWampOutgoingRequestSerializer.cs" />
     <Compile Include="Core\Proxy\SessionIdPropertyInterceptor.cs" />

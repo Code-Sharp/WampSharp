@@ -76,8 +76,14 @@
     <Compile Include="..\..\WampSharp\Api\Server\IWampHost.cs">
       <Link>Api\Server\IWampHost.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\Api\Server\IWampServerBuilder.cs">
+      <Link>Api\Server\IWampServerBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\Api\Server\WampHost.cs">
       <Link>Api\Server\WampHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Api\Server\WampServerBuilder.cs">
+      <Link>Api\Server\WampServerBuilder.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Auxiliary\Client\IWampAuxiliaryClientFactory.cs">
       <Link>Auxiliary\Client\IWampAuxiliaryClientFactory.cs</Link>
@@ -132,6 +138,9 @@
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Contracts\V1\IWampClient.cs">
       <Link>Core\Contracts\V1\IWampClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Core\Contracts\V1\IWampClientContext.cs">
+      <Link>Core\Contracts\V1\IWampClientContext.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Contracts\V1\IWampPubSubClient.cs">
       <Link>Core\Contracts\V1\IWampPubSubClient.cs</Link>
@@ -288,6 +297,9 @@
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Message\WampMessage.cs">
       <Link>Core\Message\WampMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Core\Proxy\ClientContextPropertyInterceptor.cs">
+      <Link>Core\Proxy\ClientContextPropertyInterceptor.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Proxy\IWampOutgoingMessageHandler.cs">
       <Link>Core\Proxy\IWampOutgoingMessageHandler.cs</Link>
