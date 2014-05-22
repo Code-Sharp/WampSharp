@@ -123,7 +123,9 @@
     <Compile Include="WAMP1\V1\Api\Client\WampChannelFactory.cs" />
     <Compile Include="WAMP1\V1\Api\Server\DefaultWampServer.cs" />
     <Compile Include="WAMP1\V1\Api\Server\IWampHost.cs" />
+    <Compile Include="WAMP1\V1\Api\Server\IWampServerBuilder.cs" />
     <Compile Include="WAMP1\V1\Api\Server\WampHost.cs" />
+    <Compile Include="WAMP1\V1\Api\Server\WampServerBuilder.cs" />
     <Compile Include="WAMP1\V1\Auxiliary\Client\IWampAuxiliaryClientFactory.cs" />
     <Compile Include="WAMP1\V1\Auxiliary\Client\IWampClientConnectionMonitor.cs" />
     <Compile Include="WAMP1\V1\Auxiliary\Client\WampAuxiliaryClientFactory.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="WAMP1\V1\Core\Contracts\IWampAuxiliaryClient.cs" />
     <Compile Include="WAMP1\V1\Core\Contracts\IWampAuxiliaryServer.cs" />
     <Compile Include="WAMP1\V1\Core\Contracts\IWampClient.cs" />
+    <Compile Include="WAMP1\V1\Core\Contracts\IWampClientContext.cs" />
     <Compile Include="WAMP1\V1\Core\Contracts\IWampPubSubClient.cs" />
     <Compile Include="WAMP1\V1\Core\Contracts\IWampPubSubServer.cs" />
     <Compile Include="WAMP1\V1\Core\Contracts\IWampRpcClient.cs" />
@@ -146,6 +149,7 @@
     <Compile Include="WAMP1\V1\Core\Listener\WampListener.cs" />
     <Compile Include="WAMP1\V1\Core\Listener\WampSessionEventArgs.cs" />
     <Compile Include="WAMP1\V1\Core\Listener\WampSessionIdGenerator.cs" />
+    <Compile Include="WAMP1\V1\Core\Proxy\ClientContextPropertyInterceptor.cs" />
     <Compile Include="WAMP1\V1\Core\Proxy\SessionIdPropertyInterceptor.cs" />
     <Compile Include="WAMP1\V1\Core\Proxy\WampInterceptorSelector.cs" />
     <Compile Include="WAMP1\V1\PubSub\Client\IWampPubSubClientFactory.cs" />

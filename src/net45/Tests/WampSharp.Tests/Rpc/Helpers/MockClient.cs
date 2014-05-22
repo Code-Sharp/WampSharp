@@ -14,8 +14,16 @@ namespace WampSharp.Tests.Rpc.Helpers
         private readonly IDictionary<string, CallErrorDetails> mCallErrors =
             new ConcurrentDictionary<string, CallErrorDetails>();
 
+        private readonly IDictionary<string, object> mContext =
+            new ConcurrentDictionary<string, object>();
+        
         public void Welcome(string sessionId, int protocolVersion, string serverIdent)
         {
+        }
+
+        public IDictionary<string, object> ClientContext
+        {
+            get { return mContext; }
         }
 
         public string SessionId { get; set; }
