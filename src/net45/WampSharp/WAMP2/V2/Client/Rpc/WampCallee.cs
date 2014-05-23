@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +39,7 @@ namespace WampSharp.V2.Client
         public Task Register(IWampRpcOperation operation, object options)
         {
             Request request =
-                new Request(operation);
+                new Request(operation, mFormatter);
 
             long id = mPendingRegistrations.Add(request);
 
@@ -63,7 +65,7 @@ namespace WampSharp.V2.Client
         public Task Unregister(IWampRpcOperation operation)
         {
             Request request =
-                new Request(operation);
+                new Request(operation, mFormatter);
 
             long registrationId;
 
@@ -155,32 +157,62 @@ namespace WampSharp.V2.Client
 
         public void RegisterError(long requestId, TMessage details, string error)
         {
-            throw new System.NotImplementedException();
+            Request request;
+
+            if (mPendingRegistrations.TryRemove(requestId, out request))
+            {
+                request.Error(details, error);
+            }
         }
 
         public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            throw new System.NotImplementedException();
+            Request request;
+
+            if (mPendingRegistrations.TryRemove(requestId, out request))
+            {
+                request.Error(details, error, arguments);
+            }
         }
 
         public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            throw new System.NotImplementedException();
+            Request request;
+
+            if (mPendingRegistrations.TryRemove(requestId, out request))
+            {
+                request.Error(details, error, arguments, argumentsKeywords);
+            }
         }
 
         public void UnregisterError(long requestId, TMessage details, string error)
         {
-            throw new System.NotImplementedException();
+            Request request;
+
+            if (mPendingUnregistrations.TryRemove(requestId, out request))
+            {
+                request.Error(details, error);
+            }
         }
 
         public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            throw new System.NotImplementedException();
+            Request request;
+
+            if (mPendingUnregistrations.TryRemove(requestId, out request))
+            {
+                request.Error(details, error, arguments);
+            }
         }
 
         public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            throw new System.NotImplementedException();
+            Request request;
+
+            if (mPendingUnregistrations.TryRemove(requestId, out request))
+            {
+                request.Error(details, error, arguments, argumentsKeywords);
+            }
         }
 
         public void Interrupt(long requestId, TMessage options)
@@ -188,14 +220,12 @@ namespace WampSharp.V2.Client
             throw new System.NotImplementedException();
         }
 
-        private class Request
+        private class Request : WampPendingRequest<TMessage>
         {
-            private readonly TaskCompletionSource<bool> mTaskCompletionSource =
-                new TaskCompletionSource<bool>();
-
             private readonly IWampRpcOperation mOperation;
 
-            public Request(IWampRpcOperation operation)
+            public Request(IWampRpcOperation operation, IWampFormatter<TMessage> formatter) :
+                base(formatter)
             {
                 mOperation = operation;
             }
@@ -206,22 +236,6 @@ namespace WampSharp.V2.Client
                 {
                     return mOperation;
                 }
-            }
-
-            public long RequestId
-            {
-                get; 
-                set;
-            }
-
-            public Task Task
-            {
-                get { return mTaskCompletionSource.Task; }
-            }
-
-            public void Complete()
-            {
-                mTaskCompletionSource.SetResult(true);
             }
         }
 

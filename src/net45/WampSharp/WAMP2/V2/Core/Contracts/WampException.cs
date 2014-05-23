@@ -26,6 +26,14 @@ namespace WampSharp.V2.Core.Contracts
         {
         }
 
+        public WampException(IDictionary<string, object> details, string errorUri) : this(details, errorUri, (object[])null, null)
+        {
+        }
+
+        public WampException(IDictionary<string, object> details, string errorUri, object[] arguments) : this(details, errorUri, arguments, null)
+        {
+        }
+
         public WampException(IDictionary<string, object> details, string errorUri, object[] arguments,
                              IDictionary<string, object> argumentsKeywords)
         {

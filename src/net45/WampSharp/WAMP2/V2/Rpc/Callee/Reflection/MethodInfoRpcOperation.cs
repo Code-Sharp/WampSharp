@@ -127,7 +127,7 @@ namespace WampSharp.V2.Rpc
         private WampRpcRuntimeException ConvertExceptionToRuntimeException(Exception exception)
         {
             // TODO: Maybe try a different implementation.
-            return new WampRpcRuntimeException(exception);
+            return new WampRpcRuntimeException(exception.Message);
         }
     }
 }

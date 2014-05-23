@@ -34,7 +34,7 @@ namespace WampSharp.V2.Client
 
         public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, object options, string topicUri)
         {
-            SubscribeRequest request = new SubscribeRequest(subscriber, options, topicUri);
+            SubscribeRequest request = new SubscribeRequest(mFormatter, subscriber, options, topicUri);
             long requestId = mPendingSubscriptions.Add(request);
             request.RequestId = requestId;
 
@@ -45,7 +45,7 @@ namespace WampSharp.V2.Client
 
         private Task Unsubscribe(long subscriptionId)
         {
-            UnsubscribeRequest request = new UnsubscribeRequest(subscriptionId);
+            UnsubscribeRequest request = new UnsubscribeRequest(mFormatter, subscriptionId);
             long requestId = mPendingUnsubscriptions.Add(request);
             request.RequestId = requestId;
             mProxy.Unsubscribe(requestId, subscriptionId);
@@ -83,32 +83,62 @@ namespace WampSharp.V2.Client
 
         public void SubscribeError(long requestId, TMessage details, string error)
         {
-            throw new NotImplementedException();
+            SubscribeRequest request;
+
+            if (mPendingSubscriptions.TryRemove(requestId, out request))
+            {
+                request.Error(details, error);
+            }
         }
 
         public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            throw new NotImplementedException();
+            SubscribeRequest request;
+
+            if (mPendingSubscriptions.TryRemove(requestId, out request))
+            {
+                request.Error(details, error, arguments);
+            }
         }
 
         public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            throw new NotImplementedException();
+            SubscribeRequest request;
+
+            if (mPendingSubscriptions.TryRemove(requestId, out request))
+            {
+                request.Error(details, error, arguments, argumentsKeywords);
+            }
         }
 
         public void UnsubscribeError(long requestId, TMessage details, string error)
         {
-            throw new NotImplementedException();
+            UnsubscribeRequest request;
+
+            if (mPendingUnsubscriptions.TryRemove(requestId, out request))
+            {
+                request.Error(details, error);
+            }
         }
 
         public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            throw new NotImplementedException();
+            UnsubscribeRequest request;
+
+            if (mPendingUnsubscriptions.TryRemove(requestId, out request))
+            {
+                request.Error(details, error, arguments);
+            }
         }
 
         public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            throw new NotImplementedException();
+            UnsubscribeRequest request;
+
+            if (mPendingUnsubscriptions.TryRemove(requestId, out request))
+            {
+                request.Error(details, error, arguments, argumentsKeywords);
+            }
         }
 
         public void Event(long subscriptionId, long publicationId, TMessage details)
@@ -194,31 +224,43 @@ namespace WampSharp.V2.Client
 
         private class SubscribeRequest : BaseSubscription
         {
-            private readonly TaskCompletionSource<IDisposable> mTask =
-                new TaskCompletionSource<IDisposable>();
+            private readonly WampPendingRequest<TMessage, IDisposable> mPendingRequest;
 
-            public SubscribeRequest(IWampRawTopicSubscriber subscriber, object options, string topicUri) : 
+            public SubscribeRequest(IWampFormatter<TMessage> formatter, IWampRawTopicSubscriber subscriber, object options, string topicUri) : 
                 base(subscriber, options, topicUri)
             {
+                mPendingRequest = new WampPendingRequest<TMessage, IDisposable>(formatter);
             }
 
             public long RequestId
             {
-                get; 
-                set;
+                get { return mPendingRequest.RequestId; }
+                set { mPendingRequest.RequestId = value; }
+            }
+
+            public void Error(TMessage details, string error)
+            {
+                mPendingRequest.Error(details, error);
+            }
+
+            public void Error(TMessage details, string error, TMessage[] arguments)
+            {
+                mPendingRequest.Error(details, error, arguments);
+            }
+
+            public void Error(TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+            {
+                mPendingRequest.Error(details, error, arguments, argumentsKeywords);
+            }
+
+            public void Complete(IDisposable result)
+            {
+                mPendingRequest.Complete(result);
             }
 
             public Task<IDisposable> Task
             {
-                get
-                {
-                    return mTask.Task;
-                }
-            }
-
-            public void Complete(IDisposable disposable)
-            {
-                mTask.TrySetResult(disposable);
+                get { return mPendingRequest.Task; }
             }
         }
 
@@ -241,13 +283,11 @@ namespace WampSharp.V2.Client
             }
         }
 
-        private class UnsubscribeRequest
+        private class UnsubscribeRequest : WampPendingRequest<TMessage>
         {
             private readonly long mSubscriptionId;
-            private readonly TaskCompletionSource<bool> mTaskCompletionSource =
-                new TaskCompletionSource<bool>();
 
-            public UnsubscribeRequest(long subscriptionId)
+            public UnsubscribeRequest(IWampFormatter<TMessage> formatter, long subscriptionId) : base(formatter)
             {
                 mSubscriptionId = subscriptionId;
             }
@@ -258,21 +298,6 @@ namespace WampSharp.V2.Client
                 {
                     return mSubscriptionId;
                 }
-            }
-
-            public Task Task
-            {
-                get
-                {
-                    return mTaskCompletionSource.Task;
-                }
-            }
-
-            public long RequestId { get; set; }
-
-            public void Complete()
-            {
-                mTaskCompletionSource.SetResult(true);
             }
         }
 

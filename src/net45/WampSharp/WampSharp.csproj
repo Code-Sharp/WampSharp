@@ -227,6 +227,7 @@
     <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampTopicPublicationProxy.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampTopicSubscriptionProxy.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\WampPublisher.cs" />
+    <Compile Include="WAMP2\V2\Client\WampPendingRequest.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\WampSubscriber.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\WampTopicContainerProxy.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\WampTopicProxy.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="WAMP2\V2\Client\WampChannel.cs" />
     <Compile Include="WAMP2\V2\Client\WampChannelFactory.cs" />
     <Compile Include="WAMP2\V2\Client\WampClient.cs" />
+    <Compile Include="WAMP2\V2\Client\WampPendingRequestBase.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Error\IWampCalleeError.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Error\IWampCallerError.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Error\IWampError.cs" />

@@ -555,6 +555,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\PubSub\WampPublisher.cs">
       <Link>WAMP2\V2\Client\PubSub\WampPublisher.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampPendingRequest.cs">
+      <Link>WAMP2\V2\Client\WampPendingRequest.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\PubSub\WampSubscriber.cs">
       <Link>WAMP2\V2\Client\PubSub\WampSubscriber.cs</Link>
     </Compile>
@@ -611,6 +614,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampClient.cs">
       <Link>WAMP2\V2\Client\WampClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampPendingRequestBase.cs">
+      <Link>WAMP2\V2\Client\WampPendingRequestBase.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Error\IWampCalleeError.cs">
       <Link>WAMP2\V2\Core\Contracts\Error\IWampCalleeError.cs</Link>
