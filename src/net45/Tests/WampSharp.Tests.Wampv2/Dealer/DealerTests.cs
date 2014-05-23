@@ -52,10 +52,10 @@ namespace WampSharp.Tests.Wampv2.Dealer
             Mock<IWampRpcOperationCatalog> catalog = new Mock<IWampRpcOperationCatalog>();
 
             string errorUri = "myerror";
-            string anyDetails = "any details";
+            string argument = "any details";
             
             catalog.Setup(x => x.Register(It.IsAny<IWampRpcOperation>()))
-                   .Throws(new WampException(errorUri, anyDetails));
+                   .Throws(new WampException(errorUri, argument));
 
             Mock<IWampCallee> callee = new Mock<IWampCallee>();
             callee.As<IWampConnectionMonitor>();
@@ -72,8 +72,9 @@ namespace WampSharp.Tests.Wampv2.Dealer
                 callee.Verify(x => x.Error
                                        ((int) WampMessageType.v2Register,
                                         registration.RequestId,
-                                        anyDetails,
-                                        errorUri),
+                                        It.IsAny<object>(),
+                                        errorUri,
+                                        It.Is((object[] array) => array.SequenceEqual(new[] { argument }))),
                               Times.Exactly(1));
             }
         }
