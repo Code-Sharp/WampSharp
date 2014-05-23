@@ -16,7 +16,7 @@ namespace WampSharp.V1
     {
         private readonly IWampServer<TMessage> mServer;
         private WampListener<TMessage> mListener;
-        private readonly WampRpcMetadataCatalog mMetadataCatalog;
+        private readonly IWampRpcMetadataCatalog mMetadataCatalog;
         private readonly IWampTopicContainerExtended<TMessage> mTopicContainer;
 
         public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter) : 

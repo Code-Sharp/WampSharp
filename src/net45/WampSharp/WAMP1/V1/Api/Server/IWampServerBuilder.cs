@@ -7,6 +7,6 @@ namespace WampSharp.V1
 {
     public interface IWampServerBuilder<TMessage>
     {
-        IWampServer<TMessage> Build(IWampFormatter<TMessage> formatter, WampRpcMetadataCatalog rpcMetadataCatalog, IWampTopicContainerExtended<TMessage> topicContainer);
+        IWampServer<TMessage> Build(IWampFormatter<TMessage> formatter, IWampRpcMetadataCatalog rpcMetadataCatalog, IWampTopicContainerExtended<TMessage> topicContainer);
     }
 }
