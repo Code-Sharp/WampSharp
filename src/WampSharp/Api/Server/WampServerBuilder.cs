@@ -9,7 +9,7 @@ namespace WampSharp
     public class WampServerBuilder<TMessage> : IWampServerBuilder<TMessage>
     {
         public virtual IWampServer<TMessage> Build(IWampFormatter<TMessage> formatter,
-                                                   WampRpcMetadataCatalog rpcMetadataCatalog,
+                                                   IWampRpcMetadataCatalog rpcMetadataCatalog,
                                                    IWampTopicContainerExtended<TMessage> topicContainer)
         {
             IWampRpcServer<TMessage> rpcServer = BuildRpcServer(formatter, rpcMetadataCatalog);
@@ -23,7 +23,7 @@ namespace WampSharp
         }
 
         protected virtual IWampRpcServer<TMessage> BuildRpcServer(IWampFormatter<TMessage> formatter,
-                                                                  WampRpcMetadataCatalog rpcMetadataCatalog)
+                                                                  IWampRpcMetadataCatalog rpcMetadataCatalog)
         {
             WampRpcServer<TMessage> rpcServer = new WampRpcServer<TMessage>(formatter, rpcMetadataCatalog);
             return rpcServer;
