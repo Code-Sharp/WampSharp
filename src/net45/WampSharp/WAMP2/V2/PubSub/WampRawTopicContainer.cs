@@ -60,7 +60,7 @@ namespace WampSharp.V2.PubSub
 
                 if (!mSubscriptionIdToTopic.TryGetValue(subscriptionId, out rawTopic))
                 {
-                    throw new WampException(WampErrors.NoSuchSubscription, subscriptionId);
+                    throw new WampException(WampErrors.NoSuchSubscription, "subscriptionId: " + subscriptionId);
                 }
 
                 rawTopic.Unsubscribe(request);

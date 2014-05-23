@@ -29,7 +29,7 @@ namespace WampSharp.V2.PubSub
                 long publicationId = mRawTopicContainer.Publish(options, topicUri);
                 SendPublishAckIfNeeded(publisher, requestId, publicationId, acknowledge);
             }
-            catch (Exception ex)
+            catch (WampException ex)
             {
                 PublishErrorIfNeeded(publisher, requestId, acknowledge, ex);
             }
@@ -45,7 +45,7 @@ namespace WampSharp.V2.PubSub
                 long publicationId = mRawTopicContainer.Publish(options, topicUri, arguments);
                 SendPublishAckIfNeeded(publisher, requestId, publicationId, acknowledge);
             }
-            catch (Exception ex)
+            catch (WampException ex)
             {
                 PublishErrorIfNeeded(publisher, requestId, acknowledge, ex);
             }
@@ -62,7 +62,7 @@ namespace WampSharp.V2.PubSub
                 long publicationId = mRawTopicContainer.Publish(options, topicUri, arguments, argumentKeywords);
                 SendPublishAckIfNeeded(publisher, requestId, publicationId, acknowledge);
             }
-            catch (Exception ex)
+            catch (WampException ex)
             {
                 PublishErrorIfNeeded(publisher, requestId, acknowledge, ex);
             }
@@ -77,7 +77,7 @@ namespace WampSharp.V2.PubSub
                 
                 mRawTopicContainer.Subscribe(subscribeRequest, options, topicUri);
             }
-            catch (Exception ex)
+            catch (WampException ex)
             {
                 subscriber.SubscribeError(requestId, ex);
             }
@@ -92,7 +92,7 @@ namespace WampSharp.V2.PubSub
 
                 mRawTopicContainer.Unsubscribe(unsubscribeRequest, subscriptionId);
             }
-            catch (Exception ex)
+            catch (WampException ex)
             {
                 subscriber.UnsubscribeError(requestId, ex);
             }
@@ -106,7 +106,7 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        private void PublishErrorIfNeeded(IWampPublisher publisher, long requestId, bool acknowledge, Exception ex)
+        private void PublishErrorIfNeeded(IWampPublisher publisher, long requestId, bool acknowledge, WampException ex)
         {
             if (acknowledge)
             {

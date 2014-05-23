@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using WampSharp.Core.Message;
+using WampSharp.V2.Error;
 
 namespace WampSharp.V2.Core.Contracts
 {
@@ -39,34 +42,24 @@ namespace WampSharp.V2.Core.Contracts
             client.Error((int) messageType, requestId, details, error, arguments, argumentsKeywords);
         }
 
-        public static void Error
+        private static void WampExceptionError
             (this IWampError<object> client,
              WampMessageType messageType,
              long requestId,
-             Exception exception)
+             WampException exception)
         {
-            client.Error(messageType, requestId, GetDetails(exception), GetErrorUri(exception));
+            IWampErrorCallback callback = new WampErrorCallback(client, messageType, requestId);
+
+            callback.Error(exception);
         }
 
         public static void Error
             (this IWampError<object> client,
              WampMessageType messageType,
              long requestId,
-             Exception exception,
-             object[] arguments)
+             WampException exception)
         {
-            client.Error(messageType, requestId, GetDetails(exception), GetErrorUri(exception), arguments);
-        }
-
-        public static void Error
-            (this IWampError<object> client,
-             WampMessageType messageType,
-             long requestId,
-             Exception exception,
-             object[] arguments,
-             object argumentsKeywords)
-        {
-            client.Error(messageType, requestId, GetDetails(exception), GetErrorUri(exception), arguments, argumentsKeywords);
+            client.WampExceptionError(messageType, requestId, exception);
         }
 
         public static void RegisterError<TMessage>
@@ -81,7 +74,7 @@ namespace WampSharp.V2.Core.Contracts
         public static void RegisterError
             (this IWampError<object> client,
              long requestId,
-             Exception exception)
+             WampException exception)
         {
             client.Error(WampMessageType.v2Register, requestId, exception);
         }
@@ -98,7 +91,7 @@ namespace WampSharp.V2.Core.Contracts
         public static void UnregisterError
             (this IWampError<object> client,
              long requestId,
-             Exception exception)
+             WampException exception)
         {
             client.Error(WampMessageType.v2Unregister, requestId, exception);
         }
@@ -136,7 +129,7 @@ namespace WampSharp.V2.Core.Contracts
         public static void CallError
             (this IWampError<object> client,
              long requestId,
-             Exception exception)
+             WampException exception)
         {
             client.Error(WampMessageType.v2Call, requestId, exception);
         }
@@ -144,20 +137,18 @@ namespace WampSharp.V2.Core.Contracts
         public static void CallError
             (this IWampError<object> client,
              long requestId,
-             Exception exception,
+             WampException exception,
              object[] arguments)
         {
-            client.Error(WampMessageType.v2Call, requestId, exception, arguments);
         }
 
         public static void CallError
             (this IWampError<object> client,
              long requestId,
-             Exception exception,
+             WampException exception,
              object[] arguments,
              object argumentsKeywords)
         {
-            client.Error(WampMessageType.v2Call, requestId, exception, arguments, argumentsKeywords);
         }
 
         public static void InvocationError<TMessage>
@@ -193,7 +184,7 @@ namespace WampSharp.V2.Core.Contracts
         public static void InvocationError
             (this IWampError<object> client,
              long requestId,
-             Exception exception)
+             WampException exception)
         {
             client.Error(WampMessageType.v2Invocation, requestId, exception);
         }
@@ -201,20 +192,18 @@ namespace WampSharp.V2.Core.Contracts
         public static void InvocationError
             (this IWampError<object> client,
              long requestId,
-             Exception exception,
+             WampException exception,
              object[] arguments)
         {
-            client.Error(WampMessageType.v2Invocation, requestId, exception, arguments);
         }
 
         public static void InvocationError
             (this IWampError<object> client,
              long requestId,
-             Exception exception,
+             WampException exception,
              object[] arguments,
              object argumentsKeywords)
         {
-            client.Error(WampMessageType.v2Invocation, requestId, exception, arguments, argumentsKeywords);
         }
 
         public static void PublishError<TMessage>
@@ -250,7 +239,7 @@ namespace WampSharp.V2.Core.Contracts
         public static void PublishError
             (this IWampError<object> client,
              long requestId,
-             Exception exception)
+             WampException exception)
         {
             client.Error(WampMessageType.v2Publish, requestId, exception);
         }
@@ -258,20 +247,18 @@ namespace WampSharp.V2.Core.Contracts
         public static void PublishError
             (this IWampError<object> client,
              long requestId,
-             Exception exception,
+             WampException exception,
              object[] arguments)
         {
-            client.Error(WampMessageType.v2Publish, requestId, exception, arguments);
         }
 
         public static void PublishError
             (this IWampError<object> client,
              long requestId,
-             Exception exception,
+             WampException exception,
              object[] arguments,
              object argumentsKeywords)
         {
-            client.Error(WampMessageType.v2Publish, requestId, exception, arguments, argumentsKeywords);
         }
 
         public static void SubscribeError<TMessage>
@@ -307,7 +294,7 @@ namespace WampSharp.V2.Core.Contracts
         public static void SubscribeError
             (this IWampError<object> client,
              long requestId,
-             Exception exception)
+             WampException exception)
         {
             client.Error(WampMessageType.v2Subscribe, requestId, exception);
         }
@@ -315,20 +302,18 @@ namespace WampSharp.V2.Core.Contracts
         public static void SubscribeError
             (this IWampError<object> client,
              long requestId,
-             Exception exception,
+             WampException exception,
              object[] arguments)
         {
-            client.Error(WampMessageType.v2Subscribe, requestId, exception, arguments);
         }
 
         public static void SubscribeError
             (this IWampError<object> client,
              long requestId,
-             Exception exception,
+             WampException exception,
              object[] arguments,
              object argumentsKeywords)
         {
-            client.Error(WampMessageType.v2Subscribe, requestId, exception, arguments, argumentsKeywords);
         }
 
         public static void UnsubscribeError<TMessage>
@@ -364,7 +349,7 @@ namespace WampSharp.V2.Core.Contracts
         public static void UnsubscribeError
             (this IWampError<object> client,
              long requestId,
-             Exception exception)
+             WampException exception)
         {
             client.Error(WampMessageType.v2Unsubscribe, requestId, exception);
         }
@@ -372,50 +357,48 @@ namespace WampSharp.V2.Core.Contracts
         public static void UnsubscribeError
             (this IWampError<object> client,
              long requestId,
-             Exception exception,
+             WampException exception,
              object[] arguments)
         {
-            client.Error(WampMessageType.v2Unsubscribe, requestId, exception, arguments);
         }
 
         public static void UnsubscribeError
             (this IWampError<object> client,
              long requestId,
-             Exception exception,
+             WampException exception,
              object[] arguments,
              object argumentsKeywords)
         {
-            client.Error(WampMessageType.v2Unsubscribe, requestId, exception, arguments, argumentsKeywords);
         }
 
-        private static string GetErrorUri(Exception exception)
+        private class WampErrorCallback : IWampErrorCallback
         {
-            WampException wampException = exception as WampException;
+            private readonly IWampError<object> mCallback;
+            private readonly WampMessageType mMessageType;
+            private readonly long mRequestId;
 
-            if (wampException != null)
+            public WampErrorCallback(IWampError<object> callback, WampMessageType messageType, long requestId)
             {
-                return wampException.ErrorUri;
+                mCallback = callback;
+                mMessageType = messageType;
+                mRequestId = requestId;
             }
-            else
-            {
-                // TODO: Create a uri for generic errors?
-                return null;
-            }
-        }
 
-        private static object GetDetails(Exception exception)
-        {
-            WampException wampException = exception as WampException;
-
-            if (wampException != null)
+            public void Error(object details, string errorUri)
             {
-                return wampException.Details;
+                mCallback.Error(mMessageType, mRequestId, details, errorUri);
             }
-            else
+
+            public void Error(object details, string errorUri, object[] arguments)
             {
-                // TODO: Do we really want to serialize the exception?
-                return exception;
+                mCallback.Error(mMessageType, mRequestId, details, errorUri, arguments);
+            }
+
+            public void Error(object details, string errorUri, object[] arguments, object argumentsKeywords)
+            {
+                mCallback.Error(mMessageType, mRequestId, details, errorUri, arguments, argumentsKeywords);
             }
         }
     }
+
 }

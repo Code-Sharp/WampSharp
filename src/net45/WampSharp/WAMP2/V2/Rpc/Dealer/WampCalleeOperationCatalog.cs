@@ -64,12 +64,12 @@ namespace WampSharp.V2.Rpc
             
             if (!mRegistrationIdToOperation.TryGetValue(registrationId, out operation))
             {
-                throw new WampException(WampErrors.NoSuchRegistration, registrationId);
+                throw new WampException(WampErrors.NoSuchRegistration, "registrationId: " + registrationId);
             }
 
             if (operation.Callee != callee)
             {
-                throw new WampException(WampErrors.NotAuthorized, registrationId);
+                throw new WampException(WampErrors.NotAuthorized, "registrationId: " + registrationId);
             }
 
             mRegistrationIdToOperation.TryRemove(registrationId, out operation);

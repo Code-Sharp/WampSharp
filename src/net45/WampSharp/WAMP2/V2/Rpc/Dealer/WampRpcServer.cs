@@ -2,7 +2,6 @@ using System;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Rpc
 {
@@ -32,7 +31,7 @@ namespace WampSharp.V2.Rpc
                 RegisterRequest registerRequest = new RegisterRequest(callee, requestId);
                 mCalleeCatalog.Register(registerRequest, options, procedure);
             }
-            catch (Exception exception)
+            catch (WampException exception)
             {
                 callee.RegisterError(requestId, exception);
             }
@@ -45,7 +44,7 @@ namespace WampSharp.V2.Rpc
                 mCalleeCatalog.Unregister(callee, registrationId);
                 callee.Unregistered(requestId);
             }
-            catch (Exception exception)
+            catch (WampException exception)
             {
                 callee.UnregisterError(requestId, exception);
             }

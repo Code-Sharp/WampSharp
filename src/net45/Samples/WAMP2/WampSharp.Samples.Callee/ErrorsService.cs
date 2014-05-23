@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
@@ -14,39 +15,39 @@ namespace WampSharp.Samples.Callee
         {
             if (x == 0)
             {
-                var dummy = new Dictionary<string, string>();
-                throw new WampException("wamp.error.runtime_error",
-                                        dummy,
-                                        "don't ask folly questions;)");
-                // TODO: this doesn't work. fix this.
+                throw new WampRpcRuntimeException("don't ask folly questions;)");
             }
             else
             {
-                return (int)Math.Sqrt(x);
+                if (x < 0)
+                {
+                    // Math.Sqrt doesn't throw exceptions for negative numbers.
+                    throw new ArgumentException("The square root of a negative number is non real", "x");
+                }
+                else
+                {
+                    return (int) Math.Sqrt(x);
+                }
             }
         }
 
         [WampProcedure("com.myapp.checkname")]
         public void CheckName(string name)
         {
-            if (new[] { "foo", "bar" }.Contains(name))
+            if (new[] {"foo", "bar"}.Contains(name))
             {
-                var dummy = new Dictionary<string, string>();
-                throw new WampException("com.myapp.error.reserved", dummy);
+                throw new WampException("com.myapp.error.reserved");
             }
 
             if (name.ToLower() != name.ToUpper())
             {
-                var dummy = new Dictionary<string, string>();
-                object[] arguments = new object[] { name.ToLower(), name.ToUpper() };
-                throw new WampException("com.myapp.error.mixed_case", dummy);
-                // TODO: add arguments support.
+                throw new WampException("com.myapp.error.mixed_case", name.ToLower(), name.ToUpper());
             }
 
             if ((name.Length < 3) || (name.Length > 10))
             {
-                var dummy = new Dictionary<string, string>();
-                object[] arguments = new object[] { };
+                object[] arguments = new object[] {};
+
                 IDictionary<string, object> argumentKeywords =
                     new Dictionary<string, object>()
                         {
@@ -54,8 +55,7 @@ namespace WampSharp.Samples.Callee
                             {"max", 10}
                         };
 
-                throw new WampException("com.myapp.error.invalid_length", dummy);
-                // TODO: add argument keywords support.
+                throw new WampException("com.myapp.error.invalid_length", arguments, argumentKeywords);
             }
         }
 
@@ -64,9 +64,47 @@ namespace WampSharp.Samples.Callee
         {
             if (a < b)
             {
-                var dummy = new Dictionary<string, string>();
-                object[] arguments = new object[] { b - a };
-                throw new WampException("com.myapp.error1", dummy); // AppException1 : WampException.
+                object[] arguments = new object[] {b - a};
+                throw new AppException1(arguments); // AppException1 : WampException.
+            }
+        }
+
+        [Serializable]
+        public class AppException1 : WampException
+        {
+            private const string ErrorUri = "com.myapp.error1";
+
+            public AppException1(params object[] arguments)
+                : base(ErrorUri, arguments)
+            {
+            }
+
+            public AppException1(object[] arguments, IDictionary<string, object> argumentsKeywords) :
+                base(ErrorUri, arguments, argumentsKeywords)
+            {
+            }
+
+            public AppException1(IDictionary<string, object> details, object[] arguments,
+                                 IDictionary<string, object> argumentsKeywords)
+                : base(details, ErrorUri, arguments, argumentsKeywords)
+            {
+            }
+
+            public AppException1(IDictionary<string, object> details, string message,
+                                 IDictionary<string, object> argumentsKeywords) :
+                                     base(details, ErrorUri, message, argumentsKeywords)
+            {
+            }
+
+            public AppException1(IDictionary<string, object> details, object[] arguments,
+                                 IDictionary<string, object> argumentsKeywords, string message, Exception inner) :
+                                     base(details, ErrorUri, arguments, argumentsKeywords, message, inner)
+            {
+            }
+
+            protected AppException1(SerializationInfo info, StreamingContext context)
+                : base(info, context)
+            {
             }
         }
     }

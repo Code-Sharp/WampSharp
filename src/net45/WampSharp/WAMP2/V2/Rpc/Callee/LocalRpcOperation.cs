@@ -198,14 +198,14 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private static Exception NameError(string details)
+        private static Exception NameError(string name)
         {
-            throw new WampException(WampErrors.InvalidArgument, details);
+            throw new WampException(WampErrors.InvalidArgument, "argument name: " + name);
         }
 
         private static Exception PositionError(int position)
         {
-            throw new WampException(WampErrors.InvalidArgument, position);
+            throw new WampException(WampErrors.InvalidArgument, "argument position: " + position);
         }
 
         protected abstract void InnerInvoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);

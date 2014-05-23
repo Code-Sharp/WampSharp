@@ -31,7 +31,7 @@ namespace WampSharp.V2.Rpc
                 mHasResult = false;
             }
 
-            WampResultAttribute wampResultAttribute = 
+            WampResultAttribute wampResultAttribute =
                 method.ReturnParameter.GetCustomAttribute<WampResultAttribute>();
 
             if (wampResultAttribute == null)
@@ -73,40 +73,31 @@ namespace WampSharp.V2.Rpc
 
         public override RpcParameter[] Parameters
         {
-            get
-            {
-                return mParameters;
-            }
+            get { return mParameters; }
         }
 
         public override bool HasResult
         {
-            get
-            {
-                return mHasResult;
-            }
+            get { return mHasResult; }
         }
 
         public override CollectionResultTreatment CollectionResultTreatment
         {
-            get
-            {
-                return mCollectionResultTreatment;
-            }
+            get { return mCollectionResultTreatment; }
         }
 
         protected override object InvokeSync<TMessage>
-            (IWampRpcOperationCallback caller, 
-            IWampFormatter<TMessage> formatter, 
-            TMessage options, 
-            TMessage[] arguments, 
-            IDictionary<string, TMessage> argumentsKeywords, 
-            out IDictionary<string, object> outputs)
+            (IWampRpcOperationCallback caller,
+             IWampFormatter<TMessage> formatter,
+             TMessage options,
+             TMessage[] arguments,
+             IDictionary<string, TMessage> argumentsKeywords,
+             out IDictionary<string, object> outputs)
         {
-             object[] unpacked = 
-                 UnpackParameters(formatter, arguments, argumentsKeywords);
+            object[] unpacked =
+                UnpackParameters(formatter, arguments, argumentsKeywords);
 
-            object[] parameters = 
+            object[] parameters =
                 mHelper.GetArguments(unpacked);
 
             try
@@ -121,17 +112,22 @@ namespace WampSharp.V2.Rpc
             catch (TargetInvocationException ex)
             {
                 Exception actual = ex.InnerException;
-                
+
                 if (actual is WampException)
                 {
                     throw actual;
                 }
                 else
                 {
-                    // TODO: throw new WampException("wamp.error.runtime_error");
-                    throw actual;
+                    throw ConvertExceptionToRuntimeException(actual);
                 }
             }
+        }
+
+        private WampRpcRuntimeException ConvertExceptionToRuntimeException(Exception exception)
+        {
+            // TODO: Maybe try a different implementation.
+            return new WampRpcRuntimeException(exception);
         }
     }
 }

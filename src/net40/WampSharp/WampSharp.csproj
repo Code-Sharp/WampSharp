@@ -219,6 +219,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\GenericTypeExtensions.cs">
       <Link>Core\Utilities\GenericTypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ReadOnlyDictionary.cs">
+      <Link>Core\Utilities\ReadOnlyDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\SwapDictionary.cs">
       <Link>Core\Utilities\SwapDictionary.cs</Link>
     </Compile>
@@ -636,6 +639,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\IWampClient.cs">
       <Link>WAMP2\V2\Core\Contracts\IWampClient.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Error\IWampErrorCallback.cs">
+      <Link>WAMP2\V2\Error\IWampErrorCallback.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\IWampRawClient.cs">
       <Link>WAMP2\V2\Core\Contracts\IWampRawClient.cs</Link>
     </Compile>
@@ -684,11 +690,17 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\IWampSessionServer.cs">
       <Link>WAMP2\V2\Core\Contracts\Session\IWampSessionServer.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Error\WampErrorCallbackExtensions.cs">
+      <Link>WAMP2\V2\Error\WampErrorCallbackExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampErrorExtensions.cs">
       <Link>WAMP2\V2\Core\Contracts\WampErrorExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampException.cs">
       <Link>WAMP2\V2\Core\Contracts\WampException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampRpcRuntimeException.cs">
+      <Link>WAMP2\V2\Rpc\WampRpcRuntimeException.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Dispatch\WampRealmMethodBuilder.cs">
       <Link>WAMP2\V2\Core\Dispatch\WampRealmMethodBuilder.cs</Link>

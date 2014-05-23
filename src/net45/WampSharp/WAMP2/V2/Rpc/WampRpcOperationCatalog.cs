@@ -14,7 +14,11 @@ namespace WampSharp.V2.Rpc
         {
             if (!mProcedureToOperation.TryAdd(operation.Procedure, operation))
             {
-                throw new WampException(WampErrors.ProcedureAlreadyExists, operation.Procedure);
+                string registerError = 
+                    string.Format("register for already registered procedure URI '{0}'", operation.Procedure);
+
+                throw new WampException(WampErrors.ProcedureAlreadyExists,
+                                        registerError);
             }
         }
 
@@ -24,13 +28,14 @@ namespace WampSharp.V2.Rpc
 
             if (operation == null)
             {
-                var dummy = new Dictionary<string, string>();
-                throw new WampException(WampErrors.NoSuchRegistration, dummy);
+                throw new WampException(WampErrors.NoSuchRegistration);
             }
 
             if (!mProcedureToOperation.TryRemove(operation.Procedure, out result))
             {
-                throw new WampException(WampErrors.NoSuchRegistration, operation.Procedure);
+                string registrationError = string.Format("no procedure '{0}' registered", operation.Procedure);
+                
+                throw new WampException(WampErrors.NoSuchRegistration, registrationError);
             }
         }
 

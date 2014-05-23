@@ -88,7 +88,7 @@ namespace WampSharp.V2.PubSub
                 else
                 {
                     throw new WampException(WampErrors.InvalidTopic,
-                                            topicUri);
+                                            "topicUri: " + topicUri);
                 }
             }
         }
