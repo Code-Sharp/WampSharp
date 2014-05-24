@@ -49,6 +49,8 @@ namespace WampSharp.V2.Rpc
             }
             catch (Exception ex)
             {
+                operation.Dispose();
+
                 WampCalleeRpcOperation removedOperation;
 
                 mRegistrationIdToOperation.TryRemove
@@ -78,7 +80,7 @@ namespace WampSharp.V2.Rpc
         }
 
         private class WampCalleeRpcOperation : IWampRpcOperation<TMessage>,
-            IWampRpcOperation
+            IWampRpcOperation, IDisposable
         {
             private const string CalleeDisconnected = "wamp.error.callee_disconnected";
             private readonly ReaderWriterLockSlim mLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
@@ -257,10 +259,13 @@ namespace WampSharp.V2.Rpc
 
             public void Open()
             {
-                // TODO: Race condition: What happens if the callee registers and disconnects
-                // TODO: quickly? in this case the invoke will be called after OnClientDisconnect
-                // TODO: was called. Problematic.
                 mResetEvent.Set();
+            }
+
+            public void Dispose()
+            {
+                IWampConnectionMonitor monitor = mCallee as IWampConnectionMonitor;
+                monitor.ConnectionClosed -= OnClientDisconnect;
             }
         }
     }
