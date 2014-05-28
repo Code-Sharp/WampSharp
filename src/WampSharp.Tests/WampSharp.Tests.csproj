@@ -61,6 +61,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\PubSubTests.cs" />
+    <Compile Include="Api\RpcClientTests.cs" />
+    <Compile Include="Api\RpcServerTests.cs" />
+    <Compile Include="Cra\CraTests.cs" />
+    <Compile Include="Cra\Helpers\MockWampCraAuthenticaticationBuilder.cs" />
+    <Compile Include="Cra\Helpers\MockWampCraAuthenticator.cs" />
+    <Compile Include="Cra\Helpers\WampCraPlayground.cs" />
+    <Compile Include="Cra\Helpers\WampCraProceduresExtensions.cs" />
     <Compile Include="DispatchTests.cs" />
     <Compile Include="Dispatch\Helpers\MockWampClient.cs" />
     <Compile Include="Dispatch\Helpers\MockWampServer.cs" />

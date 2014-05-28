@@ -64,6 +64,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\WampSharp.Default\DefaultWampCraHost.cs">
+      <Link>DefaultWampCraHost.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Default\DefaultWampChannelFactory.cs">
       <Link>DefaultWampChannelFactory.cs</Link>
     </Compile>

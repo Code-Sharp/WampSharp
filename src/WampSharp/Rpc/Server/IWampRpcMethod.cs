@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.Core.Contracts.V1;
+using WampSharp.Cra;
 
 namespace WampSharp.Rpc.Server
 {
@@ -19,11 +22,12 @@ namespace WampSharp.Rpc.Server
         string ProcUri { get; }
 
         /// <summary>
-        /// Invokes the method asyncronously.
+        /// Invokes the method asynchronously.
         /// </summary>
+        /// <param name="client">The <see cref="IWampClient"/> making the call.</param>
         /// <param name="parameters">The parameters to invoke with.</param>
         /// <returns>A task representing the result.</returns>
-        Task<object> InvokeAsync(object[] parameters);
+        Task<object> InvokeAsync(IWampClient client, object[] parameters);
 
         /// <summary>
         /// The types of the method parameters.
@@ -33,8 +37,9 @@ namespace WampSharp.Rpc.Server
         /// <summary>
         /// Invokes the method syncronously.
         /// </summary>
+        /// <param name="client">The <see cref="IWampClient"/> making the call. </param>
         /// <param name="parameters">The parameters to invoke with.</param>
         /// <returns>The result of the method.</returns>
-        object Invoke(object[] parameters);
+        object Invoke(IWampClient client, object[] parameters);
     }
 }

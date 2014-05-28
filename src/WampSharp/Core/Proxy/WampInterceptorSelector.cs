@@ -32,20 +32,21 @@ namespace WampSharp.Core.Proxy
             {
                 return new IInterceptor[] {mInterceptor};
             }
-            // In case you were wondering, this is how a patch looks like.
-            else if (method.IsSpecialName &&
-                     method.Name == "get_SessionId")
+            else if (method.IsSpecialName)
             {
-                return interceptors.OfType<SessionIdPropertyInterceptor>()
-                                   .Cast<IInterceptor>()
-                                   .ToArray();
-            }
-            else if (method.IsSpecialName &&
-                     method.Name == "get_ClientContext")
-            {
-                return interceptors.OfType<ClientContextPropertyInterceptor>()
-                                   .Cast<IInterceptor>()
-                                   .ToArray();
+                // In case you were wondering, this is how a patch looks like.
+                if (method.Name == "get_SessionId")
+                {
+                    return interceptors.OfType<SessionIdPropertyInterceptor>()
+                        .Cast<IInterceptor>()
+                        .ToArray();
+                }
+                else if (method.Name == "get_CraAuthenticator" || method.Name == "set_CraAuthenticator")
+                {
+                    return interceptors.OfType<WampCraAuthenticatorPropertyInterceptor>()
+                        .Cast<IInterceptor>()
+                        .ToArray();
+                }
             }
 
             return null;

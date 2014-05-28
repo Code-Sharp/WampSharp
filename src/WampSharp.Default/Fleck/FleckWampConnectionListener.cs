@@ -7,6 +7,7 @@ using Fleck;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
+using System.Security.Cryptography.X509Certificates;
 
 namespace WampSharp.Fleck
 {
@@ -15,17 +16,25 @@ namespace WampSharp.Fleck
         private readonly Subject<IWampConnection<TMessage>> mSubject =
             new Subject<IWampConnection<TMessage>>();
 
-        private readonly Subject<Unit> mShutdown = new Subject<Unit>(); 
+        private readonly Subject<Unit> mShutdown = new Subject<Unit>();
         private IWebSocketServer mServer;
         private readonly string mLocation;
         private readonly IWampMessageParser<TMessage> mParser;
+        private readonly X509Certificate2 mSslCertificate;
         private readonly object mLock = new object();
 
         public FleckWampConnectionListener(string location,
                                            IWampMessageParser<TMessage> parser)
+            : this(location, parser, null)
+        {
+        }
+
+        public FleckWampConnectionListener(string location,
+                                           IWampMessageParser<TMessage> parser, X509Certificate2 sslCertificate)
         {
             mLocation = location;
             mParser = parser;
+            mSslCertificate = sslCertificate;
         }
 
         public IDisposable Subscribe(IObserver<IWampConnection<TMessage>> observer)
@@ -59,18 +68,23 @@ namespace WampSharp.Fleck
         {
             WebSocketServer server = new WebSocketServer(mLocation);
             mServer = server;
-            server.SupportedSubProtocols = new[] {"wamp"};
+            server.SupportedSubProtocols = new[] { "wamp" };
 
+            if (mSslCertificate != null)
+            {
+                server.Certificate = mSslCertificate;
+            }
+            
             mServer.Start(connection =>
-                              {
-                                  FleckWampConnection wampConnection =
-                                      new FleckWampConnection(connection,
-                                                              mParser,
-                                                              mShutdown);
+            {
+                FleckWampConnection wampConnection =
+                    new FleckWampConnection(connection,
+                                            mParser,
+                                            mShutdown);
 
-                                  connection.OnOpen =
-                                      () => OnNewConnection(wampConnection);
-                              });
+                connection.OnOpen =
+                    () => OnNewConnection(wampConnection);
+            });
         }
 
         private void OnNewConnection(FleckWampConnection wampConnection)

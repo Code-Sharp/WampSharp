@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp", "WampSharp\WampSharp.csproj", "{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Tests", "WampSharp.Tests\WampSharp.Tests.csproj", "{D3FB3310-A761-45B5-AC4B-78FE90C2829C}"
@@ -14,6 +16,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RpcClientSample", "Samples\WampSharp.RpcClientSample\WampSharp.RpcClientSample.csproj", "{2128E477-97B6-4224-A8A9-789F79514B41}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RpcServerSample", "Samples\WampSharp.RpcServerSample\WampSharp.RpcServerSample.csproj", "{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.CraClientSample", "Samples\WampSharp.CraClientSample\WampSharp.CraClientSample.csproj", "{6AD8C6F1-05AE-4826-BE27-BF54C73D6159}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.CraServerSample", "Samples\WampSharp.CraServerSample\WampSharp.CraServerSample.csproj", "{32A38656-5BAF-4D80-9780-95C3B594DA3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +51,14 @@ Global
 		{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AD8C6F1-05AE-4826-BE27-BF54C73D6159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AD8C6F1-05AE-4826-BE27-BF54C73D6159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AD8C6F1-05AE-4826-BE27-BF54C73D6159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AD8C6F1-05AE-4826-BE27-BF54C73D6159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32A38656-5BAF-4D80-9780-95C3B594DA3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32A38656-5BAF-4D80-9780-95C3B594DA3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32A38656-5BAF-4D80-9780-95C3B594DA3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32A38656-5BAF-4D80-9780-95C3B594DA3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,5 +67,7 @@ Global
 		{AD5C9AA6-6810-488E-9EDD-FCC945AAD627} = {33E2A6E5-246F-420B-A13C-AA4B617EBFB2}
 		{2128E477-97B6-4224-A8A9-789F79514B41} = {33E2A6E5-246F-420B-A13C-AA4B617EBFB2}
 		{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77} = {33E2A6E5-246F-420B-A13C-AA4B617EBFB2}
+		{6AD8C6F1-05AE-4826-BE27-BF54C73D6159} = {33E2A6E5-246F-420B-A13C-AA4B617EBFB2}
+		{32A38656-5BAF-4D80-9780-95C3B594DA3F} = {33E2A6E5-246F-420B-A13C-AA4B617EBFB2}
 	EndGlobalSection
 EndGlobal

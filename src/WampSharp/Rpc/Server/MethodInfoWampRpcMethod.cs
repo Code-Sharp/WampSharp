@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.Core.Contracts.V1;
 
 namespace WampSharp.Rpc.Server
 {
@@ -62,23 +63,36 @@ namespace WampSharp.Rpc.Server
                 return mProcUri;
             }
         }
+
+        public MethodInfo MethodInfo
+        {
+            get
+            {
+                return mMethod;
+            }
+        }
         
         public Type[] Parameters
         {
             get { return mMethod.GetParameters().Select(paramterInfo => paramterInfo.ParameterType).ToArray(); }
         }
 
-        public Task<object> InvokeAsync(object[] parameters)
+        public virtual object GetInstance(IWampClient client)
+        {
+            return mInstance;
+        }
+
+        public Task<object> InvokeAsync(IWampClient client, object[] parameters)
         {
             Task<object> result = null;
 
             if (!typeof (Task).IsAssignableFrom(mMethod.ReturnType))
             {
-                result = Task.Factory.StartNew(() => Invoke(parameters));
+                result = Task.Factory.StartNew(() => Invoke(client, parameters));
             }
             else
             {
-                var task = (Task)Invoke(parameters);
+                Task task = (Task)Invoke(client, parameters);
                 
                 if (task.GetType() == typeof (Task))
                 {
@@ -97,10 +111,21 @@ namespace WampSharp.Rpc.Server
         {
             return task.ContinueWith(t => (object) t.Result);
         }
-        
-        public object Invoke(object[] parameters)
+
+        public object Invoke(IWampClient client, object[] parameters)
         {
-            return mMethod.Invoke(mInstance, parameters);
+            object result;
+
+            try
+            {
+                result = mMethod.Invoke(GetInstance(client), parameters);
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw ex.InnerException;
+            }
+
+            return result;
         }
     }
 }
