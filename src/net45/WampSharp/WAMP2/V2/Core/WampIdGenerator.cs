@@ -2,6 +2,9 @@ using System;
 
 namespace WampSharp.V2.Core
 {
+    /// <summary>
+    /// A default implementation of <see cref="IWampIdGenerator"/>.
+    /// </summary>
     public class WampIdGenerator : IWampIdGenerator
     {
         private Random mRandom = new Random();

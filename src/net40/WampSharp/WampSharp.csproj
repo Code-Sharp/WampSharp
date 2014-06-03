@@ -201,11 +201,11 @@
     <Compile Include="..\..\net45\WampSharp\Core\Serialization\IWampFormatter.cs">
       <Link>Core\Serialization\IWampFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\Core\Serialization\IWampMessageSerializerBuilder.cs">
-      <Link>Core\Serialization\IWampMessageSerializerBuilder.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\Core\Serialization\IWampMessageSerializerFactory.cs">
+      <Link>Core\Serialization\IWampMessageSerializerFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\Core\Serialization\WampMessageSerializerBuilder.cs">
-      <Link>Core\Serialization\WampMessageSerializerBuilder.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\Core\Serialization\WampMessageSerializerFactory.cs">
+      <Link>Core\Serialization\WampMessageSerializerFactory.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Serialization\WampSerializationInterceptor.cs">
       <Link>Core\Serialization\WampSerializationInterceptor.cs</Link>

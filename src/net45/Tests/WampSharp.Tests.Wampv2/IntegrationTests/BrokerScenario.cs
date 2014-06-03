@@ -25,8 +25,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
 
         protected override object CreateServer()
         {
-            WampMessageSerializerBuilder<MockRaw> serializerGenerator =
-                new WampMessageSerializerBuilder<MockRaw>
+            WampMessageSerializerFactory<MockRaw> serializerGenerator =
+                new WampMessageSerializerFactory<MockRaw>
                     (new WampOutgoingRequestSerializer<MockRaw>(Binding.Formatter));
 
             IWampEventSerializer<MockRaw> eventSerializer =

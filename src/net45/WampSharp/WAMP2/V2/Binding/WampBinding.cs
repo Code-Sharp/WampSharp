@@ -5,12 +5,16 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Binding
 {
+    /// <summary>
+    /// Represents a base class for <see cref="IWampBinding{TMessage}"/>.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public abstract class WampBinding<TMessage> : IWampBinding<TMessage>
     {
         private readonly string mName;
         private readonly IWampFormatter<TMessage> mFormatter;
 
-        public WampBinding(string name, IWampFormatter<TMessage> formatter)
+        protected WampBinding(string name, IWampFormatter<TMessage> formatter)
         {
             mName = name;
             mFormatter = formatter;

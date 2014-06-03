@@ -1,11 +1,14 @@
 namespace WampSharp.V2.Core
 {
+    /// <summary>
+    /// Generates request and session ids.
+    /// </summary>
     public interface IWampIdGenerator
     {
         /// <summary>
-        /// Generates a session id for a client.
+        /// Generates a id.
         /// </summary>
-        /// <returns>The generated session id.</returns>
+        /// <returns>The generated id.</returns>
         long Generate();
     }
 }

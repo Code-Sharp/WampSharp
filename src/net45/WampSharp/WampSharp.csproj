@@ -109,8 +109,8 @@
     <Compile Include="Core\Proxy\WampOutgoingRequestSerializer.cs" />
     <Compile Include="Core\Proxy\WampRawOutgoingInterceptor.cs" />
     <Compile Include="Core\Serialization\IWampFormatter.cs" />
-    <Compile Include="Core\Serialization\IWampMessageSerializerBuilder.cs" />
-    <Compile Include="Core\Serialization\WampMessageSerializerBuilder.cs" />
+    <Compile Include="Core\Serialization\IWampMessageSerializerFactory.cs" />
+    <Compile Include="Core\Serialization\WampMessageSerializerFactory.cs" />
     <Compile Include="Core\Serialization\WampSerializationInterceptor.cs" />
     <Compile Include="Core\Utilities\CustomAttributeExtensions.cs" />
     <Compile Include="Core\Utilities\DictionaryExtensions.cs" />

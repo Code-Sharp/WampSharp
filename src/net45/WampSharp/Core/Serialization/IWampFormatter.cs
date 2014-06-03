@@ -16,6 +16,7 @@ namespace WampSharp.Core.Serialization
         /// <param name="type">The given type.</param>
         /// <returns>A value indicating whether the given argument
         /// can be casted to the given type.</returns>
+        [Obsolete("Used only for WAMP1. You don't need to implement this for WAMP2 usages.")]
         bool CanConvert(TMessage argument, Type type);
 
         /// <summary>

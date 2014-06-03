@@ -43,8 +43,8 @@ namespace WampSharp.V2
         private static IWampEventSerializer<TMessage> GetEventSerializer(
             IWampOutgoingRequestSerializer<TMessage> outgoingSerializer)
         {
-            WampMessageSerializerBuilder<TMessage> serializerGenerator =
-                new WampMessageSerializerBuilder<TMessage>(outgoingSerializer);
+            WampMessageSerializerFactory<TMessage> serializerGenerator =
+                new WampMessageSerializerFactory<TMessage>(outgoingSerializer);
 
             return serializerGenerator.GetSerializer<IWampEventSerializer<TMessage>>();
         }

@@ -152,6 +152,9 @@ namespace WampSharp.Core.Dispatch.Handler
             }
         }
 
+        /// <summary>
+        /// Gets this method's parameters.
+        /// </summary>
         public ParameterInfo[] Parameters
         {
             get
@@ -160,6 +163,9 @@ namespace WampSharp.Core.Dispatch.Handler
             }
         }
 
+        /// <summary>
+        /// Gets this method's parameters that require deserialization.
+        /// </summary>
         public ParameterInfo[] ParametersToConvert
         {
             get
@@ -168,11 +174,20 @@ namespace WampSharp.Core.Dispatch.Handler
             }
         }
 
+        /// <summary>
+        /// Gets the number of arguments of this method.
+        /// </summary>
         public int TotalArgumentsCount
         {
-            get { return mTotalArgumentsCount; }
+            get
+            {
+                return mTotalArgumentsCount;
+            }
         }
 
+        /// <summary>
+        /// Gets the message type this method handles.
+        /// </summary>
         public WampMessageType MessageType
         {
             get

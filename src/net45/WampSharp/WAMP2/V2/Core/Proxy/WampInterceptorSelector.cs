@@ -10,7 +10,7 @@ namespace WampSharp.V2.Core.Proxy
     /// <summary>
     /// An <see cref="IInterceptorSelector"/> that chooses between
     /// <see cref="WampOutgoingInterceptor{TMessage}"/> and 
-    /// <see cref="SessionIdPropertyInterceptor"/>.
+    /// <see cref="WampRawOutgoingInterceptor{TMessage}"/>.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public class WampInterceptorSelector<TMessage> : IInterceptorSelector

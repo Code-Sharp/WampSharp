@@ -2,10 +2,13 @@
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding.Messages;
 using WampSharp.V2.Binding.Parsers;
-using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Binding.Contracts
 {
+    /// <summary>
+    /// A base class that represents WAMP2 wamp.2.msgpack binding.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public abstract class MsgPackBinding<TMessage> : WampBinding<TMessage>,
         IWampBinaryBinding<TMessage>
     {

@@ -1,5 +1,8 @@
 ﻿namespace WampSharp.V2.Core.Contracts
 {
+    /// <summary>
+    /// Represents a WAMP2 client proxy.
+    /// </summary>
     public interface IWampClient :
         IWampSessionClient,
         IWampCallee,
@@ -10,6 +13,10 @@
     {
     }
 
+    /// <summary>
+    /// Represents a WAMP2 client/client proxy.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public interface IWampClient<TMessage> :
         IWampCallee<TMessage>,
         IWampCaller<TMessage>,

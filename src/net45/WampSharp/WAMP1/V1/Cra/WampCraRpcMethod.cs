@@ -11,7 +11,7 @@ namespace WampSharp.V1.Cra
 
         }
 
-        public override object GetInstance(IWampClient client)
+        protected override object GetInstance(IWampClient client)
         {
             return client.CraAuthenticator;
         }

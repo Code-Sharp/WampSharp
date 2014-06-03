@@ -64,6 +64,10 @@ namespace WampSharp.V1.Rpc.Server
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="System.Reflection.MethodInfo"/> this rpc method
+        /// is bound to.
+        /// </summary>
         public MethodInfo MethodInfo
         {
             get
@@ -77,7 +81,13 @@ namespace WampSharp.V1.Rpc.Server
             get { return mMethod.GetParameters().Select(paramterInfo => paramterInfo.ParameterType).ToArray(); }
         }
 
-        public virtual object GetInstance(IWampClient client)
+        /// <summary>
+        /// Gets the instance used for <see cref="System.Reflection.MethodInfo.Invoke(object, object[])"></see>
+        /// call.
+        /// </summary>
+        /// <param name="client">The <see cref="IWampClient"/> requesting this call.</param>
+        /// <returns>The instance to use for invocation.</returns>
+        protected virtual object GetInstance(IWampClient client)
         {
             return mInstance;
         }
