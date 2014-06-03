@@ -64,6 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultWampCraHost.cs" />
     <Compile Include="DefaultWampChannelFactory.cs" />
     <Compile Include="DefaultWampHost.cs" />
     <Compile Include="Fleck\FleckWampConnectionListener.cs" />

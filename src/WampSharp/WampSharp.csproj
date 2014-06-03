@@ -62,9 +62,16 @@
     <Compile Include="Api\Client\IWampChannelFactory.cs" />
     <Compile Include="Api\Client\WampChannel.cs" />
     <Compile Include="Api\Client\WampChannelFactory.cs" />
+    <Compile Include="Api\Server\WampRequestContext.cs" />
+    <Compile Include="Core\Contracts\V1\IWampCraClient.cs" />
+    <Compile Include="Cra\IWampCraServerBuilder.cs" />
+    <Compile Include="Cra\MockWampCraProcedures.cs" />
+    <Compile Include="Cra\WampCraAuthenticatorBuilder.cs" />
+    <Compile Include="Cra\WampCraHelpers.cs" />
     <Compile Include="Api\Server\DefaultWampServer.cs" />
     <Compile Include="Api\Server\IWampHost.cs" />
     <Compile Include="Api\Server\IWampServerBuilder.cs" />
+    <Compile Include="Cra\WampCraAuthenticator.cs" />
     <Compile Include="Api\Server\WampHost.cs" />
     <Compile Include="Api\Server\WampServerBuilder.cs" />
     <Compile Include="Auxiliary\Client\IWampAuxiliaryClientFactory.cs" />
@@ -85,7 +92,7 @@
     <Compile Include="Core\Contracts\V1\IWampAuxiliaryClient.cs" />
     <Compile Include="Core\Contracts\V1\IWampAuxiliaryServer.cs" />
     <Compile Include="Core\Contracts\V1\IWampClient.cs" />
-    <Compile Include="Core\Contracts\V1\IWampClientContext.cs" />
+    <Compile Include="Cra\IWampCraAuthenticator.cs" />
     <Compile Include="Core\Contracts\V1\IWampPubSubClient.cs" />
     <Compile Include="Core\Contracts\V1\IWampPubSubServer.cs" />
     <Compile Include="Core\Contracts\V1\IWampRpcClient.cs" />
@@ -101,6 +108,22 @@
     <Compile Include="Core\Contracts\V2\IWampSubscriber.cs" />
     <Compile Include="Core\Contracts\WampHandlerAttribute.cs" />
     <Compile Include="Core\Contracts\WampProxyParameterAttribute.cs" />
+    <Compile Include="Cra\IWampCraProcedures.cs" />
+    <Compile Include="Cra\WampCraChallenge.cs" />
+    <Compile Include="Cra\WampCraHost.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Cra\WampCraPermissions.cs" />
+    <Compile Include="Cra\WampCraPendingAuth.cs" />
+    <Compile Include="Cra\WampCraPermissionsMapper.cs" />
+    <Compile Include="Cra\WampCraRpcMetadata.cs" />
+    <Compile Include="Cra\WampCraRpcMethod.cs" />
+    <Compile Include="Cra\WampCraServerBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Cra\WampPubSubPermissions.cs" />
+    <Compile Include="Cra\WampRpcPermissions.cs" />
+    <Compile Include="Cra\WampCraServer.cs" />
     <Compile Include="Core\Curie\IWampCurieMapper.cs" />
     <Compile Include="Core\Curie\WampCurieMapper.cs" />
     <Compile Include="Core\Dispatch\Handler\DelegateCache.cs" />
@@ -138,9 +161,9 @@
     <Compile Include="Core\Message\MessageType\MessageTypeDetailsAttribute.cs" />
     <Compile Include="Core\Message\MessageType\WampMessageType.cs" />
     <Compile Include="Core\Message\WampMessage.cs" />
-    <Compile Include="Core\Proxy\ClientContextPropertyInterceptor.cs" />
     <Compile Include="Core\Proxy\IWampOutgoingMessageHandler.cs" />
     <Compile Include="Core\Proxy\IWampOutgoingRequestSerializer.cs" />
+    <Compile Include="Core\Proxy\WampCraAuthenticatorPropertyInterceptor.cs" />
     <Compile Include="Core\Proxy\SessionIdPropertyInterceptor.cs" />
     <Compile Include="Core\Proxy\WampInterceptorSelector.cs" />
     <Compile Include="Core\Proxy\WampOutgoingInterceptor.cs" />

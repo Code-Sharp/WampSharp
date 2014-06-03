@@ -23,6 +23,14 @@ namespace WampSharp.Rpc.Server
             mBaseUri = baseUri;
         }
 
+        protected string BaseUri
+        {
+            get
+            {
+                return mBaseUri;
+            }
+        }
+
         public IEnumerable<IWampRpcMethod> GetServiceMethods()
         {
             Type type = mInstance.GetType();
@@ -48,7 +56,7 @@ namespace WampSharp.Rpc.Server
                        .Select(method => CreateRpcMethod(method));
         }
 
-        private MethodInfoWampRpcMethod CreateRpcMethod(MethodInfo method)
+        protected virtual MethodInfoWampRpcMethod CreateRpcMethod(MethodInfo method)
         {
             return new MethodInfoWampRpcMethod(mInstance, method, mBaseUri);
         }

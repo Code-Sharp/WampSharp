@@ -52,10 +52,10 @@ namespace WampSharp.Tests.PubSub.Helpers
             public void Subscribe(IWampClient client, string topicUri)
             {
                 mParent.mSubscriptions.Add(new WampSubscribeRequest<TMessage>()
-                                               {
-                                                   Client = mClient,
-                                                   TopicUri = topicUri
-                                               });
+                {
+                    Client = mClient,
+                    TopicUri = topicUri
+                });
             }
 
             public void Unsubscribe(IWampClient client, string topicUri)

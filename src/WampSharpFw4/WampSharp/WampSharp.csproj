@@ -70,6 +70,24 @@
     <Compile Include="..\..\WampSharp\Api\Client\WampChannelFactory.cs">
       <Link>Api\Client\WampChannelFactory.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp\Api\Server\WampRequestContext.cs">
+      <Link>Api\Server\WampRequestContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Core\Contracts\V1\IWampCraClient.cs">
+      <Link>Core\Contracts\V1\IWampCraClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\IWampCraServerBuilder.cs">
+      <Link>Cra\IWampCraServerBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\MockWampCraProcedures.cs">
+      <Link>Cra\MockWampCraProcedures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraAuthenticatorBuilder.cs">
+      <Link>Cra\WampCraAuthenticatorBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraHelpers.cs">
+      <Link>Cra\WampCraHelpers.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp\Api\Server\DefaultWampServer.cs">
       <Link>Api\Server\DefaultWampServer.cs</Link>
     </Compile>
@@ -78,6 +96,9 @@
     </Compile>
     <Compile Include="..\..\WampSharp\Api\Server\IWampServerBuilder.cs">
       <Link>Api\Server\IWampServerBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraAuthenticator.cs">
+      <Link>Cra\WampCraAuthenticator.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Api\Server\WampHost.cs">
       <Link>Api\Server\WampHost.cs</Link>
@@ -139,8 +160,8 @@
     <Compile Include="..\..\WampSharp\Core\Contracts\V1\IWampClient.cs">
       <Link>Core\Contracts\V1\IWampClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\Core\Contracts\V1\IWampClientContext.cs">
-      <Link>Core\Contracts\V1\IWampClientContext.cs</Link>
+    <Compile Include="..\..\WampSharp\Cra\IWampCraAuthenticator.cs">
+      <Link>Cra\IWampCraAuthenticator.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Contracts\V1\IWampPubSubClient.cs">
       <Link>Core\Contracts\V1\IWampPubSubClient.cs</Link>
@@ -186,6 +207,44 @@
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Contracts\WampProxyParameterAttribute.cs">
       <Link>Core\Contracts\WampProxyParameterAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\IWampCraProcedures.cs">
+      <Link>Cra\IWampCraProcedures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraChallenge.cs">
+      <Link>Cra\WampCraChallenge.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraHost.cs">
+      <SubType>Code</SubType>
+      <Link>Cra\WampCraHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraPermissions.cs">
+      <Link>Cra\WampCraPermissions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraPendingAuth.cs">
+      <Link>Cra\WampCraPendingAuth.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraPermissionsMapper.cs">
+      <Link>Cra\WampCraPermissionsMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraRpcMetadata.cs">
+      <Link>Cra\WampCraRpcMetadata.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraRpcMethod.cs">
+      <Link>Cra\WampCraRpcMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraServerBuilder.cs">
+      <SubType>Code</SubType>
+      <Link>Cra\WampCraServerBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampPubSubPermissions.cs">
+      <Link>Cra\WampPubSubPermissions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampRpcPermissions.cs">
+      <Link>Cra\WampRpcPermissions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Cra\WampCraServer.cs">
+      <Link>Cra\WampCraServer.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Curie\IWampCurieMapper.cs">
       <Link>Core\Curie\IWampCurieMapper.cs</Link>
@@ -298,14 +357,14 @@
     <Compile Include="..\..\WampSharp\Core\Message\WampMessage.cs">
       <Link>Core\Message\WampMessage.cs</Link>
     </Compile>
-    <Compile Include="..\..\WampSharp\Core\Proxy\ClientContextPropertyInterceptor.cs">
-      <Link>Core\Proxy\ClientContextPropertyInterceptor.cs</Link>
-    </Compile>
     <Compile Include="..\..\WampSharp\Core\Proxy\IWampOutgoingMessageHandler.cs">
       <Link>Core\Proxy\IWampOutgoingMessageHandler.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Proxy\IWampOutgoingRequestSerializer.cs">
       <Link>Core\Proxy\IWampOutgoingRequestSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WampSharp\Core\Proxy\WampCraAuthenticatorPropertyInterceptor.cs">
+      <Link>Core\Proxy\WampCraAuthenticatorPropertyInterceptor.cs</Link>
     </Compile>
     <Compile Include="..\..\WampSharp\Core\Proxy\SessionIdPropertyInterceptor.cs">
       <Link>Core\Proxy\SessionIdPropertyInterceptor.cs</Link>

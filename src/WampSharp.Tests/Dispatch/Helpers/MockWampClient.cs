@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using WampSharp.Core.Contracts.V1;
+using WampSharp.Cra;
 using WampSharp.Tests.TestHelpers;
 
 namespace WampSharp.Tests.Dispatch.Helpers
@@ -39,6 +40,18 @@ namespace WampSharp.Tests.Dispatch.Helpers
         public void Event(string topicUri, MockRaw @event)
         {
             throw new System.NotImplementedException();
+        }
+
+        public IWampCraAuthenticator CraAuthenticator
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+                throw new System.NotImplementedException();
+            }
         }
     }
 }

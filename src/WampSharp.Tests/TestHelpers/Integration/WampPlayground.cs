@@ -1,34 +1,55 @@
 ﻿using WampSharp.Core.Listener;
+using WampSharp.Core.Serialization;
 
 namespace WampSharp.Tests.TestHelpers.Integration
 {
-    public class WampPlayground
+    public class WampPlayground : WampPlayground<MockRaw>
+    {
+        public WampPlayground() : base(new MockRawFormatter())
+        {
+        }
+    }
+
+    public class WampPlayground<TMessage>
     {
         private readonly IWampHost mHost;
-        private readonly MockConnectionListener mListener;
+        private readonly MockConnectionListener<TMessage> mListener;
 
-        private readonly IWampChannelFactory<MockRaw> mChannelFactory;
-        private readonly MockRawFormatter mFormatter;
+        private readonly IWampChannelFactory<TMessage> mChannelFactory;
+        private readonly IWampFormatter<TMessage> mFormatter;
 
-        public WampPlayground()
+        public WampPlayground(IWampFormatter<TMessage> wampFormatter)
+            : this(wampFormatter, new MockConnectionListener<TMessage>())
         {
-            mFormatter = new MockRawFormatter();
-            mChannelFactory = new WampChannelFactory<MockRaw>(mFormatter);
-            mListener = new MockConnectionListener();
-            mHost = new WampHost<MockRaw>(mListener, mFormatter);
         }
 
-        public IControlledWampConnection<MockRaw> CreateClientConnection()
+        protected WampPlayground(IWampFormatter<TMessage> formatter,
+                                 MockConnectionListener<TMessage> listener)
+            : this(formatter, listener, new WampHost<TMessage>(listener, formatter))
+        {
+        }
+
+        protected WampPlayground(IWampFormatter<TMessage> formatter, 
+            MockConnectionListener<TMessage> listener,
+            IWampHost host)
+        {
+            mFormatter = formatter;
+            mListener = listener;
+            mHost = host;
+            mChannelFactory = new WampChannelFactory<TMessage>(mFormatter);
+        }
+
+        public IControlledWampConnection<TMessage> CreateClientConnection()
         {
             return mListener.CreateClientConnection();
         }
 
-        public IWampChannel<MockRaw> CreateNewChannel()
+        public IWampChannel<TMessage> CreateNewChannel()
         {
             return mChannelFactory.CreateChannel(CreateClientConnection());
         }
 
-        public IWampChannelFactory<MockRaw> ChannelFactory
+        public IWampChannelFactory<TMessage> ChannelFactory
         {
             get
             {

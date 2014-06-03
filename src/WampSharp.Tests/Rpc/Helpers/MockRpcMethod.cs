@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.Core.Contracts.V1;
+using WampSharp.Cra;
 using WampSharp.Rpc.Server;
 
 namespace WampSharp.Tests.Rpc.Helpers
@@ -13,8 +16,10 @@ namespace WampSharp.Tests.Rpc.Helpers
         public string Name { get; set; }
 
         public string ProcUri { get; set; }
-        
-        public Task<object> InvokeAsync(object[] parameters)
+
+        public MethodInfo MethodInfo { get; set; }
+
+        public Task<object> InvokeAsync(IWampClient client, object[] parameters)
         {
             TaskCompletionSource<object> result = 
                 new TaskCompletionSource<object>();
@@ -32,10 +37,10 @@ namespace WampSharp.Tests.Rpc.Helpers
         }
 
         public Type[] Parameters { get; set; }
-        
-        public object Invoke(object[] parameters)
+
+        public object Invoke(IWampClient client, object[] parameters)
         {
-            return InvokeAsync(parameters).Result;
+            return InvokeAsync(client, parameters).Result;
         }
     }
 }

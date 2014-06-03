@@ -21,7 +21,18 @@ namespace WampSharp.Rpc.Client
 
         private static Task<T> InternalCastTask<T>(Task<object> task)
         {
-            return task.ContinueWith(x => (T)x.Result);
+            return task.ContinueWith(x => CastResult<T>(x),
+                                     TaskContinuationOptions.ExecuteSynchronously);
+        }
+
+        private static T CastResult<T>(Task<object> x)
+        {
+            if (x.Exception != null)
+            {
+                throw x.Exception.InnerException;
+            }
+
+            return (T)x.Result;
         }
     }
 }

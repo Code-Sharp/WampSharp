@@ -30,7 +30,7 @@ namespace WampSharp.Tests.Rpc.Helpers
         public MockWampRpcCallDetails<TMessage> GetCallDetails(string callId)
         {
             MockWampRpcCallDetails<TMessage> result;
-            
+
             if (mCallIdToCallDetails.TryGetValue(callId, out result))
             {
                 return result;
