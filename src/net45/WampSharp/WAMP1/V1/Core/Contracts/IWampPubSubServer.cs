@@ -66,6 +66,6 @@ namespace WampSharp.V1.Core.Contracts
         /// <param name="eligible">A collection of session ids of the only clients that should not be exluded from the
         /// recipients of the event.</param>
         [WampHandler(WampMessageType.v1Publish)]
-        void Publish([WampProxyParameter]IWampClient client, string topicUri, TMessage @event, string[] exclude, string[] eligible);         
+        void Publish([WampProxyParameter]IWampClient client, string topicUri, TMessage @event, string[] exclude, string[] eligible);
     }
 }

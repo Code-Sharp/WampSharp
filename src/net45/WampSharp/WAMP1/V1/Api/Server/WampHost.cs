@@ -18,6 +18,7 @@ namespace WampSharp.V1
         private WampListener<TMessage> mListener;
         private readonly IWampRpcMetadataCatalog mMetadataCatalog;
         private readonly IWampTopicContainerExtended<TMessage> mTopicContainer;
+        private readonly IWampFormatter<TMessage> mFormatter;
 
         public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter) : 
             this(new WampServerBuilder<TMessage>(), connectionListener, formatter)
@@ -26,6 +27,8 @@ namespace WampSharp.V1
 
         public WampHost(IWampServerBuilder<TMessage> serverBuilder, IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
         {
+            mFormatter = formatter;
+
             mMetadataCatalog = new WampRpcMetadataCatalog();
             
             mTopicContainer = new WampTopicContainer<TMessage>();
@@ -117,6 +120,30 @@ namespace WampSharp.V1
             get
             {
                 return mTopicContainer;
+            }
+        }
+
+        protected IWampTopicContainerExtended<TMessage> TopicContainerExtended
+        {
+            get
+            {
+                return mTopicContainer;
+            }
+        }
+
+        protected IWampRpcMetadataCatalog MetadataCatalog
+        {
+            get
+            {
+                return mMetadataCatalog;
+            }
+        }
+
+        protected IWampFormatter<TMessage> Formatter
+        {
+            get
+            {
+                return mFormatter;
             }
         }
 

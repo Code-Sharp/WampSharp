@@ -248,6 +248,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Api\Server\WampHost.cs">
       <Link>WAMP1\V1\Api\Server\WampHost.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Api\Server\WampRequestContext.cs">
+      <Link>WAMP1\V1\Api\Server\WampRequestContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Api\Server\WampServerBuilder.cs">
       <Link>WAMP1\V1\Api\Server\WampServerBuilder.cs</Link>
     </Compile>
@@ -278,8 +281,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Core\Contracts\IWampClient.cs">
       <Link>WAMP1\V1\Core\Contracts\IWampClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Core\Contracts\IWampClientContext.cs">
-      <Link>WAMP1\V1\Core\Contracts\IWampClientContext.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Core\Contracts\IWampCraClient.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampCraClient.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Core\Contracts\IWampPubSubClient.cs">
       <Link>WAMP1\V1\Core\Contracts\IWampPubSubClient.cs</Link>
@@ -320,14 +323,68 @@
     <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Core\Listener\WampSessionIdGenerator.cs">
       <Link>WAMP1\V1\Core\Listener\WampSessionIdGenerator.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Core\Proxy\ClientContextPropertyInterceptor.cs">
-      <Link>WAMP1\V1\Core\Proxy\ClientContextPropertyInterceptor.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Core\Proxy\SessionIdPropertyInterceptor.cs">
       <Link>WAMP1\V1\Core\Proxy\SessionIdPropertyInterceptor.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Core\Proxy\WampCraAuthenticatorPropertyInterceptor.cs">
+      <Link>WAMP1\V1\Core\Proxy\WampCraAuthenticatorPropertyInterceptor.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Core\Proxy\WampInterceptorSelector.cs">
       <Link>WAMP1\V1\Core\Proxy\WampInterceptorSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\IWampCraAuthenticator.cs">
+      <Link>WAMP1\V1\Cra\IWampCraAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\IWampCraProcedures.cs">
+      <Link>WAMP1\V1\Cra\IWampCraProcedures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\IWampCraServerBuilder.cs">
+      <Link>WAMP1\V1\Cra\IWampCraServerBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\MockWampCraProcedures.cs">
+      <Link>WAMP1\V1\Cra\MockWampCraProcedures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraAuthenticator.cs">
+      <Link>WAMP1\V1\Cra\WampCraAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraAuthenticatorBuilder.cs">
+      <Link>WAMP1\V1\Cra\WampCraAuthenticatorBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraChallenge.cs">
+      <Link>WAMP1\V1\Cra\WampCraChallenge.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraHelpers.cs">
+      <Link>WAMP1\V1\Cra\WampCraHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraHost.cs">
+      <Link>WAMP1\V1\Cra\WampCraHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraPendingAuth.cs">
+      <Link>WAMP1\V1\Cra\WampCraPendingAuth.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraPermissions.cs">
+      <Link>WAMP1\V1\Cra\WampCraPermissions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraPermissionsMapper.cs">
+      <Link>WAMP1\V1\Cra\WampCraPermissionsMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraRpcMetadata.cs">
+      <Link>WAMP1\V1\Cra\WampCraRpcMetadata.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraRpcMethod.cs">
+      <Link>WAMP1\V1\Cra\WampCraRpcMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraServer.cs">
+      <Link>WAMP1\V1\Cra\WampCraServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampCraServerBuilder.cs">
+      <Link>WAMP1\V1\Cra\WampCraServerBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampPubSubPermissions.cs">
+      <Link>WAMP1\V1\Cra\WampPubSubPermissions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Cra\WampRpcPermissions.cs">
+      <Link>WAMP1\V1\Cra\WampRpcPermissions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP1\V1\PubSub\Client\IWampPubSubClientFactory.cs">
       <Link>WAMP1\V1\PubSub\Client\IWampPubSubClientFactory.cs</Link>

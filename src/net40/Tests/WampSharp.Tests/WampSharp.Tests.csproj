@@ -69,6 +69,27 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\Api\PubSubTests.cs">
       <Link>Api\PubSubTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\Api\RpcClientTests.cs">
+      <Link>Api\RpcClientTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\Api\RpcServerTests.cs">
+      <Link>Api\RpcServerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\Cra\CraTests.cs">
+      <Link>Cra\CraTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\Cra\Helpers\MockWampCraAuthenticaticationBuilder.cs">
+      <Link>Cra\Helpers\MockWampCraAuthenticaticationBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\Cra\Helpers\MockWampCraAuthenticator.cs">
+      <Link>Cra\Helpers\MockWampCraAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\Cra\Helpers\WampCraPlayground.cs">
+      <Link>Cra\Helpers\WampCraPlayground.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\Cra\Helpers\WampCraProceduresExtensions.cs">
+      <Link>Cra\Helpers\WampCraProceduresExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\DispatchTests.cs">
       <Link>DispatchTests.cs</Link>
     </Compile>

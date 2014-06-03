@@ -25,7 +25,7 @@ namespace WampSharp.V1.PubSub.Server
         public WampTopicContainer()
         {
             mTopicUriToSubject =
-                new ConcurrentDictionary<string, WampTopic>();
+                new ConcurrentDictionary<string, WampTopic>(StringComparer.Ordinal);
         }
 
         #endregion

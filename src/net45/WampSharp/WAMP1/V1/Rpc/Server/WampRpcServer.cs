@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.V1.Core.Contracts;
@@ -42,6 +43,8 @@ namespace WampSharp.V1.Rpc.Server
 
             try
             {
+                WampRequestContext.Current = new WampRequestContext(client);
+
                 object[] parameters =
                     arguments.Zip(method.Parameters,
                                   (argument, type) =>
@@ -49,21 +52,48 @@ namespace WampSharp.V1.Rpc.Server
                              .ToArray();
 
 #if !NET45
-                InnerCall(client, callId, method.InvokeAsync(parameters));
+                InnerCall(client, callId, method.InvokeAsync(client, parameters));
             }
 #else
-                object result = await method.InvokeAsync(parameters);
+
+                object result = await method.InvokeAsync(client, parameters);
                 client.CallResult(callId, result);
-            }
-            catch (WampRpcCallException ex)
-            {
-                client.CallError(callId, ex.ErrorUri, ex.Message, ex.ErrorDetails);
             }
 #endif
             catch (Exception ex)
             {
-                client.CallError(callId, ex.HelpLink, ex.Message);
+                HandleException(client, callId, ex);
             }
+#if NET45
+            finally
+            {
+                WampRequestContext.Current = null;
+            }
+#endif
+        }
+
+        private static void HandleException(IWampClient client, string callId, Exception innerException)
+        {
+            WampRpcCallException callException = innerException as WampRpcCallException;
+
+            if (callException != null)
+            {
+                HandleWampException(client, callId, callException);
+            }
+            else
+            {
+                HandleNonWampException(client, callId, innerException);
+            }
+        }
+
+        private static void HandleNonWampException(IWampClient client, string callId, Exception ex)
+        {
+            client.CallError(callId, ex.HelpLink, ex.Message);
+        }
+
+        private static void HandleWampException(IWampClient client, string callId, WampRpcCallException callException)
+        {
+            client.CallError(callId, callException.ErrorUri, callException.Message, callException.ErrorDetails);
         }
 
 #if !NET45
@@ -79,11 +109,12 @@ namespace WampSharp.V1.Rpc.Server
                 task.ContinueWith
                     (x => InnerCallCallback(client, callId, x));                
             }
-
         }
 
         private static void InnerCallCallback(IWampClient client, string callId, Task<object> task)
         {
+            WampRequestContext.Current = null;    
+
             if (task.Exception == null)
             {
                 client.CallResult(callId, task.Result);
@@ -101,18 +132,7 @@ namespace WampSharp.V1.Rpc.Server
             Exception innerException =
                 taskException.InnerException;
 
-            WampRpcCallException wampException =
-                innerException as WampRpcCallException;
-
-            if (wampException != null)
-            {
-                client.CallError(callId, wampException.ErrorUri, wampException.Message,
-                                 wampException.ErrorDetails);
-            }
-            else
-            {
-                client.CallError(callId, innerException.HelpLink, innerException.Message);
-            }
+            HandleException(client, callId, innerException);
         }
 #endif
 

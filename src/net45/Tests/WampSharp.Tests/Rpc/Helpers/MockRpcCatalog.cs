@@ -26,5 +26,10 @@ namespace WampSharp.Tests.Rpc.Helpers
         {
             return mProcUriToMethod[procUri];
         }
+        
+        public IEnumerable<IWampRpcMethod> GetAllRpcMethods()
+        {
+            return mProcUriToMethod.Values;
+        }
     }
 }

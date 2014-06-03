@@ -129,6 +129,9 @@
     <Compile Include="..\..\net45\WampSharp.Default\WAMP1\V1\DefaultWampChannelFactory.cs">
       <Link>WAMP1\V1\DefaultWampChannelFactory.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default\WAMP1\V1\DefaultWampCraHost.cs">
+      <Link>WAMP1\V1\DefaultWampCraHost.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\WAMP1\V1\DefaultWampHost.cs">
       <Link>WAMP1\V1\DefaultWampHost.cs</Link>
     </Compile>

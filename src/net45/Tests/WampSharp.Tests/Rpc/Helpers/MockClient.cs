@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Curie;
+using WampSharp.V1.Cra;
 
 namespace WampSharp.Tests.Rpc.Helpers
 {
@@ -14,16 +15,10 @@ namespace WampSharp.Tests.Rpc.Helpers
         private readonly IDictionary<string, CallErrorDetails> mCallErrors =
             new ConcurrentDictionary<string, CallErrorDetails>();
 
-        private readonly IDictionary<string, object> mContext =
-            new ConcurrentDictionary<string, object>();
+        private IWampCraAuthenticator mCraAuthenticator;
         
         public void Welcome(string sessionId, int protocolVersion, string serverIdent)
         {
-        }
-
-        public IDictionary<string, object> ClientContext
-        {
-            get { return mContext; }
         }
 
         public string SessionId { get; set; }
@@ -81,6 +76,12 @@ namespace WampSharp.Tests.Rpc.Helpers
         public void Map(string prefix, string uri)
         {
             throw new NotImplementedException();
+        }
+
+        public IWampCraAuthenticator CraAuthenticator
+        {
+            get { return mCraAuthenticator; }
+            set { mCraAuthenticator = value; }
         }
     }
 }

@@ -35,7 +35,15 @@ namespace WampSharp.V1.Rpc.Client
         public object Handle(WampRpcCall rpcCall)
         {
             Task<object> task = HandleAsync(rpcCall);
-            return task.Result;
+
+            try
+            {
+                return task.Result;
+            }
+            catch (AggregateException ex)
+            {                
+                throw ex.InnerException;
+            }
         }
 
         public Task<object> HandleAsync(WampRpcCall rpcCall)

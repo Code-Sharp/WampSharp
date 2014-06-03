@@ -18,13 +18,13 @@ namespace WampSharp.V1.Rpc.Server
         {
             mProcUriToMethod =
                 new ConcurrentDictionary<string, IWampRpcMethod>
-                    (StringComparer.InvariantCultureIgnoreCase);
+                    (StringComparer.Ordinal);
         }
 
         public void Register(IWampRpcMetadata metadata)
         {
             IEnumerable<IWampRpcMethod> newMethods = metadata.GetServiceMethods();
-                                                              
+
             foreach (var procUriToMethod in newMethods)
             {
                 bool added = 
@@ -59,6 +59,11 @@ namespace WampSharp.V1.Rpc.Server
             }
 
             return null;
+        }
+
+        public IEnumerable<IWampRpcMethod> GetAllRpcMethods()
+        {
+            return mProcUriToMethod.Values;
         }
     }
 }

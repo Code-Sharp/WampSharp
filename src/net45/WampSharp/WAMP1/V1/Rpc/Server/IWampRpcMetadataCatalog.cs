@@ -1,4 +1,6 @@
-﻿namespace WampSharp.V1.Rpc.Server
+using System.Collections.Generic;
+
+namespace WampSharp.V1.Rpc.Server
 {
     /// <summary>
     /// Represents a catalog of hosted rpc services.
@@ -26,5 +28,11 @@
         /// <param name="procUri">The given proc uri.</param>
         /// <returns>The corresponding metadata.</returns>
         IWampRpcMethod ResolveMethodByProcUri(string procUri);
+
+        /// <summary>
+        /// Gets all registered RPC methods.
+        /// </summary>
+        /// <returns>All registered RPC methods.</returns>
+        IEnumerable<IWampRpcMethod> GetAllRpcMethods();
     }
 }

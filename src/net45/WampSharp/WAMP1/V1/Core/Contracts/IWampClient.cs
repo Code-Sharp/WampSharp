@@ -4,10 +4,8 @@ namespace WampSharp.V1.Core.Contracts
     /// An object version of <see cref="IWampClient{TMessage}"/>
     /// </summary>
     public interface IWampClient : IWampClient<object>,
-                                   IWampAuxiliaryClient,
                                    IWampRpcClient,
-                                   IWampPubSubClient,
-                                   IWampClientContext
+                                   IWampPubSubClient
     {
     }
 
@@ -17,7 +15,7 @@ namespace WampSharp.V1.Core.Contracts
     public interface IWampClient<TMessage> : IWampAuxiliaryClient,
                                              IWampRpcClient<TMessage>,
                                              IWampPubSubClient<TMessage>,
-                                             IWampClientContext
+                                             IWampCraClient
     {
     }
 }

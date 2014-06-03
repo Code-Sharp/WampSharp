@@ -5,38 +5,38 @@ using WampSharp.Core.Message;
 
 namespace WampSharp.Tests.TestHelpers.Integration
 {
-    public class MockConnectionListener : IWampConnectionListener<MockRaw>
+    public class MockConnectionListener<TMessage> : IWampConnectionListener<TMessage>
     {
-        private readonly ISubject<IWampConnection<MockRaw>> mSubject =
-            new ReplaySubject<IWampConnection<MockRaw>>();
+        private readonly ISubject<IWampConnection<TMessage>> mSubject =
+            new ReplaySubject<IWampConnection<TMessage>>();
 
-        public IDisposable Subscribe(IObserver<IWampConnection<MockRaw>> observer)
+        public IDisposable Subscribe(IObserver<IWampConnection<TMessage>> observer)
         {
             return mSubject.Subscribe(observer);
         }
 
-        public IControlledWampConnection<MockRaw> CreateClientConnection()
+        public IControlledWampConnection<TMessage> CreateClientConnection()
         {
             return new ListenerControlledConnection(this);
         }
 
-        private void OnNewConnection(IWampConnection<MockRaw> connection)
+        private void OnNewConnection(IWampConnection<TMessage> connection)
         {
             mSubject.OnNext(connection);
 
             // Yuck
-            MockConnection<MockRaw>.DirectedConnection casted = connection as MockConnection<MockRaw>.DirectedConnection;
+            MockConnection<TMessage>.DirectedConnection casted = connection as MockConnection<TMessage>.DirectedConnection;
             casted.RaiseConnectionOpen();
         }
 
-        private class ListenerControlledConnection : IControlledWampConnection<MockRaw>
+        private class ListenerControlledConnection : IControlledWampConnection<TMessage>
         {
-            private readonly MockConnection<MockRaw> mConnection;
-            private readonly MockConnectionListener mListener;
+            private readonly MockConnection<TMessage> mConnection;
+            private readonly MockConnectionListener<TMessage> mListener;
 
-            public ListenerControlledConnection(MockConnectionListener listener)
+            public ListenerControlledConnection(MockConnectionListener<TMessage> listener)
             {
-                mConnection = new MockConnection<MockRaw>();
+                mConnection = new MockConnection<TMessage>();
                 mListener = listener;
             }
 
@@ -50,7 +50,7 @@ namespace WampSharp.Tests.TestHelpers.Integration
                 mConnection.SideAToSideB.Dispose();
             }
 
-            public void Send(WampMessage<MockRaw> message)
+            public void Send(WampMessage<TMessage> message)
             {
                 mConnection.SideAToSideB.Send(message);
             }
@@ -67,7 +67,7 @@ namespace WampSharp.Tests.TestHelpers.Integration
                 }
             }
 
-            public event EventHandler<WampMessageArrivedEventArgs<MockRaw>> MessageArrived
+            public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived
             {
                 add
                 {

@@ -5,6 +5,8 @@ namespace WampSharp.V1.Auxiliary.Client
 {
     public interface IWampClientConnectionMonitor
     {
+        string SessionId { get; }
+
         void MapPrefix(string prefix, string uri);
         
         event EventHandler<WampConnectionEstablishedEventArgs> ConnectionEstablished;

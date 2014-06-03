@@ -128,7 +128,7 @@ namespace WampSharp.Tests
 
         public class AddCalculator
         {
-            [WampRpcMethod("http://www.yogev.com/pr/add")]
+            [WampRpcMethod("http://www.yogev.com/pr/Add")]
             public int Add(int x, int y)
             {
                 return x + y;

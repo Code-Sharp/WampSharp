@@ -76,8 +76,8 @@ namespace WampSharp.V1.Core.Listener.ClientBuilder
             IWampClient result =
                 mGenerator.CreateInterfaceProxyWithoutTarget<IWampClient>
                     (proxyGenerationOptions, wampOutgoingInterceptor,
-                    new SessionIdPropertyInterceptor(mSessionIdGenerator.Generate()), 
-                    new ClientContextPropertyInterceptor());
+                    new SessionIdPropertyInterceptor(mSessionIdGenerator.Generate()),
+                    new WampCraAuthenticatorPropertyInterceptor());
 
             monitor.Client = result;
 
