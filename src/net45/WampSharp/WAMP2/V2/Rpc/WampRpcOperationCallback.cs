@@ -1,10 +1,13 @@
 using System;
+using System.Linq;
 using WampSharp.Core.Listener;
+using WampSharp.Core.Serialization;
+using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class WampRpcOperationCallback : IWampRpcOperationCallback,
+    public class WampRpcOperationCallback : IWampRawRpcOperationCallback,
         ICallbackDisconnectionNotifier
     {
         private readonly IWampCaller mCaller;
@@ -19,34 +22,34 @@ namespace WampSharp.V2.Rpc
             monitor.ConnectionClosed += OnConnectionClosed;
         }
 
-        public void Result(object details)
+        public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details)
         {
             mCaller.Result(mRequestId, details);
         }
 
-        public void Result(object details, object[] arguments)
+        public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details, TResult[] arguments)
         {
-            mCaller.Result(mRequestId, details, arguments);
+            mCaller.Result(mRequestId, details, arguments.Cast<object>().ToArray());
         }
 
-        public void Result(object details, object[] arguments, object argumentsKeywords)
+        public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details, TResult[] arguments, TResult argumentsKeywords)
         {
-            mCaller.Result(mRequestId, details, arguments, argumentsKeywords);
+            mCaller.Result(mRequestId, details, arguments.Cast<object>().ToArray(), argumentsKeywords);
         }
 
-        public void Error(object details, string error)
+        public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error)
         {
             mCaller.CallError(mRequestId, details, error);
         }
 
-        public void Error(object details, string error, object[] arguments)
+        public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments)
         {
-            mCaller.CallError(mRequestId, details, error, arguments);
+            mCaller.CallError(mRequestId, details, error, arguments.Cast<object>().ToArray());
         }
 
-        public void Error(object details, string error, object[] arguments, object argumentsKeywords)
+        public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments, TResult argumentsKeywords)
         {
-            mCaller.CallError(mRequestId, details, error, arguments, argumentsKeywords);
+            mCaller.CallError(mRequestId, details, error, arguments.Cast<object>().ToArray(), argumentsKeywords);
         }
 
         public event EventHandler Disconnected;
@@ -62,7 +65,7 @@ namespace WampSharp.V2.Rpc
         protected virtual void RaiseDisconnected()
         {
             EventHandler handler = Disconnected;
-            
+
             if (handler != null)
             {
                 handler(this, EventArgs.Empty);

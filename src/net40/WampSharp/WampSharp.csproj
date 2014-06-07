@@ -762,6 +762,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampException.cs">
       <Link>WAMP2\V2\Core\Contracts\WampException.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\WampObjectFormatter.cs">
+      <Link>WAMP2\V2\Core\WampObjectFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampRpcRuntimeException.cs">
       <Link>WAMP2\V2\Rpc\WampRpcRuntimeException.cs</Link>
     </Compile>

@@ -116,7 +116,7 @@ namespace WampSharp.V2.Client
             return null;
         }
 
-        private IWampRpcOperationCallback GetCallback(long requestId)
+        private IWampRawRpcOperationCallback GetCallback(long requestId)
         {
             return new ServerProxyCallback(mProxy, requestId);
         }
@@ -127,7 +127,7 @@ namespace WampSharp.V2.Client
 
             if (operation != null)
             {
-                IWampRpcOperationCallback callback = GetCallback(requestId);
+                IWampRawRpcOperationCallback callback = GetCallback(requestId);
                 operation.Invoke(callback, mFormatter, details);
             }
         }
@@ -138,7 +138,7 @@ namespace WampSharp.V2.Client
 
             if (operation != null)
             {
-                IWampRpcOperationCallback callback = GetCallback(requestId);
+                IWampRawRpcOperationCallback callback = GetCallback(requestId);
                 operation.Invoke(callback, mFormatter, details, arguments);
             }
         }
@@ -150,7 +150,7 @@ namespace WampSharp.V2.Client
 
             if (operation != null)
             {
-                IWampRpcOperationCallback callback = GetCallback(requestId);
+                IWampRawRpcOperationCallback callback = GetCallback(requestId);
                 operation.Invoke(callback, mFormatter, details, arguments, argumentsKeywords);
             }
         }
@@ -239,7 +239,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        private class ServerProxyCallback : IWampRpcOperationCallback
+        private class ServerProxyCallback : IWampRawRpcOperationCallback
         {
             private readonly IWampServerProxy mProxy;
             private readonly long mRequestId;
@@ -258,34 +258,34 @@ namespace WampSharp.V2.Client
                 }
             }
 
-            public void Result(object details)
+            public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details)
             {
                 mProxy.Yield(RequestId, details);
             }
 
-            public void Result(object details, object[] arguments)
+            public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details, TResult[] arguments)
             {
-                mProxy.Yield(RequestId, details, arguments);
+                mProxy.Yield(RequestId, details, arguments.Cast<object>().ToArray());
             }
 
-            public void Result(object details, object[] arguments, object argumentsKeywords)
+            public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details, TResult[] arguments, TResult argumentsKeywords)
             {
-                mProxy.Yield(RequestId, details, arguments, argumentsKeywords);
+                mProxy.Yield(RequestId, details, arguments.Cast<object>().ToArray(), argumentsKeywords);
             }
 
-            public void Error(object details, string error)
+            public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error)
             {
                 mProxy.InvocationError(RequestId, details, error);
             }
 
-            public void Error(object details, string error, object[] arguments)
+            public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments)
             {
-                mProxy.InvocationError(RequestId, details, error, arguments);
+                mProxy.InvocationError(RequestId, details, error, arguments.Cast<object>().ToArray());
             }
 
-            public void Error(object details, string error, object[] arguments, object argumentsKeywords)
+            public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments, TResult argumentsKeywords)
             {
-                mProxy.InvocationError(RequestId, details, error, arguments, argumentsKeywords);
+                mProxy.InvocationError(RequestId, details, error, arguments.Cast<object>().ToArray(), argumentsKeywords);
             }
         }
     }

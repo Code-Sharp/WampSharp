@@ -296,6 +296,7 @@
     <Compile Include="WAMP2\V2\Error\WampErrorCallbackExtensions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampErrorExtensions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampException.cs" />
+    <Compile Include="WAMP2\V2\Core\WampObjectFormatter.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampRpcRuntimeException.cs" />
     <Compile Include="WAMP2\V2\Core\Dispatch\WampRealmMethodBuilder.cs" />
     <Compile Include="WAMP2\V2\Core\IWampIdGenerator.cs" />

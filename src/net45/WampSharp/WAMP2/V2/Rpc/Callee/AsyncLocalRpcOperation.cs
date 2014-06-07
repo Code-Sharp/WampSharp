@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
@@ -13,7 +14,7 @@ namespace WampSharp.V2.Rpc
         {
         }
 
-        protected async override void InnerInvoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected async override void InnerInvoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
@@ -26,15 +27,15 @@ namespace WampSharp.V2.Rpc
 
                 object result = await task;
 
-                caller.Result(options, new object[] {result});
+                caller.Result(ObjectFormatter, options, new object[] { result });
             }
             catch (WampException ex)
             {
-                caller.Error(ex.Details, ex.ErrorUri);
+                caller.Error(ObjectFormatter, ex.Details, ex.ErrorUri);
             }
         }
 
-        protected abstract Task<object> InvokeAsync<TMessage>(IWampRpcOperationCallback caller,
+        protected abstract Task<object> InvokeAsync<TMessage>(IWampRawRpcOperationCallback caller,
                                                               IWampFormatter<TMessage> formatter,
                                                               TMessage options,
                                                               TMessage[] arguments,

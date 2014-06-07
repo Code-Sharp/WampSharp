@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Client;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
@@ -11,6 +13,9 @@ namespace WampSharp.V2.Rpc
         private static readonly object[] mEmptyResult = new object[0];
 
         private readonly string mProcedure;
+
+        protected readonly static IWampFormatter<object> ObjectFormatter =
+            new WampObjectFormatter();
 
         protected LocalRpcOperation(string procedure)
         {
@@ -45,17 +50,17 @@ namespace WampSharp.V2.Rpc
             get;
         }
 
-        public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage details)
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage details)
         {
             InnerInvoke(caller, formatter, details, null, null);
         }
 
-        public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments)
         {
             InnerInvoke(caller, formatter, options, arguments, null);
         }
 
-        public void Invoke<TMessage>(IWampRpcOperationCallback caller,
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller,
                                      IWampFormatter<TMessage> formatter,
                                      TMessage options,
                                      TMessage[] arguments,
@@ -68,7 +73,7 @@ namespace WampSharp.V2.Rpc
             InnerInvoke(caller, formatter, options, arguments, nameToParameterValue);
         }
 
-        protected void CallResult(IWampRpcOperationCallback caller, object result, IDictionary<string, object> outputs)
+        protected void CallResult(IWampRawRpcOperationCallback caller, object result, IDictionary<string, object> outputs)
         {
             IDictionary<string, object> details =
                 new Dictionary<string, object>();
@@ -89,15 +94,15 @@ namespace WampSharp.V2.Rpc
 
             if (outputs != null)
             {
-                caller.Result(details, resultArguments, outputs);
+                caller.Result(ObjectFormatter, details, resultArguments, outputs);
             }
             else if (!this.HasResult)
             {
-                caller.Result(details);
+                caller.Result(ObjectFormatter, details);
             }
             else
             {
-                caller.Result(details, resultArguments);
+                caller.Result(ObjectFormatter, details, resultArguments);
             }
         }
 
@@ -208,6 +213,6 @@ namespace WampSharp.V2.Rpc
             throw new WampException(WampErrors.InvalidArgument, "argument position: " + position);
         }
 
-        protected abstract void InnerInvoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
+        protected abstract void InnerInvoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
     }
 }

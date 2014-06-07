@@ -9,6 +9,7 @@ using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.Wampv2.Binding;
+using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
@@ -97,7 +98,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
             {
                 server.Call(caller.Object, call.RequestId, call.Options, call.Procedure);
 
-                catalog.Verify(x => x.Invoke(It.IsAny<IWampRpcOperationCallback>(),
+                catalog.Verify(x => x.Invoke(It.IsAny<IWampRawRpcOperationCallback>(),
                                              It.IsAny<IWampFormatter<MockRaw>>(),
                                              call.Options,
                                              call.Procedure),
@@ -107,7 +108,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
             {
                 server.Call(caller.Object, call.RequestId, call.Options, call.Procedure, call.Arguments);
 
-                catalog.Verify(x => x.Invoke(It.IsAny<IWampRpcOperationCallback>(),
+                catalog.Verify(x => x.Invoke(It.IsAny<IWampRawRpcOperationCallback>(),
                                              It.IsAny<IWampFormatter<MockRaw>>(),
                                              call.Options,
                                              call.Procedure, 
@@ -118,7 +119,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
             {
                 server.Call(caller.Object, call.RequestId, call.Options, call.Procedure, call.Arguments, call.ArgumentsKeywords);
 
-                catalog.Verify(x => x.Invoke(It.IsAny<IWampRpcOperationCallback>(),
+                catalog.Verify(x => x.Invoke(It.IsAny<IWampRawRpcOperationCallback>(),
                                              It.IsAny<IWampFormatter<MockRaw>>(),
                                              call.Options,
                                              call.Procedure,

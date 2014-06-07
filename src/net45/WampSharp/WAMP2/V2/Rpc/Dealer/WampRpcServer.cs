@@ -1,6 +1,7 @@
 using System;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
+using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
@@ -18,7 +19,7 @@ namespace WampSharp.V2.Rpc
             mInvoker = catalog;
             mFormatter = binding.Formatter;
 
-            mHandler = new WampCalleeInvocationHandler<TMessage>();
+            mHandler = new WampCalleeInvocationHandler<TMessage>(binding.Formatter);
 
             mCalleeCatalog = new WampCalleeOperationCatalog<TMessage>
                 (catalog, mHandler);
@@ -52,14 +53,14 @@ namespace WampSharp.V2.Rpc
 
         public void Call(IWampCaller caller, long requestId, TMessage options, string procedure)
         {
-            IWampRpcOperationCallback callback = GetCallback(caller, requestId);
+            IWampRawRpcOperationCallback callback = GetCallback(caller, requestId);
 
             mInvoker.Invoke(callback, mFormatter, options, procedure);
         }
 
         public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments)
         {
-            IWampRpcOperationCallback callback = GetCallback(caller, requestId);
+            IWampRawRpcOperationCallback callback = GetCallback(caller, requestId);
 
             mInvoker.Invoke(callback, mFormatter, options, procedure, arguments);
         }
@@ -67,7 +68,7 @@ namespace WampSharp.V2.Rpc
         public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments,
                          TMessage argumentsKeywords)
         {
-            IWampRpcOperationCallback callback = GetCallback(caller, requestId);
+            IWampRawRpcOperationCallback callback = GetCallback(caller, requestId);
 
             mInvoker.Invoke(callback, mFormatter, options, procedure, arguments, argumentsKeywords);
         }
@@ -92,7 +93,7 @@ namespace WampSharp.V2.Rpc
             mHandler.Yield(callee, requestId, options, arguments, argumentsKeywords);
         }
 
-        private IWampRpcOperationCallback GetCallback(IWampCaller caller, long requestId)
+        private IWampRawRpcOperationCallback GetCallback(IWampCaller caller, long requestId)
         {
             return new WampRpcOperationCallback(caller, requestId);
         }

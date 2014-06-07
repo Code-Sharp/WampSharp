@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Client;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
@@ -147,7 +148,7 @@ namespace WampSharp.V2.Rpc
                 }
             }
 
-            public void Invoke<TOther>(IWampRpcOperationCallback caller,
+            public void Invoke<TOther>(IWampRawRpcOperationCallback caller,
                                        IWampFormatter<TOther> formatter,
                                        TOther details)
             {
@@ -156,7 +157,7 @@ namespace WampSharp.V2.Rpc
                 this.Invoke(caller, castedOptions);
             }
 
-            public void Invoke<TOther>(IWampRpcOperationCallback caller,
+            public void Invoke<TOther>(IWampRawRpcOperationCallback caller,
                                        IWampFormatter<TOther> formatter,
                                        TOther options,
                                        TOther[] arguments)
@@ -169,7 +170,7 @@ namespace WampSharp.V2.Rpc
                 this.Invoke(caller, castedOptions, castedArguments);
             }
 
-            public void Invoke<TOther>(IWampRpcOperationCallback caller,
+            public void Invoke<TOther>(IWampRawRpcOperationCallback caller,
                                        IWampFormatter<TOther> formatter,
                                        TOther options,
                                        TOther[] arguments,
@@ -186,22 +187,22 @@ namespace WampSharp.V2.Rpc
                 this.Invoke(caller, castedOptions, castedArguments, castedArgumentsKeywords);
             }
 
-            public void Invoke(IWampRpcOperationCallback caller, TMessage options)
+            public void Invoke(IWampRawRpcOperationCallback caller, TMessage options)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, options));
             }
 
-            public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments)
+            public void Invoke(IWampRawRpcOperationCallback caller, TMessage options, TMessage[] arguments)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, options, arguments));
             }
 
-            public void Invoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+            public void Invoke(IWampRawRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, options, arguments, argumentsKeywords));
             }
 
-            private void InnerInvoke(IWampRpcOperationCallback caller, TMessage options)
+            private void InnerInvoke(IWampRawRpcOperationCallback caller, TMessage options)
             {
                 long requestId =
                     mHandler.RegisterInvocation(this, caller, options);
@@ -209,7 +210,7 @@ namespace WampSharp.V2.Rpc
                 Callee.Invocation(requestId, RegistrationId, options);
             }
 
-            private void InnerInvoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments)
+            private void InnerInvoke(IWampRawRpcOperationCallback caller, TMessage options, TMessage[] arguments)
             {
                 long requestId =
                     mHandler.RegisterInvocation(this, caller, options, arguments);
@@ -217,7 +218,7 @@ namespace WampSharp.V2.Rpc
                 Callee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray());
             }
 
-            private void InnerInvoke(IWampRpcOperationCallback caller, TMessage options, TMessage[] arguments,
+            private void InnerInvoke(IWampRawRpcOperationCallback caller, TMessage options, TMessage[] arguments,
                                      TMessage argumentsKeywords)
             {
                 long requestId =
@@ -226,7 +227,7 @@ namespace WampSharp.V2.Rpc
                 Callee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray(), argumentsKeywords);
             }
 
-            private void InvokePattern(IWampRpcOperationCallback caller, Action action)
+            private void InvokePattern(IWampRawRpcOperationCallback caller, Action action)
             {
                 mResetEvent.WaitOne();
 
@@ -240,7 +241,8 @@ namespace WampSharp.V2.Rpc
                     }
                     else
                     {
-                        caller.Error(new Dictionary<string, string>(),
+                        caller.Error(new WampObjectFormatter(),
+                                     new Dictionary<string, string>(),
                                      CalleeDisconnected);
                     }
                 }

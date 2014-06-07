@@ -2,6 +2,7 @@
 using WampSharp.Core.Serialization;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Curie;
+using WampSharp.V2.Client;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Adapters
@@ -33,7 +34,7 @@ namespace WampSharp.V2.Adapters
             return mapper.Resolve(procUri);
         }
 
-        private class RpcOperationCallback : IWampRpcOperationCallback
+        private class RpcOperationCallback : IWampRawRpcOperationCallback
         {
             private readonly IWampClient mClient;
             private readonly string mCallId;
@@ -44,12 +45,12 @@ namespace WampSharp.V2.Adapters
                 mCallId = callId;
             }
 
-            public void Result(object details)
+            public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details)
             {
                 SendResult(null);
             }
 
-            public void Result(object details, object[] arguments)
+            public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details, TResult[] arguments)
             {
                 if (arguments.Length == 0)
                 {
@@ -65,22 +66,22 @@ namespace WampSharp.V2.Adapters
                 }
             }
 
-            public void Result(object details, object[] arguments, object argumentsKeywords)
+            public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details, TResult[] arguments, TResult argumentsKeywords)
             {
                 Wamp2Error(new { details, arguments, argumentsKeywords });
             }
 
-            public void Error(object details, string error)
+            public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error)
             {
                 SendError(error, details);
             }
 
-            public void Error(object details, string error, object[] arguments)
+            public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments)
             {
                 SendError(error, new {details, arguments});
             }
 
-            public void Error(object details, string error, object[] arguments, object argumentsKeywords)
+            public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments, TResult argumentsKeywords)
             {
                 SendError(error, new { details, arguments, argumentsKeywords });
             }

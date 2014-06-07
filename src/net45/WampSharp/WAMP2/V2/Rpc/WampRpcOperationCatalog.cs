@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Client;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
@@ -9,6 +10,8 @@ namespace WampSharp.V2.Rpc
     {
         private readonly ConcurrentDictionary<string, IWampRpcOperation> mProcedureToOperation =
             new ConcurrentDictionary<string, IWampRpcOperation>();
+
+        private readonly IWampFormatter<object> ObjectFormatter = new WampObjectFormatter();
 
         public void Register(IWampRpcOperation operation)
         {
@@ -39,7 +42,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure)
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure)
         {
             IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
 
@@ -52,7 +55,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure,
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure,
                                      TMessage[] arguments)
         {
             IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
@@ -66,7 +69,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TMessage>(IWampRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure,
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure,
                                      TMessage[] arguments, TMessage argumentsKeywords)
         {
             IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
@@ -80,14 +83,14 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private IWampRpcOperation TryGetOperation(IWampRpcOperationCallback caller, object options,
+        private IWampRpcOperation TryGetOperation(IWampRawRpcOperationCallback caller, object options,
                                                   string procedure)
         {
             IWampRpcOperation operation;
 
             if (!mProcedureToOperation.TryGetValue(procedure, out operation))
             {
-                caller.Error(procedure, WampErrors.NoSuchProcedure);
+                caller.Error(ObjectFormatter, procedure, WampErrors.NoSuchProcedure);
                 return null;
             }
             else
