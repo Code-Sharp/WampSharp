@@ -69,19 +69,17 @@ namespace WampSharp.V2.PubSub
 
         public long Publish(TMessage options, string topicUri)
         {
-            return mTopicContainer.Publish(options, topicUri);
+            return mTopicContainer.Publish(mBinding.Formatter, options, topicUri);
         }
 
         public long Publish(TMessage options, string topicUri, TMessage[] arguments)
         {
-            object[] castedArguments = arguments.Cast<object>().ToArray();
-            return mTopicContainer.Publish(options, topicUri, castedArguments);
+            return mTopicContainer.Publish(mBinding.Formatter, options, topicUri, arguments);
         }
 
         public long Publish(TMessage options, string topicUri, TMessage[] arguments, TMessage argumentKeywords)
         {
-            object[] castedArguments = arguments.Cast<object>().ToArray();
-            return mTopicContainer.Publish(options, topicUri, castedArguments, argumentKeywords);
+            return mTopicContainer.Publish(mBinding.Formatter, options, topicUri, arguments, argumentKeywords);
         }
 
         private void OnTopicEmpty(object sender, EventArgs e)

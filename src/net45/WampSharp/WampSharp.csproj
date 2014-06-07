@@ -240,7 +240,8 @@
     <Compile Include="WAMP2\V2\Binding\Parsers\IWampTextMessageParser.cs" />
     <Compile Include="WAMP2\V2\Binding\WampBinding.cs" />
     <Compile Include="WAMP2\V2\Client\ErrorForwarder.cs" />
-    <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampRawTopicSubscriber.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IRemoteWampTopicSubscriber.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopicSubscriber.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampTopicContainerProxy.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampTopicProxy.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampTopicPublicationProxy.cs" />
@@ -254,7 +255,7 @@
     <Compile Include="WAMP2\V2\Client\Realm\IWampRealmProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Realm\IWampRealmProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Client\Realm\WampRealmProxy.cs" />
-    <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRawRpcOperationCallback.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationInvokerProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationRegistrationProxy.cs" />

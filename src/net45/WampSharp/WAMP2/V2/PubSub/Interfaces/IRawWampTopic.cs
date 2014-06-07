@@ -1,6 +1,4 @@
-﻿using WampSharp.V2.Core.Contracts;
-
-namespace WampSharp.V2.PubSub
+﻿namespace WampSharp.V2.PubSub
 {
     internal interface IRawWampTopic<TMessage> : ISubscriptionNotifier
     {

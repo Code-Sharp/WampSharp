@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
@@ -46,7 +47,7 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public IDisposable Subscribe(IWampTopicSubscriber subscriber, object options, string topicUri)
+        public IDisposable Subscribe(IWampRawTopicSubscriber subscriber, object options, string topicUri)
         {
             lock (mLock)
             {
@@ -56,22 +57,23 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public long Publish(object options, string topicUri)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, string topicUri)
         {
             return TopicInvokeSafe(topicUri,
-                                   topic => topic.Publish(options));
+                                   topic => topic.Publish(formatter, options));
         }
 
-        public long Publish(object options, string topicUri, object[] arguments)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, string topicUri, TMessage[] arguments)
         {
             return TopicInvokeSafe(topicUri,
-                                   topic => topic.Publish(options, arguments));
+                                   topic => topic.Publish(formatter, options, arguments));
         }
 
-        public long Publish(object options, string topicUri, object[] arguments, object argumentKeywords)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, string topicUri, TMessage[] arguments,
+                                      TMessage argumentKeywords)
         {
             return TopicInvokeSafe(topicUri,
-                                   topic => topic.Publish(options, arguments, argumentKeywords));
+                                   topic => topic.Publish(formatter, options, arguments, argumentKeywords));
         }
 
         private TResult TopicInvokeSafe<TResult>

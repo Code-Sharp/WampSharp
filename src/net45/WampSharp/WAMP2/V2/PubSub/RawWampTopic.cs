@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.PubSub
 {
-    internal class RawWampTopic<TMessage> : IRawWampTopic<TMessage>, IWampTopicSubscriber, IDisposable
+    internal class RawWampTopic<TMessage> : IRawWampTopic<TMessage>, IWampRawTopicSubscriber, IDisposable
     {
         #region Data Members
 
@@ -37,7 +39,7 @@ namespace WampSharp.V2.PubSub
 
         #region IRawWampTopic<TMessage> Members
 
-        public void Event(long publicationId, object details)
+        public void Event<TEvent>(IWampFormatter<TEvent> formatter, long publicationId, TEvent details)
         {
             WampMessage<TMessage> message =
                 mSerializer.Event(SubscriptionId, publicationId, details);
@@ -45,18 +47,18 @@ namespace WampSharp.V2.PubSub
             Publish(message);
         }
 
-        public void Event(long publicationId, object details, object[] arguments)
+        public void Event<TEvent>(IWampFormatter<TEvent> formatter, long publicationId, TEvent details, TEvent[] arguments)
         {
             WampMessage<TMessage> message =
-                mSerializer.Event(SubscriptionId, publicationId, details, arguments);
+                mSerializer.Event(SubscriptionId, publicationId, details, arguments.Cast<object>().ToArray());
 
             Publish(message);
         }
 
-        public void Event(long publicationId, object details, object[] arguments, object argumentsKeywords)
+        public void Event<TEvent>(IWampFormatter<TEvent> formatter, long publicationId, TEvent details, TEvent[] arguments, TEvent argumentsKeywords)
         {
             WampMessage<TMessage> message =
-                mSerializer.Event(SubscriptionId, publicationId, details, arguments, argumentsKeywords);
+                mSerializer.Event(SubscriptionId, publicationId, details, arguments.Cast<object>().ToArray(), argumentsKeywords);
 
             Publish(message);
         }

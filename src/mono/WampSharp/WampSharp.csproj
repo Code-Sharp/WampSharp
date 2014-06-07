@@ -590,8 +590,11 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\ErrorForwarder.cs">
       <Link>WAMP2\V2\Client\ErrorForwarder.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\PubSub\Interfaces\IWampRawTopicSubscriber.cs">
-      <Link>WAMP2\V2\Client\PubSub\Interfaces\IWampRawTopicSubscriber.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IRemoteWampTopicSubscriber.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IRemoteWampTopicSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampRawTopicSubscriber.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IWampRawTopicSubscriber.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\PubSub\Interfaces\IWampTopicContainerProxy.cs">
       <Link>WAMP2\V2\Client\PubSub\Interfaces\IWampTopicContainerProxy.cs</Link>
@@ -632,8 +635,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Realm\WampRealmProxy.cs">
       <Link>WAMP2\V2\Client\Realm\WampRealmProxy.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Rpc\Interfaces\IWampRawRpcOperationCallback.cs">
-      <Link>WAMP2\V2\Client\Rpc\Interfaces\IWampRawRpcOperationCallback.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs">
       <Link>WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs</Link>

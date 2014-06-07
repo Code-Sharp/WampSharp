@@ -5,15 +5,15 @@ namespace WampSharp.V2.PubSub
     public class SubscriptionAddEventArgs : EventArgs
     {
         private readonly object mOptions;
-        private readonly IWampTopicSubscriber mSubscriber;
+        private readonly IRemoteWampTopicSubscriber mSubscriber;
 
-        public SubscriptionAddEventArgs(IWampTopicSubscriber subscriber, object options)
+        public SubscriptionAddEventArgs(IRemoteWampTopicSubscriber subscriber, object options)
         {
             mOptions = options;
             mSubscriber = subscriber;
         }
 
-        public IWampTopicSubscriber Subscriber
+        public IRemoteWampTopicSubscriber Subscriber
         {
             get
             {

@@ -1,6 +1,6 @@
 ﻿using WampSharp.Core.Serialization;
 
-namespace WampSharp.V2.Client
+namespace WampSharp.V2.PubSub
 {
     public interface IWampRawTopicSubscriber
     {
