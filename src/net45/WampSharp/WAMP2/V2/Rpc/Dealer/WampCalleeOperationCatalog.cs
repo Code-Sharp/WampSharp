@@ -80,7 +80,7 @@ namespace WampSharp.V2.Rpc
             mInvocationHandler.Unregistered(operation);
         }
 
-        private class WampCalleeRpcOperation : IWampRpcOperation<TMessage>,
+        private class WampCalleeRpcOperation : IWampRpcOperation<object>,
             IWampRpcOperation, IDisposable
         {
             private const string CalleeDisconnected = "wamp.error.callee_disconnected";
@@ -152,9 +152,7 @@ namespace WampSharp.V2.Rpc
                                        IWampFormatter<TOther> formatter,
                                        TOther details)
             {
-                TMessage castedOptions = formatter.Deserialize<TMessage>(details);
-
-                this.Invoke(caller, castedOptions);
+                this.Invoke(caller, details);
             }
 
             public void Invoke<TOther>(IWampRawRpcOperationCallback caller,
@@ -162,12 +160,7 @@ namespace WampSharp.V2.Rpc
                                        TOther options,
                                        TOther[] arguments)
             {
-                TMessage castedOptions = formatter.Deserialize<TMessage>(options);
-
-                TMessage[] castedArguments =
-                    CastArguments(formatter, arguments);
-
-                this.Invoke(caller, castedOptions, castedArguments);
+                this.Invoke(caller, options, arguments.Cast<object>().ToArray());
             }
 
             public void Invoke<TOther>(IWampRawRpcOperationCallback caller,
@@ -176,33 +169,25 @@ namespace WampSharp.V2.Rpc
                                        TOther[] arguments,
                                        TOther argumentsKeywords)
             {
-                TMessage castedOptions = formatter.Deserialize<TMessage>(options);
-
-                TMessage[] castedArguments =
-                    CastArguments(formatter, arguments);
-
-                TMessage castedArgumentsKeywords =
-                    formatter.Deserialize<TMessage>(argumentsKeywords);
-
-                this.Invoke(caller, castedOptions, castedArguments, castedArgumentsKeywords);
+                this.Invoke(caller, options, arguments.Cast<object>().ToArray(), argumentsKeywords);
             }
 
-            public void Invoke(IWampRawRpcOperationCallback caller, TMessage options)
+            public void Invoke(IWampRawRpcOperationCallback caller, object options)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, options));
             }
 
-            public void Invoke(IWampRawRpcOperationCallback caller, TMessage options, TMessage[] arguments)
+            public void Invoke(IWampRawRpcOperationCallback caller, object options, object[] arguments)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, options, arguments));
             }
 
-            public void Invoke(IWampRawRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+            public void Invoke(IWampRawRpcOperationCallback caller, object options, object[] arguments, object argumentsKeywords)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, options, arguments, argumentsKeywords));
             }
 
-            private void InnerInvoke(IWampRawRpcOperationCallback caller, TMessage options)
+            private void InnerInvoke(IWampRawRpcOperationCallback caller, object options)
             {
                 long requestId =
                     mHandler.RegisterInvocation(this, caller, options);
@@ -210,21 +195,21 @@ namespace WampSharp.V2.Rpc
                 Callee.Invocation(requestId, RegistrationId, options);
             }
 
-            private void InnerInvoke(IWampRawRpcOperationCallback caller, TMessage options, TMessage[] arguments)
+            private void InnerInvoke(IWampRawRpcOperationCallback caller, object options, object[] arguments)
             {
                 long requestId =
                     mHandler.RegisterInvocation(this, caller, options, arguments);
 
-                Callee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray());
+                Callee.Invocation(requestId, RegistrationId, options, arguments);
             }
 
-            private void InnerInvoke(IWampRawRpcOperationCallback caller, TMessage options, TMessage[] arguments,
-                                     TMessage argumentsKeywords)
+            private void InnerInvoke(IWampRawRpcOperationCallback caller, object options, object[] arguments,
+                                     object argumentsKeywords)
             {
                 long requestId =
                     mHandler.RegisterInvocation(this, caller, options, arguments, argumentsKeywords);
 
-                Callee.Invocation(requestId, RegistrationId, options, arguments.Cast<object>().ToArray(), argumentsKeywords);
+                Callee.Invocation(requestId, RegistrationId, options, arguments, argumentsKeywords);
             }
 
             private void InvokePattern(IWampRawRpcOperationCallback caller, Action action)
@@ -250,13 +235,6 @@ namespace WampSharp.V2.Rpc
                 {
                     mLock.ExitReadLock();
                 }
-            }
-
-            private static TMessage[] CastArguments<TOther>(IWampFormatter<TOther> formatter, TOther[] arguments)
-            {
-                return arguments.Select(x =>
-                                        formatter.Deserialize<TMessage>(x))
-                                .ToArray();
             }
 
             public void Open()

@@ -6,11 +6,11 @@ namespace WampSharp.V2.Rpc
     {
         private readonly IWampRpcOperation mOperation;
         private readonly IWampRawRpcOperationCallback mCallback;
-        private readonly TMessage mOptions;
-        private readonly TMessage[] mArguments;
-        private readonly TMessage mArgumentsKeywords;
+        private readonly object mOptions;
+        private readonly object[] mArguments;
+        private readonly object mArgumentsKeywords;
 
-        public WampRpcInvocation(IWampRpcOperation operation, IWampRawRpcOperationCallback callback, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+        public WampRpcInvocation(IWampRpcOperation operation, IWampRawRpcOperationCallback callback, object options, object[] arguments, object argumentsKeywords)
         {
             mOperation = operation;
             mCallback = callback;
@@ -35,7 +35,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public TMessage Options
+        public object Options
         {
             get
             {
@@ -43,7 +43,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public TMessage[] Arguments
+        public object[] Arguments
         {
             get
             {
@@ -51,7 +51,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public TMessage ArgumentsKeywords
+        public object ArgumentsKeywords
         {
             get
             {
