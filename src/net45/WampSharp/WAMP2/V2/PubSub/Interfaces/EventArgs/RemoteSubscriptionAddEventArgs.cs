@@ -1,11 +1,13 @@
-﻿namespace WampSharp.V2.PubSub
+﻿using WampSharp.Core.Serialization;
+
+namespace WampSharp.V2.PubSub
 {
-    public class RemoteSubscriptionAddEventArgs : SubscriptionAddEventArgs
+    public class RemoteSubscriptionAddEventArgs<TMessage> : SubscriptionAddEventArgs<TMessage>
     {
         private readonly long mSession;
 
-        public RemoteSubscriptionAddEventArgs(RemoteWampTopicSubscriber subscriber, object options) : 
-            base(subscriber, options)
+        public RemoteSubscriptionAddEventArgs(RemoteWampTopicSubscriber subscriber, TMessage options, IWampFormatter<TMessage> formatter) : 
+            base(subscriber, options, formatter)
         {
             mSession = subscriber.Session;
         }

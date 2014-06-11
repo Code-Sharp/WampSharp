@@ -217,9 +217,9 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        private static SubscriptionAddEventArgs GetAddEventArgs(RemoteWampTopicSubscriber subscriber, TMessage options)
+        private SubscriptionAddEventArgs GetAddEventArgs(RemoteWampTopicSubscriber subscriber, TMessage options)
         {
-            return new RemoteSubscriptionAddEventArgs(subscriber, options);
+            return new RemoteSubscriptionAddEventArgs<TMessage>(subscriber, options, mBinding.Formatter);
         }
 
         private static SubscriptionRemoveEventArgs GetRemoveEventArgs(long sessionId)

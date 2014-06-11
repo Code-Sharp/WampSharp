@@ -1,8 +1,9 @@
 ﻿using System;
+using WampSharp.Core.Serialization;
 
 namespace WampSharp.V2.PubSub
 {
-    public class SubscriptionAddEventArgs : EventArgs
+    public abstract class SubscriptionAddEventArgs : EventArgs
     {
         private readonly object mOptions;
         private readonly IRemoteWampTopicSubscriber mSubscriber;
@@ -27,6 +28,25 @@ namespace WampSharp.V2.PubSub
             {
                 return mOptions;
             }
+        }
+
+        public abstract T DeserializeOptions<T>();
+    }
+
+    public class SubscriptionAddEventArgs<TMessage> : SubscriptionAddEventArgs
+    {
+        private readonly TMessage mOptions;
+        private readonly IWampFormatter<TMessage> mFormatter;
+
+        public SubscriptionAddEventArgs(IRemoteWampTopicSubscriber subscriber, TMessage options, IWampFormatter<TMessage> formatter) : base(subscriber, options)
+        {
+            mOptions = options;
+            mFormatter = formatter;
+        }
+
+        public override T DeserializeOptions<T>()
+        {
+            return mFormatter.Deserialize<T>(mOptions);
         }
     }
 }
