@@ -15,7 +15,7 @@ namespace WampSharp.V2.Rpc
         private readonly string mProcedure;
 
         protected readonly static IWampFormatter<object> ObjectFormatter =
-            new WampObjectFormatter();
+            WampObjectFormatter.Value;
 
         protected LocalRpcOperation(string procedure)
         {

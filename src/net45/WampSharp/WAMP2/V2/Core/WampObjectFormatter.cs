@@ -7,6 +7,12 @@ namespace WampSharp.V2.Core
 {
     internal class WampObjectFormatter : IWampFormatter<object>
     {
+        public static readonly IWampFormatter<object> Value = new WampObjectFormatter();
+
+        private WampObjectFormatter()
+        {
+        }
+
         public bool CanConvert(object argument, Type type)
         {
             return type.IsInstanceOfType(argument);

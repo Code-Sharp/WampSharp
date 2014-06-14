@@ -11,7 +11,7 @@ namespace WampSharp.V2.Rpc
         private readonly ConcurrentDictionary<string, IWampRpcOperation> mProcedureToOperation =
             new ConcurrentDictionary<string, IWampRpcOperation>();
 
-        private readonly IWampFormatter<object> ObjectFormatter = new WampObjectFormatter();
+        private readonly IWampFormatter<object> ObjectFormatter = WampObjectFormatter.Value;
 
         public void Register(IWampRpcOperation operation)
         {

@@ -549,14 +549,65 @@
     <Compile Include="..\..\net45\WampSharp\WAMP1\V2\Adapters\WampRpcServerAdapter.cs">
       <Link>WAMP1\V2\Adapters\WampRpcServerAdapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\RawSubscriber.cs">
+      <Link>WAMP2\V2\Api\Rx\RawSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampClientSubject.cs">
+      <Link>WAMP2\V2\Api\Rx\WampClientSubject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampEvent.cs">
+      <Link>WAMP2\V2\Api\Rx\WampEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampSubject.cs">
+      <Link>WAMP2\V2\Api\Rx\WampSubject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampTopicExtensions.cs">
+      <Link>WAMP2\V2\Api\Rx\WampTopicExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampTopicSubject.cs">
+      <Link>WAMP2\V2\Api\Rx\WampTopicSubject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Serialization\ISerializedValue.cs">
+      <Link>WAMP2\V2\Api\Serialization\ISerializedValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\IWampEvent.cs">
+      <Link>WAMP2\V2\Api\Rx\IWampEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\IWampRealmContainerExtended.cs">
+      <Link>WAMP2\V2\Api\IWampRealmContainerExtended.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\IWampRealmExtended.cs">
+      <Link>WAMP2\V2\Api\IWampRealmExtended.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\IWampRealmServiceProvider.cs">
+      <Link>WAMP2\V2\Api\IWampRealmServiceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\IWampSerializedEvent.cs">
+      <Link>WAMP2\V2\Api\Rx\IWampSerializedEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\IWampSubject.cs">
+      <Link>WAMP2\V2\Api\Rx\IWampSubject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Serialization\SerializedValue.cs">
+      <Link>WAMP2\V2\Api\Serialization\SerializedValue.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampBindingHost.cs">
       <Link>WAMP2\V2\Api\WampBindingHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampRealmServiceProvider.cs">
+      <Link>WAMP2\V2\Api\WampRealmServiceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampSerializedEvent.cs">
+      <Link>WAMP2\V2\Api\Rx\WampSerializedEvent.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampHost.cs">
       <Link>WAMP2\V2\Api\WampHost.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampServer.cs">
       <Link>WAMP2\V2\Api\WampServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampRouterSubject.cs">
+      <Link>WAMP2\V2\Api\Rx\WampRouterSubject.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Contracts\JsonBinding.cs">
       <Link>WAMP2\V2\Binding\Contracts\JsonBinding.cs</Link>

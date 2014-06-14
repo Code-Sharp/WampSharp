@@ -226,7 +226,7 @@ namespace WampSharp.V2.Rpc
                     }
                     else
                     {
-                        caller.Error(new WampObjectFormatter(),
+                        caller.Error(WampObjectFormatter.Value,
                                      new Dictionary<string, string>(),
                                      CalleeDisconnected);
                     }
