@@ -1,3 +1,4 @@
+using System;
 using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
@@ -78,18 +79,18 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
 
             long session = mSessionIdGenerator.Generate();
             
+            proxyGenerationOptions.AddMixinInstance
+                (new WampClientContainerDisposable<TMessage, IWampClient<TMessage>>
+                    (mContainer, connection));
+
             WampClientPropertyBag<TMessage> propertyBag = 
                 new WampClientPropertyBag<TMessage>(session, mBinding);
             
             proxyGenerationOptions.AddMixinInstance(propertyBag);
 
-            proxyGenerationOptions.AddMixinInstance
-                (new WampClientContainerDisposable<TMessage, IWampClient<TMessage>>
-                    (mContainer, connection));
-
             IWampClient<TMessage> result =
                 mGenerator.CreateInterfaceProxyWithoutTarget
-                    (typeof (IWampClient), new[] {typeof (IWampClient<TMessage>)},
+                    (typeof(IWampProxy), new[] { typeof(IWampClient), typeof(IWampClient<TMessage>) },
                      proxyGenerationOptions,
                      wampOutgoingInterceptor)
                 as IWampClient<TMessage>;

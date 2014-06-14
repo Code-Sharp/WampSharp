@@ -240,6 +240,7 @@
     <Compile Include="WAMP2\V2\Binding\Parsers\IWampTextMessageParser.cs" />
     <Compile Include="WAMP2\V2\Binding\WampBinding.cs" />
     <Compile Include="WAMP2\V2\Client\ErrorForwarder.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\IWampProxy.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IRemoteWampTopicSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopicSubscriber.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampTopicContainerProxy.cs" />
