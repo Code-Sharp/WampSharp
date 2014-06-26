@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.CraClientSample",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.CraServerSample", "Samples\WAMP1\WampSharp.CraServerSample\WampSharp.CraServerSample.csproj", "{32A38656-5BAF-4D80-9780-95C3B594DA3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.Subscriber", "WampSharp.Samples.Subscriber\WampSharp.Samples.Subscriber.csproj", "{0EB744B6-235C-4460-B25C-EBC966201C26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.Subscriber", "Samples\WAMP2\WampSharp.Samples.Subscriber\WampSharp.Samples.Subscriber.csproj", "{0EB744B6-235C-4460-B25C-EBC966201C26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
