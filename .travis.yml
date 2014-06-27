@@ -21,5 +21,4 @@ script:
 
 branches:
  only:
-  - master
-  - wampv2
+  - wampv1
