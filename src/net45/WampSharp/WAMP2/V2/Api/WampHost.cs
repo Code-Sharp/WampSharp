@@ -15,12 +15,16 @@ namespace WampSharp.V2
 
         private readonly IWampRealmContainer mRealmContainer;
 
-        private readonly ICollection<IWampTransportDefinition> mTransportDefinitions;
+        private readonly ICollection<IWampTransportDefinition> mTransportDefinitions =
+            new List<IWampTransportDefinition>();
 
-        public WampHost(IWampRealmContainer realmContainer, params IWampTransportDefinition[] transportDefinitions)
+        public WampHost() : this(new WampRealmContainer())
+        {
+        }
+
+        public WampHost(IWampRealmContainer realmContainer)
         {
             mRealmContainer = realmContainer;
-            mTransportDefinitions = transportDefinitions.ToList();
         }
 
         public IWampRealmContainer RealmContainer
@@ -31,10 +35,15 @@ namespace WampSharp.V2
         public void RegisterTransport(IWampTransport transport,
                                       params IWampBinding[] binding)
         {
+            RegisterTransport(transport, binding);
+        }
+
+        public void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> binding)
+        {
             mTransportDefinitions.Add(new WampTransportDefinition()
                 {
                     Transport = transport,
-                    Bindings = binding
+                    Bindings = binding.ToArray()
                 });
         }
 

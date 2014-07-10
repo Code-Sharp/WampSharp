@@ -21,12 +21,10 @@ namespace WampSharp.V2
         }
 
         public DefaultWampHost(string location, IWampRealmContainer realmContainer, IEnumerable<IWampBinding> bindings)
-            : base(realmContainer, new WampTransportDefinition()
-                {
-                    Transport = new FleckWebSocketTransport(location),
-                    Bindings = bindings.ToArray()
-                })
+            : base(realmContainer)
         {
+            this.RegisterTransport(new FleckWebSocketTransport(location),
+                                   bindings.ToArray());
         }
     }
 }
