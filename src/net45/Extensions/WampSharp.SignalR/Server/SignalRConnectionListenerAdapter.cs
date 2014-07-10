@@ -11,13 +11,13 @@ namespace WampSharp.SignalR
     internal class SignalRConnectionListenerAdapter<TMessage> :
         IWampConnectionListener<TMessage>, ISignalRConnectionListenerAdapter
     {
-        private readonly IWampTextBinding<TMessage> mBinding;
+        private readonly IWampTransportBinding<TMessage, string> mBinding;
         private readonly Subject<IWampConnection<TMessage>> mSubject = new Subject<IWampConnection<TMessage>>();
 
         private readonly ConcurrentDictionary<string, SignalRTextConnection> mConnectionIdToConnection =
             new ConcurrentDictionary<string, SignalRTextConnection>();
 
-        public SignalRConnectionListenerAdapter(IWampTextBinding<TMessage> binding)
+        public SignalRConnectionListenerAdapter(IWampTransportBinding<TMessage, string> binding)
         {
             mBinding = binding;
         }
@@ -63,7 +63,7 @@ namespace WampSharp.SignalR
             private readonly IConnection mConnection;
             private readonly string mConnectionId;
             private readonly SignalRConnectionListenerAdapter<TMessage> mParent;
-            private readonly IWampTextBinding<TMessage> mBinding;
+            private readonly IWampTransportBinding<TMessage, string> mBinding;
 
             public SignalRTextConnection(IConnection connection, string connectionId,
                                          SignalRConnectionListenerAdapter<TMessage> parent)

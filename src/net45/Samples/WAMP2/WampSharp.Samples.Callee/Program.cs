@@ -44,7 +44,7 @@ namespace WampSharp.Samples.Callee
             IEnumerable<IWampRpcOperation> operations = 
                 GetSampleOperations(sampleType);
 
-            string serverAddress = "ws://127.0.0.1:9090/ws";
+            string serverAddress = "ws://127.0.0.1:8080/ws";
 
             if (router)
             {

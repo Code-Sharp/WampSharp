@@ -15,12 +15,12 @@ namespace WampSharp.Fleck
 
         private IWebSocketServer mServer;
         private readonly string mLocation;
-        private readonly IWampTextBinding<TMessage> mBinding;
+        private readonly IWampTransportBinding<TMessage, string> mBinding;
         private readonly X509Certificate2 mCertificate;
         private readonly object mLock = new object();
 
         public FleckWampConnectionListener(string location,
-                                           IWampTextBinding<TMessage> binding,
+                                           IWampTransportBinding<TMessage, string> binding,
                                            X509Certificate2 certificate = null)
         {
             mLocation = location;

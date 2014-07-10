@@ -549,6 +549,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP1\V2\Adapters\WampRpcServerAdapter.cs">
       <Link>WAMP1\V2\Adapters\WampRpcServerAdapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CompositeListener.cs">
+      <Link>WAMP2\V2\Api\CompositeListener.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\RawSubscriber.cs">
       <Link>WAMP2\V2\Api\Rx\RawSubscriber.cs</Link>
     </Compile>
@@ -609,14 +612,20 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampRouterSubject.cs">
       <Link>WAMP2\V2\Api\Rx\WampRouterSubject.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampTransportDefinition.cs">
+      <Link>WAMP2\V2\Api\WampTransportDefinition.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Contracts\JsonBinding.cs">
       <Link>WAMP2\V2\Binding\Contracts\JsonBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Contracts\MsgPackBinding.cs">
       <Link>WAMP2\V2\Binding\Contracts\MsgPackBinding.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampBinaryBinding.cs">
-      <Link>WAMP2\V2\Binding\IWampBinaryBinding.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Transports\IWampWebSocketTransport.cs">
+      <Link>WAMP2\V2\Binding\Transports\IWampWebSocketTransport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\WampTransportBinding.cs">
+      <Link>WAMP2\V2\Binding\WampTransportBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampBinding.cs">
       <Link>WAMP2\V2\Binding\IWampBinding.cs</Link>
@@ -624,20 +633,23 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampBindingHost.cs">
       <Link>WAMP2\V2\Binding\IWampBindingHost.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampTextBinding.cs">
-      <Link>WAMP2\V2\Binding\IWampTextBinding.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampTransportBinding.cs">
+      <Link>WAMP2\V2\Binding\IWampTransportBinding.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Messages\BinaryMessage.cs">
-      <Link>WAMP2\V2\Binding\Messages\BinaryMessage.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Messages\TextMessage.cs">
-      <Link>WAMP2\V2\Binding\Messages\TextMessage.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Messages\RawMessage.cs">
+      <Link>WAMP2\V2\Binding\Messages\RawMessage.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Parsers\IWampBinaryMessageParser.cs">
       <Link>WAMP2\V2\Binding\Parsers\IWampBinaryMessageParser.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Parsers\IWampMessageParser.cs">
+      <Link>WAMP2\V2\Binding\Parsers\IWampMessageParser.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Parsers\IWampTextMessageParser.cs">
       <Link>WAMP2\V2\Binding\Parsers\IWampTextMessageParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Transports\IWampTransport.cs">
+      <Link>WAMP2\V2\Binding\Transports\IWampTransport.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\WampBinding.cs">
       <Link>WAMP2\V2\Binding\WampBinding.cs</Link>
@@ -692,6 +704,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Realm\WampRealmProxy.cs">
       <Link>WAMP2\V2\Client\Realm\WampRealmProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs">
+      <Link>WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs</Link>
@@ -836,9 +851,6 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs">
       <Link>WAMP2\V2\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs">
-      <Link>WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Listener\WampListener.cs">
       <Link>WAMP2\V2\Core\Listener\WampListener.cs</Link>

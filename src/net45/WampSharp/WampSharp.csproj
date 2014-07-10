@@ -225,6 +225,7 @@
     <Compile Include="WAMP1\V2\Adapters\Wamp1BindingHost.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampPubSubServerAdapter.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampRpcServerAdapter.cs" />
+    <Compile Include="WAMP2\V2\Api\CompositeListener.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawSubscriber.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampClientSubject.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampEvent.cs" />
@@ -245,16 +246,19 @@
     <Compile Include="WAMP2\V2\Api\WampHost.cs" />
     <Compile Include="WAMP2\V2\Api\WampServer.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampRouterSubject.cs" />
+    <Compile Include="WAMP2\V2\Api\WampTransportDefinition.cs" />
     <Compile Include="WAMP2\V2\Binding\Contracts\JsonBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\Contracts\MsgPackBinding.cs" />
-    <Compile Include="WAMP2\V2\Binding\IWampBinaryBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\Transports\IWampWebSocketTransport.cs" />
+    <Compile Include="WAMP2\V2\Binding\WampTransportBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampBindingHost.cs" />
-    <Compile Include="WAMP2\V2\Binding\IWampTextBinding.cs" />
-    <Compile Include="WAMP2\V2\Binding\Messages\BinaryMessage.cs" />
-    <Compile Include="WAMP2\V2\Binding\Messages\TextMessage.cs" />
+    <Compile Include="WAMP2\V2\Binding\IWampTransportBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\Messages\RawMessage.cs" />
     <Compile Include="WAMP2\V2\Binding\Parsers\IWampBinaryMessageParser.cs" />
+    <Compile Include="WAMP2\V2\Binding\Parsers\IWampMessageParser.cs" />
     <Compile Include="WAMP2\V2\Binding\Parsers\IWampTextMessageParser.cs" />
+    <Compile Include="WAMP2\V2\Binding\Transports\IWampTransport.cs" />
     <Compile Include="WAMP2\V2\Binding\WampBinding.cs" />
     <Compile Include="WAMP2\V2\Client\ErrorForwarder.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampProxy.cs" />
@@ -273,6 +277,7 @@
     <Compile Include="WAMP2\V2\Client\Realm\IWampRealmProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Realm\IWampRealmProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Client\Realm\WampRealmProxy.cs" />
+    <Compile Include="WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationInvokerProxy.cs" />
@@ -321,7 +326,6 @@
     <Compile Include="WAMP2\V2\Core\IWampIdGenerator.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\ClientBuilder\WampClientBuilder.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs" />
-    <Compile Include="WAMP2\V2\Core\Listener\IWampConnectionListenerProvider.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\WampListener.cs" />
     <Compile Include="WAMP2\V2\Core\Proxy\BindingPropertyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClientProperties.cs" />

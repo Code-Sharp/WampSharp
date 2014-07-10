@@ -84,11 +84,17 @@
     <Compile Include="..\..\..\net45\Extensions\WampSharp.RawTcp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawTcp\RawTcpListenerProvider.cs">
-      <Link>RawTcpListenerProvider.cs</Link>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawTcp\RawTextConnection.cs">
+      <Link>RawTextConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawTcp\RawTcpTransport.cs">
+      <Link>RawTcpTransport.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Extensions\WampSharp.RawTcp\RawWampFilter.cs">
       <Link>RawWampFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawTcp\RawWampFilterFactory.cs">
+      <Link>RawWampFilterFactory.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

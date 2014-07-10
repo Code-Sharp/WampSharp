@@ -5,18 +5,18 @@ using System.Reactive.Subjects;
 using Fleck;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Core.Listener;
+using WampSharp.V2.Binding.Transports;
 
 namespace WampSharp.Fleck
 {
-    public class FleckWampConnectionListenerProvider : IWampConnectionListenerProvider
+    public class FleckWebSocketTransport : IWampWebSocketTransport
     {
         private readonly WebSocketServer mServer;
 
         private readonly IDictionary<string, ConnectionListener> mBindings =
             new Dictionary<string, ConnectionListener>();
 
-        public FleckWampConnectionListenerProvider(string location)
+        public FleckWebSocketTransport(string location)
         {
             mServer = new WebSocketServer(location);
         }
@@ -49,7 +49,26 @@ namespace WampSharp.Fleck
             listener.OnNewConnection(connection);
         }
 
-        public IWampConnectionListener<TMessage> GetTextListener<TMessage>(IWampTextBinding<TMessage> binding)
+        public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampBinding<TMessage> binding)
+        {
+            IWampTransportBinding<TMessage, string> textBinding = binding as IWampTransportBinding<TMessage, string>;
+
+            if (textBinding != null)
+            {
+                return GetListener(textBinding);
+            }
+
+            IWampTransportBinding<TMessage, byte[]> binaryBinding = binding as IWampTransportBinding<TMessage, byte[]>;
+
+            if (binaryBinding != null)
+            {
+                return GetListener(binaryBinding);
+            }
+
+            throw new ArgumentException("WebSockets can only deal with binary/text transports", "binding");
+        }
+
+        public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTransportBinding<TMessage, string> binding)
         {
             TextConnectionListener<TMessage> listener = new TextConnectionListener<TMessage>(binding);
 
@@ -58,7 +77,7 @@ namespace WampSharp.Fleck
             return listener;
         }
 
-        public IWampConnectionListener<TMessage> GetBinaryListener<TMessage>(IWampBinaryBinding<TMessage> binding)
+        public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTransportBinding<TMessage, byte[]> binding)
         {
             BinaryConnectionListener<TMessage> listener = new BinaryConnectionListener<TMessage>(binding);
 
@@ -105,14 +124,14 @@ namespace WampSharp.Fleck
 
         private class BinaryConnectionListener<TMessage> : ConnectionListener<TMessage>                                           
         {
-            private readonly IWampBinaryBinding<TMessage> mBinding;
+            private readonly IWampTransportBinding<TMessage, byte[]> mBinding;
 
-            public BinaryConnectionListener(IWampBinaryBinding<TMessage> binding)
+            public BinaryConnectionListener(IWampTransportBinding<TMessage, byte[]> binding)
             {
                 mBinding = binding;
             }
 
-            public IWampBinaryBinding<TMessage> Binding
+            public IWampTransportBinding<TMessage, byte[]> Binding
             {
                 get
                 {
@@ -128,14 +147,14 @@ namespace WampSharp.Fleck
 
         private class TextConnectionListener<TMessage> : ConnectionListener<TMessage>                                           
         {
-            private readonly IWampTextBinding<TMessage> mBinding;
+            private readonly IWampTransportBinding<TMessage, string> mBinding;
 
-            public TextConnectionListener(IWampTextBinding<TMessage> binding)
+            public TextConnectionListener(IWampTransportBinding<TMessage, string> binding)
             {
                 mBinding = binding;
             }
 
-            public IWampTextBinding<TMessage> Binding
+            public IWampTransportBinding<TMessage, string> Binding
             {
                 get
                 {

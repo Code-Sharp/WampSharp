@@ -78,7 +78,7 @@
     <Compile Include="Fleck\FleckWampBinaryConnection.cs" />
     <Compile Include="Fleck\FleckWampConnection.cs" />
     <Compile Include="Fleck\FleckWampConnectionListener.cs" />
-    <Compile Include="Fleck\FleckWampConnectionListenerProvider.cs" />
+    <Compile Include="Fleck\FleckWebSocketTransport.cs" />
     <Compile Include="Fleck\FleckWampTextConnection.cs" />
     <Compile Include="Json2Msgpack\JTokenMessagePackSerializer.cs" />
     <Compile Include="Json2Msgpack\JTokenToMsgPackProcessor.cs" />

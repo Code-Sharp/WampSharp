@@ -8,9 +8,9 @@ namespace WampSharp.WebSocket4Net
 {
     public class WebSocket4NetBinaryConnection<TMessage> : WebSocket4NetConnection<TMessage>
     {
-        private readonly IWampBinaryBinding<TMessage> mBinding;
+        private readonly IWampTransportBinding<TMessage, byte[]> mBinding;
 
-        public WebSocket4NetBinaryConnection(string serverAddress, IWampBinaryBinding<TMessage> binding)
+        public WebSocket4NetBinaryConnection(string serverAddress, IWampTransportBinding<TMessage, byte[]> binding)
             : base(serverAddress, binding)
         {
             mBinding = binding;

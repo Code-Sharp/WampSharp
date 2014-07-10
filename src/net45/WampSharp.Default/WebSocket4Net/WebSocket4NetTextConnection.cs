@@ -8,9 +8,10 @@ namespace WampSharp.WebSocket4Net
 {
     public class WebSocket4NetTextConnection<TMessage> : WebSocket4NetConnection<TMessage>
     {
-        private readonly IWampTextBinding<TMessage> mBinding;
+        private readonly IWampTransportBinding<TMessage, string> mBinding;
 
-        public WebSocket4NetTextConnection(string serverAddress, IWampTextBinding<TMessage> binding) : base(serverAddress, binding)
+        public WebSocket4NetTextConnection(string serverAddress, IWampTransportBinding<TMessage, string> binding)
+            : base(serverAddress, binding)
         {
             mBinding = binding;
             WebSocket.MessageReceived += OnMessageReceived;

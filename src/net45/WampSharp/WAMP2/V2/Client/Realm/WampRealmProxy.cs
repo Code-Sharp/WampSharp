@@ -7,10 +7,11 @@ namespace WampSharp.V2.Client
 {
     public class WampRealmProxy<TMessage> : IWampRealmProxy
     {
-        private IWampTopicContainerProxy mTopicContainer;
+        private readonly IWampTopicContainerProxy mTopicContainer;
         private readonly IWampRpcOperationCatalogProxy mRpcCatalog;
         private readonly string mName;
         private readonly IWampServerProxy mProxy;
+        private IWampRealmServiceProvider mServices;
 
         public WampRealmProxy(string name, IWampServerProxy proxy, IWampBinding<TMessage> binding)
         {
@@ -48,6 +49,11 @@ namespace WampSharp.V2.Client
         public IWampServerProxy Proxy
         {
             get { return mProxy; }
+        }
+
+        public IWampRealmServiceProvider Services
+        {
+            get { return mServices; }
         }
     }
 }

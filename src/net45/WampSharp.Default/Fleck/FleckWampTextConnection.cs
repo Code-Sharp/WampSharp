@@ -1,17 +1,15 @@
 ﻿using Fleck;
-using WampSharp.Binding;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.Fleck
 {
     internal class FleckWampTextConnection<TMessage> : FleckWampConnection<TMessage>
     {
-        private readonly IWampTextBinding<TMessage> mBinding;
+        private readonly IWampTransportBinding<TMessage, string> mBinding;
 
         public FleckWampTextConnection(IWebSocketConnection webSocketConnection,
-                                       IWampTextBinding<TMessage> binding)
+                                       IWampTransportBinding<TMessage, string> binding)
             : base(webSocketConnection)
         {
             mBinding = binding;

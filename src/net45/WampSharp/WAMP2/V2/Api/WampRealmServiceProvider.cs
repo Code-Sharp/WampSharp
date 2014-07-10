@@ -1,13 +1,17 @@
 ﻿using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
 {
     class WampRealmServiceProvider : IWampRealmServiceProvider
     {
-        private IWampRealm mRealm;
+        public Task RegisterCallee(object instance)
+        {
+            throw new System.NotImplementedException();
+        }
 
-        public TProxy GetOperationProxy<TProxy>()
+        public TProxy GetCalleeProxy<TProxy>()
         {
             throw new System.NotImplementedException();
         }
@@ -19,7 +23,7 @@ namespace WampSharp.V2
 
         public IWampSubject GetSubject(string topicUri)
         {
-            return new WampRouterSubject(mRealm.TopicContainer.GetTopicByUri(topicUri));
+            throw new System.NotImplementedException();
         }
     }
 }

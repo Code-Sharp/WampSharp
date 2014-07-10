@@ -84,8 +84,8 @@
     <Compile Include="..\..\net45\WampSharp.Default\Fleck\FleckWampConnectionListener.cs">
       <Link>Fleck\FleckWampConnectionListener.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\Fleck\FleckWampConnectionListenerProvider.cs">
-      <Link>Fleck\FleckWampConnectionListenerProvider.cs</Link>
+    <Compile Include="..\..\net45\WampSharp.Default\Fleck\FleckWebSocketTransport.cs">
+      <Link>Fleck\FleckWebSocketTransport.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\Fleck\FleckWampTextConnection.cs">
       <Link>Fleck\FleckWampTextConnection.cs</Link>

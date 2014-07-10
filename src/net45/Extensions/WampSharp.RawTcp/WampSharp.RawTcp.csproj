@@ -79,8 +79,10 @@
     <Compile Include="RawServer.cs" />
     <Compile Include="RawSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RawTcpListenerProvider.cs" />
+    <Compile Include="RawTextConnection.cs" />
+    <Compile Include="RawTcpTransport.cs" />
     <Compile Include="RawWampFilter.cs" />
+    <Compile Include="RawWampFilterFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

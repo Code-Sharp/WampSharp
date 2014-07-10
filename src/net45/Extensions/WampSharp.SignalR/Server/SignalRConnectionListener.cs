@@ -14,7 +14,7 @@ namespace WampSharp.SignalR
         private readonly SignalRConnectionListenerAdapter<TMessage> mAdapter;
         private IDisposable mDisposable;
 
-        public SignalRConnectionListener(string url, IWampTextBinding<TMessage> binding)
+        public SignalRConnectionListener(string url, IWampTransportBinding<TMessage, string> binding)
         {
             mUrl = url;
             mAdapter = new SignalRConnectionListenerAdapter<TMessage>(binding);

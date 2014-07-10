@@ -12,5 +12,7 @@ namespace WampSharp.V2.Client
 
         // Not sure this should be exposed.
         IWampServerProxy Proxy { get; }
+
+        IWampRealmServiceProvider Services { get; }
     }
 }

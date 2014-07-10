@@ -1,6 +1,6 @@
-﻿using WampSharp.V2.Binding;
+﻿using System;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Listener;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Rpc;
 
@@ -11,6 +11,7 @@ namespace WampSharp.V2.Realm
         private readonly string mName;
         private readonly IWampRpcOperationCatalog mCatalog;
         private readonly IWampTopicContainer mTopicContainer;
+        private IWampRealmServiceProvider mServices;
 
         public WampRealm(string name, IWampRpcOperationCatalog catalog, IWampTopicContainer topicContainer)
         {
@@ -42,6 +43,17 @@ namespace WampSharp.V2.Realm
                 return mTopicContainer;
             }
         }
+
+        public IWampRealmServiceProvider Services
+        {
+            get
+            {
+                return mServices;
+            }
+        }
+
+        public event EventHandler<WampSessionEventArgs> SessionCreated;
+        public event EventHandler<WampSessionEventArgs> SessionClosed;
     }
 
     public class WampRealm<TMessage> : IWampRealm<TMessage>
@@ -98,6 +110,26 @@ namespace WampSharp.V2.Realm
             {
                 return mRealm.TopicContainer;
             }
+        }
+
+        public IWampRealmServiceProvider Services
+        {
+            get
+            {
+                return mRealm.Services;
+            }
+        }
+
+        public event EventHandler<WampSessionEventArgs> SessionClosed
+        {
+            add { mRealm.SessionClosed += value; }
+            remove { mRealm.SessionClosed -= value; }
+        }
+
+        public event EventHandler<WampSessionEventArgs> SessionCreated
+        {
+            add { mRealm.SessionCreated += value; }
+            remove { mRealm.SessionCreated -= value; }
         }
     }
 }
