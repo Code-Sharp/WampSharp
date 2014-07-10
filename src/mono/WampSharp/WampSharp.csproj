@@ -614,9 +614,6 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Contracts\MsgPackBinding.cs">
       <Link>WAMP2\V2\Binding\Contracts\MsgPackBinding.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Transports\IWampWebSocketTransport.cs">
-      <Link>WAMP2\V2\Binding\Transports\IWampWebSocketTransport.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\WampTransportBinding.cs">
       <Link>WAMP2\V2\Binding\WampTransportBinding.cs</Link>
     </Compile>
@@ -652,6 +649,12 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\IWampChannel.cs">
       <Link>WAMP2\V2\Client\IWampChannel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\IWampChannelFactory.cs">
+      <Link>WAMP2\V2\Client\IWampChannelFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampChannelFactory.cs">
+      <Link>WAMP2\V2\Client\WampChannelFactory.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\IWampProxy.cs">
       <Link>WAMP2\V2\Core\Contracts\IWampProxy.cs</Link>
@@ -740,8 +743,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampChannel.cs">
       <Link>WAMP2\V2\Client\WampChannel.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampChannelFactory.cs">
-      <Link>WAMP2\V2\Client\WampChannelFactory.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampChannelBuilder.cs">
+      <Link>WAMP2\V2\Client\WampChannelBuilder.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampClient.cs">
       <Link>WAMP2\V2\Client\WampClient.cs</Link>

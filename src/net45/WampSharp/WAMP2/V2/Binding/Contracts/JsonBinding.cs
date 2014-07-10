@@ -7,7 +7,8 @@ namespace WampSharp.V2.Binding.Contracts
     /// A base class that represents WAMP2 wamp.2.json binding.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public abstract class JsonBinding<TMessage> : WampTransportBinding<TMessage, string>
+    public abstract class JsonBinding<TMessage> : WampTransportBinding<TMessage, string>,
+        IWampTextBinding<TMessage>
     {
         protected JsonBinding(IWampFormatter<TMessage> formatter, IWampTextMessageParser<TMessage> parser, string protocolName = "wamp.2.json")
             : base(formatter, parser, protocolName)

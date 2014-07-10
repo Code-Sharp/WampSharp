@@ -99,6 +99,7 @@
     <Compile Include="WAMP1\V1\WampChannelFactoryExtensions.cs" />
     <Compile Include="WAMP2\Binding\JTokenBinding.cs" />
     <Compile Include="WAMP2\Binding\MessagePackObjectBinding.cs" />
+    <Compile Include="WAMP2\V2\DefaultChannelFactory.cs" />
     <Compile Include="WAMP2\V2\DefaultWampHost.cs" />
     <Compile Include="WebSocket4Net\WebSocket4NetBinaryConnection.cs" />
     <Compile Include="WebSocket4Net\WebSocket4NetConnection.cs" />

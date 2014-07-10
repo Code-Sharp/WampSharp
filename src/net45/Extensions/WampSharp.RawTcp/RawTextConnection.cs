@@ -12,10 +12,10 @@ namespace WampSharp.RawTcp
     internal class RawTextConnection<TMessage> : IWampConnection<TMessage>
     {
         private readonly RawSession mConnection;
-        private readonly IWampTransportBinding<TMessage, string> mBinding;
+        private readonly IWampTextBinding<TMessage> mBinding;
         private int mIsOpen;
 
-        public RawTextConnection(RawSession connection, IWampTransportBinding<TMessage, string> binding)
+        public RawTextConnection(RawSession connection, IWampTextBinding<TMessage> binding)
         {
             mConnection = connection;
             mConnection.MessageArrived += OnMessageArrived;

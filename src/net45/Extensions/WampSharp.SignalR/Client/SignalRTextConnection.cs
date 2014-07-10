@@ -9,11 +9,11 @@ namespace WampSharp.SignalR
 {
     public class SignalRTextConnection<TMessage> : IControlledWampConnection<TMessage>
     {
-        private readonly IWampTransportBinding<TMessage, string> mBinding;
+        private readonly IWampTextBinding<TMessage> mBinding;
         private readonly Connection mConnection;
         private readonly IClientTransport mTransport;
 
-        public SignalRTextConnection(string uri, IWampTransportBinding<TMessage, string> binding, IClientTransport transport)
+        public SignalRTextConnection(string uri, IWampTextBinding<TMessage> binding, IClientTransport transport)
         {
             mBinding = binding;
             mTransport = transport;

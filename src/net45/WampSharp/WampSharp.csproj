@@ -248,7 +248,6 @@
     <Compile Include="WAMP2\V2\Api\WampTransportDefinition.cs" />
     <Compile Include="WAMP2\V2\Binding\Contracts\JsonBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\Contracts\MsgPackBinding.cs" />
-    <Compile Include="WAMP2\V2\Binding\Transports\IWampWebSocketTransport.cs" />
     <Compile Include="WAMP2\V2\Binding\WampTransportBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampBindingHost.cs" />
@@ -261,6 +260,8 @@
     <Compile Include="WAMP2\V2\Binding\WampBinding.cs" />
     <Compile Include="WAMP2\V2\Client\ErrorForwarder.cs" />
     <Compile Include="WAMP2\V2\Client\IWampChannel.cs" />
+    <Compile Include="WAMP2\V2\Client\IWampChannelFactory.cs" />
+    <Compile Include="WAMP2\V2\Client\WampChannelFactory.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampProxy.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IRemoteWampTopicSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopicSubscriber.cs" />
@@ -290,7 +291,7 @@
     <Compile Include="WAMP2\V2\Client\Session\IWampSessionClientExtended.cs" />
     <Compile Include="WAMP2\V2\Client\Session\SessionClient.cs" />
     <Compile Include="WAMP2\V2\Client\WampChannel.cs" />
-    <Compile Include="WAMP2\V2\Client\WampChannelFactory.cs" />
+    <Compile Include="WAMP2\V2\Client\WampChannelBuilder.cs" />
     <Compile Include="WAMP2\V2\Client\WampClient.cs" />
     <Compile Include="WAMP2\V2\Client\WampPendingRequestBase.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Error\IWampCalleeError.cs" />

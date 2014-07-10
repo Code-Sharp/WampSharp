@@ -34,13 +34,14 @@ namespace WampSharp.Samples.Subscriber
         {
             JTokenBinding jTokenBinding = new JTokenBinding();
 
-            WampChannelFactory<JToken> channelFactory = 
-                new WampChannelFactory<JToken>(jTokenBinding);
+            WampChannelFactory channelFactory = 
+                new WampChannelFactory();
 
-            WampChannel<JToken> wampChannel =
+            IWampChannel wampChannel =
                 channelFactory.CreateChannel("realm1",
                                              new WebSocket4NetTextConnection<JToken>(serverAddress,
-                                                                                     jTokenBinding));
+                                                                                     jTokenBinding),
+                                             jTokenBinding);
 
             wampChannel.Open().Wait();
 

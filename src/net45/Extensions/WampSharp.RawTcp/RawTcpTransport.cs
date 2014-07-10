@@ -23,6 +23,20 @@ namespace WampSharp.RawTcp
             mTextConnectionListener.OnNewConnection(session);
         }
 
+        public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTransportBinding<TMessage, string> binding)
+        {
+            IWampTextBinding<TMessage> casted =
+                binding as IWampTextBinding<TMessage>;
+
+            if (casted != null)
+            {
+                return GetListener(casted);
+            }
+
+            throw new ArgumentException("Expected IWampTextBinding<TMessage>",
+                                        "binding");
+        }
+
         public void Dispose()
         {
             mServer.Stop();
@@ -36,19 +50,19 @@ namespace WampSharp.RawTcp
 
         public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampBinding<TMessage> binding)
         {
-            IWampTransportBinding<TMessage, string> casted = 
-                binding as IWampTransportBinding<TMessage, string>;
+            IWampTextBinding<TMessage> casted = 
+                binding as IWampTextBinding<TMessage>;
 
             if (casted != null)
             {
                 return GetListener(casted);
             }
 
-            throw new ArgumentException("Expected IWampTransportBinding<?, string>",
+            throw new ArgumentException("Expected IWampTextBinding<TMessage>",
                                         "binding");
         }
 
-        public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTransportBinding<TMessage, string> binding)
+        private IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTextBinding<TMessage> binding)
         {
             if (mTextConnectionListener == null)
             {
@@ -91,14 +105,14 @@ namespace WampSharp.RawTcp
 
         private class TextConnectionListener<TMessage> : ConnectionListener<TMessage>
         {
-            private readonly IWampTransportBinding<TMessage, string> mBinding;
+            private readonly IWampTextBinding<TMessage> mBinding;
 
-            public TextConnectionListener(IWampTransportBinding<TMessage, string> binding)
+            public TextConnectionListener(IWampTextBinding<TMessage> binding)
             {
                 mBinding = binding;
             }
 
-            public IWampTransportBinding<TMessage, string> Binding
+            public IWampTextBinding<TMessage> Binding
             {
                 get
                 {

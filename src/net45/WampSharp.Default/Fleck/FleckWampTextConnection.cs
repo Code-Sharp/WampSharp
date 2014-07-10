@@ -6,10 +6,10 @@ namespace WampSharp.Fleck
 {
     internal class FleckWampTextConnection<TMessage> : FleckWampConnection<TMessage>
     {
-        private readonly IWampTransportBinding<TMessage, string> mBinding;
+        private readonly IWampTextBinding<TMessage> mBinding;
 
         public FleckWampTextConnection(IWebSocketConnection webSocketConnection,
-                                       IWampTransportBinding<TMessage, string> binding)
+                                       IWampTextBinding<TMessage> binding)
             : base(webSocketConnection)
         {
             mBinding = binding;

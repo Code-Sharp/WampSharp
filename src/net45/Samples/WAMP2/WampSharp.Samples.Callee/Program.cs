@@ -76,13 +76,11 @@ namespace WampSharp.Samples.Callee
         {
             JTokenBinding binding = new JTokenBinding();
 
-            WampChannelFactory<JToken> factory =
-                new WampChannelFactory<JToken>(binding);
+            DefaultChannelFactory factory =
+                new DefaultChannelFactory();
 
-            WampChannel<JToken> channel =
-                factory.CreateChannel("realm1",
-                                      new WebSocket4NetTextConnection<JToken>(serverAddress,
-                                                                              binding));
+            IWampChannel channel =
+                factory.CreateChannel(serverAddress, "realm1", binding);
 
             Task task = channel.Open();
             task.Wait(5000);
