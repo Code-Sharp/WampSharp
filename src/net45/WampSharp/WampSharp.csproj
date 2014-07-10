@@ -248,6 +248,8 @@
     <Compile Include="WAMP2\V2\Api\WampTransportDefinition.cs" />
     <Compile Include="WAMP2\V2\Binding\Contracts\JsonBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\Contracts\MsgPackBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\IWampBinaryBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\IWampTextBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\WampTransportBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampBindingHost.cs" />

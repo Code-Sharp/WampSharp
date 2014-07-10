@@ -614,6 +614,12 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Contracts\MsgPackBinding.cs">
       <Link>WAMP2\V2\Binding\Contracts\MsgPackBinding.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampBinaryBinding.cs">
+      <Link>WAMP2\V2\Binding\IWampBinaryBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampTextBinding.cs">
+      <Link>WAMP2\V2\Binding\IWampTextBinding.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\WampTransportBinding.cs">
       <Link>WAMP2\V2\Binding\WampTransportBinding.cs</Link>
     </Compile>

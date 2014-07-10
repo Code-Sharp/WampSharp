@@ -12,14 +12,4 @@ namespace WampSharp.V2.Binding
         IWampMessageParser<TMessage, TRaw>
     {
     }
-
-    public interface IWampBinaryBinding<TMessage> : IWampTransportBinding<TMessage, byte[]>
-    {
-
-    }
-
-    public interface IWampTextBinding<TMessage> : IWampTransportBinding<TMessage, string>
-    {
-        
-    }
 }
