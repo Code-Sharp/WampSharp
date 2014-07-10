@@ -1,7 +1,9 @@
-﻿using WampSharp.Core.Serialization;
+﻿using System;
+using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
+using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Client
 {
@@ -55,5 +57,8 @@ namespace WampSharp.V2.Client
         {
             get { return mServices; }
         }
+
+        public event EventHandler<WampSessionEventArgs> ConnectionEstablished;
+        public event EventHandler<WampSessionCloseEventArgs> ConnectionBroken;
     }
 }

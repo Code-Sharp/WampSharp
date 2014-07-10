@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
@@ -8,15 +7,15 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
 {
-    public class WampHost : IDisposable
+    public class WampHost : IWampHost
     {
         private readonly IDictionary<IWampBinding, IWampBindingHost> mBindingToHost =
             new Dictionary<IWampBinding, IWampBindingHost>();
 
         private readonly IWampRealmContainer mRealmContainer;
 
-        private readonly ICollection<IWampTransportDefinition> mTransportDefinitions =
-            new List<IWampTransportDefinition>();
+        private readonly ICollection<WampTransportDefinition> mTransportDefinitions =
+            new List<WampTransportDefinition>();
 
         public WampHost() : this(new WampRealmContainer())
         {
@@ -106,7 +105,7 @@ namespace WampSharp.V2
 
         private void OpenTransports()
         {
-            foreach (IWampTransportDefinition transportDefinition in mTransportDefinitions)
+            foreach (WampTransportDefinition transportDefinition in mTransportDefinitions)
             {
                 IWampTransport transport = transportDefinition.Transport;
                 transport.Open();
@@ -115,7 +114,7 @@ namespace WampSharp.V2
 
         public void Dispose()
         {
-            foreach (IWampTransportDefinition transportDefinition in mTransportDefinitions)
+            foreach (WampTransportDefinition transportDefinition in mTransportDefinitions)
             {
                 IWampTransport transport = transportDefinition.Transport;
                 transport.Dispose();

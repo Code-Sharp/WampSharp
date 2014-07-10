@@ -226,6 +226,7 @@
     <Compile Include="WAMP1\V2\Adapters\WampPubSubServerAdapter.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampRpcServerAdapter.cs" />
     <Compile Include="WAMP2\V2\Api\CompositeListener.cs" />
+    <Compile Include="WAMP2\V2\Api\IWampHost.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawSubscriber.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampClientSubject.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampEvent.cs" />
@@ -234,8 +235,6 @@
     <Compile Include="WAMP2\V2\Api\Rx\WampTopicSubject.cs" />
     <Compile Include="WAMP2\V2\Api\Serialization\ISerializedValue.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\IWampEvent.cs" />
-    <Compile Include="WAMP2\V2\Api\IWampRealmContainerExtended.cs" />
-    <Compile Include="WAMP2\V2\Api\IWampRealmExtended.cs" />
     <Compile Include="WAMP2\V2\Api\IWampRealmServiceProvider.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\IWampSerializedEvent.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\IWampSubject.cs" />
@@ -261,6 +260,7 @@
     <Compile Include="WAMP2\V2\Binding\Transports\IWampTransport.cs" />
     <Compile Include="WAMP2\V2\Binding\WampBinding.cs" />
     <Compile Include="WAMP2\V2\Client\ErrorForwarder.cs" />
+    <Compile Include="WAMP2\V2\Client\IWampChannel.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampProxy.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IRemoteWampTopicSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopicSubscriber.cs" />
@@ -277,6 +277,8 @@
     <Compile Include="WAMP2\V2\Client\Realm\IWampRealmProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Realm\IWampRealmProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Client\Realm\WampRealmProxy.cs" />
+    <Compile Include="WAMP2\V2\Realm\Interfaces\SessionCloseType.cs" />
+    <Compile Include="WAMP2\V2\Realm\Interfaces\WampSessionCloseEventArgs.cs" />
     <Compile Include="WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs" />
@@ -365,7 +367,7 @@
     <Compile Include="WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\LocalRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoHelper.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\SyncMethodInfoRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ParameterInfoExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\RpcParameter.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\SyncLocalRpcOperation.cs" />

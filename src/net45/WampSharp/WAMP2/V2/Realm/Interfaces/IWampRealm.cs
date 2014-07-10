@@ -14,7 +14,7 @@ namespace WampSharp.V2.Realm
         IWampTopicContainer TopicContainer { get; }
 
         event EventHandler<WampSessionEventArgs> SessionCreated;
-        event EventHandler<WampSessionEventArgs> SessionClosed;
+        event EventHandler<WampSessionCloseEventArgs> SessionClosed;
 
         IWampRealmServiceProvider Services { get; }
     }

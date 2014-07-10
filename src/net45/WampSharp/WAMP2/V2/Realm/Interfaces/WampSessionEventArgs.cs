@@ -2,7 +2,7 @@
 
 namespace WampSharp.V2.Realm
 {
-    public class WampSessionEventArgs : EventArgs
+    public abstract class WampSessionEventArgs : EventArgs
     {
         private readonly long mSessionId;
 
@@ -15,5 +15,7 @@ namespace WampSharp.V2.Realm
         {
             get { return mSessionId; }
         }
+
+        public abstract T DeserializeDetails<T>();
     }
 }

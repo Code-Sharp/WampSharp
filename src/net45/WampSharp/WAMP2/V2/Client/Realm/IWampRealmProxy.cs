@@ -1,4 +1,6 @@
-﻿using WampSharp.V2.Core.Contracts;
+﻿using System;
+using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Client
 {
@@ -14,5 +16,8 @@ namespace WampSharp.V2.Client
         IWampServerProxy Proxy { get; }
 
         IWampRealmServiceProvider Services { get; }
+
+        event EventHandler<WampSessionEventArgs> ConnectionEstablished;
+        event EventHandler<WampSessionCloseEventArgs> ConnectionBroken;
     }
 }

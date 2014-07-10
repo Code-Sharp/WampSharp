@@ -53,7 +53,7 @@ namespace WampSharp.V2.Realm
         }
 
         public event EventHandler<WampSessionEventArgs> SessionCreated;
-        public event EventHandler<WampSessionEventArgs> SessionClosed;
+        public event EventHandler<WampSessionCloseEventArgs> SessionClosed;
     }
 
     public class WampRealm<TMessage> : IWampRealm<TMessage>
@@ -120,7 +120,7 @@ namespace WampSharp.V2.Realm
             }
         }
 
-        public event EventHandler<WampSessionEventArgs> SessionClosed
+        public event EventHandler<WampSessionCloseEventArgs> SessionClosed
         {
             add { mRealm.SessionClosed += value; }
             remove { mRealm.SessionClosed -= value; }

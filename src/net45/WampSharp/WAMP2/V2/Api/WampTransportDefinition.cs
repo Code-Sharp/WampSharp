@@ -4,13 +4,7 @@ using WampSharp.V2.Binding.Transports;
 
 namespace WampSharp.V2
 {
-    public interface IWampTransportDefinition
-    {
-        IWampTransport Transport { get; }
-        ICollection<IWampBinding> Bindings { get; }
-    }
-
-    public class WampTransportDefinition : IWampTransportDefinition
+    internal class WampTransportDefinition
     {
         public WampTransportDefinition()
         {

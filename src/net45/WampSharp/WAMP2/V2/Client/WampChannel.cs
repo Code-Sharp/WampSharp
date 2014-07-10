@@ -8,7 +8,7 @@ using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Client
 {
-    public class WampChannel<TMessage>
+    public class WampChannel<TMessage> : IWampChannel
     {
         private readonly IControlledWampConnection<TMessage> mConnection;
         private readonly WampClient<TMessage> mClient;
