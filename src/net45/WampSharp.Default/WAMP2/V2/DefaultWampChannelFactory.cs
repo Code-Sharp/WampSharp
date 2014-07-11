@@ -7,6 +7,9 @@ namespace WampSharp.V2
 {
     public class DefaultWampChannelFactory : WampChannelFactory
     {
+        private readonly MessagePackObjectBinding mMsgpackBinding = new MessagePackObjectBinding();
+        private readonly JTokenBinding mJsonBinding = new JTokenBinding();
+
         public IWampChannel CreateChannel<TMessage>(string address,
                                                     string realm,
                                                     IWampTextBinding<TMessage> binding)
@@ -30,17 +33,13 @@ namespace WampSharp.V2
         public IWampChannel CreateJsonChannel(string address,
                                               string realm)
         {
-            JTokenBinding binding = new JTokenBinding();
-
-            return this.CreateChannel(address, realm, binding);
+            return this.CreateChannel(address, realm, mJsonBinding);
         }
 
         public IWampChannel CreateMsgpackChannel(string address,
                                                  string realm)
         {
-            MessagePackObjectBinding binding = new MessagePackObjectBinding();
-
-            return this.CreateChannel(address, realm, binding);
+            return this.CreateChannel(address, realm, mMsgpackBinding);
         }
     }
 }
