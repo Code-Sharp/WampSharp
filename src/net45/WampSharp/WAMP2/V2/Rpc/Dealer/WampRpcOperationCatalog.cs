@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core;
@@ -10,6 +11,8 @@ namespace WampSharp.V2.Rpc
     {
         private readonly ConcurrentDictionary<string, IWampRpcOperation> mProcedureToOperation =
             new ConcurrentDictionary<string, IWampRpcOperation>();
+
+        private readonly Dictionary<string, object> mEmptyDetails = new Dictionary<string, object>();
 
         private readonly IWampFormatter<object> ObjectFormatter = WampObjectFormatter.Value;
 
@@ -90,7 +93,13 @@ namespace WampSharp.V2.Rpc
 
             if (!mProcedureToOperation.TryGetValue(procedure, out operation))
             {
-                caller.Error(ObjectFormatter, procedure, WampErrors.NoSuchProcedure);
+                string errorMessage = string.Format("no procedure '{0}' registered", procedure);
+
+                caller.Error(ObjectFormatter,
+                             mEmptyDetails,
+                             WampErrors.NoSuchProcedure,
+                             new object[] {errorMessage});
+                
                 return null;
             }
             else
