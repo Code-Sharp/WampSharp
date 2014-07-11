@@ -545,11 +545,11 @@
     <Compile Include="..\..\net45\WampSharp\WAMP1\V2\Adapters\WampRpcServerAdapter.cs">
       <Link>WAMP1\V2\Adapters\WampRpcServerAdapter.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CompositeListener.cs">
-      <Link>WAMP2\V2\Api\CompositeListener.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\CompositeListener.cs">
+      <Link>WAMP2\V2\Api\Server\CompositeListener.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\IWampHost.cs">
-      <Link>WAMP2\V2\Api\IWampHost.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\IWampHost.cs">
+      <Link>WAMP2\V2\Api\Server\IWampHost.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\RawSubscriber.cs">
       <Link>WAMP2\V2\Api\Rx\RawSubscriber.cs</Link>
@@ -587,26 +587,23 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Serialization\SerializedValue.cs">
       <Link>WAMP2\V2\Api\Serialization\SerializedValue.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampBindingHost.cs">
-      <Link>WAMP2\V2\Api\WampBindingHost.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampRealmServiceProvider.cs">
-      <Link>WAMP2\V2\Api\WampRealmServiceProvider.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampBindingHost.cs">
+      <Link>WAMP2\V2\Api\Server\WampBindingHost.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampSerializedEvent.cs">
       <Link>WAMP2\V2\Api\Rx\WampSerializedEvent.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampHost.cs">
-      <Link>WAMP2\V2\Api\WampHost.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampHost.cs">
+      <Link>WAMP2\V2\Api\Server\WampHost.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampServer.cs">
-      <Link>WAMP2\V2\Api\WampServer.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampServer.cs">
+      <Link>WAMP2\V2\Api\Server\WampServer.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampRouterSubject.cs">
       <Link>WAMP2\V2\Api\Rx\WampRouterSubject.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampTransportDefinition.cs">
-      <Link>WAMP2\V2\Api\WampTransportDefinition.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampTransportDefinition.cs">
+      <Link>WAMP2\V2\Api\Server\WampTransportDefinition.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Contracts\JsonBinding.cs">
       <Link>WAMP2\V2\Binding\Contracts\JsonBinding.cs</Link>
@@ -653,11 +650,11 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\ErrorForwarder.cs">
       <Link>WAMP2\V2\Client\ErrorForwarder.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\IWampChannel.cs">
-      <Link>WAMP2\V2\Client\IWampChannel.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Client\IWampChannel.cs">
+      <Link>WAMP2\V2\Api\Client\IWampChannel.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\IWampChannelFactory.cs">
-      <Link>WAMP2\V2\Client\IWampChannelFactory.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Client\IWampChannelFactory.cs">
+      <Link>WAMP2\V2\Api\Client\IWampChannelFactory.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampChannelFactory.cs">
       <Link>WAMP2\V2\Client\WampChannelFactory.cs</Link>
@@ -1043,11 +1040,11 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampResultAttribute.cs">
       <Link>WAMP2\V2\Rpc\WampResultAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampRpcOperationCallback.cs">
-      <Link>WAMP2\V2\Rpc\WampRpcOperationCallback.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampRpcOperationCallback.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\WampRpcOperationCallback.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampRpcOperationCatalog.cs">
-      <Link>WAMP2\V2\Rpc\WampRpcOperationCatalog.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampRpcOperationCatalog.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\WampRpcOperationCatalog.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Session\WampSessionServer.cs">
       <Link>WAMP2\V2\Session\WampSessionServer.cs</Link>

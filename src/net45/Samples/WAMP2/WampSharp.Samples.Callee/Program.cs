@@ -76,8 +76,8 @@ namespace WampSharp.Samples.Callee
         {
             JTokenBinding binding = new JTokenBinding();
 
-            DefaultChannelFactory factory =
-                new DefaultChannelFactory();
+            DefaultWampChannelFactory factory =
+                new DefaultWampChannelFactory();
 
             IWampChannel channel =
                 factory.CreateChannel(serverAddress, "realm1", binding);

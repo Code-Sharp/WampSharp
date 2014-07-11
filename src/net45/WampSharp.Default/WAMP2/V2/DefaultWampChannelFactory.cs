@@ -5,7 +5,7 @@ using WampSharp.WebSocket4Net;
 
 namespace WampSharp.V2
 {
-    public class DefaultChannelFactory : WampChannelFactory
+    public class DefaultWampChannelFactory : WampChannelFactory
     {
         public IWampChannel CreateChannel<TMessage>(string address,
                                                     string realm,

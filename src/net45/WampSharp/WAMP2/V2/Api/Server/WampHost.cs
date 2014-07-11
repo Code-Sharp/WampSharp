@@ -34,7 +34,7 @@ namespace WampSharp.V2
         public void RegisterTransport(IWampTransport transport,
                                       params IWampBinding[] binding)
         {
-            RegisterTransport(transport, binding);
+            RegisterTransport(transport, (IEnumerable<IWampBinding>)binding);
         }
 
         public void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> binding)
