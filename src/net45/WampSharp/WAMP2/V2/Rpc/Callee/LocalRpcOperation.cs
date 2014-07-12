@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Client;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Error;
 
 namespace WampSharp.V2.Rpc
 {
@@ -213,6 +213,41 @@ namespace WampSharp.V2.Rpc
             throw new WampException(WampErrors.InvalidArgument, "argument position: " + position);
         }
 
-        protected abstract void InnerInvoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
+        protected abstract void InnerInvoke<TMessage>
+            (IWampRawRpcOperationCallback caller,
+             IWampFormatter<TMessage> formatter,
+             TMessage options, TMessage[] arguments,
+             IDictionary<string, TMessage> argumentsKeywords);
+
+        protected class WampRpcErrorCallback : IWampErrorCallback
+        {
+            private readonly IWampRawRpcOperationCallback mCallback;
+
+            public WampRpcErrorCallback(IWampRawRpcOperationCallback callback)
+            {
+                mCallback = callback;
+            }
+
+            public void Error(object details, string error)
+            {
+                mCallback.Error(ObjectFormatter, details, error);
+            }
+
+            public void Error(object details, string error, object[] arguments)
+            {
+                mCallback.Error(ObjectFormatter, details, error, arguments);
+            }
+
+            public void Error(object details, string error, object[] arguments, object argumentsKeywords)
+            {
+                mCallback.Error(ObjectFormatter, details, error, arguments, argumentsKeywords);
+            }
+        }
+
+        protected static WampRpcRuntimeException ConvertExceptionToRuntimeException(Exception exception)
+        {
+            // TODO: Maybe try a different implementation.
+            return new WampRpcRuntimeException(exception.Message);
+        }
     }
 }

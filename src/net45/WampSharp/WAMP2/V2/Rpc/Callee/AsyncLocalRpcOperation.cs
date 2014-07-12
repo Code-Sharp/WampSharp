@@ -1,10 +1,9 @@
-﻿#if NET45
-
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Error;
 
 namespace WampSharp.V2.Rpc
 {
@@ -14,7 +13,46 @@ namespace WampSharp.V2.Rpc
         {
         }
 
+        protected abstract Task<object> InvokeAsync<TMessage>
+            (IWampRawRpcOperationCallback caller,
+             IWampFormatter<TMessage> formatter,
+             TMessage options,
+             TMessage[] arguments,
+             IDictionary<string, TMessage> argumentsKeywords);
+
+#if NET45
+
         protected async override void InnerInvoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        {
+            try
+            {
+                Task<object> task =
+                    InvokeAsync(caller,
+                                formatter,
+                                options,
+                                arguments,
+                                argumentsKeywords);
+
+                object result = await task;
+
+                CallResult(caller, result, null);
+            }
+            catch (WampException ex)
+            {
+                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+                callback.Error(ex);
+            }
+            catch (Exception ex)
+            {
+                WampRpcRuntimeException wampException = ConvertExceptionToRuntimeException(ex);
+                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+                callback.Error(wampException);
+            }
+        }
+
+#elif NET40
+
+        protected override void InnerInvoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
@@ -25,22 +63,38 @@ namespace WampSharp.V2.Rpc
                                arguments,
                                argumentsKeywords);
 
-                object result = await task;
-
-                caller.Result(ObjectFormatter, options, new object[] { result });
+                task.ContinueWith(x => TaskCallback(x, caller));
             }
             catch (WampException ex)
             {
-                caller.Error(ObjectFormatter, ex.Details, ex.ErrorUri);
+                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+                callback.Error(ex);
             }
         }
 
-        protected abstract Task<object> InvokeAsync<TMessage>(IWampRawRpcOperationCallback caller,
-                                                              IWampFormatter<TMessage> formatter,
-                                                              TMessage options,
-                                                              TMessage[] arguments,
-                                                              IDictionary<string, TMessage> argumentsKeywords);
-    }
-}
+        private void TaskCallback(Task<object> task, IWampRawRpcOperationCallback caller)
+        {
+            if (task.Exception == null)
+            {
+                object result = task.Result;
+                CallResult(caller, result, null);
+            }
+            else
+            {
+                Exception innerException = task.Exception.InnerException;
+
+                WampException wampException = innerException as WampException;
+
+                if (wampException == null)
+                {
+                    wampException = ConvertExceptionToRuntimeException(innerException);
+                }
+
+                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+                callback.Error(wampException);
+            }
+        }
 
 #endif
+    }
+}

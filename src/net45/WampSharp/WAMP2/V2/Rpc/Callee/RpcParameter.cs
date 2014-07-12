@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace WampSharp.V2.Rpc
 {
@@ -40,8 +41,15 @@ namespace WampSharp.V2.Rpc
             {
                 mDefaultValue = defaultValue;
             }
-            
+
             mPosition = position;
+        }
+
+        public RpcParameter(ParameterInfo parameter) :
+            this(
+            parameter.Name, parameter.ParameterType, parameter.DefaultValue, parameter.HasDefaultValue(),
+            parameter.Position)
+        {
         }
 
         private Type StripByRef(Type type)

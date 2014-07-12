@@ -2,27 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class SyncMethodInfoRpcOperation : SyncLocalRpcOperation
+    internal class AsyncMethodInfoRpcOperation : AsyncLocalRpcOperation
     {
         private readonly object mInstance;
         private readonly MethodInfo mMethod;
-        private readonly MethodInfoHelper mHelper;
         private readonly RpcParameter[] mParameters;
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
 
-        public SyncMethodInfoRpcOperation(object instance, MethodInfo method) :
+        public AsyncMethodInfoRpcOperation(object instance, MethodInfo method) :
             base(GetProcedure(method))
         {
             mInstance = instance;
             mMethod = method;
 
-            if (method.ReturnType != typeof (void))
+            if (method.ReturnType != typeof (Task))
             {
                 mHasResult = true;
             }
@@ -44,11 +45,8 @@ namespace WampSharp.V2.Rpc
                     wampResultAttribute.CollectionResultTreatment;
             }
 
-            mHelper = new MethodInfoHelper(method);
-
             mParameters =
                 method.GetParameters()
-                      .Where(x => !x.IsOut)
                       .Select(parameter => new RpcParameter(parameter))
                       .ToArray();
         }
@@ -81,28 +79,23 @@ namespace WampSharp.V2.Rpc
             get { return mCollectionResultTreatment; }
         }
 
-        protected override object InvokeSync<TMessage>
-            (IWampRawRpcOperationCallback caller,
-             IWampFormatter<TMessage> formatter,
-             TMessage options,
-             TMessage[] arguments,
-             IDictionary<string, TMessage> argumentsKeywords,
-             out IDictionary<string, object> outputs)
+        protected override Task<object> InvokeAsync<TMessage>(IWampRawRpcOperationCallback caller,
+                                                              IWampFormatter<TMessage> formatter,
+                                                              TMessage options,
+                                                              TMessage[] arguments,
+                                                              IDictionary<string, TMessage> argumentsKeywords)
         {
             object[] unpacked =
                 UnpackParameters(formatter, arguments, argumentsKeywords);
 
-            object[] parameters =
-                mHelper.GetArguments(unpacked);
-
             try
             {
-                object result =
-                    mMethod.Invoke(mInstance, parameters);
+                Task result =
+                    mMethod.Invoke(mInstance, unpacked) as Task;
 
-                outputs = mHelper.GetOutOrRefValues(parameters);
+                Task<object> casted = result.CastTask();
 
-                return result;
+                return casted;
             }
             catch (TargetInvocationException ex)
             {

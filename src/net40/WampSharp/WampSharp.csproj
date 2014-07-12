@@ -756,6 +756,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs">
       <Link>WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\AsyncMethodInfoRpcOperation.cs">
+      <Link>WAMP2\V2\Rpc\Callee\AsyncMethodInfoRpcOperation.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs</Link>
     </Compile>

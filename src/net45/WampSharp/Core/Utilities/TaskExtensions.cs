@@ -62,5 +62,33 @@ namespace WampSharp.Core.Utilities
 
             return returnType;
         }
+
+        /// <summary>
+        /// Casts a <see cref="Task"/> to a Task of type Task{object}.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static Task<object> CastTask(this Task task)
+        {
+            Task<object> result;
+
+            if (task.GetType() == typeof (Task))
+            {
+                result = task.ContinueWith(x => (object) null,
+                                           TaskContinuationOptions.ExecuteSynchronously);
+            }
+            else
+            {
+                result = CastTask((dynamic) task);
+            }
+
+            return result;
+        }
+
+        private static Task<object> CastTask<T>(Task<T> task)
+        {
+            return task.ContinueWith(t => (object) t.Result,
+                                     TaskContinuationOptions.ExecuteSynchronously);
+        }
     }
 }
