@@ -74,8 +74,7 @@ namespace WampSharp.Core.Utilities
 
             if (task.GetType() == typeof (Task))
             {
-                result = task.ContinueWith(x => (object) null,
-                                           TaskContinuationOptions.ExecuteSynchronously);
+                result = task.ContinueWithSafe(x => (object) null);
             }
             else
             {
@@ -87,8 +86,29 @@ namespace WampSharp.Core.Utilities
 
         private static Task<object> CastTask<T>(Task<T> task)
         {
-            return task.ContinueWith(t => (object) t.Result,
+            return task.ContinueWithSafe(t => (object)t.Result);
+        }
+
+        private static Task<object> ContinueWithSafe<TTask>(this TTask task, Func<TTask, object> transform)
+            where TTask : Task
+        {
+            return task.ContinueWith(t => ContinueWithSafeCallback((TTask) t, transform),
                                      TaskContinuationOptions.ExecuteSynchronously);
+        }
+
+        private static object ContinueWithSafeCallback<TTask>(TTask task, Func<TTask, object> transform)
+            where TTask : Task
+        {
+            AggregateException aggregateException = task.Exception;
+
+            if (aggregateException != null)
+            {
+                throw aggregateException.InnerException;
+            }
+
+            object result = transform(task);
+
+            return result;
         }
     }
 }
