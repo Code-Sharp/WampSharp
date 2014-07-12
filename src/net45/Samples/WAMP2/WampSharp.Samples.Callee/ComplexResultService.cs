@@ -13,6 +13,7 @@ namespace WampSharp.Samples.Callee
         }
 
         [WampProcedure("com.myapp.split_name")]
+        [return: WampResult(CollectionResultTreatment.Multivalued)]
         public string[] SplitName(string fullname)
         {
             string[] splitted = fullname.Split(' ');

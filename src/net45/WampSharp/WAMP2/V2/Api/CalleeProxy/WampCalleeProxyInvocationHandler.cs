@@ -81,7 +81,7 @@ namespace WampSharp.V2.CalleeProxy
                 return false;
             }
 
-            if ((resultAttribute == null) ||
+            if ((resultAttribute != null) &&
                 (resultAttribute.CollectionResultTreatment == CollectionResultTreatment.Multivalued))
             {
                 return true;

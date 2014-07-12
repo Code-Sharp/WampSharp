@@ -37,7 +37,7 @@ namespace WampSharp.V2.Rpc
 
             if (wampResultAttribute == null)
             {
-                mCollectionResultTreatment = CollectionResultTreatment.Multivalued;
+                mCollectionResultTreatment = CollectionResultTreatment.SingleValue;
             }
             else
             {
