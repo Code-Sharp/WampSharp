@@ -16,23 +16,13 @@ namespace WampSharp.Core.Utilities
 
         public static Task Cast(this Task<object> task, Type taskType)
         {
-            return (Task)mCastTask.MakeGenericMethod(taskType).Invoke(null, new object[] { task });
+            return (Task) mCastTask.MakeGenericMethod(taskType)
+                                   .Invoke(null, new object[] {task});
         }
 
         private static Task<T> InternalCastTask<T>(Task<object> task)
         {
-            return task.ContinueWith(x => CastResult<T>(x),
-                                     TaskContinuationOptions.ExecuteSynchronously);
-        }
-
-        private static T CastResult<T>(Task<object> x)
-        {
-            if (x.Exception != null)
-            {
-                throw x.Exception.InnerException;
-            }
-
-            return (T)x.Result;
+            return task.ContinueWithSafe(x => (T)x.Result);
         }
 
         /// <summary>
@@ -89,14 +79,14 @@ namespace WampSharp.Core.Utilities
             return task.ContinueWithSafe(t => (object)t.Result);
         }
 
-        private static Task<object> ContinueWithSafe<TTask>(this TTask task, Func<TTask, object> transform)
+        private static Task<TResult> ContinueWithSafe<TTask, TResult>(this TTask task, Func<TTask, TResult> transform)
             where TTask : Task
         {
             return task.ContinueWith(t => ContinueWithSafeCallback((TTask) t, transform),
                                      TaskContinuationOptions.ExecuteSynchronously);
         }
 
-        private static object ContinueWithSafeCallback<TTask>(TTask task, Func<TTask, object> transform)
+        private static TResult ContinueWithSafeCallback<TTask, TResult>(TTask task, Func<TTask, TResult> transform)
             where TTask : Task
         {
             AggregateException aggregateException = task.Exception;
@@ -106,7 +96,7 @@ namespace WampSharp.Core.Utilities
                 throw aggregateException.InnerException;
             }
 
-            object result = transform(task);
+            TResult result = transform(task);
 
             return result;
         }
