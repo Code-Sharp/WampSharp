@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using WampSharp.Core.Serialization;
 
 namespace WampSharp.V2.Rpc
 {
     internal class MethodInfoHelper
     {
-        private readonly OutputParameter[] mOutOrRefValues;
+        private readonly ParameterInfo[] mOutOrRefValues;
         private readonly int[] mInputValues;
         private readonly int mLength;
 
@@ -17,19 +18,14 @@ namespace WampSharp.V2.Rpc
             mLength = parameters.Length;
 
             mInputValues =
-                parameters.Select((parameter, index) =>
-                                  new { parameter, index })
-                          .Where(x => !x.parameter.IsOut)
-                          .Select(x => x.index)
+                parameters.Where(x => !x.IsOut)
+                          .Select(x => x.Position)
                           .ToArray();
 
             mOutOrRefValues =
                 parameters
-                    .Select((parameter, index) =>
-                            new {parameter, index})
-                    .Where(x => x.parameter.IsOut ||
-                                x.parameter.ParameterType.IsByRef)
-                    .Select(x => new OutputParameter(x.parameter.Name, x.index))
+                    .Where(x => x.IsOut ||
+                                x.ParameterType.IsByRef)
                     .ToArray();
         }
 
@@ -47,6 +43,20 @@ namespace WampSharp.V2.Rpc
             return result;
         }
 
+        public object[] GetInputArguments(object[] arguments)
+        {
+            object[] inputs = new object[mInputValues.Length];
+
+            for (int i = 0; i < mInputValues.Length; i++)
+            {
+                int index = mInputValues[i];
+                object current = arguments[index];
+                inputs[index] = current;
+            }
+
+            return inputs;
+        }
+
         public IDictionary<string, object> GetOutOrRefValues(object[] arguments)
         {
             if (mOutOrRefValues.Length == 0)
@@ -61,30 +71,27 @@ namespace WampSharp.V2.Rpc
             return result;
         }
 
-        private class OutputParameter
+        public void PopulateOutOrRefValues<TMessage>(IWampFormatter<TMessage> formatter,
+                                                     object[] arguments,
+                                                     IDictionary<string, TMessage> outOrRefParameters)
         {
-            private readonly string mName;
-            private readonly int mPosition;
-
-            public OutputParameter(string name, int position)
+            if (mOutOrRefValues.Length != 0)
             {
-                mName = name;
-                mPosition = position;
-            }
-
-            public string Name
-            {
-                get
+                foreach (ParameterInfo parameter in mOutOrRefValues)
                 {
-                    return mName;
-                }
-            }
+                    TMessage currentValue;
 
-            public int Position
-            {
-                get
-                {
-                    return mPosition;
+                    if (!outOrRefParameters.TryGetValue(parameter.Name, out currentValue))
+                    {
+                        // Log or something??
+                    }
+                    else
+                    {
+                        object deserializedValue =
+                            formatter.Deserialize(parameter.ParameterType, currentValue);
+
+                        arguments[parameter.Position] = deserializedValue;
+                    }
                 }
             }
         }

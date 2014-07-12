@@ -199,7 +199,7 @@
     <Compile Include="WAMP1\V1\Rpc\Client\IWampRpcClientHandlerBuilder.cs" />
     <Compile Include="WAMP1\V1\Rpc\Client\IWampRpcSerializer.cs" />
     <Compile Include="WAMP1\V1\Rpc\Client\IWampServerProxyFactory.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\TaskExtensions.cs" />
+    <Compile Include="Core\Utilities\TaskExtensions.cs" />
     <Compile Include="WAMP1\V1\Rpc\Client\WampRpcCall.cs" />
     <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientAsyncInterceptor.cs" />
     <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientFactory.cs" />
@@ -225,6 +225,15 @@
     <Compile Include="WAMP1\V2\Adapters\Wamp1BindingHost.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampPubSubServerAdapter.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampRpcServerAdapter.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyFactory.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\SyncCalleeProxyInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeProxyFactory.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeClientProxyFactory.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeRouterProxyFactory.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
     <Compile Include="WAMP2\V2\Api\Server\IWampHost.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawSubscriber.cs" />
@@ -259,6 +268,7 @@
     <Compile Include="WAMP2\V2\Binding\Parsers\IWampTextMessageParser.cs" />
     <Compile Include="WAMP2\V2\Binding\Transports\IWampTransport.cs" />
     <Compile Include="WAMP2\V2\Binding\WampBinding.cs" />
+    <Compile Include="WAMP2\V2\Client\ErrorExtractor.cs" />
     <Compile Include="WAMP2\V2\Client\ErrorForwarder.cs" />
     <Compile Include="WAMP2\V2\Api\Client\IWampChannel.cs" />
     <Compile Include="WAMP2\V2\Api\Client\IWampChannelFactory.cs" />

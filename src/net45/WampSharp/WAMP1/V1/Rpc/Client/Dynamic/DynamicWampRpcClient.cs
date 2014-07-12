@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.V1.Rpc.Client
 {

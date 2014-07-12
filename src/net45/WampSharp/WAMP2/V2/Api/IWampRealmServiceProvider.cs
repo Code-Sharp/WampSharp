@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reactive.Subjects;
+﻿using System.Reactive.Subjects;
 using System.Threading.Tasks;
 
 namespace WampSharp.V2
@@ -9,7 +8,7 @@ namespace WampSharp.V2
         // TODO: Add overloads for all options
         Task RegisterCallee(object instance);
 
-        TProxy GetCalleeProxy<TProxy>();
+        TProxy GetCalleeProxy<TProxy>() where TProxy : class;
 
         ISubject<TEvent> GetSubject<TEvent>(string topicUri);
 

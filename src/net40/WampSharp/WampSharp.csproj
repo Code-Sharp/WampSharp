@@ -471,8 +471,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Rpc\Client\IWampServerProxyFactory.cs">
       <Link>WAMP1\V1\Rpc\Client\IWampServerProxyFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Rpc\Client\TaskExtensions.cs">
-      <Link>WAMP1\V1\Rpc\Client\TaskExtensions.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\TaskExtensions.cs">
+      <Link>Core\Utilities\TaskExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Rpc\Client\WampRpcCall.cs">
       <Link>WAMP1\V1\Rpc\Client\WampRpcCall.cs</Link>
@@ -548,6 +548,33 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP1\V2\Adapters\WampRpcServerAdapter.cs">
       <Link>WAMP1\V2\Adapters\WampRpcServerAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyFactory.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\SyncCalleeProxyInterceptor.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\SyncCalleeProxyInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeProxyFactory.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeClientProxyFactory.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeClientProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeRouterProxyFactory.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeRouterProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\CompositeListener.cs">
       <Link>WAMP2\V2\Api\Server\CompositeListener.cs</Link>
@@ -650,6 +677,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\WampBinding.cs">
       <Link>WAMP2\V2\Binding\WampBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\ErrorExtractor.cs">
+      <Link>WAMP2\V2\Client\ErrorExtractor.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\ErrorForwarder.cs">
       <Link>WAMP2\V2\Client\ErrorForwarder.cs</Link>

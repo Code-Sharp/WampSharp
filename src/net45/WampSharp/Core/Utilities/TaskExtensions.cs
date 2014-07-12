@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace WampSharp.V1.Rpc.Client
+namespace WampSharp.Core.Utilities
 {
     internal static class TaskExtensions
     {
@@ -33,6 +33,34 @@ namespace WampSharp.V1.Rpc.Client
             }
 
             return (T)x.Result;
+        }
+
+        /// <summary>
+        /// Unwraps the return type of a given method.
+        /// </summary>
+        /// <param name="returnType">The given return type.</param>
+        /// <returns>The unwrapped return type.</returns>
+        /// <example>
+        /// void, Task -> object
+        /// Task{string} -> string
+        /// int -> int
+        /// </example>
+        public static Type UnwrapReturnType(Type returnType)
+        {
+            if (returnType == typeof(void) || returnType == typeof(Task))
+            {
+                return typeof(object);
+            }
+
+            Type taskType =
+                returnType.GetClosedGenericTypeImplementation(typeof(Task<>));
+
+            if (taskType != null)
+            {
+                return returnType.GetGenericArguments()[0];
+            }
+
+            return returnType;
         }
     }
 }
