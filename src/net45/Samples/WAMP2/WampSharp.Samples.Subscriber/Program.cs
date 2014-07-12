@@ -46,9 +46,6 @@ namespace WampSharp.Samples.Subscriber
 
             wampChannel.Open().Wait();
 
-            IWampTopicContainerProxy topicContainer = 
-                wampChannel.RealmProxy.TopicContainer;
-
             ISubject<int> subject =
                 wampChannel.RealmProxy.Services.GetSubject<int>("com.myapp.topic1");
 
