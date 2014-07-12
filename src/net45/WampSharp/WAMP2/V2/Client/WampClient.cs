@@ -3,7 +3,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
 {
-    public class WampClient<TMessage> : IWampSessionClientExtended<TMessage>,
+    internal class WampClient<TMessage> : IWampSessionClientExtended<TMessage>,
                                         IWampCallee<TMessage>,
                                         IWampCalleeError<TMessage>,
                                         IWampCaller<TMessage>,

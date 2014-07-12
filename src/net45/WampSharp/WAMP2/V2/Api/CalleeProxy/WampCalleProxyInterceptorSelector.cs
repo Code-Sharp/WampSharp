@@ -15,10 +15,10 @@ namespace WampSharp.V2.CalleeProxy
 
             if (typeof(Task).IsAssignableFrom(returnType))
             {
-                return interceptors.OfType<SyncCalleeProxyInterceptor>().Cast<IInterceptor>().ToArray();
+                return interceptors.OfType<AsyncCalleeProxyInterceptor>().Cast<IInterceptor>().ToArray();
             }
 
-            return interceptors.OfType<AsyncCalleeProxyInterceptor>().Cast<IInterceptor>().ToArray();
+            return interceptors.OfType<SyncCalleeProxyInterceptor>().Cast<IInterceptor>().ToArray();
         }
     }
 }

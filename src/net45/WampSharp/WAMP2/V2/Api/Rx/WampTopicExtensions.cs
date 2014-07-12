@@ -4,7 +4,7 @@ using WampSharp.V2.PubSub;
 
 namespace WampSharp.V2
 {
-    public static class WampTopicExtensions
+    internal static class WampTopicExtensions
     {
         public static IWampSubject ToSubject(this IWampTopic topic)
         {

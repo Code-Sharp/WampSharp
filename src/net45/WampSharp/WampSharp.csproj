@@ -251,6 +251,7 @@
     <Compile Include="WAMP2\V2\Api\Server\WampBindingHost.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampSerializedEvent.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHost.cs" />
+    <Compile Include="WAMP2\V2\Api\Server\WampRealmServiceProvider.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampServer.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampRouterSubject.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampTransportDefinition.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="WAMP2\V2\Client\ErrorForwarder.cs" />
     <Compile Include="WAMP2\V2\Api\Client\IWampChannel.cs" />
     <Compile Include="WAMP2\V2\Api\Client\IWampChannelFactory.cs" />
+    <Compile Include="WAMP2\V2\Api\Client\WampRealmProxyServiceProvider.cs" />
     <Compile Include="WAMP2\V2\Client\WampChannelFactory.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampProxy.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IRemoteWampTopicSubscriber.cs" />

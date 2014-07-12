@@ -201,11 +201,16 @@ namespace WampSharp.V2.CalleeProxy
                 }
                 else
                 {
-                    object[] result =
+                    object[] deserialized =
                         arguments.Select(x => formatter.Deserialize(mElementType, x))
                                  .ToArray();
 
-                    return result;
+                    Array array = 
+                        Array.CreateInstance(mElementType, deserialized.Length);
+
+                    deserialized.CopyTo(array, 0);
+
+                    return array;
                 }
             }
         }

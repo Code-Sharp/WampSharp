@@ -623,6 +623,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampHost.cs">
       <Link>WAMP2\V2\Api\Server\WampHost.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampRealmServiceProvider.cs">
+      <Link>WAMP2\V2\Api\Server\WampRealmServiceProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampServer.cs">
       <Link>WAMP2\V2\Api\Server\WampServer.cs</Link>
     </Compile>
@@ -685,6 +688,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Client\IWampChannelFactory.cs">
       <Link>WAMP2\V2\Api\Client\IWampChannelFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Client\WampRealmProxyServiceProvider.cs">
+      <Link>WAMP2\V2\Api\Client\WampRealmProxyServiceProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampChannelFactory.cs">
       <Link>WAMP2\V2\Client\WampChannelFactory.cs</Link>

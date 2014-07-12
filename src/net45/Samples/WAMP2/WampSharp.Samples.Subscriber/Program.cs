@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Subjects;
 using Newtonsoft.Json.Linq;
 using WampSharp.Binding;
 using WampSharp.V2;
@@ -48,10 +49,10 @@ namespace WampSharp.Samples.Subscriber
             IWampTopicContainerProxy topicContainer = 
                 wampChannel.RealmProxy.TopicContainer;
 
-            IWampTopicProxy topic =
-                topicContainer.GetTopic("com.myapp.topic1");
+            ISubject<int> subject =
+                wampChannel.RealmProxy.Services.GetSubject<int>("com.myapp.topic1");
 
-            IDisposable disposable = topic.ToSubject<int>().Subscribe(x => GetValue(x));
+            IDisposable disposable = subject.Subscribe(x => GetValue(x));
             return disposable;
         }
 
@@ -64,7 +65,9 @@ namespace WampSharp.Samples.Subscriber
             IWampTopic topic =
                 topicContainer.GetOrCreateTopicByUri("com.myapp.topic1", true);
 
-            IDisposable disposable = topic.ToSubject<int>().Subscribe(x => GetValue(x));
+            IDisposable disposable = realm.Services.GetSubject<int>("com.myapp.topic1")
+                                          .Subscribe(x => GetValue(x));
+
             return disposable;
         }
 

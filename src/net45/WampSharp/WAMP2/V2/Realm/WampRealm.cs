@@ -18,6 +18,7 @@ namespace WampSharp.V2.Realm
             mName = name;
             mCatalog = catalog;
             mTopicContainer = topicContainer;
+            mServices = new WampRealmServiceProvider(this);
         }
 
         public string Name

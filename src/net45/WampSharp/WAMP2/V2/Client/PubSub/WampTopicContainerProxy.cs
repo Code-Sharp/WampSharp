@@ -25,7 +25,7 @@ namespace WampSharp.V2.Client
             mPublisher = new WampPublisher<TMessage>(proxy);
         }
 
-        public IWampTopicProxy GetTopic(string topicUri)
+        public IWampTopicProxy GetTopicByUri(string topicUri)
         {
             return mTopicUriToProxy.GetOrAdd(topicUri, uri => CreateTopicUri(uri));
         }
