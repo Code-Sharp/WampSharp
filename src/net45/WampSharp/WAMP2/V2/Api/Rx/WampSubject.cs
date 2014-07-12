@@ -1,27 +1,31 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace WampSharp.V2
 {
     internal abstract class WampSubject : IWampSubject
     {
+        private static readonly IDictionary<string, object> EmptyOptions  =
+            new ReadOnlyDictionary<string, object>(new Dictionary<string, object>());
+
         public virtual void OnNext(IWampEvent value)
         {
-            IDictionary<string, object> details = value.Details;
+            IDictionary<string, object> options = value.Options ?? EmptyOptions;
             object[] arguments = value.Arguments;
             IDictionary<string, object> argumentsKeywords = value.ArgumentsKeywords;
 
             if (argumentsKeywords != null)
             {
-                Publish(details, arguments, argumentsKeywords);
+                Publish(options, arguments, argumentsKeywords);
             }
             else if (arguments != null)
             {
-                Publish(details, arguments);
+                Publish(options, arguments);
             }
             else
             {
-                Publish(details);
+                Publish(options);
             }
         }
 
