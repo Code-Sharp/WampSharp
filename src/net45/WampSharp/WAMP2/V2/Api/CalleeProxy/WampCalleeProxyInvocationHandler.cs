@@ -74,7 +74,7 @@ namespace WampSharp.V2.CalleeProxy
         private bool HasMultivaluedResult(MethodInfo method)
         {
             WampResultAttribute resultAttribute = 
-                method.GetCustomAttribute<WampResultAttribute>(true);
+                method.ReturnParameter.GetCustomAttribute<WampResultAttribute>(true);
 
             if (!method.ReturnType.IsArray)
             {
