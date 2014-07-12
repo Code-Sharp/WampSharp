@@ -132,7 +132,7 @@ namespace WampSharp.Samples.Caller
             string[] orders = proxy.Orders("coffee");
             Console.WriteLine("Orders 1: {0}", string.Join(", ", orders));
 
-            string[] orders2 = proxy.Orders("coffee", limit: 10);
+            orders = proxy.Orders("coffee", limit: 10);
             Console.WriteLine("Orders 2: {0}", string.Join(", ", orders));
         }
     }
