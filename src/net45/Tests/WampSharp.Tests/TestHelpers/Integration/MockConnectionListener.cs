@@ -43,6 +43,10 @@ namespace WampSharp.Tests.TestHelpers.Integration
             public void Connect()
             {
                 mListener.OnNewConnection(mConnection.SideBToSideA);
+
+                // Yuck2!
+                ((MockConnection<TMessage>.DirectedConnection)mConnection.SideAToSideB)
+                    .RaiseConnectionOpen();
             }
 
             public void Dispose()

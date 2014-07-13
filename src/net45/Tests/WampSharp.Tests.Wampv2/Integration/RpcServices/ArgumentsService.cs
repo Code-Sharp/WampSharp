@@ -3,9 +3,8 @@ using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Rpc;
 
-namespace WampSharp.Samples.Callee
+namespace WampSharp.Tests.Wampv2.Integration.RpcServices
 {
-    [Sample("arguments")]
     public class ArgumentsService
     {
         [WampProcedure("com.arguments.ping")]

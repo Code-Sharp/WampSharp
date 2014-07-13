@@ -9,12 +9,20 @@ namespace WampSharp.Tests
     {
         private readonly Subject<WampMessage<TMessage>> mSideAToSideB = new Subject<WampMessage<TMessage>>();
         private readonly Subject<WampMessage<TMessage>> mSideBToSideA = new Subject<WampMessage<TMessage>>();
+        private readonly DirectedConnection mSideAToSideBConnection;
+        private readonly DirectedConnection mSideBToSideAConnection;
+
+        public MockConnection()
+        {
+            mSideAToSideBConnection = new DirectedConnection(mSideBToSideA, mSideAToSideB);
+            mSideBToSideAConnection = new DirectedConnection(mSideAToSideB, mSideBToSideA);
+        }
 
         public IWampConnection<TMessage> SideAToSideB
         {
             get
             {
-                return new DirectedConnection(mSideBToSideA, mSideAToSideB);
+                return mSideAToSideBConnection;
             }
         }
 
@@ -22,7 +30,7 @@ namespace WampSharp.Tests
         {
             get
             {
-                return new DirectedConnection(mSideAToSideB, mSideBToSideA);
+                return mSideBToSideAConnection;
             }
         }
 

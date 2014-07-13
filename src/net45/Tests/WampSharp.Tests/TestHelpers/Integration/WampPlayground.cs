@@ -1,7 +1,6 @@
 ﻿using WampSharp.Core.Listener;
 using WampSharp.V1;
 using WampSharp.Core.Serialization;
-using WampSharp.Core.Listener;
 
 namespace WampSharp.Tests.TestHelpers.Integration
 {

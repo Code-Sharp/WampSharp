@@ -97,7 +97,7 @@ namespace WampSharp.Samples.Callee
                 Console.WriteLine("Connected to server.");
             }
 
-            var dummy = new Dictionary<string, string>();
+            var dummy = new Dictionary<string, object>();
 
             var tasks = new List<Task>();
 

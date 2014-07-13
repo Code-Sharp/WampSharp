@@ -27,7 +27,7 @@ namespace WampSharp.Samples.Caller
                     Console.WriteLine(" {0}", name);
                 }
 
-                args = new string[] {"arguments", "router"};
+                args = new string[] {"complex", "client"};
             }
 
             string sampleName = args[0];
@@ -135,5 +135,16 @@ namespace WampSharp.Samples.Caller
             orders = proxy.Orders("coffee", limit: 10);
             Console.WriteLine("Orders 2: {0}", string.Join(", ", orders));
         }
+
+        [Sample("complex")]
+        private static void Complex(IWampRealmServiceProvider serviceProvider)
+        {
+            IComplexResultService proxy = 
+                serviceProvider.GetCalleeProxy<IComplexResultService>();
+
+            string[] splitted = proxy.SplitName("George Bush");
+            Console.WriteLine("Pinged!");
+        }
+
     }
 }

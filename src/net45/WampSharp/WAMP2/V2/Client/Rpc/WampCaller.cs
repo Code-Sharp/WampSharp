@@ -74,7 +74,7 @@ namespace WampSharp.V2.Client
 
             long requestId = RegisterCall(callDetails);
 
-            mProxy.Call(requestId, options, procedure, arguments);
+            mProxy.Call(requestId, options, procedure, arguments, argumentsKeywords);
         }
 
         public void Result(long requestId, TMessage details)
