@@ -68,13 +68,13 @@ namespace WampSharp.Core.Utilities
             }
             else
             {
-                result = CastTask((dynamic) task);
+                result = InnerCastTask((dynamic) task);
             }
 
             return result;
         }
 
-        private static Task<object> CastTask<T>(Task<T> task)
+        private static Task<object> InnerCastTask<T>(Task<T> task)
         {
             return task.ContinueWithSafe(t => (object)t.Result);
         }
