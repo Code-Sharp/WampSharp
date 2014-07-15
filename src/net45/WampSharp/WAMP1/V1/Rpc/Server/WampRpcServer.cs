@@ -56,7 +56,7 @@ namespace WampSharp.V1.Rpc.Server
             }
 #else
 
-                object result = await method.InvokeAsync(client, parameters);
+                object result = await method.InvokeAsync(client, parameters).ConfigureAwait(false);
                 client.CallResult(callId, result);
             }
 #endif
