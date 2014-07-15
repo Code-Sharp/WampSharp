@@ -23,6 +23,19 @@ namespace WampSharp.Tests.Api
             int Add(int x, int y);
         }
 
+        private static Mock<IAsyncCalculator> GetAsyncErrorCalculatorMock(WampRpcCallException exception)
+        {
+            Mock<IAsyncCalculator> calculatorMock = new Mock<IAsyncCalculator>();
+
+            TaskCompletionSource<int> completionSource = new TaskCompletionSource<int>();
+            completionSource.SetException(exception);
+
+            calculatorMock.Setup(x => x.Add(It.IsAny<int>(), It.IsAny<int>()))
+                          .Returns(completionSource.Task);
+
+            return calculatorMock;
+        }
+
         private static Mock<ICalculator> GetErrorCalculatorMock(WampRpcCallException exception)
         {
             Mock<ICalculator> calculatorMock = new Mock<ICalculator>();
@@ -129,6 +142,40 @@ namespace WampSharp.Tests.Api
             Assert.That(thrown.ErrorUri, Is.EqualTo(exception.ErrorUri));
             Assert.That(thrown.Message, Is.EqualTo(exception.Message));
         }
+
+        [Test]
+        public void SyncClientRpcCallsAsyncServerThrowsException()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            IWampHost host = playground.Host;
+
+            WampRpcCallException exception =
+                new WampRpcCallException("calculator.add",
+                                         "This is very bad caclulator implementation",
+                                         null);
+
+            Mock<IAsyncCalculator> calculatorMock = GetAsyncErrorCalculatorMock(exception);
+
+            host.HostService(calculatorMock.Object);
+
+            host.Open();
+
+            IWampChannel<MockRaw> channel = playground.CreateNewChannel();
+
+            channel.Open();
+
+            ICalculator proxy = channel.GetRpcProxy<ICalculator>();
+
+            WampRpcCallException thrown =
+                Assert.Throws<WampRpcCallException>(() => proxy.Add(3, 4));
+
+            Assert.That(thrown.ProcUri, Is.EqualTo("test/add"));
+            Assert.That(thrown.ErrorDetails, Is.EqualTo(exception.ErrorDetails));
+            Assert.That(thrown.ErrorUri, Is.EqualTo(exception.ErrorUri));
+            Assert.That(thrown.Message, Is.EqualTo(exception.Message));
+        }
+
 
         [Test]
         public void AsyncClientRpcCallsServerThrowsException()

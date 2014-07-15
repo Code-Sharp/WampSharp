@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.Core.Contracts.V1;
+using WampSharp.Rpc.Client;
 
 namespace WampSharp.Rpc.Server
 {
@@ -84,7 +85,7 @@ namespace WampSharp.Rpc.Server
 
         public Task<object> InvokeAsync(IWampClient client, object[] parameters)
         {
-            Task<object> result = null;
+            Task<object> result;
 
             if (!typeof (Task).IsAssignableFrom(mMethod.ReturnType))
             {
@@ -93,15 +94,8 @@ namespace WampSharp.Rpc.Server
             else
             {
                 Task task = (Task)Invoke(client, parameters);
-                
-                if (task.GetType() == typeof (Task))
-                {
-                    result = task.ContinueWith(x => (object) null);
-                }
-                else
-                {
-                    result = ConvertTask((dynamic) task);
-                }
+
+                result = task.CastTask();
             }
 
             return result;

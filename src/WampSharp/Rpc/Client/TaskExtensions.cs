@@ -21,18 +21,55 @@ namespace WampSharp.Rpc.Client
 
         private static Task<T> InternalCastTask<T>(Task<object> task)
         {
-            return task.ContinueWith(x => CastResult<T>(x),
+            return task.ContinueWithSafe(x => (T)x.Result);
+        }
+
+        /// <summary>
+        /// Casts a <see cref="Task"/> to a Task of type Task{object}.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static Task<object> CastTask(this Task task)
+        {
+            Task<object> result;
+
+            if (task.GetType() == typeof(Task))
+            {
+                result = task.ContinueWithSafe(x => (object)null);
+            }
+            else
+            {
+                result = InnerCastTask((dynamic)task);
+            }
+
+            return result;
+        }
+
+        private static Task<object> InnerCastTask<T>(Task<T> task)
+        {
+            return task.ContinueWithSafe(t => (object)t.Result);
+        }
+
+        private static Task<TResult> ContinueWithSafe<TTask, TResult>(this TTask task, Func<TTask, TResult> transform)
+            where TTask : Task
+        {
+            return task.ContinueWith(t => ContinueWithSafeCallback((TTask)t, transform),
                                      TaskContinuationOptions.ExecuteSynchronously);
         }
 
-        private static T CastResult<T>(Task<object> x)
+        private static TResult ContinueWithSafeCallback<TTask, TResult>(TTask task, Func<TTask, TResult> transform)
+            where TTask : Task
         {
-            if (x.Exception != null)
+            AggregateException aggregateException = task.Exception;
+
+            if (aggregateException != null)
             {
-                throw x.Exception.InnerException;
+                throw aggregateException.InnerException;
             }
 
-            return (T)x.Result;
+            TResult result = transform(task);
+
+            return result;
         }
     }
 }
