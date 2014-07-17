@@ -1,15 +1,21 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
+using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2
 {
     internal class WampRealmProxyServiceProvider : IWampRealmServiceProvider
     {
+        private readonly IOperationExtractor mExtractor =
+            new OperationExtractor();
+
         private readonly IWampRealmProxy mProxy;
         private readonly WampCalleeClientProxyFactory mCalleeProxyFactory;
+        private readonly IDictionary<string, object> EmptyOptions = 
+            new Dictionary<string, object>();
 
         public WampRealmProxyServiceProvider(IWampRealmProxy proxy)
         {
@@ -19,7 +25,17 @@ namespace WampSharp.V2
 
         public Task RegisterCallee(object instance)
         {
-            throw new NotImplementedException();
+            IEnumerable<IWampRpcOperation> operations =
+                mExtractor.ExtractOperations(instance);
+
+            foreach (IWampRpcOperation operation in operations)
+            {
+                mProxy.RpcCatalog.Register(operation, EmptyOptions);
+            }
+
+            TaskCompletionSource<bool> result = new TaskCompletionSource<bool>();
+            result.SetResult(true);
+            return result.Task;
         }
 
         public TProxy GetCalleeProxy<TProxy>() where TProxy : class

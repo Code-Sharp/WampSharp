@@ -294,7 +294,9 @@
     <Compile Include="WAMP2\V2\Realm\Interfaces\SessionCloseType.cs" />
     <Compile Include="WAMP2\V2\Realm\Interfaces\WampSessionCloseEventArgs.cs" />
     <Compile Include="WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\AsyncMethodInfoRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\AsyncMethodInfoRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\IOperationExtractor.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\OperationExtractor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationInvokerProxy.cs" />

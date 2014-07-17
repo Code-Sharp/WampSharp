@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Realm;
+using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2
 {
     internal class WampRealmServiceProvider : IWampRealmServiceProvider
     {
+        private readonly IOperationExtractor mExtractor = 
+            new OperationExtractor();
+        
         private readonly IWampRealm mRealm;
+        
         private readonly IWampCalleeProxyFactory mCalleeProxyFactory;
 
         public WampRealmServiceProvider(IWampRealm realm)
@@ -19,7 +25,17 @@ namespace WampSharp.V2
 
         public Task RegisterCallee(object instance)
         {
-            throw new NotImplementedException();
+            IEnumerable<IWampRpcOperation> operations =
+                mExtractor.ExtractOperations(instance);
+
+            foreach (IWampRpcOperation operation in operations)
+            {
+                mRealm.RpcCatalog.Register(operation);
+            }
+
+            TaskCompletionSource<bool> result = new TaskCompletionSource<bool>();
+            result.SetResult(true);
+            return result.Task;
         }
 
         public TProxy GetCalleeProxy<TProxy>() where TProxy : class
