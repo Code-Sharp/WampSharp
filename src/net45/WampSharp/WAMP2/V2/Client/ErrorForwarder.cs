@@ -54,7 +54,7 @@ namespace WampSharp.V2.Client
 
         public void Error(int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            WampMessageType messageType = (WampMessageType) requestId;
+            WampMessageType messageType = (WampMessageType) requestType;
 
             switch (messageType)
             {

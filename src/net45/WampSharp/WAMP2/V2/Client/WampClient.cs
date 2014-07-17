@@ -4,14 +4,15 @@ using WampSharp.V2.Core.Contracts;
 namespace WampSharp.V2.Client
 {
     internal class WampClient<TMessage> : IWampSessionClientExtended<TMessage>,
-                                        IWampCallee<TMessage>,
-                                        IWampCalleeError<TMessage>,
-                                        IWampCaller<TMessage>,
-                                        IWampCallerError<TMessage>,
-                                        IWampPublisher<TMessage>,
-                                        IWampPublisherError<TMessage>,
-                                        IWampSubscriber<TMessage>,
-                                        IWampSubscriberError<TMessage>
+                                          IWampCallee<TMessage>,
+                                          IWampCalleeError<TMessage>,
+                                          IWampCaller<TMessage>,
+                                          IWampCallerError<TMessage>,
+                                          IWampPublisher<TMessage>,
+                                          IWampPublisherError<TMessage>,
+                                          IWampSubscriber<TMessage>,
+                                          IWampSubscriberError<TMessage>,
+                                          IWampError<TMessage>
     {
         private readonly IWampRealmProxy mRealm;
         private readonly IWampSessionClientExtended<TMessage> mSession;
@@ -232,7 +233,8 @@ namespace WampSharp.V2.Client
             SubscriberError.SubscribeError(requestId, details, error, arguments);
         }
 
-        public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments,
+                                   TMessage argumentsKeywords)
         {
             SubscriberError.SubscribeError(requestId, details, error, arguments, argumentsKeywords);
         }
@@ -247,7 +249,8 @@ namespace WampSharp.V2.Client
             SubscriberError.UnsubscribeError(requestId, details, error, arguments);
         }
 
-        public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments,
+                                     TMessage argumentsKeywords)
         {
             SubscriberError.UnsubscribeError(requestId, details, error, arguments, argumentsKeywords);
         }
@@ -262,7 +265,8 @@ namespace WampSharp.V2.Client
             CalleeError.RegisterError(requestId, details, error, arguments);
         }
 
-        public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments,
+                                  TMessage argumentsKeywords)
         {
             CalleeError.RegisterError(requestId, details, error, arguments, argumentsKeywords);
         }
@@ -277,7 +281,8 @@ namespace WampSharp.V2.Client
             CalleeError.UnregisterError(requestId, details, error, arguments);
         }
 
-        public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments,
+                                    TMessage argumentsKeywords)
         {
             CalleeError.UnregisterError(requestId, details, error, arguments, argumentsKeywords);
         }
@@ -292,7 +297,8 @@ namespace WampSharp.V2.Client
             PublisherError.PublishError(requestId, details, error, arguments);
         }
 
-        public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments,
+                                 TMessage argumentsKeywords)
         {
             PublisherError.PublishError(requestId, details, error, arguments, argumentsKeywords);
         }
@@ -307,7 +313,8 @@ namespace WampSharp.V2.Client
             CallerError.CallError(requestId, details, error, arguments);
         }
 
-        public void CallError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        public void CallError(long requestId, TMessage details, string error, TMessage[] arguments,
+                              TMessage argumentsKeywords)
         {
             CallerError.CallError(requestId, details, error, arguments, argumentsKeywords);
         }

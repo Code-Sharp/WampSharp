@@ -28,14 +28,17 @@ namespace WampSharp.V2
             IEnumerable<IWampRpcOperation> operations =
                 mExtractor.ExtractOperations(instance);
 
+            List<Task> registrations = new List<Task>();
+
             foreach (IWampRpcOperation operation in operations)
             {
-                mProxy.RpcCatalog.Register(operation, EmptyOptions);
+                Task task =
+                    mProxy.RpcCatalog.Register(operation, EmptyOptions);
+
+                registrations.Add(task);
             }
 
-            TaskCompletionSource<bool> result = new TaskCompletionSource<bool>();
-            result.SetResult(true);
-            return result.Task;
+            return Task.WhenAll(registrations);
         }
 
         public TProxy GetCalleeProxy<TProxy>() where TProxy : class

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -6,6 +7,7 @@ using WampSharp.Tests.Wampv2.Integration.RpcProxies;
 using WampSharp.Tests.Wampv2.Integration.RpcServices;
 using WampSharp.Tests.Wampv2.TestHelpers.Integration;
 using WampSharp.V2;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.Tests.Wampv2.Integration
@@ -77,6 +79,36 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             Assert.That(callback.Arguments.Select(x => x.Deserialize<string>()),
                         Is.EquivalentTo(new[] {result}));
+        }
+
+        [TestCase(0, "don't ask folly questions;)", "wamp.error.runtime_error")]
+        [TestCase(1, "The square root of a negative number is non real", "wamp.error.runtime_error")]
+        [TestCase(2, null)]
+        public async void ErrorsService(int number, string exceptionMessage, string errorUri)
+        {
+            WampPlayground playground = new WampPlayground();
+
+            var channel = await SetupService<ErrorsService>(playground);
+
+            IErrorsService proxy =
+                channel.RealmProxy.Services.GetCalleeProxy<IErrorsService>();
+
+            Task<int> result = proxy.SqrtAsync(number);
+
+            if (exceptionMessage != null)
+            {
+                AggregateException exception = result.Exception;
+                Exception actualException = exception.InnerException;
+                Assert.That(actualException, Is.TypeOf<WampException>());
+                WampException wampException = actualException as WampException;
+                
+                Assert.That(wampException.Arguments, 
+                    Is.EquivalentTo(new string[]{exceptionMessage}));
+
+                Assert.That(wampException.ErrorUri, Is.EqualTo(errorUri));
+            }
+
+            Assert.That(result, Is.EqualTo(5));
         }
 
         private static async Task<IWampChannel> SetupService<TService>(WampPlayground playground)
