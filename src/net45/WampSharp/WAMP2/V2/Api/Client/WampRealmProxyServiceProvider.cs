@@ -38,7 +38,12 @@ namespace WampSharp.V2
                 registrations.Add(task);
             }
 
+#if !NET40
             return Task.WhenAll(registrations);
+#elif
+            // TODO: Implement a framework 4 version.
+            return null;
+#endif
         }
 
         public TProxy GetCalleeProxy<TProxy>() where TProxy : class
