@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !NET40
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -139,3 +141,5 @@ Parameter name: x", "wamp.error.runtime_error")]
         }
     }
 }
+
+#endif
