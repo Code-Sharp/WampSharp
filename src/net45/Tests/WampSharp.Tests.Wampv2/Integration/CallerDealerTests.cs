@@ -81,9 +81,10 @@ namespace WampSharp.Tests.Wampv2.Integration
                         Is.EquivalentTo(new[] {result}));
         }
 
+        [TestCase(-2, @"The square root of a negative number is non real
+Parameter name: x", "wamp.error.runtime_error")]
         [TestCase(0, "don't ask folly questions;)", "wamp.error.runtime_error")]
-        [TestCase(1, "The square root of a negative number is non real", "wamp.error.runtime_error")]
-        [TestCase(2, null)]
+        [TestCase(2, null, null)]
         public async void ErrorsService(int number, string exceptionMessage, string errorUri)
         {
             WampPlayground playground = new WampPlayground();
@@ -95,20 +96,24 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             Task<int> result = proxy.SqrtAsync(number);
 
-            if (exceptionMessage != null)
+            if (exceptionMessage == null)
+            {
+                Assert.That(result.Exception, Is.Null);
+                Assert.That(result.IsCompleted, Is.True);
+            }
+            else
             {
                 AggregateException exception = result.Exception;
                 Exception actualException = exception.InnerException;
                 Assert.That(actualException, Is.TypeOf<WampException>());
                 WampException wampException = actualException as WampException;
-                
-                Assert.That(wampException.Arguments, 
-                    Is.EquivalentTo(new string[]{exceptionMessage}));
+
+                Assert.That(wampException.Arguments,
+                            Is.EquivalentTo(new[] {playground.Binding.Formatter.Serialize(exceptionMessage)})
+                              .Using(playground.EqualityComparer));
 
                 Assert.That(wampException.ErrorUri, Is.EqualTo(errorUri));
             }
-
-            Assert.That(result, Is.EqualTo(5));
         }
 
         private static async Task<IWampChannel> SetupService<TService>(WampPlayground playground)
