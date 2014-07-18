@@ -7,6 +7,7 @@ using WampSharp.Tests.TestHelpers.Integration;
 
 namespace WampSharp.Tests.Api
 {
+
     [TestFixture]
     public class PubSubTests
     {
@@ -43,6 +44,20 @@ namespace WampSharp.Tests.Api
             topic.OnNext(value);
 
             Assert.That(@event, Is.EqualTo(value));
+        }
+
+        [Test]
+        public void OpenWillNotBlockOnConnectionLost()
+        {
+            var wampChannelFactory = new WampChannelFactory<MockRaw>(new MockRawFormatter());
+            var mockControlledWampConnection = new MockControlledWampConnection<MockRaw>();
+            
+            var wampChannel = wampChannelFactory.CreateChannel(mockControlledWampConnection);
+            var openAsync = wampChannel.OpenAsync();
+
+            Assert.IsFalse(openAsync.IsCompleted);
+            mockControlledWampConnection.OnCompleted();
+            Assert.IsTrue(openAsync.IsCompleted);
         }
     }
 }

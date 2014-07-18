@@ -105,6 +105,9 @@
     <Compile Include="..\..\WampSharp.Tests\MockConnection.cs">
       <Link>MockConnection.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Tests\MockControlledWampConnection.cs">
+      <Link>MockControlledWampConnection.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Tests\MockListener.cs">
       <Link>MockListener.cs</Link>
     </Compile>
