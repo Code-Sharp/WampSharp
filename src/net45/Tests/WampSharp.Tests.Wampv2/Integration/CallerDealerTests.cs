@@ -1,4 +1,4 @@
-﻿#if NET45
+﻿#if !NET40
 
 using System;
 using System.Collections.Generic;
