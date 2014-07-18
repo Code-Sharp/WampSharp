@@ -40,7 +40,7 @@ namespace WampSharp.V2
 
 #if !NET40
             return Task.WhenAll(registrations);
-#elif
+#else
             // TODO: Implement a framework 4 version.
             return null;
 #endif
