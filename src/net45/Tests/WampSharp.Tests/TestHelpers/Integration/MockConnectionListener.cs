@@ -25,8 +25,8 @@ namespace WampSharp.Tests.TestHelpers.Integration
             mSubject.OnNext(connection);
 
             // Yuck
-            MockConnection<TMessage>.DirectedConnection casted = connection as MockConnection<TMessage>.DirectedConnection;
-            casted.RaiseConnectionOpen();
+            IControlledWampConnection<TMessage> casted = connection as IControlledWampConnection<TMessage>;
+            casted.Connect();
         }
 
         private class ListenerControlledConnection : IControlledWampConnection<TMessage>
@@ -44,9 +44,7 @@ namespace WampSharp.Tests.TestHelpers.Integration
             {
                 mListener.OnNewConnection(mConnection.SideBToSideA);
 
-                // Yuck2!
-                ((MockConnection<TMessage>.DirectedConnection)mConnection.SideAToSideB)
-                    .RaiseConnectionOpen();
+                mConnection.SideAToSideB.Connect();
             }
 
             public void Dispose()

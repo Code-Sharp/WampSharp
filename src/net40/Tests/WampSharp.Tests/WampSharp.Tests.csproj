@@ -192,6 +192,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\TestHelpers\Integration\MockConnectionListener.cs">
       <Link>TestHelpers\Integration\MockConnectionListener.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\TestHelpers\Integration\WampClientPlayground.cs">
+      <Link>TestHelpers\Integration\WampClientPlayground.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\TestHelpers\Integration\WampPlayground.cs">
       <Link>TestHelpers\Integration\WampPlayground.cs</Link>
     </Compile>

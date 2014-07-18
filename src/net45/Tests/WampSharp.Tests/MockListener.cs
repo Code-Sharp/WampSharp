@@ -19,11 +19,11 @@ namespace WampSharp.Tests
             mSubject.OnNext(value);
 
             // Yuck
-            MockConnection<TMessage>.DirectedConnection casted = value as MockConnection<TMessage>.DirectedConnection;
+            IControlledWampConnection<TMessage> casted = value as IControlledWampConnection<TMessage>;
             
             if (casted != null)
             {
-                casted.RaiseConnectionOpen();                
+                casted.Connect();                
             }
         }
 

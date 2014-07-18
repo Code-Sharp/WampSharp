@@ -59,6 +59,8 @@
   <ItemGroup>
     <Compile Include="Binding\MockBinding.cs" />
     <Compile Include="Binding\MockWampMessage.cs" />
+    <Compile Include="Caller\CallerTest.cs" />
+    <Compile Include="Caller\CallerRawTests.cs" />
     <Compile Include="Integration\CallerDealerTests.cs" />
     <Compile Include="Integration\MockRawCallback.cs" />
     <Compile Include="Integration\RpcProxies\IArgumentsService.cs" />

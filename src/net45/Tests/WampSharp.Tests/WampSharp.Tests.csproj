@@ -108,6 +108,7 @@
     <Compile Include="Rpc\WampRpcClientFactoryTests.cs" />
     <Compile Include="Rpc\WampRpcClientHandlerTests.cs" />
     <Compile Include="TestHelpers\Integration\MockConnectionListener.cs" />
+    <Compile Include="TestHelpers\Integration\WampClientPlayground.cs" />
     <Compile Include="TestHelpers\Integration\WampPlayground.cs" />
     <Compile Include="TestHelpers\MockRawComparer.cs" />
     <Compile Include="Proxy\Helpers\MockSessionGuidGenerator.cs" />
