@@ -83,8 +83,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                         Is.EquivalentTo(new[] {result}));
         }
 
-        [TestCase(-2, @"The square root of a negative number is non real
-Parameter name: x", "wamp.error.runtime_error")]
+        [TestCase(-2, "The square root of a negative number is non real\r\nParameter name: x", "wamp.error.runtime_error")]
         [TestCase(0, "don't ask folly questions;)", "wamp.error.runtime_error")]
         [TestCase(2, null, null)]
         public async void ErrorsService(int number, string exceptionMessage, string errorUri)
