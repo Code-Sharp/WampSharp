@@ -21,7 +21,7 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
                 if (x < 0)
                 {
                     // Math.Sqrt doesn't throw exceptions for negative numbers.
-                    throw new ArgumentException("The square root of a negative number is non real", "x");
+                    throw new WampRpcRuntimeException("The square root of a negative number is non real", "x");
                 }
                 else
                 {
