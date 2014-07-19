@@ -34,7 +34,7 @@ namespace WampSharp.V2.Rpc
         public RpcParameter(string name, Type type, object defaultValue, bool hasDefaultValue, int position)
         {
             mName = name;
-            mType = StripByRef(type);
+            mType = type.StripByRef();
             mHasDefaultValue = hasDefaultValue;
 
             if (hasDefaultValue)
@@ -50,16 +50,6 @@ namespace WampSharp.V2.Rpc
             parameter.Name, parameter.ParameterType, parameter.DefaultValue, parameter.HasDefaultValue(),
             parameter.Position)
         {
-        }
-
-        private Type StripByRef(Type type)
-        {
-            if (type.IsByRef)
-            {
-                return type.GetElementType();
-            }
-
-            return type;
         }
 
         public string Name

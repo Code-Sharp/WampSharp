@@ -53,6 +53,18 @@ namespace WampSharp.Core.Utilities
             return returnType;
         }
 
+        public static bool HasReturnValue(this MethodInfo method)
+        {
+            Type returnType = method.ReturnType;
+
+            if (returnType == typeof(void) || returnType == typeof(Task))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Casts a <see cref="Task"/> to a Task of type Task{object}.
         /// </summary>

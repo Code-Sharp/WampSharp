@@ -548,6 +548,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.Sync.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.Sync.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs</Link>
     </Compile>
@@ -760,6 +763,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\OperationExtractor.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\OperationExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\TypeExtensions.cs">
+      <Link>WAMP2\V2\Rpc\Callee\Reflection\TypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs</Link>
@@ -1097,6 +1103,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.Async.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.Async.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

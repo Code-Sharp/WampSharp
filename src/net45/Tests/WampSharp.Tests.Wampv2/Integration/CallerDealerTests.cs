@@ -117,6 +117,56 @@ namespace WampSharp.Tests.Wampv2.Integration
             }
         }
 
+        [Test]
+        public async void ArgumentsOrders()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            var channel = await SetupService<ArgumentsService>(playground);
+
+            IArgumentsService proxy =
+                channel.RealmProxy.Services.GetCalleeProxy<IArgumentsService>();
+
+            string[] orders = 
+                proxy.Orders("Book", 3);
+
+            Assert.That(orders, Is.EquivalentTo(new[] {"Product 0", "Product 1", "Product 2"}));
+        }
+
+        [Test]
+        public async void ComplexServiceAddComplex()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            var channel = await SetupService<ComplexResultService>(playground);
+
+            IComplexResultService proxy =
+                channel.RealmProxy.Services.GetCalleeProxy<IComplexResultService>();
+
+            int c;
+            int ci;
+            proxy.AddComplex(2, 3, 4, 5, out c, out ci);
+            
+            Assert.That(c, Is.EqualTo(6));
+            Assert.That(ci, Is.EqualTo(8));
+        }
+
+        [Test]
+        public async void ComplexServiceSplitName()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            var channel = await SetupService<ComplexResultService>(playground);
+
+            IComplexResultService proxy =
+                channel.RealmProxy.Services.GetCalleeProxy<IComplexResultService>();
+
+            string[] splitName = proxy.SplitName("Homer Simpson");
+
+            Assert.That(splitName[0], Is.EqualTo("Homer"));
+            Assert.That(splitName[1], Is.EqualTo("Simpson"));
+        }
+
         private static async Task<IWampChannel> SetupService<TService>(WampPlayground playground)
             where TService : new()
         {

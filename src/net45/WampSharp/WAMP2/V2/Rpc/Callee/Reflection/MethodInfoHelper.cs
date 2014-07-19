@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Serialization;
@@ -7,12 +8,14 @@ namespace WampSharp.V2.Rpc
 {
     internal class MethodInfoHelper
     {
+        private readonly MethodInfo mMethod;
         private readonly ParameterInfo[] mOutOrRefValues;
         private readonly int[] mInputValues;
         private readonly int mLength;
 
         public MethodInfoHelper(MethodInfo method)
         {
+            mMethod = method;
             ParameterInfo[] parameters = method.GetParameters();
 
             mLength = parameters.Length;
@@ -27,6 +30,11 @@ namespace WampSharp.V2.Rpc
                     .Where(x => x.IsOut ||
                                 x.ParameterType.IsByRef)
                     .ToArray();
+        }
+
+        public MethodInfo Method
+        {
+            get { return mMethod; }
         }
 
         public object[] GetArguments(object[] inputs)
@@ -87,8 +95,10 @@ namespace WampSharp.V2.Rpc
                     }
                     else
                     {
+                        Type parameterType = parameter.ParameterType.StripByRef();
+
                         object deserializedValue =
-                            formatter.Deserialize(parameter.ParameterType, currentValue);
+                            formatter.Deserialize(parameterType, currentValue);
 
                         arguments[parameter.Position] = deserializedValue;
                     }
