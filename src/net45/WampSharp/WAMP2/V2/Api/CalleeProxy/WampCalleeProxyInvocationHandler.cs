@@ -21,10 +21,9 @@ namespace WampSharp.V2.CalleeProxy
         {
             Type unwrapped = TaskExtensions.UnwrapReturnType(method.ReturnType);
 
-            // TODO: Add out/ref support. (It's too hard right now)
             SyncCallback callback = InnerInvokeSync(method, arguments, unwrapped);
 
-            callback.Wait(Timeout.InfiniteTimeSpan);
+            callback.Wait(Timeout.Infinite);
 
             WampException exception = callback.Exception;
 

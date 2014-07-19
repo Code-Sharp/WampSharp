@@ -23,9 +23,9 @@ namespace WampSharp.V2.CalleeProxy
                 get { return mException; }
             }
 
-            public void Wait(TimeSpan timeSpan)
+            public void Wait(int timeout)
             {
-                mResetEvent.WaitOne(timeSpan);
+                mResetEvent.WaitOne(timeout);
             }
 
             protected void ResultArrived()
