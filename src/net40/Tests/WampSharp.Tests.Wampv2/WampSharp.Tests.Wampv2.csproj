@@ -63,11 +63,29 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Binding\MockWampMessage.cs">
       <Link>Binding\MockWampMessage.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Caller\CallerTest.cs">
-      <Link>Caller\CallerTest.cs</Link>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\CalleeTest.cs">
+      <Link>Client\Callee\CalleeTest.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Caller\CallerRawTests.cs">
-      <Link>Caller\CallerRawTests.cs</Link>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\IInvocationCalleeeTest.cs">
+      <Link>Client\Callee\IInvocationCalleeeTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\InvocationCalleeeTest.cs">
+      <Link>Client\Callee\InvocationCalleeeTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\IRegistrationCalleeTest.cs">
+      <Link>Client\Callee\IRegistrationCalleeTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\RawInvocationCalleeTests.cs">
+      <Link>Client\Callee\RawInvocationCalleeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Caller\CallerTest.cs">
+      <Link>Client\Caller\CallerTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Caller\CallerRawTests.cs">
+      <Link>Client\Caller\CallerRawTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\RawTest.cs">
+      <Link>Client\RawTest.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\CallerDealerTests.cs">
       <Link>Integration\CallerDealerTests.cs</Link>

@@ -157,34 +157,34 @@ namespace WampSharp.V2.Rpc
 
             public void Invoke<TOther>(IWampRawRpcOperationCallback caller,
                                        IWampFormatter<TOther> formatter,
-                                       TOther options,
+                                       TOther details,
                                        TOther[] arguments)
             {
-                this.Invoke(caller, options, arguments.Cast<object>().ToArray());
+                this.Invoke(caller, details, arguments.Cast<object>().ToArray());
             }
 
             public void Invoke<TOther>(IWampRawRpcOperationCallback caller,
                                        IWampFormatter<TOther> formatter,
-                                       TOther options,
+                                       TOther details,
                                        TOther[] arguments,
                                        TOther argumentsKeywords)
             {
-                this.Invoke(caller, options, arguments.Cast<object>().ToArray(), argumentsKeywords);
+                this.Invoke(caller, details, arguments.Cast<object>().ToArray(), argumentsKeywords);
             }
 
-            public void Invoke(IWampRawRpcOperationCallback caller, object options)
+            public void Invoke(IWampRawRpcOperationCallback caller, object details)
             {
-                InvokePattern(caller, () => InnerInvoke(caller, options));
+                InvokePattern(caller, () => InnerInvoke(caller, details));
             }
 
-            public void Invoke(IWampRawRpcOperationCallback caller, object options, object[] arguments)
+            public void Invoke(IWampRawRpcOperationCallback caller, object details, object[] arguments)
             {
-                InvokePattern(caller, () => InnerInvoke(caller, options, arguments));
+                InvokePattern(caller, () => InnerInvoke(caller, details, arguments));
             }
 
-            public void Invoke(IWampRawRpcOperationCallback caller, object options, object[] arguments, object argumentsKeywords)
+            public void Invoke(IWampRawRpcOperationCallback caller, object details, object[] arguments, object argumentsKeywords)
             {
-                InvokePattern(caller, () => InnerInvoke(caller, options, arguments, argumentsKeywords));
+                InvokePattern(caller, () => InnerInvoke(caller, details, arguments, argumentsKeywords));
             }
 
             private void InnerInvoke(IWampRawRpcOperationCallback caller, object options)

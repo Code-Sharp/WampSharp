@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace WampSharp.Tests.Wampv2.Caller
+namespace WampSharp.Tests.Wampv2.Client.Caller
 {
     [TestFixture]
     public class CallerRawTests

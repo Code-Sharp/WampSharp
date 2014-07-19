@@ -5,7 +5,7 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.V2.Core
 {
-    internal class WampObjectFormatter : IWampFormatter<object>
+    public class WampObjectFormatter : IWampFormatter<object>
     {
         public static readonly IWampFormatter<object> Value = new WampObjectFormatter();
 

@@ -9,19 +9,19 @@ namespace WampSharp.V2.Rpc
 
         void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage details);
 
-        void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments);
+        void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage details, TMessage[] arguments);
 
-        void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, TMessage argumentsKeywords);
+        void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage details, TMessage[] arguments, TMessage argumentsKeywords);
     }
 
     public interface IWampRpcOperation<TMessage>
     {
         string Procedure { get; }
 
-        void Invoke(IWampRawRpcOperationCallback caller, TMessage options);
+        void Invoke(IWampRawRpcOperationCallback caller, TMessage details);
 
-        void Invoke(IWampRawRpcOperationCallback caller, TMessage options, TMessage[] arguments);
+        void Invoke(IWampRawRpcOperationCallback caller, TMessage details, TMessage[] arguments);
 
-        void Invoke(IWampRawRpcOperationCallback caller, TMessage options, TMessage[] arguments, TMessage argumentsKeywords);         
+        void Invoke(IWampRawRpcOperationCallback caller, TMessage details, TMessage[] arguments, TMessage argumentsKeywords);         
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using WampSharp.Binding;
 using WampSharp.Core.Serialization;
@@ -13,7 +10,7 @@ using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
-namespace WampSharp.Tests.Wampv2.Caller
+namespace WampSharp.Tests.Wampv2.Client.Caller
 {
     public class CallerTest : CallerTest<JToken>
     {
@@ -23,28 +20,17 @@ namespace WampSharp.Tests.Wampv2.Caller
         }
     }
 
-    public class CallerTest<TMessage>
+    public class CallerTest<TMessage> : RawTest<TMessage>
     {
-        private readonly IWampBinding<TMessage> mBinding;
         private object[] mExpectedCallParameters;
         private object[] mExpectedResultParameters;
         private object[] mExpectedErrorParameters;
         private Action<IWampRpcOperationCatalogProxy, IWampRawRpcOperationCallback> mCallAction;
-        private string mTestName;
         private readonly ServerMock mServerMock = new ServerMock();
         private readonly CallbackMock mCallbackMock = new CallbackMock();
-        private readonly IEqualityComparer<TMessage> mEqualityComparer;
 
-        public CallerTest(IWampBinding<TMessage> binding, IEqualityComparer<TMessage> equalityComparer)
+        public CallerTest(IWampBinding<TMessage> binding, IEqualityComparer<TMessage> equalityComparer) : base(binding, equalityComparer)
         {
-            mBinding = binding;
-            mEqualityComparer = equalityComparer;
-        }
-
-        public string TestName
-        {
-            get { return mTestName; }
-            set { mTestName = value; }
         }
 
         public void SetupCall(object options, string procedure)
@@ -101,7 +87,7 @@ namespace WampSharp.Tests.Wampv2.Caller
             mServerMock.SetCallerCallback((caller, requestId) => caller.CallError(requestId, details, error, arguments, argumentsKeywords));
         }
 
-        public void Act()
+        public override void Act()
         {
             WampClientPlayground playground =
                 new WampClientPlayground();
@@ -114,7 +100,7 @@ namespace WampSharp.Tests.Wampv2.Caller
             mCallAction(channel.RealmProxy.RpcCatalog, mCallbackMock);
         }
 
-        public void Assert()
+        public override void Assert()
         {
             CompareParameters(mExpectedCallParameters, mServerMock.ActualCallParamters, "call");                
 
@@ -127,36 +113,6 @@ namespace WampSharp.Tests.Wampv2.Caller
             {
                 CompareParameters(mExpectedResultParameters, mCallbackMock.ActualResult, "result");
             }
-        }
-
-        private void CompareParameters(object[] expected, object[] actual, string parameterType)
-        {
-            NUnit.Framework.Assert.That
-                (expected.Select(x => SerializeArgument(x)),
-                 Is.EquivalentTo(actual)
-                   .Using(new ArgumentComparer(mEqualityComparer)),
-                 string.Format("Expected {0} parameters were different than actual {0} parameters", parameterType));
-        }
-
-        private object SerializeArgument(object x)
-        {
-            if (x is string || x is long)
-            {
-                return x;
-            }
-
-            IWampFormatter<TMessage> formatter = mBinding.Formatter;
-            object[] array = x as object[];
-            
-            if (array != null)
-            {
-                TMessage[] arguments = 
-                    array.Select(y => formatter.Serialize(y)).ToArray();
-                
-                return arguments;
-            }
-
-            return formatter.Serialize(x);
         }
 
         private class ServerMock : IWampServer<TMessage>
@@ -379,37 +335,6 @@ namespace WampSharp.Tests.Wampv2.Caller
                                          TMessage1 argumentsKeywords)
             {
                 ActualError = new object[] { details, error, arguments, argumentsKeywords };
-            }
-        }
-
-        private class ArgumentComparer : IEqualityComparer
-        {
-            private readonly IEqualityComparer<TMessage> mEqualityComparer;
-
-            public ArgumentComparer(IEqualityComparer<TMessage> equalityComparer)
-            {
-                mEqualityComparer = equalityComparer;
-            }
-
-            public bool Equals(object x, object y)
-            {
-                if (x is TMessage[] && y is TMessage[])
-                {
-                    IEnumerable<TMessage> first = x as IEnumerable<TMessage>;
-                    IEnumerable<TMessage> second = y as IEnumerable<TMessage>;
-                    return first.SequenceEqual(second, mEqualityComparer);
-                }
-                if (x is TMessage && y is TMessage)
-                {
-                    return mEqualityComparer.Equals((TMessage)x, (TMessage)y);                    
-                }
-
-                return false;
-            }
-
-            public int GetHashCode(object obj)
-            {
-                return 0;
             }
         }
     }

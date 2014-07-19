@@ -55,14 +55,14 @@ namespace WampSharp.V2.Rpc
             InnerInvoke(caller, formatter, details, null, null);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage details, TMessage[] arguments)
         {
-            InnerInvoke(caller, formatter, options, arguments, null);
+            InnerInvoke(caller, formatter, details, arguments, null);
         }
 
         public void Invoke<TMessage>(IWampRawRpcOperationCallback caller,
                                      IWampFormatter<TMessage> formatter,
-                                     TMessage options,
+                                     TMessage details,
                                      TMessage[] arguments,
                                      TMessage argumentsKeywords)
         {
@@ -70,7 +70,7 @@ namespace WampSharp.V2.Rpc
                 formatter.Deserialize<IDictionary<string, TMessage>>
                     (argumentsKeywords);
 
-            InnerInvoke(caller, formatter, options, arguments, nameToParameterValue);
+            InnerInvoke(caller, formatter, details, arguments, nameToParameterValue);
         }
 
         protected void CallResult(IWampRawRpcOperationCallback caller, object result, IDictionary<string, object> outputs)
