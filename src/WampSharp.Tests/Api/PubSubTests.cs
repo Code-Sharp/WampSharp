@@ -4,12 +4,46 @@ using NUnit.Framework;
 using WampSharp.PubSub.Server;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.TestHelpers.Integration;
+using WampSharp.Core.Listener;
+using WampSharp.Core.Message;
 
 namespace WampSharp.Tests.Api
 {
+    using System.Threading.Tasks;
+
     [TestFixture]
     public class PubSubTests
     {
+        private class MockControlledWampConnection<TMessage> : IControlledWampConnection<TMessage>
+        {
+            private readonly Subject<WampMessage<TMessage>> mWampConnection = new Subject<WampMessage<TMessage>>();
+
+            public void OnCompleted()
+            {
+                mWampConnection.OnCompleted();
+            }
+
+            public void OnError(Exception error)
+            {
+                mWampConnection.OnError(error);
+            }
+
+            public void OnNext(WampMessage<TMessage> value)
+            {
+                mWampConnection.OnNext(value);
+            }
+
+            public IDisposable Subscribe(IObserver<WampMessage<TMessage>> observer)
+            {
+                return mWampConnection.Subscribe(observer);
+            }
+
+            public void Connect()
+            {
+                mWampConnection.OnCompleted();
+            }
+        }
+
         [Test]
         public void TopicOnNextCallsSubjectOnNext()
         {
@@ -43,6 +77,18 @@ namespace WampSharp.Tests.Api
             topic.OnNext(value);
 
             Assert.That(@event, Is.EqualTo(value));
+        }
+
+        [Test]
+        public void OpenWillNotBlockOnConnectionLost()
+        {
+            var wampChannelFactory = new WampChannelFactory<MockRaw>(new MockRawFormatter());
+            
+            var wampChannel = wampChannelFactory.CreateChannel(new MockControlledWampConnection<MockRaw>());
+            var startNew = Task.Factory.StartNew(wampChannel.Open);
+            startNew.Wait(100);
+
+            Assert.IsTrue(startNew.IsCompleted);
         }
     }
 }
