@@ -13,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -228,17 +230,20 @@
     <Compile Include="..\..\WampSharp.Tests\TestHelpers\MockRawFormatter.cs">
       <Link>TestHelpers\MockRawFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Tests\MockControlledWampConnection.cs">
+      <Link>MockControlledWampConnection.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WampSharp.Default\WampSharp.Default.csproj">
-      <Project>{6ab75291-d296-457e-88a3-b41b16a1a247}</Project>
+      <Project>{6AB75291-D296-457E-88A3-B41B16A1A247}</Project>
       <Name>WampSharp.Default</Name>
     </ProjectReference>
     <ProjectReference Include="..\WampSharp\WampSharp.csproj">
-      <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>
+      <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>
       <Name>WampSharp</Name>
     </ProjectReference>
   </ItemGroup>
