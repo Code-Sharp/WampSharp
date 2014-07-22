@@ -16,8 +16,13 @@ namespace WampSharp.V2.Rpc
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
 
-        public SyncMethodInfoRpcOperation(object instance, MethodInfo method) :
-            base(GetProcedure(method))
+        public SyncMethodInfoRpcOperation(object instance, MethodInfo method) : 
+            this(instance, method, GetProcedure(method))
+        {
+        }
+
+        public SyncMethodInfoRpcOperation(object instance, MethodInfo method, string procedureName) :
+            base(procedureName)
         {
             mInstance = instance;
             mMethod = method;

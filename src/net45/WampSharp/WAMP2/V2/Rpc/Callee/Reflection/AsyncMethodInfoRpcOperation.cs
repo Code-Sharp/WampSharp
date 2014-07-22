@@ -9,7 +9,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    internal class AsyncMethodInfoRpcOperation : AsyncLocalRpcOperation
+    public class AsyncMethodInfoRpcOperation : AsyncLocalRpcOperation
     {
         private readonly object mInstance;
         private readonly MethodInfo mMethod;
@@ -17,8 +17,13 @@ namespace WampSharp.V2.Rpc
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
 
-        public AsyncMethodInfoRpcOperation(object instance, MethodInfo method) :
-            base(GetProcedure(method))
+        public AsyncMethodInfoRpcOperation(object instance, MethodInfo method) : 
+            this(instance, method, GetProcedure(method))
+        {
+        }
+
+        public AsyncMethodInfoRpcOperation(object instance, MethodInfo method, string procedureName) :
+            base(procedureName)
         {
             mInstance = instance;
             mMethod = method;
