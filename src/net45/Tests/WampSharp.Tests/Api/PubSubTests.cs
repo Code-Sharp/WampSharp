@@ -8,6 +8,7 @@ using WampSharp.V1.PubSub.Server;
 
 namespace WampSharp.Tests.Api
 {
+
     [TestFixture]
     public class PubSubTests
     {

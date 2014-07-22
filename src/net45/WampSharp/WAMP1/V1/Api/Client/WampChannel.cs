@@ -84,10 +84,16 @@ namespace WampSharp.V1
                      x => mConnectionMonitor.ConnectionError -= x)
                           .Select(x => Unit.Default);
 
+            var completedObservable =
+                Observable.FromEventPattern
+                    (x => mConnectionMonitor.ConnectionLost += x,
+                     x => mConnectionMonitor.ConnectionLost -= x)
+                          .Select(x => Unit.Default);
+
             // Combining the observables and propagating the one that reatcs first
             // because we have to complete the task either when a connection is established or
             // an error (i.e. exception) occurs.
-            IObservable<Unit> combined = connectedObservable.Amb(errorObservable);
+            IObservable<Unit> combined = connectedObservable.Amb(errorObservable).Amb(completedObservable);
 
             IObservable<Unit> firstConnectionOrError =
                 combined.Take(1);

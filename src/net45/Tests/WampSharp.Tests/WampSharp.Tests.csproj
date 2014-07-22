@@ -69,6 +69,7 @@
     <Compile Include="Api\PubSubTests.cs" />
     <Compile Include="Api\RpcClientTests.cs" />
     <Compile Include="Api\RpcServerTests.cs" />
+    <Compile Include="Api\WampChannelTests.cs" />
     <Compile Include="Cra\CraTests.cs" />
     <Compile Include="Cra\Helpers\MockWampCraAuthenticaticationBuilder.cs" />
     <Compile Include="Cra\Helpers\MockWampCraAuthenticator.cs" />
