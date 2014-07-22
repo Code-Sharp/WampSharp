@@ -75,6 +75,7 @@
     <Compile Include="Dispatch\WampRequestMapperTests.cs" />
     <Compile Include="ListenerTests.cs" />
     <Compile Include="MockConnection.cs" />
+    <Compile Include="MockControlledWampConnection.cs" />
     <Compile Include="MockListener.cs" />
     <Compile Include="Rpc\Helpers\MockRpcCatalog.cs" />
     <Compile Include="Rpc\Helpers\MockRpcMethod.cs" />
