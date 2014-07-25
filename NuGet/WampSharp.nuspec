@@ -5,7 +5,7 @@
     <authors>WampSharp</authors>
     <owners />
     <dependencies>
-      <dependency id="rx-main" version="[2.2.4]" />
+      <dependency id="rx-main" version="[2.2.5]" />
       <dependency id="Castle.Core" version="[3.3.0]" />
     </dependencies>
     <id>WampSharp</id>

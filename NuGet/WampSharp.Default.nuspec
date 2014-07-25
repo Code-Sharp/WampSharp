@@ -6,10 +6,10 @@
     <owners />
     <dependencies>
       <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="Fleck" version="[0.9.8.25]" />
+      <dependency id="Fleck" version="[0.10.0.27]" />
       <dependency id="Newtonsoft.Json" version="[6.0.3]" />
-      <dependency id="WebSocket4Net" version="[0.9]" />
-      <dependency id="MsgPack.Cli" version="[0.5.0-alpha1]" />
+      <dependency id="WebSocket4Net" version="[0.10]" />
+      <dependency id="MsgPack.Cli" version="[0.5.0]" />
     </dependencies>
     <id>WampSharp.Default</id>
     <title>WampSharp default binding</title>
