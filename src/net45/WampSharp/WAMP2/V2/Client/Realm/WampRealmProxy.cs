@@ -1,4 +1,5 @@
 ﻿using System;
+using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
@@ -61,5 +62,6 @@ namespace WampSharp.V2.Client
 
         public event EventHandler<WampSessionEventArgs> ConnectionEstablished;
         public event EventHandler<WampSessionCloseEventArgs> ConnectionBroken;
+        public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
     }
 }

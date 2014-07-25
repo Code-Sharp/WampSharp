@@ -1,6 +1,7 @@
 ﻿using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
+using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Core.Proxy
 {
@@ -14,6 +15,8 @@ namespace WampSharp.V2.Core.Proxy
             mBinding = binding;
             mSession = session;
         }
+
+        public bool OrderlyDisengagement { get; set; }
 
         public long Session
         {
@@ -31,11 +34,7 @@ namespace WampSharp.V2.Core.Proxy
             }
         }
 
-        public IWampRealm<TMessage> Realm
-        {
-            get; 
-            set;
-        }
+        public IWampBindedRealm<TMessage> Realm { get; set; }
 
         public IWampBinding<TMessage> Binding
         {

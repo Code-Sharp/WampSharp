@@ -75,11 +75,16 @@ namespace WampSharp.Core.Listener
 
         protected virtual void OnCloseConnection(IWampConnection<TMessage> connection)
         {
-            IDisposable client = ClientContainer.GetClient(connection) as IDisposable;
+            TClient client;
 
-            if (client != null)
+            if (ClientContainer.TryGetClient(connection, out client))
             {
-                client.Dispose();
+                IDisposable casted = client as IDisposable;
+
+                if (casted != null)
+                {
+                    casted.Dispose();
+                }                
             }
         }
 

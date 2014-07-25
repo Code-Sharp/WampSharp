@@ -172,7 +172,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             const string realmName = "realm1";
 
-            IWampRealm realm =
+            IWampHostedRealm realm =
                 playground.Host.RealmContainer.GetRealmByName(realmName);
 
             TService service = new TService();

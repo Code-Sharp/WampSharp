@@ -21,5 +21,10 @@ namespace WampSharp.Tests.Proxy.Helpers
         {
             throw new System.NotImplementedException();
         }
+
+        public bool TryGetClient(IWampConnection<MockRaw> connection, out IWampClient client)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

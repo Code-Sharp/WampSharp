@@ -21,7 +21,7 @@ namespace WampSharp.V2.Adapters
         private readonly IWampRealm mRealm;
         private readonly DefaultWampServer<TMessage> mServer;
 
-        public Wamp1BindingHost(IWampRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
+        public Wamp1BindingHost(IWampHostedRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter)
         {
             mRealm = realmContainer.GetRealmByName("WAMP1");
 

@@ -19,7 +19,7 @@ namespace WampSharp.V1
         {
         }
 
-        public override IWampBindingHost CreateHost(IWampRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener)
+        public override IWampBindingHost CreateHost(IWampHostedRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener)
         {
             return new Wamp1BindingHost<TMessage>(realmContainer, connectionListener, this.Formatter);
         }

@@ -54,6 +54,11 @@ namespace WampSharp.Core.Listener
             mConnectionToClient.TryRemove(connection, out client);
         }
 
+        public bool TryGetClient(IWampConnection<TMessage> connection, out TClient client)
+        {
+            return mConnectionToClient.TryGetValue(connection, out client);
+        }
+
         #endregion
     }
 }

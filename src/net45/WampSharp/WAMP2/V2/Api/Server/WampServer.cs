@@ -144,6 +144,11 @@ namespace WampSharp.V2
             mSession.OnNewClient(client);
         }
 
+        public void OnClientDisconnect(IWampClient<TMessage> client)
+        {
+            mSession.OnClientDisconnect(client);
+        }
+
         public void Missing(IWampClient client, WampMessage<TMessage> rawMessage)
         {
         }

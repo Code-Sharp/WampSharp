@@ -2,22 +2,37 @@
 using System.Collections.Generic;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
+using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Session
 {
     internal class WampSessionServer<TMessage> : IWampSessionServer<TMessage>
     {
-        private IWampRealmContainer<TMessage> mRealmContainer;
+        private IWampBindedRealmContainer<TMessage> mRealmContainer;
 
         public void OnNewClient(IWampClient<TMessage> client)
         {
         }
 
+        public void OnClientDisconnect(IWampClient<TMessage> client)
+        {
+            if (!client.OrderlyDisengagement)
+            {
+                client.Realm.SessionLost(client.Session);
+            }
+        }
+
         public void Hello(IWampSessionClient client, string realm, TMessage details)
         {
             IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
-            wampClient.Realm = mRealmContainer.GetRealmByName(realm);
             
+            IWampBindedRealm<TMessage> bindedRealm = 
+                mRealmContainer.GetRealmByName(realm);
+            
+            wampClient.Realm = bindedRealm;
+
+            bindedRealm.Hello(wampClient.Session, details);
+
             // TODO: Send real details to the client.
             client.Welcome(wampClient.Session, new Dictionary<string,object>()
                                                    {
@@ -32,6 +47,8 @@ namespace WampSharp.V2.Session
 
         public void Abort(IWampSessionClient client, TMessage details, string reason)
         {
+            IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
+            wampClient.Realm.Abort(wampClient.Session, details, reason);
         }
 
         public void Authenticate(IWampSessionClient client, string signature, TMessage extra)
@@ -43,6 +60,10 @@ namespace WampSharp.V2.Session
             using (IDisposable disposable = client as IDisposable)
             {
                 client.Goodbye(details, WampErrors.GoodbyeAndOut);
+
+                IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
+                wampClient.OrderlyDisengagement = true;
+                wampClient.Realm.Goodbye(wampClient.Session, details, reason);
             }
         }
 
@@ -54,7 +75,7 @@ namespace WampSharp.V2.Session
         {
         }
 
-        public IWampRealmContainer<TMessage> RealmContainer
+        public IWampBindedRealmContainer<TMessage> RealmContainer
         {
             get
             {

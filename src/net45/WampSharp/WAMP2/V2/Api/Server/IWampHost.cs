@@ -8,7 +8,7 @@ namespace WampSharp.V2
 {
     public interface IWampHost : IDisposable
     {
-        IWampRealmContainer RealmContainer { get; }
+        IWampHostedRealmContainer RealmContainer { get; }
 
         void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> binding);
 

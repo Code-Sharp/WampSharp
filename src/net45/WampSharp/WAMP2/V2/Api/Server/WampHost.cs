@@ -12,7 +12,7 @@ namespace WampSharp.V2
         private readonly IDictionary<IWampBinding, IWampBindingHost> mBindingToHost =
             new Dictionary<IWampBinding, IWampBindingHost>();
 
-        private readonly IWampRealmContainer mRealmContainer;
+        private readonly IWampHostedRealmContainer mRealmContainer;
 
         private readonly ICollection<WampTransportDefinition> mTransportDefinitions =
             new List<WampTransportDefinition>();
@@ -23,10 +23,10 @@ namespace WampSharp.V2
 
         public WampHost(IWampRealmContainer realmContainer)
         {
-            mRealmContainer = realmContainer;
+            mRealmContainer = new HostedRealmContainer(realmContainer);
         }
 
-        public IWampRealmContainer RealmContainer
+        public IWampHostedRealmContainer RealmContainer
         {
             get { return mRealmContainer; }
         }

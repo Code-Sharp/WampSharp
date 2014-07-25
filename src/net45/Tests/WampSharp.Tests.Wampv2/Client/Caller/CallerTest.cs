@@ -177,6 +177,11 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
                 throw new System.NotImplementedException();
             }
 
+            public void OnClientDisconnect(IWampClient<TMessage> client)
+            {
+                throw new NotImplementedException();
+            }
+
             public void Register(IWampCallee callee, long requestId, TMessage options, string procedure)
             {
                 throw new System.NotImplementedException();

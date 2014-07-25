@@ -3,6 +3,7 @@
     public enum SessionCloseType
     {
         Abort,
-        Goodbye
+        Goodbye,
+        Disconnection
     }
 }

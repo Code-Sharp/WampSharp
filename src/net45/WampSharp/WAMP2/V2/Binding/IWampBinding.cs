@@ -36,7 +36,7 @@ namespace WampSharp.V2.Binding
         /// <param name="connectionListener"></param>
         /// <returns></returns>
         /// TODO: get rid of this?
-        IWampBindingHost CreateHost(IWampRealmContainer realmContainer,
+        IWampBindingHost CreateHost(IWampHostedRealmContainer realmContainer,
                                     IWampConnectionListener<TMessage> connectionListener);
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace WampSharp.Core.Listener
 {
@@ -27,5 +28,13 @@ namespace WampSharp.Core.Listener
         /// </summary>
         /// <param name="connection">The given client's connection.</param>
         void RemoveClient(IWampConnection<TMessage> connection);
+
+        /// <summary>
+        /// Gets a client proxy for the given <paramref name="connection"/> if it
+        /// is present.
+        /// </summary>
+        /// <param name="connection">The given connection.</param>
+        /// <returns>A client proxy.</returns>
+        bool TryGetClient(IWampConnection<TMessage> connection, out TClient client);
     }
 }

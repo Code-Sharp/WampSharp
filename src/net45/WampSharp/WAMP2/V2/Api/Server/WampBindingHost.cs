@@ -11,6 +11,7 @@ using WampSharp.V2.Core.Dispatch;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Core.Listener.ClientBuilder;
 using WampSharp.V2.Realm;
+using WampSharp.V2.Realm.Binded;
 using WampSharp.V2.Session;
 
 namespace WampSharp.V2
@@ -19,9 +20,9 @@ namespace WampSharp.V2
     {
         private WampListener<TMessage> mListener;
         private readonly IWampSessionServer<TMessage> mSession;
-        private readonly WampRealmContainer<TMessage> mRealmContainer;
+        private readonly WampBindedRealmContainer<TMessage> mRealmContainer;
 
-        public WampBindingHost(IWampRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
+        public WampBindingHost(IWampHostedRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
         {
             WampSessionServer<TMessage> session = new WampSessionServer<TMessage>();
 
@@ -30,7 +31,7 @@ namespace WampSharp.V2
 
             IWampEventSerializer<TMessage> eventSerializer = GetEventSerializer(outgoingRequestSerializer);
 
-            mRealmContainer = new WampRealmContainer<TMessage>(realmContainer, session, eventSerializer, binding);
+            mRealmContainer = new WampBindedRealmContainer<TMessage>(realmContainer, session, eventSerializer, binding);
 
             // TODO: implement the constructor interface pattern.
             session.RealmContainer = mRealmContainer;

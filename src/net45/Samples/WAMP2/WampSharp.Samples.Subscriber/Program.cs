@@ -55,7 +55,7 @@ namespace WampSharp.Samples.Subscriber
 
         private static IDisposable ServerCode(WampHost host)
         {
-            IWampRealm realm = host.RealmContainer.GetRealmByName("realm1");
+            IWampHostedRealm realm = host.RealmContainer.GetRealmByName("realm1");
 
             IWampTopicContainer topicContainer = realm.TopicContainer;
 

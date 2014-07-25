@@ -1,4 +1,5 @@
 using WampSharp.Core.Contracts;
+using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
@@ -25,5 +26,6 @@ namespace WampSharp.V2.Core.Contracts
 
         // Note: Not a WAMP message
         void OnNewClient(IWampClient<TMessage> client);
+        void OnClientDisconnect(IWampClient<TMessage> client);
     }
 }

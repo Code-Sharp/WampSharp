@@ -40,5 +40,17 @@ namespace WampSharp.V2.Core.Listener
 
             mSessionHandler.OnNewClient(client);
         }
+
+        protected override void OnCloseConnection(IWampConnection<TMessage> connection)
+        {
+            IWampClient<TMessage> client;
+
+            if (ClientContainer.TryGetClient(connection, out client))
+            {
+                mSessionHandler.OnClientDisconnect(client);
+            }
+
+            base.OnCloseConnection(connection);
+        }
     }
 }

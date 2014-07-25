@@ -91,6 +91,11 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 throw new System.NotImplementedException();
             }
 
+            public void OnClientDisconnect(IWampClient<TMessage> client)
+            {
+                throw new NotImplementedException();
+            }
+
             public void Register(IWampCallee callee, long requestId, TMessage options, string procedure)
             {
                 ActualRegistration = new object[] {options, procedure};

@@ -10,10 +10,11 @@ namespace WampSharp.V2.Client
 {
     internal class WampChannel<TMessage> : IWampChannel
     {
-        private readonly IControlledWampConnection<TMessage> mConnection;
+        private IControlledWampConnection<TMessage> mConnection;
         private readonly WampClient<TMessage> mClient;
         private readonly IWampServerProxy mServer;
         private int mConnectCalled;
+        private readonly object mLock = new object();
 
         public WampChannel(IControlledWampConnection<TMessage> connection,
                            WampClient<TMessage> client)
@@ -32,6 +33,7 @@ namespace WampSharp.V2.Client
 
         private void OnConnectionClosed(object sender, EventArgs e)
         {
+            Interlocked.Exchange(ref mConnectCalled, 0);
             mClient.OnConnectionClosed();
         }
 
@@ -62,6 +64,18 @@ namespace WampSharp.V2.Client
             {
                 mConnection.Connect();
                 return mClient.OpenTask;
+            }
+        }
+
+        public void Close()
+        {
+            lock (mLock)
+            {
+                if (mConnection != null)
+                {
+                    mConnection.Dispose();
+                    mConnection = null;
+                }                
             }
         }
     }

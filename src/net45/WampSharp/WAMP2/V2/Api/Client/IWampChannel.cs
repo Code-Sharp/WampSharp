@@ -11,5 +11,7 @@ namespace WampSharp.V2
         IWampRealmProxy RealmProxy { get; }
         
         Task Open();
+
+        void Close();
     }
 }

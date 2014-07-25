@@ -1,5 +1,6 @@
 ﻿using WampSharp.V2.Binding;
 using WampSharp.V2.Realm;
+using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Core.Contracts
 {
@@ -26,6 +27,11 @@ namespace WampSharp.V2.Core.Contracts
     public interface IWampClientProperties<TMessage>
     {
         /// <summary>
+        /// Gets or sets a value indicating whether the connection was closed in an orderly manner
+        /// </summary>
+        bool OrderlyDisengagement { get; set; }
+
+        /// <summary>
         /// Gets the session of the current client. 
         /// </summary>
         long Session { get; }
@@ -33,7 +39,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <summary>
         /// Gets the realm the current client belongs to.
         /// </summary>
-        IWampRealm<TMessage> Realm { get; set; }
+        IWampBindedRealm<TMessage> Realm { get; set; }
 
         // TODO: Maybe get rid of the binding property, nobody needs it
         /// <summary>

@@ -53,7 +53,7 @@ namespace WampSharp.Samples.Caller
         {
             DefaultWampHost host = new DefaultWampHost(serverAddress);
 
-            IWampRealm realm = host.RealmContainer.GetRealmByName("realm1");
+            IWampHostedRealm realm = host.RealmContainer.GetRealmByName("realm1");
 
             host.Open();
 

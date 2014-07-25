@@ -582,6 +582,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\CompositeListener.cs">
       <Link>WAMP2\V2\Api\Server\CompositeListener.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs">
+      <Link>WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\IWampHost.cs">
       <Link>WAMP2\V2\Api\Server\IWampHost.cs</Link>
     </Compile>
@@ -750,6 +753,24 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Realm\WampRealmProxy.cs">
       <Link>WAMP2\V2\Client\Realm\WampRealmProxy.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Hosted\IWampRealmGate.cs">
+      <Link>WAMP2\V2\Realm\Hosted\IWampRealmGate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Hosted\IWampHostedRealm.cs">
+      <Link>WAMP2\V2\Realm\Hosted\IWampHostedRealm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Binded\IWampBindedRealm.cs">
+      <Link>WAMP2\V2\Realm\Binded\IWampBindedRealm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Hosted\IWampHostedRealmContainer.cs">
+      <Link>WAMP2\V2\Realm\Hosted\IWampHostedRealmContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Hosted\WampHostedRealm.cs">
+      <Link>WAMP2\V2\Realm\Hosted\WampHostedRealm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\IWampRealmContainer.cs">
+      <Link>WAMP2\V2\Realm\Interfaces\IWampRealmContainer.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\SessionCloseType.cs">
       <Link>WAMP2\V2\Realm\Interfaces\SessionCloseType.cs</Link>
     </Compile>
@@ -758,6 +779,12 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs">
       <Link>WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\WampRealm.cs">
+      <Link>WAMP2\V2\Realm\WampRealm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\WampRealmContainer.cs">
+      <Link>WAMP2\V2\Realm\WampRealmContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\AsyncMethodInfoRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\AsyncMethodInfoRpcOperation.cs</Link>
@@ -1011,14 +1038,14 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\IWampRealm.cs">
       <Link>WAMP2\V2\Realm\Interfaces\IWampRealm.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\IWampRealmContainer.cs">
-      <Link>WAMP2\V2\Realm\Interfaces\IWampRealmContainer.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Binded\IWampBindedRealmContainer.cs">
+      <Link>WAMP2\V2\Realm\Binded\IWampBindedRealmContainer.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\WampRealm.cs">
-      <Link>WAMP2\V2\Realm\WampRealm.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Binded\WampBindedRealm.cs">
+      <Link>WAMP2\V2\Realm\Binded\WampBindedRealm.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\WampRealmContainer.cs">
-      <Link>WAMP2\V2\Realm\WampRealmContainer.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Binded\WampBindedRealmContainer.cs">
+      <Link>WAMP2\V2\Realm\Binded\WampBindedRealmContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\AsyncLocalRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\AsyncLocalRpcOperation.cs</Link>

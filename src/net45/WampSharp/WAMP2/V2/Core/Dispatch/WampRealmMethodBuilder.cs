@@ -2,6 +2,7 @@
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
+using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Core.Dispatch
 {
@@ -14,7 +15,7 @@ namespace WampSharp.V2.Core.Dispatch
 
         protected override object GetInstance(IWampClient<TMessage> client, WampSharp.Core.Message.WampMessage<TMessage> message, WampMethodInfo method)
         {
-            IWampRealm<TMessage> realm = client.Realm;
+            IWampBindedRealm<TMessage> realm = client.Realm;
 
             if (realm == null)
             {
