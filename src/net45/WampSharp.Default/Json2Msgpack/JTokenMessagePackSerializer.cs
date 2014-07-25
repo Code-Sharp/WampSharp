@@ -7,6 +7,11 @@ namespace Json2Msgpack
     internal class JTokenMessagePackSerializer<T> : MessagePackSerializer<T>
         where T : JToken
     {
+        public JTokenMessagePackSerializer(SerializationContext ownerContext)
+            : base(ownerContext)
+        {
+        }
+
         protected override void PackToCore(Packer packer, T objectTree)
         {
             MessagePackObject message =

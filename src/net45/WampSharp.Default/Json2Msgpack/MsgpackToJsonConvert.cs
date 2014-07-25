@@ -1,24 +1,24 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MsgPack;
+﻿using MsgPack;
 using Newtonsoft.Json.Linq;
 
 namespace Json2Msgpack
 {
     internal class MsgpackToJsonConvert
     {
+        private static readonly JTokenToMsgPackProcessor mJTokenToMsgPackProcessor =
+            new JTokenToMsgPackProcessor();
+
+        private static readonly MsgPackToJTokenProcessor mMsgPackToJTokenProcessor = 
+            new MsgPackToJTokenProcessor();
+
         public static MessagePackObject ToMessagePack(JToken value)
         {
-            JTokenToMsgPackProcessor processor = new JTokenToMsgPackProcessor();
-            return processor.Process(value);
+            return mJTokenToMsgPackProcessor.Process(value);
         }
 
         public static JToken ToJson(MessagePackObject value)
         {
-            MsgPackToJTokenProcessor processor = new MsgPackToJTokenProcessor();
-            return processor.Process(value);
+            return mMsgPackToJTokenProcessor.Process(value);
         }
     }
 }

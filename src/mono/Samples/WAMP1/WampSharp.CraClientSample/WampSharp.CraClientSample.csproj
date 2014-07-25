@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Fleck, Version=0.10.0.27, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Fleck.0.10.0.27\lib\net40\Fleck.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -47,6 +51,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Reactive.Linq">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
@@ -64,9 +71,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\WampSharp.Default\WampSharp.Default.csproj">
       <Project>{6AB75291-D296-457E-88A3-B41B16A1A247}</Project>
       <Name>WampSharp.Default</Name>
@@ -75,6 +79,9 @@
       <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>
       <Name>WampSharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

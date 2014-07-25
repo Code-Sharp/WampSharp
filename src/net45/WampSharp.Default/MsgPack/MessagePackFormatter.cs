@@ -20,10 +20,10 @@ namespace WampSharp.MsgPack
                         SerializationMethod = SerializationMethod.Map
                     };
 
-            mSerializationContext.Serializers.Register(new JTokenMessagePackSerializer<JToken>());
-            mSerializationContext.Serializers.Register(new JTokenMessagePackSerializer<JValue>());
-            mSerializationContext.Serializers.Register(new JTokenMessagePackSerializer<JArray>());
-            mSerializationContext.Serializers.Register(new JTokenMessagePackSerializer<JObject>());
+            mSerializationContext.Serializers.Register(new JTokenMessagePackSerializer<JToken>(mSerializationContext));
+            mSerializationContext.Serializers.Register(new JTokenMessagePackSerializer<JValue>(mSerializationContext));
+            mSerializationContext.Serializers.Register(new JTokenMessagePackSerializer<JArray>(mSerializationContext));
+            mSerializationContext.Serializers.Register(new JTokenMessagePackSerializer<JObject>(mSerializationContext));
         }
 
         public bool CanConvert(MessagePackObject argument, Type type)

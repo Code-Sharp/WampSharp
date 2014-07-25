@@ -25,11 +25,11 @@ namespace WampSharp.SignalR
             return base.OnReceived(request, connectionId, data);
         }
 
-        protected override System.Threading.Tasks.Task OnDisconnected(IRequest request, string connectionId)
+        protected override System.Threading.Tasks.Task OnDisconnected(IRequest request, string connectionId, bool stopCalled)
         {
             mAdapter.OnDisconnected(connectionId);
 
-            return base.OnDisconnected(request, connectionId);
+            return base.OnDisconnected(request, connectionId, stopCalled);
         }
     }
 }

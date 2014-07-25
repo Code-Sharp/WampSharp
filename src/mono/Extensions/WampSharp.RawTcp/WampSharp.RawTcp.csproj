@@ -39,16 +39,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.Common, Version=1.6.0.4, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+    <Reference Include="SuperSocket.Common, Version=1.6.2.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SuperSocket.1.6\lib\Net45\Release\SuperSocket.Common.dll</HintPath>
+      <HintPath>..\..\packages\SuperSocket.1.6.2.1\lib\net45\SuperSocket.Common.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.Facility">
-      <HintPath>..\..\packages\SuperSocket.1.6\lib\Net45\Debug\SuperSocket.Facility.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.SocketBase, Version=1.6.0.4, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+    <Reference Include="SuperSocket.Facility, Version=1.6.2.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SuperSocket.1.6\lib\Net45\Release\SuperSocket.SocketBase.dll</HintPath>
+      <HintPath>..\..\packages\SuperSocket.1.6.2.1\lib\net45\SuperSocket.Facility.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketBase, Version=1.6.2.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\SuperSocket.1.6.2.1\lib\net45\SuperSocket.SocketBase.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.SocketEngine">
       <HintPath>..\..\packages\SuperSocket.1.6\lib\Net45\Debug\SuperSocket.SocketEngine.dll</HintPath>
@@ -98,7 +99,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

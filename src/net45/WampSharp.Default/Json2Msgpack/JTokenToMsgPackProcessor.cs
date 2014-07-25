@@ -7,15 +7,18 @@ namespace Json2Msgpack
 {
     internal class JTokenToMsgPackProcessor
     {
+        private readonly SerializationContext mSerializationContext = 
+            new SerializationContext();
+
         private MessagePackObject InnerProcess(JValue value)
         {
             object objectTree = value.Value;
 
             IMessagePackSingleObjectSerializer serializer = 
-                MessagePackSerializer.Create(objectTree.GetType());
+                mSerializationContext.GetSerializer(objectTree.GetType());
 
             var objectSerializer =
-                MessagePackSerializer.Create<MessagePackObject>();
+                mSerializationContext.GetSerializer<MessagePackObject>();
 
             return objectSerializer.UnpackSingleObject
                 (serializer.PackSingleObject(objectTree));

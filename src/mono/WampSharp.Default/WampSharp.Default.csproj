@@ -34,14 +34,14 @@
     <DocumentationFile>bin\Release\WampSharp.Default.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fleck, Version=0.9.8.25, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Fleck, Version=0.10.0.27, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fleck.0.9.8.25\lib\net40\Fleck.dll</HintPath>
+      <HintPath>..\packages\Fleck.0.10.0.27\lib\net40\Fleck.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MsgPack, Version=0.5.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MsgPack.Cli.0.5.0-alpha1\lib\net45\MsgPack.dll</HintPath>
+      <HintPath>..\packages\MsgPack.Cli.0.5.0\lib\net45\MsgPack.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -65,9 +65,9 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="WebSocket4Net, Version=0.9.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
+    <Reference Include="WebSocket4Net, Version=0.10.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebSocket4Net.0.9\lib\net45\WebSocket4Net.dll</HintPath>
+      <HintPath>..\packages\WebSocket4Net.0.10\lib\net45\WebSocket4Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

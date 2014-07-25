@@ -52,6 +52,9 @@ namespace WampSharp.Samples.Callee
             }
             else
             {
+                DefaultWampHost host = new DefaultWampHost(serverAddress);
+                host.Open();
+
                 ClientCode(serverAddress, operations);
             }
         }
@@ -74,7 +77,7 @@ namespace WampSharp.Samples.Callee
 
         private static void ClientCode(string serverAddress, IEnumerable<IWampRpcOperation> operations)
         {
-            JTokenBinding binding = new JTokenBinding();
+            MessagePackObjectBinding binding = new MessagePackObjectBinding();
 
             DefaultWampChannelFactory factory =
                 new DefaultWampChannelFactory();

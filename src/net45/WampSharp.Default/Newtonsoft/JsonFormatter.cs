@@ -98,7 +98,11 @@ namespace WampSharp.Newtonsoft
                 return new JValue((object) null);
             }
 
-            return JToken.FromObject(value);
+            using (JTokenWriter jtokenWriter = new JTokenWriter())
+            {
+                mSerializer.Serialize(jtokenWriter, value);
+                return jtokenWriter.Token;
+            }
         }
     }
 }
