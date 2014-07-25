@@ -16,7 +16,7 @@ namespace WampSharp.V2.Session
 
         public void OnClientDisconnect(IWampClient<TMessage> client)
         {
-            if (!client.OrderlyDisengagement)
+            if (!client.GoodbyeSent)
             {
                 client.Realm.SessionLost(client.Session);
             }
@@ -59,10 +59,10 @@ namespace WampSharp.V2.Session
         {
             using (IDisposable disposable = client as IDisposable)
             {
-                client.Goodbye(details, WampErrors.GoodbyeAndOut);
+                client.Goodbye(details, "wamp.close.normal");
 
                 IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
-                wampClient.OrderlyDisengagement = true;
+                wampClient.GoodbyeSent = true;
                 wampClient.Realm.Goodbye(wampClient.Session, details, reason);
             }
         }

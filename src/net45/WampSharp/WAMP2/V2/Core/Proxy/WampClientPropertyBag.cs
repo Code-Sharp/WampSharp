@@ -16,7 +16,7 @@ namespace WampSharp.V2.Core.Proxy
             mSession = session;
         }
 
-        public bool OrderlyDisengagement { get; set; }
+        public bool GoodbyeSent { get; set; }
 
         public long Session
         {

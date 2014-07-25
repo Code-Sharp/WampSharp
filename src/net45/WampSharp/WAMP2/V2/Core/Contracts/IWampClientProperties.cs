@@ -29,7 +29,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <summary>
         /// Gets or sets a value indicating whether the connection was closed in an orderly manner
         /// </summary>
-        bool OrderlyDisengagement { get; set; }
+        bool GoodbyeSent { get; set; }
 
         /// <summary>
         /// Gets the session of the current client. 
