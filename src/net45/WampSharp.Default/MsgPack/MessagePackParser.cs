@@ -2,7 +2,6 @@
 using MsgPack;
 using MsgPack.Serialization;
 using WampSharp.Core.Message;
-using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding.Parsers;
 
 namespace WampSharp.MsgPack
@@ -10,8 +9,16 @@ namespace WampSharp.MsgPack
     public class MessagePackParser :
         IWampBinaryMessageParser<MessagePackObject>
     {
-        private readonly MessagePackSerializer<MessagePackObject> mSerializer =
-            MessagePackSerializer.Create<MessagePackObject>();
+        private readonly MessagePackSerializer<MessagePackObject> mSerializer;
+
+        public MessagePackParser() : this(SerializationContext.Default)
+        {
+        }
+
+        public MessagePackParser(SerializationContext serializationContext)
+        {
+            mSerializer = serializationContext.GetSerializer<MessagePackObject>();
+        }
 
         public WampMessage<MessagePackObject> Parse(byte[] bytes)
         {

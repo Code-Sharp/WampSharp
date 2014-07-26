@@ -13,12 +13,16 @@ namespace WampSharp.MsgPack
         private readonly SerializationContext mSerializationContext;
 
         public MessagePackFormatter()
+            : this(new SerializationContext
+                {
+                    SerializationMethod = SerializationMethod.Map
+                })
         {
-            mSerializationContext =
-                new SerializationContext()
-                    {
-                        SerializationMethod = SerializationMethod.Map
-                    };
+        }
+
+        public MessagePackFormatter(SerializationContext serializationContext)
+        {
+            mSerializationContext = serializationContext;
 
             mSerializationContext.Serializers.Register(new JTokenMessagePackSerializer<JToken>(mSerializationContext));
             mSerializationContext.Serializers.Register(new JTokenMessagePackSerializer<JValue>(mSerializationContext));

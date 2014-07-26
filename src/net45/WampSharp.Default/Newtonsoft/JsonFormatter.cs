@@ -10,9 +10,13 @@ namespace WampSharp.Newtonsoft
     {
         private readonly JsonSerializer mSerializer;
 
-        public JsonFormatter()
+        public JsonFormatter() : this(new JsonSerializer())
         {
-            mSerializer = new JsonSerializer();
+        }
+
+        public JsonFormatter(JsonSerializer serializer)
+        {
+            mSerializer = serializer;
             mSerializer.Converters.Add(new MsgPackJsonConverter());
         }
 
