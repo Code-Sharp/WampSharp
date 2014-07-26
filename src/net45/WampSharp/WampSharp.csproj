@@ -236,6 +236,7 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeRouterProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
+    <Compile Include="WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs" />
     <Compile Include="WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Api\Server\IWampHost.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawSubscriber.cs" />
@@ -271,8 +272,8 @@
     <Compile Include="WAMP2\V2\Binding\Parsers\IWampTextMessageParser.cs" />
     <Compile Include="WAMP2\V2\Binding\Transports\IWampTransport.cs" />
     <Compile Include="WAMP2\V2\Binding\WampBinding.cs" />
-    <Compile Include="WAMP2\V2\Client\ErrorExtractor.cs" />
-    <Compile Include="WAMP2\V2\Client\ErrorForwarder.cs" />
+    <Compile Include="WAMP2\V2\Client\Error\ErrorExtractor.cs" />
+    <Compile Include="WAMP2\V2\Client\Error\ErrorForwarder.cs" />
     <Compile Include="WAMP2\V2\Api\Client\IWampChannel.cs" />
     <Compile Include="WAMP2\V2\Api\Client\IWampChannelFactory.cs" />
     <Compile Include="WAMP2\V2\Api\Client\WampRealmProxyServiceProvider.cs" />
@@ -316,7 +317,7 @@
     <Compile Include="WAMP2\V2\Client\Rpc\WampCaller.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\WampRpcOperationCatalogProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Session\IWampSessionClientExtended.cs" />
-    <Compile Include="WAMP2\V2\Client\Session\SessionClient.cs" />
+    <Compile Include="WAMP2\V2\Client\Session\WampSessionClient.cs" />
     <Compile Include="WAMP2\V2\Client\WampChannel.cs" />
     <Compile Include="WAMP2\V2\Client\WampChannelBuilder.cs" />
     <Compile Include="WAMP2\V2\Client\WampClient.cs" />

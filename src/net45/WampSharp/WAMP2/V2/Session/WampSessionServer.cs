@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Session
@@ -47,8 +46,13 @@ namespace WampSharp.V2.Session
 
         public void Abort(IWampSessionClient client, TMessage details, string reason)
         {
-            IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
-            wampClient.Realm.Abort(wampClient.Session, details, reason);
+            using (IDisposable disposable = client as IDisposable)
+            {
+                IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
+
+                wampClient.GoodbyeSent = true;
+                wampClient.Realm.Abort(wampClient.Session, details, reason);
+            }
         }
 
         public void Authenticate(IWampSessionClient client, string signature, TMessage extra)

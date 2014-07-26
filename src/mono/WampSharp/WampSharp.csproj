@@ -578,6 +578,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\CompositeListener.cs">
       <Link>WAMP2\V2\Api\Server\CompositeListener.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs">
+      <Link>WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs">
       <Link>WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs</Link>
     </Compile>
@@ -683,11 +686,11 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\WampBinding.cs">
       <Link>WAMP2\V2\Binding\WampBinding.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\ErrorExtractor.cs">
-      <Link>WAMP2\V2\Client\ErrorExtractor.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Error\ErrorExtractor.cs">
+      <Link>WAMP2\V2\Client\Error\ErrorExtractor.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\ErrorForwarder.cs">
-      <Link>WAMP2\V2\Client\ErrorForwarder.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Error\ErrorForwarder.cs">
+      <Link>WAMP2\V2\Client\Error\ErrorForwarder.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Client\IWampChannel.cs">
       <Link>WAMP2\V2\Api\Client\IWampChannel.cs</Link>
@@ -818,8 +821,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampSessionClientExtended.cs">
       <Link>WAMP2\V2\Client\Session\IWampSessionClientExtended.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\SessionClient.cs">
-      <Link>WAMP2\V2\Client\Session\SessionClient.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampSessionClient.cs">
+      <Link>WAMP2\V2\Client\Session\WampSessionClient.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampChannel.cs">
       <Link>WAMP2\V2\Client\WampChannel.cs</Link>

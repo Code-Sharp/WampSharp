@@ -14,6 +14,7 @@ namespace WampSharp.V2.Client
         private readonly string mName;
         private readonly IWampServerProxy mProxy;
         private readonly IWampRealmServiceProvider mServices;
+        private WampSessionClient<TMessage> mMonitor;
 
         public WampRealmProxy(string name, IWampServerProxy proxy, IWampBinding<TMessage> binding)
         {
@@ -23,6 +24,7 @@ namespace WampSharp.V2.Client
             mRpcCatalog = new WampRpcOperationCatalogProxy<TMessage>(proxy, formatter);
             mTopicContainer = new WampTopicContainerProxy<TMessage>(proxy, formatter);
             mServices = new WampRealmProxyServiceProvider(this);
+            mMonitor = new WampSessionClient<TMessage>(this, formatter);
         }
 
         public string Name
@@ -59,8 +61,12 @@ namespace WampSharp.V2.Client
             get { return mServices; }
         }
 
-        public event EventHandler<WampSessionEventArgs> ConnectionEstablished;
-        public event EventHandler<WampSessionCloseEventArgs> ConnectionBroken;
-        public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
+        public IWampClientConnectionMonitor Monitor
+        {
+            get
+            {
+                return mMonitor;
+            }
+        }
     }
 }

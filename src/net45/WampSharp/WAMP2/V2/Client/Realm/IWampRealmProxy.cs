@@ -1,7 +1,4 @@
-﻿using System;
-using WampSharp.Core.Listener;
-using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Realm;
+﻿using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
 {
@@ -18,8 +15,6 @@ namespace WampSharp.V2.Client
 
         IWampRealmServiceProvider Services { get; }
 
-        event EventHandler<WampSessionEventArgs> ConnectionEstablished;
-        event EventHandler<WampSessionCloseEventArgs> ConnectionBroken;
-        event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
+        IWampClientConnectionMonitor Monitor { get; }
     }
 }

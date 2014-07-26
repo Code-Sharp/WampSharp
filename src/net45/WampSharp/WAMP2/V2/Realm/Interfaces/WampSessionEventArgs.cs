@@ -1,15 +1,16 @@
 ﻿using System;
-using WampSharp.Core.Serialization;
 
 namespace WampSharp.V2.Realm
 {
-    public abstract class WampSessionEventArgs : EventArgs
+    public class WampSessionEventArgs : EventArgs
     {
         private readonly long mSessionId;
+        private readonly ISerializedValue mDetails;
 
-        public WampSessionEventArgs(long sessionId)
+        public WampSessionEventArgs(long sessionId, ISerializedValue details)
         {
             mSessionId = sessionId;
+            mDetails = details;
         }
 
         public long SessionId
@@ -17,24 +18,9 @@ namespace WampSharp.V2.Realm
             get { return mSessionId; }
         }
 
-        public abstract T DeserializeDetails<T>();
-    }
-
-    public class WampSessionEventArgs<TMessage> : WampSessionEventArgs
-    {
-        private readonly IWampFormatter<TMessage> mFormatter;
-        private readonly TMessage mDetails;
-
-        public WampSessionEventArgs(IWampFormatter<TMessage> formatter, long sessionId, TMessage details) : 
-            base(sessionId)
+        public ISerializedValue Details
         {
-            mFormatter = formatter;
-            mDetails = details;
-        }
-
-        public override T DeserializeDetails<T>()
-        {
-            return mFormatter.Deserialize<T>(mDetails);
+            get { return mDetails; }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
@@ -15,5 +16,6 @@ namespace WampSharp.V2.Client
 
         void OnConnectionOpen();
         void OnConnectionClosed();
+        void OnConnectionError(Exception exception);
     }
 }

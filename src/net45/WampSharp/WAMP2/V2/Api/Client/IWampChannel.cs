@@ -13,5 +13,7 @@ namespace WampSharp.V2
         Task Open();
 
         void Close();
+
+        void Close(string reason, object details);
     }
 }

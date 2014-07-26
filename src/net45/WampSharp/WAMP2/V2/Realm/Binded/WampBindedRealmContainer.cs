@@ -4,8 +4,6 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Realm.Binded
 {
-    // TODO: Rename this and IWampRealmContainer<TMessage>.
-    // TODO: Think about a suitable name.
     internal class WampBindedRealmContainer<TMessage> : IWampBindedRealmContainer<TMessage>
     {
         private readonly IWampHostedRealmContainer mRealmContainer;

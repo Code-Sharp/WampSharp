@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
@@ -15,14 +16,12 @@ namespace WampSharp.V2.Client
                                           IWampError<TMessage>
     {
         private readonly IWampRealmProxy mRealm;
-        private readonly IWampSessionClientExtended<TMessage> mSession;
         private readonly IWampError<TMessage> mErrorHandler;
 
         public WampClient(IWampRealmProxyFactory<TMessage> realmFactory)
         {
             mRealm = realmFactory.Build(this);
             mErrorHandler = new ErrorForwarder<TMessage>(this);
-            mSession = new SessionClient<TMessage>(this.Realm);
         }
 
         public void Challenge(string challenge, TMessage extra)
@@ -90,11 +89,6 @@ namespace WampSharp.V2.Client
             get { return SessionClient.OpenTask; }
         }
 
-        private IWampSessionClientExtended<TMessage> SessionClient
-        {
-            get { return mSession; }
-        }
-
         public IWampPublisher<TMessage> Publisher
         {
             get { return Realm.TopicContainer as IWampPublisher<TMessage>; }
@@ -120,6 +114,14 @@ namespace WampSharp.V2.Client
             get { return mErrorHandler; }
         }
 
+        public IWampSessionClientExtended<TMessage> SessionClient
+        {
+            get
+            {
+                return mRealm.Monitor as IWampSessionClientExtended<TMessage>;
+            }
+        }
+
         public void OnConnectionOpen()
         {
             SessionClient.OnConnectionOpen();
@@ -128,6 +130,11 @@ namespace WampSharp.V2.Client
         public void OnConnectionClosed()
         {
             SessionClient.OnConnectionClosed();
+        }
+
+        public void OnConnectionError(Exception exception)
+        {
+            SessionClient.OnConnectionError(exception);
         }
 
         public void Registered(long requestId, long registrationId)

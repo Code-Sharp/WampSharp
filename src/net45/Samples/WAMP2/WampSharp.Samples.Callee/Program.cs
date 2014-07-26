@@ -52,9 +52,6 @@ namespace WampSharp.Samples.Callee
             }
             else
             {
-                DefaultWampHost host = new DefaultWampHost(serverAddress);
-                host.Open();
-
                 ClientCode(serverAddress, operations);
             }
         }

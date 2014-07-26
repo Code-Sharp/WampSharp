@@ -46,7 +46,7 @@ namespace WampSharp.V2.Realm
 
         public void Hello<TMessage>(IWampFormatter<TMessage> formatter, long sessionId, TMessage details)
         {
-            RaiseSessionCreated(new WampSessionEventArgs<TMessage>(formatter, sessionId, details));
+            RaiseSessionCreated(new WampSessionEventArgs(sessionId, new SerializedValue<TMessage>(formatter, details)));
         }
 
         public void Goodbye<TMessage>(IWampFormatter<TMessage> formatter, long session, TMessage details, string reason)
@@ -66,8 +66,9 @@ namespace WampSharp.V2.Realm
 
         private void RaiseSessionClosed<TMessage>(SessionCloseType sessionCloseType, IWampFormatter<TMessage> formatter, long session, TMessage details, string reason)
         {
-            RaiseSessionClosed(new WampSessionCloseEventArgs<TMessage>(formatter, sessionCloseType, session, details,
-                                                                       reason));
+            RaiseSessionClosed
+                (new WampSessionCloseEventArgs(sessionCloseType, session,
+                                               new SerializedValue<TMessage>(formatter, details), reason));
         }
 
         protected virtual void RaiseSessionCreated(WampSessionEventArgs e)

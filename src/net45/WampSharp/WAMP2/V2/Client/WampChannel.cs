@@ -21,6 +21,7 @@ namespace WampSharp.V2.Client
         {
             mConnection = connection;
             mConnection.ConnectionOpen += OnConnectionOpen;
+            mConnection.ConnectionError += OnConnectionError;
             mConnection.ConnectionClosed += OnConnectionClosed;
             mClient = client;
             mServer = client.Realm.Proxy;
@@ -35,6 +36,11 @@ namespace WampSharp.V2.Client
         {
             Interlocked.Exchange(ref mConnectCalled, 0);
             mClient.OnConnectionClosed();
+        }
+
+        private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
+        {
+            mClient.OnConnectionError(e.Exception);
         }
 
         public IWampServerProxy Server
@@ -62,8 +68,9 @@ namespace WampSharp.V2.Client
             }
             else
             {
+                Task openTask = mClient.OpenTask;
                 mConnection.Connect();
-                return mClient.OpenTask;
+                return openTask;
             }
         }
 
@@ -77,6 +84,11 @@ namespace WampSharp.V2.Client
                     mConnection = null;
                 }                
             }
+        }
+
+        public void Close(string reason, object details)
+        {
+            this.Server.Goodbye(details, reason);
         }
     }
 }
