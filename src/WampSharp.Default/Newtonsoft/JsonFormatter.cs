@@ -7,7 +7,16 @@ namespace WampSharp.Newtonsoft
 {
     public class JsonFormatter : IWampFormatter<JToken>
     {
-        private readonly JsonSerializer mSerializer = new JsonSerializer();
+        private readonly JsonSerializer mSerializer;
+
+        public JsonFormatter() : this(new JsonSerializer())
+        {
+        }
+
+        public JsonFormatter(JsonSerializer serializer)
+        {
+            mSerializer = serializer;
+        }
 
         public bool CanConvert(JToken argument, Type type)
         {
