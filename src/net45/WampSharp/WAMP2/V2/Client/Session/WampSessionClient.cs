@@ -12,6 +12,8 @@ namespace WampSharp.V2.Client
     public class WampSessionClient<TMessage> : IWampSessionClientExtended<TMessage>,
         IWampClientConnectionMonitor
     {
+        private static IDictionary<string, object> EmptyDetails = new Dictionary<string, object>();
+
         private bool mConnectionBrokenRaised = false;
         private readonly IWampRealmProxy mRealm;
         private readonly IWampServerProxy mServerProxy;
@@ -19,6 +21,7 @@ namespace WampSharp.V2.Client
         private TaskCompletionSource<bool> mOpenTask = new TaskCompletionSource<bool>();
         private readonly IWampFormatter<TMessage> mFormatter;
         private readonly object mLock = new object();
+        private bool mGoodbyeSent;
 
         public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter)
         {
@@ -49,6 +52,11 @@ namespace WampSharp.V2.Client
 
         public void Goodbye(TMessage details, string reason)
         {
+            if (!mGoodbyeSent)
+            {
+                mServerProxy.Goodbye(new {}, WampErrors.GoodbyeAndOut);
+            }
+
             RaiseConnectionBroken(mFormatter, SessionCloseType.Goodbye, details, reason);
         }
 
@@ -95,6 +103,15 @@ namespace WampSharp.V2.Client
             {
                 return mOpenTask.Task;
             }
+        }
+
+        public void Close(string reason, object details)
+        {
+            reason = reason ?? WampErrors.CloseNormal;
+            details = details ?? EmptyDetails;
+
+            mGoodbyeSent = true;
+            mServerProxy.Goodbye(details, reason);
         }
 
         public void OnConnectionOpen()

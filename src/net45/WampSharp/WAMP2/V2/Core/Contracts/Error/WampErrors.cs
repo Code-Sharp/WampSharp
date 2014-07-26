@@ -9,6 +9,11 @@
     public static class WampErrors
     {
         /// <summary>
+        /// Indicates that the close was with a normal reason.
+        /// </summary>
+        public const string CloseNormal = "wamp.close.normal";
+
+        /// <summary>
         /// *Peer* is not authorized to access the given resource. This might be triggered by a session trying to join a realm, a publish, subscribe, register or call.
         /// </summary>
         public const string NotAuthorized = "wamp.error.not_authorized";

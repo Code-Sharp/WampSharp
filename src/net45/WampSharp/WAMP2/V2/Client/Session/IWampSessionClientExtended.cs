@@ -14,6 +14,8 @@ namespace WampSharp.V2.Client
 
         Task OpenTask { get; }
 
+        void Close(string reason, object details);
+
         void OnConnectionOpen();
         void OnConnectionClosed();
         void OnConnectionError(Exception exception);

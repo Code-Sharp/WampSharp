@@ -63,7 +63,7 @@ namespace WampSharp.V2.Session
         {
             using (IDisposable disposable = client as IDisposable)
             {
-                client.Goodbye(details, "wamp.close.normal");
+                client.Goodbye(details, WampErrors.CloseNormal);
 
                 IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
                 wampClient.GoodbyeSent = true;

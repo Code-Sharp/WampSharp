@@ -15,13 +15,90 @@ namespace WampSharp.V2.Client
                                           IWampSubscriberError<TMessage>,
                                           IWampError<TMessage>
     {
+        #region Fields
+
         private readonly IWampRealmProxy mRealm;
         private readonly IWampError<TMessage> mErrorHandler;
+
+        #endregion
+
+        #region Constructor
 
         public WampClient(IWampRealmProxyFactory<TMessage> realmFactory)
         {
             mRealm = realmFactory.Build(this);
             mErrorHandler = new ErrorForwarder<TMessage>(this);
+        }
+
+        #endregion
+
+        #region Properties
+
+        public IWampRealmProxy Realm
+        {
+            get { return mRealm; }
+        }
+
+        public IWampCallee<TMessage> Callee
+        {
+            get { return this.Realm.RpcCatalog as IWampCallee<TMessage>; }
+        }
+
+        public IWampCaller<TMessage> Caller
+        {
+            get { return this.Realm.RpcCatalog as IWampCaller<TMessage>; }
+        }
+
+        public IWampCalleeError<TMessage> CalleeError
+        {
+            get { return this.Realm.RpcCatalog as IWampCalleeError<TMessage>; }
+        }
+
+        public IWampCallerError<TMessage> CallerError
+        {
+            get { return this.Realm.RpcCatalog as IWampCallerError<TMessage>; }
+        }
+
+        public IWampPublisher<TMessage> Publisher
+        {
+            get { return Realm.TopicContainer as IWampPublisher<TMessage>; }
+        }
+
+        public IWampSubscriber<TMessage> Subscriber
+        {
+            get { return Realm.TopicContainer as IWampSubscriber<TMessage>; }
+        }
+
+        public IWampPublisherError<TMessage> PublisherError
+        {
+            get { return Realm.TopicContainer as IWampPublisherError<TMessage>; }
+        }
+
+        public IWampSubscriberError<TMessage> SubscriberError
+        {
+            get { return Realm.TopicContainer as IWampSubscriberError<TMessage>; }
+        }
+
+        public IWampError<TMessage> ErrorHandler
+        {
+            get { return mErrorHandler; }
+        }
+
+        public IWampSessionClientExtended<TMessage> SessionClient
+        {
+            get
+            {
+                return mRealm.Monitor as IWampSessionClientExtended<TMessage>;
+            }
+        }
+
+        #endregion
+
+        #region Delegating Members
+
+        public Task OpenTask
+        {
+            get { return SessionClient.OpenTask; }
         }
 
         public void Challenge(string challenge, TMessage extra)
@@ -59,67 +136,9 @@ namespace WampSharp.V2.Client
             get { return SessionClient.Session; }
         }
 
-        public IWampRealmProxy Realm
+        public void Close(string reason, object details)
         {
-            get { return mRealm; }
-        }
-
-        public IWampCallee<TMessage> Callee
-        {
-            get { return this.Realm.RpcCatalog as IWampCallee<TMessage>; }
-        }
-
-        public IWampCaller<TMessage> Caller
-        {
-            get { return this.Realm.RpcCatalog as IWampCaller<TMessage>; }
-        }
-
-        public IWampCalleeError<TMessage> CalleeError
-        {
-            get { return this.Realm.RpcCatalog as IWampCalleeError<TMessage>; }
-        }
-
-        public IWampCallerError<TMessage> CallerError
-        {
-            get { return this.Realm.RpcCatalog as IWampCallerError<TMessage>; }
-        }
-
-        public Task OpenTask
-        {
-            get { return SessionClient.OpenTask; }
-        }
-
-        public IWampPublisher<TMessage> Publisher
-        {
-            get { return Realm.TopicContainer as IWampPublisher<TMessage>; }
-        }
-
-        public IWampSubscriber<TMessage> Subscriber
-        {
-            get { return Realm.TopicContainer as IWampSubscriber<TMessage>; }
-        }
-
-        public IWampPublisherError<TMessage> PublisherError
-        {
-            get { return Realm.TopicContainer as IWampPublisherError<TMessage>; }
-        }
-
-        public IWampSubscriberError<TMessage> SubscriberError
-        {
-            get { return Realm.TopicContainer as IWampSubscriberError<TMessage>; }
-        }
-
-        public IWampError<TMessage> ErrorHandler
-        {
-            get { return mErrorHandler; }
-        }
-
-        public IWampSessionClientExtended<TMessage> SessionClient
-        {
-            get
-            {
-                return mRealm.Monitor as IWampSessionClientExtended<TMessage>;
-            }
+            SessionClient.Close(reason, details);
         }
 
         public void OnConnectionOpen()
@@ -325,5 +344,7 @@ namespace WampSharp.V2.Client
         {
             CallerError.CallError(requestId, details, error, arguments, argumentsKeywords);
         }
+
+        #endregion
     }
 }

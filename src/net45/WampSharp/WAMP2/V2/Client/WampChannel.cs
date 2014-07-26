@@ -88,7 +88,7 @@ namespace WampSharp.V2.Client
 
         public void Close(string reason, object details)
         {
-            this.Server.Goodbye(details, reason);
+            mClient.Close(reason, details);
         }
     }
 }
