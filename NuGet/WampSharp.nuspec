@@ -15,9 +15,9 @@
     <projectUrl>https://github.com/darkl/WampSharp/tree/wampv2</projectUrl>
   </metadata>
   <files>
-    <file src="net45\WampSharp\bin\$Configuration$\WampSharp.dll" target="lib\net45\WampSharp.dll" />
-    <file src="net45\WampSharp\bin\$Configuration$\WampSharp.xml" target="lib\net45\WampSharp.xml" />
-    <file src="net40\WampSharp\bin\$Configuration$\WampSharp.dll" target="lib\net40\WampSharp.dll" />
-    <file src="net40\WampSharp\bin\$Configuration$\WampSharp.xml" target="lib\net40\WampSharp.xml" />
+    <file src="bin\net45\WampSharp.dll" target="lib\net45\WampSharp.dll" />
+    <file src="bin\net45\WampSharp.xml" target="lib\net45\WampSharp.xml" />
+    <file src="bin\net40\WampSharp.dll" target="lib\net40\WampSharp.dll" />
+    <file src="bin\net40\WampSharp.xml" target="lib\net40\WampSharp.xml" />
   </files>
 </package>
