@@ -14,8 +14,8 @@ Master | Provider
 
 [WampLink]:http://wamp.ws
 
-[WinImgMaster]:http://teamcity.codebetter.com/app/rest/builds/buildType:\(id:WampSharp_Master_Build_MSBuild\)/statusIcon
-[WinLinkMaster]:http://teamcity.codebetter.com/project.html?projectId=WampSharp_Master&guest=1
+[WinImgMaster]:http://teamcity.codebetter.com/app/rest/builds/buildType:\(id:WampSharp_Wampv1_Build\)/statusIcon
+[WinLinkMaster]:http://teamcity.codebetter.com/project.html?projectId=WampSharp_Wampv1&guest=1
 [MonoImgMaster]:https://travis-ci.org/Code-Sharp/WampSharp.png?branch=master
 [MonoLinkMaster]:https://travis-ci.org/Code-Sharp/WampSharp
 [AppVeyorLinkMaster]:https://ci.appveyor.com/project/darkl/wampsharp-375
