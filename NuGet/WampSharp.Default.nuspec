@@ -17,9 +17,9 @@
     <projectUrl>https://github.com/darkl/WampSharp</projectUrl>
   </metadata>
   <files>
-    <file src="WampSharp.Default\bin\$Configuration$\WampSharp.Default.dll" target="lib\net45\WampSharp.Default.dll" />
-    <file src="WampSharp.Default\bin\$Configuration$\WampSharp.Default.xml" target="lib\net45\WampSharp.Default.xml" />
-    <file src="WampSharpFw4\WampSharp.Default\bin\$Configuration$\WampSharp.Default.dll" target="lib\net40\WampSharp.Default.dll" />
-    <file src="WampSharpFw4\WampSharp.Default\bin\$Configuration$\WampSharp.Default.xml" target="lib\net40\WampSharp.Default.xml" />
+    <file src="bin\net45\WampSharp.Default.dll" target="lib\net45\WampSharp.Default.dll" />
+    <file src="bin\net45\WampSharp.Default.xml" target="lib\net45\WampSharp.Default.xml" />
+    <file src="bin\net40\WampSharp.Default.dll" target="lib\net40\WampSharp.Default.dll" />
+    <file src="bin\net40\WampSharp.Default.xml" target="lib\net40\WampSharp.Default.xml" />
   </files>
 </package>
