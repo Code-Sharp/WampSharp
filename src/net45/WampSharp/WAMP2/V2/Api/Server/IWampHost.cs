@@ -6,12 +6,26 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
 {
+    /// <summary>
+    /// Represents a WAMP host.
+    /// </summary>
     public interface IWampHost : IDisposable
     {
+        /// <summary>
+        /// Gets a realm container associated with this host.
+        /// </summary>
         IWampHostedRealmContainer RealmContainer { get; }
 
+        /// <summary>
+        /// Registers a given transport for this host.
+        /// </summary>
+        /// <param name="transport">The given transport to register.</param>
+        /// <param name="binding">The given bindings to activate support with the given transport.</param>
         void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> binding);
 
+        /// <summary>
+        /// Opens this host.
+        /// </summary>
         void Open();
     }
 }

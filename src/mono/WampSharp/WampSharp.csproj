@@ -578,6 +578,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\CompositeListener.cs">
       <Link>WAMP2\V2\Api\Server\CompositeListener.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampHostExtensions.cs">
+      <Link>WAMP2\V2\Api\Server\WampHostExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs">
       <Link>WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs</Link>
     </Compile>

@@ -7,6 +7,9 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
 {
+    /// <summary>
+    /// A default implementation of <see cref="IWampHost"/>.
+    /// </summary>
     public class WampHost : IWampHost
     {
         private readonly IDictionary<IWampBinding, IWampBindingHost> mBindingToHost =
@@ -17,10 +20,18 @@ namespace WampSharp.V2
         private readonly ICollection<WampTransportDefinition> mTransportDefinitions =
             new List<WampTransportDefinition>();
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="WampHost"/>.
+        /// </summary>
         public WampHost() : this(new WampRealmContainer())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="WampHost"/> given the
+        /// <see cref="IWampRealmContainer"/> associated with this host.
+        /// </summary>
+        /// <param name="realmContainer"></param>
         public WampHost(IWampRealmContainer realmContainer)
         {
             mRealmContainer = new HostedRealmContainer(realmContainer);
@@ -29,12 +40,6 @@ namespace WampSharp.V2
         public IWampHostedRealmContainer RealmContainer
         {
             get { return mRealmContainer; }
-        }
-
-        public void RegisterTransport(IWampTransport transport,
-                                      params IWampBinding[] binding)
-        {
-            RegisterTransport(transport, (IEnumerable<IWampBinding>)binding);
         }
 
         public void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> binding)

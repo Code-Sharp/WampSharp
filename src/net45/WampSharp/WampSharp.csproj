@@ -236,6 +236,7 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeRouterProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
+    <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs" />
     <Compile Include="WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Api\Server\IWampHost.cs" />

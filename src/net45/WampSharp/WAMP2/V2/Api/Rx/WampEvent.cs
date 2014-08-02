@@ -2,6 +2,9 @@
 
 namespace WampSharp.V2
 {
+    /// <summary>
+    /// A default implementation of <see cref="IWampEvent"/>.
+    /// </summary>
     public class WampEvent : IWampEvent
     {
         public IDictionary<string, object> Options { get; set; }

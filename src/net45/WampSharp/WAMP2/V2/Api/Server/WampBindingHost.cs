@@ -16,12 +16,24 @@ using WampSharp.V2.Session;
 
 namespace WampSharp.V2
 {
-    public class WampBindingHost<TMessage> : IDisposable, IWampBindingHost
+    /// <summary>
+    /// A default implementation of <see cref="IWampBindingHost"/>.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
+    public class WampBindingHost<TMessage> : IWampBindingHost
     {
         private WampListener<TMessage> mListener;
         private readonly IWampSessionServer<TMessage> mSession;
         private readonly WampBindedRealmContainer<TMessage> mRealmContainer;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="WampBindingHost{TMessage}"/>
+        /// </summary>
+        /// <param name="realmContainer">The <see cref="IWampRealmContainer"/> this binding host
+        /// is associated with.</param>
+        /// <param name="connectionListener">The <see cref="IWampConnectionListener{TMessage}"/> this 
+        /// binding host listens to.</param>
+        /// <param name="binding">The <see cref="IWampBinding{TMessage}"/> associated with this binding host.</param>
         public WampBindingHost(IWampHostedRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
         {
             WampSessionServer<TMessage> session = new WampSessionServer<TMessage>();

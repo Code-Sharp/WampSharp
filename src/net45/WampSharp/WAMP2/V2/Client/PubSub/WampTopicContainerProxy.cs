@@ -5,7 +5,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
 {
-    public class WampTopicContainerProxy<TMessage> : IWampTopicContainerProxy,
+    internal class WampTopicContainerProxy<TMessage> : IWampTopicContainerProxy,
         IWampSubscriber<TMessage>, IWampPublisher<TMessage>,
         IWampSubscriberError<TMessage>, IWampPublisherError<TMessage>
     {

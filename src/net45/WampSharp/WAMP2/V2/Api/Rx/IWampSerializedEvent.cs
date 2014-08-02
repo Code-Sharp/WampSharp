@@ -1,14 +1,28 @@
 ﻿namespace WampSharp.V2
 {
-    public interface IWampSerializedEvent<TMessage>
+    /// <summary>
+    /// Represents a raw form of an event received from a WAMP topic.
+    /// </summary>
+    public interface IWampSerializedEvent
     {
+        /// <summary>
+        /// Gets the publication id of this event.
+        /// </summary>
         long PublicationId { get; }
-        TMessage Details { get; }
-        TMessage[] Arguments { get; }
-        TMessage ArgumentsKeywords { get; }
-    }
 
-    public interface IWampSerializedEvent : IWampSerializedEvent<ISerializedValue>
-    {
+        /// <summary>
+        /// Gets the details associated with this event.
+        /// </summary>
+        ISerializedValue Details { get; }
+
+        /// <summary>
+        /// Gets the arguments of this event.
+        /// </summary>
+        ISerializedValue[] Arguments { get; }
+
+        /// <summary>
+        /// Gets the arguments keywords of this event.
+        /// </summary>
+        ISerializedValue ArgumentsKeywords { get; }
     }
 }

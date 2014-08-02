@@ -1,20 +1,21 @@
-﻿using System;
-using WampSharp.Core.Listener;
-using WampSharp.Core.Serialization;
+﻿using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Client
 {
-    public class WampRealmProxy<TMessage> : IWampRealmProxy
+    /// <summary>
+    /// A default implementation of <see cref="IWampRealmProxy"/>.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
+    internal class WampRealmProxy<TMessage> : IWampRealmProxy
     {
         private readonly IWampTopicContainerProxy mTopicContainer;
         private readonly IWampRpcOperationCatalogProxy mRpcCatalog;
         private readonly string mName;
         private readonly IWampServerProxy mProxy;
         private readonly IWampRealmServiceProvider mServices;
-        private WampSessionClient<TMessage> mMonitor;
+        private readonly WampSessionClient<TMessage> mMonitor;
 
         public WampRealmProxy(string name, IWampServerProxy proxy, IWampBinding<TMessage> binding)
         {
