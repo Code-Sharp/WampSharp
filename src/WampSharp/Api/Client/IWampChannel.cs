@@ -24,7 +24,7 @@ namespace WampSharp
 
         void Open();
 
-        Task OpenAsync();
+        Task<OpenResult> OpenAsync();
 
         void Close();
     }
