@@ -105,6 +105,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\Dispatch\WampRequestMapperTests.cs">
       <Link>Dispatch\WampRequestMapperTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\IDirectedControlledWampConnection.cs">
+      <Link>IDirectedControlledWampConnection.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\ListenerTests.cs">
       <Link>ListenerTests.cs</Link>
     </Compile>

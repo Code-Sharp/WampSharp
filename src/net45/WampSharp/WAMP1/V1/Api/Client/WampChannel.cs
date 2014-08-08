@@ -67,7 +67,15 @@ namespace WampSharp.V1
         public void Open()
         {
             Task task = OpenAsync();
-            task.Wait();
+
+            try
+            {
+                task.Wait();
+            }
+            catch (AggregateException ex)
+            {
+                throw ex.InnerException;
+            }
         }
 
         public Task OpenAsync()
@@ -78,30 +86,31 @@ namespace WampSharp.V1
                      x => mConnectionMonitor.ConnectionEstablished -= x)
                           .Select(x => Unit.Default);
 
-            var errorObservable = 
+            var errorObservable =
                 Observable.FromEventPattern<WampConnectionErrorEventArgs>
                     (x => mConnectionMonitor.ConnectionError += x,
                      x => mConnectionMonitor.ConnectionError -= x)
-                          .Select(x => Unit.Default);
+                          .Select(x => Observable.Throw<Unit>(x.EventArgs.Exception))
+                          .SelectMany(x => x);
 
             var completedObservable =
                 Observable.FromEventPattern
                     (x => mConnectionMonitor.ConnectionLost += x,
                      x => mConnectionMonitor.ConnectionLost -= x)
-                          .Select(x => Unit.Default);
+                     .Select(x => Unit.Default);
 
             // Combining the observables and propagating the one that reatcs first
             // because we have to complete the task either when a connection is established or
             // an error (i.e. exception) occurs.
-            IObservable<Unit> combined = connectedObservable.Amb(errorObservable).Amb(completedObservable);
+            var combined = connectedObservable.Amb(errorObservable).Amb(completedObservable);
 
-            IObservable<Unit> firstConnectionOrError =
+            var firstConnectionOrError =
                 combined.Take(1);
 
             Task task = firstConnectionOrError.ToTask();
 
             mConnection.Connect();
-            
+
             return task;
         }
 

@@ -80,6 +80,7 @@
     <Compile Include="Dispatch\Helpers\MockWampServer.cs" />
     <Compile Include="Dispatch\Helpers\MockWampServerWithMissing.cs" />
     <Compile Include="Dispatch\WampRequestMapperTests.cs" />
+    <Compile Include="IDirectedControlledWampConnection.cs" />
     <Compile Include="ListenerTests.cs" />
     <Compile Include="MockConnection.cs" />
     <Compile Include="MockListener.cs" />

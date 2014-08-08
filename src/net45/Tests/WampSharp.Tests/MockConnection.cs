@@ -18,7 +18,7 @@ namespace WampSharp.Tests
             mSideBToSideAConnection = new DirectedConnection(mSideAToSideB, mSideBToSideA);
         }
 
-        public IControlledWampConnection<TMessage> SideAToSideB
+        public IDirectedControlledWampConnection<TMessage> SideAToSideB
         {
             get
             {
@@ -26,7 +26,7 @@ namespace WampSharp.Tests
             }
         }
 
-        public IControlledWampConnection<TMessage> SideBToSideA
+        public IDirectedControlledWampConnection<TMessage> SideBToSideA
         {
             get
             {
@@ -34,7 +34,7 @@ namespace WampSharp.Tests
             }
         }
 
-        public class DirectedConnection : IControlledWampConnection<TMessage>
+        public class DirectedConnection : IDirectedControlledWampConnection<TMessage>
         {
             private readonly IObservable<WampMessage<TMessage>> mIncoming;
             private readonly IObserver<WampMessage<TMessage>> mOutgoing;
@@ -75,6 +75,11 @@ namespace WampSharp.Tests
             public void Connect()
             {
                 this.RaiseConnectionOpen();
+            }
+
+            public void SendError(Exception exception)
+            {
+                mOutgoing.OnError(exception);
             }
 
             public void Dispose()
