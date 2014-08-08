@@ -69,6 +69,9 @@
     <Compile Include="..\..\WampSharp.Tests\Api\RpcServerTests.cs">
       <Link>Api\RpcServerTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\WampSharp.Tests\Api\WampChannelTests.cs">
+      <Link>Api\WampChannelTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\WampSharp.Tests\Cra\CraTests.cs">
       <Link>Cra\CraTests.cs</Link>
     </Compile>
