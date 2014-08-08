@@ -12,10 +12,8 @@ The implementation includes both Json and MsgPack support, and both Router (Brok
 
 There is no documentation yet, but you can find examples in the Samples/WAMP2 directory.
 
-If you want to test it, you can use Teamcity NuGet feed:
-http://teamcity.codebetter.com/httpAuth/app/nuget/v1/FeedService.svc/
-
-(You need a TeamCity account. Register here: http://teamcity.codebetter.com/login.html)
+If you want to test it, you can use MyGet NuGet feed:
+https://www.myget.org/F/wampsharp/
 
 Master | Provider
 ------ | --------
