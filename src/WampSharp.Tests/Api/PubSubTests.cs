@@ -47,7 +47,7 @@ namespace WampSharp.Tests.Api
         }
 
         [Test]
-        public void OpenWillNotBlockOnConnectionLost()
+        public void OpenAsyncWillNotBlockOnConnectionLost()
         {
             var wampChannelFactory = new WampChannelFactory<MockRaw>(new MockRawFormatter());
             var mockControlledWampConnection = new MockControlledWampConnection<MockRaw>();
@@ -61,7 +61,7 @@ namespace WampSharp.Tests.Api
         }
 
         [Test]
-        public void OpenWillThrowAndExpcetionIfAnErrorOccurs()
+        public void OpenAsyncWillThrowAndExpcetionIfAnErrorOccurs()
         {
             var wampChannelFactory = new WampChannelFactory<MockRaw>(new MockRawFormatter());
             var mockControlledWampConnection = new MockControlledWampConnection<MockRaw>();
@@ -71,7 +71,7 @@ namespace WampSharp.Tests.Api
 
             mockControlledWampConnection.OnError(new Exception());
             
-//            Assert.IsNotNull(openAsync.Result.Exception);
+            Assert.IsNotNull(openAsync.Result.Exception);
         }
     }
 }
