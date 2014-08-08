@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Api\Client\IWampChannel.cs" />
     <Compile Include="Api\Client\IWampChannelFactory.cs" />
+    <Compile Include="Api\Client\OpenResult.cs" />
     <Compile Include="Api\Client\WampChannel.cs" />
     <Compile Include="Api\Client\WampChannelFactory.cs" />
     <Compile Include="Api\Server\WampRequestContext.cs" />

@@ -59,5 +59,19 @@ namespace WampSharp.Tests.Api
             mockControlledWampConnection.OnCompleted();
             Assert.IsTrue(openAsync.IsCompleted);
         }
+
+        [Test]
+        public void OpenWillThrowAndExpcetionIfAnErrorOccurs()
+        {
+            var wampChannelFactory = new WampChannelFactory<MockRaw>(new MockRawFormatter());
+            var mockControlledWampConnection = new MockControlledWampConnection<MockRaw>();
+
+            var wampChannel = wampChannelFactory.CreateChannel(mockControlledWampConnection);
+            var openAsync = wampChannel.OpenAsync();
+
+            mockControlledWampConnection.OnError(new Exception());
+            
+//            Assert.IsNotNull(openAsync.Result.Exception);
+        }
     }
 }
