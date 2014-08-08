@@ -66,8 +66,13 @@ namespace WampSharp
 
         public void Open()
         {
-            Task task = OpenAsync();
+            var task = OpenAsync();
             task.Wait();
+
+            if (task.Result.Exception != null)
+            {
+                throw task.Result.Exception;
+            }
         }
 
         public Task<OpenResult> OpenAsync()
