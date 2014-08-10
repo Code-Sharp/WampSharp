@@ -10,10 +10,17 @@ It is still under development and isn't very mature right now.
 
 The implementation includes both Json and MsgPack support, and both Router (Broker and Dealer roles) and Client (Publisher/Subscriber and Callee/Caller) roles.
 
-There is no documentation yet, but you can find examples in the Samples/WAMP2 directory.
-
 If you want to test it, you can use MyGet NuGet feed:
 https://www.myget.org/F/wampsharp/
+
+Get Started
+=========
+
+Documentation is still under construction, see [Get started tutorial](https://github.com/Code-Sharp/WampSharp/wiki/Getting-started-with-WAMPv2)
+
+
+Builds
+=========
 
 Master | Provider
 ------ | --------
