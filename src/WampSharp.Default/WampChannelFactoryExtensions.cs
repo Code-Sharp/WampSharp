@@ -2,6 +2,7 @@
 using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
 using WampSharp.WebSocket4Net;
+using WebSocket4Net;
 
 namespace WampSharp
 {
@@ -12,9 +13,16 @@ namespace WampSharp
             return factory.CreateChannel(address, new JTokenMessageParser());
         }
 
-        public static IWampChannel<TMessage> CreateChannel<TMessage>(this IWampChannelFactory<TMessage> factory, string address, IWampMessageParser<TMessage> parser)
+        public static IWampChannel<TMessage> CreateChannel<TMessage>(this IWampChannelFactory<TMessage> factory,
+                                                                     string address, IWampMessageParser<TMessage> parser)
         {
             return factory.CreateChannel(new WebSocket4NetConnection<TMessage>(address, parser));
+        }
+
+        public static IWampChannel<JToken> CreateChannel(this IWampChannelFactory<JToken> factory, string address,
+                                                         WebSocket socket)
+        {
+            return factory.CreateChannel(new WebSocket4NetConnection<JToken>(socket, new JTokenMessageParser()));
         }
     }
 }

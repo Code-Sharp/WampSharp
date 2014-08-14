@@ -22,10 +22,16 @@ namespace WampSharp.WebSocket4Net
         #endregion
 
         public WebSocket4NetConnection(string serverAddress,
+                                       IWampMessageParser<TMessage> messageFormatter) :
+            this(new WebSocket(serverAddress, "wamp"), messageFormatter)
+        {
+        }
+
+        public WebSocket4NetConnection(WebSocket webSocket,
                                        IWampMessageParser<TMessage> messageFormatter)
         {
             mMessageFormatter = messageFormatter;
-            mWebSocket = new WebSocket(serverAddress, "wamp");
+            mWebSocket = webSocket;
             mWebSocket.Opened += WebSocketOnOpened;
             mWebSocket.Closed += WebSocketOnClosed;
             mWebSocket.MessageReceived += WebSocketOnMessageReceived;
