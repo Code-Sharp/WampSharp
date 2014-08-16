@@ -25,7 +25,7 @@ namespace WampSharp.RpcClientSample
             DefaultWampChannelFactory channelFactory = new DefaultWampChannelFactory();
 
             IWampChannel<JToken> channel =
-                channelFactory.CreateChannel("ws://localhost:9000/");
+                channelFactory.CreateChannel("ws://127.0.0.1:9000/");
 
             channel.Open();
 

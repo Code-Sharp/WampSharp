@@ -111,7 +111,7 @@ namespace WampSharp.CraServerSample
         {
             // Sample modeled and compatible with Autobahn Python https://github.com/tavendo/AutobahnPython [examples/twisted/wamp1/authentication/server.py]
 
-            const string location = "ws://localhost:9000/";
+            const string location = "ws://127.0.0.1:9000/";
             using (IWampHost host = new DefaultWampCraHost(location, new SampleWampCraAuthenticaticationBuilder<JToken>()))
             {
                 ISample instance = new Sample();
