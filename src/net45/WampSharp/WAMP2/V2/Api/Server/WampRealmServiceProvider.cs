@@ -45,12 +45,12 @@ namespace WampSharp.V2
 
         public ISubject<TEvent> GetSubject<TEvent>(string topicUri)
         {
-            return mRealm.TopicContainer.GetTopicByUri(topicUri).ToSubject<TEvent>();
+            return mRealm.TopicContainer.GetOrCreateTopicByUri(topicUri, false).ToSubject<TEvent>();
         }
 
         public IWampSubject GetSubject(string topicUri)
         {
-            return mRealm.TopicContainer.GetTopicByUri(topicUri).ToSubject();
+            return mRealm.TopicContainer.GetOrCreateTopicByUri(topicUri, false).ToSubject();
         }
     }
 }

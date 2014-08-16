@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WampSharp.V2.Client;
 
 namespace WampSharp.V2
@@ -30,7 +31,12 @@ namespace WampSharp.V2
 
         public override IDisposable Subscribe(IObserver<IWampSerializedEvent> observer)
         {
-            return mTopic.Subscribe(new RawSubscriber(observer), new {});
+            Task<IDisposable> task = mTopic.Subscribe(new RawSubscriber(observer), new {});
+            
+            // TODO: think of a better solution
+            task.Wait();
+            
+            return task;
         }
     }
 }
