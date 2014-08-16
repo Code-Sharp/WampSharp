@@ -14,7 +14,7 @@ namespace WampSharp.PubSubServerSample
         {
             // http://autobahn.ws/static/file/autobahnjs.html
 
-            const string location = "ws://localhost:9000/";
+            const string location = "ws://127.0.0.1:9000/";
             using (IWampHost host = new DefaultWampHost(location))
             {
                 host.Open();

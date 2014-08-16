@@ -25,7 +25,7 @@ namespace WampSharp.CraClientSample
          
             JsonFormatter formatter = new JsonFormatter();
             DefaultWampChannelFactory channelFactory = new DefaultWampChannelFactory(formatter);
-            IWampChannel<JToken> channel = channelFactory.CreateChannel("ws://localhost:9000/");
+            IWampChannel<JToken> channel = channelFactory.CreateChannel("ws://127.0.0.1:9000/");
 
             channel.Open();
 
