@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
@@ -6,8 +7,9 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Client
 {
-    internal class WampCaller<TMessage> : IWampRpcOperationInvokerProxy, IWampCaller<TMessage>,
-        IWampCallerError<TMessage>
+    internal class WampCaller<TMessage> : 
+        IWampRpcOperationInvokerProxy, IWampCaller<TMessage>,
+        IWampCallerError<TMessage>, IWampClientConnectionErrorHandler
     {
         private readonly IWampServerProxy mProxy;
         private readonly WampIdMapper<CallDetails> mPendingCalls = new WampIdMapper<CallDetails>();
@@ -271,6 +273,22 @@ namespace WampSharp.V2.Client
                 object[] castedArguments = arguments.Cast<object>().ToArray();
                 mCaller.Error(details, error, castedArguments, argumentsKeywords);
             }
+        }
+
+        public void OnConnectionError(Exception exception)
+        {
+            Cleanup();
+        }
+
+        public void OnConnectionClosed()
+        {
+            Cleanup();
+        }
+
+        private void Cleanup()
+        {
+            // TODO: Just cleanup structures.
+            // TODO: Services forward errors to client
         }
     }
 }

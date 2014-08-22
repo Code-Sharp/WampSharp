@@ -17,12 +17,14 @@ namespace WampSharp.V2.CalleeProxy
     {
         protected readonly Dictionary<string, object> mEmptyOptions = new Dictionary<string, object>();
 
-        public object Invoke(MethodInfo method, object[] arguments)
+        public virtual object Invoke(MethodInfo method, object[] arguments)
         {
             Type unwrapped = TaskExtensions.UnwrapReturnType(method.ReturnType);
 
             SyncCallback callback = InnerInvokeSync(method, arguments, unwrapped);
 
+            // TODO: register to connection lost events and raise an exception
+            // TODO: WaitHandle.WaitAny(connectionLost, callback.WaitHandle)
             callback.Wait(Timeout.Infinite);
 
             WampException exception = callback.Exception;
@@ -67,10 +69,12 @@ namespace WampSharp.V2.CalleeProxy
 
             Type unwrapped = TaskExtensions.UnwrapReturnType(returnType);
 
+            // TODO: register to connection lost events and raise an exception
             Task<object> task = InnerInvokeAsync(method, arguments, unwrapped);
 
             Task casted = task.Cast(unwrapped);
 
+            // TODO: return await Task.WhenAny(casted, connectionLost);
             return casted;
         }
 

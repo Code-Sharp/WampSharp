@@ -16,8 +16,6 @@ namespace WampSharp.V2.CalleeProxy
             object result =
                 mHandler.Invoke(invocation.Method, invocation.Arguments);
 
-            // TODO: Handle out/ref parameters
-
             invocation.ReturnValue = result;
         }
     }

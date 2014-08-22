@@ -1,10 +1,11 @@
+using System;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
 {
-    internal class WampPendingRequestBase<TMessage, TResult>
+    internal class WampPendingRequestBase<TMessage, TResult> : IWampPendingRequest
     {
         private readonly TaskCompletionSource<TResult> mTaskCompletionSource = new TaskCompletionSource<TResult>();
         private readonly IWampFormatter<TMessage> mFormatter;
@@ -50,7 +51,7 @@ namespace WampSharp.V2.Client
             SetException(exception);
         }
 
-        private void SetException(WampException exception)
+        public void SetException(Exception exception)
         {
             mTaskCompletionSource.SetException(exception);
         }

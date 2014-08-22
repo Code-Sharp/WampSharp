@@ -5,7 +5,8 @@ using WampSharp.V2.Core.Contracts;
 namespace WampSharp.V2.Client
 {
     internal class WampPublisher<TMessage> : IWampTopicPublicationProxy,
-        IWampPublisher<TMessage>, IWampPublisherError<TMessage>
+        IWampPublisher<TMessage>, IWampPublisherError<TMessage>,
+        IWampClientConnectionErrorHandler
     {
         public WampPublisher(IWampServerProxy proxy)
         {
@@ -42,6 +43,16 @@ namespace WampSharp.V2.Client
         }
 
         public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnConnectionError(Exception exception)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnConnectionClosed()
         {
             throw new NotImplementedException();
         }

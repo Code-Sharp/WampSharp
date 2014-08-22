@@ -7,7 +7,8 @@ namespace WampSharp.V2.Client
 {
     internal class WampTopicContainerProxy<TMessage> : IWampTopicContainerProxy,
         IWampSubscriber<TMessage>, IWampPublisher<TMessage>,
-        IWampSubscriberError<TMessage>, IWampPublisherError<TMessage>
+        IWampSubscriberError<TMessage>, IWampPublisherError<TMessage>,
+        IWampClientConnectionErrorHandler
     {
         private readonly IWampServerProxy mProxy;
 
@@ -134,6 +135,18 @@ namespace WampSharp.V2.Client
                 WampTopicProxy value;
                 mParent.mTopicUriToProxy.TryRemove(mTopicUri, out value);
             }
+        }
+
+        public void OnConnectionError(Exception exception)
+        {
+            mSubscriber.OnConnectionError(exception);
+            mPublisher.OnConnectionError(exception);
+        }
+
+        public void OnConnectionClosed()
+        {
+            mSubscriber.OnConnectionClosed();
+            mPublisher.OnConnectionClosed();
         }
     }
 }

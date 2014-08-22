@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
@@ -9,7 +8,8 @@ namespace WampSharp.V2.Client
 {
     internal class WampRpcOperationCatalogProxy<TMessage> :
         IWampRpcOperationCatalogProxy, IWampCallee<TMessage>, IWampCaller<TMessage>,
-        IWampCalleeError<TMessage>, IWampCallerError<TMessage>
+        IWampCalleeError<TMessage>, IWampCallerError<TMessage>,
+        IWampClientConnectionErrorHandler
     {
         private readonly WampCallee<TMessage> mCallee;
         private readonly WampCaller<TMessage> mCaller;
@@ -150,6 +150,18 @@ namespace WampSharp.V2.Client
         public void CallError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
             mCaller.CallError(requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public void OnConnectionError(Exception exception)
+        {
+            mCallee.OnConnectionError(exception);
+            mCaller.OnConnectionError(exception);
+        }
+
+        public void OnConnectionClosed()
+        {
+            mCallee.OnConnectionClosed();
+            mCaller.OnConnectionClosed();
         }
     }
 }

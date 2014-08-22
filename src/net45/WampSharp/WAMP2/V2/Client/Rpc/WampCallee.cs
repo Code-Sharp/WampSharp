@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
@@ -11,15 +9,16 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Client
 {
-    internal class WampCallee<TMessage> : IWampRpcOperationRegistrationProxy, IWampCallee<TMessage>,
-        IWampCalleeError<TMessage>
+    internal class WampCallee<TMessage> : 
+        IWampRpcOperationRegistrationProxy, IWampCallee<TMessage>,
+        IWampCalleeError<TMessage>, IWampClientConnectionErrorHandler
     {
         private readonly IWampServerProxy mProxy;
 
         private readonly IWampFormatter<TMessage> mFormatter;
 
-        private readonly WampIdMapper<Request> mPendingRegistrations =
-            new WampIdMapper<Request>();
+        private readonly WampRequestIdMapper<Request> mPendingRegistrations =
+            new WampRequestIdMapper<Request>();
 
         private readonly ConcurrentDictionary<long, IWampRpcOperation> mRegistrations =
             new ConcurrentDictionary<long, IWampRpcOperation>();
@@ -27,8 +26,8 @@ namespace WampSharp.V2.Client
         private readonly ConcurrentDictionary<IWampRpcOperation, long> mOperationToRegistrationId =
             new ConcurrentDictionary<IWampRpcOperation, long>();
 
-        private readonly WampIdMapper<Request> mPendingUnregistrations =
-            new WampIdMapper<Request>();
+        private readonly WampRequestIdMapper<Request> mPendingUnregistrations =
+            new WampRequestIdMapper<Request>();
 
         public WampCallee(IWampServerProxy proxy, IWampFormatter<TMessage> formatter)
         {
@@ -237,6 +236,27 @@ namespace WampSharp.V2.Client
                     return mOperation;
                 }
             }
+        }
+
+        public void OnConnectionError(Exception exception)
+        {
+            mPendingRegistrations.ConnectionError(exception);
+            mPendingUnregistrations.ConnectionError(exception);
+            Cleanup();
+        }
+
+        public void OnConnectionClosed()
+        {
+            mPendingRegistrations.ConnectionClosed();
+            mPendingUnregistrations.ConnectionClosed();
+            Cleanup();
+        }
+
+        private void Cleanup()
+        {
+            // TODO: clean up other things?
+            mOperationToRegistrationId.Clear();
+            mRegistrations.Clear();
         }
 
         private class ServerProxyCallback : IWampRawRpcOperationCallback

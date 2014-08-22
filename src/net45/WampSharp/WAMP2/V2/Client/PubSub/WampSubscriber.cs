@@ -11,13 +11,13 @@ using WampSharp.V2.PubSub;
 namespace WampSharp.V2.Client
 {
     internal class WampSubscriber<TMessage> : IWampSubscriber<TMessage>, IWampTopicSubscriptionProxy,
-        IWampSubscriberError<TMessage>
+        IWampSubscriberError<TMessage>, IWampClientConnectionErrorHandler
     {
-        private readonly WampIdMapper<SubscribeRequest> mPendingSubscriptions =
-            new WampIdMapper<SubscribeRequest>();
+        private readonly WampRequestIdMapper<SubscribeRequest> mPendingSubscriptions =
+            new WampRequestIdMapper<SubscribeRequest>();
 
-        private readonly WampIdMapper<UnsubscribeRequest> mPendingUnsubscriptions =
-            new WampIdMapper<UnsubscribeRequest>();
+        private readonly WampRequestIdMapper<UnsubscribeRequest> mPendingUnsubscriptions =
+            new WampRequestIdMapper<UnsubscribeRequest>();
 
         private readonly IWampServerProxy mProxy;
         private readonly IWampFormatter<TMessage> mFormatter;
@@ -184,6 +184,26 @@ namespace WampSharp.V2.Client
             }
         }
 
+        public void OnConnectionError(Exception exception)
+        {
+            mPendingSubscriptions.ConnectionError(exception);
+            mPendingUnsubscriptions.ConnectionError(exception);
+            Cleanup();
+        }
+
+        public void OnConnectionClosed()
+        {
+            // TODO: clean up topics
+            mPendingSubscriptions.ConnectionClosed();
+            mPendingUnsubscriptions.ConnectionClosed();
+            Cleanup();
+        }
+
+        private void Cleanup()
+        {
+            // TODO: clean up topics
+        }
+
         private class BaseSubscription
         {
             private readonly IWampRawTopicSubscriber mSubscriber;
@@ -222,7 +242,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        private class SubscribeRequest : BaseSubscription
+        private class SubscribeRequest : BaseSubscription, IWampPendingRequest
         {
             private readonly WampPendingRequest<TMessage, IDisposable> mPendingRequest;
 
@@ -236,6 +256,11 @@ namespace WampSharp.V2.Client
             {
                 get { return mPendingRequest.RequestId; }
                 set { mPendingRequest.RequestId = value; }
+            }
+
+            public void SetException(Exception exception)
+            {
+                mPendingRequest.SetException(exception);
             }
 
             public void Error(TMessage details, string error)

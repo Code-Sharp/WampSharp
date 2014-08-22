@@ -1,9 +1,11 @@
-﻿using System.Collections.Concurrent;
-using WampSharp.V2.Core.Listener;
+﻿using System;
+using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace WampSharp.V2.Core
 {
-    internal class WampIdMapper<T>
+    internal class WampIdMapper<T> : IEnumerable<T>
     {
         private readonly IWampIdGenerator mGenerator = new WampIdGenerator();
 
@@ -33,6 +35,16 @@ namespace WampSharp.V2.Core
         public bool TryRemove(long id, out T value)
         {
             return mIdToValue.TryRemove(id, out value);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return mIdToValue.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

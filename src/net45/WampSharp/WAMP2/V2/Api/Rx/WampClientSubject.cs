@@ -33,6 +33,7 @@ namespace WampSharp.V2
         {
             Task<IDisposable> task = mTopic.Subscribe(new RawSubscriber(observer), new {});
             
+            // TODO: Subscribe also to connection errors.
             // TODO: think of a better solution
             task.Wait();
             
