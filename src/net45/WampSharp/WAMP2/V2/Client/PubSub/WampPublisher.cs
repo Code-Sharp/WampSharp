@@ -49,12 +49,10 @@ namespace WampSharp.V2.Client
 
         public void OnConnectionError(Exception exception)
         {
-            throw new NotImplementedException();
         }
 
         public void OnConnectionClosed()
         {
-            throw new NotImplementedException();
         }
     }
 }

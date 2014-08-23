@@ -48,7 +48,17 @@ namespace WampSharp.V2.Client
             UnsubscribeRequest request = new UnsubscribeRequest(mFormatter, subscriptionId);
             long requestId = mPendingUnsubscriptions.Add(request);
             request.RequestId = requestId;
-            mProxy.Unsubscribe(requestId, subscriptionId);
+
+            try
+            {
+                mProxy.Unsubscribe(requestId, subscriptionId);
+            }
+            catch (Exception exception)
+            {
+                UnsubscribeRequest removedRequest;
+                mPendingUnsubscriptions.TryRemove(requestId, out removedRequest);
+                request.SetException(exception);
+            }
 
             return request.Task;
         }
