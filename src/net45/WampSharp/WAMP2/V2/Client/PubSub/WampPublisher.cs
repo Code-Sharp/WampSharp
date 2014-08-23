@@ -5,10 +5,9 @@ using WampSharp.V2.Core.Contracts;
 namespace WampSharp.V2.Client
 {
     internal class WampPublisher<TMessage> : IWampTopicPublicationProxy,
-        IWampPublisher<TMessage>, IWampPublisherError<TMessage>,
-        IWampClientConnectionErrorHandler
+        IWampPublisher<TMessage>, IWampPublisherError<TMessage>
     {
-        public WampPublisher(IWampServerProxy proxy)
+        public WampPublisher(IWampServerProxy proxy, IWampClientConnectionMonitor monitor)
         {
         }
 

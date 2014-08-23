@@ -149,15 +149,11 @@ namespace WampSharp.V2.Client
         public void OnConnectionClosed()
         {
             SessionClient.OnConnectionClosed();
-            ((IWampClientConnectionErrorHandler)this.Realm.RpcCatalog).OnConnectionClosed();
-            ((IWampClientConnectionErrorHandler)this.Realm.TopicContainer).OnConnectionClosed();
         }
 
         public void OnConnectionError(Exception exception)
         {
             SessionClient.OnConnectionError(exception);
-            ((IWampClientConnectionErrorHandler)this.Realm.RpcCatalog).OnConnectionError(exception);
-            ((IWampClientConnectionErrorHandler)this.Realm.TopicContainer).OnConnectionError(exception);
         }
 
         public void Registered(long requestId, long registrationId)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
+using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Core
 {
@@ -13,10 +14,10 @@ namespace WampSharp.V2.Core
             SetException(exception);
         }
 
-        public void ConnectionClosed()
+        public void ConnectionClosed(WampSessionCloseEventArgs eventArgs)
         {
             WampConnectionBrokenException exception = 
-                new WampConnectionBrokenException();
+                new WampConnectionBrokenException(eventArgs);
 
             SetException(exception);
         }

@@ -1,24 +1,31 @@
 using System;
 using System.Linq;
+using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Realm;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Client
 {
     internal class WampCaller<TMessage> : 
         IWampRpcOperationInvokerProxy, IWampCaller<TMessage>,
-        IWampCallerError<TMessage>, IWampClientConnectionErrorHandler
+        IWampCallerError<TMessage>
     {
         private readonly IWampServerProxy mProxy;
         private readonly WampIdMapper<CallDetails> mPendingCalls = new WampIdMapper<CallDetails>();
         private readonly IWampFormatter<TMessage> mFormatter;
+        private readonly IWampClientConnectionMonitor mMonitor;
 
-        public WampCaller(IWampServerProxy proxy, IWampFormatter<TMessage> formatter)
+        public WampCaller(IWampServerProxy proxy, IWampFormatter<TMessage> formatter, IWampClientConnectionMonitor monitor)
         {
             mProxy = proxy;
             mFormatter = formatter;
+            mMonitor = monitor;
+
+            monitor.ConnectionBroken += OnConnectionBroken;
+            monitor.ConnectionError += OnConnectionError;
         }
 
         public void Invoke(IWampRpcOperationCallback caller,
@@ -275,12 +282,12 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void OnConnectionError(Exception exception)
+        public void OnConnectionError(object sender, WampConnectionErrorEventArgs wampConnectionErrorEventArgs)
         {
             Cleanup();
         }
 
-        public void OnConnectionClosed()
+        public void OnConnectionBroken(object sender, WampSessionCloseEventArgs wampSessionCloseEventArgs)
         {
             Cleanup();
         }

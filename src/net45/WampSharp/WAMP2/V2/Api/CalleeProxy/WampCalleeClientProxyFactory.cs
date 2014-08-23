@@ -50,7 +50,7 @@ namespace WampSharp.V2.CalleeProxy
 
             private void OnConnectionBroken(object sender, WampSessionCloseEventArgs e)
             {
-                Exception exception = new WampConnectionBrokenException();
+                Exception exception = new WampConnectionBrokenException(e);
                 SetException(exception);
             }
 

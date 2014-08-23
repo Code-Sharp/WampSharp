@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
+using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
 using WampSharp.V2.Realm;
 
@@ -29,17 +30,16 @@ namespace WampSharp.V2
                      x => monitor.ConnectionError -= x)
                           .SelectMany(x => Observable.Throw<IWampSerializedEvent>(x.EventArgs.Exception));
 
-            IObservable<Unit> connectionComplete =
+            IObservable<IWampSerializedEvent> connectionComplete =
                 Observable.FromEventPattern<WampSessionCloseEventArgs>
                     (x => monitor.ConnectionBroken += x,
                      x => monitor.ConnectionBroken -= x)
-                          .Select(x => Unit.Default);
+                          .SelectMany(x => Observable.Throw<IWampSerializedEvent>(new WampConnectionBrokenException(x.EventArgs)));
 
             ClientObservable messages = new ClientObservable(topic);
 
             IObservable<IWampSerializedEvent> result =
-                messages.Merge(connectionError)
-                        .TakeUntil(connectionComplete);
+                Observable.Merge(messages,connectionError, connectionComplete);
 
             return result;
         }

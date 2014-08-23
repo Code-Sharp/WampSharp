@@ -2,20 +2,23 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Realm;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Client
 {
     internal class WampCallee<TMessage> : 
         IWampRpcOperationRegistrationProxy, IWampCallee<TMessage>,
-        IWampCalleeError<TMessage>, IWampClientConnectionErrorHandler
+        IWampCalleeError<TMessage>
     {
         private readonly IWampServerProxy mProxy;
 
         private readonly IWampFormatter<TMessage> mFormatter;
+        private readonly IWampClientConnectionMonitor mMonitor;
 
         private readonly WampRequestIdMapper<Request> mPendingRegistrations =
             new WampRequestIdMapper<Request>();
@@ -29,10 +32,14 @@ namespace WampSharp.V2.Client
         private readonly WampRequestIdMapper<Request> mPendingUnregistrations =
             new WampRequestIdMapper<Request>();
 
-        public WampCallee(IWampServerProxy proxy, IWampFormatter<TMessage> formatter)
+        public WampCallee(IWampServerProxy proxy, IWampFormatter<TMessage> formatter, IWampClientConnectionMonitor monitor)
         {
             mProxy = proxy;
             mFormatter = formatter;
+            mMonitor = monitor;
+
+            monitor.ConnectionBroken += OnConnectionBroken;
+            monitor.ConnectionError += OnConnectionError;
         }
 
         public Task Register(IWampRpcOperation operation, object options)
@@ -238,17 +245,20 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void OnConnectionError(Exception exception)
+        public void OnConnectionError(object sender, WampConnectionErrorEventArgs eventArgs)
         {
+            Exception exception = eventArgs.Exception;
+
             mPendingRegistrations.ConnectionError(exception);
             mPendingUnregistrations.ConnectionError(exception);
+
             Cleanup();
         }
 
-        public void OnConnectionClosed()
+        public void OnConnectionBroken(object sender, WampSessionCloseEventArgs eventArgs)
         {
-            mPendingRegistrations.ConnectionClosed();
-            mPendingUnregistrations.ConnectionClosed();
+            mPendingRegistrations.ConnectionClosed(eventArgs);
+            mPendingUnregistrations.ConnectionClosed(eventArgs);
             Cleanup();
         }
 

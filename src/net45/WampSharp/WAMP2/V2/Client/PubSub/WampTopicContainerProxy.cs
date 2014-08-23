@@ -7,8 +7,7 @@ namespace WampSharp.V2.Client
 {
     internal class WampTopicContainerProxy<TMessage> : IWampTopicContainerProxy,
         IWampSubscriber<TMessage>, IWampPublisher<TMessage>,
-        IWampSubscriberError<TMessage>, IWampPublisherError<TMessage>,
-        IWampClientConnectionErrorHandler
+        IWampSubscriberError<TMessage>, IWampPublisherError<TMessage>
     {
         private readonly IWampServerProxy mProxy;
 
@@ -19,11 +18,11 @@ namespace WampSharp.V2.Client
         private readonly ConcurrentDictionary<string, WampTopicProxy> mTopicUriToProxy =
             new ConcurrentDictionary<string, WampTopicProxy>();
 
-        public WampTopicContainerProxy(IWampServerProxy proxy, IWampFormatter<TMessage> formatter)
+        public WampTopicContainerProxy(IWampServerProxy proxy, IWampFormatter<TMessage> formatter, IWampClientConnectionMonitor monitor)
         {
             mProxy = proxy;
-            mSubscriber = new WampSubscriber<TMessage>(proxy, formatter);
-            mPublisher = new WampPublisher<TMessage>(proxy);
+            mSubscriber = new WampSubscriber<TMessage>(proxy, formatter, monitor);
+            mPublisher = new WampPublisher<TMessage>(proxy, monitor);
         }
 
         public IWampTopicProxy GetTopicByUri(string topicUri)
@@ -135,18 +134,6 @@ namespace WampSharp.V2.Client
                 WampTopicProxy value;
                 mParent.mTopicUriToProxy.TryRemove(mTopicUri, out value);
             }
-        }
-
-        public void OnConnectionError(Exception exception)
-        {
-            mSubscriber.OnConnectionError(exception);
-            mPublisher.OnConnectionError(exception);
-        }
-
-        public void OnConnectionClosed()
-        {
-            mSubscriber.OnConnectionClosed();
-            mPublisher.OnConnectionClosed();
         }
     }
 }

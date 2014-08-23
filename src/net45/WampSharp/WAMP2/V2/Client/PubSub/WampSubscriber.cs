@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Threading.Tasks;
+using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Binding;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
+using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Client
 {
     internal class WampSubscriber<TMessage> : IWampSubscriber<TMessage>, IWampTopicSubscriptionProxy,
-        IWampSubscriberError<TMessage>, IWampClientConnectionErrorHandler
+        IWampSubscriberError<TMessage>
     {
         private readonly WampRequestIdMapper<SubscribeRequest> mPendingSubscriptions =
             new WampRequestIdMapper<SubscribeRequest>();
@@ -21,15 +21,21 @@ namespace WampSharp.V2.Client
 
         private readonly IWampServerProxy mProxy;
         private readonly IWampFormatter<TMessage> mFormatter;
+        private readonly IWampClientConnectionMonitor mMonitor;
 
         private readonly ConcurrentDictionary<long, Subscription> mSubscriptionIdToSubscription =
             new ConcurrentDictionary<long, Subscription>();
 
         public WampSubscriber(IWampServerProxy proxy,
-                              IWampFormatter<TMessage> formatter)
+                              IWampFormatter<TMessage> formatter,
+                              IWampClientConnectionMonitor monitor)
         {
             mProxy = proxy;
             mFormatter = formatter;
+            mMonitor = monitor;
+
+            monitor.ConnectionBroken += OnConnectionBroken;
+            monitor.ConnectionError += OnConnectionError;
         }
 
         public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, object options, string topicUri)
@@ -194,18 +200,21 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void OnConnectionError(Exception exception)
+        public void OnConnectionError(object sender, WampConnectionErrorEventArgs eventArgs)
         {
+            Exception exception = eventArgs.Exception;
+
             mPendingSubscriptions.ConnectionError(exception);
             mPendingUnsubscriptions.ConnectionError(exception);
+            
             Cleanup();
         }
 
-        public void OnConnectionClosed()
+        public void OnConnectionBroken(object sender, WampSessionCloseEventArgs eventArgs)
         {
             // TODO: clean up topics
-            mPendingSubscriptions.ConnectionClosed();
-            mPendingUnsubscriptions.ConnectionClosed();
+            mPendingSubscriptions.ConnectionClosed(eventArgs);
+            mPendingUnsubscriptions.ConnectionClosed(eventArgs);
             Cleanup();
         }
 

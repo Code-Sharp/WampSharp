@@ -8,16 +8,15 @@ namespace WampSharp.V2.Client
 {
     internal class WampRpcOperationCatalogProxy<TMessage> :
         IWampRpcOperationCatalogProxy, IWampCallee<TMessage>, IWampCaller<TMessage>,
-        IWampCalleeError<TMessage>, IWampCallerError<TMessage>,
-        IWampClientConnectionErrorHandler
+        IWampCalleeError<TMessage>, IWampCallerError<TMessage>
     {
         private readonly WampCallee<TMessage> mCallee;
         private readonly WampCaller<TMessage> mCaller;
 
-        public WampRpcOperationCatalogProxy(IWampServerProxy proxy, IWampFormatter<TMessage> formatter)
+        public WampRpcOperationCatalogProxy(IWampServerProxy proxy, IWampFormatter<TMessage> formatter, IWampClientConnectionMonitor monitor)
         {
-            mCallee = new WampCallee<TMessage>(proxy, formatter);
-            mCaller = new WampCaller<TMessage>(proxy, formatter);
+            mCallee = new WampCallee<TMessage>(proxy, formatter, monitor);
+            mCaller = new WampCaller<TMessage>(proxy, formatter, monitor);
         }
 
         public Task Register(IWampRpcOperation operation, object options)
@@ -150,18 +149,6 @@ namespace WampSharp.V2.Client
         public void CallError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
             mCaller.CallError(requestId, details, error, arguments, argumentsKeywords);
-        }
-
-        public void OnConnectionError(Exception exception)
-        {
-            mCallee.OnConnectionError(exception);
-            mCaller.OnConnectionError(exception);
-        }
-
-        public void OnConnectionClosed()
-        {
-            mCallee.OnConnectionClosed();
-            mCaller.OnConnectionClosed();
         }
     }
 }
