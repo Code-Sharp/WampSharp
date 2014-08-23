@@ -226,15 +226,21 @@
     <Compile Include="WAMP1\V2\Adapters\WampPubSubServerAdapter.cs" />
     <Compile Include="WAMP1\V2\Adapters\WampRpcServerAdapter.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs" />
-    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.Sync.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\MultiValueAsyncOperationCallback.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\SingleValueAsyncOperationCallback.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\MultiValueSyncCallback.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SingleValueSyncCallback.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallback.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\SyncCalleeProxyInterceptor.cs" />
-    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\WampCalleeProxyInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeClientProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeRouterProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs" />
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\IWampClientConnectionErrorHandler.cs" />
@@ -356,6 +362,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\WampErrorExtensions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampException.cs" />
     <Compile Include="WAMP2\V2\Core\WampObjectFormatter.cs" />
+    <Compile Include="WAMP2\V2\Rpc\WampResultAttributeExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampRpcRuntimeException.cs" />
     <Compile Include="WAMP2\V2\Core\Dispatch\WampRealmMethodBuilder.cs" />
     <Compile Include="WAMP2\V2\Core\IWampIdGenerator.cs" />
@@ -427,7 +434,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.Async.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\AsyncOperationCallback.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

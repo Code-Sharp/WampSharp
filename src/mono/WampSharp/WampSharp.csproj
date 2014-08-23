@@ -548,8 +548,23 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.Sync.cs">
-      <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.Sync.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Async\MultiValueAsyncOperationCallback.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Async\MultiValueAsyncOperationCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Async\SingleValueAsyncOperationCallback.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Async\SingleValueAsyncOperationCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\MultiValueSyncCallback.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\MultiValueSyncCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SingleValueSyncCallback.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SingleValueSyncCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallback.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs</Link>
@@ -560,8 +575,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\SyncCalleeProxyInterceptor.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\SyncCalleeProxyInterceptor.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.cs">
-      <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\WampCalleeProxyInvocationHandler.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\WampCalleeProxyInvocationHandler.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeProxyFactory.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeProxyFactory.cs</Link>
@@ -574,6 +589,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\CompositeListener.cs">
       <Link>WAMP2\V2\Api\Server\CompositeListener.cs</Link>
@@ -938,6 +956,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\WampObjectFormatter.cs">
       <Link>WAMP2\V2\Core\WampObjectFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampResultAttributeExtensions.cs">
+      <Link>WAMP2\V2\Rpc\WampResultAttributeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampRpcRuntimeException.cs">
       <Link>WAMP2\V2\Rpc\WampRpcRuntimeException.cs</Link>
     </Compile>
@@ -1145,8 +1166,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.Async.cs">
-      <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInvocationHandler.Async.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Async\AsyncOperationCallback.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Async\AsyncOperationCallback.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup />

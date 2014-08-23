@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
-using WampSharp.V2.Client;
-using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal abstract partial class WampCalleeProxyInvocationHandler : IWampCalleeProxyInvocationHandler
+    internal abstract class WampCalleeProxyInvocationHandler : IWampCalleeProxyInvocationHandler
     {
         protected readonly Dictionary<string, object> mEmptyOptions = new Dictionary<string, object>();
 
-        public virtual object Invoke(MethodInfo method, object[] arguments)
+        public object Invoke(MethodInfo method, object[] arguments)
         {
             Type unwrapped = TaskExtensions.UnwrapReturnType(method.ReturnType);
 
@@ -25,9 +21,9 @@ namespace WampSharp.V2.CalleeProxy
 
             // TODO: register to connection lost events and raise an exception
             // TODO: WaitHandle.WaitAny(connectionLost, callback.WaitHandle)
-            callback.Wait(Timeout.Infinite);
+            WaitForResult(callback);
 
-            WampException exception = callback.Exception;
+            Exception exception = callback.Exception;
 
             if (exception != null)
             {
@@ -43,7 +39,7 @@ namespace WampSharp.V2.CalleeProxy
 
             MethodInfoHelper methodInfoHelper = new MethodInfoHelper(method);
 
-            if (HasMultivaluedResult(method))
+            if (method.HasMultivaluedResult())
             {
                 syncCallback = new MultiValueSyncCallback(methodInfoHelper, arguments);
             }
@@ -82,7 +78,7 @@ namespace WampSharp.V2.CalleeProxy
         {
             AsyncOperationCallback asyncOperationCallback;
 
-            if (HasMultivaluedResult(method))
+            if (method.HasMultivaluedResult())
             {
                 asyncOperationCallback = new MultiValueAsyncOperationCallback(returnType);
             }
@@ -97,29 +93,19 @@ namespace WampSharp.V2.CalleeProxy
 
             Invoke(asyncOperationCallback, procedureAttribute.Procedure, arguments);
 
-            return asyncOperationCallback.Task;
+            return AwaitForResult(asyncOperationCallback);
         }
 
         protected abstract void Invoke(IWampRawRpcOperationCallback callback, string procedure, object[] arguments);
 
-        private bool HasMultivaluedResult(MethodInfo method)
+        protected virtual void WaitForResult(SyncCallback callback)
         {
-            WampResultAttribute resultAttribute = 
-                method.ReturnParameter.GetCustomAttribute<WampResultAttribute>(true);
+            callback.Wait(Timeout.Infinite);
+        }
 
-            if (!method.ReturnType.IsArray)
-            {
-                return false;
-            }
-
-            if ((resultAttribute != null) &&
-                (resultAttribute.CollectionResultTreatment == CollectionResultTreatment.Multivalued))
-            {
-                return true;
-            }
-
-            return false;
+        protected virtual Task<object> AwaitForResult(AsyncOperationCallback asyncOperationCallback)
+        {
+            return asyncOperationCallback.Task;
         }
     }
-
 }

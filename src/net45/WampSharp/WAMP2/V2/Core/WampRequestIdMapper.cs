@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
 
 namespace WampSharp.V2.Core
@@ -8,18 +10,28 @@ namespace WampSharp.V2.Core
     {
         public void ConnectionError(Exception exception)
         {
-            foreach (var pendingRegistration in this)
+            SetException(exception);
+        }
+
+        public void ConnectionClosed()
+        {
+            WampConnectionBrokenException exception = 
+                new WampConnectionBrokenException();
+
+            SetException(exception);
+        }
+
+        private void SetException(Exception exception)
+        {
+            ICollection<T> pendingRegistrations = mIdToValue.Values;
+
+            foreach (T pendingRegistration in pendingRegistrations)
             {
                 T registration;
                 TryRemove(pendingRegistration.RequestId, out registration);
 
                 pendingRegistration.SetException(exception);
             }
-        }
-
-        public void ConnectionClosed()
-        {
-            throw new NotImplementedException();
         }
     }
 }

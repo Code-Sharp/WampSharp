@@ -36,18 +36,8 @@ namespace WampSharp.V2.Rpc
                 mHasResult = false;
             }
 
-            WampResultAttribute wampResultAttribute =
-                method.ReturnParameter.GetCustomAttribute<WampResultAttribute>();
-
-            if (wampResultAttribute == null)
-            {
-                mCollectionResultTreatment = CollectionResultTreatment.SingleValue;
-            }
-            else
-            {
-                mCollectionResultTreatment =
-                    wampResultAttribute.CollectionResultTreatment;
-            }
+            mCollectionResultTreatment =
+                method.GetCollectionResultTreatment();
 
             mHelper = new MethodInfoHelper(method);
 

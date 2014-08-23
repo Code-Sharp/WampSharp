@@ -20,7 +20,9 @@ namespace WampSharp.V2
         public WampRealmProxyServiceProvider(IWampRealmProxy proxy)
         {
             mProxy = proxy;
-            mCalleeProxyFactory = new WampCalleeClientProxyFactory(mProxy.RpcCatalog);
+            mCalleeProxyFactory = new WampCalleeClientProxyFactory
+                (mProxy.RpcCatalog,
+                 mProxy.Monitor);
         }
 
         public Task RegisterCallee(object instance)
@@ -53,12 +55,12 @@ namespace WampSharp.V2
 
         public ISubject<TEvent> GetSubject<TEvent>(string topicUri)
         {
-            return mProxy.TopicContainer.GetTopicByUri(topicUri).ToSubject<TEvent>();
+            return mProxy.TopicContainer.GetTopicByUri(topicUri).ToSubject<TEvent>(mProxy.Monitor);
         }
 
         public IWampSubject GetSubject(string topicUri)
         {
-            return mProxy.TopicContainer.GetTopicByUri(topicUri).ToSubject();
+            return mProxy.TopicContainer.GetTopicByUri(topicUri).ToSubject(mProxy.Monitor);
         }
     }
 }
