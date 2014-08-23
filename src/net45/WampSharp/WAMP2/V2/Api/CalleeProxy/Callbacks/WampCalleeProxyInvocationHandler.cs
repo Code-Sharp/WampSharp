@@ -19,8 +19,6 @@ namespace WampSharp.V2.CalleeProxy
 
             SyncCallback callback = InnerInvokeSync(method, arguments, unwrapped);
 
-            // TODO: register to connection lost events and raise an exception
-            // TODO: WaitHandle.WaitAny(connectionLost, callback.WaitHandle)
             WaitForResult(callback);
 
             Exception exception = callback.Exception;
