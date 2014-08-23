@@ -24,8 +24,8 @@ namespace WampSharp.V2.Client
             IWampFormatter<TMessage> formatter = binding.Formatter;
             mRpcCatalog = new WampRpcOperationCatalogProxy<TMessage>(proxy, formatter);
             mTopicContainer = new WampTopicContainerProxy<TMessage>(proxy, formatter);
-            mServices = new WampRealmProxyServiceProvider(this);
             mMonitor = new WampSessionClient<TMessage>(this, formatter);
+            mServices = new WampRealmProxyServiceProvider(this);
         }
 
         public string Name

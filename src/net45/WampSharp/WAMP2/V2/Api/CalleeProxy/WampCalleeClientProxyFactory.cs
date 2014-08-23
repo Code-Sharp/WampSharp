@@ -78,11 +78,14 @@ namespace WampSharp.V2.CalleeProxy
 #endif
             {
 #if NET45
-                return await
-                       Task.WhenAny(asyncOperationCallback.Task,
-                                    mDisconnectionTaskCompletionSource.Task);
+                Task<object> task = await Task.WhenAny(asyncOperationCallback.Task,
+                                                       mDisconnectionTaskCompletionSource.Task);
+
+                object result = await asyncOperationCallback.Task;
+
+                return result;
 #else
-                // TODO: Add framework 4 implementation.
+    // TODO: Add framework 4 implementation.
                 return asyncOperationCallback.Task;
 #endif
             }
