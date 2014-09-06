@@ -113,6 +113,9 @@
     <Compile Include="..\..\net45\WampSharp.Default\Newtonsoft\JsonFormatter.cs">
       <Link>Newtonsoft\JsonFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default\Newtonsoft\JsonPropertyNameContractResolver.cs">
+      <Link>Newtonsoft\JsonPropertyNameContractResolver.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\Newtonsoft\JsonWampMessageFormatter.cs">
       <Link>Newtonsoft\JsonWampMessageFormatter.cs</Link>
     </Compile>

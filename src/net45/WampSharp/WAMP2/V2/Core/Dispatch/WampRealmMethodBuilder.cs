@@ -1,7 +1,6 @@
 ﻿using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Core.Dispatch

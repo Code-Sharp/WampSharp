@@ -6,8 +6,8 @@ namespace WampSharp.V2.PubSub
     {
         long Subscribe(ISubscribeRequest<TMessage> request, TMessage options, string topicUri);
         void Unsubscribe(IUnsubscribeRequest<TMessage> request, long subscriptionId);
-        long Publish(TMessage options, string topicUri);
-        long Publish(TMessage options, string topicUri, TMessage[] arguments);
-        long Publish(TMessage options, string topicUri, TMessage[] arguments, TMessage argumentKeywords);
+        long Publish(PublishOptions options, string topicUri);
+        long Publish(PublishOptions options, string topicUri, TMessage[] arguments);
+        long Publish(PublishOptions options, string topicUri, TMessage[] arguments, TMessage argumentKeywords);
     }
 }

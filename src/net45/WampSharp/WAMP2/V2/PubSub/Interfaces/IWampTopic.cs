@@ -1,5 +1,6 @@
 ﻿using System;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
 {
@@ -9,10 +10,10 @@ namespace WampSharp.V2.PubSub
 
         string TopicUri { get; }
 
-        long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options);
-        long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments);
-        long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, TMessage argumentKeywords);
+        long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions publishOptions);
+        long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions publishOptions, TMessage[] arguments);
+        long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions publishOptions, TMessage[] arguments, TMessage argumentKeywords);
 
-        IDisposable Subscribe(IWampRawTopicSubscriber subscriber, object options);
+        IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber);
     }
 }

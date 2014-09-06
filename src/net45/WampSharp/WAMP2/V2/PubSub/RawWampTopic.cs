@@ -12,7 +12,7 @@ using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.PubSub
 {
-    internal class RawWampTopic<TMessage> : IRawWampTopic<TMessage>, IWampRawTopicSubscriber, IDisposable
+    internal class RawWampTopic<TMessage> : IRawWampTopic<TMessage>, IWampRawTopicRouterSubscriber, IDisposable
     {
         #region Data Members
 
@@ -21,7 +21,7 @@ namespace WampSharp.V2.PubSub
 
         private readonly IWampBinding<TMessage> mBinding; 
         private readonly IWampEventSerializer<TMessage> mSerializer;
-        private readonly Subject<WampMessage<TMessage>> mSubject = new Subject<WampMessage<TMessage>>();
+        private readonly Subject<RemotePublication> mSubject = new Subject<RemotePublication>();
         private readonly string mTopicUri;
 
         #endregion
@@ -39,34 +39,67 @@ namespace WampSharp.V2.PubSub
 
         #region IRawWampTopic<TMessage> Members
 
-        public void Event<TEvent>(IWampFormatter<TEvent> formatter, long publicationId, TEvent details)
+        public void Event<TRaw>(IWampFormatter<TRaw> formatter, long publicationId, PublishOptions options)
         {
-            WampMessage<TMessage> message =
-                mSerializer.Event(SubscriptionId, publicationId, details);
+            Func<EventDetails, WampMessage<TMessage>> action =
+                eventDetails => mSerializer.Event(SubscriptionId, publicationId, eventDetails);
 
-            Publish(message);
+            InnerEvent(options, action);
         }
 
-        public void Event<TEvent>(IWampFormatter<TEvent> formatter, long publicationId, TEvent details, TEvent[] arguments)
+        public void Event<TRaw>(IWampFormatter<TRaw> formatter, long publicationId, PublishOptions options,
+                                TRaw[] arguments)
         {
-            WampMessage<TMessage> message =
-                mSerializer.Event(SubscriptionId, publicationId, details, arguments.Cast<object>().ToArray());
+            Func<EventDetails, WampMessage<TMessage>> action =
+                details => mSerializer.Event(SubscriptionId,
+                                             publicationId,
+                                             details,
+                                             arguments.Cast<object>().ToArray());
 
-            Publish(message);
+            InnerEvent(options, action);
         }
 
-        public void Event<TEvent>(IWampFormatter<TEvent> formatter, long publicationId, TEvent details, TEvent[] arguments, TEvent argumentsKeywords)
+        public void Event<TRaw>(IWampFormatter<TRaw> formatter, long publicationId, PublishOptions options,
+                                TRaw[] arguments, TRaw argumentsKeywords)
         {
-            WampMessage<TMessage> message =
-                mSerializer.Event(SubscriptionId, publicationId, details, arguments.Cast<object>().ToArray(), argumentsKeywords);
+            Func<EventDetails, WampMessage<TMessage>> action =
+                details => mSerializer.Event(SubscriptionId, publicationId, details,
+                                             arguments.Cast<object>().ToArray(),
+                                             argumentsKeywords);
 
-            Publish(message);
+            InnerEvent(options, action);
         }
 
-        private void Publish(WampMessage<TMessage> message)
+        private EventDetails GetDetails(PublishOptions options)
+        {
+            EventDetails result = new EventDetails();
+
+            PublishOptionsExtended extendedOptions = 
+                options as PublishOptionsExtended;
+
+            bool disclosePublisher = options.DiscloseMe ?? false;
+
+            if ((extendedOptions != null) && disclosePublisher)
+            {
+                result.Publisher = extendedOptions.PublisherId;
+            }
+
+            return result;
+        }
+
+        private void Publish(WampMessage<TMessage> message, PublishOptions options)
         {
             WampMessage<TMessage> raw = mBinding.GetRawMessage(message);
-            mSubject.OnNext(raw);
+            mSubject.OnNext(new RemotePublication(raw, options));
+        }
+
+        private void InnerEvent(PublishOptions options, Func<EventDetails, WampMessage<TMessage>> action)
+        {
+            EventDetails details = GetDetails(options);
+
+            WampMessage<TMessage> message = action(details);
+
+            Publish(message, options);
         }
 
         public bool HasSubscribers
@@ -282,23 +315,84 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        private class RemoteObserver : IObserver<WampMessage<TMessage>>
+        private class RemotePublication
+        {
+            private readonly WampMessage<TMessage> mMessage;
+            private readonly PublishOptions mOptions;
+
+            public RemotePublication(WampMessage<TMessage> message, PublishOptions options)
+            {
+                mMessage = message;
+                mOptions = options;
+            }
+
+            public WampMessage<TMessage> Message
+            {
+                get { return mMessage; }
+            }
+
+            public PublishOptions Options
+            {
+                get { return mOptions; }
+            }
+        }
+
+        private class RemoteObserver : IObserver<RemotePublication>
         {
             private bool mOpen = false;
 
             private readonly IWampRawClient<TMessage> mClient;
+            private readonly long mSessionId;
 
             public RemoteObserver(IWampRawClient<TMessage> client)
             {
                 mClient = client;
+                IWampClient casted = mClient as IWampClient;
+                mSessionId = casted.Session;
             }
 
-            public void OnNext(WampMessage<TMessage> value)
+            public void OnNext(RemotePublication value)
             {
                 if (mOpen)
                 {
-                    mClient.Message(value);                    
+                    if (ShouldPublish(value.Options))
+                    {
+                        mClient.Message(value.Message);
+                    }                    
                 }
+            }
+
+            private bool ShouldPublish(PublishOptions options)
+            {
+                PublishOptionsExtended extendedOptions = 
+                    options as PublishOptionsExtended;
+
+                if (extendedOptions == null)
+                {
+                    return true;
+                }
+
+                bool excludeMe = extendedOptions.ExcludeMe ?? true;
+
+                if (extendedOptions.PublisherId == mSessionId &&
+                    excludeMe)
+                {
+                    return false;
+                }
+
+                if ((extendedOptions.Exclude != null) &&
+                    (extendedOptions.Exclude.Contains(mSessionId)))
+                {
+                    return false;
+                }
+
+                if (extendedOptions.Eligible == null ||
+                    extendedOptions.Eligible.Contains(mSessionId))
+                {
+                    return true;
+                }
+
+                return false;
             }
 
             public void Open()

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
@@ -14,7 +15,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
             new RequestMapper();
 
         private readonly JTokenEqualityComparer mComparer = new JTokenEqualityComparer();
-        
+        private static JsonSerializer mSerializer = new JsonSerializer {NullValueHandling = NullValueHandling.Ignore};
+
         public WampMessage<MockRaw> MapRequest(WampMessage<MockRaw> message, IEnumerable<WampMessage<MockRaw>> messages, bool ignoreRequestId)
         {
             WampMethodInfo map = mMapper.Map(message);
@@ -84,7 +86,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
             }
             else
             {
-                return JToken.FromObject(raw.Value);
+                return JToken.FromObject(raw.Value, mSerializer);
             }
         }
     }

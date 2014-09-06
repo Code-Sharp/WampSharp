@@ -22,50 +22,52 @@ namespace WampSharp.V2.PubSub
 
         public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri)
         {
-            bool acknowledge = ShouldAcknowledge(options);
-
-            try
-            {
-                long publicationId = mRawTopicContainer.Publish(options, topicUri);
-                SendPublishAckIfNeeded(publisher, requestId, publicationId, acknowledge);
-            }
-            catch (WampException ex)
-            {
-                PublishErrorIfNeeded(publisher, requestId, acknowledge, ex);
-            }
+            InnerPublish(publisher, requestId, options,
+                         publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri));
         }
 
         public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri,
                             TMessage[] arguments)
         {
-            bool acknowledge = ShouldAcknowledge(options);
-
-            try
-            {
-                long publicationId = mRawTopicContainer.Publish(options, topicUri, arguments);
-                SendPublishAckIfNeeded(publisher, requestId, publicationId, acknowledge);
-            }
-            catch (WampException ex)
-            {
-                PublishErrorIfNeeded(publisher, requestId, acknowledge, ex);
-            }
+            InnerPublish(publisher, requestId, options,
+                         publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri, arguments));
         }
 
         public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri,
                             TMessage[] arguments,
                             TMessage argumentKeywords)
         {
-            bool acknowledge = ShouldAcknowledge(options);
+            InnerPublish(publisher, requestId, options,
+                         publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri, arguments, argumentKeywords));
+        }
+
+        private void InnerPublish(IWampPublisher publisher, long requestId, TMessage options, Func<PublishOptions, long> action)
+        {
+            PublishOptions publishOptions = GetPublishOptions(publisher, options);
+
+            bool acknowledge = publishOptions.Acknowledge ?? false;
 
             try
             {
-                long publicationId = mRawTopicContainer.Publish(options, topicUri, arguments, argumentKeywords);
+                long publicationId = action(publishOptions);
                 SendPublishAckIfNeeded(publisher, requestId, publicationId, acknowledge);
             }
             catch (WampException ex)
             {
                 PublishErrorIfNeeded(publisher, requestId, acknowledge, ex);
             }
+        }
+
+        private PublishOptions GetPublishOptions(IWampPublisher publisher, TMessage options)
+        {
+            PublishOptionsExtended publishOptions =
+                mBinding.Formatter.Deserialize<PublishOptionsExtended>(options);
+
+            IWampClient casted = publisher as IWampClient;
+
+            publishOptions.PublisherId = casted.Session;
+            
+            return publishOptions;
         }
 
         public void Subscribe(IWampSubscriber subscriber, long requestId, TMessage options, string topicUri)
@@ -112,24 +114,6 @@ namespace WampSharp.V2.PubSub
             {
                 publisher.PublishError(requestId, ex);
             }
-        }
-
-        private bool ShouldAcknowledge(TMessage options)
-        {
-            // I don't want to create an object that has a (lower case)
-            // acknowledge property, and I don't want to put any attributes
-            // from the external libraries. I hope they support this.
-            // The serializing/deserializing options issue should be rethought of
-            // later.
-            var castedOptions =
-                DeserializeOptions(options, new {acknowledge = default(bool)});
-
-            return castedOptions.acknowledge;
-        }
-
-        private TSample DeserializeOptions<TSample>(TMessage options, TSample sample)
-        {
-            return mBinding.Formatter.Deserialize<TSample>(options);
         }
     }
 }

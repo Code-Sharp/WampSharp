@@ -3,6 +3,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.PubSub
@@ -45,25 +46,25 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options)
         {
-            Action<IWampRawTopicSubscriber, long> publishAction =
+            Action<IWampRawTopicRouterSubscriber, long> publishAction =
                 (subscriber, publicationId) => subscriber.Event(formatter, publicationId, options);
 
             return InnerPublish(publishAction);
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, TMessage[] arguments)
         {
-            Action<IWampRawTopicSubscriber, long> publishAction =
+            Action<IWampRawTopicRouterSubscriber, long> publishAction =
                 (subscriber, publicationId) => subscriber.Event(formatter, publicationId, options, arguments);
 
             return InnerPublish(publishAction);
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, TMessage argumentKeywords)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, TMessage[] arguments, TMessage argumentKeywords)
         {
-            Action<IWampRawTopicSubscriber, long> publishAction =
+            Action<IWampRawTopicRouterSubscriber, long> publishAction =
                 (subscriber, publicationId) => subscriber.Event(formatter, publicationId, options, arguments, argumentKeywords);
 
             return InnerPublish(publishAction);
@@ -78,7 +79,7 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public IDisposable Subscribe(IWampRawTopicSubscriber subscriber, object options)
+        public IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber)
         {
             RegisterSubscriberEventsIfNeeded(subscriber);
 
@@ -93,7 +94,7 @@ namespace WampSharp.V2.PubSub
             return result;
         }
 
-        private void OnSubscriberLeave(IWampRawTopicSubscriber subscriber)
+        private void OnSubscriberLeave(IWampRawTopicRouterSubscriber subscriber)
         {
             UnregisterSubscriberEventsIfNeeded(subscriber);
 
@@ -126,7 +127,7 @@ namespace WampSharp.V2.PubSub
 
         #region Event forwarding
 
-        private void RegisterSubscriberEventsIfNeeded(IWampRawTopicSubscriber subscriber)
+        private void RegisterSubscriberEventsIfNeeded(IWampRawTopicRouterSubscriber subscriber)
         {
             ISubscriptionNotifier notifier = subscriber as ISubscriptionNotifier;
 
@@ -144,7 +145,7 @@ namespace WampSharp.V2.PubSub
             notifier.SubscriptionRemoving += OnSubscriberSubscriptionRemoving;
         }
 
-        private void UnregisterSubscriberEventsIfNeeded(IWampRawTopicSubscriber subscriber)
+        private void UnregisterSubscriberEventsIfNeeded(IWampRawTopicRouterSubscriber subscriber)
         {
             ISubscriptionNotifier subscriptionNotifier = subscriber as ISubscriptionNotifier;
 
@@ -186,7 +187,7 @@ namespace WampSharp.V2.PubSub
 
         #region Private methods
 
-        private long InnerPublish(Action<IWampRawTopicSubscriber, long> publishAction)
+        private long InnerPublish(Action<IWampRawTopicRouterSubscriber, long> publishAction)
         {
             long publicationId = mGenerator.Generate();
 
@@ -252,9 +253,9 @@ namespace WampSharp.V2.PubSub
 
         private class SubscriberObserver : IObserver<IPublication>
         {
-            private readonly IWampRawTopicSubscriber mSubscriber;
+            private readonly IWampRawTopicRouterSubscriber mSubscriber;
 
-            public SubscriberObserver(IWampRawTopicSubscriber subscriber)
+            public SubscriberObserver(IWampRawTopicRouterSubscriber subscriber)
             {
                 mSubscriber = subscriber;
             }
@@ -275,21 +276,21 @@ namespace WampSharp.V2.PubSub
 
         private interface IPublication
         {
-            void Publish(IWampRawTopicSubscriber subscriber);
+            void Publish(IWampRawTopicRouterSubscriber subscriber);
         }
 
         private class Publication : IPublication
         {
-            private readonly Action<IWampRawTopicSubscriber, long> mPublishAction;
+            private readonly Action<IWampRawTopicRouterSubscriber, long> mPublishAction;
             private readonly long mPublicationId;
 
-            public Publication(Action<IWampRawTopicSubscriber, long> publishAction, long publicationId)
+            public Publication(Action<IWampRawTopicRouterSubscriber, long> publishAction, long publicationId)
             {
                 mPublishAction = publishAction;
                 mPublicationId = publicationId;
             }
 
-            public void Publish(IWampRawTopicSubscriber subscriber)
+            public void Publish(IWampRawTopicRouterSubscriber subscriber)
             {
                 mPublishAction(subscriber, mPublicationId);
             }

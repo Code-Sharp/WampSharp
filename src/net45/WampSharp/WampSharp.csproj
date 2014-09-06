@@ -59,6 +59,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -241,11 +242,23 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeRouterProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs" />
+    <Compile Include="WAMP2\V2\Api\Rx\RawRouterSubscriber.cs" />
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\IWampPendingRequest.cs" />
     <Compile Include="WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\PubSub\EventDetails.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\PubSub\PublishOptionsExtended.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\ResultDetails.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\CallOptions.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InvocationOptions.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\PropertyNameAttribute.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\PubSub\PublishOptions.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\PubSub\SubscribeOptions.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\YieldOptions.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\WampDetailsOptionsAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\WampRequestIdMapper.cs" />
+    <Compile Include="WAMP2\V2\PubSub\IWampRawTopicRouterSubscriber.cs" />
     <Compile Include="WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Api\Server\IWampHost.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawSubscriber.cs" />

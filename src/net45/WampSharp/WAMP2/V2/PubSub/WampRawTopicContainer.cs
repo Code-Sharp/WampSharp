@@ -41,7 +41,7 @@ namespace WampSharp.V2.PubSub
                     rawTopic = CreateRawTopic(topicUri);
                     
                     IDisposable disposable =
-                        mTopicContainer.Subscribe(rawTopic, options, topicUri);
+                        mTopicContainer.Subscribe(rawTopic, topicUri);
 
                     rawTopic.SubscriptionDisposable = disposable;
                 }
@@ -67,17 +67,17 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public long Publish(TMessage options, string topicUri)
+        public long Publish(PublishOptions options, string topicUri)
         {
             return mTopicContainer.Publish(mBinding.Formatter, options, topicUri);
         }
 
-        public long Publish(TMessage options, string topicUri, TMessage[] arguments)
+        public long Publish(PublishOptions options, string topicUri, TMessage[] arguments)
         {
             return mTopicContainer.Publish(mBinding.Formatter, options, topicUri, arguments);
         }
 
-        public long Publish(TMessage options, string topicUri, TMessage[] arguments, TMessage argumentKeywords)
+        public long Publish(PublishOptions options, string topicUri, TMessage[] arguments, TMessage argumentKeywords)
         {
             return mTopicContainer.Publish(mBinding.Formatter, options, topicUri, arguments, argumentKeywords);
         }

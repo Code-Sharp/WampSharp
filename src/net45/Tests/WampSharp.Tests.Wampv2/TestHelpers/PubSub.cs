@@ -2398,7 +2398,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                     mRequest1 = new WampMessage<MockRaw>();
                     {
                         mRequest1.MessageType = WampMessageType.v2Publish;
-                        MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(1321942957162496);
                         arguments[1] = new MockRaw(new
                                                        {
@@ -2409,15 +2409,12 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                         arguments[3] = new MockRaw(new object[] {
                                                                     0,
                                                                 });
-                        arguments[4] = new MockRaw(new
-                                                       {
-                                                       });
                         mRequest1.Arguments = arguments;
                     }
                     mRequest2 = new WampMessage<MockRaw>();
                     {
                         mRequest2.MessageType = WampMessageType.v2Publish;
-                        MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(8591554579005440);
                         arguments[1] = new MockRaw(new
                                                        {
@@ -2428,15 +2425,12 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                         arguments[3] = new MockRaw(new object[] {
                                                                     1,
                                                                 });
-                        arguments[4] = new MockRaw(new
-                                                       {
-                                                       });
                         mRequest2.Arguments = arguments;
                     }
                     mRequest3 = new WampMessage<MockRaw>();
                     {
                         mRequest3.MessageType = WampMessageType.v2Publish;
-                        MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(5393136366911488);
                         arguments[1] = new MockRaw(new
                                                        {
@@ -2447,15 +2441,12 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                         arguments[3] = new MockRaw(new object[] {
                                                                     2,
                                                                 });
-                        arguments[4] = new MockRaw(new
-                                                       {
-                                                       });
                         mRequest3.Arguments = arguments;
                     }
                     mRequest4 = new WampMessage<MockRaw>();
                     {
                         mRequest4.MessageType = WampMessageType.v2Publish;
-                        MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(2827662267514880);
                         arguments[1] = new MockRaw(new
                                                        {
@@ -2466,15 +2457,12 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                         arguments[3] = new MockRaw(new object[] {
                                                                     3,
                                                                 });
-                        arguments[4] = new MockRaw(new
-                                                       {
-                                                       });
                         mRequest4.Arguments = arguments;
                     }
                     mRequest5 = new WampMessage<MockRaw>();
                     {
                         mRequest5.MessageType = WampMessageType.v2Publish;
-                        MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(3693598377771008);
                         arguments[1] = new MockRaw(new
                                                        {
@@ -2485,15 +2473,12 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                         arguments[3] = new MockRaw(new object[] {
                                                                     4,
                                                                 });
-                        arguments[4] = new MockRaw(new
-                                                       {
-                                                       });
                         mRequest5.Arguments = arguments;
                     }
                     mRequest6 = new WampMessage<MockRaw>();
                     {
                         mRequest6.MessageType = WampMessageType.v2Publish;
-                        MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(1799077494784000);
                         arguments[1] = new MockRaw(new
                                                        {
@@ -2504,15 +2489,12 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                         arguments[3] = new MockRaw(new object[] {
                                                                     5,
                                                                 });
-                        arguments[4] = new MockRaw(new
-                                                       {
-                                                       });
                         mRequest6.Arguments = arguments;
                     }
                     mRequest7 = new WampMessage<MockRaw>();
                     {
                         mRequest7.MessageType = WampMessageType.v2Publish;
-                        MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(8273822264328192);
                         arguments[1] = new MockRaw(new
                                                        {
@@ -2523,15 +2505,12 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                         arguments[3] = new MockRaw(new object[] {
                                                                     6,
                                                                 });
-                        arguments[4] = new MockRaw(new
-                                                       {
-                                                       });
                         mRequest7.Arguments = arguments;
                     }
                     mRequest8 = new WampMessage<MockRaw>();
                     {
                         mRequest8.MessageType = WampMessageType.v2Publish;
-                        MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(8762065514659840);
                         arguments[1] = new MockRaw(new
                                                        {
@@ -2542,15 +2521,12 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                         arguments[3] = new MockRaw(new object[] {
                                                                     7,
                                                                 });
-                        arguments[4] = new MockRaw(new
-                                                       {
-                                                       });
                         mRequest8.Arguments = arguments;
                     }
                     mRequest9 = new WampMessage<MockRaw>();
                     {
                         mRequest9.MessageType = WampMessageType.v2Publish;
-                        MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(7515247063597056);
                         arguments[1] = new MockRaw(new
                                                        {
@@ -2561,15 +2537,12 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                         arguments[3] = new MockRaw(new object[] {
                                                                     8,
                                                                 });
-                        arguments[4] = new MockRaw(new
-                                                       {
-                                                       });
                         mRequest9.Arguments = arguments;
                     }
                     mRequest10 = new WampMessage<MockRaw>();
                     {
                         mRequest10.MessageType = WampMessageType.v2Publish;
-                        MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(3238000288858112);
                         arguments[1] = new MockRaw(new
                                                        {
@@ -2580,15 +2553,12 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                         arguments[3] = new MockRaw(new object[] {
                                                                     9,
                                                                 });
-                        arguments[4] = new MockRaw(new
-                                                       {
-                                                       });
                         mRequest10.Arguments = arguments;
                     }
                     mRequest11 = new WampMessage<MockRaw>();
                     {
                         mRequest11.MessageType = WampMessageType.v2Publish;
-                        MockRaw[] arguments = new MockRaw[5];
+                        MockRaw[] arguments = new MockRaw[4];
                         arguments[0] = new MockRaw(394435936387072);
                         arguments[1] = new MockRaw(new
                                                        {
@@ -2599,9 +2569,6 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
                         arguments[3] = new MockRaw(new object[] {
                                                                     10,
                                                                 });
-                        arguments[4] = new MockRaw(new
-                                                       {
-                                                       });
                         mRequest11.Arguments = arguments;
                     }
                 }

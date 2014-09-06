@@ -9,6 +9,11 @@
     public static class WampErrors
     {
         /// <summary>
+        /// *Peer* provided an incorrect URI for any URI-based attribute of WAMP message, such as realm, topic or procedure
+        /// </summary>
+        public const string InvalidUri = "wamp.error.invalid_uri";
+
+        /// <summary>
         /// Indicates that the close was with a normal reason.
         /// </summary>
         public const string CloseNormal = "wamp.close.normal";

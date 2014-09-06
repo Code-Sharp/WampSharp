@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
 {
     public interface IWampTopicContainer
     {
-        IDisposable Subscribe(IWampRawTopicSubscriber subscriber, object options, string topicUri);
+        IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri);
 
-        long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, string topicUri);
-        long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, string topicUri, TMessage[] arguments);
-        long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, string topicUri, TMessage[] arguments, TMessage argumentKeywords);
+        long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri);
+        long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri, TMessage[] arguments);
+        long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri, TMessage[] arguments, TMessage argumentKeywords);
 
         /// <summary>
         /// Creates and adds a topic to the container given its uri.

@@ -8,6 +8,33 @@ namespace WampSharp.V2.Session
     internal class WampSessionServer<TMessage> : IWampSessionServer<TMessage>
     {
         private IWampBindedRealmContainer<TMessage> mRealmContainer;
+        private readonly Dictionary<string, object> mWelcomeDetails;
+
+        public WampSessionServer()
+        {
+            // Do it with reflection and attributes :)
+            mWelcomeDetails = new Dictionary<string,object>()
+                {
+                    {"roles",
+                        new Dictionary<string,object>()
+                            {
+                                {"dealer", new Dictionary<string, object>()
+                                    {
+                                                                   
+                                    }},
+                                {"broker", new Dictionary<string,object>()
+                                    {
+                                        {"features",
+                                            new Dictionary<string, object>()
+                                                {
+                                                    {"publisher_identification", true},
+                                                    {"publisher_exclusion", true},
+                                                    {"subscriber_blackwhite_listing", true},
+                                                }}
+                                    }},
+                            }}
+                };
+        }
 
         public void OnNewClient(IWampClient<TMessage> client)
         {
@@ -32,16 +59,7 @@ namespace WampSharp.V2.Session
 
             bindedRealm.Hello(wampClient.Session, details);
 
-            // TODO: Send real details to the client.
-            client.Welcome(wampClient.Session, new Dictionary<string,object>()
-                                                   {
-                                                       {"roles",
-                                                   new Dictionary<string,object>()
-                                                       {
-                                                           {"dealer", new Dictionary<string,object>()},
-                                                           {"broker", new Dictionary<string,object>()},
-                                                       }}
-                                                   });
+            client.Welcome(wampClient.Session, mWelcomeDetails);
         }
 
         public void Abort(IWampSessionClient client, TMessage details, string reason)

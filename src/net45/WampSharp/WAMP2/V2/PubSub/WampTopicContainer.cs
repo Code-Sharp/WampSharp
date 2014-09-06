@@ -47,30 +47,29 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public IDisposable Subscribe(IWampRawTopicSubscriber subscriber, object options, string topicUri)
+        public IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri)
         {
             lock (mLock)
             {
                 IWampTopic topic = GetOrCreateTopicByUri(topicUri, false);
 
-                return topic.Subscribe(subscriber, options);
+                return topic.Subscribe(subscriber);
             }
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, string topicUri)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri)
         {
             return TopicInvokeSafe(topicUri,
                                    topic => topic.Publish(formatter, options));
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, string topicUri, TMessage[] arguments)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri, TMessage[] arguments)
         {
             return TopicInvokeSafe(topicUri,
                                    topic => topic.Publish(formatter, options, arguments));
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, TMessage options, string topicUri, TMessage[] arguments,
-                                      TMessage argumentKeywords)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri, TMessage[] arguments, TMessage argumentKeywords)
         {
             return TopicInvokeSafe(topicUri,
                                    topic => topic.Publish(formatter, options, arguments, argumentKeywords));

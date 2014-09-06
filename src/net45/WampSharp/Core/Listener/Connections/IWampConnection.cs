@@ -1,6 +1,5 @@
 using System;
 using WampSharp.Core.Message;
-using WampSharp.V1.Auxiliary.Client;
 
 namespace WampSharp.Core.Listener
 {

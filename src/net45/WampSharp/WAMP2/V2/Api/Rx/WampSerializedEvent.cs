@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core;
 
 namespace WampSharp.V2
 {
@@ -55,7 +56,7 @@ namespace WampSharp.V2
     {
         public WampSerializedEvent(IWampFormatter<TMessage> formatter,
                                    long publicationId,
-                                   TMessage details,
+                                   object details,
                                    TMessage[] arguments = null) :
                                        this(formatter,
                                             publicationId,
@@ -67,7 +68,7 @@ namespace WampSharp.V2
 
         public WampSerializedEvent(IWampFormatter<TMessage> formatter,
                                    long publicationId,
-                                   TMessage details,
+                                   object details,
                                    TMessage[] arguments,
                                    TMessage argumentsKeywords) :
                                        this(formatter,
@@ -81,25 +82,28 @@ namespace WampSharp.V2
 
         private WampSerializedEvent(IWampFormatter<TMessage> formatter,
                                     long publicationId,
-                                    TMessage details,
+                                    object details,
                                     TMessage[] arguments,
                                     ISerializedValue argumentsKeywords) :
                                         base(publicationId,
                                              GetSerializedArgument(formatter, details),
-                                             GetSerializedArguments(formatter, arguments),
-                                             argumentsKeywords)
+                                             GetSerializedArguments(formatter, arguments), argumentsKeywords)
         {
         }
 
-        private static SerializedValue<TMessage> GetSerializedArgument(IWampFormatter<TMessage> formatter, TMessage argument)
+        private static ISerializedValue GetSerializedArgument(IWampFormatter<TMessage> formatter, object argument)
         {
             if (argument == null)
             {
                 return null;
             }
+            else if (argument is TMessage)
+            {
+                return new SerializedValue<TMessage>(formatter, (TMessage)argument);                
+            }
             else
             {
-                return new SerializedValue<TMessage>(formatter, argument);                
+                return new SerializedValue<object>(WampObjectFormatter.Value, argument);
             }
         }
 
