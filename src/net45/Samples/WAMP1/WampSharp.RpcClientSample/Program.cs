@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using WampSharp.V1;
 using WampSharp.V1.Rpc;
+using WebSocket4Net;
 
 namespace WampSharp.RpcClientSample
 {

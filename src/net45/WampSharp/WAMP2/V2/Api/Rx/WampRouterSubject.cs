@@ -49,7 +49,7 @@ namespace WampSharp.V2
 
             foreach (PropertyInfo property in typeof (PublishOptions).GetProperties())
             {
-                if (property.IsDefined(typeof (PropertyNameAttribute)))
+                if (property.IsDefined(typeof (PropertyNameAttribute), true))
                 {
                     string name = property.GetCustomAttribute<PropertyNameAttribute>()
                                           .PropertyName;
@@ -59,7 +59,7 @@ namespace WampSharp.V2
                     if (options.TryGetValue(name, out value) && 
                         property.PropertyType.IsInstanceOfType(value))
                     {
-                        property.SetValue(result, value);
+                        property.SetValue(result, value, null);
                     }
                 }
             }
