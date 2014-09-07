@@ -1,7 +1,5 @@
-﻿using WampSharp.Binding;
-using WampSharp.Core.Message;
+﻿using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Core.Listener;
 using WebSocket4Net;
 
 namespace WampSharp.WebSocket4Net
@@ -9,6 +7,12 @@ namespace WampSharp.WebSocket4Net
     public class WebSocket4NetTextConnection<TMessage> : WebSocket4NetConnection<TMessage>
     {
         private readonly IWampTextBinding<TMessage> mBinding;
+
+        public WebSocket4NetTextConnection(WebSocket webSocket, IWampTextBinding<TMessage> binding) : base(webSocket, binding)
+        {
+            mBinding = binding;
+            WebSocket.MessageReceived += OnMessageReceived;
+        }
 
         public WebSocket4NetTextConnection(string serverAddress, IWampTextBinding<TMessage> binding)
             : base(serverAddress, binding)

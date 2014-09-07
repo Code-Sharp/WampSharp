@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.Core.Utilities
 {
     internal static class TaskExtensions
     {
-        private static readonly MethodInfo mCastTask = GetCastTaskMethod();
+        private static readonly MethodInfo mCastTaskToGenericTask = GetCastTaskToGenericTaskMethod();
+        private static readonly MethodInfo mCastToNonGenericTask = GetCastGenericTaskToNonGenericMethod();
 
-        private static MethodInfo GetCastTaskMethod()
+        private static MethodInfo GetCastGenericTaskToNonGenericMethod()
+        {
+            return typeof(TaskExtensions).GetMethod("InnerCastTask",
+                                                     BindingFlags.Static | BindingFlags.NonPublic);
+        }
+
+        private static MethodInfo GetCastTaskToGenericTaskMethod()
         {
             return typeof(TaskExtensions).GetMethod("InternalCastTask",
                                                      BindingFlags.Static | BindingFlags.NonPublic);
@@ -16,8 +24,8 @@ namespace WampSharp.Core.Utilities
 
         public static Task Cast(this Task<object> task, Type taskType)
         {
-            return (Task) mCastTask.MakeGenericMethod(taskType)
-                                   .Invoke(null, new object[] {task});
+            return (Task) mCastTaskToGenericTask.MakeGenericMethod(taskType)
+                                                .Invoke(null, new object[] {task});
         }
 
         private static Task<T> InternalCastTask<T>(Task<object> task)
@@ -80,7 +88,12 @@ namespace WampSharp.Core.Utilities
             }
             else
             {
-                result = InnerCastTask((dynamic) task);
+                Type underlyingType = UnwrapReturnType(task.GetType());
+
+                MethodInfo method =
+                    mCastToNonGenericTask.MakeGenericMethod(underlyingType);
+
+                result = (Task<object>) method.Invoke(null, new object[] {task});
             }
 
             return result;

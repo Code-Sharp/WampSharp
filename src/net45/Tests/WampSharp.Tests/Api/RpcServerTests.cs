@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.TestHelpers.Integration;
@@ -14,6 +15,12 @@ namespace WampSharp.Tests.Api
         {
             [WampRpcMethod("test/square")]
             int Square(int x);
+        }
+
+        public interface INumberProcessor
+        {
+            [WampRpcMethod("test/square")]
+            Task ProcessNumber(int x);
         }
 
         [Test]
@@ -45,5 +52,40 @@ namespace WampSharp.Tests.Api
 
             Assert.That(context.SessionId, Is.EqualTo(channel.GetMonitor().SessionId));
         }
+
+#if NET45
+
+        [Test]
+        public void AsyncAwaitTaskWork()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            IWampHost host = playground.Host;
+
+            WampRequestContext context = null;
+
+            Mock<INumberProcessor> mock = new Mock<INumberProcessor>();
+
+            mock.Setup(x => x.ProcessNumber(It.IsAny<int>()))
+                          .Returns(async (int x) =>
+                              {
+                              });
+
+            host.HostService(mock.Object);
+
+            host.Open();
+
+            IWampChannel<MockRaw> channel = playground.CreateNewChannel();
+
+            channel.Open();
+
+            INumberProcessor proxy = channel.GetRpcProxy<INumberProcessor>();
+
+            Task task = proxy.ProcessNumber(4);
+
+            mock.Verify(x => x.ProcessNumber(4));
+        }
+
+#endif
     }
 }

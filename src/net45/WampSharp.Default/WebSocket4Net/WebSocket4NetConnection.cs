@@ -18,14 +18,20 @@ namespace WampSharp.WebSocket4Net
         
         #endregion
 
-        public WebSocket4NetConnection(string serverAddress,
+        public WebSocket4NetConnection(WebSocket webSocket,
                                        IWampBinding<TMessage> binding)
         {
             mBinding = binding;
-            mWebSocket = new WebSocket(serverAddress, binding.Name);
+            mWebSocket = webSocket;
             mWebSocket.Opened += WebSocketOnOpened;
             mWebSocket.Closed += WebSocketOnClosed;
             mWebSocket.Error += WebSocketOnError;
+        }
+
+        public WebSocket4NetConnection(string serverAddress,
+                                       IWampBinding<TMessage> binding)
+            : this(new WebSocket(serverAddress, binding.Name), binding)
+        {
         }
 
         public IWampBinding<TMessage> Binding
