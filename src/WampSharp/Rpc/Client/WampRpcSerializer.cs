@@ -38,20 +38,7 @@ namespace WampSharp.Rpc.Client
 
         private Type ExtractReturnType(Type returnType)
         {
-            if (returnType == typeof (void) || returnType == typeof(Task))
-            {
-                return typeof (object);
-            }
-
-            Type taskType = 
-                returnType.GetClosedGenericTypeImplementation(typeof (Task<>));
-
-            if (taskType != null)
-            {
-                return returnType.GetGenericArguments()[0];
-            }
-
-            return returnType;
+            return TaskExtensions.UnwrapReturnType(returnType);
         }
     }
 }

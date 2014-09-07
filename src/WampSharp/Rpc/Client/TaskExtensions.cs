@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.Rpc.Client
 {
     internal static class TaskExtensions
     {
-        private static readonly MethodInfo mCastTask = GetCastTaskMethod();
+        private static readonly MethodInfo mCastTaskToGenericTask = GetCastTaskToGenericTaskMethod();
+        private static readonly MethodInfo mCastToNonGenericTask = GetCastGenericTaskToNonGenericMethod();
 
-        private static MethodInfo GetCastTaskMethod()
+        private static MethodInfo GetCastGenericTaskToNonGenericMethod()
+        {
+            return typeof(TaskExtensions).GetMethod("InnerCastTask",
+                                                     BindingFlags.Static | BindingFlags.NonPublic);
+        }
+
+        private static MethodInfo GetCastTaskToGenericTaskMethod()
         {
             return typeof(TaskExtensions).GetMethod("InternalCastTask",
                                                      BindingFlags.Static | BindingFlags.NonPublic);
@@ -16,7 +24,7 @@ namespace WampSharp.Rpc.Client
 
         public static Task Cast(this Task<object> task, Type taskType)
         {
-            return (Task)mCastTask.MakeGenericMethod(taskType).Invoke(null, new object[] { task });
+            return (Task)mCastTaskToGenericTask.MakeGenericMethod(taskType).Invoke(null, new object[] { task });
         }
 
         private static Task<T> InternalCastTask<T>(Task<object> task)
@@ -39,7 +47,12 @@ namespace WampSharp.Rpc.Client
             }
             else
             {
-                result = InnerCastTask((dynamic)task);
+                Type underlyingType = UnwrapReturnType(task.GetType());
+
+                MethodInfo method =
+                    mCastToNonGenericTask.MakeGenericMethod(underlyingType);
+
+                result = (Task<object>) method.Invoke(null, new object[] {task});
             }
 
             return result;
@@ -70,6 +83,34 @@ namespace WampSharp.Rpc.Client
             TResult result = transform(task);
 
             return result;
+        }
+    
+        /// <summary>
+        /// Unwraps the return type of a given method.
+        /// </summary>
+        /// <param name="returnType">The given return type.</param>
+        /// <returns>The unwrapped return type.</returns>
+        /// <example>
+        /// void, Task -> object
+        /// Task{string} -> string
+        /// int -> int
+        /// </example>
+        public static Type UnwrapReturnType(Type returnType)
+        {
+            if (returnType == typeof(void) || returnType == typeof(Task))
+            {
+                return typeof(object);
+            }
+
+            Type taskType =
+                returnType.GetClosedGenericTypeImplementation(typeof(Task<>));
+
+            if (taskType != null)
+            {
+                return returnType.GetGenericArguments()[0];
+            }
+
+            return returnType;
         }
     }
 }
