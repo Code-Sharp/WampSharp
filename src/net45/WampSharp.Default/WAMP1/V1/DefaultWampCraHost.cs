@@ -10,6 +10,11 @@ namespace WampSharp.V1
 {
     public class DefaultWampCraHost : DefaultWampCraHost<JToken>
     {
+        public DefaultWampCraHost(string location, IWampCraServerBuilder<JToken> serverBuilder) : 
+            base(location, serverBuilder, new JTokenMessageParser(), new JsonFormatter())
+        {
+        }
+
         public DefaultWampCraHost(string location, WampCraAuthenticaticatorBuilder<JToken> craAuthenticaticatorBuilder) :
             base(location, new JTokenMessageParser(), new JsonFormatter(), craAuthenticaticatorBuilder)
         {
@@ -18,6 +23,16 @@ namespace WampSharp.V1
 
     public class DefaultWampCraHost<TMessage> : WampCraHost<TMessage>
     {
+        public DefaultWampCraHost(string location,
+                                  IWampCraServerBuilder<TMessage> serverBuilder,
+                                  IWampTextMessageParser<TMessage> parser,
+                                  IWampFormatter<TMessage> formatter) :
+                                      base(serverBuilder,
+                                           new FleckWampConnectionListener<TMessage>(location, new Wamp1Binding<TMessage>(parser, formatter)),
+                                           formatter)
+        {
+        }
+
         public DefaultWampCraHost(string location,
                                IWampTextMessageParser<TMessage> parser,
                                IWampFormatter<TMessage> formatter,

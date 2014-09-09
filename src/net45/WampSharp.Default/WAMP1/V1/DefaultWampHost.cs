@@ -13,10 +13,25 @@ namespace WampSharp.V1
             base(location, new JTokenMessageParser(), new JsonFormatter())
         {
         }
+
+        public DefaultWampHost(string location, IWampServerBuilder<JToken> serverBuilder) :
+            base(location, serverBuilder, new JTokenMessageParser(), new JsonFormatter())
+        {
+        }
     }
 
     public class DefaultWampHost<TMessage> : WampHost<TMessage>
     {
+        public DefaultWampHost(string location,
+                               IWampServerBuilder<TMessage> serverBuilder,
+                               IWampTextMessageParser<TMessage> parser,
+                               IWampFormatter<TMessage> formatter) :
+                                   base(serverBuilder,
+                                        new FleckWampConnectionListener<TMessage>(location, new Wamp1Binding<TMessage>(parser, formatter)),
+                                        formatter)
+        {
+        }
+
         public DefaultWampHost(string location,
                                IWampTextMessageParser<TMessage> parser,
                                IWampFormatter<TMessage> formatter) :
