@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using WampSharp.Binding;
 using WampSharp.V2;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
@@ -59,7 +60,12 @@ namespace WampSharp.Samples.Callee
 
         private static void RouterCode(string serverAddress, IEnumerable<IWampRpcOperation> operations)
         {
-            DefaultWampHost host = new DefaultWampHost(serverAddress);
+            DefaultWampHost host =
+                new DefaultWampHost(serverAddress, new IWampBinding[]
+                    {
+                        new JTokenMsgpackObjectBinding(),
+                        new JTokenBinding(), 
+                    });
 
             IWampRealm realm = host.RealmContainer.GetRealmByName("realm1");
 
@@ -75,7 +81,7 @@ namespace WampSharp.Samples.Callee
 
         private static void ClientCode(string serverAddress, IEnumerable<IWampRpcOperation> operations)
         {
-            MessagePackObjectBinding binding = new MessagePackObjectBinding();
+            JTokenMsgpackObjectBinding binding = new JTokenMsgpackObjectBinding();
 
             DefaultWampChannelFactory factory =
                 new DefaultWampChannelFactory();

@@ -1,5 +1,4 @@
 ﻿using System;
-using Json2Msgpack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
@@ -22,7 +21,6 @@ namespace WampSharp.Newtonsoft
             mSerializer.ContractResolver = new JsonPropertyNameContractResolver();
             mSerializer.Converters.Add(new DetailsOptionsConverter(this));
             mSerializer.Converters.Add(new SerializedValueConverter(this));
-            mSerializer.Converters.Add(new MsgPackJsonConverter());
         }
 
         public bool CanConvert(JToken argument, Type type)

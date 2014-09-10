@@ -7,7 +7,7 @@ namespace WampSharp.V2
 {
     public class DefaultWampChannelFactory : WampChannelFactory
     {
-        private readonly MessagePackObjectBinding mMsgpackBinding = new MessagePackObjectBinding();
+        private readonly JTokenMsgpackObjectBinding mMsgpackBinding = new JTokenMsgpackObjectBinding();
         private readonly JTokenBinding mJsonBinding = new JTokenBinding();
 
         public IWampChannel CreateChannel<TMessage>(string address,

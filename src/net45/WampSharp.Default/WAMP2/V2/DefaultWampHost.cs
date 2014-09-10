@@ -11,7 +11,7 @@ namespace WampSharp.V2
     public class DefaultWampHost : WampHost
     {
         public DefaultWampHost(string location) :
-            this(location, new IWampBinding[] { new JTokenBinding(), new MessagePackObjectBinding() })
+            this(location, new IWampBinding[] { new JTokenBinding(), new JTokenMsgpackObjectBinding() })
         {
         }
 

@@ -41,11 +41,14 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MsgPack, Version=0.5.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MsgPack.Cli.0.5.2\lib\net45\MsgPack.dll</HintPath>
+      <HintPath>..\packages\MsgPack.Cli.0.5.3\lib\net45\MsgPack.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Msgpack">
+      <HintPath>..\packages\Newtonsoft.Msgpack.0.1.1\lib\net45\Newtonsoft.Msgpack.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,24 +88,6 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\Fleck\FleckWampTextConnection.cs">
       <Link>Fleck\FleckWampTextConnection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\Json2Msgpack\JTokenMessagePackSerializer.cs">
-      <Link>Json2Msgpack\JTokenMessagePackSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\Json2Msgpack\JTokenToMsgPackProcessor.cs">
-      <Link>Json2Msgpack\JTokenToMsgPackProcessor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\Json2Msgpack\MsgPackJsonConverter.cs">
-      <Link>Json2Msgpack\MsgPackJsonConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\Json2Msgpack\MsgpackToJsonConvert.cs">
-      <Link>Json2Msgpack\MsgpackToJsonConvert.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\Json2Msgpack\MsgPackToJTokenProcessor.cs">
-      <Link>Json2Msgpack\MsgPackToJTokenProcessor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\MsgPack\MessagePackFormatter.cs">
-      <Link>MsgPack\MessagePackFormatter.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\MsgPack\MessagePackParser.cs">
       <Link>MsgPack\MessagePackParser.cs</Link>
@@ -149,8 +134,8 @@
     <Compile Include="..\..\net45\WampSharp.Default\WAMP2\Binding\JTokenBinding.cs">
       <Link>WAMP2\Binding\JTokenBinding.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp.Default\WAMP2\Binding\MessagePackObjectBinding.cs">
-      <Link>WAMP2\Binding\MessagePackObjectBinding.cs</Link>
+    <Compile Include="..\..\net45\WampSharp.Default\WAMP2\Binding\JTokenMsgpackObjectBinding.cs">
+      <Link>WAMP2\Binding\JTokenMsgpackObjectBinding.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\WAMP2\V2\DefaultWampChannelFactory.cs">
       <Link>WAMP2\V2\DefaultWampChannelFactory.cs</Link>

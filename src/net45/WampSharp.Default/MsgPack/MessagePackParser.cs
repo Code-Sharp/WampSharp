@@ -1,46 +1,48 @@
-﻿using System.Linq;
-using MsgPack;
-using MsgPack.Serialization;
+﻿using System.IO;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Msgpack;
 using WampSharp.Core.Message;
+using WampSharp.Newtonsoft;
 using WampSharp.V2.Binding.Parsers;
 
-namespace WampSharp.MsgPack
+namespace WampSharp.Msgpack
 {
-    public class MessagePackParser :
-        IWampBinaryMessageParser<MessagePackObject>
+    public class MessagePackParser : IWampBinaryMessageParser<JToken>
     {
-        private readonly MessagePackSerializer<MessagePackObject> mSerializer;
+        private readonly JsonWampMessageFormatter mMessageFormatter;
 
-        public MessagePackParser() : this(SerializationContext.Default)
+        public MessagePackParser()
         {
+            mMessageFormatter = new JsonWampMessageFormatter();
         }
 
-        public MessagePackParser(SerializationContext serializationContext)
+        public WampMessage<JToken> Parse(byte[] raw)
         {
-            mSerializer = serializationContext.GetSerializer<MessagePackObject>();
+            using (MemoryStream memoryStream = new MemoryStream(raw, false))
+            {
+                using (MessagePackReader reader = new MessagePackReader(memoryStream))
+                {
+                    JToken token = JToken.Load(reader);
+                    WampMessage<JToken> message = mMessageFormatter.Parse(token);
+                    return message;
+                }
+            }
         }
 
-        public WampMessage<MessagePackObject> Parse(byte[] bytes)
+        public byte[] Format(WampMessage<JToken> message)
         {
-            MessagePackObject[] message = 
-                mSerializer.UnpackSingleObject(bytes).AsList()
-                           .ToArray();
+            JToken formatted = mMessageFormatter.Format(message);
 
-            return new WampMessage<MessagePackObject>()
-                       {
-                           Arguments = message.Skip(1).ToArray(),
-                           MessageType = (WampMessageType)message[0].AsInt32()
-                       };
-        }
-
-        public byte[] Format(WampMessage<MessagePackObject> message)
-        {
-            MessagePackObject[] output = new MessagePackObject[message.Arguments.Length + 1];
-
-            output[0] = (int) message.MessageType;
-            message.Arguments.CopyTo(output, 1);
-
-            return mSerializer.PackSingleObject(output);
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                using (MessagePackWriter writer = new MessagePackWriter(memoryStream))
+                {
+                    formatted.WriteTo(writer);
+                    memoryStream.Position = 0;
+                    byte[] result = memoryStream.ToArray();
+                    return result;
+                }
+            }
         }
     }
 }
