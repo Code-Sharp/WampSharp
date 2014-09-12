@@ -14,15 +14,11 @@ namespace WampSharp.V2.Rpc
         }
 
         protected abstract Task<object> InvokeAsync<TMessage>
-            (IWampRawRpcOperationCallback caller,
-             IWampFormatter<TMessage> formatter,
-             TMessage options,
-             TMessage[] arguments,
-             IDictionary<string, TMessage> argumentsKeywords);
+            (IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
 #if NET45
 
-        protected async override void InnerInvoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected async override void InnerInvoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
@@ -39,17 +40,17 @@ namespace WampSharp.V2.Client
             mCallee.Unregistered(requestId);
         }
 
-        public void Invocation(long requestId, long registrationId, TMessage details)
+        public void Invocation(long requestId, long registrationId, InvocationDetails details)
         {
             mCallee.Invocation(requestId, registrationId, details);
         }
 
-        public void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments)
+        public void Invocation(long requestId, long registrationId, InvocationDetails details, TMessage[] arguments)
         {
             mCallee.Invocation(requestId, registrationId, details, arguments);
         }
 
-        public void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Invocation(long requestId, long registrationId, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             mCallee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);
         }
@@ -64,8 +65,7 @@ namespace WampSharp.V2.Client
             mCaller.Invoke(caller, options, procedure, arguments);
         }
 
-        public void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments,
-                           object argumentsKeywords)
+        public void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             mCaller.Invoke(caller, options, procedure, arguments, argumentsKeywords);
         }
@@ -85,8 +85,7 @@ namespace WampSharp.V2.Client
             mCaller.Invoke(caller, options, procedure, arguments);
         }
 
-        public void Invoke(IWampRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments,
-                           object argumentsKeywords)
+        public void Invoke(IWampRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             mCaller.Invoke(caller, options, procedure, arguments, argumentsKeywords);
         }

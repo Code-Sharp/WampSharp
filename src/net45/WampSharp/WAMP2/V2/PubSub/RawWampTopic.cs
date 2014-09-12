@@ -65,7 +65,8 @@ namespace WampSharp.V2.PubSub
             Func<EventDetails, WampMessage<TMessage>> action =
                 details => mSerializer.Event(SubscriptionId, publicationId, details,
                                              arguments.Cast<object>().ToArray(),
-                                             argumentsKeywords);
+                                             argumentsKeywords.ToDictionary(x => x.Key,
+                                                                            x => (object) x.Value));
 
             InnerEvent(options, action);
         }

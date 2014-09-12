@@ -100,7 +100,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
 
                 catalog.Verify(x => x.Invoke(It.IsAny<IWampRawRpcOperationCallback>(),
                                              It.IsAny<IWampFormatter<MockRaw>>(),
-                                             call.Options,
+                                             It.IsAny<InvocationDetails>(),
                                              call.Procedure),
                                Times.Exactly(1));
             }
@@ -110,7 +110,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
 
                 catalog.Verify(x => x.Invoke(It.IsAny<IWampRawRpcOperationCallback>(),
                                              It.IsAny<IWampFormatter<MockRaw>>(),
-                                             call.Options,
+                                             It.IsAny<InvocationDetails>(),
                                              call.Procedure, 
                                              call.Arguments),
                                Times.Exactly(1));
@@ -121,7 +121,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
 
                 catalog.Verify(x => x.Invoke(It.IsAny<IWampRawRpcOperationCallback>(),
                                              It.IsAny<IWampFormatter<MockRaw>>(),
-                                             call.Options,
+                                             It.IsAny<InvocationDetails>(),
                                              call.Procedure,
                                              call.Arguments,
                                              call.ArgumentsKeywords),

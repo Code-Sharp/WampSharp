@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
 
@@ -6,6 +7,14 @@ namespace WampSharp.Tests.TestHelpers
 {
     public class MockRawFormatter : IWampFormatter<MockRaw>
     {
+        private JsonSerializer mSerializer;
+
+        public MockRawFormatter()
+        {
+            mSerializer = new JsonSerializer();
+            mSerializer.Converters.Add(new MockRawConverter());
+        }
+
         public bool CanConvert(MockRaw argument, Type type)
         {
             if (type == typeof (MockRaw))
@@ -40,9 +49,9 @@ namespace WampSharp.Tests.TestHelpers
             else
             {
                 JToken token =
-                    JToken.FromObject(message.Value);
+                    JToken.FromObject(message.Value, mSerializer);
 
-                return token.ToObject(type);
+                return mSerializer.Deserialize(token.CreateReader(), type);
             }
         }
 

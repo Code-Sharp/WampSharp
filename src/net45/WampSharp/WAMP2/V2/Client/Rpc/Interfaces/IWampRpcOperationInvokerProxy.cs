@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
@@ -40,7 +41,7 @@ namespace WampSharp.V2.Client
         /// <param name="procedure">The procedure to invoke.</param>
         /// <param name="arguments">The arguments to invoke the operation with.</param>
         /// <param name="argumentsKeywords">The arguments keywords to invoke the operation with.</param>
-        void Invoke(IWampRpcOperationCallback caller, CallOptions options, string procedure, TMessage[] arguments, TMessage argumentsKeywords);
+        void Invoke(IWampRpcOperationCallback caller, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
         /// <summary>
         /// Invokes a operation remotely.
@@ -67,6 +68,6 @@ namespace WampSharp.V2.Client
         /// <param name="procedure">The procedure to invoke.</param>
         /// <param name="arguments">The arguments to invoke the operation with.</param>
         /// <param name="argumentsKeywords">The arguments keywords to invoke the operation with.</param>
-        void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, TMessage[] arguments, TMessage argumentsKeywords);    
+        void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);    
     }
 }

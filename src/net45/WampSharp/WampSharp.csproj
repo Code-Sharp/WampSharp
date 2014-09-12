@@ -253,7 +253,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\RegisterOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\ResultDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\CallOptions.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InvocationOptions.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InvocationDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Attributes\PropertyNameAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\PublishOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\SubscribeOptions.cs" />

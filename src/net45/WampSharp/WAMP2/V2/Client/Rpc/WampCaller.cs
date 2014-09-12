@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
@@ -47,11 +48,7 @@ namespace WampSharp.V2.Client
             Invoke(adapter, options, procedure, arguments);
         }
 
-        public void Invoke(IWampRpcOperationCallback caller,
-                           CallOptions options,
-                           string procedure,
-                           object[] arguments,
-                           object argumentsKeywords)
+        public void Invoke(IWampRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             RawCallbackAdpater adapter = new RawCallbackAdpater(caller);
 
@@ -76,8 +73,7 @@ namespace WampSharp.V2.Client
             mProxy.Call(requestId, options, procedure, arguments);
         }
 
-        public void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments,
-                           object argumentsKeywords)
+        public void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             CallDetails callDetails = new CallDetails(caller, options, procedure, arguments, argumentsKeywords);
 
@@ -179,9 +175,9 @@ namespace WampSharp.V2.Client
             private readonly CallOptions mOptions;
             private readonly string mProcedure;
             private readonly object[] mArguments;
-            private readonly object mArgumentsKeywords;
+            private readonly IDictionary<string, object> mArgumentsKeywords;
 
-            public CallDetails(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments = null, object argumentsKeywords = null)
+            public CallDetails(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null)
             {
                 mCaller = caller;
                 mOptions = options;
@@ -204,7 +200,7 @@ namespace WampSharp.V2.Client
                 }
             }
 
-            public object Options
+            public CallOptions Options
             {
                 get
                 {
@@ -228,7 +224,7 @@ namespace WampSharp.V2.Client
                 }
             }
 
-            public object ArgumentsKeywords
+            public IDictionary<string, object> ArgumentsKeywords
             {
                 get
                 {

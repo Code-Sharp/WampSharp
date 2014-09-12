@@ -57,18 +57,17 @@ namespace WampSharp.V2
             mDealer.Unregister(callee, requestId, registrationId);
         }
 
-        public void Call(IWampCaller caller, long requestId, TMessage options, string procedure)
+        public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure)
         {
             mDealer.Call(caller, requestId, options, procedure);
         }
 
-        public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments)
+        public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments)
         {
             mDealer.Call(caller, requestId, options, procedure, arguments);
         }
 
-        public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments,
-                         TMessage argumentsKeywords)
+        public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             mDealer.Call(caller, requestId, options, procedure, arguments, argumentsKeywords);
         }

@@ -167,18 +167,17 @@ namespace WampSharp.V2.Client
             Callee.Unregistered(requestId);
         }
 
-        public void Invocation(long requestId, long registrationId, TMessage details)
+        public void Invocation(long requestId, long registrationId, InvocationDetails details)
         {
             Callee.Invocation(requestId, registrationId, details);
         }
 
-        public void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments)
+        public void Invocation(long requestId, long registrationId, InvocationDetails details, TMessage[] arguments)
         {
             Callee.Invocation(requestId, registrationId, details, arguments);
         }
 
-        public void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments,
-                               TMessage argumentsKeywords)
+        public void Invocation(long requestId, long registrationId, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             Callee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);
         }

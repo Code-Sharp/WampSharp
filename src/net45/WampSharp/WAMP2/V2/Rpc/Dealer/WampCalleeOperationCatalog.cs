@@ -148,46 +148,37 @@ namespace WampSharp.V2.Rpc
                 }
             }
 
-            public void Invoke<TOther>(IWampRawRpcOperationCallback caller,
-                                       IWampFormatter<TOther> formatter,
-                                       TOther details)
+            public void Invoke<TOther>(IWampRawRpcOperationCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details)
             {
                 this.Invoke(caller, details);
             }
 
-            public void Invoke<TOther>(IWampRawRpcOperationCallback caller,
-                                       IWampFormatter<TOther> formatter,
-                                       TOther details,
-                                       TOther[] arguments)
+            public void Invoke<TOther>(IWampRawRpcOperationCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments)
             {
                 this.Invoke(caller, details, arguments.Cast<object>().ToArray());
             }
 
-            public void Invoke<TOther>(IWampRawRpcOperationCallback caller,
-                                       IWampFormatter<TOther> formatter,
-                                       TOther details,
-                                       TOther[] arguments,
-                                       TOther argumentsKeywords)
+            public void Invoke<TOther>(IWampRawRpcOperationCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments, IDictionary<string, TOther> argumentsKeywords)
             {
-                this.Invoke(caller, details, arguments.Cast<object>().ToArray(), argumentsKeywords);
+                this.Invoke(caller, details, arguments.Cast<object>().ToArray(), argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
             }
 
-            public void Invoke(IWampRawRpcOperationCallback caller, object details)
+            public void Invoke(IWampRawRpcOperationCallback caller, InvocationDetails details)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, details));
             }
 
-            public void Invoke(IWampRawRpcOperationCallback caller, object details, object[] arguments)
+            public void Invoke(IWampRawRpcOperationCallback caller, InvocationDetails details, object[] arguments)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, details, arguments));
             }
 
-            public void Invoke(IWampRawRpcOperationCallback caller, object details, object[] arguments, object argumentsKeywords)
+            public void Invoke(IWampRawRpcOperationCallback caller, InvocationDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, details, arguments, argumentsKeywords));
             }
 
-            private void InnerInvoke(IWampRawRpcOperationCallback caller, object options)
+            private void InnerInvoke(IWampRawRpcOperationCallback caller, InvocationDetails options)
             {
                 long requestId =
                     mHandler.RegisterInvocation(this, caller, options);
@@ -195,7 +186,7 @@ namespace WampSharp.V2.Rpc
                 Callee.Invocation(requestId, RegistrationId, options);
             }
 
-            private void InnerInvoke(IWampRawRpcOperationCallback caller, object options, object[] arguments)
+            private void InnerInvoke(IWampRawRpcOperationCallback caller, InvocationDetails options, object[] arguments)
             {
                 long requestId =
                     mHandler.RegisterInvocation(this, caller, options, arguments);
@@ -203,8 +194,8 @@ namespace WampSharp.V2.Rpc
                 Callee.Invocation(requestId, RegistrationId, options, arguments);
             }
 
-            private void InnerInvoke(IWampRawRpcOperationCallback caller, object options, object[] arguments,
-                                     object argumentsKeywords)
+            private void InnerInvoke(IWampRawRpcOperationCallback caller, InvocationDetails options, object[] arguments,
+                                     IDictionary<string, object> argumentsKeywords)
             {
                 long requestId =
                     mHandler.RegisterInvocation(this, caller, options, arguments, argumentsKeywords);

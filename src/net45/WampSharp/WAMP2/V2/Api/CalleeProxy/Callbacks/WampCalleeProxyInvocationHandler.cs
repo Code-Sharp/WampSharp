@@ -12,8 +12,6 @@ namespace WampSharp.V2.CalleeProxy
 {
     internal abstract class WampCalleeProxyInvocationHandler : IWampCalleeProxyInvocationHandler
     {
-        protected readonly CallOptions mEmptyOptions = new CallOptions();
-
         public object Invoke(MethodInfo method, object[] arguments)
         {
             Type unwrapped = TaskExtensions.UnwrapReturnType(method.ReturnType);

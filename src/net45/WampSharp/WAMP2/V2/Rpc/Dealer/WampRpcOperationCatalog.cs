@@ -45,7 +45,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure)
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, string procedure)
         {
             IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
 
@@ -58,8 +58,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure,
-                                     TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, string procedure, TMessage[] arguments)
         {
             IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
 
@@ -72,8 +71,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage options, string procedure,
-                                     TMessage[] arguments, TMessage argumentsKeywords)
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
 

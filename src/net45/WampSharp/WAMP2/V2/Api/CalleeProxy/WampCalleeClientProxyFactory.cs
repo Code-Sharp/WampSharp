@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Rpc;
 
@@ -29,6 +30,7 @@ namespace WampSharp.V2.CalleeProxy
                 new ManualResetEvent(false);
 
             private Exception mDisconnectionException;
+            private readonly CallOptions mEmptyOptions = new CallOptions();
 
             #endregion
 

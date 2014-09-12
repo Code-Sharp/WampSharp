@@ -50,27 +50,19 @@ namespace WampSharp.V2.Rpc
             get;
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage details)
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
         {
             InnerInvoke(caller, formatter, details, null, null);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, TMessage details, TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments)
         {
             InnerInvoke(caller, formatter, details, arguments, null);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller,
-                                     IWampFormatter<TMessage> formatter,
-                                     TMessage details,
-                                     TMessage[] arguments,
-                                     TMessage argumentsKeywords)
+        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            IDictionary<string, TMessage> nameToParameterValue =
-                formatter.Deserialize<IDictionary<string, TMessage>>
-                    (argumentsKeywords);
-
-            InnerInvoke(caller, formatter, details, arguments, nameToParameterValue);
+            InnerInvoke(caller, formatter, details, arguments, argumentsKeywords);
         }
 
         protected void CallResult(IWampRawRpcOperationCallback caller, object result, IDictionary<string, object> outputs)
@@ -214,10 +206,7 @@ namespace WampSharp.V2.Rpc
         }
 
         protected abstract void InnerInvoke<TMessage>
-            (IWampRawRpcOperationCallback caller,
-             IWampFormatter<TMessage> formatter,
-             TMessage options, TMessage[] arguments,
-             IDictionary<string, TMessage> argumentsKeywords);
+            (IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
         protected class WampRpcErrorCallback : IWampErrorCallback
         {

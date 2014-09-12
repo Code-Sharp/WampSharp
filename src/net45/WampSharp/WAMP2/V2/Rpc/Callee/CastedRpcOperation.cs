@@ -1,5 +1,7 @@
-﻿using WampSharp.Core.Serialization;
+﻿using System.Collections.Generic;
+using WampSharp.Core.Serialization;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
@@ -22,17 +24,17 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke(IWampRawRpcOperationCallback caller, TMessage details)
+        public void Invoke(IWampRawRpcOperationCallback caller, InvocationDetails details)
         {
             mOperation.Invoke(caller, mFormatter, details);
         }
 
-        public void Invoke(IWampRawRpcOperationCallback caller, TMessage details, TMessage[] arguments)
+        public void Invoke(IWampRawRpcOperationCallback caller, InvocationDetails details, TMessage[] arguments)
         {
             mOperation.Invoke(caller, mFormatter, details, arguments);
         }
 
-        public void Invoke(IWampRawRpcOperationCallback caller, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Invoke(IWampRawRpcOperationCallback caller, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             mOperation.Invoke(caller, mFormatter, details, arguments, argumentsKeywords);
         }

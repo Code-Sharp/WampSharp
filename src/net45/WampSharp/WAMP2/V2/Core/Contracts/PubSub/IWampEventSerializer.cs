@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Contracts;
+﻿using System.Collections.Generic;
+using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
@@ -12,6 +13,6 @@ namespace WampSharp.V2.Core.Contracts
         WampMessage<TMessage> Event(long subscriptionId, long publicationId, EventDetails details, object[] arguments);
 
         [WampHandler(WampMessageType.v2Event)]
-        WampMessage<TMessage> Event(long subscriptionId, long publicationId, EventDetails details, object[] arguments, object argumentsKeywords);         
+        WampMessage<TMessage> Event(long subscriptionId, long publicationId, EventDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords);         
     }
 }

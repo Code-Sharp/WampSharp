@@ -33,9 +33,12 @@ namespace WampSharp.Tests.Wampv2.Client
             object[] serializedExpected = 
                 expected.Select(x => SerializeArgument(x)).ToArray();
 
+            object[] serializedActual = 
+                actual.Select(x => SerializeArgument(x)).ToArray();
+            
             NUnit.Framework.Assert.That
                 (serializedExpected,
-                 Is.EquivalentTo(actual).Using(new ArgumentComparer(mEqualityComparer)),
+                 Is.EquivalentTo(serializedActual).Using(new ArgumentComparer(mEqualityComparer)),
                  string.Format("Expected {0} parameters were different than actual {0} parameters", parameterType));
         }
 

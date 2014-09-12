@@ -45,7 +45,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
             mCallAction = (catalog, callback) => catalog.Invoke(callback, options, procedure, arguments);
         }
 
-        public void SetupCall(CallOptions options, string procedure, object[] arguments, object argumentsKeywords)
+        public void SetupCall(CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             mExpectedCallParameters = new object[] {options, procedure, arguments, argumentsKeywords};
             mCallAction = (catalog, callback) => catalog.Invoke(callback, options, procedure, arguments, argumentsKeywords);
@@ -193,20 +193,19 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
             }
 
             // TODO: Throw exceptions if 
-            public void Call(IWampCaller caller, long requestId, TMessage options, string procedure)
+            public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure)
             {
                 ActualCallParamters = new object[] {options, procedure};
                 mCallerCallback(caller, requestId);
             }
 
-            public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments)
+            public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments)
             {
                 ActualCallParamters = new object[] { options, procedure, arguments };
                 mCallerCallback(caller, requestId);
             }
 
-            public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments,
-                             TMessage argumentsKeywords)
+            public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 ActualCallParamters = new object[] { options, procedure, arguments, argumentsKeywords };
                 mCallerCallback(caller, requestId);

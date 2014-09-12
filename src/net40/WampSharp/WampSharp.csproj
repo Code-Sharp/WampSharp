@@ -631,8 +631,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\CallOptions.cs">
       <Link>WAMP2\V2\Core\Contracts\Rpc\CallOptions.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\InvocationOptions.cs">
-      <Link>WAMP2\V2\Core\Contracts\Rpc\InvocationOptions.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\InvocationDetails.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\InvocationDetails.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Attributes\PropertyNameAttribute.cs">
       <Link>WAMP2\V2\Core\Contracts\Attributes\PropertyNameAttribute.cs</Link>

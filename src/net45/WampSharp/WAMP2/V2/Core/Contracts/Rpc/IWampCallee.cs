@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Contracts;
+﻿using System.Collections.Generic;
+using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
@@ -16,13 +17,13 @@ namespace WampSharp.V2.Core.Contracts
         void Unregistered(long requestId);
 
         [WampHandler(WampMessageType.v2Invocation)]
-        void Invocation(long requestId, long registrationId, TMessage details);
+        void Invocation(long requestId, long registrationId, InvocationDetails details);
 
         [WampHandler(WampMessageType.v2Invocation)]
-        void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments);
+        void Invocation(long requestId, long registrationId, InvocationDetails details, TMessage[] arguments);
 
         [WampHandler(WampMessageType.v2Invocation)]
-        void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords);
+        void Invocation(long requestId, long registrationId, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
         [WampHandler(WampMessageType.v2Interrupt)]
         void Interrupt(long requestId, TMessage options);

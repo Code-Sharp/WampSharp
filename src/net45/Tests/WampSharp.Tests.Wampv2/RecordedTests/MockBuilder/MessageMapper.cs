@@ -15,7 +15,13 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
             new RequestMapper();
 
         private readonly JTokenEqualityComparer mComparer = new JTokenEqualityComparer();
-        private static JsonSerializer mSerializer = new JsonSerializer {NullValueHandling = NullValueHandling.Ignore};
+        private static JsonSerializer mSerializer;
+
+        public MessageMapper()
+        {
+            mSerializer = new JsonSerializer {NullValueHandling = NullValueHandling.Ignore};
+            mSerializer.Converters.Add( new MockRawConverter());
+        }
 
         public WampMessage<MockRaw> MapRequest(WampMessage<MockRaw> message, IEnumerable<WampMessage<MockRaw>> messages, bool ignoreRequestId)
         {

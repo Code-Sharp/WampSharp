@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
@@ -127,7 +128,7 @@ namespace WampSharp.V2.Client
             return new ServerProxyCallback(mProxy, requestId);
         }
 
-        public void Invocation(long requestId, long registrationId, TMessage details)
+        public void Invocation(long requestId, long registrationId, InvocationDetails details)
         {
             IWampRpcOperation operation = TryGetOperation(registrationId);
 
@@ -138,7 +139,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments)
+        public void Invocation(long requestId, long registrationId, InvocationDetails details, TMessage[] arguments)
         {
             IWampRpcOperation operation = TryGetOperation(registrationId);
 
@@ -149,8 +150,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void Invocation(long requestId, long registrationId, TMessage details, TMessage[] arguments,
-                               TMessage argumentsKeywords)
+        public void Invocation(long requestId, long registrationId, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             IWampRpcOperation operation = TryGetOperation(registrationId);
 

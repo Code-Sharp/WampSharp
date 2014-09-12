@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Callee
@@ -40,11 +41,7 @@ namespace WampSharp.Samples.Callee
             {
             }
 
-            protected override object InvokeSync<TMessage>(IWampRawRpcOperationCallback caller,
-                                                           IWampFormatter<TMessage> formatter, TMessage options,
-                                                           TMessage[] arguments,
-                                                           IDictionary<string, TMessage> argumentsKeywords,
-                                                           out IDictionary<string, object> outputs)
+            protected override object InvokeSync<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, out IDictionary<string, object> outputs)
             {
                 outputs = null;
 

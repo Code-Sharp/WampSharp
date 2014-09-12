@@ -118,6 +118,7 @@
     <Compile Include="RpcTests.cs" />
     <Compile Include="TestHelpers\Method.cs" />
     <Compile Include="TestHelpers\MessagesArguments.cs" />
+    <Compile Include="TestHelpers\MockRawConverter.cs" />
     <Compile Include="TestHelpers\WampMessageEqualityComparer.cs" />
     <Compile Include="TestHelpers\WampV1Messages.cs" />
     <Compile Include="TestHelpers\Messages.cs" />

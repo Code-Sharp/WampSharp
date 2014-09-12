@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Contracts;
+﻿using System.Collections.Generic;
+using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
@@ -37,7 +38,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="options">The call request options.</param>
         /// <param name="procedure">The uri of the procedure to call.</param>
         [WampHandler(WampMessageType.v2Call)]
-        void Call([WampProxyParameter] IWampCaller caller, long requestId, TMessage options, string procedure);
+        void Call([WampProxyParameter] IWampCaller caller, long requestId, CallOptions options, string procedure);
 
         /// <summary>
         /// Occurs when a CALL message arrives.
@@ -48,7 +49,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="procedure">The uri of the procedure to call.</param>
         /// <param name="arguments">The arguments of the procedure to call.</param>
         [WampHandler(WampMessageType.v2Call)]
-        void Call([WampProxyParameter] IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments);
+        void Call([WampProxyParameter] IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments);
 
         /// <summary>
         /// Occurs when a CALL message arrives.
@@ -60,7 +61,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="arguments">The arguments of the procedure to call.</param>
         /// <param name="argumentsKeywords">The argument keywords of the procedure to call.</param>
         [WampHandler(WampMessageType.v2Call)]
-        void Call([WampProxyParameter] IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments, TMessage argumentsKeywords);
+        void Call([WampProxyParameter] IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
         /// <summary>
         /// Occurs when a CANCEL message arrives.

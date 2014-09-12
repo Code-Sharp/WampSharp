@@ -1,9 +1,10 @@
 ﻿using System;
 using WampSharp.Core.Serialization;
-using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Curie;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
+using IWampClient = WampSharp.V1.Core.Contracts.IWampClient;
 
 namespace WampSharp.V2.Adapters
 {
@@ -22,9 +23,7 @@ namespace WampSharp.V2.Adapters
         {
             string resolvedUri = ResolveUri(client, procUri);
 
-            TMessage nothing = mFormatter.Serialize(new {});
-
-            mRpcCatalog.Invoke(new RpcOperationCallback(client, callId), mFormatter, nothing, resolvedUri, arguments);
+            mRpcCatalog.Invoke(new RpcOperationCallback(client, callId), mFormatter, new InvocationDetails(), resolvedUri, arguments);
         }
 
         private static string ResolveUri(IWampClient client, string procUri)

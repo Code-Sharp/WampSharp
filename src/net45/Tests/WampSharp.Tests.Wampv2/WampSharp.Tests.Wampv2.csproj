@@ -60,9 +60,7 @@
     <Compile Include="Binding\MockBinding.cs" />
     <Compile Include="Binding\MockWampMessage.cs" />
     <Compile Include="Client\Callee\CalleeTest.cs" />
-    <Compile Include="Client\Callee\IInvocationCalleeeTest.cs" />
     <Compile Include="Client\Callee\InvocationCalleeeTest.cs" />
-    <Compile Include="Client\Callee\IRegistrationCalleeTest.cs" />
     <Compile Include="Client\Callee\RawInvocationCalleeTests.cs" />
     <Compile Include="Client\Caller\CallerTest.cs" />
     <Compile Include="Client\Caller\CallerRawTests.cs" />

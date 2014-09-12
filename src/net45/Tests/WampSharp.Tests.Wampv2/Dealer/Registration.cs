@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using WampSharp.Core.Message;
+﻿using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.V2.Core.Contracts;
 
@@ -21,8 +20,12 @@ namespace WampSharp.Tests.Wampv2.Dealer
         public Registration(WampMessage<MockRaw> message)
         {
             mRequestId = (long) message.Arguments[0].Value;
-            mOptions = new RegisterOptions(); // Currently ignoring value
-            mProcedure = (string) message.Arguments[2].Value;
+            MockRawFormatter formatter = new MockRawFormatter();
+
+            mOptions = formatter.Deserialize<RegisterOptions>
+                (formatter.Serialize(message.Arguments[1].Value));
+
+            mProcedure = (string)message.Arguments[2].Value;
         }
 
         public long RequestId

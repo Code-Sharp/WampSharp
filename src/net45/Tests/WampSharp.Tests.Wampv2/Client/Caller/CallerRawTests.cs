@@ -52,19 +52,20 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
 
                 CallerTest stars2 = new CallerTest();
                 stars2.TestName = "com.arguments.stars_2";
-                stars2.SetupCall(new CallOptions(), "com.arguments.stars", new object[] { }, new { nick = "Homer" });
+                stars2.SetupCall(new CallOptions(), "com.arguments.stars", new object[] { }, new Dictionary<string, object> {{"nick" , "Homer"} });
                 stars2.SetupResult(new { }, new object[] { "Homer starred 0x" });
                 yield return stars2;
 
                 CallerTest stars3 = new CallerTest();
                 stars3.TestName = "com.arguments.stars_3";
-                stars3.SetupCall(new CallOptions(), "com.arguments.stars", new object[] { }, new { stars = 5 });
+                stars3.SetupCall(new CallOptions(), "com.arguments.stars", new object[] { }, new Dictionary<string, object> {{"stars", 5 }});
                 stars3.SetupResult(new { }, new object[] { "somebody starred 5x" });
                 yield return stars3;
 
                 CallerTest stars4 = new CallerTest();
                 stars4.TestName = "com.arguments.stars_4";
-                stars4.SetupCall(new CallOptions(), "com.arguments.stars", new object[] { }, new { nick = "Homer", stars = 5 });
+                stars4.SetupCall(new CallOptions(), "com.arguments.stars", new object[] {},
+                                 new Dictionary<string, object> {{"nick", "Homer"}, {"stars", 5}});
                 stars4.SetupResult(new { }, new object[] { "Homer starred 5x" });
                 yield return stars4;
 
@@ -76,7 +77,8 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
 
                 CallerTest orders2 = new CallerTest();
                 orders2.TestName = "com.arguments.orders_2";
-                orders2.SetupCall(new CallOptions(), "com.arguments.orders", new object[] { "coffee" }, new { limit = 10 });
+                orders2.SetupCall(new CallOptions(), "com.arguments.orders", new object[] { "coffee" }, 
+                    new Dictionary<string, object> {{ "limit", 10 }});
                 orders2.SetupResult(new { }, new object[] { new object[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 } });
                 yield return orders2;
 
@@ -94,13 +96,15 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
 
                 CallerTest arglen3 = new CallerTest();
                 arglen3.TestName = "com.arguments.arglen_3";
-                arglen3.SetupCall(new CallOptions(), "com.arguments.arglen", new object[] { }, new { a = 1, b = 2, c = 3 });
+                arglen3.SetupCall(new CallOptions(), "com.arguments.arglen", new object[] {},
+                                  new Dictionary<string, object> {{"a", 1}, {"b", 2}, {"c", 3}});
                 arglen3.SetupResult(new { }, new object[] { new object[] { 0, 3 } });
                 yield return arglen3;
 
                 CallerTest arglen4 = new CallerTest();
                 arglen4.TestName = "com.arguments.arglen_4";
-                arglen4.SetupCall(new CallOptions(), "com.arguments.arglen", new object[] { 1, 2, 3 }, new { a = 1, b = 2, c = 3 });
+                arglen4.SetupCall(new CallOptions(), "com.arguments.arglen", new object[] {1, 2, 3},
+                                  new Dictionary<string, object>() {{"a", 1}, {"b", 2}, {"c", 3}});
                 arglen4.SetupResult(new { }, new object[] { new object[] { 3, 3 } });
                 yield return arglen4;
 

@@ -53,7 +53,7 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
             set { mExpectedInvocation = value; }
         }
 
-        public void SetupInvocation(long requestId, long registrationId, object details)
+        public void SetupInvocation(long requestId, long registrationId, InvocationDetails details)
         {
             ExpectedInvocation = new[] {details};
             
@@ -61,17 +61,17 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 callee => callee.Invocation(requestId, registrationId, details);
         }
 
-        public void SetupInvocation(long requestId, long registrationId, object details, object[] arguments)
+        public void SetupInvocation(long requestId, long registrationId, InvocationDetails details, object[] arguments)
         {
-            ExpectedInvocation = new[] { details, arguments };
+            ExpectedInvocation = new object[] { details, arguments };
 
             mInvocationAction =
                 callee => callee.Invocation(requestId, registrationId, details, arguments);
         }
 
-        public void SetupInvocation(long requestId, long registrationId, object details, object[] arguments, object argumentsKeywords)
+        public void SetupInvocation(long requestId, long registrationId, InvocationDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
-            ExpectedInvocation = new[] { details, arguments, argumentsKeywords };
+            ExpectedInvocation = new object[] { details, arguments, argumentsKeywords };
 
             mInvocationAction =
                 callee => callee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);

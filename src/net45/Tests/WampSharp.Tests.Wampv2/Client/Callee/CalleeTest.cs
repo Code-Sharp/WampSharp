@@ -108,18 +108,17 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 mUnregisterCallback(callee, requestId);
             }
 
-            public void Call(IWampCaller caller, long requestId, TMessage options, string procedure)
+            public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments)
+            public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Call(IWampCaller caller, long requestId, TMessage options, string procedure, TMessage[] arguments,
-                             TMessage argumentsKeywords)
+            public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 throw new System.NotImplementedException();
             }
@@ -203,21 +202,19 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 mInvocationCallback = value;
             }
 
-            public void Invoke<TMessage1>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage1> formatter, TMessage1 details)
+            public void Invoke<TMessage1>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details)
             {
                 ActualInvoke = new object[] {details};
                 mInvocationCallback(caller);
             }
 
-            public void Invoke<TMessage1>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage1> formatter, TMessage1 details,
-                                          TMessage1[] arguments)
+            public void Invoke<TMessage1>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details, TMessage1[] arguments)
             {
                 ActualInvoke = new object[] { details, arguments };
                 mInvocationCallback(caller);
             }
 
-            public void Invoke<TMessage1>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage1> formatter, TMessage1 details,
-                                          TMessage1[] arguments, TMessage1 argumentsKeywords)
+            public void Invoke<TMessage1>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details, TMessage1[] arguments, IDictionary<string, TMessage1> argumentsKeywords)
             {
                 ActualInvoke = new object[] {details, arguments, argumentsKeywords};
                 mInvocationCallback(caller);

@@ -219,6 +219,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\TestHelpers\MessagesArguments.cs">
       <Link>TestHelpers\MessagesArguments.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\TestHelpers\MockRawConverter.cs">
+      <Link>TestHelpers\MockRawConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\TestHelpers\WampMessageEqualityComparer.cs">
       <Link>TestHelpers\WampMessageEqualityComparer.cs</Link>
     </Compile>

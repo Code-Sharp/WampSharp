@@ -31,7 +31,7 @@ namespace WampSharp.V2.Rpc
             mEmptyDetails = mFormatter.Serialize(new Dictionary<string, string>());
         }
 
-        public long RegisterInvocation(IWampRpcOperation operation, IWampRawRpcOperationCallback callback, object options, object[] arguments = null, object argumentsKeywords = null)
+        public long RegisterInvocation(IWampRpcOperation operation, IWampRawRpcOperationCallback callback, InvocationDetails options, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null)
         {
             lock (mLock)
             {

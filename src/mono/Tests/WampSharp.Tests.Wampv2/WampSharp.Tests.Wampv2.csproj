@@ -66,14 +66,8 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\CalleeTest.cs">
       <Link>Client\Callee\CalleeTest.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\IInvocationCalleeeTest.cs">
-      <Link>Client\Callee\IInvocationCalleeeTest.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\InvocationCalleeeTest.cs">
       <Link>Client\Callee\InvocationCalleeeTest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\IRegistrationCalleeTest.cs">
-      <Link>Client\Callee\IRegistrationCalleeTest.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\RawInvocationCalleeTests.cs">
       <Link>Client\Callee\RawInvocationCalleeTests.cs</Link>

@@ -1,4 +1,6 @@
-﻿using WampSharp.V2.Client;
+﻿using System.Collections.Generic;
+using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
@@ -6,11 +8,11 @@ namespace WampSharp.V2.Rpc
     {
         private readonly IWampRpcOperation mOperation;
         private readonly IWampRawRpcOperationCallback mCallback;
-        private readonly object mOptions;
+        private readonly InvocationDetails mOptions;
         private readonly object[] mArguments;
-        private readonly object mArgumentsKeywords;
+        private readonly IDictionary<string, object> mArgumentsKeywords;
 
-        public WampRpcInvocation(IWampRpcOperation operation, IWampRawRpcOperationCallback callback, object options, object[] arguments, object argumentsKeywords)
+        public WampRpcInvocation(IWampRpcOperation operation, IWampRawRpcOperationCallback callback, InvocationDetails options, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             mOperation = operation;
             mCallback = callback;
@@ -35,7 +37,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public object Options
+        public InvocationDetails Options
         {
             get
             {
@@ -51,7 +53,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public object ArgumentsKeywords
+        public IDictionary<string, object> ArgumentsKeywords
         {
             get
             {
