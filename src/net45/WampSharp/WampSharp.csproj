@@ -267,7 +267,6 @@
     <Compile Include="WAMP2\V2\Api\Rx\WampClientSubject.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampEvent.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampSubject.cs" />
-    <Compile Include="WAMP2\V2\Api\Rx\WampTopicExtensions.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampTopicSubject.cs" />
     <Compile Include="WAMP2\V2\Api\Serialization\ISerializedValue.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\IWampEvent.cs" />

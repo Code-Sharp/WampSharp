@@ -670,9 +670,6 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampSubject.cs">
       <Link>WAMP2\V2\Api\Rx\WampSubject.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampTopicExtensions.cs">
-      <Link>WAMP2\V2\Api\Rx\WampTopicExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampTopicSubject.cs">
       <Link>WAMP2\V2\Api\Rx\WampTopicSubject.cs</Link>
     </Compile>

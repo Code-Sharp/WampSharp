@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using WampSharp.V2.CalleeProxy;
+using WampSharp.V2.PubSub;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Rpc;
 
@@ -45,12 +46,22 @@ namespace WampSharp.V2
 
         public ISubject<TEvent> GetSubject<TEvent>(string topicUri)
         {
-            return mRealm.TopicContainer.GetOrCreateTopicByUri(topicUri, false).ToSubject<TEvent>();
+            IWampSubject wampSubject = GetSubject(topicUri);
+
+            WampTopicSubject<TEvent> result =
+                new WampTopicSubject<TEvent>(wampSubject);
+
+            return result;
         }
 
         public IWampSubject GetSubject(string topicUri)
         {
-            return mRealm.TopicContainer.GetOrCreateTopicByUri(topicUri, false).ToSubject();
+            IWampTopicContainer wampTopicContainer = mRealm.TopicContainer;
+
+            WampRouterSubject result = 
+                new WampRouterSubject(topicUri, wampTopicContainer);
+
+            return result;
         }
     }
 }

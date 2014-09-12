@@ -55,12 +55,20 @@ namespace WampSharp.V2
 
         public ISubject<TEvent> GetSubject<TEvent>(string topicUri)
         {
-            return mProxy.TopicContainer.GetTopicByUri(topicUri).ToSubject<TEvent>(mProxy.Monitor);
+            IWampSubject subject = GetSubject(topicUri);
+
+            WampTopicSubject<TEvent> result = new WampTopicSubject<TEvent>(subject);
+
+            return result;
         }
 
         public IWampSubject GetSubject(string topicUri)
         {
-            return mProxy.TopicContainer.GetTopicByUri(topicUri).ToSubject(mProxy.Monitor);
+            IWampTopicProxy topicProxy = mProxy.TopicContainer.GetTopicByUri(topicUri);
+
+            WampClientSubject result = new WampClientSubject(topicProxy, mProxy.Monitor);
+
+            return result;
         }
     }
 }
