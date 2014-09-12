@@ -2,17 +2,18 @@
 using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2
 {
     internal abstract class WampSerializedEvent : IWampSerializedEvent
     {
         private readonly long mPublicationId;
-        private readonly ISerializedValue mDetails;
+        private readonly EventDetails mDetails;
         private readonly ISerializedValue[] mArguments;
         private readonly IDictionary<string, ISerializedValue> mArgumentsKeywords;
 
-        protected WampSerializedEvent(long publicationId, ISerializedValue details, ISerializedValue[] arguments, IDictionary<string, ISerializedValue> argumentsKeywords)
+        protected WampSerializedEvent(long publicationId, EventDetails details, ISerializedValue[] arguments, IDictionary<string, ISerializedValue> argumentsKeywords)
         {
             mPublicationId = publicationId;
             mDetails = details;
@@ -28,7 +29,7 @@ namespace WampSharp.V2
             }
         }
 
-        public ISerializedValue Details
+        public EventDetails Details
         {
             get
             {
@@ -58,21 +59,21 @@ namespace WampSharp.V2
     {
         public WampSerializedEvent(IWampFormatter<TMessage> formatter,
                                    long publicationId,
-                                   object details,
+                                   EventDetails details,
                                    TMessage[] arguments = null) :
                                        this(formatter,
                                             publicationId,
                                             details,
                                             arguments,
-                                            null)
+                                            (IDictionary<string, TMessage>)null)
         {
         }
 
         public WampSerializedEvent(IWampFormatter<TMessage> formatter,
                                    long publicationId,
-                                   object details,
+                                   EventDetails details,
                                    TMessage[] arguments,
-                                   TMessage argumentsKeywords) :
+                                   IDictionary<string, TMessage> argumentsKeywords) :
                                        this(formatter,
                                             publicationId,
                                             details,
@@ -84,16 +85,16 @@ namespace WampSharp.V2
 
         private WampSerializedEvent(IWampFormatter<TMessage> formatter,
                                     long publicationId,
-                                    object details,
+                                    EventDetails details,
                                     TMessage[] arguments,
                                     IDictionary<string, ISerializedValue> argumentsKeywords) :
                                         base(publicationId,
-                                             GetSerializedArgument(formatter, details),
+                                             details,
                                              GetSerializedArguments(formatter, arguments), argumentsKeywords)
         {
         }
 
-        private static IDictionary<string, ISerializedValue> GetSerializedDictionary(IWampFormatter<TMessage> formatter, TMessage argument)
+        private static IDictionary<string, ISerializedValue> GetSerializedDictionary(IWampFormatter<TMessage> formatter, IDictionary<string, TMessage> argument)
         {
             if (argument == null)
             {
@@ -102,8 +103,8 @@ namespace WampSharp.V2
             else
             {
                 Dictionary<string, ISerializedValue> result =
-                    formatter.Deserialize<IDictionary<string, TMessage>>(argument)
-                             .ToDictionary(x => x.Key, x => GetSerializedArgument(formatter, x.Value));
+                    argument.ToDictionary(x => x.Key, 
+                    x => GetSerializedArgument(formatter, x.Value));
 
                 return result;
             }

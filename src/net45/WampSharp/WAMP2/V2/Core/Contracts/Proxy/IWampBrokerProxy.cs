@@ -17,7 +17,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="options">The request options.</param>
         /// <param name="topicUri">The uri of the topic to publish this message to.</param>
         [WampHandler(WampMessageType.v2Publish)]
-        void Publish(long requestId, TMessage options, string topicUri);
+        void Publish(long requestId, PublishOptions options, string topicUri);
 
         /// <summary>
         /// Sends a PUBLISH message.
@@ -27,7 +27,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="topicUri">The uri of the topic to publish this message to.</param>
         /// <param name="arguments">The arguments to publish.</param>
         [WampHandler(WampMessageType.v2Publish)]
-        void Publish(long requestId, TMessage options, string topicUri, TMessage[] arguments);
+        void Publish(long requestId, PublishOptions options, string topicUri, TMessage[] arguments);
 
         /// <summary>
         /// Sends a PUBLISH message.
@@ -38,8 +38,8 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="arguments">The arguments to publish.</param>
         /// <param name="argumentKeywords">Additional argument keywords to publish.</param>
         [WampHandler(WampMessageType.v2Publish)]
-        void Publish(long requestId, TMessage options, string topicUri, TMessage[] arguments, TMessage argumentKeywords);
-        
+        void Publish(long requestId, PublishOptions options, string topicUri, TMessage[] arguments, TMessage argumentKeywords);
+
         /// <summary>
         /// Sends a SUBSCRIBE message.
         /// </summary>
@@ -47,7 +47,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="options">The request options.</param>
         /// <param name="topicUri">The uri of the topic to subscribe to.</param>
         [WampHandler(WampMessageType.v2Subscribe)]
-        void Subscribe(long requestId, TMessage options, string topicUri);
+        void Subscribe(long requestId, SubscribeOptions options, string topicUri);
 
         /// <summary>
         /// Sends an UNSUBSCRIBE message.

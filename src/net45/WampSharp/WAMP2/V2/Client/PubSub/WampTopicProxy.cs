@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 
 namespace WampSharp.V2.Client
@@ -18,9 +19,9 @@ namespace WampSharp.V2.Client
         private readonly IDisposable mContainerDisposable;
 
         private readonly object mLock = new object();
-        
-        private ConcurrentDictionary<object, WampTopicProxySection> mOptionsToSection =
-            new ConcurrentDictionary<object, WampTopicProxySection>();
+
+        private ConcurrentDictionary<SubscribeOptions, WampTopicProxySection> mOptionsToSection =
+            new ConcurrentDictionary<SubscribeOptions, WampTopicProxySection>();
 
         public WampTopicProxy(string topicUri,
                               IWampTopicSubscriptionProxy subscriber,
@@ -41,34 +42,34 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public Task<long> Publish(object options)
+        public Task<long> Publish(PublishOptions options)
         {
             CheckDisposed();
 
             return mPublisher.Publish(this.TopicUri, options);
         }
 
-        public Task<long> Publish(object options, object[] arguments)
+        public Task<long> Publish(PublishOptions options, object[] arguments)
         {
             CheckDisposed();
 
             return mPublisher.Publish(this.TopicUri, options, arguments);
         }
 
-        public Task<long> Publish(object options, object[] arguments, object argumentKeywords)
+        public Task<long> Publish(PublishOptions options, object[] arguments, IDictionary<string, object> argumentKeywords)
         {
             CheckDisposed();
 
             return mPublisher.Publish(this.TopicUri, options, arguments, argumentKeywords);
         }
 
-        public Task<IDisposable> Subscribe(IWampTopicSubscriber subscriber, object options)
+        public Task<IDisposable> Subscribe(IWampTopicSubscriber subscriber, SubscribeOptions options)
         {
             RawSubscriberAdapter rawSubscriberAdapter = new RawSubscriberAdapter(subscriber);
             return Subscribe(rawSubscriberAdapter, options);
         }
 
-        public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, object options)
+        public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, SubscribeOptions options)
         {
             lock (mLock)
             {
@@ -83,12 +84,12 @@ namespace WampSharp.V2.Client
         }
 
 
-        private WampTopicProxySection GetSection(object options)
+        private WampTopicProxySection GetSection(SubscribeOptions options)
         {
             return mOptionsToSection.GetOrAdd(options, x => CreateSection(options));
         }
 
-        private WampTopicProxySection CreateSection(object options)
+        private WampTopicProxySection CreateSection(SubscribeOptions options)
         {
             WampTopicProxySection result =
                 new WampTopicProxySection(TopicUri, mSubscriber, options);
@@ -154,20 +155,20 @@ namespace WampSharp.V2.Client
                 mSubscriber = subscriber;
             }
 
-            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details)
+            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, EventDetails details)
             {
                 mSubscriber.Event(publicationId, details);
             }
 
-            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details, TMessage[] arguments)
+            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, EventDetails details, TMessage[] arguments)
             {
                 mSubscriber.Event(publicationId, details, arguments.Cast<object>().ToArray());
             }
 
-            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details, TMessage[] arguments,
-                                        TMessage argumentsKeywords)
+            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, EventDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
-                mSubscriber.Event(publicationId, details, arguments.Cast<object>().ToArray(), argumentsKeywords);
+                mSubscriber.Event(publicationId, details, arguments.Cast<object>().ToArray(), 
+                    argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
             }
         }
     }

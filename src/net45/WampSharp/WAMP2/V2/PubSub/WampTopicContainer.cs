@@ -47,7 +47,7 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri)
+        public IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {
             lock (mLock)
             {
@@ -69,7 +69,7 @@ namespace WampSharp.V2.PubSub
                                    topic => topic.Publish(formatter, options, arguments));
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri, TMessage[] arguments, TMessage argumentKeywords)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
         {
             return TopicInvokeSafe(topicUri,
                                    topic => topic.Publish(formatter, options, arguments, argumentKeywords));

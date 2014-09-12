@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Contracts;
+﻿using System.Collections.Generic;
+using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
@@ -16,12 +17,12 @@ namespace WampSharp.V2.Core.Contracts
         void Unsubscribed(long requestId, long subscriptionId);
 
         [WampHandler(WampMessageType.v2Event)]
-        void Event(long subscriptionId, long publicationId, TMessage details);
+        void Event(long subscriptionId, long publicationId, EventDetails details);
 
         [WampHandler(WampMessageType.v2Event)]
-        void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments);
+        void Event(long subscriptionId, long publicationId, EventDetails details, TMessage[] arguments);
 
         [WampHandler(WampMessageType.v2Event)]
-        void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords);
+        void Event(long subscriptionId, long publicationId, EventDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
     }
 }

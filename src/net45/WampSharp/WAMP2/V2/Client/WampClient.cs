@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.V2.Core.Contracts;
 
@@ -197,18 +198,17 @@ namespace WampSharp.V2.Client
             Subscriber.Unsubscribed(requestId, subscriptionId);
         }
 
-        public void Event(long subscriptionId, long publicationId, TMessage details)
+        public void Event(long subscriptionId, long publicationId, EventDetails details)
         {
             Subscriber.Event(subscriptionId, publicationId, details);
         }
 
-        public void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments)
+        public void Event(long subscriptionId, long publicationId, EventDetails details, TMessage[] arguments)
         {
             Subscriber.Event(subscriptionId, publicationId, details, arguments);
         }
 
-        public void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments,
-                          TMessage argumentsKeywords)
+        public void Event(long subscriptionId, long publicationId, EventDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             Subscriber.Event(subscriptionId, publicationId, details, arguments, argumentsKeywords);
         }

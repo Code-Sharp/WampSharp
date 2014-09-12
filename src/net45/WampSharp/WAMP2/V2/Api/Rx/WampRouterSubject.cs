@@ -19,7 +19,7 @@ namespace WampSharp.V2
 
         public override IDisposable Subscribe(IObserver<IWampSerializedEvent> observer)
         {
-            return mContainer.Subscribe(new RawRouterSubscriber(observer), mTopicUri);
+            return mContainer.Subscribe(new RawRouterSubscriber(observer), mTopicUri, null);
         }
 
         protected override void Publish(PublishOptions options)

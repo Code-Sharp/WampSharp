@@ -6,12 +6,12 @@ namespace WampSharp.V2.Core.Contracts
     public interface IWampEventSerializer<TMessage>
     {
         [WampHandler(WampMessageType.v2Event)]
-        WampMessage<TMessage> Event(long subscriptionId, long publicationId, object details);
+        WampMessage<TMessage> Event(long subscriptionId, long publicationId, EventDetails details);
 
         [WampHandler(WampMessageType.v2Event)]
-        WampMessage<TMessage> Event(long subscriptionId, long publicationId, object details, object[] arguments);
+        WampMessage<TMessage> Event(long subscriptionId, long publicationId, EventDetails details, object[] arguments);
 
         [WampHandler(WampMessageType.v2Event)]
-        WampMessage<TMessage> Event(long subscriptionId, long publicationId, object details, object[] arguments, object argumentsKeywords);         
+        WampMessage<TMessage> Event(long subscriptionId, long publicationId, EventDetails details, object[] arguments, object argumentsKeywords);         
     }
 }

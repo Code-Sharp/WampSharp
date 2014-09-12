@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Contracts;
+﻿using System.Collections.Generic;
+using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
@@ -21,23 +22,22 @@ namespace WampSharp.V2
             mBroker = broker;
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri)
+        public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri)
         {
             mBroker.Publish(publisher, requestId, options, topicUri);
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri, TMessage[] arguments)
+        public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri, TMessage[] arguments)
         {
             mBroker.Publish(publisher, requestId, options, topicUri, arguments);
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri, TMessage[] arguments,
-                            TMessage argumentKeywords)
+        public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
         {
             mBroker.Publish(publisher, requestId, options, topicUri, arguments, argumentKeywords);
         }
 
-        public void Subscribe(IWampSubscriber subscriber, long requestId, TMessage options, string topicUri)
+        public void Subscribe(IWampSubscriber subscriber, long requestId, SubscribeOptions options, string topicUri)
         {
             mBroker.Subscribe(subscriber, requestId, options, topicUri);
         }
@@ -47,7 +47,7 @@ namespace WampSharp.V2
             mBroker.Unsubscribe(subscriber, requestId, subscriptionId);
         }
 
-        public void Register(IWampCallee callee, long requestId, TMessage options, string procedure)
+        public void Register(IWampCallee callee, long requestId, RegisterOptions options, string procedure)
         {
             mDealer.Register(callee, requestId, options, procedure);
         }

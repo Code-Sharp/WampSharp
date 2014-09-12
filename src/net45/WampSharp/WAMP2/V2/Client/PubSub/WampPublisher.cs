@@ -11,17 +11,25 @@ namespace WampSharp.V2.Client
         {
         }
 
-        public Task<long> Publish(string topicUri, object options)
+        public void OnConnectionError(Exception exception)
+        {
+        }
+
+        public void OnConnectionClosed()
+        {
+        }
+
+        public Task<long> Publish(string topicUri, PublishOptions options)
         {
             throw new NotImplementedException();
         }
 
-        public Task<long> Publish(string topicUri, object options, object[] arguments)
+        public Task<long> Publish(string topicUri, PublishOptions options, object[] arguments)
         {
             throw new NotImplementedException();
         }
 
-        public Task<long> Publish(string topicUri, object options, object[] arguments, object argumentKeywords)
+        public Task<long> Publish(string topicUri, PublishOptions options, object[] arguments, object argumentKeywords)
         {
             throw new NotImplementedException();
         }
@@ -44,14 +52,6 @@ namespace WampSharp.V2.Client
         public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
             throw new NotImplementedException();
-        }
-
-        public void OnConnectionError(Exception exception)
-        {
-        }
-
-        public void OnConnectionClosed()
-        {
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 
 namespace WampSharp.V2.Client
@@ -14,11 +16,11 @@ namespace WampSharp.V2.Client
         private readonly IWampTopicSubscriptionProxy mSubscriber;
         private Subject<IPublication> mSubject = new Subject<IPublication>();
         private readonly string mTopicUri;
-        private readonly object mOptions;
+        private readonly SubscribeOptions mOptions;
         private readonly object mLock = new object();
         private IDisposable mExternalSubscription;
 
-        public WampTopicProxySection(string topicUri, IWampTopicSubscriptionProxy subscriber, object options)
+        public WampTopicProxySection(string topicUri, IWampTopicSubscriptionProxy subscriber, SubscribeOptions options)
         {
             mTopicUri = topicUri;
             mSubscriber = subscriber;
@@ -33,7 +35,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public object Options
+        public SubscribeOptions Options
         {
             get
             {
@@ -53,7 +55,7 @@ namespace WampSharp.V2.Client
 
         public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber)
         {
-            object options = Options;
+            SubscribeOptions options = Options;
             Task<IDisposable> externalSubscription = SubscribeExternal(options);
 
             IDisposable disposable =
@@ -94,7 +96,7 @@ namespace WampSharp.V2.Client
                                            Disposable.Create(() => OnSubscriberRemoved(subscriber)));
         }
 
-        private Task<IDisposable> SubscribeExternal(object options)
+        private Task<IDisposable> SubscribeExternal(SubscribeOptions options)
         {
             if (Interlocked.CompareExchange(ref mSubscribed, 1, 0) == 0)
             {
@@ -104,13 +106,13 @@ namespace WampSharp.V2.Client
             return null;
         }
 
-        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details)
+        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, EventDetails details)
         {
             PublishInternal(subscriber =>
                 subscriber.Event(formatter, publicationId, details));
         }
 
-        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details, TMessage[] arguments)
+        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, EventDetails details, TMessage[] arguments)
         {
             PublishInternal(subscriber =>
                             subscriber.Event(formatter,
@@ -119,8 +121,7 @@ namespace WampSharp.V2.Client
                                              arguments));
         }
 
-        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, TMessage details, TMessage[] arguments,
-                                    TMessage argumentsKeywords)
+        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, EventDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             PublishInternal(subscriber =>
                             subscriber.Event(formatter,

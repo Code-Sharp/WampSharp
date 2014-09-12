@@ -243,7 +243,6 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawRouterSubscriber.cs" />
-    <Compile Include="WAMP2\V2\Api\Rx\WampSerializedOptionsDetailsExtensions.cs" />
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\IWampPendingRequest.cs" />
@@ -251,6 +250,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Attributes\IgnorePropertyAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\EventDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\PublishOptionsExtended.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\RegisterOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\ResultDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\CallOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InvocationOptions.cs" />

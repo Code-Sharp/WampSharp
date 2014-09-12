@@ -20,28 +20,26 @@ namespace WampSharp.V2.PubSub
             mRawTopicContainer = new WampRawTopicContainer<TMessage>(topicContainer, mEventSerializer, mBinding);
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri)
+        public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri)
         {
             InnerPublish(publisher, requestId, options,
                          publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri));
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri,
+        public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri,
                             TMessage[] arguments)
         {
             InnerPublish(publisher, requestId, options,
                          publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri, arguments));
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri,
-                            TMessage[] arguments,
-                            TMessage argumentKeywords)
+        public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
         {
             InnerPublish(publisher, requestId, options,
                          publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri, arguments, argumentKeywords));
         }
 
-        private void InnerPublish(IWampPublisher publisher, long requestId, TMessage options, Func<PublishOptions, long> action)
+        private void InnerPublish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, Func<PublishOptions, long> action)
         {
             PublishOptions publishOptions = GetPublishOptions(publisher, options);
 
@@ -58,19 +56,16 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        private PublishOptions GetPublishOptions(IWampPublisher publisher, TMessage options)
+        private PublishOptions GetPublishOptions(IWampPublisher publisher, PublishOptionsExtended options)
         {
-            PublishOptionsExtended publishOptions =
-                mBinding.Formatter.Deserialize<PublishOptionsExtended>(options);
-
             IWampClient casted = publisher as IWampClient;
 
-            publishOptions.PublisherId = casted.Session;
+            options.PublisherId = casted.Session;
             
-            return publishOptions;
+            return options;
         }
 
-        public void Subscribe(IWampSubscriber subscriber, long requestId, TMessage options, string topicUri)
+        public void Subscribe(IWampSubscriber subscriber, long requestId, SubscribeOptions options, string topicUri)
         {
             try
             {

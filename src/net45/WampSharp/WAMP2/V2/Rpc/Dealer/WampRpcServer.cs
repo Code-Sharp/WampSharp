@@ -11,7 +11,7 @@ namespace WampSharp.V2.Rpc
     {
         private readonly IWampFormatter<TMessage> mFormatter; 
         private readonly IWampRpcOperationInvoker mInvoker;
-        private readonly IWampCalleeOperationCatalog<TMessage> mCalleeCatalog;
+        private readonly IWampCalleeOperationCatalog mCalleeCatalog;
         private readonly IWampCalleeInvocationHandler<TMessage> mHandler; 
 
         public WampRpcServer(IWampRpcOperationCatalog catalog, IWampBinding<TMessage> binding)
@@ -25,7 +25,7 @@ namespace WampSharp.V2.Rpc
                 (catalog, mHandler);
         }
 
-        public void Register(IWampCallee callee, long requestId, TMessage options, string procedure)
+        public void Register(IWampCallee callee, long requestId, RegisterOptions options, string procedure)
         {
             try
             {

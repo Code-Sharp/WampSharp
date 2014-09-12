@@ -96,7 +96,7 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 throw new NotImplementedException();
             }
 
-            public void Register(IWampCallee callee, long requestId, TMessage options, string procedure)
+            public void Register(IWampCallee callee, long requestId, RegisterOptions options, string procedure)
             {
                 ActualRegistration = new object[] {options, procedure};
                 mRegisterCallback(callee, requestId);
@@ -160,23 +160,22 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 ActualError = new object[] { requestType, requestId, details, error, arguments, argumentsKeywords };
             }
 
-            public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri)
+            public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri, TMessage[] arguments)
+            public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri, TMessage[] arguments)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri, TMessage[] arguments,
-                                TMessage argumentKeywords)
+            public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Subscribe(IWampSubscriber subscriber, long requestId, TMessage options, string topicUri)
+            public void Subscribe(IWampSubscriber subscriber, long requestId, SubscribeOptions options, string topicUri)
             {
                 throw new System.NotImplementedException();
             }

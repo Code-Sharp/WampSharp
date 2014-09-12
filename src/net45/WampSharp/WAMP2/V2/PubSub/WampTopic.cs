@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using WampSharp.Core.Serialization;
@@ -62,7 +63,7 @@ namespace WampSharp.V2.PubSub
             return InnerPublish(publishAction);
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, TMessage[] arguments, TMessage argumentKeywords)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
         {
             Action<IWampRawTopicRouterSubscriber, long> publishAction =
                 (subscriber, publicationId) => subscriber.Event(formatter, publicationId, options, arguments, argumentKeywords);

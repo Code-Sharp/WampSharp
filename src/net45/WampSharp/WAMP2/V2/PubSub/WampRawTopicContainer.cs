@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core;
@@ -30,7 +31,7 @@ namespace WampSharp.V2.PubSub
             mBinding = binding;
         }
 
-        public long Subscribe(ISubscribeRequest<TMessage> request, TMessage options, string topicUri)
+        public long Subscribe(ISubscribeRequest<TMessage> request, SubscribeOptions options, string topicUri)
         {
             lock (mLock)
             {
@@ -39,9 +40,9 @@ namespace WampSharp.V2.PubSub
                 if (!mTopicUriToTopic.TryGetValue(topicUri, out rawTopic))
                 {
                     rawTopic = CreateRawTopic(topicUri);
-                    
+
                     IDisposable disposable =
-                        mTopicContainer.Subscribe(rawTopic, topicUri);
+                        mTopicContainer.Subscribe(rawTopic, topicUri, options);
 
                     rawTopic.SubscriptionDisposable = disposable;
                 }
@@ -77,7 +78,7 @@ namespace WampSharp.V2.PubSub
             return mTopicContainer.Publish(mBinding.Formatter, options, topicUri, arguments);
         }
 
-        public long Publish(PublishOptions options, string topicUri, TMessage[] arguments, TMessage argumentKeywords)
+        public long Publish(PublishOptions options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
         {
             return mTopicContainer.Publish(mBinding.Formatter, options, topicUri, arguments, argumentKeywords);
         }

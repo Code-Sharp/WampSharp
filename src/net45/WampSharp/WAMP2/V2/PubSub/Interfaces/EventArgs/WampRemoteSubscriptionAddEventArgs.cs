@@ -1,4 +1,4 @@
-﻿using WampSharp.Core.Serialization;
+﻿using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
 {
@@ -6,8 +6,8 @@ namespace WampSharp.V2.PubSub
     {
         private readonly long mSession;
 
-        public WampRemoteSubscriptionAddEventArgs(RemoteWampTopicSubscriber subscriber, TMessage options, IWampFormatter<TMessage> formatter) :
-            base(subscriber, new SerializedValue<TMessage>(formatter, options))
+        public WampRemoteSubscriptionAddEventArgs(RemoteWampTopicSubscriber subscriber, SubscribeOptions options) :
+            base(subscriber, options)
         {
             mSession = subscriber.Session;
         }

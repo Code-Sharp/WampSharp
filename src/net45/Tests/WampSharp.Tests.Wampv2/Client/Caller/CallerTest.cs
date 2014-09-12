@@ -33,19 +33,19 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
         {
         }
 
-        public void SetupCall(object options, string procedure)
+        public void SetupCall(CallOptions options, string procedure)
         {
             mExpectedCallParameters = new object[] {options, procedure};
             mCallAction = (catalog, callback) => catalog.Invoke(callback, options, procedure);
         }
 
-        public void SetupCall(object options, string procedure, object[] arguments)
+        public void SetupCall(CallOptions options, string procedure, object[] arguments)
         {
             mExpectedCallParameters = new object[] { options, procedure, arguments };
             mCallAction = (catalog, callback) => catalog.Invoke(callback, options, procedure, arguments);
         }
 
-        public void SetupCall(object options, string procedure, object[] arguments, object argumentsKeywords)
+        public void SetupCall(CallOptions options, string procedure, object[] arguments, object argumentsKeywords)
         {
             mExpectedCallParameters = new object[] {options, procedure, arguments, argumentsKeywords};
             mCallAction = (catalog, callback) => catalog.Invoke(callback, options, procedure, arguments, argumentsKeywords);
@@ -182,7 +182,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
                 throw new NotImplementedException();
             }
 
-            public void Register(IWampCallee callee, long requestId, TMessage options, string procedure)
+            public void Register(IWampCallee callee, long requestId, RegisterOptions options, string procedure)
             {
                 throw new System.NotImplementedException();
             }
@@ -248,23 +248,22 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
                 throw new System.NotImplementedException();
             }
 
-            public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri)
+            public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri, TMessage[] arguments)
+            public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri, TMessage[] arguments)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Publish(IWampPublisher publisher, long requestId, TMessage options, string topicUri, TMessage[] arguments,
-                                TMessage argumentKeywords)
+            public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Subscribe(IWampSubscriber subscriber, long requestId, TMessage options, string topicUri)
+            public void Subscribe(IWampSubscriber subscriber, long requestId, SubscribeOptions options, string topicUri)
             {
                 throw new System.NotImplementedException();
             }

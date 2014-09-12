@@ -601,9 +601,6 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\RawRouterSubscriber.cs">
       <Link>WAMP2\V2\Api\Rx\RawRouterSubscriber.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampSerializedOptionsDetailsExtensions.cs">
-      <Link>WAMP2\V2\Api\Rx\WampSerializedOptionsDetailsExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\CompositeListener.cs">
       <Link>WAMP2\V2\Api\Server\CompositeListener.cs</Link>
     </Compile>
@@ -624,6 +621,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\PubSub\PublishOptionsExtended.cs">
       <Link>WAMP2\V2\Core\Contracts\PubSub\PublishOptionsExtended.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\RegisterOptions.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\RegisterOptions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\ResultDetails.cs">
       <Link>WAMP2\V2\Core\Contracts\Rpc\ResultDetails.cs</Link>

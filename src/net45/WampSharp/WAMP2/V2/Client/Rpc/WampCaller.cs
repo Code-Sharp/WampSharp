@@ -29,7 +29,7 @@ namespace WampSharp.V2.Client
         }
 
         public void Invoke(IWampRpcOperationCallback caller,
-                           object options,
+                           CallOptions options,
                            string procedure)
         {
             RawCallbackAdpater adapter = new RawCallbackAdpater(caller);
@@ -38,7 +38,7 @@ namespace WampSharp.V2.Client
         }
 
         public void Invoke(IWampRpcOperationCallback caller,
-                           object options,
+                           CallOptions options,
                            string procedure,
                            object[] arguments)
         {
@@ -48,7 +48,7 @@ namespace WampSharp.V2.Client
         }
 
         public void Invoke(IWampRpcOperationCallback caller,
-                           object options,
+                           CallOptions options,
                            string procedure,
                            object[] arguments,
                            object argumentsKeywords)
@@ -58,7 +58,7 @@ namespace WampSharp.V2.Client
             Invoke(adapter, options, procedure, arguments, argumentsKeywords);
         }
 
-        public void Invoke(IWampRawRpcOperationCallback caller, object options, string procedure)
+        public void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure)
         {
             CallDetails callDetails = new CallDetails(caller, options, procedure);
 
@@ -67,7 +67,7 @@ namespace WampSharp.V2.Client
             mProxy.Call(requestId, options, procedure);
         }
 
-        public void Invoke(IWampRawRpcOperationCallback caller, object options, string procedure, object[] arguments)
+        public void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments)
         {
             CallDetails callDetails = new CallDetails(caller, options, procedure, arguments);
 
@@ -76,7 +76,7 @@ namespace WampSharp.V2.Client
             mProxy.Call(requestId, options, procedure, arguments);
         }
 
-        public void Invoke(IWampRawRpcOperationCallback caller, object options, string procedure, object[] arguments,
+        public void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments,
                            object argumentsKeywords)
         {
             CallDetails callDetails = new CallDetails(caller, options, procedure, arguments, argumentsKeywords);
@@ -176,12 +176,12 @@ namespace WampSharp.V2.Client
         private class CallDetails
         {
             private readonly IWampRawRpcOperationCallback mCaller;
-            private readonly object mOptions;
+            private readonly CallOptions mOptions;
             private readonly string mProcedure;
             private readonly object[] mArguments;
             private readonly object mArgumentsKeywords;
 
-            public CallDetails(IWampRawRpcOperationCallback caller, object options, string procedure, object[] arguments = null, object argumentsKeywords = null)
+            public CallDetails(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments = null, object argumentsKeywords = null)
             {
                 mCaller = caller;
                 mOptions = options;

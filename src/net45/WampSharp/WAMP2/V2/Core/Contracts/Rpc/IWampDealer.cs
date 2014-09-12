@@ -18,7 +18,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="options">The request options.</param>
         /// <param name="procedure">The uri of the procedure to register.</param>
         [WampHandler(WampMessageType.v2Register)]
-        void Register([WampProxyParameter]IWampCallee callee, long requestId, TMessage options, string procedure);
+        void Register([WampProxyParameter] IWampCallee callee, long requestId, RegisterOptions options, string procedure);
 
         /// <summary>
         /// Occurs when an UNREGISTER message arrives.

@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
 {
     internal interface IWampTopicPublicationProxy
     {
-        Task<long> Publish(string topicUri, object options);
-        Task<long> Publish(string topicUri, object options, object[] arguments);
-        Task<long> Publish(string topicUri, object options, object[] arguments, object argumentKeywords);
+        Task<long> Publish(string topicUri, PublishOptions options);
+        Task<long> Publish(string topicUri, PublishOptions options, object[] arguments);
+        Task<long> Publish(string topicUri, PublishOptions options, object[] arguments, object argumentKeywords);
     }
 }

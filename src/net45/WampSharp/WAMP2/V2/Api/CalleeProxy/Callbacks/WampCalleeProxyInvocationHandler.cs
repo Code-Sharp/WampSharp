@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Utilities;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
@@ -11,7 +12,7 @@ namespace WampSharp.V2.CalleeProxy
 {
     internal abstract class WampCalleeProxyInvocationHandler : IWampCalleeProxyInvocationHandler
     {
-        protected readonly Dictionary<string, object> mEmptyOptions = new Dictionary<string, object>();
+        protected readonly CallOptions mEmptyOptions = new CallOptions();
 
         public object Invoke(MethodInfo method, object[] arguments)
         {

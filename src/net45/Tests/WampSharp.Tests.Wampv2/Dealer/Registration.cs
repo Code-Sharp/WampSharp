@@ -1,15 +1,17 @@
-﻿using WampSharp.Core.Message;
+﻿using Newtonsoft.Json.Linq;
+using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Tests.Wampv2.Dealer
 {
     public class Registration
     {
         private long mRequestId;
-        private MockRaw mOptions;
+        private RegisterOptions mOptions;
         private string mProcedure;
 
-        public Registration(long requestId, MockRaw options, string procedure)
+        public Registration(long requestId, RegisterOptions options, string procedure)
         {
             mRequestId = requestId;
             mOptions = options;
@@ -19,7 +21,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
         public Registration(WampMessage<MockRaw> message)
         {
             mRequestId = (long) message.Arguments[0].Value;
-            mOptions = message.Arguments[1];
+            mOptions = new RegisterOptions(); // Currently ignoring value
             mProcedure = (string) message.Arguments[2].Value;
         }
 
@@ -28,7 +30,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
             get { return mRequestId; }
         }
 
-        public MockRaw Options
+        public RegisterOptions Options
         {
             get { return mOptions; }
         }

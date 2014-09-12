@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 
@@ -52,17 +53,17 @@ namespace WampSharp.V2.Client
             mSubscriber.Unsubscribed(requestId, subscriptionId);
         }
 
-        public void Event(long subscriptionId, long publicationId, TMessage details)
+        public void Event(long subscriptionId, long publicationId, EventDetails details)
         {
             mSubscriber.Event(subscriptionId, publicationId, details);
         }
 
-        public void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments)
+        public void Event(long subscriptionId, long publicationId, EventDetails details, TMessage[] arguments)
         {
             mSubscriber.Event(subscriptionId, publicationId, details, arguments);
         }
 
-        public void Event(long subscriptionId, long publicationId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Event(long subscriptionId, long publicationId, EventDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             mSubscriber.Event(subscriptionId, publicationId, details, arguments, argumentsKeywords);
         }

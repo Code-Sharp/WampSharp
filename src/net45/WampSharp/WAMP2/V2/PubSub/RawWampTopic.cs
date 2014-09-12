@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
@@ -59,8 +60,7 @@ namespace WampSharp.V2.PubSub
             InnerEvent(options, action);
         }
 
-        public void Event<TRaw>(IWampFormatter<TRaw> formatter, long publicationId, PublishOptions options,
-                                TRaw[] arguments, TRaw argumentsKeywords)
+        public void Event<TRaw>(IWampFormatter<TRaw> formatter, long publicationId, PublishOptions options, TRaw[] arguments, IDictionary<string, TRaw> argumentsKeywords)
         {
             Func<EventDetails, WampMessage<TMessage>> action =
                 details => mSerializer.Event(SubscriptionId, publicationId, details,
@@ -130,7 +130,7 @@ namespace WampSharp.V2.PubSub
             set;
         }
 
-        public void Subscribe(ISubscribeRequest<TMessage> request, TMessage options)
+        public void Subscribe(ISubscribeRequest<TMessage> request, SubscribeOptions options)
         {
             RemoteWampTopicSubscriber remoteSubscriber =
                 new RemoteWampTopicSubscriber(this.SubscriptionId,
@@ -194,7 +194,7 @@ namespace WampSharp.V2.PubSub
         public event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoved;
         public event EventHandler TopicEmpty;
 
-        protected virtual void RaiseSubscriptionAdding(RemoteWampTopicSubscriber subscriber, TMessage options)
+        protected virtual void RaiseSubscriptionAdding(RemoteWampTopicSubscriber subscriber, SubscribeOptions options)
         {
             EventHandler<WampSubscriptionAddEventArgs> handler = SubscriptionAdding;
 
@@ -206,7 +206,7 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        protected virtual void RaiseSubscriptionAdded(RemoteWampTopicSubscriber subscriber, TMessage options)
+        protected virtual void RaiseSubscriptionAdded(RemoteWampTopicSubscriber subscriber, SubscribeOptions options)
         {
             EventHandler<WampSubscriptionAddEventArgs> handler = SubscriptionAdded;
 
@@ -250,9 +250,9 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        private WampSubscriptionAddEventArgs GetAddEventArgs(RemoteWampTopicSubscriber subscriber, TMessage options)
+        private WampSubscriptionAddEventArgs GetAddEventArgs(RemoteWampTopicSubscriber subscriber, SubscribeOptions options)
         {
-            return new WampRemoteSubscriptionAddEventArgs<TMessage>(subscriber, options, mBinding.Formatter);
+            return new WampRemoteSubscriptionAddEventArgs<TMessage>(subscriber, options);
         }
 
         private static SubscriptionRemoveEventArgs GetRemoveEventArgs(long sessionId)

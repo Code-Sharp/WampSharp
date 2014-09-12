@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
@@ -24,8 +25,7 @@ namespace WampSharp.V2
             mObserver.OnNext(new WampSerializedEvent<TMessage>(formatter, publicationId, GetEventDetails(options), arguments));
         }
 
-        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options, TMessage[] arguments,
-                                    TMessage argumentsKeywords)
+        public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             mObserver.OnNext(new WampSerializedEvent<TMessage>(formatter, publicationId, GetEventDetails(options), arguments, argumentsKeywords));
         }

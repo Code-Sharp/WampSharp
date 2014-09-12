@@ -16,7 +16,7 @@ namespace WampSharp.V2
         /// <summary>
         /// Gets the details associated with this event.
         /// </summary>
-        ISerializedValue Details { get; }
+        EventDetails Details { get; }
 
         /// <summary>
         /// Gets the arguments of this event.

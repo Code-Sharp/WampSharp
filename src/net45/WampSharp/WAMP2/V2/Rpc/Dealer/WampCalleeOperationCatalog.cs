@@ -10,7 +10,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class WampCalleeOperationCatalog<TMessage> : IWampCalleeOperationCatalog<TMessage>
+    public class WampCalleeOperationCatalog<TMessage> : IWampCalleeOperationCatalog
     {
         private readonly IWampRpcOperationCatalog mCatalog;
         private readonly IWampCalleeInvocationHandler<TMessage> mInvocationHandler;
@@ -24,7 +24,7 @@ namespace WampSharp.V2.Rpc
             mInvocationHandler = invocationHandler;
         }
 
-        public long Register(IRegisterRequest request, TMessage options, string procedure)
+        public long Register(IRegisterRequest request, RegisterOptions options, string procedure)
         {
             WampCalleeRpcOperation operation =
                 new WampCalleeRpcOperation(procedure,
@@ -90,10 +90,10 @@ namespace WampSharp.V2.Rpc
             private readonly IWampCalleeInvocationHandler<TMessage> mHandler;
             private readonly WampCalleeOperationCatalog<TMessage> mCatalog;
             private readonly string mProcedure;
-            private readonly TMessage mOptions;
+            private readonly RegisterOptions mOptions;
             private bool mClientDisconnected = false;
 
-            public WampCalleeRpcOperation(string procedure, IWampCallee callee, TMessage options, IWampCalleeInvocationHandler<TMessage> handler,
+            public WampCalleeRpcOperation(string procedure, IWampCallee callee, RegisterOptions options, IWampCalleeInvocationHandler<TMessage> handler,
                 WampCalleeOperationCatalog<TMessage> catalog)
             {
                 mCallee = callee;

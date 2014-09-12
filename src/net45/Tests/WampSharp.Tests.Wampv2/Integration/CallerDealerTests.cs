@@ -74,7 +74,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             channel.RealmProxy.RpcCatalog.Invoke
                 (callback,
-                 new Dictionary<string, object>(),
+                 new CallOptions(), 
                  "com.arguments.stars",
                  new object[0],
                  argumentsKeywords);

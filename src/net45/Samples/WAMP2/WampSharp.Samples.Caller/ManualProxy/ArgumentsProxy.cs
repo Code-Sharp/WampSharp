@@ -13,7 +13,7 @@ namespace WampSharp.Samples.Caller.ManualProxy
     public class ArgumentsServiceProxy : IArgumentsService
     {
         private readonly IWampRpcOperationCatalogProxy mCatalogProxy;
-        private readonly Dictionary<string, object> mDummy = new Dictionary<string, object>();
+        private readonly CallOptions mDummy = new CallOptions();
 
         public ArgumentsServiceProxy(IWampRpcOperationCatalogProxy catalogProxy)
         {
