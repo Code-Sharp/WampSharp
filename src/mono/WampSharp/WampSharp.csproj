@@ -597,6 +597,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\RawRouterSubscriber.cs">
       <Link>WAMP2\V2\Api\Rx\RawRouterSubscriber.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampSerializedOptionsDetailsExtensions.cs">
+      <Link>WAMP2\V2\Api\Rx\WampSerializedOptionsDetailsExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\CompositeListener.cs">
       <Link>WAMP2\V2\Api\Server\CompositeListener.cs</Link>
     </Compile>
@@ -1029,14 +1032,14 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\WampIdMapper.cs">
       <Link>WAMP2\V2\Core\WampIdMapper.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\RemoteSubscriptionAddEventArgs.cs">
-      <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\RemoteSubscriptionAddEventArgs.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\WampRemoteSubscriptionAddEventArgs.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\WampRemoteSubscriptionAddEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\RemoteSubscriptionRemoveEventArgs.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\RemoteSubscriptionRemoveEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionAddEventArgs.cs">
-      <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionAddEventArgs.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\WampSubscriptionAddEventArgs.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\WampSubscriptionAddEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionRemoveEventArgs.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionRemoveEventArgs.cs</Link>
