@@ -2,12 +2,12 @@
 
 namespace WampSharp.V2.PubSub
 {
-    public class SubscriptionAddEventArgs : EventArgs
+    public class WampSubscriptionAddEventArgs : EventArgs
     {
         private readonly ISerializedValue mOptions;
         private readonly IRemoteWampTopicSubscriber mSubscriber;
 
-        public SubscriptionAddEventArgs(IRemoteWampTopicSubscriber subscriber, ISerializedValue options)
+        public WampSubscriptionAddEventArgs(IRemoteWampTopicSubscriber subscriber, ISerializedValue options)
         {
             mOptions = options;
             mSubscriber = subscriber;

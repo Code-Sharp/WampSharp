@@ -243,6 +243,7 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawRouterSubscriber.cs" />
+    <Compile Include="WAMP2\V2\Api\Rx\WampSerializedOptionsDetailsExtensions.cs" />
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\IWampPendingRequest.cs" />
@@ -387,9 +388,9 @@
     <Compile Include="WAMP2\V2\Core\Proxy\WampInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Core\WampIdGenerator.cs" />
     <Compile Include="WAMP2\V2\Core\WampIdMapper.cs" />
-    <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\RemoteSubscriptionAddEventArgs.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampRemoteSubscriptionAddEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\RemoteSubscriptionRemoveEventArgs.cs" />
-    <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionAddEventArgs.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampSubscriptionAddEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionRemoveEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicCreatedEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicEventArgs.cs" />

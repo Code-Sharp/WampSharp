@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
@@ -44,17 +45,17 @@ namespace WampSharp.V2
             return result;
         }
 
-        protected override void Publish(IDictionary<string, object> options)
+        protected override void Publish(PublishOptions options)
         {
             mTopic.Publish(options);
         }
 
-        protected override void Publish(IDictionary<string, object> options, object[] arguments)
+        protected override void Publish(PublishOptions options, object[] arguments)
         {
             mTopic.Publish(options, arguments);
         }
 
-        protected override void Publish(IDictionary<string, object> options, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        protected override void Publish(PublishOptions options, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             mTopic.Publish(options, arguments, argumentsKeywords);
         }

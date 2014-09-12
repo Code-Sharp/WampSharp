@@ -4,8 +4,8 @@ namespace WampSharp.V2.PubSub
 {
     public interface ISubscriptionNotifier
     {
-        event EventHandler<SubscriptionAddEventArgs> SubscriptionAdding;
-        event EventHandler<SubscriptionAddEventArgs> SubscriptionAdded;
+        event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdding;
+        event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdded;
 
         event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoving;
         event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoved;

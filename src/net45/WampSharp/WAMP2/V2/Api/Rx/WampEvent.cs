@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2
 {
@@ -7,7 +8,7 @@ namespace WampSharp.V2
     /// </summary>
     public class WampEvent : IWampEvent
     {
-        public IDictionary<string, object> Options { get; set; }
+        public PublishOptions Options { get; set; }
         public object[] Arguments { get; set; }
         public IDictionary<string, object> ArgumentsKeywords { get; set; }
     }

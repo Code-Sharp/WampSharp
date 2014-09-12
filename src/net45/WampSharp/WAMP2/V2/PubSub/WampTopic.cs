@@ -113,9 +113,9 @@ namespace WampSharp.V2.PubSub
 
         #region ISubscriptionNotifier
 
-        public event EventHandler<SubscriptionAddEventArgs> SubscriptionAdding;
+        public event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdding;
 
-        public event EventHandler<SubscriptionAddEventArgs> SubscriptionAdded;
+        public event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdded;
 
         public event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoving;
 
@@ -163,12 +163,12 @@ namespace WampSharp.V2.PubSub
             notifier.SubscriptionAdded -= OnSubscriberSubscriptionAdded;
         }
 
-        private void OnSubscriberSubscriptionAdded(object sender, SubscriptionAddEventArgs e)
+        private void OnSubscriberSubscriptionAdded(object sender, WampSubscriptionAddEventArgs e)
         {
             RaiseSubscriptionAdded(e);
         }
 
-        private void OnSubscriberSubscriptionAdding(object sender, SubscriptionAddEventArgs e)
+        private void OnSubscriberSubscriptionAdding(object sender, WampSubscriptionAddEventArgs e)
         {
             RaiseSubscriptionAdding(e);
         }
@@ -207,9 +207,9 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        protected virtual void RaiseSubscriptionAdding(SubscriptionAddEventArgs e)
+        protected virtual void RaiseSubscriptionAdding(WampSubscriptionAddEventArgs e)
         {
-            EventHandler<SubscriptionAddEventArgs> handler = SubscriptionAdding;
+            EventHandler<WampSubscriptionAddEventArgs> handler = SubscriptionAdding;
 
             if (handler != null)
             {
@@ -217,9 +217,9 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        protected virtual void RaiseSubscriptionAdded(SubscriptionAddEventArgs e)
+        protected virtual void RaiseSubscriptionAdded(WampSubscriptionAddEventArgs e)
         {
-            EventHandler<SubscriptionAddEventArgs> handler = SubscriptionAdded;
+            EventHandler<WampSubscriptionAddEventArgs> handler = SubscriptionAdded;
 
             if (handler != null)
             {

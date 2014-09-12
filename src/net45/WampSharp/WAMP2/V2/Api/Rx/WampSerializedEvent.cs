@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 
@@ -9,9 +10,9 @@ namespace WampSharp.V2
         private readonly long mPublicationId;
         private readonly ISerializedValue mDetails;
         private readonly ISerializedValue[] mArguments;
-        private readonly ISerializedValue mArgumentsKeywords;
+        private readonly IDictionary<string, ISerializedValue> mArgumentsKeywords;
 
-        protected WampSerializedEvent(long publicationId, ISerializedValue details, ISerializedValue[] arguments, ISerializedValue argumentsKeywords)
+        protected WampSerializedEvent(long publicationId, ISerializedValue details, ISerializedValue[] arguments, IDictionary<string, ISerializedValue> argumentsKeywords)
         {
             mPublicationId = publicationId;
             mDetails = details;
@@ -43,7 +44,7 @@ namespace WampSharp.V2
             }
         }
 
-        public ISerializedValue ArgumentsKeywords
+        public IDictionary<string, ISerializedValue> ArgumentsKeywords
         {
             get
             {
@@ -51,6 +52,7 @@ namespace WampSharp.V2
             }
         }
     }
+
 
     internal class WampSerializedEvent<TMessage> : WampSerializedEvent
     {
@@ -75,7 +77,7 @@ namespace WampSharp.V2
                                             publicationId,
                                             details,
                                             arguments,
-                                            GetSerializedArgument(formatter, argumentsKeywords))
+                                            GetSerializedDictionary(formatter, argumentsKeywords))
         {
         }
 
@@ -84,11 +86,27 @@ namespace WampSharp.V2
                                     long publicationId,
                                     object details,
                                     TMessage[] arguments,
-                                    ISerializedValue argumentsKeywords) :
+                                    IDictionary<string, ISerializedValue> argumentsKeywords) :
                                         base(publicationId,
                                              GetSerializedArgument(formatter, details),
                                              GetSerializedArguments(formatter, arguments), argumentsKeywords)
         {
+        }
+
+        private static IDictionary<string, ISerializedValue> GetSerializedDictionary(IWampFormatter<TMessage> formatter, TMessage argument)
+        {
+            if (argument == null)
+            {
+                return null;
+            }
+            else
+            {
+                Dictionary<string, ISerializedValue> result =
+                    formatter.Deserialize<IDictionary<string, TMessage>>(argument)
+                             .ToDictionary(x => x.Key, x => GetSerializedArgument(formatter, x.Value));
+
+                return result;
+            }
         }
 
         private static ISerializedValue GetSerializedArgument(IWampFormatter<TMessage> formatter, object argument)

@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2
 {
     internal abstract class WampSubject : IWampSubject
     {
-        private static readonly IDictionary<string, object> EmptyOptions  =
-            new ReadOnlyDictionary<string, object>(new Dictionary<string, object>());
+        private static readonly PublishOptions EmptyOptions  =
+            new PublishOptions();
 
         public virtual void OnNext(IWampEvent value)
         {
-            IDictionary<string, object> options = value.Options ?? EmptyOptions;
+            PublishOptions options = value.Options ?? EmptyOptions;
             object[] arguments = value.Arguments;
             IDictionary<string, object> argumentsKeywords = value.ArgumentsKeywords;
 
@@ -39,9 +40,9 @@ namespace WampSharp.V2
             throw new NotImplementedException();
         }
 
-        protected abstract void Publish(IDictionary<string, object> options);
-        protected abstract void Publish(IDictionary<string, object> options, object[] arguments);
-        protected abstract void Publish(IDictionary<string, object> options, object[] arguments, IDictionary<string, object> argumentsKeywords);
+        protected abstract void Publish(PublishOptions options);
+        protected abstract void Publish(PublishOptions options, object[] arguments);
+        protected abstract void Publish(PublishOptions options, object[] arguments, IDictionary<string, object> argumentsKeywords);
 
         public abstract IDisposable Subscribe(IObserver<IWampSerializedEvent> observer);
     }

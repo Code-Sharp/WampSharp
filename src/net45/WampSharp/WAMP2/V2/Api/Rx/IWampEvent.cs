@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2
 {
@@ -10,7 +11,7 @@ namespace WampSharp.V2
         /// <summary>
         /// The publication objects.
         /// </summary>
-        IDictionary<string, object> Options { get; }
+        PublishOptions Options { get; }
         
         /// <summary>
         /// The publication arguments.

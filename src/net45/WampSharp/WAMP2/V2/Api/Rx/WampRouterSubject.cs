@@ -22,23 +22,23 @@ namespace WampSharp.V2
             return mTopic.Subscribe(new RawRouterSubscriber(observer));
         }
 
-        protected override void Publish(IDictionary<string, object> options)
+        protected override void Publish(PublishOptions options)
         {
             mTopic.Publish(WampObjectFormatter.Value,
-                           DeserializeOptions(options));
+                           options);
         }
 
-        protected override void Publish(IDictionary<string, object> options, object[] arguments)
+        protected override void Publish(PublishOptions options, object[] arguments)
         {
             mTopic.Publish(WampObjectFormatter.Value,
-                           DeserializeOptions(options),
+                           options,
                            arguments);
         }
 
-        protected override void Publish(IDictionary<string, object> options, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        protected override void Publish(PublishOptions options, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             mTopic.Publish(WampObjectFormatter.Value,
-                           DeserializeOptions(options),
+                           options,
                            arguments,
                            argumentsKeywords);
         }

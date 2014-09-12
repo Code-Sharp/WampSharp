@@ -188,19 +188,19 @@ namespace WampSharp.V2.PubSub
 
         #region ISubscriptionNotifier
 
-        public event EventHandler<SubscriptionAddEventArgs> SubscriptionAdding;
-        public event EventHandler<SubscriptionAddEventArgs> SubscriptionAdded;
+        public event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdding;
+        public event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdded;
         public event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoving;
         public event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoved;
         public event EventHandler TopicEmpty;
 
         protected virtual void RaiseSubscriptionAdding(RemoteWampTopicSubscriber subscriber, TMessage options)
         {
-            EventHandler<SubscriptionAddEventArgs> handler = SubscriptionAdding;
+            EventHandler<WampSubscriptionAddEventArgs> handler = SubscriptionAdding;
 
             if (handler != null)
             {
-                SubscriptionAddEventArgs args = GetAddEventArgs(subscriber, options);
+                WampSubscriptionAddEventArgs args = GetAddEventArgs(subscriber, options);
 
                 handler(this, args);
             }
@@ -208,11 +208,11 @@ namespace WampSharp.V2.PubSub
 
         protected virtual void RaiseSubscriptionAdded(RemoteWampTopicSubscriber subscriber, TMessage options)
         {
-            EventHandler<SubscriptionAddEventArgs> handler = SubscriptionAdded;
+            EventHandler<WampSubscriptionAddEventArgs> handler = SubscriptionAdded;
 
             if (handler != null)
             {
-                SubscriptionAddEventArgs args = GetAddEventArgs(subscriber, options);
+                WampSubscriptionAddEventArgs args = GetAddEventArgs(subscriber, options);
 
                 handler(this, args);
             }
@@ -250,9 +250,9 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        private SubscriptionAddEventArgs GetAddEventArgs(RemoteWampTopicSubscriber subscriber, TMessage options)
+        private WampSubscriptionAddEventArgs GetAddEventArgs(RemoteWampTopicSubscriber subscriber, TMessage options)
         {
-            return new RemoteSubscriptionAddEventArgs<TMessage>(subscriber, options, mBinding.Formatter);
+            return new WampRemoteSubscriptionAddEventArgs<TMessage>(subscriber, options, mBinding.Formatter);
         }
 
         private static SubscriptionRemoveEventArgs GetRemoveEventArgs(long sessionId)

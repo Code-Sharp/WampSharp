@@ -1,4 +1,7 @@
-﻿namespace WampSharp.V2
+﻿using System.Collections.Generic;
+using WampSharp.V2.Core.Contracts;
+
+namespace WampSharp.V2
 {
     /// <summary>
     /// Represents a raw form of an event received from a WAMP topic.
@@ -23,6 +26,6 @@
         /// <summary>
         /// Gets the arguments keywords of this event.
         /// </summary>
-        ISerializedValue ArgumentsKeywords { get; }
+        IDictionary<string, ISerializedValue> ArgumentsKeywords { get; }
     }
 }
