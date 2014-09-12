@@ -111,6 +111,9 @@
     <Compile Include="..\..\net45\WampSharp.Default\MsgPack\MessagePackParser.cs">
       <Link>MsgPack\MessagePackParser.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default\Newtonsoft\DetailsOptionsConverter.cs">
+      <Link>Newtonsoft\DetailsOptionsConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\Newtonsoft\IWampMessageFormatter.cs">
       <Link>Newtonsoft\IWampMessageFormatter.cs</Link>
     </Compile>
@@ -125,6 +128,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\Newtonsoft\JTokenMessageParser.cs">
       <Link>Newtonsoft\JTokenMessageParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default\Newtonsoft\SerializedValueConverter.cs">
+      <Link>Newtonsoft\SerializedValueConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>

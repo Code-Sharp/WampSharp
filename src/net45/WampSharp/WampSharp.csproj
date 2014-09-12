@@ -248,6 +248,7 @@
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\IWampPendingRequest.cs" />
     <Compile Include="WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Attributes\IgnorePropertyAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\EventDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\PublishOptionsExtended.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\ResultDetails.cs" />
@@ -258,7 +259,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\SubscribeOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\YieldOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Attributes\WampDetailsOptionsAttribute.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\WampOptionsDetails.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\WampDetailsOptions.cs" />
     <Compile Include="WAMP2\V2\Core\WampRequestIdMapper.cs" />
     <Compile Include="WAMP2\V2\PubSub\IWampRawTopicRouterSubscriber.cs" />
     <Compile Include="WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs" />

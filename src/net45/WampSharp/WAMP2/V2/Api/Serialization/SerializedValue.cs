@@ -2,7 +2,7 @@
 
 namespace WampSharp.V2
 {
-    internal class SerializedValue<TMessage> : ISerializedValue
+    public class SerializedValue<TMessage> : ISerializedValue
     {
         private readonly IWampFormatter<TMessage> mFormatter;
         private readonly TMessage mValue;

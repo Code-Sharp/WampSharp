@@ -5,7 +5,7 @@ namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
     [WampDetailsOptions(WampMessageType.v2Publish)]
-    public class EventDetails : WampOptionsDetails
+    public class EventDetails : WampDetailsOptions
     {
         [DataMember(Name = "publisher")]
         [PropertyName("publisher")]

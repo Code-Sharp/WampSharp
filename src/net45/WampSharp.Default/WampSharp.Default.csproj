@@ -87,11 +87,13 @@
     <Compile Include="Json2Msgpack\MsgPackToJTokenProcessor.cs" />
     <Compile Include="MsgPack\MessagePackFormatter.cs" />
     <Compile Include="MsgPack\MessagePackParser.cs" />
+    <Compile Include="Newtonsoft\DetailsOptionsConverter.cs" />
     <Compile Include="Newtonsoft\IWampMessageFormatter.cs" />
     <Compile Include="Newtonsoft\JsonFormatter.cs" />
     <Compile Include="Newtonsoft\JsonPropertyNameContractResolver.cs" />
     <Compile Include="Newtonsoft\JsonWampMessageFormatter.cs" />
     <Compile Include="Newtonsoft\JTokenMessageParser.cs" />
+    <Compile Include="Newtonsoft\SerializedValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WAMP1\V1\DefaultWampChannelFactory.cs" />
     <Compile Include="WAMP1\V1\DefaultWampCraHost.cs" />

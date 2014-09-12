@@ -20,6 +20,8 @@ namespace WampSharp.Newtonsoft
             // Maybe this will do trouble with null in arguments?
             mSerializer.NullValueHandling = NullValueHandling.Ignore;
             mSerializer.ContractResolver = new JsonPropertyNameContractResolver();
+            mSerializer.Converters.Add(new DetailsOptionsConverter(this));
+            mSerializer.Converters.Add(new SerializedValueConverter(this));
             mSerializer.Converters.Add(new MsgPackJsonConverter());
         }
 

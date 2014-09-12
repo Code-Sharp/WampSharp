@@ -612,6 +612,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs">
       <Link>WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Attributes\IgnorePropertyAttribute.cs">
+      <Link>WAMP2\V2\Core\Contracts\Attributes\IgnorePropertyAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\PubSub\EventDetails.cs">
       <Link>WAMP2\V2\Core\Contracts\PubSub\EventDetails.cs</Link>
     </Compile>
@@ -627,8 +630,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\InvocationOptions.cs">
       <Link>WAMP2\V2\Core\Contracts\Rpc\InvocationOptions.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\PropertyNameAttribute.cs">
-      <Link>WAMP2\V2\Core\Contracts\Rpc\PropertyNameAttribute.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Attributes\PropertyNameAttribute.cs">
+      <Link>WAMP2\V2\Core\Contracts\Attributes\PropertyNameAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\PubSub\PublishOptions.cs">
       <Link>WAMP2\V2\Core\Contracts\PubSub\PublishOptions.cs</Link>
@@ -639,8 +642,11 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\YieldOptions.cs">
       <Link>WAMP2\V2\Core\Contracts\Rpc\YieldOptions.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampDetailsOptionsAttribute.cs">
-      <Link>WAMP2\V2\Core\Contracts\WampDetailsOptionsAttribute.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Attributes\WampDetailsOptionsAttribute.cs">
+      <Link>WAMP2\V2\Core\Contracts\Attributes\WampDetailsOptionsAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampDetailsOptions.cs">
+      <Link>WAMP2\V2\Core\Contracts\WampDetailsOptions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\WampRequestIdMapper.cs">
       <Link>WAMP2\V2\Core\WampRequestIdMapper.cs</Link>

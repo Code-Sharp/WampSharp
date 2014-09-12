@@ -1,10 +1,8 @@
-﻿using System.Runtime.Serialization;
-
-namespace WampSharp.V2.Core.Contracts
+﻿namespace WampSharp.V2.Core.Contracts
 {
     internal class PublishOptionsExtended : PublishOptions
     {
-        [IgnoreDataMember]
+        [IgnoreProperty]
         public long PublisherId { get; set; }
     }
 }

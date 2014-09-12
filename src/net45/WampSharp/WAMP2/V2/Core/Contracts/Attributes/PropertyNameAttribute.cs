@@ -2,7 +2,7 @@
 
 namespace WampSharp.V2.Core.Contracts
 {
-    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     public sealed class PropertyNameAttribute : Attribute
     {
         private readonly string mPropertyName;

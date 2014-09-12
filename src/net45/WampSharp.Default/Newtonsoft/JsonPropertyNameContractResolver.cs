@@ -13,16 +13,20 @@ namespace WampSharp.Newtonsoft
 
             PropertyNameAttribute attribute = member.GetCustomAttribute<PropertyNameAttribute>();
 
-            if (attribute == null)
-            {
-                result.Ignored = true;
-            }
-            else
+            if (attribute != null)
             {
                 result.PropertyName = attribute.PropertyName;
+            }
+
+            IgnorePropertyAttribute ignoreAttribute = member.GetCustomAttribute<IgnorePropertyAttribute>();
+
+            if (ignoreAttribute != null)
+            {
+                result.Ignored = true;
             }
 
             return result;
         }
     }
+
 }
