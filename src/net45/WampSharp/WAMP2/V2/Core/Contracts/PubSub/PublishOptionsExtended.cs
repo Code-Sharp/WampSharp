@@ -2,7 +2,7 @@
 
 namespace WampSharp.V2.Core.Contracts
 {
-    public class PublishOptionsExtended : PublishOptions
+    internal class PublishOptionsExtended : PublishOptions
     {
         [IgnoreDataMember]
         public long PublisherId { get; set; }
