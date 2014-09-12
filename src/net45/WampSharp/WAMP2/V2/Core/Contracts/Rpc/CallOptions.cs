@@ -5,7 +5,7 @@ namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
     [WampDetailsOptions(WampMessageType.v2Call)]
-    public class CallOptions
+    public class CallOptions : WampOptionsDetails
     {
         [DataMember(Name = "timeout")]
         [PropertyName("timeout")]

@@ -5,7 +5,7 @@ namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
     [WampDetailsOptions(WampMessageType.v2Publish)]
-    public class PublishOptions
+    public class PublishOptions : WampOptionsDetails
     {
         [DataMember(Name = "acknowledge")]
         [PropertyName("acknowledge")]

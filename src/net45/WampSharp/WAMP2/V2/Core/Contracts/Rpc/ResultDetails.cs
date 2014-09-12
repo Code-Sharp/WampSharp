@@ -5,7 +5,7 @@ namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
     [WampDetailsOptions(WampMessageType.v2Result)]
-    public class ResultDetails
+    public class ResultDetails : WampOptionsDetails
     {
         [DataMember(Name = "progress")]
         [PropertyName("progress")]

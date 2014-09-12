@@ -12,8 +12,12 @@ namespace WampSharp.Newtonsoft
             JsonProperty result = base.CreateProperty(member, memberSerialization);
 
             PropertyNameAttribute attribute = member.GetCustomAttribute<PropertyNameAttribute>();
-            
-            if (attribute != null)
+
+            if (attribute == null)
+            {
+                result.Ignored = true;
+            }
+            else
             {
                 result.PropertyName = attribute.PropertyName;
             }

@@ -253,11 +253,12 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\ResultDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\CallOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InvocationOptions.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\PropertyNameAttribute.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Attributes\PropertyNameAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\PublishOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\SubscribeOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\YieldOptions.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\WampDetailsOptionsAttribute.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Attributes\WampDetailsOptionsAttribute.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\WampOptionsDetails.cs" />
     <Compile Include="WAMP2\V2\Core\WampRequestIdMapper.cs" />
     <Compile Include="WAMP2\V2\PubSub\IWampRawTopicRouterSubscriber.cs" />
     <Compile Include="WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs" />

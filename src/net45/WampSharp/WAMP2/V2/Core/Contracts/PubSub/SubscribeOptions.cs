@@ -5,7 +5,7 @@ namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
     [WampDetailsOptions(WampMessageType.v2Subscribe)]
-    public class SubscribeOptions
+    public class SubscribeOptions : WampOptionsDetails
     {
         [DataMember(Name = "match")]
         [PropertyName("match")]
