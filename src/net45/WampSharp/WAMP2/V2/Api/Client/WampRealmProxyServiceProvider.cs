@@ -8,6 +8,7 @@ using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2
@@ -19,8 +20,8 @@ namespace WampSharp.V2
 
         private readonly IWampRealmProxy mProxy;
         private readonly WampCalleeClientProxyFactory mCalleeProxyFactory;
-        private readonly IDictionary<string, object> EmptyOptions = 
-            new Dictionary<string, object>();
+        private readonly RegisterOptions EmptyOptions = 
+            new RegisterOptions();
 
         public WampRealmProxyServiceProvider(IWampRealmProxy proxy)
         {

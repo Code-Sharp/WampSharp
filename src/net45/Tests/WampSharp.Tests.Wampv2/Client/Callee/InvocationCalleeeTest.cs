@@ -141,7 +141,7 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 playground.GetChannel(mDealer, "realm1", mBinding);
 
             Task register = 
-                channel.RealmProxy.RpcCatalog.Register(mOperation, new {});
+                channel.RealmProxy.RpcCatalog.Register(mOperation, new RegisterOptions());
 
             mInvocationAction(calleeProxy);
         }

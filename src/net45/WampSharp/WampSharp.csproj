@@ -435,7 +435,6 @@
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCalleeInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCalleeOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRpcOperation.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCallback.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRpcOperationInvoker.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRpcServer.cs" />

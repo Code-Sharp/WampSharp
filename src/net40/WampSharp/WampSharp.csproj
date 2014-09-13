@@ -1177,9 +1177,6 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampRpcOperation.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCallback.cs">
-      <Link>WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCallback.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCatalog.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampRpcOperationCatalog.cs</Link>
     </Compile>

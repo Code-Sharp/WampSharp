@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Client
@@ -15,7 +16,7 @@ namespace WampSharp.V2.Client
         /// <param name="operation">The operation to register.</param>
         /// <param name="options">The options to register with.</param>
         /// <returns>A task that completes when registration is complete.</returns>
-        Task Register(IWampRpcOperation operation, object options);
+        Task Register(IWampRpcOperation operation, RegisterOptions options);
 
         /// <summary>
         /// Unregisters an operation from the realm.

@@ -20,7 +20,7 @@ namespace WampSharp.V2.Client
             mCaller = new WampCaller<TMessage>(proxy, formatter, monitor);
         }
 
-        public Task Register(IWampRpcOperation operation, object options)
+        public Task Register(IWampRpcOperation operation, RegisterOptions options)
         {
             return mCallee.Register(operation, options);
         }

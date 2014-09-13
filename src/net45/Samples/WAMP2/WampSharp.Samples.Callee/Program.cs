@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using WampSharp.Binding;
 using WampSharp.V2;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Rpc;
 using WampSharp.WebSocket4Net;
@@ -97,7 +98,7 @@ namespace WampSharp.Samples.Callee
                 Console.WriteLine("Connected to server.");
             }
 
-            var dummy = new Dictionary<string, object>();
+            var dummy = new RegisterOptions();
 
             var tasks = new List<Task>();
 

@@ -43,7 +43,7 @@ namespace WampSharp.V2.Client
             monitor.ConnectionError += OnConnectionError;
         }
 
-        public Task Register(IWampRpcOperation operation, object options)
+        public Task Register(IWampRpcOperation operation, RegisterOptions options)
         {
             Request request =
                 new Request(operation, mFormatter);
@@ -300,7 +300,7 @@ namespace WampSharp.V2.Client
 
             public void Result<TResult>(IWampFormatter<TResult> formatter, YieldOptions options, TResult[] arguments, IDictionary<string, TResult> argumentsKeywords)
             {
-                mProxy.Yield(RequestId, options, arguments.Cast<object>().ToArray(), argumentsKeywords);
+                mProxy.Yield(RequestId, options, arguments.Cast<object>().ToArray(), argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
             }
 
             public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error)

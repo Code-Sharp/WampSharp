@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.V2.Core.Contracts;
 
@@ -29,7 +30,7 @@ namespace WampSharp.V2.Client
             throw new NotImplementedException();
         }
 
-        public Task<long> Publish(string topicUri, PublishOptions options, object[] arguments, object argumentKeywords)
+        public Task<long> Publish(string topicUri, PublishOptions options, object[] arguments, IDictionary<string, object> argumentKeywords)
         {
             throw new NotImplementedException();
         }

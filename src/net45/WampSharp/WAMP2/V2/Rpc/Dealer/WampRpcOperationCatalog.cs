@@ -115,8 +115,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private IWampRpcOperation TryGetOperation(IWampRouterRawRpcOperationCallback caller, object options,
-                                                  string procedure)
+        private IWampRpcOperation TryGetOperation(IWampRouterRawRpcOperationCallback caller, InvocationDetails details, string procedure)
         {
             IWampRpcOperation operation;
 
