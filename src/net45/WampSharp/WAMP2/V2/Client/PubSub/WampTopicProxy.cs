@@ -63,12 +63,6 @@ namespace WampSharp.V2.Client
             return mPublisher.Publish(this.TopicUri, options, arguments, argumentKeywords);
         }
 
-        public Task<IDisposable> Subscribe(IWampTopicSubscriber subscriber, SubscribeOptions options)
-        {
-            RawSubscriberAdapter rawSubscriberAdapter = new RawSubscriberAdapter(subscriber);
-            return Subscribe(rawSubscriberAdapter, options);
-        }
-
         public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, SubscribeOptions options)
         {
             lock (mLock)
@@ -143,32 +137,6 @@ namespace WampSharp.V2.Client
                         mDisposed = true;
                     }
                 }                
-            }
-        }
-
-        private class RawSubscriberAdapter : IWampRawTopicSubscriber
-        {
-            private readonly IWampTopicSubscriber mSubscriber;
-
-            public RawSubscriberAdapter(IWampTopicSubscriber subscriber)
-            {
-                mSubscriber = subscriber;
-            }
-
-            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, EventDetails details)
-            {
-                mSubscriber.Event(publicationId, details);
-            }
-
-            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, EventDetails details, TMessage[] arguments)
-            {
-                mSubscriber.Event(publicationId, details, arguments.Cast<object>().ToArray());
-            }
-
-            public void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, EventDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
-            {
-                mSubscriber.Event(publicationId, details, arguments.Cast<object>().ToArray(), 
-                    argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
             }
         }
     }

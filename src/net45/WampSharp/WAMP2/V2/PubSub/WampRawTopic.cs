@@ -13,7 +13,7 @@ using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.PubSub
 {
-    internal class RawWampTopic<TMessage> : IRawWampTopic<TMessage>, IWampRawTopicRouterSubscriber, IDisposable
+    internal class WampRawTopic<TMessage> : IWampRawTopic<TMessage>, IWampRawTopicRouterSubscriber, IDisposable
     {
         #region Data Members
 
@@ -24,16 +24,18 @@ namespace WampSharp.V2.PubSub
         private readonly IWampEventSerializer<TMessage> mSerializer;
         private readonly Subject<RemotePublication> mSubject = new Subject<RemotePublication>();
         private readonly string mTopicUri;
+        private readonly IWampCustomizedSubscriptionId mCustomizedSubscriptionId;
 
         #endregion
 
         #region Constructor
 
-        public RawWampTopic(string topicUri, IWampEventSerializer<TMessage> serializer, IWampBinding<TMessage> binding)
+        public WampRawTopic(string topicUri, IWampCustomizedSubscriptionId customizedSubscriptionId, IWampEventSerializer<TMessage> serializer, IWampBinding<TMessage> binding)
         {
             mSerializer = serializer;
             mTopicUri = topicUri;
             mBinding = binding;
+            mCustomizedSubscriptionId = customizedSubscriptionId;
         }
 
         #endregion
@@ -129,6 +131,11 @@ namespace WampSharp.V2.PubSub
         {
             get; 
             set;
+        }
+
+        public IWampCustomizedSubscriptionId CustomizedSubscriptionId
+        {
+            get { return mCustomizedSubscriptionId; }
         }
 
         public void Subscribe(ISubscribeRequest<TMessage> request, SubscribeOptions options)
@@ -267,11 +274,11 @@ namespace WampSharp.V2.PubSub
 
         private class Subscription : IDisposable
         {
-            private readonly RawWampTopic<TMessage> mParent;
+            private readonly WampRawTopic<TMessage> mParent;
             private readonly IWampClient<TMessage> mClient;
             private readonly IDisposable mDisposable;
 
-            public Subscription(RawWampTopic<TMessage> parent, IWampClient<TMessage> client, IDisposable disposable)
+            public Subscription(WampRawTopic<TMessage> parent, IWampClient<TMessage> client, IDisposable disposable)
             {
                 mParent = parent;
                 mClient = client;

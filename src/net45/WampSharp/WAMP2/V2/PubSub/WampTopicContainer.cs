@@ -47,6 +47,11 @@ namespace WampSharp.V2.PubSub
             }
         }
 
+        public virtual IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options)
+        {
+            return new OptionLessSubscriptionId(topicUri);
+        }
+
         public IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {
             lock (mLock)

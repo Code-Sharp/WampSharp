@@ -52,15 +52,6 @@ namespace WampSharp.V2.Client
         /// <param name="options">The options to subscribe with.</param>
         /// <returns>A task that completes when the subscription is done,
         /// with a disposable that its dispose will remove the subscription.</returns>
-        Task<IDisposable> Subscribe(IWampTopicSubscriber subscriber, SubscribeOptions options);
-
-        /// <summary>
-        /// Subscribes to the the current topic.
-        /// </summary>
-        /// <param name="subscriber">The subscriber to receive the topic's events.</param>
-        /// <param name="options">The options to subscribe with.</param>
-        /// <returns>A task that completes when the subscription is done,
-        /// with a disposable that its dispose will remove the subscription.</returns>
         Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, SubscribeOptions options);
     }
 }

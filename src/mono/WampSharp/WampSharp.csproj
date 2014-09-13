@@ -645,8 +645,14 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\WampRequestIdMapper.cs">
       <Link>WAMP2\V2\Core\WampRequestIdMapper.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampCustomizedSubscriptionId.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IWampCustomizedSubscriptionId.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\IWampRawTopicRouterSubscriber.cs">
       <Link>WAMP2\V2\PubSub\IWampRawTopicRouterSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\OptionLessSubscriptionId.cs">
+      <Link>WAMP2\V2\PubSub\OptionLessSubscriptionId.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs">
       <Link>WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs</Link>
@@ -1053,8 +1059,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicRemovedEventArgs.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicRemovedEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IRawWampTopic.cs">
-      <Link>WAMP2\V2\PubSub\Interfaces\IRawWampTopic.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampRawTopic.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IWampRawTopic.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\ISubscribeRequest.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\ISubscribeRequest.cs</Link>
@@ -1077,11 +1083,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampTopicContainer.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\IWampTopicContainer.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampTopicSubscriber.cs">
-      <Link>WAMP2\V2\PubSub\Interfaces\IWampTopicSubscriber.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\RawWampTopic.cs">
-      <Link>WAMP2\V2\PubSub\RawWampTopic.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\WampRawTopic.cs">
+      <Link>WAMP2\V2\PubSub\WampRawTopic.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\RemoteWampTopicSubscriber.cs">
       <Link>WAMP2\V2\PubSub\RemoteWampTopicSubscriber.cs</Link>

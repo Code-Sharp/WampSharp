@@ -259,7 +259,9 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Attributes\WampDetailsOptionsAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampDetailsOptions.cs" />
     <Compile Include="WAMP2\V2\Core\WampRequestIdMapper.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampCustomizedSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\IWampRawTopicRouterSubscriber.cs" />
+    <Compile Include="WAMP2\V2\PubSub\OptionLessSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Api\Server\IWampHost.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawSubscriber.cs" />
@@ -395,7 +397,7 @@
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicCreatedEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicRemovedEventArgs.cs" />
-    <Compile Include="WAMP2\V2\PubSub\Interfaces\IRawWampTopic.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopic.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\ISubscribeRequest.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\ISubscriptionNotifier.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IUnsubscribeRequest.cs" />
@@ -403,8 +405,7 @@
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampTopic.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampTopicContainer.cs" />
-    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampTopicSubscriber.cs" />
-    <Compile Include="WAMP2\V2\PubSub\RawWampTopic.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WampRawTopic.cs" />
     <Compile Include="WAMP2\V2\PubSub\RemoteWampTopicSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\SubscribeRequest.cs" />
     <Compile Include="WAMP2\V2\PubSub\UnsubscribeRequest.cs" />

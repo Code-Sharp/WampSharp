@@ -7,6 +7,8 @@ namespace WampSharp.V2.PubSub
 {
     public interface IWampTopicContainer
     {
+        IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options);
+
         IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options);
 
         long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri);

@@ -16,11 +16,11 @@ namespace WampSharp.V2.PubSub
         private readonly IWampBinding<TMessage> mBinding;
         private readonly object mLock = new object();
 
-        private readonly WampIdMapper<RawWampTopic<TMessage>> mSubscriptionIdToTopic =
-            new WampIdMapper<RawWampTopic<TMessage>>();
+        private readonly WampIdMapper<WampRawTopic<TMessage>> mSubscriptionIdToTopic =
+            new WampIdMapper<WampRawTopic<TMessage>>();
 
-        private readonly ConcurrentDictionary<string, RawWampTopic<TMessage>> mTopicUriToTopic =
-            new ConcurrentDictionary<string, RawWampTopic<TMessage>>();
+        private readonly ConcurrentDictionary<IWampCustomizedSubscriptionId, WampRawTopic<TMessage>> mTopicUriToTopic =
+            new ConcurrentDictionary<IWampCustomizedSubscriptionId, WampRawTopic<TMessage>>();
 
         public WampRawTopicContainer(IWampTopicContainer topicContainer,
                                      IWampEventSerializer<TMessage> eventSerializer,
@@ -35,11 +35,14 @@ namespace WampSharp.V2.PubSub
         {
             lock (mLock)
             {
-                RawWampTopic<TMessage> rawTopic;
+                WampRawTopic<TMessage> rawTopic;
 
-                if (!mTopicUriToTopic.TryGetValue(topicUri, out rawTopic))
+                IWampCustomizedSubscriptionId customizedSubscriptionId =
+                    mTopicContainer.GetSubscriptionId(topicUri, options);
+
+                if (!mTopicUriToTopic.TryGetValue(customizedSubscriptionId, out rawTopic))
                 {
-                    rawTopic = CreateRawTopic(topicUri);
+                    rawTopic = CreateRawTopic(topicUri, customizedSubscriptionId);
 
                     IDisposable disposable =
                         mTopicContainer.Subscribe(rawTopic, topicUri, options);
@@ -57,7 +60,7 @@ namespace WampSharp.V2.PubSub
         {
             lock (mLock)
             {
-                RawWampTopic<TMessage> rawTopic;
+                WampRawTopic<TMessage> rawTopic;
 
                 if (!mSubscriptionIdToTopic.TryGetValue(subscriptionId, out rawTopic))
                 {
@@ -85,7 +88,7 @@ namespace WampSharp.V2.PubSub
 
         private void OnTopicEmpty(object sender, EventArgs e)
         {
-            RawWampTopic<TMessage> rawTopic = sender as RawWampTopic<TMessage>;
+            WampRawTopic<TMessage> rawTopic = sender as WampRawTopic<TMessage>;
 
             if (rawTopic != null)
             {
@@ -94,17 +97,18 @@ namespace WampSharp.V2.PubSub
                     if (!rawTopic.HasSubscribers)
                     {
                         mSubscriptionIdToTopic.TryRemove(rawTopic.SubscriptionId, out rawTopic);
-                        mTopicUriToTopic.TryRemove(rawTopic.TopicUri, out rawTopic);
+                        mTopicUriToTopic.TryRemove(rawTopic.CustomizedSubscriptionId, out rawTopic);
                         rawTopic.Dispose();
                     }
                 }
             }
         }
 
-        private RawWampTopic<TMessage> CreateRawTopic(string topicUri)
+        private WampRawTopic<TMessage> CreateRawTopic(string topicUri, IWampCustomizedSubscriptionId customizedSubscriptionId)
         {
-            RawWampTopic<TMessage> newTopic =
-                new RawWampTopic<TMessage>(topicUri,
+            WampRawTopic<TMessage> newTopic =
+                new WampRawTopic<TMessage>(topicUri,
+                                           customizedSubscriptionId,
                                            mEventSerializer,
                                            mBinding);
 
@@ -113,7 +117,7 @@ namespace WampSharp.V2.PubSub
 
             newTopic.SubscriptionId = subscriptionId;
 
-            mTopicUriToTopic.TryAdd(topicUri, newTopic);
+            mTopicUriToTopic.TryAdd(customizedSubscriptionId, newTopic);
 
             newTopic.TopicEmpty += OnTopicEmpty;
 

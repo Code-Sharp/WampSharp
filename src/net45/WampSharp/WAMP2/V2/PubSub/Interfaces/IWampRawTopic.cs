@@ -2,7 +2,7 @@
 
 namespace WampSharp.V2.PubSub
 {
-    internal interface IRawWampTopic<TMessage> : ISubscriptionNotifier
+    internal interface IWampRawTopic<TMessage> : ISubscriptionNotifier
     {
         bool HasSubscribers { get; }
         long SubscriptionId { get; }
