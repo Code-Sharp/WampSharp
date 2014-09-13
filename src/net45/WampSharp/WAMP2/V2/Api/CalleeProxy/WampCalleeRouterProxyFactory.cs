@@ -22,7 +22,7 @@ namespace WampSharp.V2.CalleeProxy
                 mCatalog = catalog;
             }
 
-            protected override void Invoke(IWampRawRpcOperationCallback callback, string procedure, object[] arguments)
+            protected override void Invoke(IWampClientRawRpcOperationCallback callback, string procedure, object[] arguments)
             {
                 mCatalog.Invoke(callback,
                                 WampObjectFormatter.Value,

@@ -19,8 +19,8 @@ namespace WampSharp.V2.Rpc
         private IDictionary<IWampRpcOperation, ICollection<WampRpcInvocation<TMessage>>> mOperationToInvocations = 
             new Dictionary<IWampRpcOperation, ICollection<WampRpcInvocation<TMessage>>>();
 
-        private IDictionary<IWampRawRpcOperationCallback, ICollection<WampRpcInvocation<TMessage>>> mCallbackToInvocations =
-            new Dictionary<IWampRawRpcOperationCallback, ICollection<WampRpcInvocation<TMessage>>>();
+        private IDictionary<IWampRouterRawRpcOperationCallback, ICollection<WampRpcInvocation<TMessage>>> mCallbackToInvocations =
+            new Dictionary<IWampRouterRawRpcOperationCallback, ICollection<WampRpcInvocation<TMessage>>>();
 
         private readonly object mLock = new object();
         private readonly TMessage mEmptyDetails;
@@ -31,7 +31,7 @@ namespace WampSharp.V2.Rpc
             mEmptyDetails = mFormatter.Serialize(new Dictionary<string, string>());
         }
 
-        public long RegisterInvocation(IWampRpcOperation operation, IWampRawRpcOperationCallback callback, InvocationDetails options, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null)
+        public long RegisterInvocation(IWampRpcOperation operation, IWampRouterRawRpcOperationCallback callback, InvocationDetails options, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null)
         {
             lock (mLock)
             {
@@ -55,7 +55,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private void RegisterDisconnectionNotifier(IWampRawRpcOperationCallback callback)
+        private void RegisterDisconnectionNotifier(IWampRouterRawRpcOperationCallback callback)
         {
             ICallbackDisconnectionNotifier notifier = callback as ICallbackDisconnectionNotifier;
 
@@ -69,8 +69,8 @@ namespace WampSharp.V2.Rpc
         {
             UnregisterDisconnectionNotifier(sender);
 
-            IWampRawRpcOperationCallback callback =
-                sender as IWampRawRpcOperationCallback;
+            IWampRouterRawRpcOperationCallback callback =
+                sender as IWampRouterRawRpcOperationCallback;
 
             ICollection<WampRpcInvocation<TMessage>> invocations;
 
@@ -96,28 +96,33 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Yield(IWampCallee callee, long requestId, TMessage options)
+        public void Yield(IWampCallee callee, long requestId, YieldOptions options)
         {
             ResultArrived(requestId, options,
                           invocation =>
                           invocation.Callback.Result(mFormatter, options));
         }
 
-        public void Yield(IWampCallee callee, long requestId, TMessage options, TMessage[] arguments)
+        public void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments)
         {
             ResultArrived(requestId, options,
                           invocation =>
                           invocation.Callback.Result(mFormatter, options, arguments));
         }
 
-        public void Yield(IWampCallee callee, long requestId, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             ResultArrived(requestId, options,
                           invocation =>
                           invocation.Callback.Result(mFormatter, options, arguments, argumentsKeywords));
         }
 
-        private void ResultArrived(long requestId, TMessage options, Action<WampRpcInvocation<TMessage>> action)
+        private ResultDetails GetDetails(IWampCallee callee, YieldOptions options)
+        {
+            return new ResultDetails();
+        }
+
+        private void ResultArrived(long requestId, YieldOptions options, Action<WampRpcInvocation<TMessage>> action)
         {
             WampRpcInvocation<TMessage> invocation = GetInvocation(requestId, options);
 
@@ -201,7 +206,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private WampRpcInvocation<TMessage> GetInvocation(long requestId, TMessage options)
+        private WampRpcInvocation<TMessage> GetInvocation(long requestId, YieldOptions options)
         {
             // This should consider the options, since yield can also 
             // return a call progress.

@@ -223,9 +223,6 @@
     <Compile Include="WAMP1\V1\Rpc\Server\WampRpcServer.cs" />
     <Compile Include="WAMP1\V1\Rpc\WampRpcCallException.cs" />
     <Compile Include="WAMP1\V1\Rpc\WampRpcMethodAttribute.cs" />
-    <Compile Include="WAMP1\V2\Adapters\Wamp1BindingHost.cs" />
-    <Compile Include="WAMP1\V2\Adapters\WampPubSubServerAdapter.cs" />
-    <Compile Include="WAMP1\V2\Adapters\WampRpcServerAdapter.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\MultiValueAsyncOperationCallback.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\SingleValueAsyncOperationCallback.cs" />
@@ -250,6 +247,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Attributes\IgnorePropertyAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\EventDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\PublishOptionsExtended.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\CancelOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\RegisterOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\ResultDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\CallOptions.cs" />
@@ -333,7 +331,8 @@
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\IOperationExtractor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\OperationExtractor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\TypeExtensions.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampClientRawRpcOperationCallback.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationInvokerProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationRegistrationProxy.cs" />

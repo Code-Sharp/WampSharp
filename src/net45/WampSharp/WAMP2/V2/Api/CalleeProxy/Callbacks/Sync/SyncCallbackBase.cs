@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
@@ -8,7 +9,7 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal abstract class SyncCallbackBase : IWampRawRpcOperationCallback
+    internal abstract class SyncCallbackBase : IWampClientRawRpcOperationCallback
     {
         private readonly ManualResetEvent mWaitHandle = new ManualResetEvent(false);
         private Exception mException;
@@ -33,13 +34,11 @@ namespace WampSharp.V2.CalleeProxy
             mWaitHandle.Set();
         }
 
-        public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details);
+        public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details);
 
-        public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                              TMessage[] arguments);
+        public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments);
 
-        public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                              TMessage[] arguments, TMessage argumentsKeywords);
+        public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
         public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error)
         {

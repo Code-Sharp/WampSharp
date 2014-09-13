@@ -5,7 +5,7 @@ namespace WampSharp.V2.Rpc
 {
     public interface IWampCalleeInvocationHandler<TMessage> : IWampRpcInvocationCallback<TMessage>
     {
-        long RegisterInvocation(IWampRpcOperation operation, IWampRawRpcOperationCallback callback, InvocationDetails options, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null);
+        long RegisterInvocation(IWampRpcOperation operation, IWampRouterRawRpcOperationCallback callback, InvocationDetails options, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null);
 
         void Error(IWampCallee wampCallee, long requestId, TMessage details, string error);
         void Error(IWampClient wampCallee, long requestId, TMessage details, string error, TMessage[] arguments);

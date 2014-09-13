@@ -123,7 +123,7 @@ namespace WampSharp.V2.Client
             return null;
         }
 
-        private IWampRawRpcOperationCallback GetCallback(long requestId)
+        private IWampRouterRawRpcOperationCallback GetCallback(long requestId)
         {
             return new ServerProxyCallback(mProxy, requestId);
         }
@@ -134,7 +134,7 @@ namespace WampSharp.V2.Client
 
             if (operation != null)
             {
-                IWampRawRpcOperationCallback callback = GetCallback(requestId);
+                IWampRouterRawRpcOperationCallback callback = GetCallback(requestId);
                 operation.Invoke(callback, mFormatter, details);
             }
         }
@@ -145,7 +145,7 @@ namespace WampSharp.V2.Client
 
             if (operation != null)
             {
-                IWampRawRpcOperationCallback callback = GetCallback(requestId);
+                IWampRouterRawRpcOperationCallback callback = GetCallback(requestId);
                 operation.Invoke(callback, mFormatter, details, arguments);
             }
         }
@@ -156,7 +156,7 @@ namespace WampSharp.V2.Client
 
             if (operation != null)
             {
-                IWampRawRpcOperationCallback callback = GetCallback(requestId);
+                IWampRouterRawRpcOperationCallback callback = GetCallback(requestId);
                 operation.Invoke(callback, mFormatter, details, arguments, argumentsKeywords);
             }
         }
@@ -269,7 +269,7 @@ namespace WampSharp.V2.Client
             mRegistrations.Clear();
         }
 
-        private class ServerProxyCallback : IWampRawRpcOperationCallback
+        private class ServerProxyCallback : IWampRouterRawRpcOperationCallback
         {
             private readonly IWampServerProxy mProxy;
             private readonly long mRequestId;
@@ -288,19 +288,19 @@ namespace WampSharp.V2.Client
                 }
             }
 
-            public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details)
+            public void Result<TResult>(IWampFormatter<TResult> formatter, YieldOptions options)
             {
-                mProxy.Yield(RequestId, details);
+                mProxy.Yield(RequestId, options);
             }
 
-            public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details, TResult[] arguments)
+            public void Result<TResult>(IWampFormatter<TResult> formatter, YieldOptions options, TResult[] arguments)
             {
-                mProxy.Yield(RequestId, details, arguments.Cast<object>().ToArray());
+                mProxy.Yield(RequestId, options, arguments.Cast<object>().ToArray());
             }
 
-            public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details, TResult[] arguments, TResult argumentsKeywords)
+            public void Result<TResult>(IWampFormatter<TResult> formatter, YieldOptions options, TResult[] arguments, IDictionary<string, TResult> argumentsKeywords)
             {
-                mProxy.Yield(RequestId, details, arguments.Cast<object>().ToArray(), argumentsKeywords);
+                mProxy.Yield(RequestId, options, arguments.Cast<object>().ToArray(), argumentsKeywords);
             }
 
             public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error)

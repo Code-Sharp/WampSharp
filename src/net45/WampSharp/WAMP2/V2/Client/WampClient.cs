@@ -212,17 +212,17 @@ namespace WampSharp.V2.Client
             Subscriber.Event(subscriptionId, publicationId, details, arguments, argumentsKeywords);
         }
 
-        public void Result(long requestId, TMessage details)
+        public void Result(long requestId, ResultDetails details)
         {
             Caller.Result(requestId, details);
         }
 
-        public void Result(long requestId, TMessage details, TMessage[] arguments)
+        public void Result(long requestId, ResultDetails details, TMessage[] arguments)
         {
             Caller.Result(requestId, details, arguments);
         }
 
-        public void Result(long requestId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Result(long requestId, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             Caller.Result(requestId, details, arguments, argumentsKeywords);
         }

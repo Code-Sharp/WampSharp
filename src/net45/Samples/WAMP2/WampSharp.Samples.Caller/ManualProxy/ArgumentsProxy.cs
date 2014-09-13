@@ -97,7 +97,7 @@ namespace WampSharp.Samples.Caller.ManualProxy
             }
         }
 
-        private abstract class Callback<T> : IWampRawRpcOperationCallback
+        private abstract class Callback<T> : IWampClientRawRpcOperationCallback
         {
             protected readonly TaskCompletionSource<T> mTask = new TaskCompletionSource<T>();
 
@@ -106,14 +106,11 @@ namespace WampSharp.Samples.Caller.ManualProxy
                 get { return mTask.Task; }
             }
 
-            public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details);
+            public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details);
 
-            public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                                  TMessage[] arguments);
+            public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments);
 
-            public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                                  TMessage[] arguments,
-                                                  TMessage argumentsKeywords);
+            public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
             public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error)
             {
@@ -167,19 +164,17 @@ namespace WampSharp.Samples.Caller.ManualProxy
 
         private class PingCallback : Callback<bool>
         {
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
             {
                 mTask.SetResult(true);
             }
 
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                                  TMessage[] arguments)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
             {
                 mTask.SetResult(true);
             }
 
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                                  TMessage[] arguments, TMessage argumentsKeywords)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 mTask.SetResult(true);
             }
@@ -187,21 +182,18 @@ namespace WampSharp.Samples.Caller.ManualProxy
 
         private class AddCallback : Callback<int>
         {
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
             {
                 throw new NotImplementedException();
             }
 
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                                  TMessage[] arguments)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
             {
                 int result = formatter.Deserialize<int>(arguments[0]);
                 mTask.SetResult(result);
             }
 
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                                  TMessage[] arguments,
-                                                  TMessage argumentsKeywords)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 int result = formatter.Deserialize<int>(arguments[0]);
                 mTask.SetResult(result);
@@ -210,21 +202,18 @@ namespace WampSharp.Samples.Caller.ManualProxy
 
         private class StarsCallback : Callback<string>
         {
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
             {
                 throw new NotImplementedException();
             }
 
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                                  TMessage[] arguments)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
             {
                 string result = formatter.Deserialize<string>(arguments[0]);
                 mTask.SetResult(result);
             }
 
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                                  TMessage[] arguments,
-                                                  TMessage argumentsKeywords)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 string result = formatter.Deserialize<string>(arguments[0]);
                 mTask.SetResult(result);
@@ -233,13 +222,12 @@ namespace WampSharp.Samples.Caller.ManualProxy
 
         private class OrdersCallback : Callback<string[]>
         {
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
             {
                 throw new NotImplementedException();
             }
 
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                                  TMessage[] arguments)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
             {
                 string[] result =
                     arguments.Select(x => formatter.Deserialize<string>(x))
@@ -248,8 +236,7 @@ namespace WampSharp.Samples.Caller.ManualProxy
                 mTask.SetResult(result);
             }
 
-            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                                  TMessage[] arguments, TMessage argumentsKeywords)
+            public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 string[] result =
                     arguments.Select(x => formatter.Deserialize<string>(x))

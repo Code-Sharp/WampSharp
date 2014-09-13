@@ -2,17 +2,18 @@
 using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.Tests.Wampv2.Integration
 {
-    internal class MockRawCallback : IWampRawRpcOperationCallback
+    internal class MockRawCallback : IWampClientRawRpcOperationCallback
     {
-        private ISerializedValue mDetails;
+        private ResultDetails mDetails;
         private IEnumerable<ISerializedValue> mArguments;
-        private ISerializedValue mArgumentsKeywords;
+        private IDictionary<string, ISerializedValue> mArgumentsKeywords;
 
-        public ISerializedValue Details
+        public ResultDetails Details
         {
             get { return mDetails; }
         }
@@ -22,29 +23,30 @@ namespace WampSharp.Tests.Wampv2.Integration
             get { return mArguments; }
         }
 
-        public ISerializedValue ArgumentsKeywords
+        public IDictionary<string, ISerializedValue> ArgumentsKeywords
         {
             get { return mArgumentsKeywords; }
         }
 
-        public void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details)
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
         {
-            mDetails = new SerializedValue<TMessage>(formatter, details);
+            mDetails = details;
         }
 
-        public void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, TMessage[] arguments)
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
         {
-            mDetails = new SerializedValue<TMessage>(formatter, details);
+            mDetails = details;
             mArguments = arguments.Select(x => new SerializedValue<TMessage>(formatter, x))
                                   .ToArray();
         }
 
-        public void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            mDetails = new SerializedValue<TMessage>(formatter, details);
+            mDetails = details;
             mArguments = arguments.Select(x => new SerializedValue<TMessage>(formatter, x))
                                   .ToArray();
-            mArgumentsKeywords = new SerializedValue<TMessage>(formatter, details);
+            mArgumentsKeywords = argumentsKeywords.ToDictionary(x => x.Key,
+                                                                x => (ISerializedValue)new SerializedValue<TMessage>(formatter, x.Value));
         }
 
         public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error)

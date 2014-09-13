@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
@@ -29,33 +28,7 @@ namespace WampSharp.V2.Client
             monitor.ConnectionError += OnConnectionError;
         }
 
-        public void Invoke(IWampRpcOperationCallback caller,
-                           CallOptions options,
-                           string procedure)
-        {
-            RawCallbackAdpater adapter = new RawCallbackAdpater(caller);
-
-            Invoke(adapter, options, procedure);
-        }
-
-        public void Invoke(IWampRpcOperationCallback caller,
-                           CallOptions options,
-                           string procedure,
-                           object[] arguments)
-        {
-            RawCallbackAdpater adapter = new RawCallbackAdpater(caller);
-
-            Invoke(adapter, options, procedure, arguments);
-        }
-
-        public void Invoke(IWampRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
-        {
-            RawCallbackAdpater adapter = new RawCallbackAdpater(caller);
-
-            Invoke(adapter, options, procedure, arguments, argumentsKeywords);
-        }
-
-        public void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure)
+        public void Invoke(IWampClientRawRpcOperationCallback caller, CallOptions options, string procedure)
         {
             CallDetails callDetails = new CallDetails(caller, options, procedure);
 
@@ -64,7 +37,7 @@ namespace WampSharp.V2.Client
             mProxy.Call(requestId, options, procedure);
         }
 
-        public void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments)
+        public void Invoke(IWampClientRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments)
         {
             CallDetails callDetails = new CallDetails(caller, options, procedure, arguments);
 
@@ -73,7 +46,7 @@ namespace WampSharp.V2.Client
             mProxy.Call(requestId, options, procedure, arguments);
         }
 
-        public void Invoke(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        public void Invoke(IWampClientRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             CallDetails callDetails = new CallDetails(caller, options, procedure, arguments, argumentsKeywords);
 
@@ -82,7 +55,7 @@ namespace WampSharp.V2.Client
             mProxy.Call(requestId, options, procedure, arguments, argumentsKeywords);
         }
 
-        public void Result(long requestId, TMessage details)
+        public void Result(long requestId, ResultDetails details)
         {
             CallDetails callDetails = TryGetCallDetails(requestId);
 
@@ -92,7 +65,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void Result(long requestId, TMessage details, TMessage[] arguments)
+        public void Result(long requestId, ResultDetails details, TMessage[] arguments)
         {
             CallDetails callDetails = TryGetCallDetails(requestId);
 
@@ -102,7 +75,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void Result(long requestId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Result(long requestId, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             CallDetails callDetails = TryGetCallDetails(requestId);
 
@@ -171,13 +144,13 @@ namespace WampSharp.V2.Client
 
         private class CallDetails
         {
-            private readonly IWampRawRpcOperationCallback mCaller;
+            private readonly IWampClientRawRpcOperationCallback mCaller;
             private readonly CallOptions mOptions;
             private readonly string mProcedure;
             private readonly object[] mArguments;
             private readonly IDictionary<string, object> mArgumentsKeywords;
 
-            public CallDetails(IWampRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null)
+            public CallDetails(IWampClientRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null)
             {
                 mCaller = caller;
                 mOptions = options;
@@ -192,7 +165,7 @@ namespace WampSharp.V2.Client
                 set;
             }
 
-            public IWampRawRpcOperationCallback Caller
+            public IWampClientRawRpcOperationCallback Caller
             {
                 get
                 {
@@ -230,51 +203,6 @@ namespace WampSharp.V2.Client
                 {
                     return mArgumentsKeywords;
                 }
-            }
-        }
-
-        private class RawCallbackAdpater : IWampRawRpcOperationCallback
-        {
-            private readonly IWampRpcOperationCallback mCaller;
-
-            public RawCallbackAdpater(IWampRpcOperationCallback caller)
-            {
-                mCaller = caller;
-            }
-
-            public void Result<T>(IWampFormatter<T> formatter, T details)
-            {
-                mCaller.Result(details);
-            }
-
-            public void Result<T>(IWampFormatter<T> formatter, T details, T[] arguments)
-            {
-                object[] castedArguments = arguments.Cast<object>().ToArray();
-                mCaller.Result(details, castedArguments);
-            }
-
-            public void Result<T>(IWampFormatter<T> formatter, T details, T[] arguments, T argumentsKeywords)
-            {
-                object[] castedArguments = arguments.Cast<object>().ToArray();
-                mCaller.Result(details, castedArguments, argumentsKeywords);
-            }
-
-            public void Error<T>(IWampFormatter<T> formatter, T details, string error)
-            {
-                mCaller.Error(details, error);
-            }
-
-            public void Error<T>(IWampFormatter<T> formatter, T details, string error, T[] arguments)
-            {
-                object[] castedArguments = arguments.Cast<object>().ToArray();
-                mCaller.Error(details, error, castedArguments);
-            }
-
-            public void Error<T>(IWampFormatter<T> formatter, T details, string error, T[] arguments,
-                                         T argumentsKeywords)
-            {
-                object[] castedArguments = arguments.Cast<object>().ToArray();
-                mCaller.Error(details, error, castedArguments, argumentsKeywords);
             }
         }
 

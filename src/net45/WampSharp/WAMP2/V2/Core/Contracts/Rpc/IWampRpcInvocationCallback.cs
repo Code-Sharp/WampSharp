@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Contracts;
+﻿using System.Collections.Generic;
+using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
@@ -14,32 +15,32 @@ namespace WampSharp.V2.Core.Contracts
         /// </summary>
         /// <param name="callee">The <see cref="IWampCallee"/> that sent this message.</param>
         /// <param name="requestId">The request id (given in 
-        /// <see cref="IWampCallee{TMessage}.Invocation(long,long,TMessage)"/> message).</param>
+        ///     <see cref="IWampCallee{TMessage}.Invocation(long,long,TMessage)"/> message).</param>
         /// <param name="options">Additional options.</param>
         [WampHandler(WampMessageType.v2Yield)]
-        void Yield([WampProxyParameter] IWampCallee callee, long requestId, TMessage options);
+        void Yield([WampProxyParameter] IWampCallee callee, long requestId, YieldOptions options);
 
         /// <summary>
         /// Occurs when a YIELD message arrives.
         /// </summary>
         /// <param name="callee">The <see cref="IWampCallee"/> that sent this message.</param>
         /// <param name="requestId">The request id (given in 
-        /// <see cref="IWampCallee{TMessage}.Invocation(long,long,TMessage)"/> message).</param>
+        ///     <see cref="IWampCallee{TMessage}.Invocation(long,long,TMessage)"/> message).</param>
         /// <param name="options">Additional options.</param>
         /// <param name="arguments">The arguments of the current result.</param>
         [WampHandler(WampMessageType.v2Yield)]
-        void Yield([WampProxyParameter] IWampCallee callee, long requestId, TMessage options, TMessage[] arguments);
+        void Yield([WampProxyParameter] IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments);
 
         /// <summary>
         /// Occurs when a YIELD message arrives.
         /// </summary>
         /// <param name="callee">The <see cref="IWampCallee"/> that sent this message.</param>
         /// <param name="requestId">The request id (given in 
-        /// <see cref="IWampCallee{TMessage}.Invocation(long,long,TMessage)"/> message).</param>
+        ///     <see cref="IWampCallee{TMessage}.Invocation(long,long,TMessage)"/> message).</param>
         /// <param name="options">Additional options.</param>
         /// <param name="arguments">The arguments of the current result.</param>
         /// <param name="argumentsKeywords">The argument keywords of the current result.</param>
         [WampHandler(WampMessageType.v2Yield)]
-        void Yield([WampProxyParameter] IWampCallee callee, long requestId, TMessage options, TMessage[] arguments, TMessage argumentsKeywords);
+        void Yield([WampProxyParameter] IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
     }
 }

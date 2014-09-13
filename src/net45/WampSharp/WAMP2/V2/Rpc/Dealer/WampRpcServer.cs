@@ -54,7 +54,7 @@ namespace WampSharp.V2.Rpc
 
         public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure)
         {
-            IWampRawRpcOperationCallback callback = GetCallback(caller, requestId);
+            IWampClientRawRpcOperationCallback callback = GetCallback(caller, requestId);
 
             InvocationDetails invocationOptions =
                 GetInvocationOptions(caller, options);
@@ -64,7 +64,7 @@ namespace WampSharp.V2.Rpc
 
         public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments)
         {
-            IWampRawRpcOperationCallback callback = GetCallback(caller, requestId);
+            IWampClientRawRpcOperationCallback callback = GetCallback(caller, requestId);
 
             InvocationDetails invocationOptions = 
                 GetInvocationOptions(caller, options);
@@ -74,7 +74,7 @@ namespace WampSharp.V2.Rpc
 
         public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            IWampRawRpcOperationCallback callback = GetCallback(caller, requestId);
+            IWampClientRawRpcOperationCallback callback = GetCallback(caller, requestId);
 
             InvocationDetails invocationOptions =
                 GetInvocationOptions(caller, options);
@@ -88,27 +88,27 @@ namespace WampSharp.V2.Rpc
             return new InvocationDetails();
         }
 
-        public void Cancel(IWampCaller caller, long requestId, TMessage options)
+        public void Cancel(IWampCaller caller, long requestId, CancelOptions options)
         {
             throw new NotImplementedException();
         }
 
-        public void Yield(IWampCallee callee, long requestId, TMessage options)
+        public void Yield(IWampCallee callee, long requestId, YieldOptions options)
         {
             mHandler.Yield(callee, requestId, options);
         }
 
-        public void Yield(IWampCallee callee, long requestId, TMessage options, TMessage[] arguments)
+        public void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments)
         {
             mHandler.Yield(callee, requestId, options, arguments);
         }
 
-        public void Yield(IWampCallee callee, long requestId, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             mHandler.Yield(callee, requestId, options, arguments, argumentsKeywords);
         }
 
-        private IWampRawRpcOperationCallback GetCallback(IWampCaller caller, long requestId)
+        private IWampClientRawRpcOperationCallback GetCallback(IWampCaller caller, long requestId)
         {
             return new WampRpcOperationCallback(caller, requestId);
         }

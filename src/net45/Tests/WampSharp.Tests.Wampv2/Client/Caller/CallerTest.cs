@@ -25,7 +25,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
         private object[] mExpectedCallParameters;
         private object[] mExpectedResultParameters;
         private object[] mExpectedErrorParameters;
-        private Action<IWampRpcOperationCatalogProxy, IWampRawRpcOperationCallback> mCallAction;
+        private Action<IWampRpcOperationCatalogProxy, IWampClientRawRpcOperationCallback> mCallAction;
         private readonly ServerMock mServerMock = new ServerMock();
         private readonly CallbackMock mCallbackMock = new CallbackMock();
 
@@ -51,19 +51,19 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
             mCallAction = (catalog, callback) => catalog.Invoke(callback, options, procedure, arguments, argumentsKeywords);
         }
 
-        public void SetupResult(object details)
+        public void SetupResult(ResultDetails details)
         {
             mExpectedResultParameters = new object[] { details };
             mServerMock.SetCallerCallback((caller, requestId) => caller.Result(requestId, details));
         }
 
-        public void SetupResult(object details, object[] arguments)
+        public void SetupResult(ResultDetails details, object[] arguments)
         {
             mExpectedResultParameters = new object[]{details, arguments};
             mServerMock.SetCallerCallback((caller, requestId) => caller.Result(requestId, details, arguments));
         }
 
-        public void SetupResult(object details, object[] arguments, object argumentsKeywords)
+        public void SetupResult(ResultDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             mExpectedResultParameters = new object[] { details, arguments, argumentsKeywords };
             mServerMock.SetCallerCallback((caller, requestId) => caller.Result(requestId, details, arguments, argumentsKeywords));
@@ -211,22 +211,22 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
                 mCallerCallback(caller, requestId);
             }
 
-            public void Cancel(IWampCaller caller, long requestId, TMessage options)
+            public void Cancel(IWampCaller caller, long requestId, CancelOptions options)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Yield(IWampCallee callee, long requestId, TMessage options)
+            public void Yield(IWampCallee callee, long requestId, YieldOptions options)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Yield(IWampCallee callee, long requestId, TMessage options, TMessage[] arguments)
+            public void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Yield(IWampCallee callee, long requestId, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+            public void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 throw new System.NotImplementedException();
             }
@@ -273,7 +273,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
             }
         }
 
-        private class CallbackMock : IWampRawRpcOperationCallback
+        private class CallbackMock : IWampClientRawRpcOperationCallback
         {
             private object[] mActualResult;
             private object[] mActualError;
@@ -309,17 +309,17 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
                 }
             }
 
-            public void Result<TMessage1>(IWampFormatter<TMessage1> formatter, TMessage1 details)
+            public void Result<TMessage1>(IWampFormatter<TMessage1> formatter, ResultDetails details)
             {
                 ActualResult = new object[] {details};
             }
 
-            public void Result<TMessage1>(IWampFormatter<TMessage1> formatter, TMessage1 details, TMessage1[] arguments)
+            public void Result<TMessage1>(IWampFormatter<TMessage1> formatter, ResultDetails details, TMessage1[] arguments)
             {
                 ActualResult = new object[] { details, arguments };
             }
 
-            public void Result<TMessage1>(IWampFormatter<TMessage1> formatter, TMessage1 details, TMessage1[] arguments, TMessage1 argumentsKeywords)
+            public void Result<TMessage1>(IWampFormatter<TMessage1> formatter, ResultDetails details, TMessage1[] arguments, IDictionary<string, TMessage1> argumentsKeywords)
             {
                 ActualResult = new object[] { details, arguments, argumentsKeywords };
             }

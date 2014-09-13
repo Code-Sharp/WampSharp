@@ -72,22 +72,22 @@ namespace WampSharp.V2
             mDealer.Call(caller, requestId, options, procedure, arguments, argumentsKeywords);
         }
 
-        public void Cancel(IWampCaller caller, long requestId, TMessage options)
+        public void Cancel(IWampCaller caller, long requestId, CancelOptions options)
         {
             mDealer.Cancel(caller, requestId, options);
         }
 
-        public void Yield(IWampCallee callee, long requestId, TMessage options)
+        public void Yield(IWampCallee callee, long requestId, YieldOptions options)
         {
             mDealer.Yield(callee, requestId, options);
         }
 
-        public void Yield(IWampCallee callee, long requestId, TMessage options, TMessage[] arguments)
+        public void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments)
         {
             mDealer.Yield(callee, requestId, options, arguments);
         }
 
-        public void Yield(IWampCallee callee, long requestId, TMessage options, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             mDealer.Yield(callee, requestId, options, arguments, argumentsKeywords);
         }

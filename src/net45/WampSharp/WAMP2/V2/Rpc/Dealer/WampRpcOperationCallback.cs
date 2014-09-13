@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
@@ -7,7 +8,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    internal class WampRpcOperationCallback : IWampRawRpcOperationCallback,
+    internal class WampRpcOperationCallback : IWampClientRawRpcOperationCallback,
         ICallbackDisconnectionNotifier
     {
         private readonly IWampCaller mCaller;
@@ -22,19 +23,19 @@ namespace WampSharp.V2.Rpc
             monitor.ConnectionClosed += OnConnectionClosed;
         }
 
-        public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details)
+        public void Result<TResult>(IWampFormatter<TResult> formatter, ResultDetails details)
         {
             mCaller.Result(mRequestId, details);
         }
 
-        public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details, TResult[] arguments)
+        public void Result<TResult>(IWampFormatter<TResult> formatter, ResultDetails details, TResult[] arguments)
         {
             mCaller.Result(mRequestId, details, arguments.Cast<object>().ToArray());
         }
 
-        public void Result<TResult>(IWampFormatter<TResult> formatter, TResult details, TResult[] arguments, TResult argumentsKeywords)
+        public void Result<TResult>(IWampFormatter<TResult> formatter, ResultDetails details, TResult[] arguments, IDictionary<string, TResult> argumentsKeywords)
         {
-            mCaller.Result(mRequestId, details, arguments.Cast<object>().ToArray(), argumentsKeywords);
+            mCaller.Result(mRequestId, details, arguments.Cast<object>().ToArray(), argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
         }
 
         public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error)

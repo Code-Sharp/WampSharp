@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Contracts;
+﻿using System.Collections.Generic;
+using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
@@ -10,12 +11,12 @@ namespace WampSharp.V2.Core.Contracts
     public interface IWampCaller<TMessage>
     {
         [WampHandler(WampMessageType.v2Result)]
-        void Result(long requestId, TMessage details);
+        void Result(long requestId, ResultDetails details);
 
         [WampHandler(WampMessageType.v2Result)]
-        void Result(long requestId, TMessage details, TMessage[] arguments);
+        void Result(long requestId, ResultDetails details, TMessage[] arguments);
 
         [WampHandler(WampMessageType.v2Result)]
-        void Result(long requestId, TMessage details, TMessage[] arguments, TMessage argumentsKeywords);
+        void Result(long requestId, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
     }
 }

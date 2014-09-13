@@ -77,25 +77,25 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 callee => callee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);
         }
 
-        public void SetupYield(long requestId, object options)
+        public void SetupYield(long requestId, YieldOptions options)
         {
-            ExpectedYield = new[] {requestId, options};
+            ExpectedYield = new object[] {requestId, options};
 
             mOperation.SetInvocationCallback
                 (x => x.Result(WampObjectFormatter.Value, options));
         }
 
-        public void SetupYield(long requestId, object options, object[] arguments)
+        public void SetupYield(long requestId, YieldOptions options, object[] arguments)
         {
-            ExpectedYield = new[] { requestId, options, arguments };
+            ExpectedYield = new object[] { requestId, options, arguments };
 
             mOperation.SetInvocationCallback
                 (x => x.Result(WampObjectFormatter.Value, options, arguments));
         }
 
-        public void SetupYield(long requestId, object options, object[] arguments, object argumentsKeywords)
+        public void SetupYield(long requestId, YieldOptions options, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
-            ExpectedYield = new[] { requestId, options, arguments, argumentsKeywords };
+            ExpectedYield = new object[] { requestId, options, arguments, argumentsKeywords };
 
             mOperation.SetInvocationCallback
                 (x => x.Result(WampObjectFormatter.Value, options, arguments, argumentsKeywords));

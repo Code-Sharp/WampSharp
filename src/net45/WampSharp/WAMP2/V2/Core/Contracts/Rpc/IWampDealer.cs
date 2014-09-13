@@ -70,6 +70,6 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="requestId">The request id of the call to cancel.</param>
         /// <param name="options">Additional options for cancelation.</param>
         [WampHandler(WampMessageType.v2Cancel)]
-        void Cancel([WampProxyParameter] IWampCaller caller, long requestId, TMessage options);
+        void Cancel([WampProxyParameter] IWampCaller caller, long requestId, CancelOptions options);
     }
 }

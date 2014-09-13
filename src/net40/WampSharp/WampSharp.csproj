@@ -541,15 +541,6 @@
     <Compile Include="..\..\net45\WampSharp\WAMP1\V1\Rpc\WampRpcMethodAttribute.cs">
       <Link>WAMP1\V1\Rpc\WampRpcMethodAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP1\V2\Adapters\Wamp1BindingHost.cs">
-      <Link>WAMP1\V2\Adapters\Wamp1BindingHost.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP1\V2\Adapters\WampPubSubServerAdapter.cs">
-      <Link>WAMP1\V2\Adapters\WampPubSubServerAdapter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP1\V2\Adapters\WampRpcServerAdapter.cs">
-      <Link>WAMP1\V2\Adapters\WampRpcServerAdapter.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs</Link>
     </Compile>
@@ -621,6 +612,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\PubSub\PublishOptionsExtended.cs">
       <Link>WAMP2\V2\Core\Contracts\PubSub\PublishOptionsExtended.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\CancelOptions.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\CancelOptions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\RegisterOptions.cs">
       <Link>WAMP2\V2\Core\Contracts\Rpc\RegisterOptions.cs</Link>
@@ -871,8 +865,11 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\TypeExtensions.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\TypeExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs">
-      <Link>WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationCallback.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampClientRawRpcOperationCallback.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampClientRawRpcOperationCallback.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs">
       <Link>WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs</Link>

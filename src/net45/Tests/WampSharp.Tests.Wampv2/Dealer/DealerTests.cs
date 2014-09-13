@@ -98,7 +98,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
             {
                 server.Call(caller.Object, call.RequestId, call.Options, call.Procedure);
 
-                catalog.Verify(x => x.Invoke(It.IsAny<IWampRawRpcOperationCallback>(),
+                catalog.Verify(x => x.Invoke(It.IsAny<IWampClientRawRpcOperationCallback>(),
                                              It.IsAny<IWampFormatter<MockRaw>>(),
                                              It.IsAny<InvocationDetails>(),
                                              call.Procedure),
@@ -108,7 +108,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
             {
                 server.Call(caller.Object, call.RequestId, call.Options, call.Procedure, call.Arguments);
 
-                catalog.Verify(x => x.Invoke(It.IsAny<IWampRawRpcOperationCallback>(),
+                catalog.Verify(x => x.Invoke(It.IsAny<IWampClientRawRpcOperationCallback>(),
                                              It.IsAny<IWampFormatter<MockRaw>>(),
                                              It.IsAny<InvocationDetails>(),
                                              call.Procedure, 
@@ -119,7 +119,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
             {
                 server.Call(caller.Object, call.RequestId, call.Options, call.Procedure, call.Arguments, call.ArgumentsKeywords);
 
-                catalog.Verify(x => x.Invoke(It.IsAny<IWampRawRpcOperationCallback>(),
+                catalog.Verify(x => x.Invoke(It.IsAny<IWampClientRawRpcOperationCallback>(),
                                              It.IsAny<IWampFormatter<MockRaw>>(),
                                              It.IsAny<InvocationDetails>(),
                                              call.Procedure,

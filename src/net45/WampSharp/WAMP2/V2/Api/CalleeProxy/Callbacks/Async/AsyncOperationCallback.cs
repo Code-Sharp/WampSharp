@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Client;
@@ -7,7 +8,7 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal abstract class AsyncOperationCallback : IWampRawRpcOperationCallback
+    internal abstract class AsyncOperationCallback : IWampClientRawRpcOperationCallback
     {
         private readonly TaskCompletionSource<object> mTask = new TaskCompletionSource<object>();
 
@@ -23,17 +24,17 @@ namespace WampSharp.V2.CalleeProxy
 
         protected abstract object GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments);
 
-        public void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details)
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
         {
             SetResult(null);
         }
 
-        public void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, TMessage[] arguments)
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
         {
             SetResult(formatter, arguments);
         }
 
-        public void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             SetResult(formatter, arguments);
         }

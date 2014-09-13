@@ -1,13 +1,10 @@
 ﻿using Newtonsoft.Json.Linq;
-using WampSharp.Binding;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
-using WampSharp.V2.Adapters;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Contracts;
 using WampSharp.V2.Binding.Parsers;
-using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V1
@@ -21,7 +18,7 @@ namespace WampSharp.V1
 
         public override IWampBindingHost CreateHost(IWampHostedRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener)
         {
-            return new Wamp1BindingHost<TMessage>(realmContainer, connectionListener, this.Formatter);
+            return null;
         }
     }
 

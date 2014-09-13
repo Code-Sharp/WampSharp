@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
@@ -21,22 +22,19 @@ namespace WampSharp.V2.CalleeProxy
             get { return mResult; }
         }
 
-        public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details)
+        public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
         {
             SetResult(null);
         }
 
-        public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                              TMessage[] arguments)
+        public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
         {
             SetResult(formatter, arguments);
         }
 
-        public override void Result<TMessage>(IWampFormatter<TMessage> formatter, TMessage details,
-                                              TMessage[] arguments, TMessage argumentsKeywords)
+        public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            IDictionary<string, TMessage> outOrRefParameters =
-                formatter.Deserialize<IDictionary<string, TMessage>>(argumentsKeywords);
+            IDictionary<string, TMessage> outOrRefParameters = argumentsKeywords;
 
             mMethodInfoHelper.PopulateOutOrRefValues
                 (formatter,

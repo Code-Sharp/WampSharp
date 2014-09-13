@@ -7,12 +7,12 @@ namespace WampSharp.V2.Rpc
     internal class WampRpcInvocation<TMessage>
     {
         private readonly IWampRpcOperation mOperation;
-        private readonly IWampRawRpcOperationCallback mCallback;
+        private readonly IWampRouterRawRpcOperationCallback mCallback;
         private readonly InvocationDetails mOptions;
         private readonly object[] mArguments;
         private readonly IDictionary<string, object> mArgumentsKeywords;
 
-        public WampRpcInvocation(IWampRpcOperation operation, IWampRawRpcOperationCallback callback, InvocationDetails options, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        public WampRpcInvocation(IWampRpcOperation operation, IWampRouterRawRpcOperationCallback callback, InvocationDetails options, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             mOperation = operation;
             mCallback = callback;
@@ -29,7 +29,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public IWampRawRpcOperationCallback Callback
+        public IWampRouterRawRpcOperationCallback Callback
         {
             get
             {

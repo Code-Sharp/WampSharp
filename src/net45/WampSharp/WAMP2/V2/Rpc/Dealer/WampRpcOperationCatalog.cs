@@ -45,46 +45,77 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, string procedure)
+        public void Invoke<TMessage>(IWampClientRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details,
+                                     string procedure)
         {
-            IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
+            Invoke(new WampClientRouterCallbackAdapter(caller, details),
+                   formatter,
+                   details,
+                   procedure);
+        }
+
+        public void Invoke<TMessage>(IWampClientRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+                                     string procedure, TMessage[] arguments)
+        {
+            Invoke(new WampClientRouterCallbackAdapter(caller, details),
+                   formatter,
+                   details,
+                   procedure,
+                   arguments);
+        }
+
+        public void Invoke<TMessage>(IWampClientRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+                                     string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        {
+            Invoke(new WampClientRouterCallbackAdapter(caller, details),
+                   formatter,
+                   details,
+                   procedure,
+                   arguments,
+                   argumentsKeywords);
+        }
+
+        public void Invoke<TMessage>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure)
+        {
+            IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
 
             if (operation != null)
             {
                 IWampRpcOperation<TMessage> casted = 
                     CastOperation(operation, formatter);
 
-                casted.Invoke(caller, options);
+                casted.Invoke(caller, details);
             }
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, string procedure, TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure, TMessage[] arguments)
         {
-            IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
+            IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
 
             if (operation != null)
             {
                 IWampRpcOperation<TMessage> casted =
                     CastOperation(operation, formatter);
 
-                casted.Invoke(caller, options, arguments);
+                casted.Invoke(caller, details, arguments);
             }
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public void Invoke<TMessage>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            IWampRpcOperation operation = TryGetOperation(caller, options, procedure);
+            IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
 
             if (operation != null)
             {
                 IWampRpcOperation<TMessage> casted =
                     CastOperation(operation, formatter);
 
-                casted.Invoke(caller, options, arguments, argumentsKeywords);
+                casted.Invoke(caller, details, arguments, argumentsKeywords);
             }
         }
 
-        private IWampRpcOperation TryGetOperation(IWampRawRpcOperationCallback caller, object options,
+        private IWampRpcOperation TryGetOperation(IWampRouterRawRpcOperationCallback caller, object options,
                                                   string procedure)
         {
             IWampRpcOperation operation;
