@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
@@ -43,8 +48,14 @@ namespace WampSharp.V2
 #if !NET40
             return Task.WhenAll(registrations);
 #else
-            // TODO: Implement a framework 4 version.
-            return null;
+            IEnumerable<IObservable<Unit>> tasksAsObservables = 
+                registrations.Select(x => x.ToObservable());
+
+            IObservable<Unit> merged = tasksAsObservables.Merge();
+
+            Task<Unit> result = merged.ToTask();
+
+            return result;
 #endif
         }
 
