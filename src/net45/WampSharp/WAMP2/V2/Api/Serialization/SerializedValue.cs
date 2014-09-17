@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Serialization;
+﻿using System;
+using WampSharp.Core.Serialization;
 
 namespace WampSharp.V2
 {
@@ -16,6 +17,11 @@ namespace WampSharp.V2
         public T Deserialize<T>()
         {
             return mFormatter.Deserialize<T>(mValue);
+        }
+
+        public object Deserialize(Type type)
+        {
+            return mFormatter.Deserialize(type, mValue);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Serialization;
+﻿using System;
+using WampSharp.Core.Serialization;
 
 namespace WampSharp.V2
 {
@@ -9,7 +10,8 @@ namespace WampSharp.V2
     /// This allows users to work with serialized values without using a
     /// <see cref="IWampFormatter{TMessage}"/>.
     /// </remarks>
-    public interface ISerializedValue
+    public interface 
+        ISerializedValue
     {
         /// <summary>
         /// Deserializes the underlying value to the given type.
@@ -17,5 +19,12 @@ namespace WampSharp.V2
         /// <typeparam name="T"></typeparam>
         /// <returns>The deserialized value.</returns>
         T Deserialize<T>();
+
+        /// <summary>
+        /// Deserializes the underlying value to the given type.
+        /// </summary>
+        /// <param name="type">The deserialized type.</param>
+        /// <returns>The deserialized value.</returns>
+        object Deserialize(Type type);    
     }
 }
