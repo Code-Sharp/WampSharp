@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Reactive.Subjects;
-using Newtonsoft.Json.Linq;
-using WampSharp.Binding;
 using WampSharp.V2;
-using WampSharp.V2.Client;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Realm;
-using WampSharp.WebSocket4Net;
 
 namespace WampSharp.Samples.Subscriber
 {
@@ -33,16 +29,11 @@ namespace WampSharp.Samples.Subscriber
 
         private static IDisposable ClientCode(string serverAddress)
         {
-            JTokenBinding jTokenBinding = new JTokenBinding();
-
-            WampChannelFactory channelFactory = 
-                new WampChannelFactory();
+            DefaultWampChannelFactory channelFactory = 
+                new DefaultWampChannelFactory();
 
             IWampChannel wampChannel =
-                channelFactory.CreateChannel("realm1",
-                                             new WebSocket4NetTextConnection<JToken>(serverAddress,
-                                                                                     jTokenBinding),
-                                             jTokenBinding);
+                channelFactory.CreateJsonChannel(serverAddress, "realm1");
 
             wampChannel.Open().Wait();
 
@@ -50,6 +41,7 @@ namespace WampSharp.Samples.Subscriber
                 wampChannel.RealmProxy.Services.GetSubject<int>("com.myapp.topic1");
 
             IDisposable disposable = subject.Subscribe(x => GetValue(x));
+
             return disposable;
         }
 
