@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
+using WampSharp.Newtonsoft;
 
 namespace WampSharp.Tests.TestHelpers
 {
@@ -13,6 +14,7 @@ namespace WampSharp.Tests.TestHelpers
         {
             mSerializer = new JsonSerializer();
             mSerializer.Converters.Add(new MockRawConverter());
+            mSerializer.ContractResolver = new JsonPropertyNameContractResolver();
         }
 
         public bool CanConvert(MockRaw argument, Type type)

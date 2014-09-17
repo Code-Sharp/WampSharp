@@ -5,7 +5,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Newtonsoft
 {
-    internal class JsonPropertyNameContractResolver : DefaultContractResolver
+    public class JsonPropertyNameContractResolver : DefaultContractResolver
     {
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
