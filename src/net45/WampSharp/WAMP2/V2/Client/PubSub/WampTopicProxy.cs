@@ -42,21 +42,21 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public Task<long> Publish(PublishOptions options)
+        public Task<long?> Publish(PublishOptions options)
         {
             CheckDisposed();
 
             return mPublisher.Publish(this.TopicUri, options);
         }
 
-        public Task<long> Publish(PublishOptions options, object[] arguments)
+        public Task<long?> Publish(PublishOptions options, object[] arguments)
         {
             CheckDisposed();
 
             return mPublisher.Publish(this.TopicUri, options, arguments);
         }
 
-        public Task<long> Publish(PublishOptions options, object[] arguments, IDictionary<string, object> argumentKeywords)
+        public Task<long?> Publish(PublishOptions options, object[] arguments, IDictionary<string, object> argumentKeywords)
         {
             CheckDisposed();
 

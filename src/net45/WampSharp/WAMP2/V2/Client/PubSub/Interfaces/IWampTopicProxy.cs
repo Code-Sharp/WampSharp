@@ -24,7 +24,7 @@ namespace WampSharp.V2.Client
         /// <param name="options">The options to publish with.</param>
         /// <returns>A task which is completed when the publish is done, with
         /// the publication id.</returns>
-        Task<long> Publish(PublishOptions options);
+        Task<long?> Publish(PublishOptions options);
 
         /// <summary>
         /// Publishes an event to the current topic.
@@ -33,7 +33,7 @@ namespace WampSharp.V2.Client
         /// <param name="arguments">The arguments of the published event.</param>
         /// <returns>A task which is completed when the publish is done, with
         /// the publication id.</returns>
-        Task<long> Publish(PublishOptions options, object[] arguments);
+        Task<long?> Publish(PublishOptions options, object[] arguments);
 
         /// <summary>
         /// Publishes an event to the current topic.
@@ -43,7 +43,7 @@ namespace WampSharp.V2.Client
         /// <param name="argumentKeywords">The argument keywords of the published event.</param>
         /// <returns>A task which is completed when the publish is done, with
         /// the publication id.</returns>
-        Task<long> Publish(PublishOptions options, object[] arguments, IDictionary<string, object> argumentKeywords);
+        Task<long?> Publish(PublishOptions options, object[] arguments, IDictionary<string, object> argumentKeywords);
 
         /// <summary>
         /// Subscribes to the the current topic.

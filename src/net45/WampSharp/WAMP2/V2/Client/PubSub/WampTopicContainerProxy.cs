@@ -23,7 +23,7 @@ namespace WampSharp.V2.Client
         {
             mProxy = proxy;
             mSubscriber = new WampSubscriber<TMessage>(proxy, formatter, monitor);
-            mPublisher = new WampPublisher<TMessage>(proxy, monitor);
+            mPublisher = new WampPublisher<TMessage>(proxy, formatter, monitor);
         }
 
         public IWampTopicProxy GetTopicByUri(string topicUri)

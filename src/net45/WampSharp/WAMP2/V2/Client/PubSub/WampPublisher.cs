@@ -1,58 +1,180 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WampSharp.Core.Listener;
+using WampSharp.Core.Serialization;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Client
 {
     internal class WampPublisher<TMessage> : IWampTopicPublicationProxy,
-        IWampPublisher<TMessage>, IWampPublisherError<TMessage>
+                                             IWampPublisher<TMessage>, IWampPublisherError<TMessage>
     {
-        public WampPublisher(IWampServerProxy proxy, IWampClientConnectionMonitor monitor)
+        private readonly IWampFormatter<TMessage> mFormatter; 
+        private readonly IWampServerProxy mProxy;
+        private readonly IWampClientConnectionMonitor mMonitor;
+        private readonly WampRequestIdMapper<Publication> mPendingPublication = new WampRequestIdMapper<Publication>(); 
+
+        public WampPublisher(IWampServerProxy proxy, IWampFormatter<TMessage> formatter, IWampClientConnectionMonitor monitor)
         {
+            mProxy = proxy;
+            mMonitor = monitor;
+            mFormatter = formatter;
+
+            mMonitor.ConnectionBroken += ConnectionBroken;
+            mMonitor.ConnectionError += ConnectionError;
         }
 
-        public void OnConnectionError(Exception exception)
+        public Task<long?> Publish(string topicUri, PublishOptions options)
         {
+            return InnerPublish(options,
+                                () => new Publication(mFormatter, topicUri, options),
+                                requestId => mProxy.Publish(requestId, options, topicUri));
         }
 
-        public void OnConnectionClosed()
+        public Task<long?> Publish(string topicUri, PublishOptions options, object[] arguments)
         {
+            return InnerPublish(options,
+                                () => new Publication(mFormatter, topicUri, options, arguments),
+                                requestId => mProxy.Publish(requestId, options, topicUri, arguments));
         }
 
-        public Task<long> Publish(string topicUri, PublishOptions options)
+        public Task<long?> Publish(string topicUri, PublishOptions options, object[] arguments, IDictionary<string, object> argumentKeywords)
         {
-            throw new NotImplementedException();
+            return InnerPublish(options,
+                                () => new Publication(mFormatter, topicUri, options, arguments, argumentKeywords),
+                                requestId => mProxy.Publish(requestId, options, topicUri, arguments, argumentKeywords));
         }
 
-        public Task<long> Publish(string topicUri, PublishOptions options, object[] arguments)
+        private Task<long?> InnerPublish(PublishOptions options, Func<Publication> publicationFactory, Action<long> publicationAction)
         {
-            throw new NotImplementedException();
-        }
+            Publication publication = publicationFactory();
 
-        public Task<long> Publish(string topicUri, PublishOptions options, object[] arguments, IDictionary<string, object> argumentKeywords)
-        {
-            throw new NotImplementedException();
+            long requestId = mPendingPublication.Add(publication);
+
+            publicationAction(requestId);
+
+            bool acknowledge = options.Acknowledge ?? false;
+            if (!acknowledge)
+            {
+                Publication removed;
+                mPendingPublication.TryRemove(requestId, out removed);
+#if NET45
+                return Task.FromResult(default(long?));
+#elif NET40
+                TaskCompletionSource<long?> result = new TaskCompletionSource<long?>();
+                result.SetResult(default(long?));
+                return result.Task;
+#endif
+            }
+
+            return publication.Task;
         }
 
         public void Published(long requestId, long publicationId)
         {
-            throw new NotImplementedException();
+            Publication publication;
+            
+            if (mPendingPublication.TryRemove(requestId, out publication))
+            {
+                publication.Complete(publicationId);
+            }
         }
 
         public void PublishError(long requestId, TMessage details, string error)
         {
-            throw new NotImplementedException();
+            Publication publication;
+
+            if (mPendingPublication.TryRemove(requestId, out publication))
+            {
+                publication.Error(details, error);
+            }
         }
 
         public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            throw new NotImplementedException();
+            Publication publication;
+
+            if (mPendingPublication.TryRemove(requestId, out publication))
+            {
+                publication.Error(details, error, arguments);
+            }
         }
 
-        public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments,
+                                 TMessage argumentsKeywords)
         {
-            throw new NotImplementedException();
+            Publication publication;
+
+            if (mPendingPublication.TryRemove(requestId, out publication))
+            {
+                publication.Error(details, error, arguments, argumentsKeywords);
+            }
+        }
+
+        private void ConnectionError(object sender, WampConnectionErrorEventArgs e)
+        {
+            mPendingPublication.ConnectionError(e.Exception);
+        }
+
+        private void ConnectionBroken(object sender, WampSessionCloseEventArgs e)
+        {
+            mPendingPublication.ConnectionClosed(e);
+        }
+
+        private class Publication : WampPendingRequest<TMessage, long?>
+        {
+            private readonly string mTopicUri;
+            private readonly PublishOptions mOptions;
+            private readonly object[] mArguments;
+            private readonly IDictionary<string, object> mArgumentKeywords;
+
+            public Publication(IWampFormatter<TMessage> formatter, 
+                string topicUri, 
+                PublishOptions options, 
+                object[] arguments = null, 
+                IDictionary<string, object> argumentKeywords = null) : 
+                base(formatter)
+            {
+                mTopicUri = topicUri;
+                mOptions = options;
+                mArguments = arguments;
+                mArgumentKeywords = argumentKeywords;
+            }
+
+            public string TopicUri
+            {
+                get
+                {
+                    return mTopicUri;
+                }
+            }
+
+            public PublishOptions Options
+            {
+                get
+                {
+                    return mOptions;
+                }
+            }
+
+            public object[] Arguments
+            {
+                get
+                {
+                    return mArguments;
+                }
+            }
+
+            public IDictionary<string, object> ArgumentKeywords
+            {
+                get
+                {
+                    return mArgumentKeywords;
+                }
+            }
         }
     }
 }

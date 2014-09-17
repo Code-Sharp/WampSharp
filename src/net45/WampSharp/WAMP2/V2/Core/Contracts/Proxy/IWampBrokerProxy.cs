@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Contracts;
+﻿using System.Collections.Generic;
+using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
@@ -38,7 +39,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="arguments">The arguments to publish.</param>
         /// <param name="argumentKeywords">Additional argument keywords to publish.</param>
         [WampHandler(WampMessageType.v2Publish)]
-        void Publish(long requestId, PublishOptions options, string topicUri, TMessage[] arguments, TMessage argumentKeywords);
+        void Publish(long requestId, PublishOptions options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords);
 
         /// <summary>
         /// Sends a SUBSCRIBE message.
