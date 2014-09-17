@@ -90,7 +90,7 @@ namespace WampSharp.V2.CalleeProxy
                 return result;
 #else
                 IObservable<object> merged =
-                    Observable.Merge(asyncOperationCallback.Task.ToObservable(),
+                    Observable.Amb(asyncOperationCallback.Task.ToObservable(),
                                      mDisconnectionTaskCompletionSource.Task.ToObservable());
                 
                 Task<object> task = merged.ToTask();
