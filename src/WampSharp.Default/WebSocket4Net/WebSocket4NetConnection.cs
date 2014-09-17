@@ -68,7 +68,7 @@ namespace WampSharp.WebSocket4Net
 
         public void OnError(Exception error)
         {
-            // No can do.
+            mSubject.OnError(error);
         }
 
         public void OnCompleted()
