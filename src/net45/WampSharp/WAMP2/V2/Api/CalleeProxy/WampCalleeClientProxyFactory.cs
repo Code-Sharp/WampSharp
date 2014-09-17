@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
@@ -83,12 +85,17 @@ namespace WampSharp.V2.CalleeProxy
                 Task<object> task = await Task.WhenAny(asyncOperationCallback.Task,
                                                        mDisconnectionTaskCompletionSource.Task);
 
-                object result = await asyncOperationCallback.Task;
+                object result = await task;
 
                 return result;
 #else
-    // TODO: Add framework 4 implementation.
-                return asyncOperationCallback.Task;
+                IObservable<object> merged =
+                    Observable.Merge(asyncOperationCallback.Task.ToObservable(),
+                                     mDisconnectionTaskCompletionSource.Task.ToObservable());
+                
+                Task<object> task = merged.ToTask();
+
+                return task;
 #endif
             }
 

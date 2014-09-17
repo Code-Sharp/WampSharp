@@ -62,12 +62,10 @@ namespace WampSharp.V2.CalleeProxy
 
             Type unwrapped = TaskExtensions.UnwrapReturnType(returnType);
 
-            // TODO: register to connection lost events and raise an exception
             Task<object> task = InnerInvokeAsync(method, arguments, unwrapped);
 
             Task casted = task.Cast(unwrapped);
 
-            // TODO: return await Task.WhenAny(casted, connectionLost);
             return casted;
         }
 
