@@ -22,6 +22,61 @@ namespace WampSharp.V2.Client
         private readonly IWampFormatter<TMessage> mFormatter;
         private readonly object mLock = new object();
         private bool mGoodbyeSent;
+        private readonly IDictionary<string, object> mDetails = GetDetails();
+
+        private static Dictionary<string, object> GetDetails()
+        {
+            // TODO: Do it with reflection :)
+            return new Dictionary<string, object>
+                {
+                    {
+                        "roles", new Dictionary<string, object>
+                            {
+                                {
+                                    "caller", new Dictionary<string, object>
+                                        {
+                                            {
+                                                "features", new Dictionary<string, object>
+                                                    {
+                                                        {"caller_identification", true}
+                                                    }
+                                            }
+                                        }
+                                },
+                                {
+                                    "callee", new Dictionary<string, object>
+                                        {
+                                            {"features", new Dictionary<string, object>()}
+                                        }
+                                },
+                                {
+                                    "publisher", new Dictionary<string, object>
+                                        {
+                                            {
+                                                "features", new Dictionary<string, object>
+                                                    {
+                                                        {"subscriber_blackwhite_listing", true},
+                                                        {"publisher_exclusion", true},
+                                                        {"publisher_identification", true},
+                                                    }
+                                            }
+                                        }
+                                },
+                                {
+                                    "subscriber", new Dictionary<string, object>
+                                        {
+                                            {
+                                                "features", new Dictionary<string, object>
+                                                    {
+                                                        {"publisher_identification", true},
+                                                    }
+                                            }
+                                        }
+                                }
+                            }
+                    }
+                };
+        }
 
         public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter)
         {
@@ -118,19 +173,7 @@ namespace WampSharp.V2.Client
         {
             mServerProxy.Hello
                 (Realm.Name,
-                 new Dictionary<string, object>()
-                     {
-                         {
-                             "roles",
-                             new Dictionary<string, object>()
-                                 {
-                                     {"caller", new Dictionary<string, object>()},
-                                     {"callee", new Dictionary<string, object>()},
-                                     {"publisher", new Dictionary<string, object>()},
-                                     {"subscriber", new Dictionary<string, object>()},
-                                 }
-                         }
-                     });
+                 mDetails);
         }
 
         public void OnConnectionClosed()

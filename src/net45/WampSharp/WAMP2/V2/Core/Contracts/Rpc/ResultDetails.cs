@@ -5,7 +5,8 @@ namespace WampSharp.V2.Core.Contracts
     [WampDetailsOptions(WampMessageType.v2Result)]
     public class ResultDetails : WampDetailsOptions
     {
+        [IgnoreProperty]
         [PropertyName("progress")]
-        public bool? Progress { get; set; }
+        internal bool? Progress { get; set; }
     }
 }
