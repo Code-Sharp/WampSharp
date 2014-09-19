@@ -81,13 +81,10 @@ namespace WampSharp.Samples.Callee
 
         private static void ClientCode(string serverAddress, IEnumerable<IWampRpcOperation> operations)
         {
-            JTokenMsgpackObjectBinding binding = new JTokenMsgpackObjectBinding();
-
-            DefaultWampChannelFactory factory =
-                new DefaultWampChannelFactory();
+            DefaultWampChannelFactory factory = new DefaultWampChannelFactory();
 
             IWampChannel channel =
-                factory.CreateChannel(serverAddress, "realm1", binding);
+                factory.CreateJsonChannel(serverAddress, "realm1");
 
             Task task = channel.Open();
             task.Wait(5000);
@@ -104,13 +101,11 @@ namespace WampSharp.Samples.Callee
                 Console.WriteLine("Connected to server.");
             }
 
-            var dummy = new RegisterOptions();
-
             var tasks = new List<Task>();
 
             foreach (IWampRpcOperation operation in operations)
             {
-                Task registrationTask = channel.RealmProxy.RpcCatalog.Register(operation, dummy);
+                Task registrationTask = channel.RealmProxy.RpcCatalog.Register(operation, new RegisterOptions());
                 tasks.Add(registrationTask);
             }
 
