@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <version>$version$</version>
-    <authors>WampSharp</authors>
+    <authors>CodeSharp</authors>
     <owners />
     <dependencies>
       <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="Fleck" version="[0.11.0.30]" />
+      <dependency id="Fleck" version="[0.11.1.32]" />
       <dependency id="Newtonsoft.Json" version="[6.0.5]" />
       <dependency id="WebSocket4Net" version="[0.10]" />
-      <dependency id="Newtonsoft.Msgpack" version="[0.1.1]" />
+      <dependency id="Newtonsoft.Msgpack" version="[0.1.3]" />
     </dependencies>
     <id>WampSharp.Default</id>
     <title>WampSharp default binding</title>

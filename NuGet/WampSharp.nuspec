@@ -2,16 +2,16 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <version>$version$</version>
-    <authors>WampSharp</authors>
+    <authors>CodeSharp</authors>
     <owners />
     <dependencies>
       <dependency id="rx-main" version="[2.2.5]" />
-      <dependency id="Castle.Core" version="[3.3.0]" />
+      <dependency id="Castle.Core" version="[3.3.1]" />
     </dependencies>
     <id>WampSharp</id>
     <title>WampSharp</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>An implementation of WAMP (The WebSocket Application Messaging Protocol).</description>
+    <description>An implementation of WAMP (The Web Application Messaging Protocol).</description>
     <projectUrl>https://github.com/darkl/WampSharp/tree/wampv2</projectUrl>
   </metadata>
   <files>
