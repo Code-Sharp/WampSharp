@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Owin;
 using Microsoft.Owin.Hosting;
 using Microsoft.Owin.Hosting.Services;
 using Microsoft.Owin.Hosting.Starter;
@@ -8,7 +7,8 @@ using WampSharp.V2.Binding;
 
 namespace WampSharp.SignalR
 {
-    public class SignalRConnectionListener<TMessage> : IWampConnectionListener<TMessage>, IDisposable
+    public class SignalRConnectionListener<TMessage> : IWampConnectionListener<TMessage>, IDisposable,
+        ISignalRListener
     {
         private readonly string mUrl;
         private readonly SignalRConnectionListenerAdapter<TMessage> mAdapter;

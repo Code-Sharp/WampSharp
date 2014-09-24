@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <owners />
+    <dependencies>
+      <dependency id="WampSharp.Default" version="[$version$]" />
+      <dependency id="Microsoft.AspNet.SignalR.SelfHost" version="[2.1.2]" />
+      <dependency id="Microsoft.AspNet.SignalR.Client" version="[2.1.2]" />
+    </dependencies>
+    <id>WampSharp.SignalR</id>
+    <title>WampSharp SignalR support</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SignalR transport support for WampSharp</description>
+    <projectUrl>https://github.com/darkl/WampSharp/tree/wampv2</projectUrl>
+  </metadata>
+  <files>
+    <file src="bin\net45\WampSharp.SignalR.dll" target="lib\net45\WampSharp.SignalR.dll" />
+  </files>
+</package>

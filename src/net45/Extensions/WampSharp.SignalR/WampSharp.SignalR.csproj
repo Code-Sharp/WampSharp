@@ -99,9 +99,11 @@
     <Compile Include="Client\SignalRTextConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\ISignalRConnectionListenerAdapter.cs" />
+    <Compile Include="Server\ISignalRListener.cs" />
     <Compile Include="Server\PersistentConnectionListener.cs" />
     <Compile Include="Server\SignalRConnectionListener.cs" />
     <Compile Include="Server\SignalRConnectionListenerAdapter.cs" />
+    <Compile Include="Server\SignalRTransport.cs" />
     <Compile Include="Server\Startup.cs" />
   </ItemGroup>
   <ItemGroup>
