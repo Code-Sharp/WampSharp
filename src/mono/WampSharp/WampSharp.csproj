@@ -660,8 +660,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\IWampHost.cs">
       <Link>WAMP2\V2\Api\Server\IWampHost.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\RawSubscriber.cs">
-      <Link>WAMP2\V2\Api\Rx\RawSubscriber.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\RawTopicClientSubscriber.cs">
+      <Link>WAMP2\V2\Api\Rx\RawTopicClientSubscriber.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampClientSubject.cs">
       <Link>WAMP2\V2\Api\Rx\WampClientSubject.cs</Link>
@@ -780,8 +780,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IRemoteWampTopicSubscriber.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\IRemoteWampTopicSubscriber.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampRawTopicSubscriber.cs">
-      <Link>WAMP2\V2\PubSub\Interfaces\IWampRawTopicSubscriber.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampRawTopicClientSubscriber.cs">
+      <Link>WAMP2\V2\PubSub\Interfaces\IWampRawTopicClientSubscriber.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\PubSub\Interfaces\IWampTopicContainerProxy.cs">
       <Link>WAMP2\V2\Client\PubSub\Interfaces\IWampTopicContainerProxy.cs</Link>
@@ -810,8 +810,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\PubSub\WampTopicProxy.cs">
       <Link>WAMP2\V2\Client\PubSub\WampTopicProxy.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\PubSub\WampTopicProxySection.cs">
-      <Link>WAMP2\V2\Client\PubSub\WampTopicProxySection.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\PubSub\WampTopicClientProxySection.cs">
+      <Link>WAMP2\V2\Client\PubSub\WampTopicClientProxySection.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Realm\IWampRealmProxy.cs">
       <Link>WAMP2\V2\Client\Realm\IWampRealmProxy.cs</Link>
@@ -870,8 +870,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs">
       <Link>WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampClientRawRpcOperationCallback.cs">
-      <Link>WAMP2\V2\Rpc\Interfaces\IWampClientRawRpcOperationCallback.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationClientCallback.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationClientCallback.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs">
       <Link>WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs</Link>

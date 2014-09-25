@@ -6,14 +6,17 @@ using WampSharp.V2.Binding.Contracts;
 
 namespace WampSharp.Binding
 {
-    public class JTokenMsgpackObjectBinding : MsgPackBinding<JToken>
+    /// <summary>
+    /// Represents MsgPack binding implemented using Newtonsoft.Msgpack.
+    /// </summary>
+    public class JTokenMsgpackBinding : MsgPackBinding<JToken>
     {
-        public JTokenMsgpackObjectBinding() :
+        public JTokenMsgpackBinding() :
             base(new JsonFormatter(), new MessagePackParser())
         {
         }
 
-        public JTokenMsgpackObjectBinding(JsonSerializer serializer) :
+        public JTokenMsgpackBinding(JsonSerializer serializer) :
             base(new JsonFormatter(serializer), new MessagePackParser())
         {
         }

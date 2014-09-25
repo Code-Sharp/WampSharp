@@ -13,17 +13,17 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
 {
     public class WampPlayground : WampPlayground<JToken>
     {
-        public WampPlayground() : base(new JTokenBinding())
+        public WampPlayground() : base(new JTokenJsonBinding())
         {
         }
 
         protected WampPlayground(MockConnectionListener<JToken> listener) :
-            base(new JTokenBinding(), listener, new JTokenEqualityComparer())
+            base(new JTokenJsonBinding(), listener, new JTokenEqualityComparer())
         {
         }
 
         protected WampPlayground(MockConnectionListener<JToken> listener, IWampHost host) : 
-            base(new JTokenBinding(), listener, host, new JTokenEqualityComparer())
+            base(new JTokenJsonBinding(), listener, host, new JTokenEqualityComparer())
         {
         }
     }

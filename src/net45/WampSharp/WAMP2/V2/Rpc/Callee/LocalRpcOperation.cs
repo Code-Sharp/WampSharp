@@ -50,22 +50,22 @@ namespace WampSharp.V2.Rpc
             get;
         }
 
-        public void Invoke<TMessage>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
         {
             InnerInvoke(caller, formatter, details, null, null);
         }
 
-        public void Invoke<TMessage>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments)
         {
             InnerInvoke(caller, formatter, details, arguments, null);
         }
 
-        public void Invoke<TMessage>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             InnerInvoke(caller, formatter, details, arguments, argumentsKeywords);
         }
 
-        protected void CallResult(IWampRouterRawRpcOperationCallback caller, object result, IDictionary<string, object> outputs)
+        protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs)
         {
             YieldOptions options = new YieldOptions();
 
@@ -205,13 +205,13 @@ namespace WampSharp.V2.Rpc
         }
 
         protected abstract void InnerInvoke<TMessage>
-            (IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
+            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
         protected class WampRpcErrorCallback : IWampErrorCallback
         {
-            private readonly IWampRouterRawRpcOperationCallback mCallback;
+            private readonly IWampRawRpcOperationRouterCallback mCallback;
 
-            public WampRpcErrorCallback(IWampRouterRawRpcOperationCallback callback)
+            public WampRpcErrorCallback(IWampRawRpcOperationRouterCallback callback)
             {
                 mCallback = callback;
             }

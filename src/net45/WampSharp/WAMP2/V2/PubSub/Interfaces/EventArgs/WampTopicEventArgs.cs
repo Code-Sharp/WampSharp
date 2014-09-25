@@ -11,6 +11,9 @@ namespace WampSharp.V2.PubSub
             mTopic = topic;
         }
 
+        /// <summary>
+        /// Gets the relevant topic.
+        /// </summary>
         public IWampTopic Topic
         {
             get

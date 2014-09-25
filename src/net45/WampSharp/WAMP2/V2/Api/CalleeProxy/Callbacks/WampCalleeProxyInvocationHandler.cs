@@ -91,7 +91,7 @@ namespace WampSharp.V2.CalleeProxy
             return AwaitForResult(asyncOperationCallback);
         }
 
-        protected abstract void Invoke(IWampClientRawRpcOperationCallback callback, string procedure, object[] arguments);
+        protected abstract void Invoke(IWampRawRpcOperationClientCallback callback, string procedure, object[] arguments);
 
         protected virtual void WaitForResult(SyncCallback callback)
         {

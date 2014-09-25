@@ -24,12 +24,6 @@ namespace WampSharp.V2.Client
         /// </summary>
         IWampRpcOperationCatalogProxy RpcCatalog { get; }
 
-        // Not sure this should be exposed.
-        /// <summary>
-        /// Gets a <see cref="IWampServerProxy"/> associated with this realm proxy.
-        /// </summary>
-        IWampServerProxy Proxy { get; }
-
         /// <summary>
         /// Gets the services for this realm proxy.
         /// </summary>
@@ -39,5 +33,10 @@ namespace WampSharp.V2.Client
         /// Gets a connection monitor assoicated with this realm proxy.
         /// </summary>
         IWampClientConnectionMonitor Monitor { get; }
+
+        /// <summary>
+        /// Gets a proxy to the server.
+        /// </summary>
+        IWampServerProxy Proxy { get; }
     }
 }

@@ -55,17 +55,17 @@ namespace WampSharp.V2.Client
             mCallee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);
         }
 
-        public void Invoke(IWampClientRawRpcOperationCallback caller, CallOptions options, string procedure)
+        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure)
         {
             mCaller.Invoke(caller, options, procedure);
         }
 
-        public void Invoke(IWampClientRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments)
+        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments)
         {
             mCaller.Invoke(caller, options, procedure, arguments);
         }
 
-        public void Invoke(IWampClientRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             mCaller.Invoke(caller, options, procedure, arguments, argumentsKeywords);
         }

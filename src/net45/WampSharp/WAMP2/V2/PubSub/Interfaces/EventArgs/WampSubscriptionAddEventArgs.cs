@@ -3,6 +3,9 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
 {
+    /// <summary>
+    /// Occurs when a subscription was added.
+    /// </summary>
     public class WampSubscriptionAddEventArgs : EventArgs
     {
         private readonly SubscribeOptions mOptions;
@@ -14,6 +17,9 @@ namespace WampSharp.V2.PubSub
             mSubscriber = subscriber;
         }
 
+        /// <summary>
+        /// Gets a proxy to the subscribing subscriber.
+        /// </summary>
         public IRemoteWampTopicSubscriber Subscriber
         {
             get
@@ -22,6 +28,9 @@ namespace WampSharp.V2.PubSub
             }
         }
 
+        /// <summary>
+        /// Gets the options the subscriber subscribed with.
+        /// </summary>
         public SubscribeOptions Options
         {
             get

@@ -8,7 +8,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    internal class WampRpcOperationCallback : IWampClientRawRpcOperationCallback,
+    internal class WampRpcOperationCallback : IWampRawRpcOperationClientCallback,
         ICallbackDisconnectionNotifier
     {
         private readonly IWampCaller mCaller;

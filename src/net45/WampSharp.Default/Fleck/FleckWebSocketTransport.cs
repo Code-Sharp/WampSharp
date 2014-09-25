@@ -9,6 +9,9 @@ using WampSharp.V2.Binding.Transports;
 
 namespace WampSharp.Fleck
 {
+    /// <summary>
+    /// Represents a WebSocket transport implemented with Fleck.
+    /// </summary>
     public class FleckWebSocketTransport : IWampTransport
     {
         private readonly WebSocketServer mServer;
@@ -16,6 +19,11 @@ namespace WampSharp.Fleck
         private readonly IDictionary<string, ConnectionListener> mBindings =
             new Dictionary<string, ConnectionListener>();
 
+        /// <summary>
+        /// Creates a new instance of <see cref="FleckWebSocketTransport"/>
+        /// given the server address to run at.
+        /// </summary>
+        /// <param name="location">The given server address.</param>
         public FleckWebSocketTransport(string location)
         {
             mServer = new WebSocketServer(location);
@@ -88,6 +96,13 @@ namespace WampSharp.Fleck
 
         private void RegisterBinding(IWampBinding binding, ConnectionListener listener)
         {
+            if (mBindings.ContainsKey(binding.Name))
+            {
+                throw new ArgumentException("Already registered a binding for protocol: " +
+                                            binding.Name,
+                                            "binding");
+            }
+
             mBindings.Add(binding.Name, listener);
         }
 

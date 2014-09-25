@@ -15,7 +15,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
     public class CallerTest : CallerTest<JToken>
     {
         public CallerTest() : 
-            base(new JTokenBinding(), new JTokenEqualityComparer())
+            base(new JTokenJsonBinding(), new JTokenEqualityComparer())
         {
         }
     }
@@ -25,7 +25,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
         private object[] mExpectedCallParameters;
         private object[] mExpectedResultParameters;
         private object[] mExpectedErrorParameters;
-        private Action<IWampRpcOperationCatalogProxy, IWampClientRawRpcOperationCallback> mCallAction;
+        private Action<IWampRpcOperationCatalogProxy, IWampRawRpcOperationClientCallback> mCallAction;
         private readonly ServerMock mServerMock = new ServerMock();
         private readonly CallbackMock mCallbackMock = new CallbackMock();
 
@@ -273,7 +273,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
             }
         }
 
-        private class CallbackMock : IWampClientRawRpcOperationCallback
+        private class CallbackMock : IWampRawRpcOperationClientCallback
         {
             private object[] mActualResult;
             private object[] mActualError;

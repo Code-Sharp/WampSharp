@@ -264,7 +264,7 @@
     <Compile Include="WAMP2\V2\PubSub\OptionLessSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Api\Server\IWampHost.cs" />
-    <Compile Include="WAMP2\V2\Api\Rx\RawSubscriber.cs" />
+    <Compile Include="WAMP2\V2\Api\Rx\RawTopicClientSubscriber.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampClientSubject.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampEvent.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampSubject.cs" />
@@ -304,7 +304,7 @@
     <Compile Include="WAMP2\V2\Client\WampChannelFactory.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampProxy.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IRemoteWampTopicSubscriber.cs" />
-    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopicSubscriber.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopicClientSubscriber.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampTopicContainerProxy.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampTopicProxy.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\Interfaces\IWampTopicPublicationProxy.cs" />
@@ -314,7 +314,7 @@
     <Compile Include="WAMP2\V2\Client\PubSub\WampSubscriber.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\WampTopicContainerProxy.cs" />
     <Compile Include="WAMP2\V2\Client\PubSub\WampTopicProxy.cs" />
-    <Compile Include="WAMP2\V2\Client\PubSub\WampTopicProxySection.cs" />
+    <Compile Include="WAMP2\V2\Client\PubSub\WampTopicClientProxySection.cs" />
     <Compile Include="WAMP2\V2\Client\Realm\IWampRealmProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Realm\IWampRealmProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Client\Realm\WampRealmProxy.cs" />
@@ -334,7 +334,7 @@
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\OperationExtractor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\TypeExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampClientRawRpcOperationCallback.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationClientCallback.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationInvokerProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationRegistrationProxy.cs" />

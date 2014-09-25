@@ -188,7 +188,7 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
         protected class OperationMock : IWampRpcOperation
         {
             private object[] mActualInvoke;
-            private Action<IWampRouterRawRpcOperationCallback> mInvocationCallback;
+            private Action<IWampRawRpcOperationRouterCallback> mInvocationCallback;
             public string Procedure { get; set; }
 
             public object[] ActualInvoke
@@ -197,24 +197,24 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 private set { mActualInvoke = value; }
             }
 
-            public void SetInvocationCallback(Action<IWampRouterRawRpcOperationCallback> value)
+            public void SetInvocationCallback(Action<IWampRawRpcOperationRouterCallback> value)
             {
                 mInvocationCallback = value;
             }
 
-            public void Invoke<TMessage1>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details)
+            public void Invoke<TMessage1>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details)
             {
                 ActualInvoke = new object[] {details};
                 mInvocationCallback(caller);
             }
 
-            public void Invoke<TMessage1>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details, TMessage1[] arguments)
+            public void Invoke<TMessage1>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details, TMessage1[] arguments)
             {
                 ActualInvoke = new object[] { details, arguments };
                 mInvocationCallback(caller);
             }
 
-            public void Invoke<TMessage1>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details, TMessage1[] arguments, IDictionary<string, TMessage1> argumentsKeywords)
+            public void Invoke<TMessage1>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details, TMessage1[] arguments, IDictionary<string, TMessage1> argumentsKeywords)
             {
                 ActualInvoke = new object[] {details, arguments, argumentsKeywords};
                 mInvocationCallback(caller);

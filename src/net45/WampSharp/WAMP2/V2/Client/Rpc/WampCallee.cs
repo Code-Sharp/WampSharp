@@ -123,7 +123,7 @@ namespace WampSharp.V2.Client
             return null;
         }
 
-        private IWampRouterRawRpcOperationCallback GetCallback(long requestId)
+        private IWampRawRpcOperationRouterCallback GetCallback(long requestId)
         {
             return new ServerProxyCallback(mProxy, requestId);
         }
@@ -134,7 +134,7 @@ namespace WampSharp.V2.Client
 
             if (operation != null)
             {
-                IWampRouterRawRpcOperationCallback callback = GetCallback(requestId);
+                IWampRawRpcOperationRouterCallback callback = GetCallback(requestId);
                 operation.Invoke(callback, mFormatter, details);
             }
         }
@@ -145,7 +145,7 @@ namespace WampSharp.V2.Client
 
             if (operation != null)
             {
-                IWampRouterRawRpcOperationCallback callback = GetCallback(requestId);
+                IWampRawRpcOperationRouterCallback callback = GetCallback(requestId);
                 operation.Invoke(callback, mFormatter, details, arguments);
             }
         }
@@ -156,7 +156,7 @@ namespace WampSharp.V2.Client
 
             if (operation != null)
             {
-                IWampRouterRawRpcOperationCallback callback = GetCallback(requestId);
+                IWampRawRpcOperationRouterCallback callback = GetCallback(requestId);
                 operation.Invoke(callback, mFormatter, details, arguments, argumentsKeywords);
             }
         }
@@ -269,7 +269,7 @@ namespace WampSharp.V2.Client
             mRegistrations.Clear();
         }
 
-        private class ServerProxyCallback : IWampRouterRawRpcOperationCallback
+        private class ServerProxyCallback : IWampRawRpcOperationRouterCallback
         {
             private readonly IWampServerProxy mProxy;
             private readonly long mRequestId;

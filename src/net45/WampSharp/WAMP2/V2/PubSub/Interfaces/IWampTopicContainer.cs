@@ -5,14 +5,51 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
 {
+    /// <summary>
+    /// Represents a container for <see cref="IWampTopic"/>s of a given realm.
+    /// </summary>
     public interface IWampTopicContainer
     {
-        IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options);
-
+        /// <summary>
+        /// Subscribes to a topic given its uri.
+        /// </summary>
+        /// <param name="subscriber">The subscriber to subscribe with.</param>
+        /// <param name="topicUri">The topic uri of the topic to subscribe to.</param>
+        /// <param name="options">The options to subscribe with.</param>
+        /// <returns>A disposable, that will cancel subscription to the topic when disposed.</returns>
         IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options);
 
+        /// <summary>
+        /// Publishes to a requestd topic with requested parameters. 
+        /// </summary>
+        /// <param name="formatter">The formatter that this publication can be deserialized with.</param>
+        /// <param name="options">The publication options.</param>
+        /// <param name="topicUri">The topic uri of the topic to publish to.</param>
+        /// <typeparam name="TMessage"></typeparam>
+        /// <returns></returns>
         long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri);
+
+        /// <summary>
+        /// Publishes to a requestd topic with requested parameters. 
+        /// </summary>
+        /// <param name="formatter">The formatter that this publication can be deserialized with.</param>
+        /// <param name="options">The publication options.</param>
+        /// <param name="topicUri">The topic uri of the topic to publish to.</param>
+        /// <param name="arguments">The published arguments.</param>
+        /// <typeparam name="TMessage"></typeparam>
+        /// <returns></returns>
         long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri, TMessage[] arguments);
+
+        /// <summary>
+        /// Publishes to a requestd topic with requested parameters. 
+        /// </summary>
+        /// <param name="formatter">The formatter that this publication can be deserialized with.</param>
+        /// <param name="options">The publication options.</param>
+        /// <param name="topicUri">The topic uri of the topic to publish to.</param>
+        /// <param name="arguments">The published arguments.</param>
+        /// <param name="argumentKeywords">The published argument keywords.</param>
+        /// <typeparam name="TMessage"></typeparam>
+        /// <returns></returns>
         long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords);
 
         /// <summary>
@@ -27,9 +64,8 @@ namespace WampSharp.V2.PubSub
         /// Gets or creates a topic given its uri.
         /// </summary>
         /// <param name="topicUri">The topic's uri.</param>
-        /// <param name="persistent">A value indicating whether the topic is persistent.</param>
         /// <returns>The requested topic.</returns>
-        IWampTopic GetOrCreateTopicByUri(string topicUri, bool persistent);
+        IWampTopic GetOrCreateTopicByUri(string topicUri);
 
         /// <summary>
         /// Gets a topic given it uri.
@@ -65,6 +101,15 @@ namespace WampSharp.V2.PubSub
         /// Occurs when a topic is removed.
         /// </summary>
         event EventHandler<WampTopicRemovedEventArgs> TopicRemoved;
-   
+
+        /// <summary>
+        /// Creates an id for a topic uri based on options.
+        /// </summary>
+        /// <param name="topicUri">The topic uri of the subscription.</param>
+        /// <param name="options">The subscription options.</param>
+        /// <returns>The generated id.</returns>
+        /// <remarks>If you don't know what to do here, use a simple 
+        /// <see cref="OptionlessSubscriptionId"/>.</remarks>
+        IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options);
     }
 }

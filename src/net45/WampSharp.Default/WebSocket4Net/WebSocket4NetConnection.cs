@@ -3,7 +3,6 @@ using SuperSocket.ClientEngine;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Core.Listener;
 using WebSocket4Net;
 
 namespace WampSharp.WebSocket4Net

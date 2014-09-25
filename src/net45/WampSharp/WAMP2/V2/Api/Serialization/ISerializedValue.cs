@@ -10,8 +10,7 @@ namespace WampSharp.V2
     /// This allows users to work with serialized values without using a
     /// <see cref="IWampFormatter{TMessage}"/>.
     /// </remarks>
-    public interface 
-        ISerializedValue
+    public interface ISerializedValue
     {
         /// <summary>
         /// Deserializes the underlying value to the given type.

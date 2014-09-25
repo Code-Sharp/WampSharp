@@ -63,8 +63,8 @@ namespace WampSharp.Samples.Callee
             DefaultWampHost host =
                 new DefaultWampHost(serverAddress, new IWampBinding[]
                     {
-                        new JTokenMsgpackObjectBinding(),
-                        new JTokenBinding(), 
+                        new JTokenMsgpackBinding(),
+                        new JTokenJsonBinding(), 
                     });
 
             IWampRealm realm = host.RealmContainer.GetRealmByName("realm1");

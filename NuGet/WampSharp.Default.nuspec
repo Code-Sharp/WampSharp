@@ -15,7 +15,8 @@
     <title>WampSharp default binding</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>WampSharp above Fleck, Newtonsoft.Json and WebSocket4Net</description>
-    <projectUrl>https://github.com/darkl/WampSharp/tree/wampv2</projectUrl>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <tags>websockets wampws rpc pubsub fleck newtonsoft json msgpack wampv1 wampv2</tags>
   </metadata>
   <files>
     <file src="bin\net45\WampSharp.Default.dll" target="lib\net45\WampSharp.Default.dll" />

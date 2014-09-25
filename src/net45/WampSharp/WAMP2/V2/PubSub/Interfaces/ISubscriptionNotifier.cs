@@ -2,14 +2,34 @@
 
 namespace WampSharp.V2.PubSub
 {
+    /// <summary>
+    /// Declares events for <see cref="IWampTopic"/> subscriptions.
+    /// </summary>
     public interface ISubscriptionNotifier
     {
+        /// <summary>
+        /// Occurs before a subscription was added.
+        /// </summary>
         event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdding;
+
+        /// <summary>
+        /// Occurs after a subscription was added.
+        /// </summary>
         event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdded;
 
+        /// <summary>
+        /// Occurs before a subscription was removed.
+        /// </summary>
         event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoving;
+
+        /// <summary>
+        /// Occurs before a subscription was removed.
+        /// </summary>
         event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoved;
 
+        /// <summary>
+        /// Occurs when the topic is empty.
+        /// </summary>
         event EventHandler TopicEmpty;
     }
 }

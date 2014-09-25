@@ -20,8 +20,8 @@ namespace WampSharp.V2.Client
 
         private readonly object mLock = new object();
 
-        private ConcurrentDictionary<SubscribeOptions, WampTopicProxySection> mOptionsToSection =
-            new ConcurrentDictionary<SubscribeOptions, WampTopicProxySection>();
+        private ConcurrentDictionary<SubscribeOptions, WampTopicClientProxySection> mOptionsToSection =
+            new ConcurrentDictionary<SubscribeOptions, WampTopicClientProxySection>();
 
         public WampTopicProxy(string topicUri,
                               IWampTopicSubscriptionProxy subscriber,
@@ -63,13 +63,13 @@ namespace WampSharp.V2.Client
             return mPublisher.Publish(this.TopicUri, options, arguments, argumentKeywords);
         }
 
-        public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, SubscribeOptions options)
+        public Task<IDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options)
         {
             lock (mLock)
             {
                 CheckDisposed();
 
-                WampTopicProxySection section = GetSection(options);
+                WampTopicClientProxySection section = GetSection(options);
 
                 Task<IDisposable> task = section.Subscribe(subscriber);
 
@@ -78,15 +78,15 @@ namespace WampSharp.V2.Client
         }
 
 
-        private WampTopicProxySection GetSection(SubscribeOptions options)
+        private WampTopicClientProxySection GetSection(SubscribeOptions options)
         {
             return mOptionsToSection.GetOrAdd(options, x => CreateSection(options));
         }
 
-        private WampTopicProxySection CreateSection(SubscribeOptions options)
+        private WampTopicClientProxySection CreateSection(SubscribeOptions options)
         {
-            WampTopicProxySection result =
-                new WampTopicProxySection(TopicUri, mSubscriber, options);
+            WampTopicClientProxySection result =
+                new WampTopicClientProxySection(TopicUri, mSubscriber, options);
 
             result.SectionEmpty += OnSectionEmpty;
 
@@ -95,14 +95,14 @@ namespace WampSharp.V2.Client
 
         private void OnSectionEmpty(object sender, EventArgs e)
         {
-            WampTopicProxySection section = sender as WampTopicProxySection;
+            WampTopicClientProxySection section = sender as WampTopicClientProxySection;
 
             lock (mLock)
             {
                 if (!section.HasSubscribers)
                 {
                     section.SectionEmpty -= OnSectionEmpty;
-                    WampTopicProxySection removed;
+                    WampTopicClientProxySection removed;
                     mOptionsToSection.TryRemove(section.Options, out removed);
                     section.Dispose();
                 }

@@ -10,7 +10,7 @@ using WampSharp.V2.PubSub;
 
 namespace WampSharp.V2.Client
 {
-    internal class WampTopicProxySection : IWampRawTopicSubscriber, IDisposable
+    internal class WampTopicClientProxySection : IWampRawTopicClientSubscriber, IDisposable
     {
         private int mSubscribed = 0;
         private readonly IWampTopicSubscriptionProxy mSubscriber;
@@ -20,7 +20,7 @@ namespace WampSharp.V2.Client
         private readonly object mLock = new object();
         private IDisposable mExternalSubscription;
 
-        public WampTopicProxySection(string topicUri, IWampTopicSubscriptionProxy subscriber, SubscribeOptions options)
+        public WampTopicClientProxySection(string topicUri, IWampTopicSubscriptionProxy subscriber, SubscribeOptions options)
         {
             mTopicUri = topicUri;
             mSubscriber = subscriber;
@@ -53,7 +53,7 @@ namespace WampSharp.V2.Client
 
         public event EventHandler SectionEmpty;
 
-        public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber)
+        public Task<IDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber)
         {
             SubscribeOptions options = Options;
             Task<IDisposable> externalSubscription = SubscribeExternal(options);
@@ -87,7 +87,7 @@ namespace WampSharp.V2.Client
             return task.Task;
         }
 
-        private IDisposable SubscribeInternal(IWampRawTopicSubscriber subscriber)
+        private IDisposable SubscribeInternal(IWampRawTopicClientSubscriber subscriber)
         {
             IDisposable result = 
                 mSubject.Subscribe(new TopicSubscriberObserver(subscriber));
@@ -131,7 +131,7 @@ namespace WampSharp.V2.Client
                                              argumentsKeywords));
         }
         
-        private void OnSubscriberRemoved(IWampRawTopicSubscriber subscriber)
+        private void OnSubscriberRemoved(IWampRawTopicClientSubscriber subscriber)
         {
             if (!HasSubscribers)
             {
@@ -149,7 +149,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        private void PublishInternal(Action<IWampRawTopicSubscriber> action)
+        private void PublishInternal(Action<IWampRawTopicClientSubscriber> action)
         {
             mSubject.OnNext(new Publication(action));
         }
@@ -174,19 +174,19 @@ namespace WampSharp.V2.Client
 
         private interface IPublication
         {
-            void Publish(IWampRawTopicSubscriber subscriber);
+            void Publish(IWampRawTopicClientSubscriber subscriber);
         }
 
         private class Publication : IPublication
         {
-            private readonly Action<IWampRawTopicSubscriber> mAction;
+            private readonly Action<IWampRawTopicClientSubscriber> mAction;
 
-            public Publication(Action<IWampRawTopicSubscriber> action)
+            public Publication(Action<IWampRawTopicClientSubscriber> action)
             {
                 mAction = action;
             }
 
-            public void Publish(IWampRawTopicSubscriber subscriber)
+            public void Publish(IWampRawTopicClientSubscriber subscriber)
             {
                 mAction(subscriber);
             }
@@ -194,9 +194,9 @@ namespace WampSharp.V2.Client
 
         private class TopicSubscriberObserver : IObserver<IPublication>
         {
-            private readonly IWampRawTopicSubscriber mSubscriber;
+            private readonly IWampRawTopicClientSubscriber mSubscriber;
 
-            public TopicSubscriberObserver(IWampRawTopicSubscriber subscriber)
+            public TopicSubscriberObserver(IWampRawTopicClientSubscriber subscriber)
             {
                 mSubscriber = subscriber;
             }

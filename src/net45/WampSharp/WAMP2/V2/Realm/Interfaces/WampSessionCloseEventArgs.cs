@@ -1,5 +1,10 @@
-﻿namespace WampSharp.V2.Realm
+﻿using System;
+
+namespace WampSharp.V2.Realm
 {
+    /// <summary>
+    /// Represents <see cref="EventArgs"/> for a session close event.
+    /// </summary>
     public class WampSessionCloseEventArgs : WampSessionEventArgs
     {
         private readonly string mReason;
@@ -16,6 +21,9 @@
             mCloseType = closeType;
         }
 
+        /// <summary>
+        /// Gets the close reason.
+        /// </summary>
         public string Reason
         {
             get
@@ -24,6 +32,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets the close type.
+        /// </summary>
         public SessionCloseType CloseType
         {
             get

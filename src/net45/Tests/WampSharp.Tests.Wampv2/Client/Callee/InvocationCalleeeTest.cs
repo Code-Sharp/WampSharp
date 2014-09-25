@@ -15,7 +15,7 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
     public class InvocationCalleeeTest : InvocationCalleeeTest<JToken>
     {
         public InvocationCalleeeTest(long registrationId)
-            : base(registrationId, new JTokenBinding(), new JTokenEqualityComparer())
+            : base(registrationId, new JTokenJsonBinding(), new JTokenEqualityComparer())
         {
         }
     }

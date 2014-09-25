@@ -52,7 +52,7 @@ namespace WampSharp.Samples.Subscriber
             IWampTopicContainer topicContainer = realm.TopicContainer;
 
             IWampTopic topic =
-                topicContainer.GetOrCreateTopicByUri("com.myapp.topic1", true);
+                topicContainer.GetOrCreateTopicByUri("com.myapp.topic1");
 
             IDisposable disposable = realm.Services.GetSubject<int>("com.myapp.topic1")
                                           .Subscribe(x => GetValue(x));

@@ -4,12 +4,12 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class WampClientRouterCallbackAdapter : IWampRouterRawRpcOperationCallback
+    public class WampClientRouterCallbackAdapter : IWampRawRpcOperationRouterCallback
     {
-        private readonly IWampClientRawRpcOperationCallback mCaller;
+        private readonly IWampRawRpcOperationClientCallback mCaller;
         private readonly InvocationDetails mOptions;
 
-        public WampClientRouterCallbackAdapter(IWampClientRawRpcOperationCallback caller, InvocationDetails options)
+        public WampClientRouterCallbackAdapter(IWampRawRpcOperationClientCallback caller, InvocationDetails options)
         {
             mCaller = caller;
             mOptions = options;

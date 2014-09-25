@@ -77,7 +77,7 @@ namespace WampSharp.V2.Rpc
         }
 
         protected override object InvokeSync<TMessage>
-            (IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, out IDictionary<string, object> outputs)
+            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, out IDictionary<string, object> outputs)
         {
             object[] unpacked =
                 UnpackParameters(formatter, arguments, argumentsKeywords);

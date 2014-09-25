@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using WampSharp.V2.Client;
-using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2
 {
@@ -9,13 +8,6 @@ namespace WampSharp.V2
     /// </summary>
     public interface IWampChannel
     {
-        /// <summary>
-        /// Gets a proxy to the WAMP router.
-        /// </summary>
-        /// TODO: Maybe don't expose this, or maybe allow to define a
-        /// TODO: <see cref="IWampClient{TMessage}"/> callback
-        IWampServerProxy Server { get; }
-        
         /// <summary>
         /// Gets a proxy of the realm, this session is connected to.
         /// </summary>

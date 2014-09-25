@@ -148,37 +148,37 @@ namespace WampSharp.V2.Rpc
                 }
             }
 
-            public void Invoke<TOther>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details)
+            public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details)
             {
                 this.Invoke(caller, details);
             }
 
-            public void Invoke<TOther>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments)
+            public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments)
             {
                 this.Invoke(caller, details, arguments.Cast<object>().ToArray());
             }
 
-            public void Invoke<TOther>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments, IDictionary<string, TOther> argumentsKeywords)
+            public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments, IDictionary<string, TOther> argumentsKeywords)
             {
                 this.Invoke(caller, details, arguments.Cast<object>().ToArray(), argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
             }
 
-            public void Invoke(IWampRouterRawRpcOperationCallback caller, InvocationDetails details)
+            public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, details));
             }
 
-            public void Invoke(IWampRouterRawRpcOperationCallback caller, InvocationDetails details, object[] arguments)
+            public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, details, arguments));
             }
 
-            public void Invoke(IWampRouterRawRpcOperationCallback caller, InvocationDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
+            public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
             {
                 InvokePattern(caller, () => InnerInvoke(caller, details, arguments, argumentsKeywords));
             }
 
-            private void InnerInvoke(IWampRouterRawRpcOperationCallback caller, InvocationDetails options)
+            private void InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options)
             {
                 long requestId =
                     mHandler.RegisterInvocation(this, caller, options);
@@ -186,7 +186,7 @@ namespace WampSharp.V2.Rpc
                 Callee.Invocation(requestId, RegistrationId, options);
             }
 
-            private void InnerInvoke(IWampRouterRawRpcOperationCallback caller, InvocationDetails options, object[] arguments)
+            private void InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options, object[] arguments)
             {
                 long requestId =
                     mHandler.RegisterInvocation(this, caller, options, arguments);
@@ -194,7 +194,7 @@ namespace WampSharp.V2.Rpc
                 Callee.Invocation(requestId, RegistrationId, options, arguments);
             }
 
-            private void InnerInvoke(IWampRouterRawRpcOperationCallback caller, InvocationDetails options, object[] arguments,
+            private void InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options, object[] arguments,
                                      IDictionary<string, object> argumentsKeywords)
             {
                 long requestId =
@@ -203,7 +203,7 @@ namespace WampSharp.V2.Rpc
                 Callee.Invocation(requestId, RegistrationId, options, arguments, argumentsKeywords);
             }
 
-            private void InvokePattern(IWampRouterRawRpcOperationCallback caller, Action action)
+            private void InvokePattern(IWampRawRpcOperationRouterCallback caller, Action action)
             {
                 mResetEvent.WaitOne();
 

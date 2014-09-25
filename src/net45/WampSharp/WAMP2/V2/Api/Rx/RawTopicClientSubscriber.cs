@@ -6,11 +6,11 @@ using WampSharp.V2.PubSub;
 
 namespace WampSharp.V2
 {
-    internal class RawSubscriber : IWampRawTopicSubscriber
+    internal class RawTopicClientSubscriber : IWampRawTopicClientSubscriber
     {
         private readonly IObserver<IWampSerializedEvent> mObserver;
 
-        public RawSubscriber(IObserver<IWampSerializedEvent> observer)
+        public RawTopicClientSubscriber(IObserver<IWampSerializedEvent> observer)
         {
             mObserver = observer;
         }

@@ -8,7 +8,7 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal abstract class AsyncOperationCallback : IWampClientRawRpcOperationCallback
+    internal abstract class AsyncOperationCallback : IWampRawRpcOperationClientCallback
     {
         private readonly TaskCompletionSource<object> mTask = new TaskCompletionSource<object>();
 

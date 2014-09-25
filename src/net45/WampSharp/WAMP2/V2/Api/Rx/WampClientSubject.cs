@@ -76,7 +76,7 @@ namespace WampSharp.V2
 
             public IDisposable Subscribe(IObserver<IWampSerializedEvent> observer)
             {
-                Task<IDisposable> task = mTopic.Subscribe(new RawSubscriber(observer), new SubscribeOptions());
+                Task<IDisposable> task = mTopic.Subscribe(new RawTopicClientSubscriber(observer), new SubscribeOptions());
 
                 // TODO: think of a better solution
                 task.Wait();

@@ -44,7 +44,11 @@ namespace WampSharp.V2.Rpc
 
         protected IWampRpcOperation CreateRpcMethod(object instance, MethodInfo method)
         {
-            if (typeof (Task).IsAssignableFrom(method.ReturnType))
+            if (!typeof (Task).IsAssignableFrom(method.ReturnType))
+            {
+                return new SyncMethodInfoRpcOperation(instance, method);
+            }
+            else
             {
                 if (method.GetParameters().Any(x => x.IsOut || x.ParameterType.IsByRef))
                 {
@@ -52,10 +56,6 @@ namespace WampSharp.V2.Rpc
                 }
 
                 return new AsyncMethodInfoRpcOperation(instance, method);
-            }
-            else
-            {
-                return new SyncMethodInfoRpcOperation(instance, method);
             }
         }
 

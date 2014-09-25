@@ -70,7 +70,7 @@ namespace WampSharp.Samples.Caller
 
         private static void ClientCode(string serverAddress, MethodInfo sampleMethod)
         {
-            JTokenBinding binding = new JTokenBinding();
+            JTokenJsonBinding binding = new JTokenJsonBinding();
 
             DefaultWampChannelFactory factory =
                 new DefaultWampChannelFactory();

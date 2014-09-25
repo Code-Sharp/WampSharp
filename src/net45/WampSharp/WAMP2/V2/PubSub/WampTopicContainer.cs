@@ -6,6 +6,9 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
 {
+    /// <summary>
+    /// A default implementation of <see cref="IWampTopicContainer"/>.
+    /// </summary>
     public class WampTopicContainer : IWampTopicContainer
     {
         #region Fields
@@ -49,14 +52,14 @@ namespace WampSharp.V2.PubSub
 
         public virtual IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options)
         {
-            return new OptionLessSubscriptionId(topicUri);
+            return new OptionlessSubscriptionId(topicUri);
         }
 
         public IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {
             lock (mLock)
             {
-                IWampTopic topic = GetOrCreateTopicByUri(topicUri, false);
+                IWampTopic topic = GetOrCreateTopicByUri(topicUri);
 
                 return topic.Subscribe(subscriber);
             }
@@ -112,7 +115,7 @@ namespace WampSharp.V2.PubSub
             return wampTopic;
         }
 
-        public IWampTopic GetOrCreateTopicByUri(string topicUri, bool persistent)
+        public IWampTopic GetOrCreateTopicByUri(string topicUri)
         {
             // Pretty ugly.
             bool created = false;
@@ -121,7 +124,7 @@ namespace WampSharp.V2.PubSub
                 mTopicUriToSubject.GetOrAdd(topicUri,
                                             key =>
                                                 {
-                                                    WampTopic topic = CreateWampTopic(topicUri, persistent);
+                                                    WampTopic topic = CreateWampTopic(topicUri, false);
                                                     created = true;
                                                     return topic;
                                                 });

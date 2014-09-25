@@ -9,7 +9,7 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal abstract class SyncCallbackBase : IWampClientRawRpcOperationCallback
+    internal abstract class SyncCallbackBase : IWampRawRpcOperationClientCallback
     {
         private readonly ManualResetEvent mWaitHandle = new ManualResetEvent(false);
         private Exception mException;

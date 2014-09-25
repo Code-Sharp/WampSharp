@@ -5,21 +5,29 @@ using WampSharp.V2.Binding.Transports;
 
 namespace WampSharp.SignalR
 {
+    /// <summary>
+    /// Represents a <see cref="IWampTransport"/> implemented using SignalR.
+    /// </summary>
     public class SignalRTransport : IWampTransport
     {
         private readonly string mUrl;
         private ISignalRListener mListener;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="SignalRTransport"/> given the url
+        /// to host the server at.
+        /// </summary>
+        /// <param name="url">The url to host the server at.</param>
         public SignalRTransport(string url)
         {
             mUrl = url;
         }
 
-        public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTextBinding<TMessage> binding)
+        private IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTextBinding<TMessage> binding)
         {
             if (mListener != null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Listener already set.");
             }
             else
             {
@@ -45,7 +53,7 @@ namespace WampSharp.SignalR
 
             if (textBinding == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("This transport supports only text binding.", "binding");
             }
             else
             {

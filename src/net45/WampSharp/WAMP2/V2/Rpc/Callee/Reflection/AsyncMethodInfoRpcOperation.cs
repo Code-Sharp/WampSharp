@@ -74,7 +74,7 @@ namespace WampSharp.V2.Rpc
             get { return mCollectionResultTreatment; }
         }
 
-        protected override Task<object> InvokeAsync<TMessage>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override Task<object> InvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             object[] unpacked =
                 UnpackParameters(formatter, arguments, argumentsKeywords);

@@ -39,7 +39,7 @@ namespace WampSharp.V2.Client
             monitor.ConnectionError += OnConnectionError;
         }
 
-        public Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, SubscribeOptions options, string topicUri)
+        public Task<IDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri)
         {
             SubscribeRequest request = new SubscribeRequest(mFormatter, subscriber, options, topicUri);
             long requestId = mPendingSubscriptions.Add(request);
@@ -183,7 +183,7 @@ namespace WampSharp.V2.Client
                                                       argumentsKeywords));
         }
 
-        private void InnerEvent(long subscriptionId, Action<IWampRawTopicSubscriber> action)
+        private void InnerEvent(long subscriptionId, Action<IWampRawTopicClientSubscriber> action)
         {
             Subscription subscription;
 
@@ -226,18 +226,18 @@ namespace WampSharp.V2.Client
 
         private class BaseSubscription
         {
-            private readonly IWampRawTopicSubscriber mSubscriber;
+            private readonly IWampRawTopicClientSubscriber mSubscriber;
             private readonly SubscribeOptions mOptions;
             private readonly string mTopicUri;
 
-            public BaseSubscription(IWampRawTopicSubscriber subscriber, SubscribeOptions options, string topicUri)
+            public BaseSubscription(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri)
             {
                 mSubscriber = subscriber;
                 mOptions = options;
                 mTopicUri = topicUri;
             }
 
-            public IWampRawTopicSubscriber Subscriber
+            public IWampRawTopicClientSubscriber Subscriber
             {
                 get
                 {
@@ -266,7 +266,7 @@ namespace WampSharp.V2.Client
         {
             private readonly WampPendingRequest<TMessage, IDisposable> mPendingRequest;
 
-            public SubscribeRequest(IWampFormatter<TMessage> formatter, IWampRawTopicSubscriber subscriber, SubscribeOptions options, string topicUri) : 
+            public SubscribeRequest(IWampFormatter<TMessage> formatter, IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri) : 
                 base(subscriber, options, topicUri)
             {
                 mPendingRequest = new WampPendingRequest<TMessage, IDisposable>(formatter);
@@ -313,7 +313,7 @@ namespace WampSharp.V2.Client
         {
             private readonly long mSubscriptionId;
 
-            public Subscription(long subscriptionId, IWampRawTopicSubscriber subscriber, SubscribeOptions options, string topicUri) : 
+            public Subscription(long subscriptionId, IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri) : 
                 base(subscriber, options, topicUri)
             {
                 mSubscriptionId = subscriptionId;

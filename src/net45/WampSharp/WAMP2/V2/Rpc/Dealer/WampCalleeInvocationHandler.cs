@@ -19,8 +19,8 @@ namespace WampSharp.V2.Rpc
         private IDictionary<IWampRpcOperation, ICollection<WampRpcInvocation<TMessage>>> mOperationToInvocations = 
             new Dictionary<IWampRpcOperation, ICollection<WampRpcInvocation<TMessage>>>();
 
-        private IDictionary<IWampRouterRawRpcOperationCallback, ICollection<WampRpcInvocation<TMessage>>> mCallbackToInvocations =
-            new Dictionary<IWampRouterRawRpcOperationCallback, ICollection<WampRpcInvocation<TMessage>>>();
+        private IDictionary<IWampRawRpcOperationRouterCallback, ICollection<WampRpcInvocation<TMessage>>> mCallbackToInvocations =
+            new Dictionary<IWampRawRpcOperationRouterCallback, ICollection<WampRpcInvocation<TMessage>>>();
 
         private readonly object mLock = new object();
         private readonly TMessage mEmptyDetails;
@@ -31,7 +31,7 @@ namespace WampSharp.V2.Rpc
             mEmptyDetails = mFormatter.Serialize(new Dictionary<string, string>());
         }
 
-        public long RegisterInvocation(IWampRpcOperation operation, IWampRouterRawRpcOperationCallback callback, InvocationDetails options, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null)
+        public long RegisterInvocation(IWampRpcOperation operation, IWampRawRpcOperationRouterCallback callback, InvocationDetails options, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null)
         {
             lock (mLock)
             {
@@ -55,7 +55,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private void RegisterDisconnectionNotifier(IWampRouterRawRpcOperationCallback callback)
+        private void RegisterDisconnectionNotifier(IWampRawRpcOperationRouterCallback callback)
         {
             ICallbackDisconnectionNotifier notifier = callback as ICallbackDisconnectionNotifier;
 
@@ -69,8 +69,8 @@ namespace WampSharp.V2.Rpc
         {
             UnregisterDisconnectionNotifier(sender);
 
-            IWampRouterRawRpcOperationCallback callback =
-                sender as IWampRouterRawRpcOperationCallback;
+            IWampRawRpcOperationRouterCallback callback =
+                sender as IWampRawRpcOperationRouterCallback;
 
             ICollection<WampRpcInvocation<TMessage>> invocations;
 

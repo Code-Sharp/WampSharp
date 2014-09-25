@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
@@ -44,11 +45,22 @@ namespace WampSharp.V2
 
         public void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> binding)
         {
-            mTransportDefinitions.Add(new WampTransportDefinition()
-                {
-                    Transport = transport,
-                    Bindings = binding.ToArray()
-                });
+            binding = binding ?? new IWampBinding[] {};
+            
+            IWampBinding[] bindingArray = binding.ToArray();
+
+            if (bindingArray.Any())
+            {
+                mTransportDefinitions.Add(new WampTransportDefinition()
+                    {
+                        Transport = transport,
+                        Bindings = bindingArray
+                    });
+            }
+            else
+            {
+                throw new ArgumentException("Got no binding. Expected at least one binding.", "binding");
+            }
         }
 
         private void InitializeBindingHosts()

@@ -7,7 +7,7 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.Tests.Wampv2.Integration
 {
-    internal class MockRawCallback : IWampClientRawRpcOperationCallback
+    internal class MockRawCallback : IWampRawRpcOperationClientCallback
     {
         private ResultDetails mDetails;
         private IEnumerable<ISerializedValue> mArguments;

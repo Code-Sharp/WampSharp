@@ -28,7 +28,7 @@ namespace WampSharp.V2.Client
             monitor.ConnectionError += OnConnectionError;
         }
 
-        public void Invoke(IWampClientRawRpcOperationCallback caller, CallOptions options, string procedure)
+        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure)
         {
             CallDetails callDetails = new CallDetails(caller, options, procedure);
 
@@ -37,7 +37,7 @@ namespace WampSharp.V2.Client
             mProxy.Call(requestId, options, procedure);
         }
 
-        public void Invoke(IWampClientRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments)
+        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments)
         {
             CallDetails callDetails = new CallDetails(caller, options, procedure, arguments);
 
@@ -46,7 +46,7 @@ namespace WampSharp.V2.Client
             mProxy.Call(requestId, options, procedure, arguments);
         }
 
-        public void Invoke(IWampClientRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             CallDetails callDetails = new CallDetails(caller, options, procedure, arguments, argumentsKeywords);
 
@@ -144,13 +144,13 @@ namespace WampSharp.V2.Client
 
         private class CallDetails
         {
-            private readonly IWampClientRawRpcOperationCallback mCaller;
+            private readonly IWampRawRpcOperationClientCallback mCaller;
             private readonly CallOptions mOptions;
             private readonly string mProcedure;
             private readonly object[] mArguments;
             private readonly IDictionary<string, object> mArgumentsKeywords;
 
-            public CallDetails(IWampClientRawRpcOperationCallback caller, CallOptions options, string procedure, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null)
+            public CallDetails(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null)
             {
                 mCaller = caller;
                 mOptions = options;
@@ -165,7 +165,7 @@ namespace WampSharp.V2.Client
                 set;
             }
 
-            public IWampClientRawRpcOperationCallback Caller
+            public IWampRawRpcOperationClientCallback Caller
             {
                 get
                 {

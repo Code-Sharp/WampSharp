@@ -7,12 +7,22 @@ using WampSharp.V2.Binding;
 
 namespace WampSharp.SignalR
 {
+    /// <summary>
+    /// Represents a <see cref="IWampConnection{TMessage}"/> implemented using SignalR.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
     public class SignalRTextConnection<TMessage> : IControlledWampConnection<TMessage>
     {
         private readonly IWampTextBinding<TMessage> mBinding;
         private readonly Connection mConnection;
         private readonly IClientTransport mTransport;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="SignalRTextConnection{TMessage}"/>.
+        /// </summary>
+        /// <param name="uri">The uri of the server to connect to.</param>
+        /// <param name="binding">The binding to use.</param>
+        /// <param name="transport">The <see cref="IClientTransport"/> to use.</param>
         public SignalRTextConnection(string uri, IWampTextBinding<TMessage> binding, IClientTransport transport)
         {
             mBinding = binding;
@@ -24,18 +34,18 @@ namespace WampSharp.SignalR
             mConnection.Received += OnReceived;
         }
 
-        public void OnReceived(string text)
+        private void OnReceived(string text)
         {
             WampMessage<TMessage> message = mBinding.Parse(text);
             this.RaiseMessageArrived(new WampMessageArrivedEventArgs<TMessage>(message));
         }
 
-        public void OnError(Exception exception)
+        private void OnError(Exception exception)
         {
             this.RaiseConnectionError(new WampConnectionErrorEventArgs(exception));
         }
 
-        public void OnClosed()
+        private void OnClosed()
         {
             this.RaiseConnectionClosed();
         }
@@ -85,9 +95,24 @@ namespace WampSharp.SignalR
             if (handler != null) handler(this, e);
         }
 
+        /// <summary>
+        /// Occurs when this connection opens.
+        /// </summary>
         public event EventHandler ConnectionOpen;
+
+        /// <summary>
+        /// Occurs when a message arrives.
+        /// </summary>
         public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
+
+        /// <summary>
+        /// Occurs when this connection closes.
+        /// </summary>
         public event EventHandler ConnectionClosed;
+
+        /// <summary>
+        /// Occurs when this connection occurs an error.
+        /// </summary>
         public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
     }
 }

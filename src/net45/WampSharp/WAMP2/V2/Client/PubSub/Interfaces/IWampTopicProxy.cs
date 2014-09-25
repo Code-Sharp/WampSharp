@@ -16,8 +16,6 @@ namespace WampSharp.V2.Client
         /// </summary>
         string TopicUri { get; }
 
-        // TODO: Add publish overloads that return no result.
-
         /// <summary>
         /// Publishes an event to the current topic.
         /// </summary>
@@ -52,6 +50,6 @@ namespace WampSharp.V2.Client
         /// <param name="options">The options to subscribe with.</param>
         /// <returns>A task that completes when the subscription is done,
         /// with a disposable that its dispose will remove the subscription.</returns>
-        Task<IDisposable> Subscribe(IWampRawTopicSubscriber subscriber, SubscribeOptions options);
+        Task<IDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options);
     }
 }

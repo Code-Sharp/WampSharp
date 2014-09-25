@@ -23,17 +23,17 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke(IWampRouterRawRpcOperationCallback caller, InvocationDetails details)
+        public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details)
         {
             mOperation.Invoke(caller, mFormatter, details);
         }
 
-        public void Invoke(IWampRouterRawRpcOperationCallback caller, InvocationDetails details, TMessage[] arguments)
+        public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, TMessage[] arguments)
         {
             mOperation.Invoke(caller, mFormatter, details, arguments);
         }
 
-        public void Invoke(IWampRouterRawRpcOperationCallback caller, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             mOperation.Invoke(caller, mFormatter, details, arguments, argumentsKeywords);
         }

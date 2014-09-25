@@ -97,7 +97,7 @@ namespace WampSharp.Samples.Caller.ManualProxy
             }
         }
 
-        private abstract class Callback<T> : IWampClientRawRpcOperationCallback
+        private abstract class Callback<T> : IWampRawRpcOperationClientCallback
         {
             protected readonly TaskCompletionSource<T> mTask = new TaskCompletionSource<T>();
 

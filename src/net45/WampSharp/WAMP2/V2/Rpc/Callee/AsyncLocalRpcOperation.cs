@@ -14,11 +14,11 @@ namespace WampSharp.V2.Rpc
         }
 
         protected abstract Task<object> InvokeAsync<TMessage>
-            (IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
+            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
 #if NET45
 
-        protected async override void InnerInvoke<TMessage>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected async override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace WampSharp.V2.Rpc
 
 #elif NET40
 
-        protected override void InnerInvoke<TMessage>(IWampRouterRawRpcOperationCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private void TaskCallback(Task<object> task, IWampRouterRawRpcOperationCallback caller)
+        private void TaskCallback(Task<object> task, IWampRawRpcOperationRouterCallback caller)
         {
             if (task.Exception == null)
             {
