@@ -6,7 +6,7 @@ A C# implementation of [WAMP (The Web Application Messaging Protocol)][WampLink]
 
 The implementation supports WAMPv2 and includes both Json and MsgPack support, and both Router (Broker and Dealer roles) and Client (Publisher/Subscriber and Callee/Caller) roles.
 
-The implementation also support WAMPv1, both client and server roles.
+The implementation also supports WAMPv1, both client and server roles.
 
 ## Builds
 
