@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <owners />
+    <dependencies>
+      <dependency id="WampSharp.Default" version="[$version$]" />
+      <dependency id="vtortola.WebSocketListener" version="[2.1.1.0]" />
+    </dependencies>
+    <id>WampSharp.Vtortola</id>
+    <title>WampSharp Vtortola support</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Vtortola transport for WampSharp</description>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <tags>websockets wampws rpc pubsub vtortola wampv2</tags>
+  </metadata>
+  <files>
+    <file src="bin\net45\WampSharp.Vtortola.dll" target="lib\net45\WampSharp.Vtortola.dll" />
+    <file src="bin\net45\WampSharp.Vtortola.xml" target="lib\net45\WampSharp.Vtortola.xml" />
+  </files>
+</package>
