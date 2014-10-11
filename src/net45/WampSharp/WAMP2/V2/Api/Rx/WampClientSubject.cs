@@ -78,10 +78,28 @@ namespace WampSharp.V2
             {
                 Task<IDisposable> task = mTopic.Subscribe(new RawTopicClientSubscriber(observer), new SubscribeOptions());
 
-                // TODO: think of a better solution
-                task.Wait();
+                FutureDisposable result = new FutureDisposable(task);
 
-                return task.Result;
+                return result;
+            }
+
+            private class FutureDisposable : IDisposable
+            {
+                private readonly Task<IDisposable> mDisposableTask;
+
+                public FutureDisposable(Task<IDisposable> disposableTask)
+                {
+                    mDisposableTask = disposableTask;
+                }
+
+                public void Dispose()
+                {
+                    if (mDisposableTask.IsCompleted)
+                    {
+                        IDisposable result = mDisposableTask.Result;
+                        result.Dispose();
+                    }
+                }
             }
         }
     }
