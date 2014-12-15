@@ -30,8 +30,20 @@ namespace WampSharp.V2.Client
 
         public WampChannel<TMessage> CreateChannel(string realm, IControlledWampConnection<TMessage> connection)
         {
-            var wampRealmProxyFactory = 
+            var wampRealmProxyFactory =
                 new WampRealmProxyFactory(this, realm, connection);
+
+            WampClient<TMessage> client =
+                new WampClient<TMessage>(wampRealmProxyFactory);
+
+            return new WampChannel<TMessage>(connection, client);
+        }
+
+        public WampChannel<TMessage> CreateChannel(string realm, IControlledWampConnection<TMessage> connection,
+            IWampClientAutenticator authenticator)
+        {
+            var wampRealmProxyFactory =
+                new WampRealmProxyFactory(this, realm, connection, authenticator);
 
             WampClient<TMessage> client = 
                 new WampClient<TMessage>(wampRealmProxyFactory);
@@ -44,6 +56,7 @@ namespace WampSharp.V2.Client
             private readonly WampChannelBuilder<TMessage> mParent;
             private readonly string mRealmName;
             private readonly IWampConnection<TMessage> mConnection;
+            private readonly IWampClientAutenticator mAuthenticator;
 
             public WampRealmProxyFactory(WampChannelBuilder<TMessage> parent,
                                          string realmName,
@@ -54,12 +67,21 @@ namespace WampSharp.V2.Client
                 mConnection = connection;
             }
 
+            public WampRealmProxyFactory(WampChannelBuilder<TMessage> parent,
+                                         string realmName,
+                                         IWampConnection<TMessage> connection,
+                                         IWampClientAutenticator authenticator)
+                : this(parent, realmName, connection)
+            {
+                mAuthenticator = authenticator;
+            }
+
             public IWampRealmProxy Build(WampClient<TMessage> client)
             {
                 IWampServerProxy proxy = mParent.mFactory.Create(client, mConnection);
                 
-                WampRealmProxy<TMessage> realm = 
-                    new WampRealmProxy<TMessage>(mRealmName, proxy, mParent.mBinding);
+                WampRealmProxy<TMessage> realm =
+                    new WampRealmProxy<TMessage>(mRealmName, proxy, mParent.mBinding, mAuthenticator);
 
                 return realm;
             }

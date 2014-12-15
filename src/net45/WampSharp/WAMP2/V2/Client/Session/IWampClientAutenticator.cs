@@ -27,4 +27,36 @@ namespace WampSharp
 			set;
 		}
 	}
+
+    [Serializable]
+    public class WampAuthenticationException : Exception
+    {
+        public WampAuthenticationException() { }
+
+        public WampAuthenticationException(string message) : base(message) { }
+
+        public WampAuthenticationException(string message, Exception inner) : base(message, inner) { }
+
+        protected WampAuthenticationException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
+    }
+
+    /// <summary>
+    /// A default implementation of <see cref="IWampClientAutenticator"/>.
+    /// </summary>
+    public class DefaultWampClientAutenticator : IWampClientAutenticator
+    {
+        /// <summary>
+        /// Just throws exception on CHALLENGE
+        /// </summary>
+        /// <param name="challenge"></param>
+        /// <param name="extra"></param>
+        /// <returns></returns>
+        public ChallengeResult Authenticate(string challenge, ChallengeDetails extra)
+        {
+            throw new WampAuthenticationException("Authorization was requested but no authenticator was provided");
+        }
+    }
 }

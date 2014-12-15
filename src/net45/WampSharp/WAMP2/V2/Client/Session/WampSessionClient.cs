@@ -23,8 +23,7 @@ namespace WampSharp.V2.Client
         private readonly object mLock = new object();
         private bool mGoodbyeSent;
         private readonly IDictionary<string, object> mDetails = GetDetails();
-		// TODO: Get this in constructor
-		private IWampClientAutenticator mAuthenticator;
+		private readonly IWampClientAutenticator mAuthenticator;
 
         private static Dictionary<string, object> GetDetails()
         {
@@ -80,11 +79,12 @@ namespace WampSharp.V2.Client
                 };
         }
 
-        public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter)
+        public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter, IWampClientAutenticator authenticator)
         {
             mRealm = realm;
             mFormatter = formatter;
             mServerProxy = realm.Proxy;
+            mAuthenticator = authenticator ?? new DefaultWampClientAutenticator();
         }
 
         public void Challenge(string challenge, ChallengeDetails extra)
