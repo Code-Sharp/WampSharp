@@ -23,6 +23,8 @@ namespace WampSharp.V2.Client
         private readonly object mLock = new object();
         private bool mGoodbyeSent;
         private readonly IDictionary<string, object> mDetails = GetDetails();
+		// TODO: Get this in constructor
+		private IWampClientAutenticator mAuthenticator;
 
         private static Dictionary<string, object> GetDetails()
         {
@@ -85,9 +87,15 @@ namespace WampSharp.V2.Client
             mServerProxy = realm.Proxy;
         }
 
-        public void Challenge(string challenge, TMessage extra)
-        {
-            throw new System.NotImplementedException();
+        public void Challenge(string challenge, ChallengeDetails extra)
+		{
+			ChallengeResult result = mAuthenticator.Authenticate(challenge, extra);
+			
+			IDictionary<string, object> authenticationExtraData = result.Extra ?? EmptyDetails;
+			
+			string authenticationSignature = result.Signature;
+			
+			mServerProxy.Authenticate(authenticationSignature, authenticationExtraData);
         }
 
         public void Welcome(long session, TMessage details)

@@ -10,7 +10,7 @@ namespace WampSharp.V2.Core.Contracts
     public interface IWampSessionClient<TMessage>
     {        
         [WampHandler(WampMessageType.v2Challenge)]
-        void Challenge(string challenge, TMessage extra);
+        void Challenge(string challenge, ChallengeDetails extra);
 
         [WampHandler(WampMessageType.v2Welcome)]
         void Welcome(long session, TMessage details);

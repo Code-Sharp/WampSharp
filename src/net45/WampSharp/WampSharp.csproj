@@ -341,6 +341,7 @@
     <Compile Include="WAMP2\V2\Client\Rpc\WampCallee.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\WampCaller.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\WampRpcOperationCatalogProxy.cs" />
+    <Compile Include="WAMP2\V2\Client\Session\IWampClientAutenticator.cs" />
     <Compile Include="WAMP2\V2\Client\Session\IWampSessionClientExtended.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampSessionClient.cs" />
     <Compile Include="WAMP2\V2\Client\WampChannel.cs" />

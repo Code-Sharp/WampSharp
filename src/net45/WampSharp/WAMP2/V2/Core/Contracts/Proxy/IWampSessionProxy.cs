@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Contracts;
+﻿using System.Collections.Generic;
+using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
@@ -32,7 +33,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="signature">A signature.</param>
         /// <param name="extra">Extra data.</param>
         [WampHandler(WampMessageType.v2Authenticate)]
-        void Authenticate(string signature, TMessage extra);
+        void Authenticate(string signature, IDictionary<string, object> extra);
 
         /// <summary>
         /// Sends a GOODBYE message.
