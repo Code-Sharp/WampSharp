@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.Publisher
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Vtortola", "Extensions\WampSharp.Vtortola\WampSharp.Vtortola.csproj", "{DE13BC69-B822-45EA-846F-DDEF66D34BD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.Authentication", "WampSharp.Samples.Authentication\WampSharp.Samples.Authentication.csproj", "{305C0F3D-1A51-4D8C-8729-481F73A7C7D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.Authentication", "Samples\WAMP2\WampSharp.Samples.Authentication\WampSharp.Samples.Authentication.csproj", "{305C0F3D-1A51-4D8C-8729-481F73A7C7D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
