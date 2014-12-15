@@ -20,6 +20,14 @@ namespace WampSharp.V2.Client
             return channel;
         }
 
+        public IWampChannel CreateChannel<TMessage>(string realm, IControlledWampConnection<TMessage> connection,
+            IWampBinding<TMessage> binding, IWampClientAutenticator authenticator)
+        {
+            WampChannelBuilder<TMessage> builder = GetChannelBuilder(binding);
+            WampChannel<TMessage> channel = builder.CreateChannel(realm, connection, authenticator);
+            return channel;
+        }
+
         private WampChannelBuilder<TMessage> GetChannelBuilder<TMessage>(IWampBinding<TMessage> binding)
         {
             object result =

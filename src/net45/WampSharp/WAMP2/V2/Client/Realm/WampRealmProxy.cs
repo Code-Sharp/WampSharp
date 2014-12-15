@@ -16,16 +16,18 @@ namespace WampSharp.V2.Client
         private readonly IWampServerProxy mProxy;
         private readonly IWampRealmServiceProvider mServices;
         private readonly WampSessionClient<TMessage> mMonitor;
+        private readonly IWampClientAutenticator mAuthenticator;
 
-        public WampRealmProxy(string name, IWampServerProxy proxy, IWampBinding<TMessage> binding)
+        public WampRealmProxy(string name, IWampServerProxy proxy, IWampBinding<TMessage> binding, IWampClientAutenticator authenticator)
         {
             mName = name;
             mProxy = proxy;
             IWampFormatter<TMessage> formatter = binding.Formatter;
-            mMonitor = new WampSessionClient<TMessage>(this, formatter);
+            mMonitor = new WampSessionClient<TMessage>(this, formatter, authenticator);
             mRpcCatalog = new WampRpcOperationCatalogProxy<TMessage>(proxy, formatter, mMonitor);
             mTopicContainer = new WampTopicContainerProxy<TMessage>(proxy, formatter, mMonitor);
             mServices = new WampRealmProxyServiceProvider(this);
+            mAuthenticator = authenticator;
         }
 
         public string Name
@@ -67,6 +69,14 @@ namespace WampSharp.V2.Client
             get
             {
                 return mMonitor;
+            }
+        }
+
+        public IWampClientAutenticator Autenticator
+        {
+            get
+            {
+                return mAuthenticator;
             }
         }
     }
