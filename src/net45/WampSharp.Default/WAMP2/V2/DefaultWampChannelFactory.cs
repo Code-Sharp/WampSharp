@@ -12,6 +12,7 @@ namespace WampSharp.V2
     {
         private readonly JTokenMsgpackBinding mMsgpackBinding = new JTokenMsgpackBinding();
         private readonly JTokenJsonBinding mJsonBinding = new JTokenJsonBinding();
+        private readonly IWampClientAutenticator mDefaultAutenticator = new DefaultWampClientAutenticator();
 
         /// <summary>
         /// Creates a <see cref="IWampChannel"/> that connects to a given realm,
@@ -27,8 +28,8 @@ namespace WampSharp.V2
         {
             var connection = 
                 new WebSocket4NetTextConnection<TMessage>(address, binding);
-            
-            return this.CreateChannel(realm, connection, binding);
+
+            return this.CreateChannel(realm, connection, binding, mDefaultAutenticator);
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace WampSharp.V2
             var connection =
                 new WebSocket4NetBinaryConnection<TMessage>(address, binding);
 
-            return this.CreateChannel(realm, connection, binding);
+            return this.CreateChannel(realm, connection, binding, mDefaultAutenticator);
         }
 
         /// <summary>

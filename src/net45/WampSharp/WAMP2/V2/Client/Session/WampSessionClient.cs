@@ -23,7 +23,6 @@ namespace WampSharp.V2.Client
         private readonly object mLock = new object();
         private bool mGoodbyeSent;
         private readonly IDictionary<string, object> mDetails = GetDetails();
-		// TODO: Get this in constructor
 		private readonly IWampClientAutenticator mAuthenticator;
 
         private static Dictionary<string, object> GetDetails()

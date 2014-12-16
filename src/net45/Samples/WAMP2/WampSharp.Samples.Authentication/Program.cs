@@ -21,6 +21,11 @@ namespace WampSharp.Samples.Authentication
         public ChallengeResult Authenticate(string challenge, ChallengeDetails extra)
         {
             var result = new ChallengeResult();
+            var myData = extra.OriginalValue.Deserialize<IDictionary<string, object>>();
+            foreach (var data in myData)
+            {
+                Console.WriteLine(data);
+            }
             result.Signature = "md5f39d45e1da71cf755a7ee5d5840c7b0d";
             result.Extra = new Dictionary<string, object>() { };
             return result;
