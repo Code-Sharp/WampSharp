@@ -179,9 +179,21 @@ namespace WampSharp.V2.Client
 
         public void OnConnectionOpen()
         {
+            var details = new Dictionary<string, object>(mDetails);
+
+            if (mAuthenticator.AuthenticationId != null)
+            {
+                details.Add("authid", mAuthenticator.AuthenticationId);
+            }
+
+            if (mAuthenticator.AuthenticationMethods != null)
+            {
+                details.Add("authmethods", mAuthenticator.AuthenticationMethods);
+            }
+
             mServerProxy.Hello
                 (Realm.Name,
-                 mDetails);
+                 details);
         }
 
         public void OnConnectionClosed()

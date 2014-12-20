@@ -7,6 +7,16 @@ namespace WampSharp
 	public interface IWampClientAutenticator
 	{
 		ChallengeResult Authenticate(string challenge, ChallengeDetails extra);
+
+        string[] AuthenticationMethods
+        {
+            get;
+        }
+
+        string AuthenticationId
+        {
+            get;
+        }
 	}
 	
 	public class ChallengeDetails : WampDetailsOptions
@@ -57,6 +67,16 @@ namespace WampSharp
         public ChallengeResult Authenticate(string challenge, ChallengeDetails extra)
         {
             throw new WampAuthenticationException("Authorization was requested but no authenticator was provided");
+        }
+
+        public string[] AuthenticationMethods
+        {
+            get { return null; }
+        }
+
+        public string AuthenticationId
+        {
+            get { return null; }
         }
     }
 }
