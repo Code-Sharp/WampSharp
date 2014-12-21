@@ -23,6 +23,7 @@ namespace WampSharp.V2.Client
         private readonly object mLock = new object();
         private bool mGoodbyeSent;
         private readonly IDictionary<string, object> mDetails = GetDetails();
+		private readonly IWampClientAutenticator mAuthenticator;
 
         private static Dictionary<string, object> GetDetails()
         {
@@ -78,16 +79,23 @@ namespace WampSharp.V2.Client
                 };
         }
 
-        public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter)
+        public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter, IWampClientAutenticator authenticator)
         {
             mRealm = realm;
             mFormatter = formatter;
             mServerProxy = realm.Proxy;
+            mAuthenticator = authenticator ?? new DefaultWampClientAutenticator();
         }
 
-        public void Challenge(string challenge, TMessage extra)
-        {
-            throw new System.NotImplementedException();
+        public void Challenge(string challenge, ChallengeDetails extra)
+		{
+			ChallengeResult result = mAuthenticator.Authenticate(challenge, extra);
+			
+			IDictionary<string, object> authenticationExtraData = result.Extra ?? EmptyDetails;
+			
+			string authenticationSignature = result.Signature;
+			
+			mServerProxy.Authenticate(authenticationSignature, authenticationExtraData);
         }
 
         public void Welcome(long session, TMessage details)
@@ -171,9 +179,21 @@ namespace WampSharp.V2.Client
 
         public void OnConnectionOpen()
         {
+            var details = new Dictionary<string, object>(mDetails);
+
+            if (mAuthenticator.AuthenticationId != null)
+            {
+                details.Add("authid", mAuthenticator.AuthenticationId);
+            }
+
+            if (mAuthenticator.AuthenticationMethods != null)
+            {
+                details.Add("authmethods", mAuthenticator.AuthenticationMethods);
+            }
+
             mServerProxy.Hello
                 (Realm.Name,
-                 mDetails);
+                 details);
         }
 
         public void OnConnectionClosed()

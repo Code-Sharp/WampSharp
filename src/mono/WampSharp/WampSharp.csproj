@@ -891,6 +891,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Rpc\WampRpcOperationCatalogProxy.cs">
       <Link>WAMP2\V2\Client\Rpc\WampRpcOperationCatalogProxy.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampClientAutenticator.cs">
+      <Link>WAMP2\V2\Client\Session\IWampClientAutenticator.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampSessionClientExtended.cs">
       <Link>WAMP2\V2\Client\Session\IWampSessionClientExtended.cs</Link>
     </Compile>

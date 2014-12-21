@@ -102,7 +102,7 @@ namespace WampSharp.V2.Client
             get { return SessionClient.OpenTask; }
         }
 
-        public void Challenge(string challenge, TMessage extra)
+        public void Challenge(string challenge, ChallengeDetails extra)
         {
             SessionClient.Challenge(challenge, extra);
         }
