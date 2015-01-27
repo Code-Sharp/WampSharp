@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WampSharp.Core.Contracts;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;

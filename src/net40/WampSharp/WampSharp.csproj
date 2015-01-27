@@ -601,11 +601,20 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\IWampPendingRequest.cs">
       <Link>WAMP2\V2\Client\IWampPendingRequest.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampClientAutenticator.cs">
-      <Link>WAMP2\V2\Client\Session\IWampClientAutenticator.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\ChallengeDetails.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\ChallengeDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\ChallengeResult.cs">
+      <Link>WAMP2\V2\Client\Session\ChallengeResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\DefaultWampClientAutenticator.cs">
+      <Link>WAMP2\V2\Client\Session\DefaultWampClientAutenticator.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs">
       <Link>WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationException.cs">
+      <Link>WAMP2\V2\Client\Session\WampAuthenticationException.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Attributes\IgnorePropertyAttribute.cs">
       <Link>WAMP2\V2\Core\Contracts\Attributes\IgnorePropertyAttribute.cs</Link>
@@ -897,6 +906,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Rpc\WampRpcOperationCatalogProxy.cs">
       <Link>WAMP2\V2\Client\Rpc\WampRpcOperationCatalogProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampClientAutenticator.cs">
+      <Link>WAMP2\V2\Client\Session\IWampClientAutenticator.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampSessionClientExtended.cs">
       <Link>WAMP2\V2\Client\Session\IWampSessionClientExtended.cs</Link>

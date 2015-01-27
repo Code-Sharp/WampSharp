@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WampSharp.Core.Contracts;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client

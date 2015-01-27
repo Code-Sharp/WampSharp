@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WampSharp.Binding;
+using WampSharp.Core.Contracts;
 using WampSharp.V2;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Authentication

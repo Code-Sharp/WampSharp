@@ -1,5 +1,6 @@
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
+using WampSharp.V2.Client;
 
 namespace WampSharp.V2.Core.Contracts
 {
