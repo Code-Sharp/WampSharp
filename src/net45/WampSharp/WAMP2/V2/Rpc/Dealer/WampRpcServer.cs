@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
@@ -85,7 +84,13 @@ namespace WampSharp.V2.Rpc
 
         private InvocationDetails GetInvocationOptions(IWampCaller caller, CallOptions options)
         {
-            return new InvocationDetails();
+            InvocationDetailsExtended result = new InvocationDetailsExtended();
+
+            IWampClient wampCaller = caller as IWampClient;
+            result.CallerSession = wampCaller.Session;
+            result.CallerOptions = options;
+
+            return result;
         }
 
         public void Cancel(IWampCaller caller, long requestId, CancelOptions options)

@@ -5,5 +5,7 @@ namespace WampSharp.V2.Core.Contracts
     [WampDetailsOptions(WampMessageType.v2Register)]
     public class RegisterOptions : WampDetailsOptions
     {
+        [PropertyName("disclose_caller")]
+        public bool? DiscloseCaller { get; set; }
     }
 }

@@ -601,6 +601,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\IWampPendingRequest.cs">
       <Link>WAMP2\V2\Client\IWampPendingRequest.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\InvocationDetailsExtended.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\InvocationDetailsExtended.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\ChallengeDetails.cs">
       <Link>WAMP2\V2\Core\Contracts\Session\ChallengeDetails.cs</Link>
     </Compile>

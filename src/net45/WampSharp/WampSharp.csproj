@@ -243,6 +243,7 @@
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\IWampPendingRequest.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InvocationDetailsExtended.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Session\ChallengeDetails.cs" />
     <Compile Include="WAMP2\V2\Client\Session\ChallengeResult.cs" />
     <Compile Include="WAMP2\V2\Client\Session\DefaultWampClientAutenticator.cs" />
