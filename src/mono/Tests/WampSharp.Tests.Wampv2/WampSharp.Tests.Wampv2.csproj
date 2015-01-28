@@ -90,6 +90,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcOptionsTests.cs">
       <Link>Integration\RpcOptionsTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProgressTests.cs">
+      <Link>Integration\RpcProgressTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\IArgumentsService.cs">
       <Link>Integration\RpcProxies\IArgumentsService.cs</Link>
     </Compile>

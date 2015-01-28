@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
+#if !NET40
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using WampSharp.Core.Serialization;
-using WampSharp.Tests.Wampv2.Integration.RpcProxies;
-using WampSharp.Tests.Wampv2.Integration.RpcServices;
 using WampSharp.Tests.Wampv2.TestHelpers.Integration;
 using WampSharp.V2;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Realm;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.Tests.Wampv2.Integration
@@ -23,19 +21,19 @@ namespace WampSharp.Tests.Wampv2.Integration
         [Test]
         public async void DiscloseOnRegisterOptionsSessionId()
         {
-            await RawTest(true, new RegisterOptions(){DiscloseCaller = true}, new CallOptions());
+            await RawTest(true, new RegisterOptions() { DiscloseCaller = true }, new CallOptions());
         }
 
         [Test]
         public async void DiscloseMeOnCallOptionsSessionId()
         {
-            await RawTest(true, new RegisterOptions(), new CallOptions(){DiscloseMe = true});
+            await RawTest(true, new RegisterOptions(), new CallOptions() { DiscloseMe = true });
         }
 
         [Test]
         public async void DiscloseMeOnCallOptionsAndDiscloseOnRegisterSessionId()
         {
-            await RawTest(true, new RegisterOptions(){DiscloseCaller = true}, new CallOptions() { DiscloseMe = true });
+            await RawTest(true, new RegisterOptions() { DiscloseCaller = true }, new CallOptions() { DiscloseMe = true });
         }
 
         [Test]
@@ -121,13 +119,13 @@ namespace WampSharp.Tests.Wampv2.Integration
             IWampChannel callerChannel = dualChannel.CallerChannel;
 
             MyService service = new MyService();
-            
-            Task registerTask = 
+
+            Task registerTask =
                 calleeChannel.RealmProxy.Services.RegisterCallee(service, registerOptions);
 
             await registerTask;
 
-            IAddService calleeProxy = 
+            IAddService calleeProxy =
                 callerChannel.RealmProxy.Services.GetCalleeProxy<IAddService>(callOptions);
 
             int seven = calleeProxy.Add2(3, 4);
@@ -229,3 +227,4 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
     }
 }
+#endif

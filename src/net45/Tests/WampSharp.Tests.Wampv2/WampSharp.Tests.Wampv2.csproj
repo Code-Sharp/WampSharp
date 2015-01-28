@@ -68,6 +68,7 @@
     <Compile Include="Integration\CallerDealerTests.cs" />
     <Compile Include="Integration\MockRawCallback.cs" />
     <Compile Include="Integration\RpcOptionsTests.cs" />
+    <Compile Include="Integration\RpcProgressTests.cs" />
     <Compile Include="Integration\RpcProxies\IArgumentsService.cs" />
     <Compile Include="Integration\RpcProxies\IComplexResultService.cs" />
     <Compile Include="Integration\RpcProxies\IErrorsService.cs" />
