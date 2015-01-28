@@ -79,6 +79,8 @@ namespace WampSharp.V2.Rpc
         protected override object InvokeSync<TMessage>
             (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, out IDictionary<string, object> outputs)
         {
+            WampInvocationContext.Current = new WampInvocationContext(details);
+
             object[] unpacked =
                 UnpackParameters(formatter, arguments, argumentsKeywords);
 
@@ -106,6 +108,10 @@ namespace WampSharp.V2.Rpc
                 {
                     throw ConvertExceptionToRuntimeException(actual);
                 }
+            }
+            finally
+            {
+                WampInvocationContext.Current = null;
             }
         }
     }

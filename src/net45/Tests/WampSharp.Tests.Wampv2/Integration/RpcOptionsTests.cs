@@ -17,28 +17,52 @@ namespace WampSharp.Tests.Wampv2.Integration
         [Test]
         public async void NoOptionsNoSessionId()
         {
-            await GeneralTest(false, new RegisterOptions(), new CallOptions());
+            await RawTest(false, new RegisterOptions(), new CallOptions());
         }
 
         [Test]
         public async void DiscloseOnRegisterOptionsSessionId()
         {
-            await GeneralTest(true, new RegisterOptions(){DiscloseCaller = true}, new CallOptions());
+            await RawTest(true, new RegisterOptions(){DiscloseCaller = true}, new CallOptions());
         }
 
         [Test]
         public async void DiscloseMeOnCallOptionsSessionId()
         {
-            await GeneralTest(true, new RegisterOptions(), new CallOptions(){DiscloseMe = true});
+            await RawTest(true, new RegisterOptions(), new CallOptions(){DiscloseMe = true});
         }
 
         [Test]
         public async void DiscloseMeOnCallOptionsAndDiscloseOnRegisterSessionId()
         {
-            await GeneralTest(true, new RegisterOptions(){DiscloseCaller = true}, new CallOptions() { DiscloseMe = true });
+            await RawTest(true, new RegisterOptions(){DiscloseCaller = true}, new CallOptions() { DiscloseMe = true });
         }
 
-        private static async Task GeneralTest(bool hasSessionId, RegisterOptions registerOptions, CallOptions callOptions)
+        [Test]
+        public async void NoOptionsNoSessionIdMethodInfo()
+        {
+            await MethodInfoTest(false, new RegisterOptions(), new CallOptions());
+        }
+
+        [Test]
+        public async void DiscloseOnRegisterOptionsSessionIdMethodInfo()
+        {
+            await MethodInfoTest(true, new RegisterOptions() { DiscloseCaller = true }, new CallOptions());
+        }
+
+        [Test]
+        public async void DiscloseMeOnCallOptionsSessionIdMethodInfoMethodInfo()
+        {
+            await MethodInfoTest(true, new RegisterOptions(), new CallOptions() { DiscloseMe = true });
+        }
+
+        [Test]
+        public async void DiscloseMeOnCallOptionsAndDiscloseOnRegisterSessionIdMethodInfo()
+        {
+            await MethodInfoTest(true, new RegisterOptions() { DiscloseCaller = true }, new CallOptions() { DiscloseMe = true });
+        }
+
+        private static async Task RawTest(bool hasSessionId, RegisterOptions registerOptions, CallOptions callOptions)
         {
             WampPlayground playground = new WampPlayground();
 
@@ -86,6 +110,38 @@ namespace WampSharp.Tests.Wampv2.Integration
             result.CallerSessionId = callerSessionId.Value;
 
             return result;
+        }
+
+        private async Task MethodInfoTest(bool hasSessionId, RegisterOptions registerOptions, CallOptions callOptions)
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await SetupService(playground);
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            MyService service = new MyService();
+            
+            Task registerTask = 
+                calleeChannel.RealmProxy.Services.RegisterCallee(service, registerOptions);
+
+            await registerTask;
+
+            IAddService calleeProxy = 
+                callerChannel.RealmProxy.Services.GetCalleeProxy<IAddService>(callOptions);
+
+            int seven = calleeProxy.Add2(3, 4);
+
+            InvocationDetails details = service.Details;
+
+            long? expectedCaller = null;
+
+            if (hasSessionId)
+            {
+                expectedCaller = dualChannel.CallerSessionId;
+            }
+
+            Assert.That(details.Caller, Is.EqualTo(expectedCaller));
         }
 
         private class CallerCallee
@@ -152,6 +208,24 @@ namespace WampSharp.Tests.Wampv2.Integration
                 TMessage argumentsKeywords)
             {
             }
+        }
+
+        class MyService
+        {
+            public InvocationDetails Details { get; private set; }
+
+            [WampProcedure("com.arguments.add2")]
+            public int Add2(int x, int y)
+            {
+                Details = WampInvocationContext.Current.InvocationDetails;
+                return (x + y);
+            }
+        }
+
+        public interface IAddService
+        {
+            [WampProcedure("com.arguments.add2")]
+            int Add2(int x, int y);
         }
     }
 }

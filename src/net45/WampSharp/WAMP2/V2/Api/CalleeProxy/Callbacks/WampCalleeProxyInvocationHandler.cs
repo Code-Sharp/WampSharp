@@ -12,11 +12,11 @@ namespace WampSharp.V2.CalleeProxy
 {
     internal abstract class WampCalleeProxyInvocationHandler : IWampCalleeProxyInvocationHandler
     {
-        public object Invoke(MethodInfo method, object[] arguments)
+        public object Invoke(CallOptions options, MethodInfo method, object[] arguments)
         {
             Type unwrapped = TaskExtensions.UnwrapReturnType(method.ReturnType);
 
-            SyncCallback callback = InnerInvokeSync(method, arguments, unwrapped);
+            SyncCallback callback = InnerInvokeSync(options, method, arguments, unwrapped);
 
             WaitForResult(callback);
 
@@ -30,7 +30,7 @@ namespace WampSharp.V2.CalleeProxy
             return callback.OperationResult;
         }
 
-        private SyncCallback InnerInvokeSync(MethodInfo method, object[] arguments, Type unwrapped)
+        private SyncCallback InnerInvokeSync(CallOptions options, MethodInfo method, object[] arguments, Type unwrapped)
         {
             SyncCallback syncCallback;
 
@@ -51,25 +51,25 @@ namespace WampSharp.V2.CalleeProxy
             object[] argumentsToSend = 
                 methodInfoHelper.GetInputArguments(arguments);
 
-            Invoke(syncCallback, procedureAttribute.Procedure, argumentsToSend);
+            Invoke(options, syncCallback, procedureAttribute.Procedure, argumentsToSend);
 
             return syncCallback;
         }
 
-        public Task InvokeAsync(MethodInfo method, object[] arguments)
+        public Task InvokeAsync(CallOptions options, MethodInfo method, object[] arguments)
         {
             Type returnType = method.ReturnType;
 
             Type unwrapped = TaskExtensions.UnwrapReturnType(returnType);
 
-            Task<object> task = InnerInvokeAsync(method, arguments, unwrapped);
+            Task<object> task = InnerInvokeAsync(options, method, arguments, unwrapped);
 
             Task casted = task.Cast(unwrapped);
 
             return casted;
         }
 
-        private Task<object> InnerInvokeAsync(MethodInfo method, object[] arguments, Type returnType)
+        private Task<object> InnerInvokeAsync(CallOptions options, MethodInfo method, object[] arguments, Type returnType)
         {
             AsyncOperationCallback asyncOperationCallback;
 
@@ -86,12 +86,12 @@ namespace WampSharp.V2.CalleeProxy
             WampProcedureAttribute procedureAttribute = 
                 method.GetCustomAttribute<WampProcedureAttribute>(true);
 
-            Invoke(asyncOperationCallback, procedureAttribute.Procedure, arguments);
+            Invoke(options, asyncOperationCallback, procedureAttribute.Procedure, arguments);
 
             return AwaitForResult(asyncOperationCallback);
         }
 
-        protected abstract void Invoke(IWampRawRpcOperationClientCallback callback, string procedure, object[] arguments);
+        protected abstract void Invoke(CallOptions options, IWampRawRpcOperationClientCallback callback, string procedure, object[] arguments);
 
         protected virtual void WaitForResult(SyncCallback callback)
         {

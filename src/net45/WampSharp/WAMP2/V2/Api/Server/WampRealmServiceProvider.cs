@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using WampSharp.V2.CalleeProxy;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Rpc;
@@ -24,6 +25,8 @@ namespace WampSharp.V2
             mCalleeProxyFactory = new WampCalleeRouterProxyFactory(mRealm.RpcCatalog);
         }
 
+        // TODO: the options overloads don't work here, but its OK,
+        // TODO: since this whole class is going to be obsolete soon.
         public Task RegisterCallee(object instance)
         {
             IEnumerable<IWampRpcOperation> operations =
@@ -38,10 +41,20 @@ namespace WampSharp.V2
             result.SetResult(true);
             return result.Task;
         }
+        
+        public Task RegisterCallee(object instance, RegisterOptions registerOptions)
+        {
+            return RegisterCallee(instance);
+        }
 
         public TProxy GetCalleeProxy<TProxy>() where TProxy : class
         {
-            return mCalleeProxyFactory.GetProxy<TProxy>();
+            return GetCalleeProxy<TProxy>(new CallOptions());
+        }
+
+        public TProxy GetCalleeProxy<TProxy>(CallOptions callOptions) where TProxy : class
+        {
+            return mCalleeProxyFactory.GetProxy<TProxy>(callOptions);
         }
 
         public ISubject<TEvent> GetSubject<TEvent>(string topicUri)

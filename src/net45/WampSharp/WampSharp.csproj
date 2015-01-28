@@ -242,6 +242,7 @@
     <Compile Include="WAMP2\V2\Api\Rx\RawRouterSubscriber.cs" />
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
+    <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="WAMP2\V2\Client\IWampPendingRequest.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InvocationDetailsExtended.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Session\ChallengeDetails.cs" />

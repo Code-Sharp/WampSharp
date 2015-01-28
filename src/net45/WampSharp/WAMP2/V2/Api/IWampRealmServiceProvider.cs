@@ -1,5 +1,6 @@
 ﻿using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2
@@ -9,7 +10,6 @@ namespace WampSharp.V2
     /// </summary>
     public interface IWampRealmServiceProvider
     {
-        // TODO: Add overloads for all options
         /// <summary>
         /// Registers an instance of a type having methods decorated with
         /// <see cref="WampProcedureAttribute"/> to the realm.
@@ -17,6 +17,15 @@ namespace WampSharp.V2
         /// <param name="instance">The instance to register.</param>
         /// <returns>A task that is completed when all methods are registered.</returns>
         Task RegisterCallee(object instance);
+        
+        /// <summary>
+        /// Registers an instance of a type having methods decorated with
+        /// <see cref="WampProcedureAttribute"/> to the realm.
+        /// </summary>
+        /// <param name="instance">The instance to register.</param>
+        /// <param name="registerOptions">The registration options to use for this callee.</param>
+        /// <returns>A task that is completed when all methods are registered.</returns>
+        Task RegisterCallee(object instance, RegisterOptions registerOptions);
 
         /// <summary>
         /// Gets a proxy of a callee registered in the realm.
@@ -24,6 +33,14 @@ namespace WampSharp.V2
         /// <typeparam name="TProxy"></typeparam>
         /// <returns>The proxy to the callee.</returns>
         TProxy GetCalleeProxy<TProxy>() where TProxy : class;
+
+        /// <summary>
+        /// Gets a proxy of a callee registered in the realm.
+        /// </summary>
+        /// <param name="callOptions">The <see cref="CallOptions"/> to init this proxy with.</param>
+        /// <typeparam name="TProxy"></typeparam>
+        /// <returns>The proxy to the callee.</returns>
+        TProxy GetCalleeProxy<TProxy>(CallOptions callOptions) where TProxy : class;
 
         /// <summary>
         /// Gets a <see cref="ISubject{TResult}"/> representing a

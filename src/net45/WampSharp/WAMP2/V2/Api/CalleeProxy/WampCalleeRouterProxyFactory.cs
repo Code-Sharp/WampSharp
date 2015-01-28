@@ -22,8 +22,11 @@ namespace WampSharp.V2.CalleeProxy
                 mCatalog = catalog;
             }
 
-            protected override void Invoke(IWampRawRpcOperationClientCallback callback, string procedure, object[] arguments)
+            protected override void Invoke(CallOptions options, IWampRawRpcOperationClientCallback callback, string procedure, object[] arguments)
             {
+                // TODO: We don't use options here, this is not OK,
+                // TODO: but will be ok since the router services provider
+                // TODO: is going to be obsolete soon.
                 mCatalog.Invoke(callback,
                                 WampObjectFormatter.Value,
                                 mEmptyOptions,

@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.CalleeProxy
 {
@@ -12,15 +13,15 @@ namespace WampSharp.V2.CalleeProxy
             mHandler = handler;
         }
 
-        public TProxy GetProxy<TProxy>() where TProxy : class
+        public TProxy GetProxy<TProxy>(CallOptions callOptions) where TProxy : class
         {
             ProxyGenerationOptions options = new ProxyGenerationOptions() {Selector = new WampCalleProxyInterceptorSelector()};
 
             TProxy proxy =
                 mGenerator.CreateInterfaceProxyWithoutTarget<TProxy>
                     (options,
-                     new SyncCalleeProxyInterceptor(mHandler),
-                     new AsyncCalleeProxyInterceptor(mHandler));
+                        new SyncCalleeProxyInterceptor(mHandler, callOptions),
+                        new AsyncCalleeProxyInterceptor(mHandler, callOptions));
 
             return proxy;
         }

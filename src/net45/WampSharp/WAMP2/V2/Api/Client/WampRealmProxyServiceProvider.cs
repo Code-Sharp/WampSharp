@@ -33,6 +33,11 @@ namespace WampSharp.V2
 
         public Task RegisterCallee(object instance)
         {
+            return RegisterCallee(EmptyOptions);
+        }
+
+        public Task RegisterCallee(object instance, RegisterOptions registerOptions)
+        {
             IEnumerable<IWampRpcOperation> operations =
                 mExtractor.ExtractOperations(instance);
 
@@ -41,7 +46,7 @@ namespace WampSharp.V2
             foreach (IWampRpcOperation operation in operations)
             {
                 Task task =
-                    mProxy.RpcCatalog.Register(operation, EmptyOptions);
+                    mProxy.RpcCatalog.Register(operation, registerOptions);
 
                 registrations.Add(task);
             }
@@ -62,7 +67,12 @@ namespace WampSharp.V2
 
         public TProxy GetCalleeProxy<TProxy>() where TProxy : class
         {
-            return mCalleeProxyFactory.GetProxy<TProxy>();
+            return mCalleeProxyFactory.GetProxy<TProxy>(new CallOptions());
+        }
+
+        public TProxy GetCalleeProxy<TProxy>(CallOptions callOptions) where TProxy : class
+        {
+            return mCalleeProxyFactory.GetProxy<TProxy>(callOptions);
         }
 
         public ISubject<TEvent> GetSubject<TEvent>(string topicUri)

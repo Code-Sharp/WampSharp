@@ -598,6 +598,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampHostExtensions.cs">
       <Link>WAMP2\V2\Api\Server\WampHostExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampEventContext.cs">
+      <Link>WAMP2\V2\Api\WampEventContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\IWampPendingRequest.cs">
       <Link>WAMP2\V2\Client\IWampPendingRequest.cs</Link>
     </Compile>
