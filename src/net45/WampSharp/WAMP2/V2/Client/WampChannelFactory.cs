@@ -21,7 +21,7 @@ namespace WampSharp.V2.Client
         }
 
         public IWampChannel CreateChannel<TMessage>(string realm, IControlledWampConnection<TMessage> connection,
-            IWampBinding<TMessage> binding, IWampClientAutenticator authenticator)
+            IWampBinding<TMessage> binding, IWampClientAuthenticator authenticator)
         {
             WampChannelBuilder<TMessage> builder = GetChannelBuilder(binding);
             WampChannel<TMessage> channel = builder.CreateChannel(realm, connection, authenticator);

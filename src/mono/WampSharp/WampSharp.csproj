@@ -687,14 +687,17 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\InvocationDetailsExtended.cs">
       <Link>WAMP2\V2\Core\Contracts\Rpc\InvocationDetailsExtended.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\AbortDetails.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\AbortDetails.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\ChallengeDetails.cs">
       <Link>WAMP2\V2\Core\Contracts\Session\ChallengeDetails.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\ChallengeResult.cs">
-      <Link>WAMP2\V2\Client\Session\ChallengeResult.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\AuthenticationResponse.cs">
+      <Link>WAMP2\V2\Client\Session\AuthenticationResponse.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\DefaultWampClientAutenticator.cs">
-      <Link>WAMP2\V2\Client\Session\DefaultWampClientAutenticator.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\DefaultWampClientAuthenticator.cs">
+      <Link>WAMP2\V2\Client\Session\DefaultWampClientAuthenticator.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs">
       <Link>WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs</Link>
@@ -984,8 +987,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Rpc\WampRpcOperationCatalogProxy.cs">
       <Link>WAMP2\V2\Client\Rpc\WampRpcOperationCatalogProxy.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampClientAutenticator.cs">
-      <Link>WAMP2\V2\Client\Session\IWampClientAutenticator.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampClientAuthenticator.cs">
+      <Link>WAMP2\V2\Client\Session\IWampClientAuthenticator.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampSessionClientExtended.cs">
       <Link>WAMP2\V2\Client\Session\IWampSessionClientExtended.cs</Link>

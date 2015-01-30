@@ -24,7 +24,7 @@ namespace WampSharp.V2.Client
         private readonly object mLock = new object();
         private bool mGoodbyeSent;
         private readonly IDictionary<string, object> mDetails = GetDetails();
-		private readonly IWampClientAutenticator mAuthenticator;
+		private readonly IWampClientAuthenticator mAuthenticator;
 
         private static Dictionary<string, object> GetDetails()
         {
@@ -80,23 +80,30 @@ namespace WampSharp.V2.Client
                 };
         }
 
-        public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter, IWampClientAutenticator authenticator)
+        public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter, IWampClientAuthenticator authenticator)
         {
             mRealm = realm;
             mFormatter = formatter;
             mServerProxy = realm.Proxy;
-            mAuthenticator = authenticator ?? new DefaultWampClientAutenticator();
+            mAuthenticator = authenticator ?? new DefaultWampClientAuthenticator();
         }
 
-        public void Challenge(string challenge, ChallengeDetails extra)
-		{
-			ChallengeResult result = mAuthenticator.Authenticate(challenge, extra);
-			
-			IDictionary<string, object> authenticationExtraData = result.Extra ?? EmptyDetails;
-			
-			string authenticationSignature = result.Signature;
-			
-			mServerProxy.Authenticate(authenticationSignature, authenticationExtraData);
+        public void Challenge(string authMethod, ChallengeDetails extra)
+        {
+            try
+            {
+                AuthenticationResponse response = mAuthenticator.Authenticate(authMethod, extra);
+
+                IDictionary<string, object> authenticationExtraData = response.Extra ?? EmptyDetails;
+
+                string authenticationSignature = response.Signature;
+
+                mServerProxy.Authenticate(authenticationSignature, authenticationExtraData);
+            }
+            catch (WampAuthenticationException ex)
+            {
+                mServerProxy.Abort(ex.Details, ex.Reason);
+            }
         }
 
         public void Welcome(long session, TMessage details)

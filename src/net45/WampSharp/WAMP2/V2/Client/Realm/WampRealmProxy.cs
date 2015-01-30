@@ -16,9 +16,9 @@ namespace WampSharp.V2.Client
         private readonly IWampServerProxy mProxy;
         private readonly IWampRealmServiceProvider mServices;
         private readonly WampSessionClient<TMessage> mMonitor;
-        private readonly IWampClientAutenticator mAuthenticator;
+        private readonly IWampClientAuthenticator mAuthenticator;
 
-        public WampRealmProxy(string name, IWampServerProxy proxy, IWampBinding<TMessage> binding, IWampClientAutenticator authenticator)
+        public WampRealmProxy(string name, IWampServerProxy proxy, IWampBinding<TMessage> binding, IWampClientAuthenticator authenticator)
         {
             mName = name;
             mProxy = proxy;
@@ -72,7 +72,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public IWampClientAutenticator Autenticator
+        public IWampClientAuthenticator Authenticator
         {
             get
             {

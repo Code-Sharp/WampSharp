@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace WampSharp.V2.Client
 {
-    public class ChallengeResult
+    public class AuthenticationResponse
     {
         public string Signature 
         {

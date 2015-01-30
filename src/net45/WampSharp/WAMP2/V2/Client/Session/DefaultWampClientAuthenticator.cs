@@ -4,17 +4,17 @@ using WampSharp.V2.Core.Contracts;
 namespace WampSharp.V2.Client
 {
     /// <summary>
-    /// A default implementation of <see cref="IWampClientAutenticator"/>.
+    /// A default implementation of <see cref="IWampClientAuthenticator"/>.
     /// </summary>
-    public class DefaultWampClientAutenticator : IWampClientAutenticator
+    public class DefaultWampClientAuthenticator : IWampClientAuthenticator
     {
         /// <summary>
         /// Just throws exception on CHALLENGE
         /// </summary>
-        /// <param name="challenge"></param>
+        /// <param name="authmethod"></param>
         /// <param name="extra"></param>
         /// <returns></returns>
-        public ChallengeResult Authenticate(string challenge, ChallengeDetails extra)
+        public AuthenticationResponse Authenticate(string authmethod, ChallengeDetails extra)
         {
             throw new WampAuthenticationException("Authorization was requested but no authenticator was provided");
         }

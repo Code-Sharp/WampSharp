@@ -37,6 +37,6 @@ namespace WampSharp.V2
             (string realm,
              IControlledWampConnection<TMessage> connection,
              IWampBinding<TMessage> binding,
-             IWampClientAutenticator authenticator);
+             IWampClientAuthenticator authenticator);
     }
 }
