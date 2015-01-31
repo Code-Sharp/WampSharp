@@ -2,16 +2,16 @@
 
 namespace WampSharp.RawSocket
 {
-    internal class TextConnectionListener<TMessage> : ConnectionListener<TMessage>
+    internal class BinaryConnectionListener<TMessage> : ConnectionListener<TMessage>
     {
-        private readonly IWampTextBinding<TMessage> mBinding;
+        private readonly IWampBinaryBinding<TMessage> mBinding;
 
-        public TextConnectionListener(IWampTextBinding<TMessage> binding)
+        public BinaryConnectionListener(IWampBinaryBinding<TMessage> binding)
         {
             mBinding = binding;
         }
 
-        public IWampTextBinding<TMessage> Binding
+        public IWampBinaryBinding<TMessage> Binding
         {
             get
             {

@@ -6,7 +6,7 @@ namespace WampSharp.RawSocket
 {
     internal abstract class ConnectionListener : IDisposable
     {
-        public abstract void OnNewConnection(RawSession connection);
+        public abstract void OnNewConnection(RawSocketSession connection);
         public abstract void Dispose();
     }
 

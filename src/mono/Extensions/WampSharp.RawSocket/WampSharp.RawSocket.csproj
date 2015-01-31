@@ -77,6 +77,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\ConnectionListener\BinaryConnectionListener.cs">
+      <Link>ConnectionListener\BinaryConnectionListener.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\ConnectionListener\ConnectionListener.cs">
       <Link>ConnectionListener\ConnectionListener.cs</Link>
     </Compile>
@@ -86,32 +89,33 @@
     <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\MessageArrivedEventArgs.cs">
       <Link>MessageArrivedEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\RawServer.cs">
-      <Link>RawServer.cs</Link>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\SuperSocket\RawSocketServer.cs">
+      <Link>SuperSocket\RawSocketServer.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\RawSession.cs">
-      <Link>RawSession.cs</Link>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\SuperSocket\RawSocketSession.cs">
+      <Link>SuperSocket\RawSocketSession.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\RawTextConnection.cs">
-      <Link>RawTextConnection.cs</Link>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\RawSocketBinding.cs">
+      <Link>RawSocketBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\RawSocketConnection.cs">
+      <Link>RawSocketConnection.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\RawSocketTransport.cs">
       <Link>RawSocketTransport.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\RawWampFilter.cs">
-      <Link>RawWampFilter.cs</Link>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\SuperSocket\RawSocketFilter.cs">
+      <Link>SuperSocket\RawSocketFilter.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\RawWampFilterFactory.cs">
-      <Link>RawWampFilterFactory.cs</Link>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\SuperSocket\RawSocketFilterFactory.cs">
+      <Link>SuperSocket\RawSocketFilterFactory.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="supersocket.cmd" />
-    <None Include="supersocket.sh" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WampSharp.Default\WampSharp.Default.csproj">

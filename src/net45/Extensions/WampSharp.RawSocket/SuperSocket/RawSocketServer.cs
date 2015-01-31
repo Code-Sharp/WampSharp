@@ -3,21 +3,21 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace WampSharp.RawSocket
 {
-    class RawServer : AppServer<RawSession, BinaryRequestInfo>
+    internal class RawSocketServer : AppServer<RawSocketSession, BinaryRequestInfo>
     {
         private ConnectionListener mConnectionListener;
 
-        public RawServer() : base(new RawWampFilterFactory())
+        public RawSocketServer() : base(new RawSocketFilterFactory())
         {
         }
 
-        protected override bool RegisterSession(string sessionId, RawSession appSession)
+        protected override bool RegisterSession(string sessionId, RawSocketSession appSession)
         {
             mConnectionListener.OnNewConnection(appSession);
             return true;
         }
 
-        protected override void ExecuteCommand(RawSession session, BinaryRequestInfo requestInfo)
+        protected override void ExecuteCommand(RawSocketSession session, BinaryRequestInfo requestInfo)
         {
             session.OnNewMessage(requestInfo.Body);
         }

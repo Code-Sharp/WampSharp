@@ -80,21 +80,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionListener\BinaryConnectionListener.cs" />
     <Compile Include="ConnectionListener\ConnectionListener.cs" />
     <Compile Include="ConnectionListener\TextConnectionListener.cs" />
     <Compile Include="MessageArrivedEventArgs.cs" />
-    <Compile Include="RawServer.cs" />
-    <Compile Include="RawSession.cs" />
+    <Compile Include="SuperSocket\RawSocketServer.cs" />
+    <Compile Include="SuperSocket\RawSocketSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RawTextConnection.cs" />
+    <Compile Include="RawSocketBinding.cs" />
+    <Compile Include="RawSocketConnection.cs" />
     <Compile Include="RawSocketTransport.cs" />
-    <Compile Include="RawWampFilter.cs" />
-    <Compile Include="RawWampFilterFactory.cs" />
+    <Compile Include="SuperSocket\RawSocketFilter.cs" />
+    <Compile Include="SuperSocket\RawSocketFilterFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="supersocket.cmd" />
-    <None Include="supersocket.sh" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WampSharp.Default\WampSharp.Default.csproj">

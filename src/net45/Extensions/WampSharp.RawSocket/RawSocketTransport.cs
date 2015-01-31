@@ -5,29 +5,15 @@ using WampSharp.V2.Binding.Transports;
 
 namespace WampSharp.RawSocket
 {
-    public class RawSocketTransport : IWampTransport<string>
+    public class RawSocketTransport : IWampTransport
     {
-        private readonly RawServer mServer;
-        private ConnectionListener mTextConnectionListener;
+        private readonly RawSocketServer mServer;
+        private ConnectionListener mConnectionListener;
 
         public RawSocketTransport(string ip, int port)
         {
-            mServer = new RawServer();
+            mServer = new RawSocketServer();
             mServer.Setup(ip, port);
-        }
-
-        public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTransportBinding<TMessage, string> binding)
-        {
-            IWampTextBinding<TMessage> casted =
-                binding as IWampTextBinding<TMessage>;
-
-            if (casted != null)
-            {
-                return GetListener(casted);
-            }
-
-            throw new ArgumentException("Expected IWampTextBinding<TMessage>",
-                                        "binding");
         }
 
         public void Dispose()
@@ -43,31 +29,44 @@ namespace WampSharp.RawSocket
 
         public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampBinding<TMessage> binding)
         {
-            IWampTextBinding<TMessage> casted = 
-                binding as IWampTextBinding<TMessage>;
-
-            if (casted != null)
-            {
-                return GetListener(casted);
-            }
-
-            throw new ArgumentException("Expected IWampTextBinding<TMessage>",
-                                        "binding");
+            return InnerGetListener((dynamic) binding);
         }
 
-        private IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTextBinding<TMessage> binding)
+        private IWampConnectionListener<TMessage> InnerGetListener<TMessage>(IWampBinaryBinding<TMessage> binding)
         {
-            if (mTextConnectionListener == null)
+            if (mConnectionListener == null)
+            {
+                BinaryConnectionListener<TMessage> binaryConnectionListener = new BinaryConnectionListener<TMessage>(binding);
+
+                SetConnection(binaryConnectionListener);
+            }
+
+            return mConnectionListener as IWampConnectionListener<TMessage>;
+        }
+
+        private IWampConnectionListener<TMessage> InnerGetListener<TMessage>(IWampTextBinding<TMessage> binding)
+        {
+            if (mConnectionListener == null)
             {
                 TextConnectionListener<TMessage> textConnectionListener = new TextConnectionListener<TMessage>(binding);
 
-                mTextConnectionListener = textConnectionListener;
-
-                mServer.SetConnectionListener(mTextConnectionListener);
+                SetConnection(textConnectionListener);
             }
 
-            return mTextConnectionListener as IWampConnectionListener<TMessage>;
+            return mConnectionListener as IWampConnectionListener<TMessage>;
+        }
+
+        private IWampConnectionListener<TMessage> InnerGetListener<TMessage>(IWampBinding<TMessage> binding)
+        {
+            throw new ArgumentException("Expected IWampTextBinding<TMessage> or IWampBinaryBinding<TMessage>",
+                                        "binding");
+        }
+
+        private void SetConnection(ConnectionListener textConnectionListener)
+        {
+            mConnectionListener = textConnectionListener;
+
+            mServer.SetConnectionListener(mConnectionListener);
         }
     }
-
 }

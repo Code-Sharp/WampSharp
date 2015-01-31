@@ -7,9 +7,9 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace WampSharp.RawSocket
 {
-    internal class RawWampFilter : FixedHeaderReceiveFilter<BinaryRequestInfo> 
+    internal class RawSocketFilter : FixedHeaderReceiveFilter<BinaryRequestInfo> 
     {
-        public RawWampFilter()
+        public RawSocketFilter()
             : base(sizeof(int))
         {
         }
