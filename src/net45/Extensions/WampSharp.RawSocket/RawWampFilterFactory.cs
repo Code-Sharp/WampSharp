@@ -2,7 +2,7 @@
 using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Protocol;
 
-namespace WampSharp.RawTcp
+namespace WampSharp.RawSocket
 {
     class RawWampFilterFactory : IReceiveFilterFactory<BinaryRequestInfo>
     {

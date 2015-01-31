@@ -1,9 +1,8 @@
 ﻿using System;
 using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Protocol;
-using WampSharp.Core.Listener;
 
-namespace WampSharp.RawTcp
+namespace WampSharp.RawSocket
 {
     internal class RawSession : AppSession<RawSession, BinaryRequestInfo>
     {

@@ -5,7 +5,7 @@ using SuperSocket.Common;
 using SuperSocket.Facility.Protocol;
 using SuperSocket.SocketBase.Protocol;
 
-namespace WampSharp.RawTcp
+namespace WampSharp.RawSocket
 {
     internal class RawWampFilter : FixedHeaderReceiveFilter<BinaryRequestInfo> 
     {
