@@ -84,7 +84,6 @@
     <Compile Include="Fleck\FleckWampConnectionListener.cs" />
     <Compile Include="Fleck\FleckWebSocketTransport.cs" />
     <Compile Include="Fleck\FleckWampTextConnection.cs" />
-    <Compile Include="InMemory\InMemoryConnection.cs" />
     <Compile Include="MsgPack\MessagePackParser.cs" />
     <Compile Include="Newtonsoft\DetailsOptionsConverter.cs" />
     <Compile Include="Newtonsoft\IWampMessageFormatter.cs" />

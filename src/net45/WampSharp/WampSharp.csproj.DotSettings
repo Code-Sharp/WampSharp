@@ -70,4 +70,6 @@
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Crpc_005Coperations_005Cmethodinfo/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Crpc_005Coperations_005Creflection/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Crpc_005Cserver/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Ctransports/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Ctransports_005Cinmemory/@EntryIndexedValue">True</s:Boolean>
 </wpf:ResourceDictionary>

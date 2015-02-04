@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
@@ -8,30 +6,10 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
-using WampSharp.V2.Binding;
-using WampSharp.V2.Binding.Transports;
 
-namespace WampSharp.InMemory
+namespace WampSharp.V2.Transports
 {
-    public class InMemoryTransport : IWampTransport
-    {
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Open()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampBinding<TMessage> binding)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class InMemoryConnectionListener<TMessage> : IWampConnectionListener<TMessage>
+    internal class InMemoryConnectionListener<TMessage> : IWampConnectionListener<TMessage>, IDisposable
     {
         private readonly Subject<IWampConnection<TMessage>> mSubject = new Subject<IWampConnection<TMessage>>();
         private readonly IScheduler mServerScheduler;
@@ -46,7 +24,7 @@ namespace WampSharp.InMemory
             return mSubject.Subscribe(observer);
         }
 
-        public IWampConnection<TMessage> CreateClientConnection(IScheduler scheduler)
+        public IControlledWampConnection<TMessage> CreateClientConnection(IScheduler scheduler)
         {
             Subject<WampMessage<TMessage>> serverInput = 
                 new Subject<WampMessage<TMessage>>();
@@ -57,7 +35,7 @@ namespace WampSharp.InMemory
             Subject<Unit> connectionOpen = new Subject<Unit>();
             Subject<Unit> connectionClosed = new Subject<Unit>();
 
-            IWampConnection<TMessage> serverToClient =
+            InMemoryConnection serverToClient =
                 new InMemoryConnection(serverInput, clientInput, mServerScheduler, connectionOpen, connectionClosed);
 
             IWampConnection<TMessage> clientToServer =
@@ -66,6 +44,11 @@ namespace WampSharp.InMemory
             mSubject.OnNext(clientToServer);
 
             return serverToClient;
+        }
+
+        public void Dispose()
+        {
+            mSubject.Dispose();
         }
 
         private class InMemoryConnection : IControlledWampConnection<TMessage>
@@ -86,7 +69,7 @@ namespace WampSharp.InMemory
                 mConnectionClosed = connectionClosed;
 
                 IDisposable connectionClosedSubscription =
-                    mConnectionOpen.Subscribe(x => RaiseConnectionClosed());
+                    mConnectionClosed.Subscribe(x => RaiseConnectionClosed());
 
                 IDisposable connectionOpenSubscription =
                     mConnectionOpen.Subscribe(x => RaiseConnectionOpen());

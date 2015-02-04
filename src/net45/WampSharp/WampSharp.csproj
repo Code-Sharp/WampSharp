@@ -241,6 +241,7 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawRouterSubscriber.cs" />
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
+    <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryBinding.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\IWampPendingRequest.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Session\ChallengeDetails.cs" />
@@ -449,6 +450,8 @@
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampRpcOperationCallback.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampRpcOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Session\WampSessionServer.cs" />
+    <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryConnectionListener.cs" />
+    <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryTransport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

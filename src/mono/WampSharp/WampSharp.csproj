@@ -591,6 +591,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\CompositeListener.cs">
       <Link>WAMP2\V2\Api\Server\CompositeListener.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\InMemoryBinding.cs">
+      <Link>WAMP2\V2\Transports\InMemory\InMemoryBinding.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampHostExtensions.cs">
       <Link>WAMP2\V2\Api\Server\WampHostExtensions.cs</Link>
     </Compile>
@@ -1214,6 +1217,12 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Session\WampSessionServer.cs">
       <Link>WAMP2\V2\Session\WampSessionServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\InMemoryConnectionListener.cs">
+      <Link>WAMP2\V2\Transports\InMemory\InMemoryConnectionListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\InMemoryTransport.cs">
+      <Link>WAMP2\V2\Transports\InMemory\InMemoryTransport.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
