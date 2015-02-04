@@ -12,15 +12,21 @@ namespace WampSharp.SignalR
     {
         private readonly string mUrl;
         private ISignalRListener mListener;
+        private readonly bool mEnableCORS;
+        private readonly bool mEnableJSONP;
+        private string mPathMatch;
 
         /// <summary>
         /// Creates a new instance of <see cref="SignalRTransport"/> given the url
         /// to host the server at.
         /// </summary>
         /// <param name="url">The url to host the server at.</param>
-        public SignalRTransport(string url)
+        public SignalRTransport(string url, string pathMatch, bool enableCors = true, bool enableJsonp = false)
         {
             mUrl = url;
+            mPathMatch = pathMatch;
+            mEnableCORS = enableCors;
+            mEnableJSONP = enableJsonp;
         }
 
         private IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTextBinding<TMessage> binding)
@@ -31,7 +37,7 @@ namespace WampSharp.SignalR
             }
             else
             {
-                SignalRConnectionListener<TMessage> result = new SignalRConnectionListener<TMessage>(mUrl, binding);
+                SignalRConnectionListener<TMessage> result = new SignalRConnectionListener<TMessage>(mUrl, binding, mEnableCORS, mEnableJSONP, mPathMatch);
                 mListener = result;
                 return result;                
             }
