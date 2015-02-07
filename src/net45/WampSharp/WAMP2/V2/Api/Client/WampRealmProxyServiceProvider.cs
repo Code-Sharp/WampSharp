@@ -33,7 +33,7 @@ namespace WampSharp.V2
 
         public Task RegisterCallee(object instance)
         {
-            return RegisterCallee(EmptyOptions);
+            return RegisterCallee(instance, EmptyOptions);
         }
 
         public Task RegisterCallee(object instance, RegisterOptions registerOptions)
