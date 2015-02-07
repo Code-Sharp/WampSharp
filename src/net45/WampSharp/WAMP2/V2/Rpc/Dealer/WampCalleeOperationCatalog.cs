@@ -80,8 +80,7 @@ namespace WampSharp.V2.Rpc
             mInvocationHandler.Unregistered(operation);
         }
 
-        private class WampCalleeRpcOperation : IWampRpcOperation<object>,
-            IWampRpcOperation, IDisposable
+        private class WampCalleeRpcOperation : IWampRpcOperation, IDisposable
         {
             private const string CalleeDisconnected = "wamp.error.callee_disconnected";
             private readonly ReaderWriterLockSlim mLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
@@ -148,6 +147,11 @@ namespace WampSharp.V2.Rpc
                 }
             }
 
+            public RegisterOptions Options
+            {
+                get { return mOptions; }
+            }
+
             public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details)
             {
                 this.Invoke(caller, details);
@@ -165,17 +169,17 @@ namespace WampSharp.V2.Rpc
 
             public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details)
             {
-                InvokePattern(caller, () => InnerInvoke(caller, details));
+                InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails));
             }
 
             public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments)
             {
-                InvokePattern(caller, () => InnerInvoke(caller, details, arguments));
+                InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails, arguments));
             }
 
             public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
             {
-                InvokePattern(caller, () => InnerInvoke(caller, details, arguments, argumentsKeywords));
+                InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails, arguments, argumentsKeywords));
             }
 
             private void InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options)
@@ -203,7 +207,7 @@ namespace WampSharp.V2.Rpc
                 Callee.Invocation(requestId, RegistrationId, options, arguments, argumentsKeywords);
             }
 
-            private void InvokePattern(IWampRawRpcOperationRouterCallback caller, Action action)
+            private void InvokePattern(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, Action<InvocationDetails> action)
             {
                 mResetEvent.WaitOne();
 
@@ -213,7 +217,8 @@ namespace WampSharp.V2.Rpc
 
                     if (!mClientDisconnected)
                     {
-                        action();
+                        var detailsForCallee = GetInvocationDetails(details);
+                        action(detailsForCallee);
                     }
                     else
                     {
@@ -226,6 +231,28 @@ namespace WampSharp.V2.Rpc
                 {
                     mLock.ExitReadLock();
                 }
+            }
+
+            private InvocationDetails GetInvocationDetails(InvocationDetails details)
+            {
+                InvocationDetailsExtended casted = details as InvocationDetailsExtended;
+
+                if (casted == null)
+                {
+                    return details;
+                }
+
+                InvocationDetails result = new InvocationDetails(casted);
+
+                CallOptions callerOptions = casted.CallerOptions;
+
+                if (Options.DiscloseCaller == true ||
+                    callerOptions.DiscloseMe == true)
+                {
+                    result.Caller = casted.CallerSession;
+                }
+
+                return result;
             }
 
             public void Open()

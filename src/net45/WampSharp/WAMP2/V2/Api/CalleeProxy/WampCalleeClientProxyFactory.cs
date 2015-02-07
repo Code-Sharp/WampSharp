@@ -114,10 +114,10 @@ namespace WampSharp.V2.CalleeProxy
                 base.WaitForResult(callback);
             }
 
-            protected override void Invoke(IWampRawRpcOperationClientCallback callback, string procedure, object[] arguments)
+            protected override void Invoke(CallOptions options, IWampRawRpcOperationClientCallback callback, string procedure, object[] arguments)
             {
                 mCatalogProxy.Invoke(callback,
-                                     mEmptyOptions,
+                                     options,
                                      procedure,
                                      arguments);
             }

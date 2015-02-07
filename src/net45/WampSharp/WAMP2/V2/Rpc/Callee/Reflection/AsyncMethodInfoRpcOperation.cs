@@ -74,8 +74,10 @@ namespace WampSharp.V2.Rpc
             get { return mCollectionResultTreatment; }
         }
 
-        protected override Task<object> InvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override Task<object> InvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
+            WampInvocationContext.Current = new WampInvocationContext(details);
+
             object[] unpacked =
                 UnpackParameters(formatter, arguments, argumentsKeywords);
 
@@ -100,6 +102,10 @@ namespace WampSharp.V2.Rpc
                 {
                     throw ConvertExceptionToRuntimeException(actual);
                 }
+            }
+            finally
+            {
+                WampInvocationContext.Current = null;
             }
         }
     }

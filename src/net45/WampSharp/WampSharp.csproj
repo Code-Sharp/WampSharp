@@ -245,7 +245,9 @@
     <Compile Include="WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryBinding.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
+    <Compile Include="WAMP2\V2\Api\WampInvocationContext.cs" />
     <Compile Include="WAMP2\V2\Client\IWampPendingRequest.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InvocationDetailsExtended.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Session\ChallengeDetails.cs" />
     <Compile Include="WAMP2\V2\Client\Session\ChallengeResult.cs" />
     <Compile Include="WAMP2\V2\Client\Session\DefaultWampClientAutenticator.cs" />
