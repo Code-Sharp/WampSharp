@@ -236,11 +236,13 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\WampCalleeProxyInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeClientProxyFactory.cs" />
-    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeRouterProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs" />
-    <Compile Include="WAMP2\V2\Api\Rx\RawRouterSubscriber.cs" />
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
+    <Compile Include="WAMP2\V2\Api\Server\InMemoryWampHost.cs" />
+    <Compile Include="WAMP2\V2\Api\Server\ServiceRealm\ServiceHostedRealmContainer.cs" />
+    <Compile Include="WAMP2\V2\Api\Server\WampHostBase.cs" />
+    <Compile Include="WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryBinding.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\IWampPendingRequest.cs" />
@@ -283,9 +285,7 @@
     <Compile Include="WAMP2\V2\Api\Server\WampBindingHost.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampSerializedEvent.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHost.cs" />
-    <Compile Include="WAMP2\V2\Api\Server\WampRealmServiceProvider.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampServer.cs" />
-    <Compile Include="WAMP2\V2\Api\Rx\WampRouterSubject.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampTransportDefinition.cs" />
     <Compile Include="WAMP2\V2\Binding\Contracts\JsonBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\Contracts\MsgPackBinding.cs" />
@@ -452,6 +452,7 @@
     <Compile Include="WAMP2\V2\Session\WampSessionServer.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryConnectionListener.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryTransport.cs" />
+    <Compile Include="WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

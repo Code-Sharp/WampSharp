@@ -576,20 +576,26 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeClientProxyFactory.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeClientProxyFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeRouterProxyFactory.cs">
-      <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeRouterProxyFactory.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\WampCalleProxyInterceptorSelector.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\RawRouterSubscriber.cs">
-      <Link>WAMP2\V2\Api\Rx\RawRouterSubscriber.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\CompositeListener.cs">
       <Link>WAMP2\V2\Api\Server\CompositeListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\InMemoryWampHost.cs">
+      <Link>WAMP2\V2\Api\Server\InMemoryWampHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\ServiceRealm\ServiceHostedRealmContainer.cs">
+      <Link>WAMP2\V2\Api\Server\ServiceRealm\ServiceHostedRealmContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampHostBase.cs">
+      <Link>WAMP2\V2\Api\Server\WampHostBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs">
+      <Link>WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\InMemoryBinding.cs">
       <Link>WAMP2\V2\Transports\InMemory\InMemoryBinding.cs</Link>
@@ -717,14 +723,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampHost.cs">
       <Link>WAMP2\V2\Api\Server\WampHost.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampRealmServiceProvider.cs">
-      <Link>WAMP2\V2\Api\Server\WampRealmServiceProvider.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampServer.cs">
       <Link>WAMP2\V2\Api\Server\WampServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampRouterSubject.cs">
-      <Link>WAMP2\V2\Api\Rx\WampRouterSubject.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampTransportDefinition.cs">
       <Link>WAMP2\V2\Api\Server\WampTransportDefinition.cs</Link>
@@ -1223,6 +1223,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\InMemoryTransport.cs">
       <Link>WAMP2\V2\Transports\InMemory\InMemoryTransport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs">
+      <Link>WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
