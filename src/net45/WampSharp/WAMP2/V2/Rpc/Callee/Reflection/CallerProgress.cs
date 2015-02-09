@@ -1,3 +1,4 @@
+#if !NET40
 using System;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -21,3 +22,4 @@ namespace WampSharp.V2.Rpc
         }
     }
 }
+#endif

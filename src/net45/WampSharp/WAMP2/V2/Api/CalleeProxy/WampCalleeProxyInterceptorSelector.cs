@@ -16,6 +16,7 @@ namespace WampSharp.V2.CalleeProxy
 
             if (typeof(Task).IsAssignableFrom(returnType))
             {
+#if !NET40
                 if (method.IsDefined(typeof(WampProgressiveResultProcedureAttribute)))
                 {
                     // TODO: Throw an exception if the method signature isn't suitable 
@@ -23,6 +24,7 @@ namespace WampSharp.V2.CalleeProxy
                     return interceptors.OfType<ProgressiveAsyncCalleeProxyInterceptor>().Cast<IInterceptor>().ToArray();
                 }
                 else
+#endif
                 {
                     return interceptors.OfType<AsyncCalleeProxyInterceptor>().Cast<IInterceptor>().ToArray();
                 }

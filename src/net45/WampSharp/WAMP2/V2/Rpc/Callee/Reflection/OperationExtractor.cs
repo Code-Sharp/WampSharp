@@ -55,17 +55,20 @@ namespace WampSharp.V2.Rpc
                 {
                     ThrowHelper.AsyncOutRefMethod(method);
                 }
-                if (!method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
-                {
-                    return new AsyncMethodInfoRpcOperation(instance, method);
-                }
-                else
+#if !NET40
+                if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
                 {
                     return CreateProgressiveOperation(instance, method);
+                }
+                else
+#endif
+                {
+                    return new AsyncMethodInfoRpcOperation(instance, method);
                 }
             }
         }
 
+#if !NET40
         private static IWampRpcOperation CreateProgressiveOperation(object instance, MethodInfo method)
         {
             //return new ProgressiveAsyncMethodInfoRpcOperation<returnType>
@@ -95,6 +98,7 @@ namespace WampSharp.V2.Rpc
 
             return operation;
         }
+#endif
 
         private static class ThrowHelper
         {

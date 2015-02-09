@@ -20,9 +20,14 @@ namespace WampSharp.V2.CalleeProxy
             TProxy proxy =
                 mGenerator.CreateInterfaceProxyWithoutTarget<TProxy>
                     (options,
-                        new SyncCalleeProxyInterceptor(mHandler, callOptions),
-                        new AsyncCalleeProxyInterceptor(mHandler, callOptions),
-                        new ProgressiveAsyncCalleeProxyInterceptor(mHandler, callOptions));
+                        new IInterceptor[]
+                        {
+                            new SyncCalleeProxyInterceptor(mHandler, callOptions),
+                            new AsyncCalleeProxyInterceptor(mHandler, callOptions),
+#if !NET40
+                            new ProgressiveAsyncCalleeProxyInterceptor(mHandler, callOptions)
+#endif
+                        });
 
             return proxy;
         }

@@ -1,3 +1,4 @@
+#if !NET40
 using System;
 
 namespace WampSharp.V2.Rpc
@@ -10,3 +11,4 @@ namespace WampSharp.V2.Rpc
     {
     }
 }
+#endif
