@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,33 +63,60 @@ namespace WampSharp.V2.CalleeProxy
 
             Type unwrapped = TaskExtensions.UnwrapReturnType(returnType);
 
-            Task<object> task = InnerInvokeAsync(options, method, arguments, unwrapped);
+            IOperationResultExtractor extractor = GetOperationExtractor(method, unwrapped);
+
+            AsyncOperationCallback callback = new AsyncOperationCallback(extractor);
+
+            Task<object> task = InnerInvokeAsync(callback, options, method, arguments);
 
             Task casted = task.Cast(unwrapped);
 
             return casted;
         }
 
-        private Task<object> InnerInvokeAsync(CallOptions options, MethodInfo method, object[] arguments, Type returnType)
+#if !NET40
+        public Task InvokeProgressiveAsync<T>(CallOptions options, MethodInfo method, object[] arguments, IProgress<T> progress)
         {
-            AsyncOperationCallback asyncOperationCallback;
+            Type returnType = typeof(T);
+
+            IOperationResultExtractor extractor = GetOperationExtractor(method, returnType);
+
+            ProgressiveAsyncOperationCallback<T> asyncOperationCallback =
+                new ProgressiveAsyncOperationCallback<T>(progress, extractor);
+
+            Task<object> task = InnerInvokeAsync(asyncOperationCallback, options, method, arguments);
+
+            Task casted = task.Cast(returnType);
+
+            return casted;
+        }
+#endif
+
+        private static IOperationResultExtractor GetOperationExtractor(MethodInfo method, Type returnType)
+        {
+            IOperationResultExtractor extractor;
 
             if (method.HasMultivaluedResult())
             {
-                asyncOperationCallback = new MultiValueAsyncOperationCallback(returnType);
+                extractor = new MultiValueExtractor(returnType);
             }
             else
             {
                 bool hasReturnValue = method.HasReturnValue();
-                asyncOperationCallback = new SingleValueAsyncOperationCallback(returnType, hasReturnValue);
+                extractor = new SingleValueExtractor(returnType, hasReturnValue);
             }
 
+            return extractor;
+        }
+
+        private Task<object> InnerInvokeAsync(AsyncOperationCallback callback, CallOptions options, MethodInfo method, object[] arguments)
+        {
             WampProcedureAttribute procedureAttribute = 
                 method.GetCustomAttribute<WampProcedureAttribute>(true);
 
-            Invoke(options, asyncOperationCallback, procedureAttribute.Procedure, arguments);
+            Invoke(options, callback, procedureAttribute.Procedure, arguments);
 
-            return AwaitForResult(asyncOperationCallback);
+            return AwaitForResult(callback);
         }
 
         protected abstract void Invoke(CallOptions options, IWampRawRpcOperationClientCallback callback, string procedure, object[] arguments);

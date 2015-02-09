@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
-using WampSharp.V2.Client;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
@@ -117,11 +116,6 @@ namespace WampSharp.V2.Rpc
                           invocation.Callback.Result(mFormatter, options, arguments, argumentsKeywords));
         }
 
-        private ResultDetails GetDetails(IWampCallee callee, YieldOptions options)
-        {
-            return new ResultDetails();
-        }
-
         private void ResultArrived(long requestId, YieldOptions options, Action<WampRpcInvocation<TMessage>> action)
         {
             WampRpcInvocation<TMessage> invocation = GetInvocation(requestId, options);
@@ -208,13 +202,19 @@ namespace WampSharp.V2.Rpc
 
         private WampRpcInvocation<TMessage> GetInvocation(long requestId, YieldOptions options)
         {
-            // This should consider the options, since yield can also 
+            // This considers the options, since yield can also 
             // return a call progress.
             WampRpcInvocation<TMessage> invocation;
 
             if (mRequestIdToInvocation.TryGetValue(requestId, out invocation))
             {
-                UnregisterInvocation(invocation);
+                bool progressiveResult = options.Progress == true;
+                
+                if (!progressiveResult)
+                {
+                    UnregisterInvocation(invocation);                    
+                }
+
                 return invocation;
             }
 

@@ -15,13 +15,14 @@ namespace WampSharp.V2.CalleeProxy
 
         public TProxy GetProxy<TProxy>(CallOptions callOptions) where TProxy : class
         {
-            ProxyGenerationOptions options = new ProxyGenerationOptions() {Selector = new WampCalleProxyInterceptorSelector()};
+            ProxyGenerationOptions options = new ProxyGenerationOptions() {Selector = new WampCalleeProxyInterceptorSelector()};
 
             TProxy proxy =
                 mGenerator.CreateInterfaceProxyWithoutTarget<TProxy>
                     (options,
                         new SyncCalleeProxyInterceptor(mHandler, callOptions),
-                        new AsyncCalleeProxyInterceptor(mHandler, callOptions));
+                        new AsyncCalleeProxyInterceptor(mHandler, callOptions),
+                        new ProgressiveAsyncCalleeProxyInterceptor(mHandler, callOptions));
 
             return proxy;
         }

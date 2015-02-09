@@ -12,6 +12,11 @@
         {
             return (T)Attribute.GetCustomAttribute(element, typeof(T), inherit);
         }
+
+        public static bool IsDefined(this MemberInfo element, Type attributeType, bool inherit = true)
+        {
+            return Attribute.IsDefined(element, attributeType, inherit);
+        }
     }
 #endif
 }
