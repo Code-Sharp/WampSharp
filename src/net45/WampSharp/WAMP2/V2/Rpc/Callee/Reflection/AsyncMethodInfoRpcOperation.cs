@@ -18,7 +18,7 @@ namespace WampSharp.V2.Rpc
         private readonly CollectionResultTreatment mCollectionResultTreatment;
 
         public AsyncMethodInfoRpcOperation(object instance, MethodInfo method) : 
-            this(instance, method, GetProcedure(method))
+            this(instance, method, MethodInfoRpcOperation.GetProcedure(method))
         {
         }
 
@@ -46,18 +46,6 @@ namespace WampSharp.V2.Rpc
                       .ToArray();
         }
 
-        private static string GetProcedure(MethodInfo method)
-        {
-            WampProcedureAttribute procedureAttribute =
-                method.GetCustomAttribute<WampProcedureAttribute>(true);
-
-            if (procedureAttribute == null)
-            {
-                // throw 
-            }
-
-            return procedureAttribute.Procedure;
-        }
 
         public override RpcParameter[] Parameters
         {
@@ -74,12 +62,19 @@ namespace WampSharp.V2.Rpc
             get { return mCollectionResultTreatment; }
         }
 
+        protected virtual object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        {
+            object[] result = UnpackParameters(formatter, arguments, argumentsKeywords);
+
+            return result;
+        }
+
         protected override Task<object> InvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             WampInvocationContext.Current = new WampInvocationContext(details);
 
             object[] unpacked =
-                UnpackParameters(formatter, arguments, argumentsKeywords);
+                GetMethodParameters(caller, formatter, arguments, argumentsKeywords);
 
             try
             {

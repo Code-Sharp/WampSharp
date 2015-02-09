@@ -16,8 +16,8 @@ namespace WampSharp.V2.Rpc
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
 
-        public SyncMethodInfoRpcOperation(object instance, MethodInfo method) : 
-            this(instance, method, GetProcedure(method))
+        public SyncMethodInfoRpcOperation(object instance, MethodInfo method) :
+            this(instance, method, MethodInfoRpcOperation.GetProcedure(method))
         {
         }
 
@@ -46,19 +46,6 @@ namespace WampSharp.V2.Rpc
                       .Where(x => !x.IsOut)
                       .Select(parameter => new RpcParameter(parameter))
                       .ToArray();
-        }
-
-        private static string GetProcedure(MethodInfo method)
-        {
-            WampProcedureAttribute procedureAttribute =
-                method.GetCustomAttribute<WampProcedureAttribute>(true);
-
-            if (procedureAttribute == null)
-            {
-                // throw 
-            }
-
-            return procedureAttribute.Procedure;
         }
 
         public override RpcParameter[] Parameters
