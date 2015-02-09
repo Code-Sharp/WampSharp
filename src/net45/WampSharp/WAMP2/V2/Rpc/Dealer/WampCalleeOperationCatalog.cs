@@ -252,6 +252,11 @@ namespace WampSharp.V2.Rpc
                     result.Caller = casted.CallerSession;
                 }
 
+                if (callerOptions.ReceiveProgress == true)
+                {
+                    result.ReceiveProgress = true;
+                }
+
                 return result;
             }
 

@@ -212,10 +212,16 @@ namespace WampSharp.V2.Rpc
                 
                 if (!progressiveResult)
                 {
-                    UnregisterInvocation(invocation);                    
+                    UnregisterInvocation(invocation);
+                    return invocation;
                 }
 
-                return invocation;
+                bool requestedProgress = invocation.Options.ReceiveProgress == true;
+
+                if (progressiveResult && requestedProgress)
+                {
+                    return invocation;
+                }
             }
 
             return null;
