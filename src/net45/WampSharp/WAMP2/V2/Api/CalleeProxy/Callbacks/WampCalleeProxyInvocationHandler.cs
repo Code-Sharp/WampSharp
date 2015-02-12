@@ -33,18 +33,20 @@ namespace WampSharp.V2.CalleeProxy
 
         private SyncCallback InnerInvokeSync(CallOptions options, MethodInfo method, object[] arguments, Type unwrapped)
         {
-            SyncCallback syncCallback;
-
             MethodInfoHelper methodInfoHelper = new MethodInfoHelper(method);
 
+            IOperationResultExtractor extractor;
+            
             if (method.HasMultivaluedResult())
             {
-                syncCallback = new MultiValueSyncCallback(methodInfoHelper, arguments);
+                extractor = new MultiValueExtractor(method.ReturnType);
             }
             else
             {
-                syncCallback = new SingleValueSyncCallback(methodInfoHelper, arguments);
+                extractor = new SingleValueExtractor(method.ReturnType, method.HasReturnValue());
             }
+
+            SyncCallback syncCallback = new SyncCallback(methodInfoHelper, arguments, extractor);
 
             WampProcedureAttribute procedureAttribute =
                 method.GetCustomAttribute<WampProcedureAttribute>(true);
