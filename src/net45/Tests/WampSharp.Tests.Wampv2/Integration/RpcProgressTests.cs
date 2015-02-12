@@ -1,5 +1,4 @@
-﻿#if !NET40
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +14,32 @@ namespace WampSharp.Tests.Wampv2.Integration
 {
     public class RpcProgressTests
     {
+        [Test]
+        public async Task ProgressiveCallsCallerProgress()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await SetupService(playground);
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            await calleeChannel.RealmProxy.Services.RegisterCallee(new LongOpService(), new RegisterOptions());
+
+            MyCallback callback = new MyCallback();
+
+            callerChannel.RealmProxy.RpcCatalog.Invoke
+                (callback,
+                    new CallOptions() {ReceiveProgress = true},
+                    "com.myapp.longop",
+                    new object[] {10});
+
+            callback.Task.Wait(2000);
+
+            CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), callback.ProgressiveResults);
+            Assert.That(callback.Task.Result, Is.EqualTo(10));
+        }
+
+        
         [Test]
         public async Task ProgressiveCallsCalleeProxyProgress()
         {
@@ -117,6 +142,79 @@ namespace WampSharp.Tests.Wampv2.Integration
             [WampProgressiveResultProcedure]
             Task<int> LongOp(int n, IProgress<int> progress);
         }
+
+        public class LongOpService : ILongOpService
+        {
+            public async Task<int> LongOp(int n, IProgress<int> progress)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    progress.Report(i);
+                    await Task.Delay(100);
+                }
+
+                return n;
+            }
+        }
+
+        public class MyCallback : IWampRawRpcOperationClientCallback
+        {
+            private readonly List<int> mProgressiveResults = new List<int>();
+            private readonly TaskCompletionSource<int> mTask = new TaskCompletionSource<int>();
+
+            public List<int> ProgressiveResults
+            {
+                get
+                {
+                    return mProgressiveResults;
+                }
+            }
+
+            public Task<int> Task
+            {
+                get { return mTask.Task; }
+            }
+
+            public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
+            {
+                int current = formatter.Deserialize<int>(arguments[0]);
+
+                if (details.Progress == true)
+                {
+                    mProgressiveResults.Add(current);
+                }
+                else
+                {
+                    mTask.SetResult(current);
+                }
+            }
+
+            public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments,
+                IDictionary<string, TMessage> argumentsKeywords)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments,
+                TMessage argumentsKeywords)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
-#endif
