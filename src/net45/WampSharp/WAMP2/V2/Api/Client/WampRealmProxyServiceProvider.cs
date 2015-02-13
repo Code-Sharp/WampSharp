@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
@@ -36,7 +32,24 @@ namespace WampSharp.V2
             return RegisterCallee(instance, EmptyOptions);
         }
 
+        public Task UnregisterCallee(object instance)
+        {
+            Task result = CalleeAggregatedCall(instance,
+                operation => mProxy.RpcCatalog.Unregister(operation));
+
+            return result;
+        }
+
         public Task RegisterCallee(object instance, RegisterOptions registerOptions)
+        {
+            Task result =
+                CalleeAggregatedCall(instance,
+                    operation => mProxy.RpcCatalog.Register(operation, registerOptions));
+            
+            return result;
+        }
+
+        private Task CalleeAggregatedCall(object instance, Func<IWampRpcOperation, Task> action)
         {
             IEnumerable<IWampRpcOperation> operations =
                 mExtractor.ExtractOperations(instance);
@@ -45,8 +58,7 @@ namespace WampSharp.V2
 
             foreach (IWampRpcOperation operation in operations)
             {
-                Task task =
-                    mProxy.RpcCatalog.Register(operation, registerOptions);
+                Task task = action(operation);
 
                 registrations.Add(task);
             }

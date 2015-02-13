@@ -17,7 +17,16 @@ namespace WampSharp.V2
         /// <param name="instance">The instance to register.</param>
         /// <returns>A task that is completed when all methods are registered.</returns>
         Task RegisterCallee(object instance);
-        
+
+        /// <summary>
+        /// Unregisters an instance of a type having methods decorated with
+        /// <see cref="WampProcedureAttribute"/> from the realm.
+        /// </summary>
+        /// <param name="instance">The instance to register.</param>
+        /// <returns>A task that is completed when all methods are unregistered.</returns>
+        Task UnregisterCallee(object instance);
+
+
         /// <summary>
         /// Registers an instance of a type having methods decorated with
         /// <see cref="WampProcedureAttribute"/> to the realm.

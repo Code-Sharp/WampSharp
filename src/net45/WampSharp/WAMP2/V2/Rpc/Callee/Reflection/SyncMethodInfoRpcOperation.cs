@@ -101,5 +101,26 @@ namespace WampSharp.V2.Rpc
                 WampInvocationContext.Current = null;
             }
         }
+
+        protected bool Equals(SyncMethodInfoRpcOperation other)
+        {
+            return Equals(mMethod, other.mMethod) && Equals(mInstance, other.mInstance);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((SyncMethodInfoRpcOperation) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((mMethod != null ? mMethod.GetHashCode() : 0)*397) ^ (mInstance != null ? mInstance.GetHashCode() : 0);
+            }
+        }
     }
 }
