@@ -26,7 +26,6 @@ namespace WampSharp.V2
         /// <returns>A task that is completed when all methods are unregistered.</returns>
         Task UnregisterCallee(object instance);
 
-
         /// <summary>
         /// Registers an instance of a type having methods decorated with
         /// <see cref="WampProcedureAttribute"/> to the realm.
@@ -46,10 +45,10 @@ namespace WampSharp.V2
         /// <summary>
         /// Gets a proxy of a callee registered in the realm.
         /// </summary>
-        /// <param name="callOptions">The <see cref="CallOptions"/> to init this proxy with.</param>
+        /// <param name="interceptor">An object which allows call customization.</param>
         /// <typeparam name="TProxy"></typeparam>
         /// <returns>The proxy to the callee.</returns>
-        TProxy GetCalleeProxy<TProxy>(CallOptions callOptions) where TProxy : class;
+        TProxy GetCalleeProxy<TProxy>(ICalleeProxyInterceptor interceptor) where TProxy : class;
 
         /// <summary>
         /// Gets a <see cref="ISubject{TResult}"/> representing a

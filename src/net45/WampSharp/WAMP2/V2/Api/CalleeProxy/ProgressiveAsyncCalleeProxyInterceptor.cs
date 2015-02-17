@@ -11,18 +11,16 @@ namespace WampSharp.V2.CalleeProxy
     internal class ProgressiveAsyncCalleeProxyInterceptor<T> : IInterceptor
     {
         private readonly IWampCalleeProxyInvocationHandler mHandler;
-        private readonly CallOptions mCallOptions;
+        private readonly ICalleeProxyInterceptor mInterceptor;
 
-        public ProgressiveAsyncCalleeProxyInterceptor(IWampCalleeProxyInvocationHandler handler, CallOptions callOptions)
+        public ProgressiveAsyncCalleeProxyInterceptor(IWampCalleeProxyInvocationHandler handler, ICalleeProxyInterceptor interceptor)
         {
             mHandler = handler;
-            mCallOptions = callOptions;
+            mInterceptor = interceptor;
         }
 
         public void Intercept(IInvocation invocation)
         {
-            CallOptions options = new CallOptions(mCallOptions) {ReceiveProgress = true};
-
             object[] arguments = invocation.Arguments;
             
             object[] argumentsWithoutProgress = new object[arguments.Length - 1];
@@ -33,7 +31,7 @@ namespace WampSharp.V2.CalleeProxy
 
             Task result =
                 mHandler.InvokeProgressiveAsync
-                    (options, invocation.Method, argumentsWithoutProgress, progress);
+                    (mInterceptor, invocation.Method, argumentsWithoutProgress, progress);
 
             invocation.ReturnValue = result;
         }

@@ -223,6 +223,8 @@
     <Compile Include="WAMP1\V1\Rpc\Server\WampRpcServer.cs" />
     <Compile Include="WAMP1\V1\Rpc\WampRpcCallException.cs" />
     <Compile Include="WAMP1\V1\Rpc\WampRpcMethodAttribute.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\CachedCalleeProxyInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\IOperationResultExtractor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\MultiValueExtractor.cs" />
@@ -231,6 +233,8 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallback.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CallerProgress.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs" />

@@ -13,11 +13,11 @@ namespace WampSharp.V2.CalleeProxy
 {
     internal abstract class WampCalleeProxyInvocationHandler : IWampCalleeProxyInvocationHandler
     {
-        public object Invoke(CallOptions options, MethodInfo method, object[] arguments)
+        public object Invoke(ICalleeProxyInterceptor interceptor, MethodInfo method, object[] arguments)
         {
             Type unwrapped = TaskExtensions.UnwrapReturnType(method.ReturnType);
 
-            SyncCallback callback = InnerInvokeSync(options, method, arguments, unwrapped);
+            SyncCallback callback = InnerInvokeSync(interceptor, method, arguments, unwrapped);
 
             WaitForResult(callback);
 
@@ -31,7 +31,7 @@ namespace WampSharp.V2.CalleeProxy
             return callback.OperationResult;
         }
 
-        private SyncCallback InnerInvokeSync(CallOptions options, MethodInfo method, object[] arguments, Type unwrapped)
+        private SyncCallback InnerInvokeSync(ICalleeProxyInterceptor interceptor, MethodInfo method, object[] arguments, Type unwrapped)
         {
             MethodInfoHelper methodInfoHelper = new MethodInfoHelper(method);
 
@@ -48,18 +48,15 @@ namespace WampSharp.V2.CalleeProxy
 
             SyncCallback syncCallback = new SyncCallback(methodInfoHelper, arguments, extractor);
 
-            WampProcedureAttribute procedureAttribute =
-                method.GetCustomAttribute<WampProcedureAttribute>(true);
-
             object[] argumentsToSend = 
                 methodInfoHelper.GetInputArguments(arguments);
 
-            Invoke(options, syncCallback, procedureAttribute.Procedure, argumentsToSend);
+            Invoke(interceptor, syncCallback, method, argumentsToSend);
 
             return syncCallback;
         }
 
-        public Task InvokeAsync(CallOptions options, MethodInfo method, object[] arguments)
+        public Task InvokeAsync(ICalleeProxyInterceptor interceptor, MethodInfo method, object[] arguments)
         {
             Type returnType = method.ReturnType;
 
@@ -69,7 +66,7 @@ namespace WampSharp.V2.CalleeProxy
 
             AsyncOperationCallback callback = new AsyncOperationCallback(extractor);
 
-            Task<object> task = InnerInvokeAsync(callback, options, method, arguments);
+            Task<object> task = InnerInvokeAsync(callback, interceptor, method, arguments);
 
             Task casted = task.Cast(unwrapped);
 
@@ -77,7 +74,7 @@ namespace WampSharp.V2.CalleeProxy
         }
 
 #if !NET40
-        public Task InvokeProgressiveAsync<T>(CallOptions options, MethodInfo method, object[] arguments, IProgress<T> progress)
+        public Task InvokeProgressiveAsync<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, object[] arguments, IProgress<T> progress)
         {
             Type returnType = typeof(T);
 
@@ -86,7 +83,7 @@ namespace WampSharp.V2.CalleeProxy
             ProgressiveAsyncOperationCallback<T> asyncOperationCallback =
                 new ProgressiveAsyncOperationCallback<T>(progress, extractor);
 
-            Task<object> task = InnerInvokeAsync(asyncOperationCallback, options, method, arguments);
+            Task<object> task = InnerInvokeAsync(asyncOperationCallback, interceptor, method, arguments);
 
             Task casted = task.Cast(returnType);
 
@@ -111,17 +108,14 @@ namespace WampSharp.V2.CalleeProxy
             return extractor;
         }
 
-        private Task<object> InnerInvokeAsync(AsyncOperationCallback callback, CallOptions options, MethodInfo method, object[] arguments)
+        private Task<object> InnerInvokeAsync(AsyncOperationCallback callback, ICalleeProxyInterceptor interceptor, MethodInfo method, object[] arguments)
         {
-            WampProcedureAttribute procedureAttribute = 
-                method.GetCustomAttribute<WampProcedureAttribute>(true);
-
-            Invoke(options, callback, procedureAttribute.Procedure, arguments);
+            Invoke(interceptor, callback, method, arguments);
 
             return AwaitForResult(callback);
         }
 
-        protected abstract void Invoke(CallOptions options, IWampRawRpcOperationClientCallback callback, string procedure, object[] arguments);
+        protected abstract void Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments);
 
         protected virtual void WaitForResult(SyncCallback callback)
         {

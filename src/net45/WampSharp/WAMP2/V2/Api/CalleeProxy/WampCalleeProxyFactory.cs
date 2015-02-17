@@ -13,11 +13,11 @@ namespace WampSharp.V2.CalleeProxy
             mHandler = handler;
         }
 
-        public TProxy GetProxy<TProxy>(CallOptions callOptions) where TProxy : class
+        public TProxy GetProxy<TProxy>(ICalleeProxyInterceptor interceptor) where TProxy : class
         {
             ProxyGenerationOptions options = new ProxyGenerationOptions()
             {
-                Selector = new WampCalleeProxyInterceptorSelector(mHandler, callOptions)
+                Selector = new WampCalleeProxyInterceptorSelector(mHandler, interceptor)
             };
 
             TProxy proxy =
@@ -25,8 +25,8 @@ namespace WampSharp.V2.CalleeProxy
                     (options,
                         new IInterceptor[]
                         {
-                            new SyncCalleeProxyInterceptor(mHandler, callOptions),
-                            new AsyncCalleeProxyInterceptor(mHandler, callOptions)
+                            new SyncCalleeProxyInterceptor(mHandler, interceptor),
+                            new AsyncCalleeProxyInterceptor(mHandler, interceptor)
                         });
 
             return proxy;

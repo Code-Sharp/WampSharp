@@ -79,12 +79,12 @@ namespace WampSharp.V2
 
         public TProxy GetCalleeProxy<TProxy>() where TProxy : class
         {
-            return mCalleeProxyFactory.GetProxy<TProxy>(new CallOptions());
+            return mCalleeProxyFactory.GetProxy<TProxy>(CalleeProxyInterceptor.Default);
         }
 
-        public TProxy GetCalleeProxy<TProxy>(CallOptions callOptions) where TProxy : class
+        public TProxy GetCalleeProxy<TProxy>(ICalleeProxyInterceptor interceptor) where TProxy : class
         {
-            return mCalleeProxyFactory.GetProxy<TProxy>(callOptions);
+            return mCalleeProxyFactory.GetProxy<TProxy>(interceptor);
         }
 
         public ISubject<TEvent> GetSubject<TEvent>(string topicUri)

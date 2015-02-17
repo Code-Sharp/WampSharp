@@ -13,12 +13,12 @@ namespace WampSharp.V2.CalleeProxy
         IInterceptorSelector
     {
         private readonly IWampCalleeProxyInvocationHandler mHandler;
-        private readonly CallOptions mCallOptions;
+        private readonly ICalleeProxyInterceptor mInterceptor;
 
-        public WampCalleeProxyInterceptorSelector(IWampCalleeProxyInvocationHandler handler, CallOptions callOptions)
+        public WampCalleeProxyInterceptorSelector(IWampCalleeProxyInvocationHandler handler, ICalleeProxyInterceptor interceptor)
         {
             mHandler = handler;
-            mCallOptions = callOptions;
+            mInterceptor = interceptor;
         }
 
         public IInterceptor[] SelectInterceptors(Type type, MethodInfo method, IInterceptor[] interceptors)
@@ -36,7 +36,7 @@ namespace WampSharp.V2.CalleeProxy
                         (IInterceptor)
                             Activator.CreateInstance(typeof (ProgressiveAsyncCalleeProxyInterceptor<>)
                                 .MakeGenericType(taskType),
-                                mHandler, mCallOptions);
+                                mHandler, mInterceptor);
 
                     return new IInterceptor[] {interceptor};
                 }

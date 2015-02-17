@@ -6,18 +6,18 @@ namespace WampSharp.V2.CalleeProxy
     internal class SyncCalleeProxyInterceptor : IInterceptor
     {
         private readonly IWampCalleeProxyInvocationHandler mHandler;
-        private readonly CallOptions mCallOptions;
+        private readonly ICalleeProxyInterceptor mInterceptor;
 
-        public SyncCalleeProxyInterceptor(IWampCalleeProxyInvocationHandler handler, CallOptions callOptions)
+        public SyncCalleeProxyInterceptor(IWampCalleeProxyInvocationHandler handler, ICalleeProxyInterceptor interceptor)
         {
             mHandler = handler;
-            mCallOptions = callOptions;
+            mInterceptor = interceptor;
         }
 
         public void Intercept(IInvocation invocation)
         {
             object result =
-                mHandler.Invoke(mCallOptions, invocation.Method, invocation.Arguments);
+                mHandler.Invoke(mInterceptor, invocation.Method, invocation.Arguments);
 
             invocation.ReturnValue = result;
         }
