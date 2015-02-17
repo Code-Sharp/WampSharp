@@ -17,11 +17,6 @@ namespace WampSharp.V2.Rpc
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
 
-        public AsyncMethodInfoRpcOperation(object instance, MethodInfo method) : 
-            this(instance, method, MethodInfoRpcOperation.GetProcedure(method))
-        {
-        }
-
         public AsyncMethodInfoRpcOperation(object instance, MethodInfo method, string procedureName) :
             base(procedureName)
         {

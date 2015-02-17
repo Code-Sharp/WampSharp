@@ -16,8 +16,6 @@ namespace WampSharp.V2
 
         private readonly IWampRealmProxy mProxy;
         private readonly WampCalleeClientProxyFactory mCalleeProxyFactory;
-        private readonly RegisterOptions EmptyOptions = 
-            new RegisterOptions();
 
         public WampRealmProxyServiceProvider(IWampRealmProxy proxy)
         {
@@ -29,36 +27,44 @@ namespace WampSharp.V2
 
         public Task RegisterCallee(object instance)
         {
-            return RegisterCallee(instance, EmptyOptions);
+            return RegisterCallee(instance, CalleeRegistrationInterceptor.Default);
         }
 
         public Task UnregisterCallee(object instance)
         {
-            Task result = CalleeAggregatedCall(instance,
-                operation => mProxy.RpcCatalog.Unregister(operation));
-
-            return result;
+            return UnregisterCallee(instance, CalleeRegistrationInterceptor.Default);
         }
 
-        public Task RegisterCallee(object instance, RegisterOptions registerOptions)
+        public Task RegisterCallee(object instance, ICalleeRegistrationInterceptor interceptor)
         {
             Task result =
-                CalleeAggregatedCall(instance,
-                    operation => mProxy.RpcCatalog.Register(operation, registerOptions));
+                CalleeAggregatedCall(instance, interceptor,
+                    (operation, options) => mProxy.RpcCatalog.Register(operation, options));
             
             return result;
         }
 
-        private Task CalleeAggregatedCall(object instance, Func<IWampRpcOperation, Task> action)
+        public Task UnregisterCallee(object instance, ICalleeRegistrationInterceptor interceptor)
         {
-            IEnumerable<IWampRpcOperation> operations =
-                mExtractor.ExtractOperations(instance);
+            Task result = CalleeAggregatedCall(instance, interceptor,
+                (operation, options) => mProxy.RpcCatalog.Unregister(operation));
+
+            return result;
+        }
+
+        private Task CalleeAggregatedCall(object instance, ICalleeRegistrationInterceptor interceptor, Func<IWampRpcOperation, RegisterOptions, Task> action)
+        {
+            IEnumerable<OperationToRegister> operationsToRegister =
+                mExtractor.ExtractOperations(instance, interceptor);
 
             List<Task> registrations = new List<Task>();
 
-            foreach (IWampRpcOperation operation in operations)
+            foreach (OperationToRegister operationToRegister in operationsToRegister)
             {
-                Task task = action(operation);
+                IWampRpcOperation operation = operationToRegister.Operation;
+                RegisterOptions options = operationToRegister.Options;
+
+                Task task = action(operation, options);
 
                 registrations.Add(task);
             }

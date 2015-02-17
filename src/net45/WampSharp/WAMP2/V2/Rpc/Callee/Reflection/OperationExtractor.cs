@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.V2.Core.Contracts;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.V2.Rpc
 {
     internal class OperationExtractor : IOperationExtractor
     {
-        public IEnumerable<IWampRpcOperation> ExtractOperations(object instance)
+        public IEnumerable<OperationToRegister> ExtractOperations(object instance, ICalleeRegistrationInterceptor interceptor)
         {
             Type type = instance.GetType();
             IEnumerable<Type> typesToExplore = GetTypesToExplore(type);
 
             foreach (Type currentType in typesToExplore)
             {
-                IEnumerable<IWampRpcOperation> currentOperations = 
-                    GetServiceMethodsOfType(instance, currentType);
+                IEnumerable<OperationToRegister> currentOperations =
+                    GetServiceMethodsOfType(instance, currentType, interceptor);
 
-                foreach (IWampRpcOperation operation in currentOperations)
+                foreach (OperationToRegister operation in currentOperations)
                 {
                     yield return operation;
                 }
@@ -36,18 +37,28 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private IEnumerable<IWampRpcOperation> GetServiceMethodsOfType(object instance, Type type)
+        private IEnumerable<OperationToRegister> GetServiceMethodsOfType(object instance, Type type, ICalleeRegistrationInterceptor interceptor)
         {
-            return type.GetMethods()
-                       .Where(method => method.IsDefined(typeof (WampProcedureAttribute), true))
-                       .Select(method => CreateRpcMethod(instance, method));
+            foreach (var method in type.GetMethods())
+            {
+                if (interceptor.IsCalleeProcedure(method))
+                {
+                    IWampRpcOperation operation = CreateRpcMethod(instance, interceptor, method);
+                    RegisterOptions options = interceptor.GetRegisterOptions(method);
+
+                    yield return new OperationToRegister(operation, options);
+                }
+            }
         }
 
-        protected IWampRpcOperation CreateRpcMethod(object instance, MethodInfo method)
+        protected IWampRpcOperation CreateRpcMethod(object instance, ICalleeRegistrationInterceptor interceptor, MethodInfo method)
         {
+            string procedureUri =
+                interceptor.GetProcedureUri(method);
+
             if (!typeof (Task).IsAssignableFrom(method.ReturnType))
             {
-                return new SyncMethodInfoRpcOperation(instance, method);
+                return new SyncMethodInfoRpcOperation(instance, method, procedureUri);
             }
             else
             {
@@ -58,21 +69,21 @@ namespace WampSharp.V2.Rpc
 #if !NET40
                 if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
                 {
-                    return CreateProgressiveOperation(instance, method);
+                    return CreateProgressiveOperation(instance, method, procedureUri);
                 }
                 else
 #endif
                 {
-                    return new AsyncMethodInfoRpcOperation(instance, method);
+                    return new AsyncMethodInfoRpcOperation(instance, method, procedureUri);
                 }
             }
         }
 
 #if !NET40
-        private static IWampRpcOperation CreateProgressiveOperation(object instance, MethodInfo method)
+        private static IWampRpcOperation CreateProgressiveOperation(object instance, MethodInfo method, string procedureUri)
         {
             //return new ProgressiveAsyncMethodInfoRpcOperation<returnType>
-            // (instance, method);
+            // (instance, method, procedureUri);
 
             Type returnType =
                 TaskExtensions.UnwrapReturnType(method.ReturnType);
@@ -94,7 +105,8 @@ namespace WampSharp.V2.Rpc
             IWampRpcOperation operation =
                 (IWampRpcOperation) Activator.CreateInstance(operationType,
                     instance,
-                    method);
+                    method,
+                    procedureUri);
 
             return operation;
         }

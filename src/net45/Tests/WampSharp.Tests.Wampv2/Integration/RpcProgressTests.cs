@@ -23,7 +23,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             IWampChannel calleeChannel = dualChannel.CalleeChannel;
             IWampChannel callerChannel = dualChannel.CallerChannel;
 
-            await calleeChannel.RealmProxy.Services.RegisterCallee(new LongOpService(), new RegisterOptions());
+            await calleeChannel.RealmProxy.Services.RegisterCallee(new LongOpService());
 
             MyCallback callback = new MyCallback();
 

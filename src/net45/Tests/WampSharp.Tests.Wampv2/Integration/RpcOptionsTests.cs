@@ -121,7 +121,8 @@ namespace WampSharp.Tests.Wampv2.Integration
             MyService service = new MyService();
 
             Task registerTask =
-                calleeChannel.RealmProxy.Services.RegisterCallee(service, registerOptions);
+                calleeChannel.RealmProxy.Services.RegisterCallee(service,
+                    new CalleeRegistrationInterceptor(registerOptions));
 
             await registerTask;
 

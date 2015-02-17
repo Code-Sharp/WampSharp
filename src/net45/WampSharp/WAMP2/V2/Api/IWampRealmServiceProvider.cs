@@ -1,6 +1,5 @@
 ﻿using System.Reactive.Subjects;
 using System.Threading.Tasks;
-using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2
@@ -19,22 +18,31 @@ namespace WampSharp.V2
         Task RegisterCallee(object instance);
 
         /// <summary>
-        /// Unregisters an instance of a type having methods decorated with
-        /// <see cref="WampProcedureAttribute"/> from the realm.
-        /// </summary>
-        /// <param name="instance">The instance to register.</param>
-        /// <returns>A task that is completed when all methods are unregistered.</returns>
-        Task UnregisterCallee(object instance);
-
-        /// <summary>
         /// Registers an instance of a type having methods decorated with
         /// <see cref="WampProcedureAttribute"/> to the realm.
         /// </summary>
         /// <param name="instance">The instance to register.</param>
-        /// <param name="registerOptions">The registration options to use for this callee.</param>
+        /// <param name="interceptor">An object which allows registration customization.</param>
         /// <returns>A task that is completed when all methods are registered.</returns>
-        Task RegisterCallee(object instance, RegisterOptions registerOptions);
+        Task RegisterCallee(object instance, ICalleeRegistrationInterceptor interceptor);
 
+        /// <summary>
+        /// Unregisters an instance of a type having methods decorated with
+        /// <see cref="WampProcedureAttribute"/> from the realm.
+        /// </summary>
+        /// <param name="instance">The instance to unregister.</param>
+        /// <returns>A task that is completed when all methods are unregistered.</returns>
+        Task UnregisterCallee(object instance);
+
+        /// <summary>
+        /// Unregisters an instance of a type having methods decorated with
+        /// <see cref="WampProcedureAttribute"/> from the realm.
+        /// </summary>
+        /// <param name="instance">The instance to unregister.</param>
+        /// <param name="interceptor">An object which allows registration customization.</param>
+        /// <returns>A task that is completed when all methods are unregistered.</returns>
+        Task UnregisterCallee(object instance, ICalleeRegistrationInterceptor interceptor);
+        
         /// <summary>
         /// Gets a proxy of a callee registered in the realm.
         /// </summary>
