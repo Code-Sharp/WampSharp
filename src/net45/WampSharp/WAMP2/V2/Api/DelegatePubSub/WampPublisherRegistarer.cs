@@ -73,14 +73,35 @@ namespace WampSharp.V2.DelegatePubSub
             IWampTopicProxy topicProxy = mProxy.TopicContainer.GetTopicByUri(topic);
             PublishOptions options = interceptor.GetPublishOptions(@event);
 
-            Delegate createdDelegate =
-                mEventHandlerGenerator.CreateKeywordsDelegate(@event.EventHandlerType, topicProxy, options);
+            Delegate createdDelegate;
+
+            Type eventHandlerType = @event.EventHandlerType;
+
+            if (IsPositional(eventHandlerType))
+            {
+                createdDelegate =
+                    mEventHandlerGenerator.CreateKeywordsDelegate(eventHandlerType, topicProxy, options);
+            }
+            else
+            {
+                createdDelegate =
+                    mEventHandlerGenerator.CreatePositionalDelegate(eventHandlerType, topicProxy, options);
+            }
 
             @event.AddEventHandler(instance, createdDelegate);
 
             PublisherRegistration registration = new PublisherRegistration(instance, createdDelegate, @event, topic);
 
             mRegistrations.TryAdd(Tuple.Create(instance, topic), registration);
+        }
+
+        private bool IsPositional(Type eventHandlerType)
+        {
+            // TODO: add support using the interceptor/an attribute.
+            return eventHandlerType.Name == typeof (Action).Name &&
+                   eventHandlerType.Namespace == typeof (Action).Namespace &&
+                   eventHandlerType.Assembly == typeof (Action).Assembly ||
+                   eventHandlerType.Assembly == typeof (Action<,,,,,,,,,,,,,,,>).Assembly;
         }
 
         private void UnregisterFromEvent(object instance, EventInfo @event, IPublisherRegistrationInterceptor interceptor)
