@@ -19,7 +19,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="options">The request options.</param>
         /// <param name="topicUri">The uri of the topic to publish this message to.</param>
         [WampHandler(WampMessageType.v2Publish)]
-        void Publish([WampProxyParameter]IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri);
+        void Publish([WampProxyParameter]IWampPublisher publisher, long requestId, PublishOptions options, string topicUri);
 
         /// <summary>
         /// Occurs when a PUBLISH message is arrived.
@@ -30,7 +30,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="topicUri">The uri of the topic to publish this message to.</param>
         /// <param name="arguments">The arguments to publish.</param>
         [WampHandler(WampMessageType.v2Publish)]
-        void Publish([WampProxyParameter]IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri, TMessage[] arguments);
+        void Publish([WampProxyParameter]IWampPublisher publisher, long requestId, PublishOptions options, string topicUri, TMessage[] arguments);
 
         /// <summary>
         /// Occurs when a PUBLISH message is arrived.
@@ -42,7 +42,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="arguments">The arguments to publish.</param>
         /// <param name="argumentKeywords">Additional argument keywords to publish.</param>
         [WampHandler(WampMessageType.v2Publish)]
-        void Publish([WampProxyParameter] IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords);
+        void Publish([WampProxyParameter] IWampPublisher publisher, long requestId, PublishOptions options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords);
 
         /// <summary>
         /// Occurs when a SUBSCRIBE message is arrived.
