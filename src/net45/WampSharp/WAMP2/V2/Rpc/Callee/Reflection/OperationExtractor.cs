@@ -37,9 +37,13 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private IEnumerable<OperationToRegister> GetServiceMethodsOfType(object instance, Type type, ICalleeRegistrationInterceptor interceptor)
+        private IEnumerable<OperationToRegister> GetServiceMethodsOfType
+            (object instance,
+                Type type,
+                ICalleeRegistrationInterceptor interceptor)
         {
-            foreach (var method in type.GetMethods())
+            foreach (var method in type.GetMethods(BindingFlags.Instance |
+                                                   BindingFlags.Public))
             {
                 if (interceptor.IsCalleeProcedure(method))
                 {

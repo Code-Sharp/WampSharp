@@ -45,8 +45,7 @@ namespace WampSharp.V2.DelegatePubSub
             foreach (Type type in typesToExplore)
             {
                 foreach (EventInfo @event in type.GetEvents(BindingFlags.Instance |
-                                                            BindingFlags.Public |
-                                                            BindingFlags.NonPublic))
+                                                            BindingFlags.Public))
                 {
                     if (interceptor.IsPublisherTopic(@event))
                     {
