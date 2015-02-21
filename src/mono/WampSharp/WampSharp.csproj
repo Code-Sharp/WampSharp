@@ -564,6 +564,21 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs">
+      <Link>WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\IPublisherRegistrationInterceptor.cs">
+      <Link>WAMP2\V2\Api\DelegatePubSub\IPublisherRegistrationInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\PublisherRegistrationInterceptor.cs">
+      <Link>WAMP2\V2\Api\DelegatePubSub\PublisherRegistrationInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistarer.cs">
+      <Link>WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistarer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\WampTopicAttribute.cs">
+      <Link>WAMP2\V2\PubSub\WampTopicAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs</Link>
     </Compile>

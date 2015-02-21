@@ -7,7 +7,6 @@ namespace WampSharp.V2.Rpc
     {
         private readonly string mProcedure;
 
-        // This is a positional argument
         public WampProcedureAttribute(string procedure)
         {
             this.mProcedure = procedure;

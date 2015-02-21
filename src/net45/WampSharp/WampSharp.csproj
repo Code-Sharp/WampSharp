@@ -232,6 +232,11 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\SingleValueExtractor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallback.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs" />
+    <Compile Include="WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs" />
+    <Compile Include="WAMP2\V2\Api\DelegatePubSub\IPublisherRegistrationInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Api\DelegatePubSub\PublisherRegistrationInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistarer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WampTopicAttribute.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />
