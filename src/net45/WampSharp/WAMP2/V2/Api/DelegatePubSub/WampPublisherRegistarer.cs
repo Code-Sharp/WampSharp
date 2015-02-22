@@ -2,8 +2,10 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
+using WampSharp.Core.Listener;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.DelegatePubSub
 {
@@ -19,6 +21,28 @@ namespace WampSharp.V2.DelegatePubSub
         public WampPublisherRegistarer(IWampRealmProxy proxy)
         {
             mProxy = proxy;
+            proxy.Monitor.ConnectionBroken += OnConnectionBroken;
+            proxy.Monitor.ConnectionError += OnConnectionError;
+        }
+
+        private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
+        {
+            ClearRegistrations();
+        }
+        
+        private void OnConnectionBroken(object sender, WampSessionCloseEventArgs e)
+        {
+            ClearRegistrations();
+        }
+
+        private void ClearRegistrations()
+        {
+            foreach (PublisherRegistration registration in mRegistrations.Values)
+            {
+                registration.Dispose();
+            }
+
+            mRegistrations.Clear();
         }
 
         public void RegisterPublisher(object instance, IPublisherRegistrationInterceptor interceptor)
