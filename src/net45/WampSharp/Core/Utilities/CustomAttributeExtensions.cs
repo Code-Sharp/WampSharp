@@ -1,4 +1,5 @@
-﻿namespace System.Reflection
+﻿ // ReSharper disable once CheckNamespace
+namespace System.Reflection
 {
 #if !NET45
     public static class CustomAttributeExtensions

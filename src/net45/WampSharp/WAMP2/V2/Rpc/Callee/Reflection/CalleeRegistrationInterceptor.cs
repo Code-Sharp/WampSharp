@@ -2,6 +2,7 @@ using System.Reflection;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
+// ReSharper disable once CheckNamespace
 namespace WampSharp.V2
 {
     public class CalleeRegistrationInterceptor : ICalleeRegistrationInterceptor

@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using WampSharp.V2.Core.Contracts;
 
+// ReSharper disable once CheckNamespace
 namespace WampSharp.V2
 {
     /// <summary>

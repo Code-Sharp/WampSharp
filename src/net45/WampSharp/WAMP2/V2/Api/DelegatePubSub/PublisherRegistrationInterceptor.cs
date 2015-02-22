@@ -1,8 +1,8 @@
 using System.Reflection;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.DelegatePubSub;
 using WampSharp.V2.PubSub;
 
+// ReSharper disable once CheckNamespace
 namespace WampSharp.V2
 {
     public class PublisherRegistrationInterceptor : IPublisherRegistrationInterceptor
