@@ -143,8 +143,14 @@ namespace WampSharp.V2.DelegatePubSub
                 };
 
             // TODO: add support using the interceptor/an attribute.
-            return eventHandlerType.IsGenericType &&
-                   actionTypes.Contains(eventHandlerType.GetGenericTypeDefinition());
+            if (!eventHandlerType.IsGenericType)
+            {
+                return actionTypes.Contains(eventHandlerType);
+            }
+            else
+            {
+                return actionTypes.Contains(eventHandlerType.GetGenericTypeDefinition());
+            }
         }
 
         private void UnregisterFromEvent(object instance, EventInfo @event, IPublisherRegistrationInterceptor interceptor)
