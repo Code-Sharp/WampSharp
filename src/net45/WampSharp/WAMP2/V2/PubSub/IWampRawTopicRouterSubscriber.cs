@@ -16,8 +16,8 @@ namespace WampSharp.V2.PubSub
         /// <param name="publicationId">The publication id of this event.</param>
         /// <param name="options">The publication options.</param>
         /// <typeparam name="TMessage"></typeparam>
-
         void Event<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options);
+
         /// <summary>
         /// Occurs when an event arrives.
         /// </summary>

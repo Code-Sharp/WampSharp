@@ -207,6 +207,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Serialization\WampSerializationInterceptor.cs">
       <Link>Core\Serialization\WampSerializationInterceptor.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\AsyncDisposable\AsyncDisposableExtensions.cs">
+      <Link>Core\Utilities\AsyncDisposable\AsyncDisposableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\CustomAttributeExtensions.cs">
       <Link>Core\Utilities\CustomAttributeExtensions.cs</Link>
     </Compile>
@@ -564,20 +567,50 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\AsyncDisposable\CompositeAsyncDisposable.cs">
+      <Link>Core\Utilities\AsyncDisposable\CompositeAsyncDisposable.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\IPublisherRegistrationInterceptor.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\IPublisherRegistrationInterceptor.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\ISubscriberRegistrationInterceptor.cs">
+      <Link>WAMP2\V2\Api\DelegatePubSub\ISubscriberRegistrationInterceptor.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\PublisherRegistrationInterceptor.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\PublisherRegistrationInterceptor.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistarer.cs">
-      <Link>WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistarer.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\SubscriberRegistrationInterceptor.cs">
+      <Link>WAMP2\V2\Api\DelegatePubSub\SubscriberRegistrationInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistrar.cs">
+      <Link>WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistrar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs">
+      <Link>WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampEventContext.cs">
+      <Link>WAMP2\V2\Api\WampEventContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\AsyncDisposable\IAsyncDisposable.cs">
+      <Link>Core\Utilities\AsyncDisposable\IAsyncDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Subscriber\LocalSubscriber.cs">
+      <Link>WAMP2\V2\PubSub\Subscriber\LocalSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs">
+      <Link>WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\WampTopicAttribute.cs">
       <Link>WAMP2\V2\PubSub\WampTopicAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\ArgumentUnpacker.cs">
+      <Link>WAMP2\V2\Core\ArgumentUnpacker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\LocalParameter.cs">
+      <Link>WAMP2\V2\Rpc\Callee\LocalParameter.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs</Link>
@@ -872,9 +905,6 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\PubSub\WampTopicProxy.cs">
       <Link>WAMP2\V2\Client\PubSub\WampTopicProxy.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\PubSub\WampTopicClientProxySection.cs">
-      <Link>WAMP2\V2\Client\PubSub\WampTopicClientProxySection.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Realm\IWampRealmProxy.cs">
       <Link>WAMP2\V2\Client\Realm\IWampRealmProxy.cs</Link>

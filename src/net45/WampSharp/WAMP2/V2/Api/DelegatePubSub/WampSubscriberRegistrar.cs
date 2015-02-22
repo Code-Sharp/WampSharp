@@ -1,7 +1,9 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using SystemEx;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
@@ -17,12 +19,12 @@ namespace WampSharp.V2.DelegatePubSub
             mProxy = proxy;
         }
 
-        public Task RegisterSubscriber(object instance, ISubscriberRegistrationInterceptor interceptor)
+        public Task<IAsyncDisposable> RegisterSubscriber(object instance, ISubscriberRegistrationInterceptor interceptor)
         {
             return AggregateSubscriberEventHandlers(instance, interceptor);
         }
 
-        private Task AggregateSubscriberEventHandlers(object instance, ISubscriberRegistrationInterceptor interceptor)
+        private Task<IAsyncDisposable> AggregateSubscriberEventHandlers(object instance, ISubscriberRegistrationInterceptor interceptor)
         {
             if (instance == null)
             {
@@ -31,7 +33,7 @@ namespace WampSharp.V2.DelegatePubSub
 
             IEnumerable<Type> typesToExplore = GetTypesToExplore(instance);
 
-            List<Task> tasks = new List<Task>(); 
+            List<Task<IAsyncDisposable>> tasks = new List<Task<IAsyncDisposable>>(); 
 
             foreach (Type type in typesToExplore)
             {
@@ -51,7 +53,7 @@ namespace WampSharp.V2.DelegatePubSub
                         IWampRawTopicClientSubscriber methodInfoSubscriber = 
                             new MethodInfoSubscriber(instance, method, topicUri);
 
-                        Task task =
+                        Task<IAsyncDisposable> task =
                             topicProxy.Subscribe(methodInfoSubscriber, subscribeOptions);
 
                         tasks.Add(task);
@@ -59,7 +61,9 @@ namespace WampSharp.V2.DelegatePubSub
                 }
             }
 
-            return Task.WhenAll(tasks);
+            Task<IAsyncDisposable> result = tasks.ToAsyncDisposableTask();
+
+            return result;
         }
 
         private IEnumerable<Type> GetTypesToExplore(object instance)

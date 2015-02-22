@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SystemEx;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 
@@ -50,6 +51,6 @@ namespace WampSharp.V2.Client
         /// <param name="options">The options to subscribe with.</param>
         /// <returns>A task that completes when the subscription is done,
         /// with a disposable that its dispose will remove the subscription.</returns>
-        Task<IDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options);
+        Task<IAsyncDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options);
     }
 }
