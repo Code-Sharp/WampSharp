@@ -79,12 +79,12 @@ namespace WampSharp.V2.DelegatePubSub
             if (IsPositional(eventHandlerType))
             {
                 createdDelegate =
-                    mEventHandlerGenerator.CreateKeywordsDelegate(eventHandlerType, topicProxy, options);
+                    mEventHandlerGenerator.CreatePositionalDelegate(eventHandlerType, topicProxy, options);
             }
             else
             {
                 createdDelegate =
-                    mEventHandlerGenerator.CreatePositionalDelegate(eventHandlerType, topicProxy, options);
+                    mEventHandlerGenerator.CreateKeywordsDelegate(eventHandlerType, topicProxy, options);
             }
 
             @event.AddEventHandler(instance, createdDelegate);
