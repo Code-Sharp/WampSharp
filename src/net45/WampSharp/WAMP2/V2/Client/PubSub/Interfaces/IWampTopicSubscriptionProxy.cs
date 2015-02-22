@@ -6,7 +6,7 @@ using WampSharp.V2.PubSub;
 
 namespace WampSharp.V2.Client
 {
-    internal interface IWampTopicSubscriptionProxy : IDisposable
+    internal interface IWampTopicSubscriptionProxy
     {
         Task<IAsyncDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri);
     }

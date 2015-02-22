@@ -229,16 +229,6 @@ namespace WampSharp.V2.Client
             mSubscriptionIdToSubscription.Clear();
         }
 
-        public void Dispose()
-        {
-            foreach (var idToSubscription in mSubscriptionIdToSubscription)
-            {
-                idToSubscription.Value.Dispose();
-            }
-
-            mSubscriptionIdToSubscription.Clear();
-        }
-
         private class BaseSubscription
         {
             private readonly IWampRawTopicClientSubscriber mSubscriber;

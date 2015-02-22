@@ -86,8 +86,6 @@ namespace WampSharp.V2.Client
                 {
                     if (!mDisposed)
                     {
-                        mSubscriber.Dispose();
-
                         mContainerDisposable.Dispose();
                         
                         mDisposed = true;
