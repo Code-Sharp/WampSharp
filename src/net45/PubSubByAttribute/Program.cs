@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Concurrency;
 using WampSharp.Core.Listener;
@@ -17,11 +18,21 @@ namespace PubSubByAttribute
     {
         public static void MyMethod(IDictionary<string, object> arguments)
         {
-            
+        
+    
         }
 
         static void Main(string[] args)
         {
+            List<string> typeNames = new List<string>();
+
+            for (int i = 0; i <= 16; i++)
+            {
+                string actionName = string.Format("typeof(Action<{0}>)", string.Join(",", Enumerable.Range(0, i).Select(x => string.Empty)));
+                typeNames.Add(actionName);
+            }
+
+            string arrayInit = string.Join(", ", typeNames);
 
             var init =
                 new Expression[]
@@ -62,13 +73,18 @@ namespace PubSubByAttribute
 
             });
 
-            WampPublisherRegistarer registarer = new WampPublisherRegistarer(channel2.RealmProxy);
+            WampPublisherRegistrar registrar = new WampPublisherRegistrar(channel2.RealmProxy);
             MyPublisher myPublisher = new MyPublisher();
-            registarer.RegisterPublisher(myPublisher, new PublisherRegistrationInterceptor());
+            registrar.RegisterPublisher(myPublisher, new PublisherRegistrationInterceptor());
+
+            WampSubscriberRegistrar registarer2 = new WampSubscriberRegistrar(channel.RealmProxy);
+
+            ISubscriberRegistrationInterceptor s = new SubscriberRegistrationInterceptor();
+            registarer2.RegisterSubscriber(new MySubscriber(), s);
 
             myPublisher.OnMyAction("Yo", "cool!", 5);
 
-            registarer.UnregisterPublisher(myPublisher, new PublisherRegistrationInterceptor());
+            registrar.UnregisterPublisher(myPublisher, new PublisherRegistrationInterceptor());
         }
 
         private static IWampChannel CreateClient(InMemoryTransport inMemoryTransport, IWampBinding<object> inMemoryBinding)
@@ -79,6 +95,15 @@ namespace PubSubByAttribute
             WampChannelFactory factory = new WampChannelFactory();
             IWampChannel channel = factory.CreateChannel("realm1", controlledWampConnection, inMemoryBinding);
             return channel;
+        }
+    }
+
+    internal class MySubscriber
+    {
+        [WampTopic("com.topic.arguments")]
+        public void HandleEvent(string name, string surname, int age)
+        {
+            
         }
     }
 

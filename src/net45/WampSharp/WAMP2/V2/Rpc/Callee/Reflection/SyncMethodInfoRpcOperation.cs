@@ -38,9 +38,9 @@ namespace WampSharp.V2.Rpc
 
             mParameters =
                 method.GetParameters()
-                      .Where(x => !x.IsOut)
-                      .Select(parameter => new RpcParameter(parameter))
-                      .ToArray();
+                    .Where(x => !x.IsOut)
+                    .Select(parameter => new RpcParameter(parameter))
+                    .ToArray();
         }
 
         public override RpcParameter[] Parameters
@@ -59,18 +59,20 @@ namespace WampSharp.V2.Rpc
         }
 
         protected override object InvokeSync<TMessage>
-            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, out IDictionary<string, object> outputs)
+            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+                TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords,
+                out IDictionary<string, object> outputs)
         {
             WampInvocationContext.Current = new WampInvocationContext(details);
 
-            object[] unpacked =
-                UnpackParameters(formatter, arguments, argumentsKeywords);
-
-            object[] parameters =
-                mHelper.GetArguments(unpacked);
-
             try
             {
+                object[] unpacked =
+                    UnpackParameters(formatter, arguments, argumentsKeywords);
+
+                object[] parameters =
+                    mHelper.GetArguments(unpacked);
+
                 object result =
                     mMethod.Invoke(mInstance, parameters);
 
@@ -99,7 +101,8 @@ namespace WampSharp.V2.Rpc
 
         protected bool Equals(SyncMethodInfoRpcOperation other)
         {
-            return Equals(mMethod, other.mMethod) && Equals(mInstance, other.mInstance);
+            return Equals(mInstance, other.mInstance) && Equals(mMethod, other.mMethod) &&
+                   string.Equals(Procedure, other.Procedure);
         }
 
         public override bool Equals(object obj)
@@ -114,7 +117,10 @@ namespace WampSharp.V2.Rpc
         {
             unchecked
             {
-                return ((mMethod != null ? mMethod.GetHashCode() : 0)*397) ^ (mInstance != null ? mInstance.GetHashCode() : 0);
+                var hashCode = (mInstance != null ? mInstance.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (mMethod != null ? mMethod.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (Procedure != null ? Procedure.GetHashCode() : 0);
+                return hashCode;
             }
         }
     }

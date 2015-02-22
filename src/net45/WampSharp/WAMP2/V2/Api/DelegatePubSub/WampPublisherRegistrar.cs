@@ -9,7 +9,7 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.DelegatePubSub
 {
-    public class WampPublisherRegistarer
+    public class WampPublisherRegistrar
     {
         private readonly IWampRealmProxy mProxy;
 
@@ -18,7 +18,7 @@ namespace WampSharp.V2.DelegatePubSub
         private readonly ConcurrentDictionary<Tuple<object, string>, PublisherRegistration> mRegistrations =
             new ConcurrentDictionary<Tuple<object, string>, PublisherRegistration>();
 
-        public WampPublisherRegistarer(IWampRealmProxy proxy)
+        public WampPublisherRegistrar(IWampRealmProxy proxy)
         {
             mProxy = proxy;
             proxy.Monitor.ConnectionBroken += OnConnectionBroken;
@@ -120,11 +120,31 @@ namespace WampSharp.V2.DelegatePubSub
 
         private bool IsPositional(Type eventHandlerType)
         {
+            ICollection<Type> actionTypes =
+                new Type[]
+                {
+                    typeof (Action),
+                    typeof (Action<>), 
+                    typeof (Action<,>), 
+                    typeof (Action<,,>), 
+                    typeof (Action<,,,>),
+                    typeof (Action<,,,,>), 
+                    typeof (Action<,,,,,>), 
+                    typeof (Action<,,,,,,>), 
+                    typeof (Action<,,,,,,,>),
+                    typeof (Action<,,,,,,,,>), 
+                    typeof (Action<,,,,,,,,,>), 
+                    typeof (Action<,,,,,,,,,,>),
+                    typeof (Action<,,,,,,,,,,,>), 
+                    typeof (Action<,,,,,,,,,,,,>), 
+                    typeof (Action<,,,,,,,,,,,,,>),
+                    typeof (Action<,,,,,,,,,,,,,,>), 
+                    typeof (Action<,,,,,,,,,,,,,,,>)
+                };
+
             // TODO: add support using the interceptor/an attribute.
-            return eventHandlerType.Name == typeof (Action).Name &&
-                   eventHandlerType.Namespace == typeof (Action).Namespace &&
-                   eventHandlerType.Assembly == typeof (Action).Assembly ||
-                   eventHandlerType.Assembly == typeof (Action<,,,,,,,,,,,,,,,>).Assembly;
+            return eventHandlerType.IsGenericType &&
+                   actionTypes.Contains(eventHandlerType.GetGenericTypeDefinition());
         }
 
         private void UnregisterFromEvent(object instance, EventInfo @event, IPublisherRegistrationInterceptor interceptor)

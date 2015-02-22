@@ -68,11 +68,11 @@ namespace WampSharp.V2.Rpc
         {
             WampInvocationContext.Current = new WampInvocationContext(details);
 
-            object[] unpacked =
-                GetMethodParameters(caller, formatter, arguments, argumentsKeywords);
-
             try
             {
+                object[] unpacked =
+                    GetMethodParameters(caller, formatter, arguments, argumentsKeywords);
+
                 Task result =
                     mMethod.Invoke(mInstance, unpacked) as Task;
 
@@ -101,7 +101,7 @@ namespace WampSharp.V2.Rpc
 
         protected bool Equals(AsyncMethodInfoRpcOperation other)
         {
-            return Equals(mMethod, other.mMethod) && Equals(mInstance, other.mInstance);
+            return Equals(mInstance, other.mInstance) && Equals(mMethod, other.mMethod) && string.Equals(Procedure, other.Procedure);
         }
 
         public override bool Equals(object obj)
@@ -116,7 +116,10 @@ namespace WampSharp.V2.Rpc
         {
             unchecked
             {
-                return ((mMethod != null ? mMethod.GetHashCode() : 0)*397) ^ (mInstance != null ? mInstance.GetHashCode() : 0);
+                var hashCode = (mInstance != null ? mInstance.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (mMethod != null ? mMethod.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (Procedure != null ? Procedure.GetHashCode() : 0);
+                return hashCode;
             }
         }
     }

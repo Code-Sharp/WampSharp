@@ -1,6 +1,7 @@
 using System.Reflection;
 using WampSharp.V2.Core.Contracts;
 
+// ReSharper disable once CheckNamespace
 namespace WampSharp.V2
 {
     /// <summary>
@@ -9,7 +10,7 @@ namespace WampSharp.V2
     public interface IPublisherRegistrationInterceptor
     {
         /// <summary>
-        /// Returns a value indicating whether this event is a publisher topic.
+        /// Returns a value indicating whether this event represents a publisher topic.
         /// </summary>
         bool IsPublisherTopic(EventInfo @event);
 
