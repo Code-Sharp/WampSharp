@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
 using System.Reflection;
-using WampSharp.Core.Listener;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.DelegatePubSub
 {
@@ -15,47 +13,12 @@ namespace WampSharp.V2.DelegatePubSub
 
         private readonly EventHandlerGenerator mEventHandlerGenerator = new EventHandlerGenerator();
 
-        private readonly ConcurrentDictionary<Tuple<object, string>, PublisherRegistration> mRegistrations =
-            new ConcurrentDictionary<Tuple<object, string>, PublisherRegistration>();
-
         public WampPublisherRegistrar(IWampRealmProxy proxy)
         {
             mProxy = proxy;
-            proxy.Monitor.ConnectionBroken += OnConnectionBroken;
-            proxy.Monitor.ConnectionError += OnConnectionError;
         }
 
-        private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
-        {
-            ClearRegistrations();
-        }
-        
-        private void OnConnectionBroken(object sender, WampSessionCloseEventArgs e)
-        {
-            ClearRegistrations();
-        }
-
-        private void ClearRegistrations()
-        {
-            foreach (PublisherRegistration registration in mRegistrations.Values)
-            {
-                registration.Dispose();
-            }
-
-            mRegistrations.Clear();
-        }
-
-        public void RegisterPublisher(object instance, IPublisherRegistrationInterceptor interceptor)
-        {
-            AggregateTopics(instance, interceptor, RegisterToEvent);
-        }
-
-        public void UnregisterPublisher(object instance, IPublisherRegistrationInterceptor interceptor)
-        {
-            AggregateTopics(instance, interceptor, UnregisterFromEvent);
-        }
-
-        private void AggregateTopics(object instance, IPublisherRegistrationInterceptor interceptor, Action<object, EventInfo, IPublisherRegistrationInterceptor> action)
+        public IDisposable RegisterPublisher(object instance, IPublisherRegistrationInterceptor interceptor)
         {
             if (instance == null)
             {
@@ -66,6 +29,8 @@ namespace WampSharp.V2.DelegatePubSub
 
             IEnumerable<Type> typesToExplore = GetTypesToExplore(runtimeType);
 
+            List<IDisposable> disposables = new List<IDisposable>();
+
             foreach (Type type in typesToExplore)
             {
                 foreach (EventInfo @event in type.GetEvents(BindingFlags.Instance |
@@ -73,10 +38,18 @@ namespace WampSharp.V2.DelegatePubSub
                 {
                     if (interceptor.IsPublisherTopic(@event))
                     {
-                        action(instance, @event, interceptor);
+                        IDisposable disposable = 
+                            RegisterToEvent(instance, @event, interceptor);
+
+                        disposables.Add(disposable);
                     }
                 }
             }
+
+            IDisposable result = 
+                new CompositeDisposable(disposables);
+
+            return result;
         }
 
         private IEnumerable<Type> GetTypesToExplore(Type type)
@@ -89,11 +62,12 @@ namespace WampSharp.V2.DelegatePubSub
             }
         }
 
-        private void RegisterToEvent(object instance, EventInfo @event, IPublisherRegistrationInterceptor interceptor)
+        private IDisposable RegisterToEvent(object instance, EventInfo @event, IPublisherRegistrationInterceptor interceptor)
         {
             string topic = interceptor.GetTopicUri(@event);
 
             IWampTopicProxy topicProxy = mProxy.TopicContainer.GetTopicByUri(topic);
+
             PublishOptions options = interceptor.GetPublishOptions(@event);
 
             Delegate createdDelegate;
@@ -113,9 +87,13 @@ namespace WampSharp.V2.DelegatePubSub
 
             @event.AddEventHandler(instance, createdDelegate);
 
-            PublisherRegistration registration = new PublisherRegistration(instance, createdDelegate, @event, topic);
-
-            mRegistrations.TryAdd(Tuple.Create(instance, topic), registration);
+            PublisherDisposable disposable =
+                new PublisherDisposable(instance,
+                    createdDelegate,
+                    @event,
+                    topic, mProxy.Monitor);
+            
+            return disposable;
         }
 
         private bool IsPositional(Type eventHandlerType)
@@ -153,36 +131,41 @@ namespace WampSharp.V2.DelegatePubSub
             }
         }
 
-        private void UnregisterFromEvent(object instance, EventInfo @event, IPublisherRegistrationInterceptor interceptor)
-        {
-            string topic = interceptor.GetTopicUri(@event);
-
-            PublisherRegistration registration;
-
-            if (mRegistrations.TryRemove(Tuple.Create(instance, topic), out registration))
-            {
-                registration.Dispose();
-            }
-        }
-
-        private class PublisherRegistration : IDisposable
+        private class PublisherDisposable : IDisposable
         {
             private readonly object mInstance;
             private readonly Delegate mDelegate;
             private readonly EventInfo mEvent;
             private readonly string mTopicUri;
+            private readonly IWampClientConnectionMonitor mMonitor;
 
-            public PublisherRegistration(object instance, Delegate @delegate, EventInfo @event, string topicUri)
+            public PublisherDisposable(object instance, Delegate @delegate, EventInfo @event, string topicUri, IWampClientConnectionMonitor monitor)
             {
                 mInstance = instance;
                 mDelegate = @delegate;
                 mEvent = @event;
                 mTopicUri = topicUri;
+                mMonitor = monitor;
+
+                monitor.ConnectionBroken += OnConnectionBroken;
+                monitor.ConnectionError += OnConnectionError;
+            }
+
+            private void OnConnectionError(object sender, WampSharp.Core.Listener.WampConnectionErrorEventArgs e)
+            {
+                Dispose();
+            }
+
+            private void OnConnectionBroken(object sender, Realm.WampSessionCloseEventArgs e)
+            {
+                Dispose();
             }
 
             public void Dispose()
             {
                 mEvent.RemoveEventHandler(mInstance, mDelegate);
+                mMonitor.ConnectionBroken-= OnConnectionBroken;
+                mMonitor.ConnectionError -= OnConnectionError;
             }
         }
     }
