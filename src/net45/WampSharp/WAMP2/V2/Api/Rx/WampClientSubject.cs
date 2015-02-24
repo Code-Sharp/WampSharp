@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using SystemEx;
 using WampSharp.Core.Listener;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
@@ -76,7 +76,8 @@ namespace WampSharp.V2
 
             public IDisposable Subscribe(IObserver<IWampSerializedEvent> observer)
             {
-                Task<IDisposable> task = mTopic.Subscribe(new RawTopicClientSubscriber(observer), new SubscribeOptions());
+                Task<IAsyncDisposable>
+                    task = mTopic.Subscribe(new RawTopicClientSubscriber(observer), new SubscribeOptions());
 
                 FutureDisposable result = new FutureDisposable(task);
 
@@ -85,9 +86,9 @@ namespace WampSharp.V2
 
             private class FutureDisposable : IDisposable
             {
-                private readonly Task<IDisposable> mDisposableTask;
+                private readonly Task<IAsyncDisposable> mDisposableTask;
 
-                public FutureDisposable(Task<IDisposable> disposableTask)
+                public FutureDisposable(Task<IAsyncDisposable> disposableTask)
                 {
                     mDisposableTask = disposableTask;
                 }
@@ -96,8 +97,8 @@ namespace WampSharp.V2
                 {
                     if (mDisposableTask.IsCompleted)
                     {
-                        IDisposable result = mDisposableTask.Result;
-                        result.Dispose();
+                        IAsyncDisposable result = mDisposableTask.Result;
+                        result.DisposeAsync();
                     }
                 }
             }

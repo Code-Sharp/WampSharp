@@ -127,7 +127,8 @@ namespace WampSharp.Samples.Callee
                 sampleType.GetMethods()
                           .Where(x => x.IsDefined(typeof (WampProcedureAttribute), true)))
             {
-                yield return new SyncMethodInfoRpcOperation(instance, method);
+                string procedure = method.GetCustomAttribute<WampProcedureAttribute>().Procedure;
+                yield return new SyncMethodInfoRpcOperation(instance, method, procedure);
             }
 
             foreach (Type nestedType in

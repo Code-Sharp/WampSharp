@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
+using SystemEx;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
@@ -39,7 +40,7 @@ namespace WampSharp.V2.Client
             monitor.ConnectionError += OnConnectionError;
         }
 
-        public Task<IDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri)
+        public Task<IAsyncDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri)
         {
             SubscribeRequest request = new SubscribeRequest(mFormatter, subscriber, options, topicUri);
             long requestId = mPendingSubscriptions.Add(request);
@@ -76,13 +77,17 @@ namespace WampSharp.V2.Client
             
             if (mPendingSubscriptions.TryRemove(requestId, out request))
             {
+                IAsyncDisposable disposable = 
+                    new UnsubscribeDisposable(this, subscriptionId);
+
                 mSubscriptionIdToSubscription[subscriptionId] =
                     new Subscription(subscriptionId,
                                      request.Subscriber,
                                      request.Options,
-                                     request.TopicUri);
+                                     request.TopicUri,
+                                     disposable);
 
-                request.Complete(new UnsubscribeDisposable(this, subscriptionId));
+                request.Complete(disposable);
             }
         }
 
@@ -221,7 +226,7 @@ namespace WampSharp.V2.Client
 
         private void Cleanup()
         {
-            // TODO: clean up topics
+            mSubscriptionIdToSubscription.Clear();
         }
 
         private class BaseSubscription
@@ -264,12 +269,12 @@ namespace WampSharp.V2.Client
 
         private class SubscribeRequest : BaseSubscription, IWampPendingRequest
         {
-            private readonly WampPendingRequest<TMessage, IDisposable> mPendingRequest;
+            private readonly WampPendingRequest<TMessage, IAsyncDisposable> mPendingRequest;
 
             public SubscribeRequest(IWampFormatter<TMessage> formatter, IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri) : 
                 base(subscriber, options, topicUri)
             {
-                mPendingRequest = new WampPendingRequest<TMessage, IDisposable>(formatter);
+                mPendingRequest = new WampPendingRequest<TMessage, IAsyncDisposable>(formatter);
             }
 
             public long RequestId
@@ -298,25 +303,27 @@ namespace WampSharp.V2.Client
                 mPendingRequest.Error(details, error, arguments, argumentsKeywords);
             }
 
-            public void Complete(IDisposable result)
+            public void Complete(IAsyncDisposable result)
             {
                 mPendingRequest.Complete(result);
             }
 
-            public Task<IDisposable> Task
+            public Task<IAsyncDisposable> Task
             {
                 get { return mPendingRequest.Task; }
             }
         }
 
-        private class Subscription : BaseSubscription
+        private class Subscription : BaseSubscription, IDisposable
         {
             private readonly long mSubscriptionId;
+            private readonly IAsyncDisposable mDisposable;
 
-            public Subscription(long subscriptionId, IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri) : 
+            public Subscription(long subscriptionId, IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri, IAsyncDisposable disposable) : 
                 base(subscriber, options, topicUri)
             {
                 mSubscriptionId = subscriptionId;
+                mDisposable = disposable;
             }
 
             public long SubscriptionId
@@ -325,6 +332,11 @@ namespace WampSharp.V2.Client
                 {
                     return mSubscriptionId;
                 }
+            }
+
+            public void Dispose()
+            {
+                mDisposable.DisposeAsync();
             }
         }
 
@@ -346,7 +358,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        private class UnsubscribeDisposable : IDisposable
+        private class UnsubscribeDisposable : IAsyncDisposable
         {
             private readonly WampSubscriber<TMessage> mParent;
             private readonly long mSubscriptionId;
@@ -357,9 +369,9 @@ namespace WampSharp.V2.Client
                 mSubscriptionId = subscriptionId;
             }
 
-            public void Dispose()
+            public Task DisposeAsync()
             {
-                mParent.Unsubscribe(mSubscriptionId);
+                return mParent.Unsubscribe(mSubscriptionId);
             }
         }
     }

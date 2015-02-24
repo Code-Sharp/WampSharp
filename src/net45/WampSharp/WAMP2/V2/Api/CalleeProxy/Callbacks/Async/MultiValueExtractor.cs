@@ -4,19 +4,19 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal class MultiValueAsyncOperationCallback : AsyncOperationCallback
+    internal class MultiValueExtractor : IOperationResultExtractor
     {
         private readonly Type mReturnType;
         private readonly Type mElementType;
 
-        public MultiValueAsyncOperationCallback(Type returnType)
+        public MultiValueExtractor(Type returnType)
         {
             mReturnType = returnType;
 
             mElementType = returnType.GetElementType();
         }
 
-        protected override object GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
+        public object GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
         {
             if (!arguments.Any())
             {
