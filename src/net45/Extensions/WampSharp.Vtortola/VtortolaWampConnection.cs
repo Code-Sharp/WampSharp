@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using vtortola.WebSockets;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
@@ -10,10 +11,14 @@ namespace WampSharp.Vtortola
     internal abstract class VtortolaWampConnection<TMessage> : IWampConnection<TMessage>
     {
         protected readonly WebSocket mWebsocket;
+        private readonly ActionBlock<WampMessage<TMessage>> mSendBlock;
 
-        public VtortolaWampConnection(WebSocket websocket)
+        protected VtortolaWampConnection(WebSocket websocket)
         {
             mWebsocket = websocket;
+
+            mSendBlock = new ActionBlock<WampMessage<TMessage>>(x => InnerSend(x),
+                new ExecutionDataflowBlockOptions() {MaxDegreeOfParallelism = 1});
         }
 
         public async Task HandleWebSocketAsync()
@@ -48,7 +53,7 @@ namespace WampSharp.Vtortola
 
                 if (ConnectionClosed != null)
                 {
-                    ConnectionClosed(this, EventArgs.Empty);                    
+                    ConnectionClosed(this, EventArgs.Empty);
                 }
             }
             catch (Exception ex)
@@ -64,14 +69,35 @@ namespace WampSharp.Vtortola
 
         public void Dispose()
         {
+            mSendBlock.Complete();
+            mSendBlock.Completion.Wait();
             mWebsocket.Dispose();
         }
 
-        public abstract void Send(WampMessage<TMessage> message);
+        public void Send(WampMessage<TMessage> message)
+        {
+            mSendBlock.Post(message);
+        }
+
+        private async Task InnerSend(WampMessage<TMessage> message)
+        {
+            if (mWebsocket.IsConnected)
+            {
+                try
+                {
+                    await SendAsync(message)
+                        .ConfigureAwait(false);
+                }
+                catch
+                {
+                }                
+            }
+        }
 
         public event EventHandler ConnectionOpen;
         public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
         public event EventHandler ConnectionClosed;
         public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
+        protected abstract Task SendAsync(WampMessage<TMessage> message);
     }
 }
