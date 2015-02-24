@@ -1,4 +1,5 @@
 using System.IO;
+using System.Threading.Tasks;
 using vtortola.WebSockets;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
@@ -26,13 +27,13 @@ namespace WampSharp.Vtortola
             }
         }
 
-        public override void Send(WampMessage<TMessage> message)
+        protected async override Task SendAsync(WampMessage<TMessage> message)
         {
             using (WebSocketMessageWriteStream stream = 
                 mWebsocket.CreateMessageWriter(WebSocketMessageType.Binary))
             {
                 byte[] raw = mBinding.Format(message);
-                stream.Write(raw, 0, raw.Length);
+                await stream.WriteAsync(raw, 0, raw.Length).ConfigureAwait(false);
             }
         }
     }
