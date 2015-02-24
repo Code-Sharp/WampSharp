@@ -64,7 +64,7 @@ namespace WampSharp.V2.PubSub
 
             result.PublisherId = casted.Session;
             
-            return options;
+            return result;
         }
 
         public void Subscribe(IWampSubscriber subscriber, long requestId, SubscribeOptions options, string topicUri)
