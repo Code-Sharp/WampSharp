@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
@@ -114,11 +115,14 @@ namespace WampSharp.V2.CalleeProxy
                 base.WaitForResult(callback);
             }
 
-            protected override void Invoke(IWampRawRpcOperationClientCallback callback, string procedure, object[] arguments)
+            protected override void Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments)
             {
+                CallOptions callOptions = interceptor.GetCallOptions(method);
+                var procedureUri = interceptor.GetProcedureUri(method);
+
                 mCatalogProxy.Invoke(callback,
-                                     mEmptyOptions,
-                                     procedure,
+                                     callOptions,
+                                     procedureUri,
                                      arguments);
             }
 

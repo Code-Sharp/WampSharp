@@ -52,7 +52,7 @@ namespace WampSharp.V2.Rpc
 
         private ResultDetails GetResultDetails(YieldOptions details)
         {
-            return new ResultDetails();
+            return new ResultDetails {Progress = details.Progress};
         }
     }
 }

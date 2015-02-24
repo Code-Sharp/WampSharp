@@ -9,12 +9,10 @@ namespace WampSharp.V2.Realm
     internal class WampHostedRealm : IWampHostedRealm, IWampRealmGate
     {
         private readonly IWampRealm mUnderlyingRealm;
-        private readonly WampRealmServiceProvider mServices;
 
         public WampHostedRealm(IWampRealm underlyingRealm)
         {
             mUnderlyingRealm = underlyingRealm;
-            mServices = new WampRealmServiceProvider(underlyingRealm);
         }
 
         public string Name
@@ -36,7 +34,8 @@ namespace WampSharp.V2.Realm
         {
             get
             {
-                return mServices;
+                // Should not be called.
+                throw new NotSupportedException();
             }
         }
 

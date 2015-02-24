@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
+using SystemEx;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
@@ -20,7 +21,7 @@ namespace WampSharp.V2.Client
             mCaller = new WampCaller<TMessage>(proxy, formatter, monitor);
         }
 
-        public Task Register(IWampRpcOperation operation, RegisterOptions options)
+        public Task<IAsyncDisposable> Register(IWampRpcOperation operation, RegisterOptions options)
         {
             return mCallee.Register(operation, options);
         }
@@ -28,11 +29,6 @@ namespace WampSharp.V2.Client
         public void Registered(long requestId, long registrationId)
         {
             mCallee.Registered(requestId, registrationId);
-        }
-
-        public Task Unregister(IWampRpcOperation operation)
-        {
-            return mCallee.Unregister(operation);
         }
 
         public void Unregistered(long requestId)

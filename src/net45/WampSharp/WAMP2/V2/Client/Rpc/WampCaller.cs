@@ -57,7 +57,7 @@ namespace WampSharp.V2.Client
 
         public void Result(long requestId, ResultDetails details)
         {
-            CallDetails callDetails = TryGetCallDetails(requestId);
+            CallDetails callDetails = TryGetCallDetails(requestId, details);
 
             if (callDetails != null)
             {
@@ -67,7 +67,7 @@ namespace WampSharp.V2.Client
 
         public void Result(long requestId, ResultDetails details, TMessage[] arguments)
         {
-            CallDetails callDetails = TryGetCallDetails(requestId);
+            CallDetails callDetails = TryGetCallDetails(requestId, details);
 
             if (callDetails != null)
             {
@@ -77,7 +77,7 @@ namespace WampSharp.V2.Client
 
         public void Result(long requestId, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            CallDetails callDetails = TryGetCallDetails(requestId);
+            CallDetails callDetails = TryGetCallDetails(requestId, details);
 
             if (callDetails != null)
             {
@@ -128,6 +128,25 @@ namespace WampSharp.V2.Client
 
             if (mPendingCalls.TryRemove(requestId, out result))
             {
+                return result;
+            }
+
+            return null;
+        }
+
+        private CallDetails TryGetCallDetails(long requestId, ResultDetails details)
+        {
+            CallDetails result;
+
+            if (mPendingCalls.TryGetValue(requestId, out result))
+            {
+                bool progressive = details.Progress == true;
+                
+                if (!progressive)
+                {
+                    mPendingCalls.TryRemove(requestId, out result);
+                }
+
                 return result;
             }
 

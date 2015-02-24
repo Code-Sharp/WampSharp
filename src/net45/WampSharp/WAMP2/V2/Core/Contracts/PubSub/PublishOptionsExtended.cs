@@ -2,6 +2,10 @@
 {
     public class PublishOptionsExtended : PublishOptions
     {
+        public PublishOptionsExtended(PublishOptions options) : base(options)
+        {
+        }
+
         [IgnoreProperty]
         public long PublisherId { get; set; }
     }

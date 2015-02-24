@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
+using SystemEx;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
@@ -21,17 +22,14 @@ namespace WampSharp.V2.Client
         private readonly IWampFormatter<TMessage> mFormatter;
         private readonly IWampClientConnectionMonitor mMonitor;
 
-        private readonly WampRequestIdMapper<Request> mPendingRegistrations =
-            new WampRequestIdMapper<Request>();
+        private readonly WampRequestIdMapper<RegisterRequest> mPendingRegistrations =
+            new WampRequestIdMapper<RegisterRequest>();
 
         private readonly ConcurrentDictionary<long, IWampRpcOperation> mRegistrations =
             new ConcurrentDictionary<long, IWampRpcOperation>();
 
-        private readonly ConcurrentDictionary<IWampRpcOperation, long> mOperationToRegistrationId =
-            new ConcurrentDictionary<IWampRpcOperation, long>();
-
-        private readonly WampRequestIdMapper<Request> mPendingUnregistrations =
-            new WampRequestIdMapper<Request>();
+        private readonly WampRequestIdMapper<UnregisterRequest> mPendingUnregistrations =
+            new WampRequestIdMapper<UnregisterRequest>();
 
         public WampCallee(IWampServerProxy proxy, IWampFormatter<TMessage> formatter, IWampClientConnectionMonitor monitor)
         {
@@ -43,71 +41,71 @@ namespace WampSharp.V2.Client
             monitor.ConnectionError += OnConnectionError;
         }
 
-        public Task Register(IWampRpcOperation operation, RegisterOptions options)
+        public Task<IAsyncDisposable> Register(IWampRpcOperation operation, RegisterOptions options)
         {
-            Request request =
-                new Request(operation, mFormatter);
+            RegisterRequest registerRequest =
+                new RegisterRequest(operation, mFormatter);
 
-            long id = mPendingRegistrations.Add(request);
+            long id = mPendingRegistrations.Add(registerRequest);
 
-            request.RequestId = id;
+            registerRequest.RequestId = id;
 
             mProxy.Register(id, options, operation.Procedure);
 
-            return request.Task;
+            return registerRequest.Task;
         }
 
         public void Registered(long requestId, long registrationId)
         {
-            Request request;
+            RegisterRequest registerRequest;
 
-            if (mPendingRegistrations.TryRemove(requestId, out request))
+            if (mPendingRegistrations.TryRemove(requestId, out registerRequest))
             {
-                mRegistrations[registrationId] = request.Operation;
-                mOperationToRegistrationId[request.Operation] = registrationId;
-                request.Complete();
+                mRegistrations[registrationId] = registerRequest.Operation;
+                registerRequest.Complete(new UnregisterDisposable(this ,registrationId));
             }
         }
 
-        public Task Unregister(IWampRpcOperation operation)
+        private class UnregisterDisposable : IAsyncDisposable
         {
-            Request request =
-                new Request(operation, mFormatter);
+            private readonly WampCallee<TMessage> mCallee;
+            private readonly long mRegistrationId;
 
-            long registrationId;
-
-            if (!TryGetOperationRegistrationId(operation, out registrationId))
+            public UnregisterDisposable(WampCallee<TMessage> callee, long registrationId)
             {
-                return null;
+                mCallee = callee;
+                mRegistrationId = registrationId;
             }
-            else
+
+            public Task DisposeAsync()
             {
-                long requestId = mPendingUnregistrations.Add(request);
-
-                request.RequestId = requestId;
-
-                mProxy.Unregister(requestId, registrationId);
-
-                return request.Task;
+                return mCallee.Unregister(mRegistrationId);
             }
         }
 
-        private bool TryGetOperationRegistrationId(IWampRpcOperation operation, out long registrationId)
+        private Task Unregister(long registrationId)
         {
-            return mOperationToRegistrationId.TryGetValue(operation, out registrationId);
+            UnregisterRequest unregisterRequest =
+                new UnregisterRequest(mFormatter);
+
+            long requestId = mPendingUnregistrations.Add(unregisterRequest);
+
+            unregisterRequest.RequestId = requestId;
+
+            mProxy.Unregister(requestId, registrationId);
+
+            return unregisterRequest.Task;
         }
 
         public void Unregistered(long requestId)
         {
-            Request unregistration;
+            UnregisterRequest unregisterRequest;
 
-            if (mPendingUnregistrations.TryRemove(requestId, out unregistration))
+            if (mPendingUnregistrations.TryRemove(requestId, out unregisterRequest))
             {
                 IWampRpcOperation operation;
-                long registrationId;
                 mRegistrations.TryRemove(requestId, out operation);
-                mOperationToRegistrationId.TryRemove(unregistration.Operation, out registrationId);
-                unregistration.Complete();
+                unregisterRequest.Complete();
             }
         }
 
@@ -163,61 +161,61 @@ namespace WampSharp.V2.Client
 
         public void RegisterError(long requestId, TMessage details, string error)
         {
-            Request request;
+            RegisterRequest registerRequest;
 
-            if (mPendingRegistrations.TryRemove(requestId, out request))
+            if (mPendingRegistrations.TryRemove(requestId, out registerRequest))
             {
-                request.Error(details, error);
+                registerRequest.Error(details, error);
             }
         }
 
         public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            Request request;
+            RegisterRequest registerRequest;
 
-            if (mPendingRegistrations.TryRemove(requestId, out request))
+            if (mPendingRegistrations.TryRemove(requestId, out registerRequest))
             {
-                request.Error(details, error, arguments);
+                registerRequest.Error(details, error, arguments);
             }
         }
 
         public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            Request request;
+            RegisterRequest registerRequest;
 
-            if (mPendingRegistrations.TryRemove(requestId, out request))
+            if (mPendingRegistrations.TryRemove(requestId, out registerRequest))
             {
-                request.Error(details, error, arguments, argumentsKeywords);
+                registerRequest.Error(details, error, arguments, argumentsKeywords);
             }
         }
 
         public void UnregisterError(long requestId, TMessage details, string error)
         {
-            Request request;
+            UnregisterRequest unregisterRequest;
 
-            if (mPendingUnregistrations.TryRemove(requestId, out request))
+            if (mPendingUnregistrations.TryRemove(requestId, out unregisterRequest))
             {
-                request.Error(details, error);
+                unregisterRequest.Error(details, error);
             }
         }
 
         public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            Request request;
+            UnregisterRequest unregisterRequest;
 
-            if (mPendingUnregistrations.TryRemove(requestId, out request))
+            if (mPendingUnregistrations.TryRemove(requestId, out unregisterRequest))
             {
-                request.Error(details, error, arguments);
+                unregisterRequest.Error(details, error, arguments);
             }
         }
 
         public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            Request request;
+            UnregisterRequest unregisterRequest;
 
-            if (mPendingUnregistrations.TryRemove(requestId, out request))
+            if (mPendingUnregistrations.TryRemove(requestId, out unregisterRequest))
             {
-                request.Error(details, error, arguments, argumentsKeywords);
+                unregisterRequest.Error(details, error, arguments, argumentsKeywords);
             }
         }
 
@@ -226,11 +224,11 @@ namespace WampSharp.V2.Client
             throw new System.NotImplementedException();
         }
 
-        private class Request : WampPendingRequest<TMessage>
+        private class RegisterRequest : WampPendingRequest<TMessage, IAsyncDisposable>
         {
             private readonly IWampRpcOperation mOperation;
 
-            public Request(IWampRpcOperation operation, IWampFormatter<TMessage> formatter) :
+            public RegisterRequest(IWampRpcOperation operation, IWampFormatter<TMessage> formatter) :
                 base(formatter)
             {
                 mOperation = operation;
@@ -242,6 +240,13 @@ namespace WampSharp.V2.Client
                 {
                     return mOperation;
                 }
+            }
+        }
+
+        private class UnregisterRequest : WampPendingRequest<TMessage>
+        {
+            public UnregisterRequest(IWampFormatter<TMessage> formatter) : base(formatter)
+            {
             }
         }
 
@@ -265,7 +270,6 @@ namespace WampSharp.V2.Client
         private void Cleanup()
         {
             // TODO: clean up other things?
-            mOperationToRegistrationId.Clear();
             mRegistrations.Clear();
         }
 

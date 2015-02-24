@@ -8,41 +8,50 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal abstract class AsyncOperationCallback : IWampRawRpcOperationClientCallback
+    internal class AsyncOperationCallback : IWampRawRpcOperationClientCallback
     {
         private readonly TaskCompletionSource<object> mTask = new TaskCompletionSource<object>();
+        private readonly IOperationResultExtractor mExtractor;
+
+        public AsyncOperationCallback(IOperationResultExtractor extractor)
+        {
+            mExtractor = extractor;
+        }
 
         public Task<object> Task
         {
             get { return mTask.Task; }
         }
 
-        protected void SetResult(object result)
+        protected virtual void SetResult(ResultDetails details, object result)
         {
             mTask.SetResult(result);
         }
 
-        protected abstract object GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments);
+        protected virtual object GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
+        {
+            return mExtractor.GetResult(formatter, arguments);
+        }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
         {
-            SetResult(null);
+            SetResult(details, null);
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
         {
-            SetResult(formatter, arguments);
+            SetResult(details, formatter, arguments);
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            SetResult(formatter, arguments);
+            SetResult(details, formatter, arguments);
         }
 
-        private void SetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
+        private void SetResult<TMessage>(ResultDetails details, IWampFormatter<TMessage> formatter, TMessage[] arguments)
         {
             object result = GetResult(formatter, arguments);
-            SetResult(result);
+            SetResult(details, result);
         }
 
         public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error)
