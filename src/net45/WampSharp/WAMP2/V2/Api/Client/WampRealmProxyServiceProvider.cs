@@ -6,9 +6,9 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using SystemEx;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
-using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2
@@ -20,8 +20,6 @@ namespace WampSharp.V2
 
         private readonly IWampRealmProxy mProxy;
         private readonly WampCalleeClientProxyFactory mCalleeProxyFactory;
-        private readonly RegisterOptions EmptyOptions = 
-            new RegisterOptions();
 
         public WampRealmProxyServiceProvider(IWampRealmProxy proxy)
         {
@@ -31,38 +29,38 @@ namespace WampSharp.V2
                  mProxy.Monitor);
         }
 
-        public Task RegisterCallee(object instance)
+        public Task<IAsyncDisposable> RegisterCallee(object instance)
         {
-            IEnumerable<IWampRpcOperation> operations =
-                mExtractor.ExtractOperations(instance);
+            return RegisterCallee(instance, CalleeRegistrationInterceptor.Default);
+        }
 
-            List<Task> registrations = new List<Task>();
+        public Task<IAsyncDisposable> RegisterCallee(object instance, ICalleeRegistrationInterceptor interceptor)
+        {
+            IEnumerable<OperationToRegister> operationsToRegister =
+                mExtractor.ExtractOperations(instance, interceptor);
 
-            foreach (IWampRpcOperation operation in operations)
+            List<Task<IAsyncDisposable>> registrations = 
+                new List<Task<IAsyncDisposable>>();
+
+            foreach (OperationToRegister operationToRegister in operationsToRegister)
             {
-                Task task =
-                    mProxy.RpcCatalog.Register(operation, EmptyOptions);
+                Task<IAsyncDisposable> task = 
+                    mProxy.RpcCatalog.Register(operationToRegister.Operation, operationToRegister.Options);
 
                 registrations.Add(task);
             }
 
-#if !NET40
-            return Task.WhenAll(registrations);
-#else
-            IEnumerable<IObservable<Unit>> tasksAsObservables = 
-                registrations.Select(x => x.ToObservable());
-
-            IObservable<Unit> merged = tasksAsObservables.Merge();
-
-            Task<Unit> result = merged.ToTask();
-
-            return result;
-#endif
+            return registrations.ToAsyncDisposableTask();
         }
 
         public TProxy GetCalleeProxy<TProxy>() where TProxy : class
         {
-            return mCalleeProxyFactory.GetProxy<TProxy>();
+            return mCalleeProxyFactory.GetProxy<TProxy>(CalleeProxyInterceptor.Default);
+        }
+
+        public TProxy GetCalleeProxy<TProxy>(ICalleeProxyInterceptor interceptor) where TProxy : class
+        {
+            return mCalleeProxyFactory.GetProxy<TProxy>(interceptor);
         }
 
         public ISubject<TEvent> GetSubject<TEvent>(string topicUri)

@@ -159,17 +159,17 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 ActualError = new object[] { requestType, requestId, details, error, arguments, argumentsKeywords };
             }
 
-            public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri)
+            public void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri, TMessage[] arguments)
+            public void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri, TMessage[] arguments)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Publish(IWampPublisher publisher, long requestId, PublishOptionsExtended options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
+            public void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
             {
                 throw new System.NotImplementedException();
             }

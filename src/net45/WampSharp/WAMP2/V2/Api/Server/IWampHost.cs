@@ -20,8 +20,8 @@ namespace WampSharp.V2
         /// Registers a given transport for this host.
         /// </summary>
         /// <param name="transport">The given transport to register.</param>
-        /// <param name="binding">The given bindings to activate support with the given transport.</param>
-        void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> binding);
+        /// <param name="bindings">The given bindings to activate support with the given transport.</param>
+        void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings);
 
         /// <summary>
         /// Opens this host.

@@ -5,16 +5,18 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal abstract class SyncCallback : SyncCallbackBase
+    internal class SyncCallback : SyncCallbackBase
     {
+        private IOperationResultExtractor mExtractor;
         protected readonly MethodInfoHelper mMethodInfoHelper;
         private readonly object[] mArguments;
         private object mResult;
 
-        public SyncCallback(MethodInfoHelper methodInfoHelper, object[] arguments)
+        public SyncCallback(MethodInfoHelper methodInfoHelper, object[] arguments, IOperationResultExtractor extractor)
         {
             mMethodInfoHelper = methodInfoHelper;
             mArguments = arguments;
+            mExtractor = extractor;
         }
 
         public object OperationResult
@@ -44,7 +46,11 @@ namespace WampSharp.V2.CalleeProxy
             SetResult(formatter, arguments);
         }
 
-        protected abstract void SetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments);
+        private void SetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
+        {
+            object result = mExtractor.GetResult(formatter, arguments);
+            SetResult(result);
+        }
 
         protected void SetResult(object result)
         {

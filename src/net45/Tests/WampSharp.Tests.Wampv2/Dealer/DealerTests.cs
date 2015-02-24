@@ -88,6 +88,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
 
             Mock<IWampCaller> caller = new Mock<IWampCaller>();
             caller.As<IWampConnectionMonitor>();
+            caller.As<IWampClient>();
 
             WampRpcServer<MockRaw> server =
                 new WampRpcServer<MockRaw>
