@@ -42,7 +42,7 @@ namespace WampSharp.V2.Session
 
         public void OnClientDisconnect(IWampClient<TMessage> client)
         {
-            if (!client.GoodbyeSent)
+            if ((client.Realm != null) && !client.GoodbyeSent)
             {
                 client.Realm.SessionLost(client.Session);
             }
