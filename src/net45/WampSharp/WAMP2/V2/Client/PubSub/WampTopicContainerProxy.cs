@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 
@@ -16,9 +14,6 @@ namespace WampSharp.V2.Client
 
         private readonly WampPublisher<TMessage> mPublisher;
 
-        private readonly ConcurrentDictionary<string, WampTopicProxy> mTopicUriToProxy =
-            new ConcurrentDictionary<string, WampTopicProxy>();
-
         public WampTopicContainerProxy(IWampServerProxy proxy, IWampFormatter<TMessage> formatter, IWampClientConnectionMonitor monitor)
         {
             mProxy = proxy;
@@ -28,7 +23,7 @@ namespace WampSharp.V2.Client
 
         public IWampTopicProxy GetTopicByUri(string topicUri)
         {
-            return mTopicUriToProxy.GetOrAdd(topicUri, uri => CreateTopicUri(uri));
+            return CreateTopicUri(topicUri);
         }
 
         private WampTopicProxy CreateTopicUri(string topicUri)
@@ -37,8 +32,7 @@ namespace WampSharp.V2.Client
                 new WampTopicProxy
                     (topicUri, 
                     mSubscriber, 
-                    mPublisher,
-                    new ConatinerDisposable(this, topicUri));
+                    mPublisher);
 
             return result;
         }
@@ -116,25 +110,6 @@ namespace WampSharp.V2.Client
         public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
             mSubscriber.UnsubscribeError(requestId, details, error, arguments, argumentsKeywords);
-        }
-
-        private class ConatinerDisposable : IDisposable
-        {
-            private readonly WampTopicContainerProxy<TMessage> mParent;
-            private readonly string mTopicUri;
-
-            public ConatinerDisposable(WampTopicContainerProxy<TMessage> parent,
-                                       string topicUri)
-            {
-                mParent = parent;
-                mTopicUri = topicUri;
-            }
-
-            public void Dispose()
-            {
-                WampTopicProxy value;
-                mParent.mTopicUriToProxy.TryRemove(mTopicUri, out value);
-            }
         }
     }
 }

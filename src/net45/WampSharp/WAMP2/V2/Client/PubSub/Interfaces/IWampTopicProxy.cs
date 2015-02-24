@@ -10,7 +10,7 @@ namespace WampSharp.V2.Client
     /// <summary>
     /// Represents a proxy to a WAMP topic.
     /// </summary>
-    public interface IWampTopicProxy : IDisposable
+    public interface IWampTopicProxy
     {
         /// <summary>
         /// The topic uri
