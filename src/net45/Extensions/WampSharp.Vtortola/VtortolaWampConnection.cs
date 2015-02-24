@@ -1,34 +1,26 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 using vtortola.WebSockets;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 
 namespace WampSharp.Vtortola
 {
-    internal abstract class VtortolaWampConnection<TMessage> : IWampConnection<TMessage>
+    internal abstract class VtortolaWampConnection<TMessage> : AsyncWampConnection<TMessage>, IWampConnection<TMessage>
     {
         protected readonly WebSocket mWebsocket;
-        private readonly ActionBlock<WampMessage<TMessage>> mSendBlock;
 
         protected VtortolaWampConnection(WebSocket websocket)
         {
             mWebsocket = websocket;
-
-            mSendBlock = new ActionBlock<WampMessage<TMessage>>(x => InnerSend(x),
-                new ExecutionDataflowBlockOptions() {MaxDegreeOfParallelism = 1});
         }
 
         public async Task HandleWebSocketAsync()
         {
             try
             {
-                if (ConnectionOpen != null)
-                {
-                    ConnectionOpen(this, EventArgs.Empty);
-                }
+                RaiseConnectionOpen();
 
                 while (mWebsocket.IsConnected)
                 {
@@ -40,64 +32,33 @@ namespace WampSharp.Vtortola
                     {
                         using (message)
                         {
-                            if (MessageArrived != null)
-                            {
-                                WampMessage<TMessage> parsed = ParseMessage(message);
-
-                                MessageArrived(this,
-                                    new WampMessageArrivedEventArgs<TMessage>(parsed));
-                            }
+                            WampMessage<TMessage> parsed = ParseMessage(message);
+                            RaiseMessageArrived(parsed);
                         }
                     }
                 }
 
-                if (ConnectionClosed != null)
-                {
-                    ConnectionClosed(this, EventArgs.Empty);
-                }
+                RaiseConnectionClosed();
             }
             catch (Exception ex)
             {
-                if (ConnectionError != null)
-                {
-                    ConnectionError(this, new WampConnectionErrorEventArgs(ex));
-                }
+                RaiseConnectionError(ex);
             }
         }
 
         protected abstract WampMessage<TMessage> ParseMessage(WebSocketMessageReadStream readStream);
 
-        public void Dispose()
+        protected override bool IsConnected
         {
-            mSendBlock.Complete();
-            mSendBlock.Completion.Wait();
-            mWebsocket.Dispose();
-        }
-
-        public void Send(WampMessage<TMessage> message)
-        {
-            mSendBlock.Post(message);
-        }
-
-        private async Task InnerSend(WampMessage<TMessage> message)
-        {
-            if (mWebsocket.IsConnected)
+            get
             {
-                try
-                {
-                    await SendAsync(message)
-                        .ConfigureAwait(false);
-                }
-                catch
-                {
-                }                
+                return mWebsocket.IsConnected;
             }
         }
 
-        public event EventHandler ConnectionOpen;
-        public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
-        public event EventHandler ConnectionClosed;
-        public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
-        protected abstract Task SendAsync(WampMessage<TMessage> message);
+        public override void Dispose()
+        {
+            mWebsocket.Dispose();
+        }
     }
 }

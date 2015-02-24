@@ -1305,6 +1305,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs">
       <Link>WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\WebSocketTransport.cs">
+      <Link>WAMP2\V2\Transports\WebSocketTransport.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

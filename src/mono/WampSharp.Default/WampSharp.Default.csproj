@@ -34,9 +34,9 @@
     <DocumentationFile>bin\Release\WampSharp.Default.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fleck, Version=0.11.1.32, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Fleck, Version=0.12.0.40, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fleck.0.11.1.32\lib\net40\Fleck.dll</HintPath>
+      <HintPath>..\packages\Fleck.0.12.0.40\lib\net40\Fleck.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MsgPack, Version=0.5.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
@@ -67,6 +67,10 @@
     <Reference Include="System.Reactive.PlatformServices">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.9.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Tpl.Dataflow.4.5.9\lib\net45\System.Threading.Tasks.Dataflow.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebSocket4Net, Version=0.10.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
@@ -75,6 +79,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\net45\WampSharp.Default\AsyncConnection\AsyncWampConnection.cs">
+      <Link>AsyncConnection\AsyncWampConnection.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\Fleck\FleckWampBinaryConnection.cs">
       <Link>Fleck\FleckWampBinaryConnection.cs</Link>
     </Compile>
