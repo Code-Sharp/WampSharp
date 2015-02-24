@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reflection;
+using WampSharp.Core.Listener;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.DelegatePubSub
 {
@@ -151,12 +153,12 @@ namespace WampSharp.V2.DelegatePubSub
                 monitor.ConnectionError += OnConnectionError;
             }
 
-            private void OnConnectionError(object sender, WampSharp.Core.Listener.WampConnectionErrorEventArgs e)
+            private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
             {
                 Dispose();
             }
 
-            private void OnConnectionBroken(object sender, Realm.WampSessionCloseEventArgs e)
+            private void OnConnectionBroken(object sender, WampSessionCloseEventArgs e)
             {
                 Dispose();
             }
