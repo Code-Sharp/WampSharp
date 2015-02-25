@@ -1,25 +1,19 @@
-# Travis-CI Build for WampSharp
-# Copied from keyczar-dotnet
-# see travis-ci.org for details
+# see http://docs.travis-ci.com/user/languages/csharp/
 
-language: objective-c
+language: csharp
+solution: src/mono/WampSharpMono.sln
 
-env:
- global:
-  - EnableNuGetPackageRestore=true 
- matrix:
-  - MONO_VER="3.4.0"
-
-before_install:
- - wget "http://download.mono-project.com/archive/${MONO_VER}/macos-10-x86/MonoFramework-MDK-${MONO_VER}.macos10.xamarin.x86.pkg"
- - sudo installer -pkg "MonoFramework-MDK-${MONO_VER}.macos10.xamarin.x86.pkg" -target /
+install:
+  - nuget restore src/mono/WampSharpMono.sln
+  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 
 script:
- - cd src/mono
- - xbuild 
- - .ci/RunTests.sh 
+  - xbuild /p:Configuration=Release src/mono/WampSharpMono.sln
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/mono/Tests/WampSharp.Tests/bin/Release/WampSharp.Tests.dll
+
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/mono/Tests/WampSharp.Tests.Wampv2/bin/Release/WampSharp.Tests.Wampv2.dll
+
 
 branches:
  only:
-  - wampv2
-
+  - develop
