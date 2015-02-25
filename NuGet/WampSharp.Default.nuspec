@@ -5,11 +5,22 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
-      <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="Fleck" version="[0.11.1.32]" />
-      <dependency id="Newtonsoft.Json" version="[6.0.6]" />
-      <dependency id="WebSocket4Net" version="[0.10]" />
-      <dependency id="Newtonsoft.Msgpack" version="[0.1.4]" />
+      <group>
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Fleck" version="[0.12.0.40]" />
+        <dependency id="Newtonsoft.Json" version="[6.0.6]" />
+        <dependency id="WebSocket4Net" version="[0.10]" />
+        <dependency id="Newtonsoft.Msgpack" version="[0.1.4]" />
+        <dependency id="Microsoft.Tpl.DataFlow" version="[4.5.9]" />
+      </group>
+      <group targetFramework="net40">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Fleck" version="[0.12.0.40]" />
+        <dependency id="Newtonsoft.Json" version="[6.0.6]" />
+        <dependency id="WebSocket4Net" version="[0.10]" />
+        <dependency id="Newtonsoft.Msgpack" version="[0.1.4]" />
+        <dependency id="HomeLab.Tpl.DataFlow" version="[4.0.0]" />
+      </group>
     </dependencies>
     <id>WampSharp.Default</id>
     <title>WampSharp default binding</title>

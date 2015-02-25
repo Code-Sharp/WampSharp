@@ -1,4 +1,5 @@
-﻿using Fleck;
+﻿using System.Threading.Tasks;
+using Fleck;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
 
@@ -19,15 +20,15 @@ namespace WampSharp.Fleck
         private void OnConnectionMessage(byte[] bytes)
         {
             WampMessage<TMessage> parsed = mBinding.Parse(bytes);
-            RaiseNewMessageArrived(parsed);
+            RaiseMessageArrived(parsed);
         }
 
-        protected override void InnerSend(WampMessage<TMessage> message)
+        protected override Task SendAsync(WampMessage<TMessage> message)
         {
             byte[] bytes =
-                mBinding.Format(message); 
+                mBinding.Format(message);
 
-            mWebSocketConnection.Send(bytes);
+            return mWebSocketConnection.Send(bytes);
         }
     }
 }

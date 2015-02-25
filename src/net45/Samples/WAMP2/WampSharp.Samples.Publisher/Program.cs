@@ -43,7 +43,7 @@ namespace WampSharp.Samples.Publisher
                 Observable.Timer(TimeSpan.FromMilliseconds(0),
                                  TimeSpan.FromMilliseconds(1000));
 
-            IDisposable disposable = 
+            IDisposable disposable =
                 timer.Subscribe(x =>
                 {
                     counter++;
