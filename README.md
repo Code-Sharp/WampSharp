@@ -36,7 +36,7 @@ If you're updating from a previous WampSharp version and you're not interested y
 
 [WinImgMaster]:http://teamcity.codebetter.com/app/rest/builds/buildType:\(id:WampSharp_Dev_Build\)/statusIcon
 [WinLinkMaster]:http://teamcity.codebetter.com/project.html?projectId=WampSharp_Dev&guest=1
-[MonoImgMaster]:https://travis-ci.org/Code-Sharp/WampSharp.png?branch=dev
+[MonoImgMaster]:https://travis-ci.org/Code-Sharp/WampSharp.png?branch=develop
 [MonoLinkMaster]:https://travis-ci.org/Code-Sharp/WampSharp
 
 [JetBrains]:http://www.jetbrains.com/
