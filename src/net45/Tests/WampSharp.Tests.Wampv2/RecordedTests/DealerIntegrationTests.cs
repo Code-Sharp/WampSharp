@@ -84,11 +84,6 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                                                    nestedType.Name,
                                                    request.Arguments[2].Value));
 
-                    if (nestedType.Name == "Progress")
-                    {
-                        testCase.Ignore("WAMP2 Advanced profile feature.");
-                    }
-
                     yield return testCase;
                 }
             }
