@@ -40,7 +40,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(callback.Task.Result, Is.EqualTo(10));
         }
 
-        
+
         [Test]
         public async Task ProgressiveCallsCalleeProxyProgress()
         {
@@ -56,11 +56,13 @@ namespace WampSharp.Tests.Wampv2.Integration
             ILongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ILongOpService>();
 
             List<int> results = new List<int>();
-            Progress<int> progress = new Progress<int>();
-            progress.ProgressChanged += (sender, i) => results.Add(i);
+            MyProgress<int> progress = new MyProgress<int>(i => results.Add(i));
+
             Task<int> result = proxy.LongOp(10, progress);
+            result.Wait();
 
             CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), results);
+
             Assert.That(result.Result, Is.EqualTo(10));
         }
 
@@ -216,6 +218,21 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
                 throw new NotImplementedException();
             }
+        }
+    }
+
+    internal class MyProgress<T> : IProgress<T>
+    {
+        private readonly Action<T> mAction;
+
+        public MyProgress(Action<T> action)
+        {
+            mAction = action;
+        }
+
+        public void Report(T value)
+        {
+            mAction(value);
         }
     }
 }
