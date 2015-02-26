@@ -30,7 +30,7 @@ namespace WampSharp.RawSocket
         }
 
         public event EventHandler SessionStarted;
-        public event EventHandler<CloseReason> SessionClosed;
+        public event Action<object, CloseReason> SessionClosed;
         public event EventHandler<MessageArrivedEventArgs> MessageArrived;
 
         protected virtual void RaiseSessionStarted()
@@ -45,7 +45,7 @@ namespace WampSharp.RawSocket
 
         protected virtual void RaiseConnectionLost(CloseReason e)
         {
-            EventHandler<CloseReason> handler = SessionClosed;
+            Action<object, CloseReason> handler = SessionClosed;
 
             if (handler != null)
             {
