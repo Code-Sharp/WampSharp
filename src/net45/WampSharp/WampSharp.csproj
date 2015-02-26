@@ -263,7 +263,7 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeClientProxyFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInterceptorSelector.cs" />
-    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\WampConnectionBrokenException.cs" />
     <Compile Include="WAMP2\V2\Api\Server\CompositeListener.cs" />
     <Compile Include="WAMP2\V2\Api\Server\InMemoryWampHost.cs" />
     <Compile Include="WAMP2\V2\Api\Server\ServiceRealm\ServiceHostedRealmContainer.cs" />

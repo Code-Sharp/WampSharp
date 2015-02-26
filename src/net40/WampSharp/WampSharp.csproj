@@ -661,8 +661,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInterceptorSelector.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\WampCalleeProxyInterceptorSelector.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs">
-      <Link>WAMP2\V2\Api\CalleeProxy\WampConnectionBrokenException.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampConnectionBrokenException.cs">
+      <Link>WAMP2\V2\Core\Contracts\WampConnectionBrokenException.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\CompositeListener.cs">
       <Link>WAMP2\V2\Api\Server\CompositeListener.cs</Link>
