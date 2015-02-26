@@ -13,10 +13,20 @@ namespace WampSharp.SignalR
         private readonly string mUrl;
         private readonly SignalRConnectionListenerAdapter<TMessage> mAdapter;
         private IDisposable mDisposable;
+        private readonly ConnectionListenerSettings mSettings;
 
-        public SignalRConnectionListener(string url, IWampTextBinding<TMessage> binding)
+        public SignalRConnectionListener(string url, IWampTextBinding<TMessage> binding,
+            bool enableCors = true, bool enableJSONP = true, string pathMatch = "")
         {
             mUrl = url;
+
+            mSettings = new ConnectionListenerSettings
+            {
+                PathMatch = pathMatch,
+                EnableCors = enableCors, 
+                EnableJSONP = enableJSONP
+            };
+
             mAdapter = new SignalRConnectionListenerAdapter<TMessage>(binding);
         }
 
@@ -32,6 +42,9 @@ namespace WampSharp.SignalR
 
             services.Add(typeof (ISignalRConnectionListenerAdapter),
                          () => mAdapter);
+
+            services.Add(typeof(ConnectionListenerSettings),
+                         () => mSettings);
 
             var starter = services.GetService<IHostingStarter>();
 
