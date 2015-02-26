@@ -1,7 +1,5 @@
-﻿#if !NET40
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using WampSharp.V2;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
@@ -13,7 +11,7 @@ namespace WampSharp.Samples.Authentication
     public interface ITimeService
     {
         [WampProcedure("com.timeservice.now")]
-        Task<string> Now();
+        string Now();
     }
 
     public class TicketAuthenticator : IWampClientAuthenticator
@@ -33,10 +31,10 @@ namespace WampSharp.Samples.Authentication
             if (authmethod == "ticket")
             {
                 Console.WriteLine("authenticating via '" + authmethod + "'");
-                
-                AuthenticationResponse result = 
-                    new AuthenticationResponse {Signature = mTickets[User]};
-                
+
+                AuthenticationResponse result =
+                    new AuthenticationResponse { Signature = mTickets[User] };
+
                 return result;
             }
             else
@@ -70,7 +68,7 @@ namespace WampSharp.Samples.Authentication
             Console.ReadLine();
         }
 
-        private async static Task Run()
+        private static void Run()
         {
             const string url = "ws://127.0.0.1:8080/ws";
             const string realm = "realm1";
@@ -79,19 +77,19 @@ namespace WampSharp.Samples.Authentication
 
             IWampClientAuthenticator authenticator = new TicketAuthenticator();
             IWampChannel channel = channelFactory.CreateJsonChannel(url, realm, authenticator);
-            
+
             IWampRealmProxy realmProxy = channel.RealmProxy;
 
             IWampClientConnectionMonitor monitor = realmProxy.Monitor;
             monitor.ConnectionEstablished += ConnectionEstablished;
             monitor.ConnectionBroken += ConnectionBroken;
 
-            await channel.Open();
+            channel.Open().Wait(5000);
             ITimeService proxy = realmProxy.Services.GetCalleeProxy<ITimeService>();
-            
+
             try
             {
-                string now = await proxy.Now();
+                string now = proxy.Now();
                 Console.WriteLine("call result {0}", now);
             }
             catch (Exception e)
@@ -104,9 +102,9 @@ namespace WampSharp.Samples.Authentication
 
         private static void ConnectionEstablished(object sender, WampSessionEventArgs e)
         {
-            IDictionary<string, object> details = 
+            IDictionary<string, object> details =
                 e.Details.Deserialize<IDictionary<string, object>>();
-            
+
             Console.WriteLine("connected session with ID " + e.SessionId);
             Console.WriteLine("authenticated using method '" + details["authmethod"] + "' and provider '" + details["authprovider"] + "'");
             Console.WriteLine("authenticated with authid '" + details["authid"] + "' and authrole '" + details["authrole"] + "'");
@@ -118,4 +116,3 @@ namespace WampSharp.Samples.Authentication
         }
     }
 }
-#endif
