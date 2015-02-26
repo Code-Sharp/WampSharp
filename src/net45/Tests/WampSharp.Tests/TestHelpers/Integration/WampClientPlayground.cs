@@ -16,21 +16,32 @@ namespace WampSharp.Tests.TestHelpers.Integration
         private readonly WampChannelFactory mWampChannelFactory =
             new WampChannelFactory();
 
+        public IWampChannel GetChannel<TMessage>
+            (IWampServer<TMessage> serverMock,
+                string realm,
+                IWampBinding<TMessage> binding)
+        {
+            return GetChannel(serverMock, realm, binding, new DefaultWampClientAuthenticator());
+        }
+
         public IWampChannel GetChannel<TMessage>(IWampServer<TMessage> serverMock,
-                                         string realm,
-                                         IWampBinding<TMessage> binding)
+                                                 string realm,
+                                                 IWampBinding<TMessage> binding,
+                                                 IWampClientAuthenticator authenticator)
         {
             MockConnection<TMessage> connection = new MockConnection<TMessage>();
-            
+
             IWampConnection<TMessage> serverConnection = connection.SideAToSideB;
             IWampConnection<TMessage> clientConnection = connection.SideBToSideA;
 
             BuildServerMockHandler(serverMock, binding, serverConnection);
 
-            IWampChannel channel = mWampChannelFactory.CreateChannel
-                (realm,
-                 (IControlledWampConnection<TMessage>) clientConnection,
-                 binding);
+            IWampChannel channel =
+                mWampChannelFactory.CreateChannel
+                    (realm,
+                        (IControlledWampConnection<TMessage>) clientConnection,
+                        binding,
+                        authenticator);
 
             return channel;
         }
