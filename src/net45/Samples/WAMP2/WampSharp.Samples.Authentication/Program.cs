@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NET40
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.V2;
@@ -117,3 +118,4 @@ namespace WampSharp.Samples.Authentication
         }
     }
 }
+#endif
