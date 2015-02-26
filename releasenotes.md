@@ -338,7 +338,7 @@ public static async Task Run()
 }
 ```
 
->Note: if the delegate used is of type Action&lt;&gt;, the publication will send the parameters as the positional arguments of the publication, otherwise it will use the parameters as the keyword arguments of the publication (with the parameters names as the keys).
+>Note: if the delegate used is of type Action&lt;&gt;, the publication will send the parameters as the positional arguments of the publication, otherwise it will use the parameters as the keyword arguments of the publication (with the delegate parameters' names as the keys).
 
 In order to use the feature from a subscriber, create a class with a method having a [WampTopic] attribute, Then call RegisterSubscriber of IWampRealmServiceProvider.
 
