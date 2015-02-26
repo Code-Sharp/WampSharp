@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <owners />
+    <dependencies>
+      <dependency id="WampSharp.Default" version="[$version$]" />
+      <dependency id="SuperSocket" version="[1.6.4]" />
+    </dependencies>
+    <id>WampSharp.SignalR</id>
+    <title>WampSharp SignalR support</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SignalR transport for WampSharp</description>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <tags>websockets wampws rpc pubsub supersocket wampv2 rawsocket</tags>
+  </metadata>
+  <files>
+    <file src="bin\net45\WampSharp.RawSocket.dll" target="lib\net45\WampSharp.RawSocket.dll" />
+    <file src="bin\net45\WampSharp.RawSocket.xml" target="lib\net45\WampSharp.RawSocket.xml" />
+    <file src="bin\net40\WampSharp.RawSocket.dll" target="lib\net40\WampSharp.RawSocket.dll" />
+    <file src="bin\net40\WampSharp.RawSocket.xml" target="lib\net40\WampSharp.RawSocket.xml" />
+  </files>
+</package>
