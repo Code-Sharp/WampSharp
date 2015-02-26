@@ -1,4 +1,3 @@
-using WampSharp.Core.Contracts;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
@@ -16,17 +15,23 @@ namespace WampSharp.V2.Client
         /// <returns></returns>
         public AuthenticationResponse Authenticate(string authmethod, ChallengeDetails extra)
         {
-            throw new WampAuthenticationException("Authorization was requested but no authenticator was provided");
+            throw new WampAuthenticationNotImplementedException("Authentication was requested but no authenticator was provided");
         }
 
         public string[] AuthenticationMethods
         {
-            get { return null; }
+            get
+            {
+                return null;
+            }
         }
 
         public string AuthenticationId
         {
-            get { return null; }
+            get
+            {
+                return null;
+            }
         }
     }
 }

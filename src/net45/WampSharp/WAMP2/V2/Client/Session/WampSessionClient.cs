@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WampSharp.Core.Contracts;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
@@ -103,6 +102,7 @@ namespace WampSharp.V2.Client
             catch (WampAuthenticationException ex)
             {
                 mServerProxy.Abort(ex.Details, ex.Reason);
+                OnConnectionError(ex);
             }
         }
 
@@ -144,12 +144,12 @@ namespace WampSharp.V2.Client
 
         public void Heartbeat(int incomingSeq, int outgoingSeq)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Heartbeat(int incomingSeq, int outgoingSeq, string discard)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public long Session
