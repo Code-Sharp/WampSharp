@@ -1,4 +1,3 @@
-using System;
 using System.Reflection;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;

@@ -59,5 +59,11 @@ namespace WampSharp.V2
         /// <param name="topicUri">The WAMP topic uri.</param>
         /// <returns>The requested subject.</returns>
         IWampSubject GetSubject(string topicUri);
+
+        IDisposable RegisterPublisher(object publisher);
+        IDisposable RegisterPublisher(object publisher, IPublisherRegistrationInterceptor interceptor);
+
+        Task<IAsyncDisposable> RegisterSubscriber(object subscriber);
+        Task<IAsyncDisposable> RegisterSubscriber(object subscriber, ISubscriberRegistrationInterceptor interceptor);
     }
 }

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using SystemEx;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.DelegatePubSub;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2
@@ -20,10 +22,14 @@ namespace WampSharp.V2
 
         private readonly IWampRealmProxy mProxy;
         private readonly WampCalleeClientProxyFactory mCalleeProxyFactory;
+        private readonly WampPublisherRegistrar mPublisherRegistrar;
+        private readonly WampSubscriberRegistrar mSubscriberRegistrar;
 
         public WampRealmProxyServiceProvider(IWampRealmProxy proxy)
         {
             mProxy = proxy;
+            mSubscriberRegistrar = new WampSubscriberRegistrar(mProxy);
+            mPublisherRegistrar = new WampPublisherRegistrar(mProxy);
             mCalleeProxyFactory = new WampCalleeClientProxyFactory
                 (mProxy.RpcCatalog,
                  mProxy.Monitor);
@@ -79,6 +85,26 @@ namespace WampSharp.V2
             WampClientSubject result = new WampClientSubject(topicProxy, mProxy.Monitor);
 
             return result;
+        }
+
+        public IDisposable RegisterPublisher(object publisher)
+        {
+            return RegisterPublisher(publisher, new PublisherRegistrationInterceptor());
+        }
+
+        public IDisposable RegisterPublisher(object publisher, IPublisherRegistrationInterceptor interceptor)
+        {
+            return mPublisherRegistrar.RegisterPublisher(publisher, interceptor);
+        }
+
+        public Task<IAsyncDisposable> RegisterSubscriber(object subscriber)
+        {
+            return this.RegisterSubscriber(subscriber, new SubscriberRegistrationInterceptor());
+        }
+
+        public Task<IAsyncDisposable> RegisterSubscriber(object subscriber, ISubscriberRegistrationInterceptor interceptor)
+        {
+            return mSubscriberRegistrar.RegisterSubscriber(subscriber, interceptor);
         }
     }
 }

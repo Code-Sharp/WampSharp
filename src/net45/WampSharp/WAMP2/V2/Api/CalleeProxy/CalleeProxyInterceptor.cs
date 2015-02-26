@@ -14,6 +14,10 @@ namespace WampSharp.V2
                 (new CalleeProxyInterceptor
                     (new CallOptions()));
 
+        public CalleeProxyInterceptor() : this(new CallOptions())
+        {
+        }
+
         public CalleeProxyInterceptor(CallOptions callOptions)
         {
             mCallOptions = callOptions;
