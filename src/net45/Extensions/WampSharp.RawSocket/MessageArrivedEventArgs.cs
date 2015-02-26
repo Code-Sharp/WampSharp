@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WampSharp.RawTcp
+namespace WampSharp.RawSocket
 {
     internal class MessageArrivedEventArgs : EventArgs
     {

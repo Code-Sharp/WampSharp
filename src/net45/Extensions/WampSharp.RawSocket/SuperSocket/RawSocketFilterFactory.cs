@@ -2,13 +2,13 @@
 using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Protocol;
 
-namespace WampSharp.RawTcp
+namespace WampSharp.RawSocket
 {
-    class RawWampFilterFactory : IReceiveFilterFactory<BinaryRequestInfo>
+    internal class RawSocketFilterFactory : IReceiveFilterFactory<BinaryRequestInfo>
     {
         public IReceiveFilter<BinaryRequestInfo> CreateFilter(IAppServer appServer, IAppSession appSession, IPEndPoint remoteEndPoint)
         {
-            return new RawWampFilter();
+            return new RawSocketFilter();
         }
     }
 }
