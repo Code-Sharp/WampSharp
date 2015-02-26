@@ -5,11 +5,20 @@ using WampSharp.V2.Binding.Transports;
 
 namespace WampSharp.RawSocket
 {
+    /// <summary>
+    /// Represents a TCP raw-socket WAMP transport.
+    /// </summary>
     public class RawSocketTransport : IWampTransport
     {
         private readonly RawSocketServer mServer;
         private ConnectionListener mConnectionListener;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="RawSocketTransport"/>, 
+        /// given the ip and the listening port to open.
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <param name="port"></param>
         public RawSocketTransport(string ip, int port)
         {
             mServer = new RawSocketServer();
@@ -32,16 +41,30 @@ namespace WampSharp.RawSocket
             return InnerGetListener((dynamic) binding);
         }
 
+        private IWampConnectionListener<TMessage> CastBinding<TMessage>()
+        {
+            IWampConnectionListener<TMessage> result = mConnectionListener as IWampConnectionListener<TMessage>;
+
+            if (result == null)
+            {
+                throw new Exception(
+                    "Already registered a binding for RawSocket transport. RawSocket transport currently supports only a single binding.");
+            }
+
+            return result;
+        }
+
         private IWampConnectionListener<TMessage> InnerGetListener<TMessage>(IWampBinaryBinding<TMessage> binding)
         {
             if (mConnectionListener == null)
             {
-                BinaryConnectionListener<TMessage> binaryConnectionListener = new BinaryConnectionListener<TMessage>(binding);
+                BinaryConnectionListener<TMessage> binaryConnectionListener =
+                    new BinaryConnectionListener<TMessage>(binding);
 
                 SetConnection(binaryConnectionListener);
             }
 
-            return mConnectionListener as IWampConnectionListener<TMessage>;
+            return CastBinding<TMessage>();
         }
 
         private IWampConnectionListener<TMessage> InnerGetListener<TMessage>(IWampTextBinding<TMessage> binding)
@@ -52,8 +75,8 @@ namespace WampSharp.RawSocket
 
                 SetConnection(textConnectionListener);
             }
-
-            return mConnectionListener as IWampConnectionListener<TMessage>;
+        
+            return CastBinding<TMessage>();
         }
 
         private IWampConnectionListener<TMessage> InnerGetListener<TMessage>(IWampBinding<TMessage> binding)
