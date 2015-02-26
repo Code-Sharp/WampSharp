@@ -14,7 +14,7 @@ namespace WampSharp.SignalR
         private ISignalRListener mListener;
         private readonly bool mEnableCORS;
         private readonly bool mEnableJSONP;
-        private string mPathMatch;
+        private readonly string mPathMatch;
 
         /// <summary>
         /// Creates a new instance of <see cref="SignalRTransport"/> given the url
