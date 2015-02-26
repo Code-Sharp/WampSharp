@@ -8,10 +8,10 @@
       <dependency id="WampSharp.Default" version="[$version$]" />
       <dependency id="SuperSocket" version="[1.6.4]" />
     </dependencies>
-    <id>WampSharp.SignalR</id>
-    <title>WampSharp SignalR support</title>
+    <id>WampSharp.RawSocket</id>
+    <title>WampSharp RawSocket support</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>SignalR transport for WampSharp</description>
+    <description>RawSocket transport for WampSharp</description>
     <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
     <tags>websockets wampws rpc pubsub supersocket wampv2 rawsocket</tags>
   </metadata>
