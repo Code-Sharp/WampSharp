@@ -1,6 +1,19 @@
 WampSharp v1.2.1.0-beta release notes
 =================================
 
+**Contents**
+
+1. [Api Changes](#api-changes)
+	* [IAsyncDisposable](#IAsyncDisposable)
+2. [New Features](#new-features)
+    * [Progressive calls](#progressive-calls)
+    * [Caller identification](#caller-identification)
+    * [WampInvocationContext](#wampinvocationcontext)
+    * [Attribute based pub/sub](#attribute-based-pubsub)
+    * [WampEventContext](#wampeventcontext)
+    * [Registration customization](#registration-customization)
+    * [Authentication](#authentication)
+
 ###Api changes
 
 ####IAsyncDisposable
