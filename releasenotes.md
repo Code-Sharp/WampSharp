@@ -573,7 +573,7 @@ public async Task Run()
 }
 ```
 
->Note:  The samples are based on [this](https://github.com/tavendo/AutobahnPython/tree/master/examples/twisted/wamp/authentication/ticket) AutobahnJS sample
+>Note:  The sample is based on [this](https://github.com/tavendo/AutobahnPython/tree/master/examples/twisted/wamp/authentication/ticket) AutobahnJS sample
 
 
 
