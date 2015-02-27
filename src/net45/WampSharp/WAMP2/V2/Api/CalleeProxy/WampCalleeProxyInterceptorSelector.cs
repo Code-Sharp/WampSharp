@@ -30,6 +30,7 @@ namespace WampSharp.V2.CalleeProxy
 #if !NET40
                 if (method.IsDefined(typeof(WampProgressiveResultProcedureAttribute)))
                 {
+                    MethodInfoValidation.ValidateProgressiveMehotd(method);
                     Type taskType = TaskExtensions.UnwrapReturnType(returnType);
 
                     IInterceptor interceptor =
@@ -43,6 +44,7 @@ namespace WampSharp.V2.CalleeProxy
                 else
 #endif
                 {
+                    MethodInfoValidation.ValidateAsyncMethod(method);
                     return interceptors.OfType<AsyncCalleeProxyInterceptor>().Cast<IInterceptor>().ToArray();
                 }
             }
