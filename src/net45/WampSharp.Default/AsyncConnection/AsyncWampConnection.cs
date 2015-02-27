@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 
@@ -12,8 +11,7 @@ namespace WampSharp
 
         protected AsyncWampConnection()
         {
-            mSendBlock = new ActionBlock<WampMessage<TMessage>>(x => InnerSend(x),
-                new ExecutionDataflowBlockOptions() {MaxDegreeOfParallelism = 1});
+            mSendBlock = new ActionBlock<WampMessage<TMessage>>(x => InnerSend(x));
         }
 
         public void Send(WampMessage<TMessage> message)

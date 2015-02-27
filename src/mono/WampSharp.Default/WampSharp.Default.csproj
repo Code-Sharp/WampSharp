@@ -67,10 +67,6 @@
     <Reference Include="System.Reactive.PlatformServices">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Threading.Tasks.Dataflow">
-      <HintPath>..\packages\Microsoft.Tpl.Dataflow.4.5.9\lib\net45\System.Threading.Tasks.Dataflow.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebSocket4Net, Version=0.10.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
@@ -79,6 +75,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\net45\WampSharp.Default\AsyncConnection\ActionBlock.cs">
+      <Link>AsyncConnection\ActionBlock.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\AsyncConnection\AsyncWampConnection.cs">
       <Link>AsyncConnection\AsyncWampConnection.cs</Link>
     </Compile>
