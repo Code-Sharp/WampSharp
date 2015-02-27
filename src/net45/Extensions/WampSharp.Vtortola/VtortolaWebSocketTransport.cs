@@ -70,12 +70,18 @@ namespace WampSharp.Vtortola
         {
             while (mListener.IsStarted)
             {
-                WebSocket websocket = await mListener.AcceptWebSocketAsync(CancellationToken.None)
-                    .ConfigureAwait(false);
-
-                if (websocket != null)
+                try
                 {
-                    OnNewConnection(websocket);
+                    WebSocket websocket = await mListener.AcceptWebSocketAsync(CancellationToken.None)
+                        .ConfigureAwait(false);
+
+                    if (websocket != null)
+                    {
+                        OnNewConnection(websocket);
+                    }
+                }
+                catch
+                {
                 }
             }
         }
