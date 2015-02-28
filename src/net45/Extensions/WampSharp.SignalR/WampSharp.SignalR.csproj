@@ -123,6 +123,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\WampSharp.Default\WampSharp.Default.csproj">
+      <Project>{6AB75291-D296-457E-88A3-B41B16A1A247}</Project>
+      <Name>WampSharp.Default</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>
       <Name>WampSharp</Name>
