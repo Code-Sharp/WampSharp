@@ -1,4 +1,4 @@
-WampSharp v1.2.1.0-beta release notes
+WampSharp v1.2.1.6-beta release notes
 =================================
 
 **Contents**
