@@ -1,5 +1,6 @@
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
+using WampSharp.V2.Client;
 
 namespace WampSharp.V2.Core.Contracts
 {
@@ -10,7 +11,7 @@ namespace WampSharp.V2.Core.Contracts
     public interface IWampSessionClient<TMessage>
     {        
         [WampHandler(WampMessageType.v2Challenge)]
-        void Challenge(string challenge, ChallengeDetails extra);
+        void Challenge(string authMethod, ChallengeDetails extra);
 
         [WampHandler(WampMessageType.v2Welcome)]
         void Welcome(long session, TMessage details);

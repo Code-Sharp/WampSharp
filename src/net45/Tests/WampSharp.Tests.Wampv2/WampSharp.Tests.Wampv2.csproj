@@ -65,8 +65,13 @@
     <Compile Include="Client\Caller\CallerTest.cs" />
     <Compile Include="Client\Caller\CallerRawTests.cs" />
     <Compile Include="Client\RawTest.cs" />
+    <Compile Include="Integration\AuthenticationTests.cs" />
     <Compile Include="Integration\CallerDealerTests.cs" />
     <Compile Include="Integration\MockRawCallback.cs" />
+    <Compile Include="Integration\PublisherSubscriber.cs" />
+    <Compile Include="Integration\PubSubReflectionTests.cs" />
+    <Compile Include="Integration\RpcOptionsTests.cs" />
+    <Compile Include="Integration\RpcProgressTests.cs" />
     <Compile Include="Integration\RpcProxies\IArgumentsService.cs" />
     <Compile Include="Integration\RpcProxies\IComplexResultService.cs" />
     <Compile Include="Integration\RpcProxies\IErrorsService.cs" />

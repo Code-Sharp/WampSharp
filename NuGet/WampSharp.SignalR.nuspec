@@ -6,8 +6,9 @@
     <owners />
     <dependencies>
       <dependency id="WampSharp.Default" version="[$version$]" />
-      <dependency id="Microsoft.AspNet.SignalR.SelfHost" version="[2.1.2]" />
-      <dependency id="Microsoft.AspNet.SignalR.Client" version="[2.1.2]" />
+      <dependency id="Microsoft.AspNet.SignalR.SelfHost" version="[2.2.0]" />
+      <dependency id="Microsoft.AspNet.SignalR.Client" version="[2.2.0]" />
+      <dependency id="Microsoft.Owin.Cors" version="[2.1.0]" />
     </dependencies>
     <id>WampSharp.SignalR</id>
     <title>WampSharp SignalR support</title>

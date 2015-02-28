@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using vtortola.WebSockets;
@@ -10,7 +7,7 @@ using vtortola.WebSockets.Deflate;
 using vtortola.WebSockets.Rfc6455;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Binding.Transports;
+using WampSharp.V2.Transports;
 
 namespace WampSharp.Vtortola
 {
@@ -19,14 +16,10 @@ namespace WampSharp.Vtortola
     /// </summary>
     /// TODO: This was copied and modified from Fleck implementation.
     /// TODO: Refactor these classes in order to avoid code duplication.
-    public class VtortolaWebSocketTransport : IWampTransport
+    public class VtortolaWebSocketTransport : WebSocketTransport<WebSocket>
     {
         private readonly IPEndPoint mEndpoint;
         private WebSocketListener mListener;
-
-        private readonly IDictionary<string, ConnectionListener> mBindings =
-            new Dictionary<string, ConnectionListener>();
-
         private readonly bool mPerMessageDeflate;
 
         /// <summary>
@@ -42,20 +35,15 @@ namespace WampSharp.Vtortola
             mPerMessageDeflate = perMessageDeflate;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
-            foreach (ConnectionListener connectionListener in mBindings.Values)
-            {
-                connectionListener.Dispose();
-            }
-
             mListener.Stop();
             mListener.Dispose();
         }
 
-        public void Open()
+        public override void Open()
         {
-            string[] protocols = mBindings.Keys.ToArray();
+            string[] protocols = SubProtocols;
 
             WebSocketListener listener = new WebSocketListener(mEndpoint, new WebSocketListenerOptions()
             {
@@ -75,159 +63,50 @@ namespace WampSharp.Vtortola
 
             mListener = listener;
 
-            Task.Run((Func<Task>)ListenAsync);            
+            Task.Run(new Func<Task>(ListenAsync));
         }
 
         private async Task ListenAsync()
         {
             while (mListener.IsStarted)
             {
-                WebSocket websocket = await mListener.AcceptWebSocketAsync(CancellationToken.None)
-                    .ConfigureAwait(false);
-
-                if (websocket != null)
+                try
                 {
-                    OnNewConnection(websocket);
+                    WebSocket websocket = await mListener.AcceptWebSocketAsync(CancellationToken.None)
+                        .ConfigureAwait(false);
+
+                    if (websocket != null)
+                    {
+                        OnNewConnection(websocket);
+                    }
+                }
+                catch
+                {
                 }
             }
         }
 
-        private void OnNewConnection(WebSocket connection)
+        protected override string GetSubProtocol(WebSocket connection)
         {
-            string protocol = connection.HttpResponse.WebSocketProtocol;
-
-            ConnectionListener listener = mBindings[protocol];
-
-            listener.OnNewConnection(connection);
+            return connection.HttpResponse.WebSocketProtocol;
         }
 
-        public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampBinding<TMessage> binding)
+        protected override void OpenConnection<TMessage>(IWampConnection<TMessage> connection)
         {
-            IWampTextBinding<TMessage> textBinding = binding as IWampTextBinding<TMessage>;
-
-            if (textBinding != null)
-            {
-                return GetListener(textBinding);
-            }
-
-            IWampBinaryBinding<TMessage> binaryBinding = binding as IWampBinaryBinding<TMessage>;
-
-            if (binaryBinding != null)
-            {
-                return GetListener(binaryBinding);
-            }
-
-            throw new ArgumentException("WebSockets can only deal with binary/text transports", "binding");
+            VtortolaWampConnection<TMessage> casted = connection as VtortolaWampConnection<TMessage>;
+            Task.Run(new Func<Task>(casted.HandleWebSocketAsync));
         }
 
-        private IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTextBinding<TMessage> binding)
+        protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>
+            (WebSocket connection, IWampBinaryBinding<TMessage> binding)
         {
-            TextConnectionListener<TMessage> listener = new TextConnectionListener<TMessage>(binding);
-
-            RegisterBinding(binding, listener);
-
-            return listener;
+            return new VtortolaWampBinaryConnection<TMessage>(connection, binding);
         }
 
-        private IWampConnectionListener<TMessage> GetListener<TMessage>(IWampBinaryBinding<TMessage> binding)
+        protected override IWampConnection<TMessage> CreateTextConnection<TMessage>
+            (WebSocket connection, IWampTextBinding<TMessage> binding)
         {
-            BinaryConnectionListener<TMessage> listener = new BinaryConnectionListener<TMessage>(binding);
-
-            RegisterBinding(binding, listener);
-
-            return listener;
+            return new VtortolaWampTextConnection<TMessage>(connection, binding);
         }
-
-        private void RegisterBinding(IWampBinding binding, ConnectionListener listener)
-        {
-            if (mBindings.ContainsKey(binding.Name))
-            {
-                throw new ArgumentException("Already registered a binding for protocol: " +
-                                            binding.Name,
-                                            "binding");
-            }
-
-            mBindings.Add(binding.Name, listener);
-        }
-
-        #region Nested classes
-
-        private abstract class ConnectionListener : IDisposable
-        {
-            public abstract void OnNewConnection(WebSocket connection);
-            public abstract void Dispose();
-        }
-
-        private abstract class ConnectionListener<TMessage> : ConnectionListener,
-            IWampConnectionListener<TMessage>
-        {
-            private readonly Subject<IWampConnection<TMessage>> mSubject =
-                new Subject<IWampConnection<TMessage>>();
-
-            protected void OnNewConnection(VtortolaWampConnection<TMessage> connection)
-            {
-                mSubject.OnNext(connection);
-                Task task = connection.HandleWebSocketAsync();
-            }
-
-            public IDisposable Subscribe(IObserver<IWampConnection<TMessage>> observer)
-            {
-                return mSubject.Subscribe(observer);
-            }
-
-            public override void Dispose()
-            {
-                mSubject.OnCompleted();
-                mSubject.Dispose();
-            }
-        }
-
-        private class BinaryConnectionListener<TMessage> : ConnectionListener<TMessage>
-        {
-            private readonly IWampBinaryBinding<TMessage> mBinding;
-
-            public BinaryConnectionListener(IWampBinaryBinding<TMessage> binding)
-            {
-                mBinding = binding;
-            }
-
-            public IWampBinaryBinding<TMessage> Binding
-            {
-                get
-                {
-                    return mBinding;
-                }
-            }
-
-            public override void OnNewConnection(WebSocket connection)
-            {
-                OnNewConnection(new VtortolaWampBinaryConnection<TMessage>(connection, Binding));
-            }
-        }
-
-        private class TextConnectionListener<TMessage> : ConnectionListener<TMessage>
-        {
-            private readonly IWampTextBinding<TMessage> mBinding;
-
-            public TextConnectionListener(IWampTextBinding<TMessage> binding)
-            {
-                mBinding = binding;
-            }
-
-            public IWampTextBinding<TMessage> Binding
-            {
-                get
-                {
-                    return mBinding;
-                }
-            }
-
-            public override void OnNewConnection(WebSocket connection)
-            {
-                OnNewConnection(new VtortolaWampTextConnection<TMessage>(connection, Binding));
-            }
-        }
-
-        #endregion
     }
 }

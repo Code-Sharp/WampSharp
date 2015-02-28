@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WampSharp.Core.Contracts;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
@@ -102,9 +103,9 @@ namespace WampSharp.V2.Client
             get { return SessionClient.OpenTask; }
         }
 
-        public void Challenge(string challenge, ChallengeDetails extra)
+        public void Challenge(string authMethod, ChallengeDetails extra)
         {
-            SessionClient.Challenge(challenge, extra);
+            SessionClient.Challenge(authMethod, extra);
         }
 
         public void Welcome(long session, TMessage details)

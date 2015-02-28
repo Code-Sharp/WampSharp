@@ -25,7 +25,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="details">Additional details.</param>
         /// <param name="reason">A uri representing the abort reason.</param>
         [WampHandler(WampMessageType.v2Abort)]
-        void Abort(TMessage details, string reason);
+        void Abort(AbortDetails details, string reason);
 
         /// <summary>
         /// Sends an AUTHENTICATE message.

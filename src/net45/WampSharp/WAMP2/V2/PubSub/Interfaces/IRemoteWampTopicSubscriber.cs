@@ -9,6 +9,16 @@ namespace WampSharp.V2.PubSub
     public interface IRemoteWampTopicSubscriber
     {
         /// <summary>
+        /// Gets the subscription id of the subscriber.
+        /// </summary>
+        long SubscriptionId { get; }
+
+        /// <summary>
+        /// Gets the session id of the subscriber.
+        /// </summary>
+        long SessionId { get; }
+
+        /// <summary>
         /// Publishes an EVENT message with the given parameters.
         /// </summary>
         /// <param name="details">The details to publish.</param>

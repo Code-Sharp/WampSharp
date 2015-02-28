@@ -20,12 +20,12 @@ namespace WampSharp.V2.PubSub
         /// <summary>
         /// Occurs before a subscription was removed.
         /// </summary>
-        event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoving;
+        event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoving;
 
         /// <summary>
         /// Occurs before a subscription was removed.
         /// </summary>
-        event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoved;
+        event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoved;
 
         /// <summary>
         /// Occurs when the topic is empty.

@@ -58,14 +58,17 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="vtortola.WebSockets">
-      <HintPath>..\..\packages\vtortola.WebSocketListener.2.1.1.0\lib\net45\vtortola.WebSockets.dll</HintPath>
+    <Reference Include="vtortola.WebSockets, Version=2.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\vtortola.WebSocketListener.2.1.3.0\lib\net45\vtortola.WebSockets.dll</HintPath>
     </Reference>
-    <Reference Include="vtortola.WebSockets.Deflate">
-      <HintPath>..\..\packages\vtortola.WebSocketListener.2.1.1.0\lib\net45\vtortola.WebSockets.Deflate.dll</HintPath>
+    <Reference Include="vtortola.WebSockets.Deflate, Version=2.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\vtortola.WebSocketListener.2.1.3.0\lib\net45\vtortola.WebSockets.Deflate.dll</HintPath>
     </Reference>
-    <Reference Include="vtortola.WebSockets.Rfc6455">
-      <HintPath>..\..\packages\vtortola.WebSocketListener.2.1.1.0\lib\net45\vtortola.WebSockets.Rfc6455.dll</HintPath>
+    <Reference Include="vtortola.WebSockets.Rfc6455, Version=2.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\vtortola.WebSocketListener.2.1.3.0\lib\net45\vtortola.WebSockets.Rfc6455.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +82,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\WampSharp.Default\WampSharp.Default.csproj">
+      <Project>{6ab75291-d296-457e-88a3-b41b16a1a247}</Project>
+      <Name>WampSharp.Default</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>
       <Name>WampSharp</Name>

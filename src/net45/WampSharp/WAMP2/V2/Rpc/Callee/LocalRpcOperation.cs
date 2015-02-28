@@ -111,97 +111,12 @@ namespace WampSharp.V2.Rpc
                                                       TMessage[] arguments,
                                                       IDictionary<string, TMessage> argumentsKeywords)
         {
-            IEnumerable<object> positional = Enumerable.Empty<object>();
-            IEnumerable<object> named = Enumerable.Empty<object>();
+            ArgumentUnpacker unpacker = new ArgumentUnpacker(Parameters);
 
-            int positionalArguments = 0;
-            
-            if (arguments != null)
-            {
-                positionalArguments = arguments.Length;
-
-                positional =
-                    Parameters.Take(positionalArguments)
-                              .Zip(arguments, (parameter, value) => new {parameter, value})
-                              .Select(x => GetPositionalParameterValue(formatter, x.parameter, x.value));
-            }
-
-            named = Parameters.Skip(positionalArguments)
-                              .Select(parameter => GetNamedParameterValue(formatter, parameter, argumentsKeywords));
-
-            object[] result = positional.Concat(named).ToArray();
+            object[] result = 
+                unpacker.UnpackParameters(formatter, arguments, argumentsKeywords);
 
             return result;
-        }
-
-        private object ConvertParameter<TMessage>(IWampFormatter<TMessage> formatter, RpcParameter parameter, TMessage value)
-        {
-            return formatter.Deserialize(parameter.Type, value);
-        }
-
-
-        private object ConvertNamedParameter<TMessage>(IWampFormatter<TMessage> formatter,
-                                                       RpcParameter parameter,
-                                                       TMessage value)
-        {
-            try
-            {
-                return ConvertParameter(formatter, parameter, value);
-            }
-            catch (Exception ex)
-            {
-                throw NameError(parameter.Name);
-            }
-        }
-
-        private object GetPositionalParameterValue<TMessage>(IWampFormatter<TMessage> formatter,
-                                                             RpcParameter parameter,
-                                                             TMessage value)
-        {
-            try
-            {
-                return ConvertParameter(formatter, parameter, value);
-            }
-            catch (Exception ex)
-            {
-                throw PositionError(parameter.Position);
-            }
-        }
-
-        private object GetNamedParameterValue<TMessage>(IWampFormatter<TMessage> formatter, RpcParameter parameter, IDictionary<string, TMessage> argumentKeywords)
-        {
-            if (parameter.Name == null)
-            {
-                throw PositionError(parameter.Position);
-            }
-            else
-            {
-                TMessage value;
-
-                if (argumentKeywords != null && 
-                    argumentKeywords.TryGetValue(parameter.Name, out value))
-                {
-                    return ConvertNamedParameter(formatter, parameter, value);
-                }
-                else if (parameter.HasDefaultValue)
-                {
-                    return parameter.DefaultValue;
-                }
-                else
-                {
-                    throw NameError(parameter.Name);
-                }
-            }
-        }
-
-        private static Exception NameError(string name)
-        {
-            throw new WampException(WampErrors.InvalidArgument, "argument name: " + name);
-        }
-
-        private static Exception PositionError(int position)
-        {
-            throw new WampException(WampErrors.InvalidArgument, "argument position: " + position);
         }
 
         protected abstract void InnerInvoke<TMessage>

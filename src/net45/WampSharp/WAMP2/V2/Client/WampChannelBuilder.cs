@@ -40,7 +40,7 @@ namespace WampSharp.V2.Client
         }
 
         public WampChannel<TMessage> CreateChannel(string realm, IControlledWampConnection<TMessage> connection,
-            IWampClientAutenticator authenticator)
+            IWampClientAuthenticator authenticator)
         {
             var wampRealmProxyFactory =
                 new WampRealmProxyFactory(this, realm, connection, authenticator);
@@ -56,7 +56,7 @@ namespace WampSharp.V2.Client
             private readonly WampChannelBuilder<TMessage> mParent;
             private readonly string mRealmName;
             private readonly IWampConnection<TMessage> mConnection;
-            private readonly IWampClientAutenticator mAuthenticator;
+            private readonly IWampClientAuthenticator mAuthenticator;
 
             public WampRealmProxyFactory(WampChannelBuilder<TMessage> parent,
                                          string realmName,
@@ -70,7 +70,7 @@ namespace WampSharp.V2.Client
             public WampRealmProxyFactory(WampChannelBuilder<TMessage> parent,
                                          string realmName,
                                          IWampConnection<TMessage> connection,
-                                         IWampClientAutenticator authenticator)
+                                         IWampClientAuthenticator authenticator)
                 : this(parent, realmName, connection)
             {
                 mAuthenticator = authenticator;

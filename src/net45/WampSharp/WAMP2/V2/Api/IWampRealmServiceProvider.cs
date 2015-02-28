@@ -1,5 +1,8 @@
-﻿using System.Reactive.Subjects;
+﻿using System;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using SystemEx;
+using WampSharp.V2.PubSub;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2
@@ -9,21 +12,39 @@ namespace WampSharp.V2
     /// </summary>
     public interface IWampRealmServiceProvider
     {
-        // TODO: Add overloads for all options
         /// <summary>
         /// Registers an instance of a type having methods decorated with
         /// <see cref="WampProcedureAttribute"/> to the realm.
         /// </summary>
         /// <param name="instance">The instance to register.</param>
-        /// <returns>A task that is completed when all methods are registered.</returns>
-        Task RegisterCallee(object instance);
+        /// <returns>A task that is completed when all methods are registered - its result is a
+        /// <see cref="IAsyncDisposable"/>- disposing it will unregister the instance.</returns>
+        Task<IAsyncDisposable> RegisterCallee(object instance);
 
+        /// <summary>
+        /// Registers an instance of a type having methods decorated with
+        /// <see cref="WampProcedureAttribute"/> to the realm.
+        /// </summary>
+        /// <param name="instance">The instance to register.</param>
+        /// <param name="interceptor">An object which allows registration customization.</param>
+        /// <returns>A task that is completed when all methods are registered - its result is a
+        /// <see cref="IAsyncDisposable"/>- disposing it will unregister the instance.</returns>
+        Task<IAsyncDisposable> RegisterCallee(object instance, ICalleeRegistrationInterceptor interceptor);
+        
         /// <summary>
         /// Gets a proxy of a callee registered in the realm.
         /// </summary>
         /// <typeparam name="TProxy"></typeparam>
         /// <returns>The proxy to the callee.</returns>
         TProxy GetCalleeProxy<TProxy>() where TProxy : class;
+
+        /// <summary>
+        /// Gets a proxy of a callee registered in the realm.
+        /// </summary>
+        /// <param name="interceptor">An object which allows call customization.</param>
+        /// <typeparam name="TProxy"></typeparam>
+        /// <returns>The proxy to the callee.</returns>
+        TProxy GetCalleeProxy<TProxy>(ICalleeProxyInterceptor interceptor) where TProxy : class;
 
         /// <summary>
         /// Gets a <see cref="ISubject{TResult}"/> representing a
@@ -41,5 +62,41 @@ namespace WampSharp.V2
         /// <param name="topicUri">The WAMP topic uri.</param>
         /// <returns>The requested subject.</returns>
         IWampSubject GetSubject(string topicUri);
+
+        /// <summary>
+        /// Registers an instance of a type having events decorated with
+        /// <see cref="WampTopicAttribute"/> to the realm.
+        /// </summary>
+        /// <param name="instance">The instance to register.</param>
+        /// <returns>A disposable - disposing it will unregister the realm from the events of the instance.</returns>
+        IDisposable RegisterPublisher(object instance);
+
+        /// <summary>
+        /// Registers an instance of a type having events decorated with
+        /// <see cref="WampTopicAttribute"/> to the realm.
+        /// </summary>
+        /// <param name="instance">The instance to register.</param>
+        /// <param name="interceptor">An object which allows registration customization.</param>
+        /// <returns>A disposable - disposing it will unregister the realm from the events of the instance.</returns>
+        IDisposable RegisterPublisher(object instance, IPublisherRegistrationInterceptor interceptor);
+
+        /// <summary>
+        /// Registers an instance of a type having methods handlers decorated with
+        /// <see cref="WampTopicAttribute"/> to the realm.
+        /// </summary>
+        /// <param name="instance">The instance to register.</param>
+        /// <returns>A Task that is finished when SUBSCRIBE is complete - its result is a
+        /// <see cref="IAsyncDisposable"/>- disposing it will unsubscribe from the topic.</returns>
+        Task<IAsyncDisposable> RegisterSubscriber(object instance);
+
+        /// <summary>
+        /// Registers an instance of a type having methods handlers decorated with
+        /// <see cref="WampTopicAttribute"/> to the realm.
+        /// </summary>
+        /// <param name="instance">The instance to register.</param>
+        /// <param name="interceptor">An object which allows registration customization.</param>
+        /// <returns>A Task that is finished when SUBSCRIBE is complete - its result is a
+        /// <see cref="IAsyncDisposable"/>- disposing it will unsubscribe from the topic.</returns>
+        Task<IAsyncDisposable> RegisterSubscriber(object instance, ISubscriberRegistrationInterceptor interceptor);
     }
 }

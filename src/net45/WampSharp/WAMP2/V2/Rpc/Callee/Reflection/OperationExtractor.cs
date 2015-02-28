@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.V2.Core.Contracts;
+using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.V2.Rpc
 {
     internal class OperationExtractor : IOperationExtractor
     {
-        public IEnumerable<IWampRpcOperation> ExtractOperations(object instance)
+        public IEnumerable<OperationToRegister> ExtractOperations(object instance, ICalleeRegistrationInterceptor interceptor)
         {
             Type type = instance.GetType();
             IEnumerable<Type> typesToExplore = GetTypesToExplore(type);
 
             foreach (Type currentType in typesToExplore)
             {
-                IEnumerable<IWampRpcOperation> currentOperations = 
-                    GetServiceMethodsOfType(instance, currentType);
+                IEnumerable<OperationToRegister> currentOperations =
+                    GetServiceMethodsOfType(instance, currentType, interceptor);
 
-                foreach (IWampRpcOperation operation in currentOperations)
+                foreach (OperationToRegister operation in currentOperations)
                 {
                     yield return operation;
                 }
@@ -35,39 +36,73 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private IEnumerable<IWampRpcOperation> GetServiceMethodsOfType(object instance, Type type)
+        private IEnumerable<OperationToRegister> GetServiceMethodsOfType
+            (object instance,
+                Type type,
+                ICalleeRegistrationInterceptor interceptor)
         {
-            return type.GetMethods()
-                       .Where(method => method.IsDefined(typeof (WampProcedureAttribute), true))
-                       .Select(method => CreateRpcMethod(instance, method));
+            foreach (var method in type.GetMethods(BindingFlags.Instance |
+                                                   BindingFlags.Public))
+            {
+                if (interceptor.IsCalleeProcedure(method))
+                {
+                    IWampRpcOperation operation = CreateRpcMethod(instance, interceptor, method);
+                    RegisterOptions options = interceptor.GetRegisterOptions(method);
+
+                    yield return new OperationToRegister(operation, options);
+                }
+            }
         }
 
-        protected IWampRpcOperation CreateRpcMethod(object instance, MethodInfo method)
+        protected IWampRpcOperation CreateRpcMethod(object instance, ICalleeRegistrationInterceptor interceptor, MethodInfo method)
         {
+            string procedureUri =
+                interceptor.GetProcedureUri(method);
+
             if (!typeof (Task).IsAssignableFrom(method.ReturnType))
             {
-                return new SyncMethodInfoRpcOperation(instance, method);
+                return new SyncMethodInfoRpcOperation(instance, method, procedureUri);
             }
             else
             {
-                if (method.GetParameters().Any(x => x.IsOut || x.ParameterType.IsByRef))
+#if !NET40
+                if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
                 {
-                    ThrowHelper.AsyncOutRefMethod(method);
+                    MethodInfoValidation.ValidateProgressiveMehotd(method);
+                    return CreateProgressiveOperation(instance, method, procedureUri);
                 }
-
-                return new AsyncMethodInfoRpcOperation(instance, method);
+                else
+#endif
+                {
+                    MethodInfoValidation.ValidateAsyncMethod(method);
+                    return new AsyncMethodInfoRpcOperation(instance, method, procedureUri);
+                }
             }
         }
 
-        private static class ThrowHelper
+#if !NET40
+        private static IWampRpcOperation CreateProgressiveOperation(object instance, MethodInfo method, string procedureUri)
         {
-            public static void AsyncOutRefMethod(MethodInfo method)
-            {
-                throw new ArgumentException
-                    (String.Format(
-                        "Method {0} of type {1} is declared as a WAMP procedure, but it is both asynchronous and has out/ref parameters",
-                        method.Name, method.DeclaringType.FullName));
-            }
+            //return new ProgressiveAsyncMethodInfoRpcOperation<returnType>
+            // (instance, method, procedureUri);
+
+            Type returnType =
+                TaskExtensions.UnwrapReturnType(method.ReturnType);
+
+            Type operationType =
+                typeof (ProgressiveAsyncMethodInfoRpcOperation<>)
+                    .MakeGenericType(returnType);
+
+            IWampRpcOperation operation =
+                (IWampRpcOperation) Activator.CreateInstance(operationType,
+                    instance,
+                    method,
+                    procedureUri);
+
+            return operation;
         }
+
+#endif
+
     }
 }

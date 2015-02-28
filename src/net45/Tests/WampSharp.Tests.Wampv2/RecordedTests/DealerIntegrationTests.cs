@@ -84,11 +84,6 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                                                    nestedType.Name,
                                                    request.Arguments[2].Value));
 
-                    if (nestedType.Name == "Options" || nestedType.Name == "Progress")
-                    {
-                        testCase.Ignore("WAMP2 Advanced profile feature.");
-                    }
-
                     yield return testCase;
                 }
             }
@@ -97,7 +92,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
         private static MockClient<IWampClient<MockRaw>> GetCaller(Type scenario, WampMockClientBuilder<MockRaw> builder)
         {
             WampMessage<MockRaw> welcome =
-                GetCalls(scenario, Channel.DealerToCallee,
+                GetCalls(scenario, Channel.DealerToCaller,
                          new WampMessageType[] { WampMessageType.v2Welcome })
                     .FirstOrDefault();
 

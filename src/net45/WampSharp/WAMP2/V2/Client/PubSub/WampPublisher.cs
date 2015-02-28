@@ -54,6 +54,8 @@ namespace WampSharp.V2.Client
 
             long requestId = mPendingPublication.Add(publication);
 
+            publication.RequestId = requestId;
+
             publicationAction(requestId);
 
             bool acknowledge = options.Acknowledge ?? false;

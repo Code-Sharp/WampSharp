@@ -16,11 +16,6 @@ namespace WampSharp.V2.Rpc
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
 
-        public SyncMethodInfoRpcOperation(object instance, MethodInfo method) : 
-            this(instance, method, GetProcedure(method))
-        {
-        }
-
         public SyncMethodInfoRpcOperation(object instance, MethodInfo method, string procedureName) :
             base(procedureName)
         {
@@ -43,22 +38,9 @@ namespace WampSharp.V2.Rpc
 
             mParameters =
                 method.GetParameters()
-                      .Where(x => !x.IsOut)
-                      .Select(parameter => new RpcParameter(parameter))
-                      .ToArray();
-        }
-
-        private static string GetProcedure(MethodInfo method)
-        {
-            WampProcedureAttribute procedureAttribute =
-                method.GetCustomAttribute<WampProcedureAttribute>(true);
-
-            if (procedureAttribute == null)
-            {
-                // throw 
-            }
-
-            return procedureAttribute.Procedure;
+                    .Where(x => !x.IsOut)
+                    .Select(parameter => new RpcParameter(parameter))
+                    .ToArray();
         }
 
         public override RpcParameter[] Parameters
@@ -77,16 +59,20 @@ namespace WampSharp.V2.Rpc
         }
 
         protected override object InvokeSync<TMessage>
-            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, out IDictionary<string, object> outputs)
+            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+                TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords,
+                out IDictionary<string, object> outputs)
         {
-            object[] unpacked =
-                UnpackParameters(formatter, arguments, argumentsKeywords);
-
-            object[] parameters =
-                mHelper.GetArguments(unpacked);
+            WampInvocationContext.Current = new WampInvocationContext(details);
 
             try
             {
+                object[] unpacked =
+                    UnpackParameters(formatter, arguments, argumentsKeywords);
+
+                object[] parameters =
+                    mHelper.GetArguments(unpacked);
+
                 object result =
                     mMethod.Invoke(mInstance, parameters);
 
@@ -106,6 +92,35 @@ namespace WampSharp.V2.Rpc
                 {
                     throw ConvertExceptionToRuntimeException(actual);
                 }
+            }
+            finally
+            {
+                WampInvocationContext.Current = null;
+            }
+        }
+
+        protected bool Equals(SyncMethodInfoRpcOperation other)
+        {
+            return Equals(mInstance, other.mInstance) && Equals(mMethod, other.mMethod) &&
+                   string.Equals(Procedure, other.Procedure);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((SyncMethodInfoRpcOperation) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (mInstance != null ? mInstance.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (mMethod != null ? mMethod.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (Procedure != null ? Procedure.GetHashCode() : 0);
+                return hashCode;
             }
         }
     }
