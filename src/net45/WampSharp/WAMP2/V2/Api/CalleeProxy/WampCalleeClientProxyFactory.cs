@@ -26,11 +26,9 @@ namespace WampSharp.V2.CalleeProxy
             private readonly IWampRpcOperationCatalogProxy mCatalogProxy;
             private readonly IWampClientConnectionMonitor mMonitor;
 
-            private readonly TaskCompletionSource<object> mDisconnectionTaskCompletionSource =
-                new TaskCompletionSource<object>();
-            
-            private readonly ManualResetEvent mDisconnectionWaitHandle =
-                new ManualResetEvent(false);
+            private TaskCompletionSource<object> mDisconnectionTaskCompletionSource;
+
+            private ManualResetEvent mDisconnectionWaitHandle;
 
             private Exception mDisconnectionException;
             private readonly CallOptions mEmptyOptions = new CallOptions();
@@ -44,7 +42,10 @@ namespace WampSharp.V2.CalleeProxy
             {
                 mCatalogProxy = catalogProxy;
                 mMonitor = monitor;
+                mDisconnectionTaskCompletionSource = new TaskCompletionSource<object>();
+                mDisconnectionWaitHandle = new ManualResetEvent(false);                
 
+                mMonitor.ConnectionEstablished += OnConnectionEstablished;
                 mMonitor.ConnectionError += OnConnectionError;
                 mMonitor.ConnectionBroken += OnConnectionBroken;
             }
@@ -52,6 +53,12 @@ namespace WampSharp.V2.CalleeProxy
             #endregion
 
             #region Private Methods
+
+            private void OnConnectionEstablished(object sender, WampSessionEventArgs e)
+            {
+                mDisconnectionTaskCompletionSource = new TaskCompletionSource<object>();
+                mDisconnectionWaitHandle = new ManualResetEvent(false);                
+            }
 
             private void OnConnectionBroken(object sender, WampSessionCloseEventArgs e)
             {
@@ -68,7 +75,7 @@ namespace WampSharp.V2.CalleeProxy
             private void SetException(Exception exception)
             {
                 mDisconnectionException = exception;
-                mDisconnectionTaskCompletionSource.SetException(exception);
+                mDisconnectionTaskCompletionSource.TrySetException(exception);
                 mDisconnectionWaitHandle.Set();
             }
 
