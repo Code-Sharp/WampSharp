@@ -87,24 +87,24 @@ namespace WampSharp.V2
             return result;
         }
 
-        public IDisposable RegisterPublisher(object publisher)
+        public IDisposable RegisterPublisher(object instance)
         {
-            return RegisterPublisher(publisher, new PublisherRegistrationInterceptor());
+            return RegisterPublisher(instance, new PublisherRegistrationInterceptor());
         }
 
-        public IDisposable RegisterPublisher(object publisher, IPublisherRegistrationInterceptor interceptor)
+        public IDisposable RegisterPublisher(object instance, IPublisherRegistrationInterceptor interceptor)
         {
-            return mPublisherRegistrar.RegisterPublisher(publisher, interceptor);
+            return mPublisherRegistrar.RegisterPublisher(instance, interceptor);
         }
 
-        public Task<IAsyncDisposable> RegisterSubscriber(object subscriber)
+        public Task<IAsyncDisposable> RegisterSubscriber(object instance)
         {
-            return this.RegisterSubscriber(subscriber, new SubscriberRegistrationInterceptor());
+            return this.RegisterSubscriber(instance, new SubscriberRegistrationInterceptor());
         }
 
-        public Task<IAsyncDisposable> RegisterSubscriber(object subscriber, ISubscriberRegistrationInterceptor interceptor)
+        public Task<IAsyncDisposable> RegisterSubscriber(object instance, ISubscriberRegistrationInterceptor interceptor)
         {
-            return mSubscriberRegistrar.RegisterSubscriber(subscriber, interceptor);
+            return mSubscriberRegistrar.RegisterSubscriber(instance, interceptor);
         }
     }
 }
