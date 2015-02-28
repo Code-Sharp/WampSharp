@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Reactive.Concurrency;
 using WampSharp.V2.Realm;
@@ -24,11 +25,20 @@ namespace WampSharp.V2
         {
             IWampChannel channel = mInternalHost.CreateClientConnection(name, Scheduler.Immediate);
 
+            long sessionId = 0;
+
+            EventHandler<WampSessionEventArgs> connectionEstablished = 
+                (sender, args) => sessionId = args.SessionId;
+            
+            channel.RealmProxy.Monitor.ConnectionEstablished += connectionEstablished;
+
             channel.Open();
+
+            channel.RealmProxy.Monitor.ConnectionEstablished -= connectionEstablished;
 
             return new WampServiceHostedRealm
                 (mRealmContainer.GetRealmByName(name),
-                    channel);
+                    channel, sessionId);
         }
 
         public IWampHostedRealm GetRealmByName(string name)

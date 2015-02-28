@@ -1,10 +1,12 @@
-﻿namespace WampSharp.V2.PubSub
+﻿using System;
+
+namespace WampSharp.V2.PubSub
 {
-    public class RemoteSubscriptionRemoveEventArgs : SubscriptionRemoveEventArgs
+    public class WampSubscriptionRemoveEventArgs : EventArgs
     {
         private readonly long mSession;
 
-        public RemoteSubscriptionRemoveEventArgs(long session)
+        public WampSubscriptionRemoveEventArgs(long session)
         {
             mSession = session;
         }

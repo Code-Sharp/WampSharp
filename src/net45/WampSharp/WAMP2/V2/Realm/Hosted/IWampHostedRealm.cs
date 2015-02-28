@@ -20,6 +20,11 @@ namespace WampSharp.V2.Realm
         /// <summary>
         /// Gets the services associated with this realm. 
         /// </summary>
-        IWampRealmServiceProvider Services { get; }         
+        IWampRealmServiceProvider Services { get; }
+
+        /// <summary>
+        /// Gets the session associated with this hosted realm internal client.
+        /// </summary>
+        long SessionId { get; }
     }
 }

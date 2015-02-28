@@ -118,9 +118,9 @@ namespace WampSharp.V2.PubSub
 
         public event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdded;
 
-        public event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoving;
+        public event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoving;
 
-        public event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoved;
+        public event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoved;
 
         public event EventHandler TopicEmpty;
 
@@ -174,12 +174,12 @@ namespace WampSharp.V2.PubSub
             RaiseSubscriptionAdding(e);
         }
 
-        private void OnSubscriberSubscriptionRemoved(object sender, SubscriptionRemoveEventArgs e)
+        private void OnSubscriberSubscriptionRemoved(object sender, WampSubscriptionRemoveEventArgs e)
         {
             RaiseSubscriptionRemoved(e);
         }
 
-        private void OnSubscriberSubscriptionRemoving(object sender, SubscriptionRemoveEventArgs e)
+        private void OnSubscriberSubscriptionRemoving(object sender, WampSubscriptionRemoveEventArgs e)
         {
             RaiseSubscriptionRemoving(e);
         }
@@ -228,9 +228,9 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        protected virtual void RaiseSubscriptionRemoving(SubscriptionRemoveEventArgs e)
+        protected virtual void RaiseSubscriptionRemoving(WampSubscriptionRemoveEventArgs e)
         {
-            EventHandler<SubscriptionRemoveEventArgs> handler = SubscriptionRemoving;
+            EventHandler<WampSubscriptionRemoveEventArgs> handler = SubscriptionRemoving;
 
             if (handler != null)
             {
@@ -238,9 +238,9 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        protected virtual void RaiseSubscriptionRemoved(SubscriptionRemoveEventArgs e)
+        protected virtual void RaiseSubscriptionRemoved(WampSubscriptionRemoveEventArgs e)
         {
-            EventHandler<SubscriptionRemoveEventArgs> handler = SubscriptionRemoved;
+            EventHandler<WampSubscriptionRemoveEventArgs> handler = SubscriptionRemoved;
 
             if (handler != null)
             {

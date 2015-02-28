@@ -425,10 +425,8 @@
     <Compile Include="WAMP2\V2\Core\Proxy\WampInterceptorSelector.cs" />
     <Compile Include="WAMP2\V2\Core\WampIdGenerator.cs" />
     <Compile Include="WAMP2\V2\Core\WampIdMapper.cs" />
-    <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampRemoteSubscriptionAddEventArgs.cs" />
-    <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\RemoteSubscriptionRemoveEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampSubscriptionAddEventArgs.cs" />
-    <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\SubscriptionRemoveEventArgs.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampSubscriptionRemoveEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicCreatedEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicEventArgs.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\EventArgs\WampTopicRemovedEventArgs.cs" />

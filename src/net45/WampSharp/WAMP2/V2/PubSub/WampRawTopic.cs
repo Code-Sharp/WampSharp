@@ -198,8 +198,8 @@ namespace WampSharp.V2.PubSub
 
         public event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdding;
         public event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdded;
-        public event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoving;
-        public event EventHandler<SubscriptionRemoveEventArgs> SubscriptionRemoved;
+        public event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoving;
+        public event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoved;
         public event EventHandler TopicEmpty;
 
         protected virtual void RaiseSubscriptionAdding(RemoteWampTopicSubscriber subscriber, SubscribeOptions options)
@@ -228,22 +228,22 @@ namespace WampSharp.V2.PubSub
 
         protected virtual void RaiseSubscriptionRemoving(long sessionId)
         {
-            EventHandler<SubscriptionRemoveEventArgs> handler = SubscriptionRemoving;
+            EventHandler<WampSubscriptionRemoveEventArgs> handler = SubscriptionRemoving;
 
             if (handler != null)
             {
-                SubscriptionRemoveEventArgs args = GetRemoveEventArgs(sessionId);
+                WampSubscriptionRemoveEventArgs args = GetRemoveEventArgs(sessionId);
                 handler(this, args);
             }
         }
 
         protected virtual void RaiseSubscriptionRemoved(long sessionId)
         {
-            EventHandler<SubscriptionRemoveEventArgs> handler = SubscriptionRemoved;
+            EventHandler<WampSubscriptionRemoveEventArgs> handler = SubscriptionRemoved;
 
             if (handler != null)
             {
-                SubscriptionRemoveEventArgs args = GetRemoveEventArgs(sessionId);
+                WampSubscriptionRemoveEventArgs args = GetRemoveEventArgs(sessionId);
                 handler(this, args);
             }
         }
@@ -260,12 +260,12 @@ namespace WampSharp.V2.PubSub
 
         private WampSubscriptionAddEventArgs GetAddEventArgs(RemoteWampTopicSubscriber subscriber, SubscribeOptions options)
         {
-            return new WampRemoteSubscriptionAddEventArgs<TMessage>(subscriber, options);
+            return new WampSubscriptionAddEventArgs(subscriber, options);
         }
 
-        private static SubscriptionRemoveEventArgs GetRemoveEventArgs(long sessionId)
+        private static WampSubscriptionRemoveEventArgs GetRemoveEventArgs(long sessionId)
         {
-            return new RemoteSubscriptionRemoveEventArgs(sessionId);
+            return new WampSubscriptionRemoveEventArgs(sessionId);
         }
 
         #endregion
