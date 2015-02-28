@@ -3,9 +3,12 @@ WampSharp v1.2.1.0-beta release notes
 
 **Contents**
 
-1. [Api Changes](#api-changes)
+1. [Api changes](#api-changes)
 	* [IAsyncDisposable](#IAsyncDisposable)
-2. [New Features](#new-features)
+	* [Other changes](#other-changes)
+2. [New features](#new-features)
+    * [vtortola.WebSocketListener support](#vtortolawebsocketlistener-support)
+    * [RawSocket transport support](#rawsocket-transport-support)
     * [Progressive calls](#progressive-calls)
     * [Caller identification](#caller-identification)
     * [WampInvocationContext](#wampinvocationcontext)
@@ -13,6 +16,10 @@ WampSharp v1.2.1.0-beta release notes
     * [WampEventContext](#wampeventcontext)
     * [Registration customization](#registration-customization)
     * [Authentication](#authentication)
+3. [Internal changes](#internal-changes)
+	* [Router IWampRealmServiceProvider](#router-iwamprealmserviceprovider)
+	* [Fleck transport](#fleck-transport)
+
 
 ###Api changes
 
@@ -36,7 +43,55 @@ Task&lt;IAsyncDisposable&gt; is returned from some methods:
 
 The IAsyncDisposable mentioned above's Task completes when the router sends a UNSUBSCRIBED/UNREGISTERED message corresponding to the sent request.
 
+#### Other changes
+
+* SubscriptionRemoveEventArgs renamed to WampSubscriptionRemoveEventArgs.
+* WampConnectionBrokenException moved to namespace WampSharp.V2.Core.Contracts.
+
 ### New features
+
+#### vtortola.WebSocketListener support
+
+This version has support for [vtortola.WebSocketListener](http://www.github.com/vtortola/WebSocketListener). In order to use it, install the WampSharp.Vtortola package. Then create a WampHost and register the VtortolaWebSocketTransport:
+
+```csharp
+WampHost host = new WampHost();
+
+IWampTransport transport =
+    new VtortolaWebSocketTransport
+        (endpoint: new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8080),
+            perMessageDeflate: true);
+
+host.RegisterTransport(transport,
+    new JTokenJsonBinding(),
+    new JTokenMsgpackBinding());
+
+host.Open();
+```
+
+This listener support [per message deflate](http://tools.ietf.org/html/draft-ietf-hybi-permessage-compression-17#section-8). To enable it, pass perMessageDeflate = true, in the transport's ctor.
+
+#### RawSocket transport support
+
+This version has router-side only support for [RawSocket transport](https://github.com/tavendo/WAMP/blob/master/spec/advanced.md#rawsocket-transport). In order to use it, install the WampSharp.RawSocket package. Then create a WampHost and register the RawSocketTransport.
+Example:
+
+```csharp
+WampHost host = new WampHost();
+
+IWampTransport transport =
+    new RawSocketTransport("127.0.0.1", 8080);
+
+host.RegisterTransport(transport,
+    new JTokenMsgpackBinding());
+
+host.Open();
+```
+
+> Note: There are a few issues currently with the SuperSocket dependency. After Installing WampSharp.RawSocketTransport, add manually a reference of SuperSocket.SocketEngine.dll (located in $(SolutionDir)\packages\SuperSocket\SuperSocket.SocketEngine.dll) to your project.
+
+
+> Note: The current implemented version of RawSocket protocol is the original version (before revision). This is the version also implemented by AutobahnPython/AutobahnCpp clients.
 
 #### Progressive calls
 
@@ -338,7 +393,7 @@ public static async Task Run()
 }
 ```
 
->Note: if the delegate used is of type Action&lt;&gt;, the publication will send the parameters as the positional arguments of the publication, otherwise it will use the parameters as the keyword arguments of the publication (with the delegate parameters' names as the keys).
+>Note: if the delegate used is of any Action&lt;&gt; type, the publication will send the parameters as the positional arguments of the publication, otherwise it will use the parameters as the keyword arguments of the publication (with the delegate parameters' names as the keys).
 
 In order to use the feature from a subscriber, create a class with a method having a [WampTopic] attribute, Then call RegisterSubscriber of IWampRealmServiceProvider.
 
@@ -588,6 +643,18 @@ public async Task Run()
 
 >Note:  The sample is based on [this](https://github.com/tavendo/AutobahnPython/tree/master/examples/twisted/wamp/authentication/ticket) AutobahnJS sample
 
+### Internal Changes
 
+#### Router IWampRealmServiceProvider
+
+From this version, WampHost's Realms' Service property is implemented differently - it is implemented as a WAMP client with in-memory transport. That means that the WampHost communicates with the IWampRealmServiceProvider using "serialization", which adds a bit overhead. There are a couple of reasons for this change:
+	* This allows me to reuse code, instead of maintaining two different implementations of IWampRealmServiceProvider - one for the router and one for the client.
+	* It makes the router hosted components first class citizens - each realm internal client has now a session id (available via IHostedRealm.SessionId).
+	* It makes the code more consistent - whether if it runs in the router or as a client.
+	* WAMPv2 [discourages](https://github.com/tavendo/WAMP/blob/master/spec/basic.md#application-code) routers to run application code.
+
+#### Fleck transport
+
+From this version, Fleck 0.12.0.40 is used. This version of Fleck has feedback for message send to clients. WampSharp uses this feedback and assures that messages are sent serially per client - i.e:  a message will only be sent after the previous one has been received by the client. This should avoid some race conditions and should implement [ordering-guarantees](https://github.com/tavendo/WAMP/blob/master/spec/basic.md#ordering-guarantees) better.
 
 > Written with [StackEdit](https://stackedit.io/).
