@@ -1,6 +1,6 @@
 WampSharp
 =========
-
+[![NuGet Version][NuGetImgMaster]][NuGetLinkMaster]
 
 A C# implementation of [WAMP (The Web Application Messaging Protocol)][WampLink]
 
@@ -39,9 +39,11 @@ If you're updating from a previous WampSharp version and you're not interested y
 
 [WampLink]:http://wamp.ws
 
-[WinImgMaster]:http://teamcity.codebetter.com/app/rest/builds/buildType:\(id:WampSharp_Wampv2_Build\)/statusIcon
+[NuGetImgMaster]:http://img.shields.io/nuget/v/WampSharp.Default.svg
+[NuGetLinkMaster]:http://www.nuget.org/packages/WampSharp.Default/
+[WinImgMaster]:https://img.shields.io/teamcity/codebetter/WampSharp_Wampv2_Build.svg
 [WinLinkMaster]:http://teamcity.codebetter.com/project.html?projectId=WampSharp_Wampv2&guest=1
-[MonoImgMaster]:https://travis-ci.org/Code-Sharp/WampSharp.png?branch=wampv2
+[MonoImgMaster]:https://img.shields.io/travis/Code-Sharp/WampSharp/wampv2.svg
 [MonoLinkMaster]:https://travis-ci.org/Code-Sharp/WampSharp
 [AppVeyorLinkMaster]:https://ci.appveyor.com/project/darkl/wampsharp-759
 [AppVeyorImgMaster]:https://ci.appveyor.com/api/projects/status/fgbqbgwqx4j8jain
