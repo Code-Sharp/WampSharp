@@ -600,6 +600,48 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs">
       <Link>WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Rpc\AvailableRegistrations.cs">
+      <Link>WAMP2\V2\Reflection\Rpc\AvailableRegistrations.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\PubSub\AvailableSubscriptions.cs">
+      <Link>WAMP2\V2\Reflection\PubSub\AvailableSubscriptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Rpc\IWampRegistrationDescriptor.cs">
+      <Link>WAMP2\V2\Reflection\Rpc\IWampRegistrationDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Session\HttpHeadersSent.cs">
+      <Link>WAMP2\V2\Reflection\Session\HttpHeadersSent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Session\HttpHeadersReceived.cs">
+      <Link>WAMP2\V2\Reflection\Session\HttpHeadersReceived.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\PubSub\IWampSubscriptionMetadataSubscriber.cs">
+      <Link>WAMP2\V2\Reflection\PubSub\IWampSubscriptionMetadataSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Rpc\IWampRegistrationMetadataSubscriber.cs">
+      <Link>WAMP2\V2\Reflection\Rpc\IWampRegistrationMetadataSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Session\IWampSessionMetadataSubscriber.cs">
+      <Link>WAMP2\V2\Reflection\Session\IWampSessionMetadataSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Session\IWampSessionDescriptor.cs">
+      <Link>WAMP2\V2\Reflection\Session\IWampSessionDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\PubSub\IWampSubscriptionDescriptor.cs">
+      <Link>WAMP2\V2\Reflection\PubSub\IWampSubscriptionDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Session\WampSessionDetails.cs">
+      <Link>WAMP2\V2\Reflection\Session\WampSessionDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\PubSub\SubscriptionDetails.cs">
+      <Link>WAMP2\V2\Reflection\PubSub\SubscriptionDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Rpc\RegistrationDetails.cs">
+      <Link>WAMP2\V2\Reflection\Rpc\RegistrationDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Session\TransportDetails.cs">
+      <Link>WAMP2\V2\Reflection\Session\TransportDetails.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Subscriber\LocalSubscriber.cs">
       <Link>WAMP2\V2\PubSub\Subscriber\LocalSubscriber.cs</Link>
     </Compile>
@@ -611,6 +653,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\ArgumentUnpacker.cs">
       <Link>WAMP2\V2\Core\ArgumentUnpacker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Session\WebSocketTransportDetails.cs">
+      <Link>WAMP2\V2\Reflection\Session\WebSocketTransportDetails.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\LocalParameter.cs">
       <Link>WAMP2\V2\Rpc\Callee\LocalParameter.cs</Link>
