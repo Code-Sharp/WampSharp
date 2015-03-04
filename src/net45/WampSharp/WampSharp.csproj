@@ -244,6 +244,7 @@
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
+    <Compile Include="WAMP2\V2\Reflection\SessionDescriptorService.cs" />
     <Compile Include="WAMP2\V2\Reflection\Rpc\AvailableRegistrations.cs" />
     <Compile Include="WAMP2\V2\Reflection\PubSub\AvailableSubscriptions.cs" />
     <Compile Include="WAMP2\V2\Reflection\Rpc\IWampRegistrationDescriptor.cs" />

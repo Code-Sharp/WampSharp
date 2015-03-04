@@ -263,9 +263,9 @@ namespace WampSharp.V2.PubSub
             return new WampSubscriptionAddEventArgs(subscriber, options);
         }
 
-        private static WampSubscriptionRemoveEventArgs GetRemoveEventArgs(long sessionId)
+        private WampSubscriptionRemoveEventArgs GetRemoveEventArgs(long sessionId)
         {
-            return new WampSubscriptionRemoveEventArgs(sessionId);
+            return new WampSubscriptionRemoveEventArgs(sessionId, this.SubscriptionId);
         }
 
         #endregion
