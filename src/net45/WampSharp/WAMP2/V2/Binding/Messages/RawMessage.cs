@@ -4,6 +4,10 @@ namespace WampSharp.V2.Binding.Messages
 {
     internal class RawMessage<TMessage, TRaw> : WampMessage<TMessage>
     {
+        public RawMessage()
+        {
+        }
+
         public RawMessage(WampMessage<TMessage> other) : base(other)
         {
         }
