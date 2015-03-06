@@ -46,7 +46,9 @@ namespace WampSharp.V2.CalleeProxy
                 extractor = new SingleValueExtractor(method.ReturnType, method.HasReturnValue());
             }
 
-            SyncCallback syncCallback = new SyncCallback(methodInfoHelper, arguments, extractor);
+            string procedureUri = interceptor.GetProcedureUri(method);
+
+            SyncCallback syncCallback = new SyncCallback(procedureUri, methodInfoHelper, arguments, extractor);
 
             object[] argumentsToSend = 
                 methodInfoHelper.GetInputArguments(arguments);

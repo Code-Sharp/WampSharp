@@ -30,6 +30,7 @@ namespace WampSharp.V2.Rpc
             }
             catch (WampException ex)
             {
+                mLogger.ErrorFormat(ex, "An error occured while calling {0}", this.Procedure);
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
                 callback.Error(ex);
             }

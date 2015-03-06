@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Castle.Core.Logging;
+using WampSharp.Core.Logs;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
@@ -13,10 +15,12 @@ namespace WampSharp.V2.PubSub
         private readonly object mInstance;
         private readonly MethodInfo mMethod;
         private readonly LocalParameter[] mParameters;
+        private readonly ILogger mLogger;
 
         public MethodInfoSubscriber(object instance, MethodInfo method, string topic)
             : base(topic)
         {
+            mLogger = WampLoggerFactory.Create(typeof(MethodInfoSubscriber) + "." + topic);
             mInstance = instance;
             mMethod = method;
 
@@ -66,9 +70,9 @@ namespace WampSharp.V2.PubSub
 
                 mMethod.Invoke(mInstance, methodParameters);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: Log that something went wrong
+                mLogger.ErrorFormat(ex, "An error occured while calling " + mMethod);
             }
             finally
             {

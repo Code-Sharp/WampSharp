@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Castle.Core.Logging;
 using WampSharp.Core.Dispatch.Handler;
+using WampSharp.Core.Logs;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
@@ -17,6 +19,7 @@ namespace WampSharp.Core.Proxy
             new SwapDictionary<MethodInfo, WampMethodInfo>();
 
         private readonly IWampFormatter<TMessage> mFormatter;
+        private readonly ILogger mLogger = WampLoggerFactory.Create(typeof(WampOutgoingRequestSerializer<TMessage>));
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampOutgoingRequestSerializer{TMessage}"/>.
@@ -30,6 +33,8 @@ namespace WampSharp.Core.Proxy
 
         public WampMessage<TMessage> SerializeRequest(MethodInfo method, object[] arguments)
         {
+            mLogger.DebugFormat("Calling remote peer proxy method: {0}", method);
+
             WampMethodInfo wampMethod = GetWampMethod(method);
 
             WampMessageType messageType = wampMethod.MessageType;

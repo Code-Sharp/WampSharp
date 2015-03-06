@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using Castle.Core.Logging;
+using WampSharp.Core.Logs;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
@@ -7,14 +10,16 @@ namespace WampSharp.V2.CalleeProxy
 {
     internal class SyncCallback : SyncCallbackBase
     {
-        private IOperationResultExtractor mExtractor;
+        private readonly ILogger mLogger;
+        private readonly IOperationResultExtractor mExtractor;
         protected readonly MethodInfoHelper mMethodInfoHelper;
         private readonly object[] mArguments;
         private object mResult;
 
-        public SyncCallback(MethodInfoHelper methodInfoHelper, object[] arguments, IOperationResultExtractor extractor)
+        public SyncCallback(string procedureUri, MethodInfoHelper methodInfoHelper, object[] arguments, IOperationResultExtractor extractor)
         {
             mMethodInfoHelper = methodInfoHelper;
+            mLogger = WampLoggerFactory.Create(typeof (SyncCallback) + "." + procedureUri);
             mArguments = arguments;
             mExtractor = extractor;
         }
@@ -38,12 +43,20 @@ namespace WampSharp.V2.CalleeProxy
         {
             IDictionary<string, TMessage> outOrRefParameters = argumentsKeywords;
 
-            mMethodInfoHelper.PopulateOutOrRefValues
-                (formatter,
-                 mArguments,
-                 outOrRefParameters);
+            try
+            {
+                mMethodInfoHelper.PopulateOutOrRefValues
+                    (formatter,
+                     mArguments,
+                     outOrRefParameters);
 
-            SetResult(formatter, arguments);
+                SetResult(formatter, arguments);
+            }
+            catch (Exception ex)
+            {
+                mLogger.Error("An error occured while trying to populate out/ref parameters", ex);
+                SetException(ex);
+            }
         }
 
         private void SetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)

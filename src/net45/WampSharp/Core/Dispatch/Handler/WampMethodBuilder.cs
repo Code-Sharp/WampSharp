@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Castle.Core.Logging;
+using WampSharp.Core.Logs;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 
@@ -18,6 +20,8 @@ namespace WampSharp.Core.Dispatch.Handler
     {
         #region Members
 
+        private readonly ILogger mLogger;
+        
         private readonly object mInstance;
         private readonly IWampFormatter<TMessage> mFormatter;
 
@@ -33,6 +37,7 @@ namespace WampSharp.Core.Dispatch.Handler
         public WampMethodBuilder(object instance, IWampFormatter<TMessage> formatter)
         {
             mInstance = instance;
+            mLogger = WampLoggerFactory.Create(this.GetType());
             mFormatter = formatter;
         }
 
@@ -45,7 +50,11 @@ namespace WampSharp.Core.Dispatch.Handler
             Action<object, object[]> action = BuildAction(wampMethod);
 
             return (client, message) =>
-                   action(GetInstance(client, message, wampMethod), GetArguments(client, message, wampMethod));
+            {
+                object[] arguments = GetArguments(client, message, wampMethod);
+                object instance = GetInstance(client, message, wampMethod);
+                action(instance, arguments);
+            };
         }
 
         private Action<object, object[]> BuildAction(WampMethodInfo wampMethod)
@@ -136,7 +145,7 @@ namespace WampSharp.Core.Dispatch.Handler
             List<object> converted =
                 parametersList.Zip(relevantArguments,
                                    (parameter, argument) =>
-                                   mFormatter.Deserialize(parameter.ParameterType, argument))
+                                   DeserializeArgument(parameter, argument))
                               .ToList();
 
             if (method.HasParamsArgument)
@@ -148,6 +157,19 @@ namespace WampSharp.Core.Dispatch.Handler
             }
 
             return converted.ToArray();
+        }
+
+        private object DeserializeArgument(ParameterInfo parameter, TMessage argument)
+        {
+            try
+            {
+                return mFormatter.Deserialize(parameter.ParameterType, argument);
+            }
+            catch (Exception ex)
+            {
+                mLogger.ErrorFormat(ex, "Failed deserializing {0}", parameter.Name);
+                throw;
+            }
         }
 
         #endregion
