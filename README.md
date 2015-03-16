@@ -37,6 +37,12 @@ WAMPv1 support is still available. You can read about it at the [Wiki](https://g
 
 If you're updating from a previous WampSharp version and you're not interested yet in updating your application to WAMPv2, please read the following [notes](https://github.com/Code-Sharp/WampSharp/wiki/Notes-for-WAMPv1-users).
 
+## Donations
+
+If you found WampSharp helpful and want to donate, you are welcome to do so via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UHRAS9KZPNPX4).
+
+Your donations help keep this project development alive.
+
 [WampLink]:http://wamp.ws
 
 [NuGetImgMaster]:http://img.shields.io/nuget/v/WampSharp.Default.svg
