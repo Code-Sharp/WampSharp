@@ -1,19 +1,23 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using vtortola.WebSockets;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.V2.Reflection;
 
 namespace WampSharp.Vtortola
 {
-    internal abstract class VtortolaWampConnection<TMessage> : AsyncWampConnection<TMessage>, IWampConnection<TMessage>
+    internal abstract class VtortolaWampConnection<TMessage> : AsyncWampConnection<TMessage>, IDetailedWampConnection<TMessage>
     {
         protected readonly WebSocket mWebsocket;
+        private readonly VtortolaTransportDetails mTransportDetails;
 
         protected VtortolaWampConnection(WebSocket websocket)
         {
             mWebsocket = websocket;
+            mTransportDetails = new VtortolaTransportDetails(mWebsocket);
         }
 
         public async Task HandleWebSocketAsync()
@@ -59,6 +63,14 @@ namespace WampSharp.Vtortola
         public override void Dispose()
         {
             mWebsocket.Dispose();
+        }
+
+        public WampTransportDetails TransportDetails
+        {
+            get
+            {
+                return mTransportDetails;
+            }
         }
     }
 }
