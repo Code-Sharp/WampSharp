@@ -13,12 +13,14 @@ namespace WampSharp.V2.PubSub
         private readonly object mInstance;
         private readonly MethodInfo mMethod;
         private readonly LocalParameter[] mParameters;
+        private readonly Func<object, object[], object> mMethodInvoker;
 
         public MethodInfoSubscriber(object instance, MethodInfo method, string topic)
             : base(topic)
         {
             mInstance = instance;
             mMethod = method;
+            mMethodInvoker = MethodInvokeGenerator.CreateInvokeMethod(method);
 
             if (method == null)
             {
@@ -64,7 +66,7 @@ namespace WampSharp.V2.PubSub
                 object[] methodParameters =
                     UnpackParameters(formatter, arguments, argumentsKeywords);
 
-                mMethod.Invoke(mInstance, methodParameters);
+                mMethodInvoker(mInstance, methodParameters);
             }
             catch (Exception)
             {

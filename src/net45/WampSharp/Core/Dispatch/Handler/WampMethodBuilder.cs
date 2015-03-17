@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Castle.DynamicProxy.Generators;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Rpc;
 
 namespace WampSharp.Core.Dispatch.Handler
 {
@@ -42,41 +44,18 @@ namespace WampSharp.Core.Dispatch.Handler
 
         public Action<TClient, WampMessage<TMessage>> BuildMethod(WampMethodInfo wampMethod)
         {
-            Action<object, object[]> action = BuildAction(wampMethod);
+            Func<object, object[], object> action = BuildAction(wampMethod);
 
             return (client, message) =>
                    action(GetInstance(client, message, wampMethod), GetArguments(client, message, wampMethod));
         }
 
-        private Action<object, object[]> BuildAction(WampMethodInfo wampMethod)
+        private Func<object, object[], object> BuildAction(WampMethodInfo wampMethod)
         {
-            MethodInfo method = wampMethod.Method;
+            Func<object, object[], object> method = 
+                MethodInvokeGenerator.CreateInvokeMethod(wampMethod.Method);
 
-            ParameterInfo[] parameters = wampMethod.Parameters;
-
-            ParameterExpression instance =
-                Expression.Parameter(typeof (object), "instance");
-
-            ParameterExpression arguments =
-                Expression.Parameter(typeof (object[]), "arguments");
-
-            IEnumerable<Expression> converted =
-                parameters.Select((x, i) =>
-                                  Expression.Convert
-                                      (Expression.ArrayIndex(arguments,
-                                                             Expression.Constant(i)),
-                                       x.ParameterType))
-                          .ToArray();
-
-            MethodCallExpression body =
-                Expression.Call(Expression.Convert(instance, method.DeclaringType),
-                                method,
-                                converted);
-
-            Expression<Action<object, object[]>> lambda =
-                Expression.Lambda<Action<object, object[]>>(body, instance, arguments);
-
-            return lambda.Compile();
+            return method;
         }
 
         #endregion

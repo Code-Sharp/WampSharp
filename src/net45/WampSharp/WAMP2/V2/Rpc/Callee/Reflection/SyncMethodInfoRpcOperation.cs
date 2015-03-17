@@ -11,6 +11,7 @@ namespace WampSharp.V2.Rpc
     {
         private readonly object mInstance;
         private readonly MethodInfo mMethod;
+        private readonly Func<object, object[], object> mMethodInvoker;
         private readonly MethodInfoHelper mHelper;
         private readonly RpcParameter[] mParameters;
         private readonly bool mHasResult;
@@ -21,6 +22,7 @@ namespace WampSharp.V2.Rpc
         {
             mInstance = instance;
             mMethod = method;
+            mMethodInvoker = MethodInvokeGenerator.CreateInvokeMethod(method);
 
             if (method.ReturnType != typeof (void))
             {
@@ -74,7 +76,7 @@ namespace WampSharp.V2.Rpc
                     mHelper.GetArguments(unpacked);
 
                 object result =
-                    mMethod.Invoke(mInstance, parameters);
+                    mMethodInvoker(mInstance, parameters);
 
                 outputs = mHelper.GetOutOrRefValues(parameters);
 

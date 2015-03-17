@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.Core.Utilities;
 using WampSharp.V1.Core.Contracts;
+using WampSharp.V2.Rpc;
 
 namespace WampSharp.V1.Rpc.Server
 {
@@ -15,6 +16,7 @@ namespace WampSharp.V1.Rpc.Server
         private readonly object mInstance;
         private readonly MethodInfo mMethod;
         private readonly string mProcUri;
+        private readonly Func<object, object[], object> mMethodInvoke;
 
         /// <summary>
         /// Creates a new instance of <see cref="MethodInfoWampRpcMethod"/>.
@@ -26,6 +28,7 @@ namespace WampSharp.V1.Rpc.Server
         {
             mInstance = instance;
             mMethod = method;
+            mMethodInvoke = MethodInvokeGenerator.CreateInvokeMethod(method);
 
             mProcUri = GetProcUri(method, baseUri);
         }
@@ -117,7 +120,7 @@ namespace WampSharp.V1.Rpc.Server
 
             try
             {
-                result = mMethod.Invoke(GetInstance(client), parameters);
+                result = mMethodInvoke(GetInstance(client), parameters);
             }
             catch (TargetInvocationException ex)
             {
