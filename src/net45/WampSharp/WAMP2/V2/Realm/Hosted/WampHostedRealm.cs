@@ -2,6 +2,7 @@
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.PubSub;
+using WampSharp.V2.Reflection;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Realm
@@ -62,9 +63,9 @@ namespace WampSharp.V2.Realm
 
         public event EventHandler<WampSessionCloseEventArgs> SessionClosed;
 
-        public void Hello<TMessage>(IWampFormatter<TMessage> formatter, long sessionId, TMessage details)
+        public void Hello<TMessage>(IWampFormatter<TMessage> formatter, long sessionId, WampTransportDetails transportDetails, TMessage details)
         {
-            RaiseSessionCreated(new WampSessionEventArgs(sessionId, new SerializedValue<TMessage>(formatter, details)));
+            RaiseSessionCreated(new WampSessionEventArgs(sessionId, transportDetails, new SerializedValue<TMessage>(formatter, details)));
         }
 
         public void Goodbye<TMessage>(IWampFormatter<TMessage> formatter, long session, TMessage details, string reason)

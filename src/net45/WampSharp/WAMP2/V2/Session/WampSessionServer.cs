@@ -57,7 +57,7 @@ namespace WampSharp.V2.Session
             
             wampClient.Realm = bindedRealm;
 
-            bindedRealm.Hello(wampClient.Session, details);
+            bindedRealm.Hello(wampClient.Session, wampClient.TransportDetails, details);
 
             client.Welcome(wampClient.Session, mWelcomeDetails);
         }

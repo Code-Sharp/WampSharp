@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.V2.Reflection;
 
 namespace WampSharp
 {

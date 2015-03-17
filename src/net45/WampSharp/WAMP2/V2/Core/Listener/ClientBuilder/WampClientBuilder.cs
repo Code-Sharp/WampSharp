@@ -6,6 +6,7 @@ using WampSharp.Core.Proxy;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Proxy;
+using WampSharp.V2.Reflection;
 
 namespace WampSharp.V2.Core.Listener.ClientBuilder
 {
@@ -83,8 +84,18 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                 (new WampClientContainerDisposable<TMessage, IWampClient<TMessage>>
                     (mContainer, connection));
 
+            WampTransportDetails transportDetails = null;
+
+            IDetailedWampConnection<TMessage> detailedConnection = 
+                connection as IDetailedWampConnection<TMessage>;
+            
+            if (detailedConnection != null)
+            {
+                transportDetails = detailedConnection.TransportDetails;
+            }
+
             WampClientPropertyBag<TMessage> propertyBag = 
-                new WampClientPropertyBag<TMessage>(session, mBinding);
+                new WampClientPropertyBag<TMessage>(session, mBinding, transportDetails);
             
             proxyGenerationOptions.AddMixinInstance(propertyBag);
 

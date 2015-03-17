@@ -23,6 +23,6 @@ namespace WampSharp.V2.Reflection
         public long Session { get; set; }
 
         [PropertyName("transport")]
-        public TransportDetails TransportDetails { get; set; }
+        public WampTransportDetails TransportDetails { get; set; }
     }
 }

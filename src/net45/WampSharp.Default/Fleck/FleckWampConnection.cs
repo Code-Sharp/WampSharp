@@ -1,12 +1,15 @@
 ﻿using System;
 using Fleck;
 using WampSharp.Core.Listener;
+using WampSharp.V2.Reflection;
 
 namespace WampSharp.Fleck
 {
-    internal abstract class FleckWampConnection<TMessage> : AsyncWampConnection<TMessage>
+    internal abstract class FleckWampConnection<TMessage> : AsyncWampConnection<TMessage>,
+        IDetailedWampConnection<TMessage>
     {
         protected IWebSocketConnection mWebSocketConnection;
+        private readonly FleckTransportDetails mTransportDetails;
 
         public FleckWampConnection(IWebSocketConnection webSocketConnection)
         {
@@ -14,6 +17,7 @@ namespace WampSharp.Fleck
             mWebSocketConnection.OnOpen = OnConnectionOpen;
             mWebSocketConnection.OnError = OnConnectionError;
             mWebSocketConnection.OnClose = OnConnectionClose;
+            mTransportDetails = new FleckTransportDetails(mWebSocketConnection.ConnectionInfo);
         }
 
         private void OnConnectionOpen()
@@ -47,9 +51,12 @@ namespace WampSharp.Fleck
             }
         }
 
-        public event EventHandler ConnectionOpen;
-        public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
-        public event EventHandler ConnectionClosed;
-        public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
+        public WampTransportDetails TransportDetails
+        {
+            get
+            {
+                return mTransportDetails;
+            }
+        }
     }
 }

@@ -1,8 +1,21 @@
 using System;
 using WampSharp.Core.Message;
+using WampSharp.V2.Reflection;
 
 namespace WampSharp.Core.Listener
 {
+    /// <summary>
+    /// Represents a WAMP bi-directional connection with transport details.
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
+    public interface IDetailedWampConnection<TMessage> : IWampConnection<TMessage>
+    {
+        /// <summary>
+        /// Gets the transport details associated with this connection.
+        /// </summary>
+        WampTransportDetails TransportDetails { get; }
+    }
+
     /// <summary>
     /// Represents a WAMP bi-directional connection.
     /// </summary>

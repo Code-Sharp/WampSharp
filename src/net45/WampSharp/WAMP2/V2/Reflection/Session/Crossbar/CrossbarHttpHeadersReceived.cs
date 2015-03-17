@@ -2,7 +2,7 @@
 
 namespace WampSharp.V2.Reflection
 {
-    public class HttpHeadersReceived
+    public class CrossbarHttpHeadersReceived
     {
         [PropertyName("origin")]
         public string Origin { get; set; }

@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="AsyncConnection\ActionBlock.cs" />
     <Compile Include="AsyncConnection\AsyncWampConnection.cs" />
+    <Compile Include="Fleck\FleckTransportDetails.cs" />
     <Compile Include="Fleck\FleckWampBinaryConnection.cs" />
     <Compile Include="Fleck\FleckWampConnection.cs" />
     <Compile Include="Fleck\FleckWampConnectionListener.cs" />

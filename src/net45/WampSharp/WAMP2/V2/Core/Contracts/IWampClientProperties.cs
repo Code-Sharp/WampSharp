@@ -1,6 +1,7 @@
 ﻿using WampSharp.V2.Binding;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
+using WampSharp.V2.Reflection;
 
 namespace WampSharp.V2.Core.Contracts
 {
@@ -46,5 +47,10 @@ namespace WampSharp.V2.Core.Contracts
         /// Gets the binding associated with the current client.
         /// </summary>
         new IWampBinding<TMessage> Binding { get; }
+
+        /// <summary>
+        /// Gets the transport details associated with this client.
+        /// </summary>
+        WampTransportDetails TransportDetails { get; }
     }
 }

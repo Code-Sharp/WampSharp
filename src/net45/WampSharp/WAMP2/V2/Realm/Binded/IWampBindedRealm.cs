@@ -1,4 +1,5 @@
 ﻿using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Reflection;
 
 namespace WampSharp.V2.Realm.Binded
 {
@@ -6,7 +7,7 @@ namespace WampSharp.V2.Realm.Binded
     {
         IWampServer<TMessage> Server { get; }
         
-        void Hello(long session, TMessage details);
+        void Hello(long session, WampTransportDetails transportDetails, TMessage details);
         void Abort(long session, TMessage details, string reason);
         void Goodbye(long session, TMessage details, string reason);
         void SessionLost(long sessionId);

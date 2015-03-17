@@ -1,6 +1,7 @@
 ﻿using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
+using WampSharp.V2.Reflection;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Realm.Binded
@@ -40,9 +41,9 @@ namespace WampSharp.V2.Realm.Binded
             }
         }
 
-        public void Hello(long session, TMessage details)
+        public void Hello(long session, WampTransportDetails transportDetails, TMessage details)
         {
-            mRealmGate.Hello(mBinding.Formatter, session, details);
+            mRealmGate.Hello(mBinding.Formatter, session, transportDetails, details);
         }
 
         public void Abort(long session, TMessage details, string reason)

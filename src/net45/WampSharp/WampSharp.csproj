@@ -248,8 +248,8 @@
     <Compile Include="WAMP2\V2\Reflection\Rpc\AvailableRegistrations.cs" />
     <Compile Include="WAMP2\V2\Reflection\PubSub\AvailableSubscriptions.cs" />
     <Compile Include="WAMP2\V2\Reflection\Rpc\IWampRegistrationDescriptor.cs" />
-    <Compile Include="WAMP2\V2\Reflection\Session\HttpHeadersSent.cs" />
-    <Compile Include="WAMP2\V2\Reflection\Session\HttpHeadersReceived.cs" />
+    <Compile Include="WAMP2\V2\Reflection\Session\Crossbar\CrossbarHttpHeadersSent.cs" />
+    <Compile Include="WAMP2\V2\Reflection\Session\Crossbar\CrossbarHttpHeadersReceived.cs" />
     <Compile Include="WAMP2\V2\Reflection\PubSub\IWampSubscriptionMetadataSubscriber.cs" />
     <Compile Include="WAMP2\V2\Reflection\Rpc\IWampRegistrationMetadataSubscriber.cs" />
     <Compile Include="WAMP2\V2\Reflection\Session\IWampSessionMetadataSubscriber.cs" />
@@ -258,12 +258,13 @@
     <Compile Include="WAMP2\V2\Reflection\Session\WampSessionDetails.cs" />
     <Compile Include="WAMP2\V2\Reflection\PubSub\SubscriptionDetails.cs" />
     <Compile Include="WAMP2\V2\Reflection\Rpc\RegistrationDetails.cs" />
-    <Compile Include="WAMP2\V2\Reflection\Session\TransportDetails.cs" />
+    <Compile Include="WAMP2\V2\Reflection\Session\WampTransportDetails.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\LocalSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopicAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\ArgumentUnpacker.cs" />
-    <Compile Include="WAMP2\V2\Reflection\Session\WebSocketTransportDetails.cs" />
+    <Compile Include="WAMP2\V2\Reflection\Session\Crossbar\CrossbarWebSocketTransportDetails.cs" />
+    <Compile Include="WAMP2\V2\Reflection\SubscriptionDescriptorService.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\LocalParameter.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
