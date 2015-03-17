@@ -1,7 +1,8 @@
 using System;
 using System.Reflection;
+using WampSharp.Core.Utilities;
 
-namespace WampSharp.V2.Rpc
+namespace WampSharp.V2.Core
 {
     public class LocalParameter
     {

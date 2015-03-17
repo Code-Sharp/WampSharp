@@ -248,14 +248,14 @@
     <Compile Include="WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopicAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\ArgumentUnpacker.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\LocalParameter.cs" />
+    <Compile Include="WAMP2\V2\Core\LocalParameter.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ICalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CallerProgress.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoValidation.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInvokeGenerator.cs" />
+    <Compile Include="Core\Utilities\MethodInvokeGenerator.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs" />
@@ -367,7 +367,7 @@
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\AsyncMethodInfoRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\IOperationExtractor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\OperationExtractor.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\TypeExtensions.cs" />
+    <Compile Include="Core\Utilities\TypeExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationClientCallback.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs" />
@@ -456,7 +456,7 @@
     <Compile Include="WAMP2\V2\Rpc\Callee\LocalRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoHelper.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\SyncMethodInfoRpcOperation.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ParameterInfoExtensions.cs" />
+    <Compile Include="Core\Utilities\ParameterInfoExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\RpcParameter.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\SyncLocalRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\CollectionResultTreatment.cs" />

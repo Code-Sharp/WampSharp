@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.Core.Utilities;
 using WampSharp.V1.Core.Contracts;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.V1.Rpc.Server
 {

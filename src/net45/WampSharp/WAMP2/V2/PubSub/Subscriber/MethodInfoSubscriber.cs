@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.PubSub
 {
@@ -20,12 +21,13 @@ namespace WampSharp.V2.PubSub
         {
             mInstance = instance;
             mMethod = method;
-            mMethodInvoker = MethodInvokeGenerator.CreateInvokeMethod(method);
 
             if (method == null)
             {
                 throw new ArgumentNullException("method");
             }
+
+            mMethodInvoker = MethodInvokeGenerator.CreateInvokeMethod(method);
 
             if (method.ReturnType != typeof (void))
             {

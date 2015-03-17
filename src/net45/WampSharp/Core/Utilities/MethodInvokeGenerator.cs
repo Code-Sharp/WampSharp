@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace WampSharp.V2.Rpc
+namespace WampSharp.Core.Utilities
 {
     internal static class MethodInvokeGenerator
     {
