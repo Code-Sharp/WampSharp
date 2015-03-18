@@ -8,34 +8,35 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal class AsyncOperationCallback : IWampRawRpcOperationClientCallback
+    internal class AsyncOperationCallback<TResult> : IWampRawRpcOperationClientCallback
     {
-        private readonly TaskCompletionSource<object> mTask = new TaskCompletionSource<object>();
-        private readonly IOperationResultExtractor mExtractor;
+        private readonly TaskCompletionSource<TResult> mTask = new TaskCompletionSource<TResult>();
+        private readonly IOperationResultExtractor<TResult> mExtractor;
 
-        public AsyncOperationCallback(IOperationResultExtractor extractor)
+        public AsyncOperationCallback(IOperationResultExtractor<TResult> extractor)
         {
             mExtractor = extractor;
         }
 
-        public Task<object> Task
+        public Task<TResult> Task
         {
             get { return mTask.Task; }
         }
 
-        protected virtual void SetResult(ResultDetails details, object result)
+        protected virtual void SetResult(ResultDetails details, TResult result)
         {
             mTask.SetResult(result);
         }
 
-        protected virtual object GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
+        protected virtual TResult GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
         {
             return mExtractor.GetResult(formatter, arguments);
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
         {
-            SetResult(details, null);
+            // TODO: throw exception if not nullable.
+            SetResult(details, default(TResult));
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
@@ -50,7 +51,7 @@ namespace WampSharp.V2.CalleeProxy
 
         private void SetResult<TMessage>(ResultDetails details, IWampFormatter<TMessage> formatter, TMessage[] arguments)
         {
-            object result = GetResult(formatter, arguments);
+            TResult result = GetResult(formatter, arguments);
             SetResult(details, result);
         }
 

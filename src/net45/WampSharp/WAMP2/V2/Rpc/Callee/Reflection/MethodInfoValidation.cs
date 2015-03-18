@@ -16,7 +16,7 @@ namespace WampSharp.V2.Rpc
         }
 
 #if !NET40
-        public static void ValidateProgressiveMehotd(MethodInfo method)
+        public static void ValidateProgressiveMethod(MethodInfo method)
         {
             ValidateAsyncMethod(method);
 

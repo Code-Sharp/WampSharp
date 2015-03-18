@@ -68,7 +68,7 @@ namespace WampSharp.V2.Rpc
 #if !NET40
                 if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
                 {
-                    MethodInfoValidation.ValidateProgressiveMehotd(method);
+                    MethodInfoValidation.ValidateProgressiveMethod(method);
                     return CreateProgressiveOperation(instance, method, procedureUri);
                 }
                 else

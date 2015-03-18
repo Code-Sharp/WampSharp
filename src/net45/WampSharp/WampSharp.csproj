@@ -236,6 +236,7 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallback.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\CompositeAsyncDisposable.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorBase.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\IPublisherRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\ISubscriberRegistrationInterceptor.cs" />

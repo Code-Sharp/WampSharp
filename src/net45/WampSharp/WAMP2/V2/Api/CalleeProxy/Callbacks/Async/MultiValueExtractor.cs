@@ -4,19 +4,12 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal class MultiValueExtractor : IOperationResultExtractor
+    internal class MultiValueExtractor<TResult> : IOperationResultExtractor<TResult[]>
     {
-        private readonly Type mReturnType;
-        private readonly Type mElementType;
+        private readonly Type mReturnType = typeof(TResult[]);
+        private readonly Type mElementType = typeof(TResult);
 
-        public MultiValueExtractor(Type returnType)
-        {
-            mReturnType = returnType;
-
-            mElementType = returnType.GetElementType();
-        }
-
-        public object GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
+        public TResult[] GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
         {
             if (!arguments.Any())
             {
@@ -24,16 +17,11 @@ namespace WampSharp.V2.CalleeProxy
             }
             else
             {
-                object[] deserialized =
-                    arguments.Select(x => formatter.Deserialize(mElementType, x))
+                TResult[] deserialized =
+                    arguments.Select(x => formatter.Deserialize<TResult>(x))
                              .ToArray();
 
-                Array array =
-                    Array.CreateInstance(mElementType, deserialized.Length);
-
-                deserialized.CopyTo(array, 0);
-
-                return array;
+                return deserialized;
             }
         }
     }

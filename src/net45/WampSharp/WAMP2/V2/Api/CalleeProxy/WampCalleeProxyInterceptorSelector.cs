@@ -9,8 +9,7 @@ using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal class WampCalleeProxyInterceptorSelector :
-        IInterceptorSelector
+    internal class WampCalleeProxyInterceptorSelector : IInterceptorSelector
     {
         private readonly IWampCalleeProxyInvocationHandler mHandler;
         private readonly ICalleeProxyInterceptor mInterceptor;
@@ -24,32 +23,39 @@ namespace WampSharp.V2.CalleeProxy
         public IInterceptor[] SelectInterceptors(Type type, MethodInfo method, IInterceptor[] interceptors)
         {
             Type returnType = method.ReturnType;
+            Type genericArgument;
+            Type interceptorType;
 
-            if (typeof(Task).IsAssignableFrom(returnType))
+            if (!typeof (Task).IsAssignableFrom(returnType))
             {
+                genericArgument = returnType == typeof (void) ? typeof(object) : returnType;
+                interceptorType = typeof (SyncCalleeProxyInterceptor<>);
+            }
+            else
+            {
+                genericArgument = TaskExtensions.UnwrapReturnType(returnType);
+
 #if !NET40
-                if (method.IsDefined(typeof(WampProgressiveResultProcedureAttribute)))
+                if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
                 {
-                    MethodInfoValidation.ValidateProgressiveMehotd(method);
-                    Type taskType = TaskExtensions.UnwrapReturnType(returnType);
-
-                    IInterceptor interceptor =
-                        (IInterceptor)
-                            Activator.CreateInstance(typeof (ProgressiveAsyncCalleeProxyInterceptor<>)
-                                .MakeGenericType(taskType),
-                                mHandler, mInterceptor);
-
-                    return new IInterceptor[] {interceptor};
+                    MethodInfoValidation.ValidateProgressiveMethod(method);
+                    interceptorType = typeof (ProgressiveAsyncCalleeProxyInterceptor<>);
                 }
                 else
 #endif
                 {
                     MethodInfoValidation.ValidateAsyncMethod(method);
-                    return interceptors.OfType<AsyncCalleeProxyInterceptor>().Cast<IInterceptor>().ToArray();
+                    interceptorType = typeof (AsyncCalleeProxyInterceptor<>);
                 }
             }
 
-            return interceptors.OfType<SyncCalleeProxyInterceptor>().Cast<IInterceptor>().ToArray();
+            IInterceptor interceptor =
+                (IInterceptor)
+                    Activator.CreateInstance(
+                        interceptorType.MakeGenericType(genericArgument),
+                        method, mHandler, mInterceptor);
+
+            return new IInterceptor[] {interceptor};
         }
     }
 }
