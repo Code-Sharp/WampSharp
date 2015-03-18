@@ -2,15 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace WampSharp.Core.Utilities
 {
     internal static class MethodInvokeGenerator
     {
+        private static readonly MethodInvokeGenerator<object> mInvokeGenerator = new MethodInvokeGenerator<object>();
+        private static TaskMethodInvokeGenerator mTaskInvokeGenerator = new TaskMethodInvokeGenerator(); 
+
         public static Func<object, object[], object> CreateInvokeMethod(MethodInfo method)
         {
-            ParameterExpression instance = Expression.Parameter(typeof (object));
-            ParameterExpression arguments = Expression.Parameter(typeof (object[]));
+            return mInvokeGenerator.CreateInvokeMethod(method);
+        }
+
+        public static Func<object, object[], Task> CreateTaskInvokeMethod(MethodInfo method)
+        {
+            return mTaskInvokeGenerator.CreateInvokeMethod(method);
+        }
+    }
+
+    internal class MethodInvokeGenerator<TResult>
+    {
+        public Func<object, object[], TResult> CreateInvokeMethod(MethodInfo method)
+        {
+            ParameterExpression instance = Expression.Parameter(typeof(object));
+            ParameterExpression arguments = Expression.Parameter(typeof(object[]));
 
             ParameterInfo[] parameters = method.GetParameters();
 
@@ -28,17 +45,17 @@ namespace WampSharp.Core.Utilities
 
             var call = Expression.Call(castedInstance, method, argumentVariables);
 
-            var resultVariable = Expression.Variable(typeof (object));
+            var resultVariable = Expression.Variable(typeof(TResult));
             var returnValueStatements = GetReturnValueStatements(method, call, resultVariable);
 
-            Func<object, object[], object> invoker =
+            Func<object, object[], TResult> invoker =
                 GetInvokerBody(instance,
                     arguments, argumentVariables, arrayUnpack, returnValueStatements, arrayPack, resultVariable);
-            
+
             return invoker;
         }
 
-        private static Func<object, object[], object> GetInvokerBody
+        private static Func<object, object[], TResult> GetInvokerBody
             (ParameterExpression instance,
                 ParameterExpression arguments,
                 IEnumerable<ParameterExpression> argumentVariables,
@@ -57,39 +74,39 @@ namespace WampSharp.Core.Utilities
             bodyExpressions.AddRange(arrayPack);
             bodyExpressions.Add(resultVariable);
 
-            var body = Expression.Block(typeof (object), methodVariables, bodyExpressions);
-            var lambda = Expression.Lambda<Func<object, object[], object>>(body, instance, arguments);
-            
-            Func<object, object[], object> invoker = lambda.Compile();
+            var body = Expression.Block(typeof(TResult), methodVariables, bodyExpressions);
+            var lambda = Expression.Lambda<Func<object, object[], TResult>>(body, instance, arguments);
+
+            Func<object, object[], TResult> invoker = lambda.Compile();
             return invoker;
         }
 
-        private static List<Expression> GetReturnValueStatements(MethodInfo method,
-            MethodCallExpression call,
-            ParameterExpression resultVariable)
+        protected virtual ICollection<Expression> GetReturnValueStatements(MethodInfo method,
+            Expression call,
+            Expression resultVariable)
         {
             var returnValueStatements = new List<Expression>();
 
-            if (method.ReturnType == typeof (void))
+            if (method.ReturnType == typeof(void))
             {
                 returnValueStatements.Add(call);
-                returnValueStatements.Add(Expression.Assign(resultVariable, Expression.Constant(null, typeof (object))));
+                returnValueStatements.Add(Expression.Assign(resultVariable, Expression.Constant(null, typeof(object))));
             }
-            else if (method.ReturnType.IsValueType)
+            else if (typeof(TResult).IsValueType != method.ReturnType.IsValueType)
             {
-                returnValueStatements.Add(Expression.Assign(resultVariable, Expression.Convert(call, typeof (object))));
+                returnValueStatements.Add(Expression.Assign(resultVariable, Expression.Convert(call, typeof(TResult))));
             }
             else
             {
                 returnValueStatements.Add(Expression.Assign(resultVariable, call));
             }
-            
+
             return returnValueStatements;
         }
 
-        private static void FillArgumentsExpressions
+        private void FillArgumentsExpressions
             (Expression arguments,
-                ParameterInfo[] parameters,
+                IEnumerable<ParameterInfo> parameters,
                 ICollection<ParameterExpression> argumentVariables,
                 ICollection<Expression> arrayUnpack,
                 ICollection<Expression> arrayPack)
@@ -120,8 +137,8 @@ namespace WampSharp.Core.Utilities
 
                     if (parameterType.IsValueType)
                     {
-                        boxedVariable = 
-                            Expression.Convert(boxedVariable, typeof (object));
+                        boxedVariable =
+                            Expression.Convert(boxedVariable, typeof(object));
                     }
 
                     var pack = Expression.Assign(arrayAccess, boxedVariable);

@@ -13,7 +13,7 @@ namespace WampSharp.V2.Rpc
     {
         private readonly object mInstance;
         private readonly MethodInfo mMethod;
-        private readonly Func<object, object[], object> mMethodInvoker; 
+        private readonly Func<object, object[], Task> mMethodInvoker; 
         private readonly RpcParameter[] mParameters;
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
@@ -23,7 +23,7 @@ namespace WampSharp.V2.Rpc
         {
             mInstance = instance;
             mMethod = method;
-            mMethodInvoker = MethodInvokeGenerator.CreateInvokeMethod(method);
+            mMethodInvoker = MethodInvokeGenerator.CreateTaskInvokeMethod(method);
 
             if (method.ReturnType != typeof (Task))
             {
@@ -76,9 +76,9 @@ namespace WampSharp.V2.Rpc
                     GetMethodParameters(caller, formatter, arguments, argumentsKeywords);
 
                 Task result =
-                    mMethodInvoker(mInstance, unpacked) as Task;
+                    mMethodInvoker(mInstance, unpacked);
 
-                Task<object> casted = result.CastTask();
+                Task<object> casted = result as Task<object>;
 
                 return casted;
             }
