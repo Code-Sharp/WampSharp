@@ -117,14 +117,7 @@ namespace WampSharp.V1.Rpc.Server
         {
             object result;
 
-            try
-            {
-                result = mMethodInvoke(GetInstance(client), parameters);
-            }
-            catch (TargetInvocationException ex)
-            {
-                throw ex.InnerException;
-            }
+            result = mMethodInvoke(GetInstance(client), parameters);
 
             return result;
         }

@@ -28,7 +28,6 @@ namespace WampSharp.V2.Core
             IDictionary<string, TMessage> argumentsKeywords)
         {
             IEnumerable<object> positional = Enumerable.Empty<object>();
-            IEnumerable<object> named = Enumerable.Empty<object>();
 
             int positionalArguments = 0;
 
@@ -42,7 +41,7 @@ namespace WampSharp.V2.Core
                         .Select(x => GetPositionalParameterValue(formatter, x.parameter, x.value));
             }
 
-            named = Parameters.Skip(positionalArguments)
+            var named = Parameters.Skip(positionalArguments)
                 .Select(parameter => GetNamedParameterValue(formatter, parameter, argumentsKeywords));
 
             object[] result = positional.Concat(named).ToArray();

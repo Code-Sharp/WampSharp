@@ -83,19 +83,6 @@ namespace WampSharp.V2.Rpc
 
                 return result;
             }
-            catch (TargetInvocationException ex)
-            {
-                Exception actual = ex.InnerException;
-
-                if (actual is WampException)
-                {
-                    throw actual;
-                }
-                else
-                {
-                    throw ConvertExceptionToRuntimeException(actual);
-                }
-            }
             finally
             {
                 WampInvocationContext.Current = null;
