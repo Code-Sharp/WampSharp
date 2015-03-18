@@ -6,27 +6,17 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal abstract class CalleeProxyInterceptorBase<TResult> : IInterceptor
+    internal abstract class CalleeProxyInterceptorBase : IInterceptor
     {
         private readonly MethodInfo mMethod;
         private readonly IWampCalleeProxyInvocationHandler mHandler;
         private readonly ICalleeProxyInterceptor mInterceptor;
-        private readonly IOperationResultExtractor<TResult> mExtractor;
 
         public CalleeProxyInterceptorBase(MethodInfo method, IWampCalleeProxyInvocationHandler handler, ICalleeProxyInterceptor interceptor)
         {
             mMethod = method;
             mHandler = handler;
             mInterceptor = interceptor;
-            mExtractor = GetOperationResultExtractor<TResult>(method);
-        }
-
-        public IOperationResultExtractor<TResult> Extractor
-        {
-            get
-            {
-                return mExtractor;
-            }
         }
 
         public ICalleeProxyInterceptor Interceptor
@@ -54,6 +44,26 @@ namespace WampSharp.V2.CalleeProxy
         }
 
         public abstract void Intercept(IInvocation invocation);
+    }
+
+    internal abstract class CalleeProxyInterceptorBase<TResult> : CalleeProxyInterceptorBase
+    {
+        private readonly IOperationResultExtractor<TResult> mExtractor;
+
+        public CalleeProxyInterceptorBase(MethodInfo method, IWampCalleeProxyInvocationHandler handler,
+            ICalleeProxyInterceptor interceptor)
+            : base(method, handler, interceptor)
+        {
+            mExtractor = GetOperationResultExtractor<TResult>(method);
+        }
+
+        public IOperationResultExtractor<TResult> Extractor
+        {
+            get
+            {
+                return mExtractor;
+            }
+        }
 
         private static IOperationResultExtractor<T> GetOperationResultExtractor<T>(MethodInfo method)
         {
