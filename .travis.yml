@@ -14,4 +14,4 @@ script:
 
 branches:
  only:
-  - wampv2
+  - develop
