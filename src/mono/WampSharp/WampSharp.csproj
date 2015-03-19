@@ -597,6 +597,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\AsyncDisposable\IAsyncDisposable.cs">
       <Link>Core\Utilities\AsyncDisposable\IAsyncDisposable.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampChannelReconnector.cs">
+      <Link>WAMP2\V2\Api\WampChannelReconnector.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs">
       <Link>WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs</Link>
     </Compile>

@@ -1,6 +1,6 @@
 WampSharp
 =========
-
+[![NuGet Version][NuGetImgMaster]][NuGetLinkMaster]
 
 A C# implementation of [WAMP (The Web Application Messaging Protocol)][WampLink]
 
@@ -14,6 +14,11 @@ Master | Provider
 ------ | --------
 [![Build Status][WinImgMaster]][WinLinkMaster] | Windows CI Provided By [CodeBetter][] and [JetBrains][] 
 [![Build Status][MonoImgMaster]][MonoLinkMaster] | Mono CI Provided by [travis-ci][] 
+
+
+## WampSharp v1.2.1.6-beta
+
+WampSharp v1.2.1.6-beta released, see version [release notes](https://github.com/Code-Sharp/WampSharp/wiki/WampSharp-v1.2.1.6-beta-release-notes).
 
 ## Get Started
 
@@ -31,6 +36,12 @@ See [Wiki documentation](https://github.com/Code-Sharp/WampSharp/wiki) for more 
 WAMPv1 support is still available. You can read about it at the [Wiki](https://github.com/Code-Sharp/WampSharp/wiki).
 
 If you're updating from a previous WampSharp version and you're not interested yet in updating your application to WAMPv2, please read the following [notes](https://github.com/Code-Sharp/WampSharp/wiki/Notes-for-WAMPv1-users).
+
+## Donations
+
+If you found WampSharp helpful and want to donate, you are welcome to do so via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UHRAS9KZPNPX4).
+
+Your donations help keep this project development alive.
 
 [WampLink]:http://wamp.ws
 

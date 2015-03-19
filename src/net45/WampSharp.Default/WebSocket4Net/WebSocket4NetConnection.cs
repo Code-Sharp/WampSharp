@@ -63,7 +63,6 @@ namespace WampSharp.WebSocket4Net
         private void WebSocketOnError(object sender, ErrorEventArgs e)
         {
             RaiseConnectionError(e.Exception);
-            RaiseConnectionClosed();
         }
 
         public void Connect()
@@ -74,6 +73,17 @@ namespace WampSharp.WebSocket4Net
         public virtual void Dispose()
         {
             mWebSocket.Close();
+        }
+
+        void IWampConnection<TMessage>.Send(WampMessage<TMessage> message)
+        {
+            try
+            {
+                Send(message);
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         public abstract void Send(WampMessage<TMessage> message);
