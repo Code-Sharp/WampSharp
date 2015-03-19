@@ -110,8 +110,7 @@ namespace WampSharp.V2.Client
         public void Welcome(long session, TMessage details)
         {
             mSession = session;
-            mOpenTask.SetResult(true);
-            mOpenTask = null;
+            mOpenTask.TrySetResult(true);
 
             OnConnectionEstablished(new WampSessionEventArgs
                 (session, new SerializedValue<TMessage>(mFormatter, details)));
@@ -244,7 +243,7 @@ namespace WampSharp.V2.Client
 
             if (openTask != null)
             {
-                openTask.SetException(exception);
+                openTask.TrySetException(exception);
             }
         }
 

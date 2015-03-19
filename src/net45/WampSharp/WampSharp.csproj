@@ -243,6 +243,7 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
+    <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\LocalSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs" />
