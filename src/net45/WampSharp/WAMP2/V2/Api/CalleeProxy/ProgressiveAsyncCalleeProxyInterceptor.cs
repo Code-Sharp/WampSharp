@@ -24,6 +24,7 @@ namespace WampSharp.V2.CalleeProxy
             IProgress<T> progress = arguments.Last() as IProgress<T>;
 
             MethodInfo method = invocation.Method;
+            
             Task result =
                 Handler.InvokeProgressiveAsync
                     (Interceptor, method, Extractor, argumentsWithoutProgress, progress);
