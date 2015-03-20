@@ -64,11 +64,11 @@ namespace WampSharp.V2
 
         private WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
         {
-            IWampClientBuilderFactory<TMessage, IWampClient<TMessage>> clientBuilderFactory =
+            IWampClientBuilderFactory<TMessage, IWampClientProxy<TMessage>> clientBuilderFactory =
                 GetWampClientBuilder(binding, outgoingRequestSerializer);
 
-            IWampClientContainer<TMessage, IWampClient<TMessage>> clientContainer =
-                new WampClientContainer<TMessage, IWampClient<TMessage>>(clientBuilderFactory);
+            IWampClientContainer<TMessage, IWampClientProxy<TMessage>> clientContainer =
+                new WampClientContainer<TMessage, IWampClientProxy<TMessage>>(clientBuilderFactory);
 
             IWampRequestMapper<TMessage> requestMapper =
                 new WampRequestMapper<TMessage>(typeof(WampServer<TMessage>),
@@ -77,8 +77,8 @@ namespace WampSharp.V2
             WampRealmMethodBuilder<TMessage> methodBuilder =
                 new WampRealmMethodBuilder<TMessage>(mSession, binding.Formatter);
 
-            IWampIncomingMessageHandler<TMessage, IWampClient<TMessage>> wampIncomingMessageHandler =
-                new WampIncomingMessageHandler<TMessage, IWampClient<TMessage>>
+            IWampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>> wampIncomingMessageHandler =
+                new WampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>>
                     (requestMapper,
                      methodBuilder);
 

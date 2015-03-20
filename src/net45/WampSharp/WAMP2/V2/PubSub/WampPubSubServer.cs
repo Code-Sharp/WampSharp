@@ -58,7 +58,7 @@ namespace WampSharp.V2.PubSub
 
         private PublishOptions GetPublishOptions(IWampPublisher publisher, PublishOptions options)
         {
-            IWampClient casted = publisher as IWampClient;
+            IWampClientProxy casted = publisher as IWampClientProxy;
 
             PublishOptionsExtended result = new PublishOptionsExtended(options);
 

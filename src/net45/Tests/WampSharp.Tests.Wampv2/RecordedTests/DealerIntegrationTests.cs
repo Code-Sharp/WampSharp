@@ -60,8 +60,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                 {
                     DealerScenario scenario = new DealerScenario();
 
-                    MockClient<IWampClient<MockRaw>> callee = GetCallee(nestedType, scenario.ClientBuilder, scenario.Handler);
-                    MockClient<IWampClient<MockRaw>> caller = GetCaller(nestedType, scenario.ClientBuilder);
+                    MockClient<IWampClientProxy<MockRaw>> callee = GetCallee(nestedType, scenario.ClientBuilder, scenario.Handler);
+                    MockClient<IWampClientProxy<MockRaw>> caller = GetCaller(nestedType, scenario.ClientBuilder);
 
                     WampMessage<MockRaw> request =
                         currentCase.FirstOrDefault(x => x.MessageType == WampMessageType.v2Call);
@@ -89,7 +89,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
             }
         }
 
-        private static MockClient<IWampClient<MockRaw>> GetCaller(Type scenario, WampMockClientBuilder<MockRaw> builder)
+        private static MockClient<IWampClientProxy<MockRaw>> GetCaller(Type scenario, WampMockClientBuilder<MockRaw> builder)
         {
             WampMessage<MockRaw> welcome =
                 GetCalls(scenario, Channel.DealerToCaller,
@@ -104,17 +104,17 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
             IMessageRecorder<MockRaw> messageRecorder =
                 new MessageRecorder<MockRaw>();
 
-            IWampClient<MockRaw> built =
+            IWampClientProxy<MockRaw> built =
                 builder.Create(sessionId, nullPlayer,
                                messageRecorder);
 
-            MockClient<IWampClient<MockRaw>> result =
-                new MockClient<IWampClient<MockRaw>>(built, messageRecorder);
+            MockClient<IWampClientProxy<MockRaw>> result =
+                new MockClient<IWampClientProxy<MockRaw>>(built, messageRecorder);
 
             return result;
         }
 
-        private static MockClient<IWampClient<MockRaw>> GetCallee(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClient<MockRaw>> handler)
+        private static MockClient<IWampClientProxy<MockRaw>> GetCallee(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> handler)
         {
             WampMessage<MockRaw> welcome =
                 GetCalls(scenario, Channel.DealerToCallee,
@@ -139,14 +139,14 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                                                 {WampMessageType.v2Registered, "registrationId"}
                                             });
 
-            IWampClient<MockRaw> built =
+            IWampClientProxy<MockRaw> built =
                 clientBuilder.Create(sessionId, player,
                                       recorder);
 
             player.Client = built;
 
-            MockClient<IWampClient<MockRaw>> result =
-                new MockClient<IWampClient<MockRaw>>(built, recorder);
+            MockClient<IWampClientProxy<MockRaw>> result =
+                new MockClient<IWampClientProxy<MockRaw>>(built, recorder);
 
             return result;
         }

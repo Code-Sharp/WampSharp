@@ -7,7 +7,7 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2
 {
-    public class WampServer<TMessage> : IWampServer<TMessage>, IWampMissingMethodContract<TMessage, IWampClient>
+    public class WampServer<TMessage> : IWampServer<TMessage>, IWampMissingMethodContract<TMessage, IWampClientProxy>
     {
         private readonly IWampSessionServer<TMessage> mSession;
         private readonly IWampRpcServer<TMessage> mDealer;
@@ -92,17 +92,17 @@ namespace WampSharp.V2
             mDealer.Yield(callee, requestId, options, arguments, argumentsKeywords);
         }
 
-        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error)
+        public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error)
         {
             mDealer.Error(client, requestType, requestId, details, error);
         }
 
-        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
+        public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
         {
             mDealer.Error(client, requestType, requestId, details, error, arguments);
         }
 
-        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
+        public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
                           TMessage argumentsKeywords)
         {
             mDealer.Error(client, requestType, requestId, details, error, arguments, argumentsKeywords);
@@ -138,17 +138,17 @@ namespace WampSharp.V2
             mSession.Heartbeat(client, incomingSeq, outgoingSeq, discard);
         }
 
-        public void OnNewClient(IWampClient<TMessage> client)
+        public void OnNewClient(IWampClientProxy<TMessage> client)
         {
             mSession.OnNewClient(client);
         }
 
-        public void OnClientDisconnect(IWampClient<TMessage> client)
+        public void OnClientDisconnect(IWampClientProxy<TMessage> client)
         {
             mSession.OnClientDisconnect(client);
         }
 
-        public void Missing(IWampClient client, WampMessage<TMessage> rawMessage)
+        public void Missing(IWampClientProxy client, WampMessage<TMessage> rawMessage)
         {
         }
     }

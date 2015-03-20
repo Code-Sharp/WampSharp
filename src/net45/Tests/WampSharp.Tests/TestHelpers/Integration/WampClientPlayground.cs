@@ -45,15 +45,15 @@ namespace WampSharp.Tests.TestHelpers.Integration
                      new WampOutgoingMessageHandlerBuilder<TMessage>(),
                      binding);
 
-            WampClientContainer<TMessage, IWampClient<TMessage>> container =
-                new WampClientContainer<TMessage, IWampClient<TMessage>>(factory);
+            WampClientContainer<TMessage, IWampClientProxy<TMessage>> container =
+                new WampClientContainer<TMessage, IWampClientProxy<TMessage>>(factory);
 
-            WampIncomingMessageHandler<TMessage, IWampClient<TMessage>> incomingMessageHandler =
-                new WampIncomingMessageHandler<TMessage, IWampClient<TMessage>>
+            WampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>> incomingMessageHandler =
+                new WampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>>
                     (new WampRequestMapper<TMessage>(serverMock.GetType(), binding.Formatter),
-                     new WampMethodBuilder<TMessage, IWampClient<TMessage>>(serverMock, binding.Formatter));
+                     new WampMethodBuilder<TMessage, IWampClientProxy<TMessage>>(serverMock, binding.Formatter));
 
-            IWampClient<TMessage> proxy = container.GetClient(serverConnection);
+            IWampClientProxy<TMessage> proxy = container.GetClient(serverConnection);
 
             serverConnection.MessageArrived +=
                 (sender, args) => incomingMessageHandler.HandleMessage(proxy, args.Message);

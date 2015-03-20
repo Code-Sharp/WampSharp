@@ -33,13 +33,13 @@ namespace WampSharp.V2.Core.Contracts
         /// Occurs when a new client connects.
         /// </summary>
         /// <param name="client">The new connected client.</param>
-        void OnNewClient(IWampClient<TMessage> client);
+        void OnNewClient(IWampClientProxy<TMessage> client);
 
         /// <summary>
         /// Occurs when a client disconnects.
         /// </summary>
         /// <param name="client">The disconnected client.</param>
-        void OnClientDisconnect(IWampClient<TMessage> client);
+        void OnClientDisconnect(IWampClientProxy<TMessage> client);
 
         #endregion
     }

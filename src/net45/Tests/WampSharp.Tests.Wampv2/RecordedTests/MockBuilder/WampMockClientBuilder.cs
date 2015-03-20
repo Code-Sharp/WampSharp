@@ -21,7 +21,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 
         #endregion
 
-        public IWampClient<TMessage> Create(long sessionId,
+        public IWampClientProxy<TMessage> Create(long sessionId,
                                             IMessagePlayer<TMessage> player,
                                             IMessageRecorder<TMessage> recorder)
         {
@@ -30,12 +30,12 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 
             options.Selector = new MockClientInterceptorSelector();
 
-            IWampClient<TMessage> result =
+            IWampClientProxy<TMessage> result =
                 mGenerator.CreateInterfaceProxyWithoutTarget
-                    (typeof (IWampClient),
+                    (typeof (IWampClientProxy),
                      new[]
                          {
-                             typeof (IWampClient<TMessage>),
+                             typeof (IWampClientProxy<TMessage>),
                              typeof (IWampConnectionMonitor)
                          },
                      options,
@@ -43,7 +43,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
                      new RecordAndPlayInterceptor<TMessage>
                          (mOutgoingSerializer, player, recorder),
                      new SessionPropertyInterceptor(sessionId))
-                as IWampClient<TMessage>;
+                as IWampClientProxy<TMessage>;
 
             return result;
         }

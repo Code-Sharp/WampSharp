@@ -86,12 +86,12 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 throw new System.NotImplementedException();
             }
 
-            public void OnNewClient(IWampClient<TMessage> client)
+            public void OnNewClient(IWampClientProxy<TMessage> client)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void OnClientDisconnect(IWampClient<TMessage> client)
+            public void OnClientDisconnect(IWampClientProxy<TMessage> client)
             {
                 throw new NotImplementedException();
             }
@@ -143,17 +143,17 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 ActualYield = new object[] { requestId, options, arguments, argumentsKeywords };
             }
 
-            public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error)
+            public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error)
             {
                 ActualError = new object[] { requestType, requestId, details, error };
             }
 
-            public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
+            public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
             {
                 ActualError = new object[] { requestType, requestId, details, error, arguments };
             }
 
-            public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
+            public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
                               TMessage argumentsKeywords)
             {
                 ActualError = new object[] { requestType, requestId, details, error, arguments, argumentsKeywords };

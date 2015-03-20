@@ -9,7 +9,7 @@ namespace WampSharp.V2.Core.Listener
     /// WAMPv2 specific.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public class WampListener<TMessage> : WampListener<TMessage, IWampClient<TMessage>>
+    public class WampListener<TMessage> : WampListener<TMessage, IWampClientProxy<TMessage>>
     {
         private readonly IWampSessionServer<TMessage> mSessionHandler;
 
@@ -24,8 +24,8 @@ namespace WampSharp.V2.Core.Listener
         /// in order to store the connected clients.</param>
         /// <param name="sessionHandler">A session handler that handles new clients.</param>
         public WampListener(IWampConnectionListener<TMessage> listener,
-                            IWampIncomingMessageHandler<TMessage, IWampClient<TMessage>> handler,
-                            IWampClientContainer<TMessage, IWampClient<TMessage>> clientContainer,
+                            IWampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>> handler,
+                            IWampClientContainer<TMessage, IWampClientProxy<TMessage>> clientContainer,
                             IWampSessionServer<TMessage> sessionHandler)
             : base(listener, handler, clientContainer)
         {
@@ -36,14 +36,14 @@ namespace WampSharp.V2.Core.Listener
         {
             base.OnNewConnection(connection);
 
-            IWampClient<TMessage> client = ClientContainer.GetClient(connection);
+            IWampClientProxy<TMessage> client = ClientContainer.GetClient(connection);
 
             mSessionHandler.OnNewClient(client);
         }
 
         protected override void OnCloseConnection(IWampConnection<TMessage> connection)
         {
-            IWampClient<TMessage> client;
+            IWampClientProxy<TMessage> client;
 
             if (ClientContainer.TryGetClient(connection, out client))
             {

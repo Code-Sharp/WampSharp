@@ -36,11 +36,11 @@ namespace WampSharp.V2.Session
                 };
         }
 
-        public void OnNewClient(IWampClient<TMessage> client)
+        public void OnNewClient(IWampClientProxy<TMessage> client)
         {
         }
 
-        public void OnClientDisconnect(IWampClient<TMessage> client)
+        public void OnClientDisconnect(IWampClientProxy<TMessage> client)
         {
             if ((client.Realm != null) && !client.GoodbyeSent)
             {
@@ -50,7 +50,7 @@ namespace WampSharp.V2.Session
 
         public void Hello(IWampSessionClient client, string realm, TMessage details)
         {
-            IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
+            IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
             
             IWampBindedRealm<TMessage> bindedRealm = 
                 mRealmContainer.GetRealmByName(realm);
@@ -66,7 +66,7 @@ namespace WampSharp.V2.Session
         {
             using (IDisposable disposable = client as IDisposable)
             {
-                IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
+                IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
 
                 wampClient.GoodbyeSent = true;
                 wampClient.Realm.Abort(wampClient.Session, details, reason);
@@ -83,7 +83,7 @@ namespace WampSharp.V2.Session
             {
                 client.Goodbye(details, WampErrors.CloseNormal);
 
-                IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
+                IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
                 wampClient.GoodbyeSent = true;
                 wampClient.Realm.Goodbye(wampClient.Session, details, reason);
             }

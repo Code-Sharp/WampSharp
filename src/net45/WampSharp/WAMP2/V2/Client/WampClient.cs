@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WampSharp.Core.Contracts;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
 {
-    internal class WampClient<TMessage> : IWampSessionClientExtended<TMessage>,
-                                          IWampCallee<TMessage>,
+    internal class WampClient<TMessage> : IWampClient<TMessage>,
+                                          IWampSessionClientExtended<TMessage>,
                                           IWampCalleeError<TMessage>,
-                                          IWampCaller<TMessage>,
                                           IWampCallerError<TMessage>,
-                                          IWampPublisher<TMessage>,
                                           IWampPublisherError<TMessage>,
-                                          IWampSubscriber<TMessage>,
-                                          IWampSubscriberError<TMessage>,
-                                          IWampError<TMessage>
+                                          IWampSubscriberError<TMessage>
     {
         #region Fields
 

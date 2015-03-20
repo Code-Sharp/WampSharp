@@ -243,6 +243,7 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\LocalSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopicAttribute.cs" />
@@ -387,7 +388,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Error\IWampSubscriberError.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Error\WampErrorHandlerAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Error\WampErrors.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\IWampClientProxy.cs" />
     <Compile Include="WAMP2\V2\Error\IWampErrorCallback.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampRawClient.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampServer.cs" />

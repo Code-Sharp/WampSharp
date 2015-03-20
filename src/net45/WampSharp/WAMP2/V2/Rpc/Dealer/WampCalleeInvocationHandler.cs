@@ -132,13 +132,13 @@ namespace WampSharp.V2.Rpc
                          invocation => invocation.Callback.Error(mFormatter, details, error));
         }
 
-        public void Error(IWampClient wampCallee, long requestId, TMessage details, string error, TMessage[] arguments)
+        public void Error(IWampClientProxy wampCallee, long requestId, TMessage details, string error, TMessage[] arguments)
         {
             ErrorArrived(requestId,
                          invocation => invocation.Callback.Error(mFormatter, details, error, arguments));
         }
 
-        public void Error(IWampClient wampCallee, long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
+        public void Error(IWampClientProxy wampCallee, long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
             ErrorArrived(requestId,
                          invocation => invocation.Callback.Error(mFormatter, details, error, arguments, argumentsKeywords));

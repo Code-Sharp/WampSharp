@@ -95,8 +95,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                 scenario.Subscriptions = subscriptions;
                 scenario.Events = events;
 
-                MockClient<IWampClient<MockRaw>> subscriber = GetSubscriber(nestedType, scenario.ClientBuilder, scenario.Handler, events.Concat(subscriptionAcks));
-                MockClient<IWampClient<MockRaw>> publisher = GetPublisher(nestedType, scenario.ClientBuilder, publicationAcks);
+                MockClient<IWampClientProxy<MockRaw>> subscriber = GetSubscriber(nestedType, scenario.ClientBuilder, scenario.Handler, events.Concat(subscriptionAcks));
+                MockClient<IWampClientProxy<MockRaw>> publisher = GetPublisher(nestedType, scenario.ClientBuilder, publicationAcks);
 
                 scenario.Subscriber = subscriber;
                 scenario.Publisher = publisher;
@@ -109,7 +109,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
             }
         }
 
-        private static MockClient<IWampClient<MockRaw>> GetPublisher(Type scenario, WampMockClientBuilder<MockRaw> builder, IEnumerable<WampMessage<MockRaw>> calls)
+        private static MockClient<IWampClientProxy<MockRaw>> GetPublisher(Type scenario, WampMockClientBuilder<MockRaw> builder, IEnumerable<WampMessage<MockRaw>> calls)
         {
             WampMessage<MockRaw> welcome =
                 GetCalls(scenario, Channel.BrokerToPublisher,
@@ -128,17 +128,17 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                                                 {WampMessageType.v2Published, "publicationId"}
                                             });
 
-            IWampClient<MockRaw> built =
+            IWampClientProxy<MockRaw> built =
                 builder.Create(sessionId, nullPlayer,
                                       recorder);
 
-            MockClient<IWampClient<MockRaw>> result =
-                new MockClient<IWampClient<MockRaw>>(built, recorder);
+            MockClient<IWampClientProxy<MockRaw>> result =
+                new MockClient<IWampClientProxy<MockRaw>>(built, recorder);
 
             return result;
         }
 
-        private static MockClient<IWampClient<MockRaw>> GetSubscriber(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClient<MockRaw>> handler, IEnumerable<WampMessage<MockRaw>> calls)
+        private static MockClient<IWampClientProxy<MockRaw>> GetSubscriber(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> handler, IEnumerable<WampMessage<MockRaw>> calls)
         {
             WampMessage<MockRaw> welcome =
                 GetCalls(scenario, Channel.BrokerToSubscriber,
@@ -158,12 +158,12 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                                                 {WampMessageType.v2Subscribed, "subscriptionId"}
                                             });
 
-            IWampClient<MockRaw> built =
+            IWampClientProxy<MockRaw> built =
                 clientBuilder.Create(sessionId, nullPlayer,
                                       recorder);
 
-            MockClient<IWampClient<MockRaw>> result =
-                new MockClient<IWampClient<MockRaw>>(built, recorder);
+            MockClient<IWampClientProxy<MockRaw>> result =
+                new MockClient<IWampClientProxy<MockRaw>>(built, recorder);
 
             return result;
         }

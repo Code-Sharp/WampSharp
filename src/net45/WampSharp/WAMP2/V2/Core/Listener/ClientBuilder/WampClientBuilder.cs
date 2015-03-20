@@ -14,11 +14,11 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
     /// that is specific to WAMPv2.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public class WampClientBuilder<TMessage> : IWampClientBuilder<TMessage, IWampClient<TMessage>>
+    public class WampClientBuilder<TMessage> : IWampClientBuilder<TMessage, IWampClientProxy<TMessage>>
     {
         #region Members
 
-        private readonly IWampClientContainer<TMessage, IWampClient<TMessage>> mContainer;
+        private readonly IWampClientContainer<TMessage, IWampClientProxy<TMessage>> mContainer;
         private readonly ProxyGenerator mGenerator = new ProxyGenerator();
         private readonly IWampOutgoingRequestSerializer<TMessage> mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
@@ -39,7 +39,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         /// <param name="outgoingHandlerBuilder">An <see cref="IWampOutgoingMessageHandlerBuilder{TMessage}"/> used to build
         /// a <see cref="IWampOutgoingMessageHandler{TMessage}"/> per connection.</param>
         /// <param name="container">A <see cref="IWampClientContainer{TMessage,TClient}"/> that contains all clients.</param>
-        public WampClientBuilder(IWampIdGenerator sessionIdGenerator, IWampOutgoingRequestSerializer<TMessage> outgoingSerializer, IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage, IWampClient<TMessage>> container, IWampBinding<TMessage> binding)
+        public WampClientBuilder(IWampIdGenerator sessionIdGenerator, IWampOutgoingRequestSerializer<TMessage> outgoingSerializer, IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage, IWampClientProxy<TMessage>> container, IWampBinding<TMessage> binding)
         {
             mOutgoingSerializer = outgoingSerializer;
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
@@ -50,7 +50,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
 
         #endregion
 
-        public IWampClient<TMessage> Create(IWampConnection<TMessage> connection)
+        public IWampClientProxy<TMessage> Create(IWampConnection<TMessage> connection)
         {
             IWampOutgoingMessageHandler<TMessage> outgoingHandler = 
                 mOutgoingHandlerBuilder.Build(connection);
@@ -80,7 +80,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
             long session = mSessionIdGenerator.Generate();
             
             proxyGenerationOptions.AddMixinInstance
-                (new WampClientContainerDisposable<TMessage, IWampClient<TMessage>>
+                (new WampClientContainerDisposable<TMessage, IWampClientProxy<TMessage>>
                     (mContainer, connection));
 
             WampClientPropertyBag<TMessage> propertyBag = 
@@ -88,12 +88,12 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
             
             proxyGenerationOptions.AddMixinInstance(propertyBag);
 
-            IWampClient<TMessage> result =
+            IWampClientProxy<TMessage> result =
                 mGenerator.CreateInterfaceProxyWithoutTarget
-                    (typeof(IWampProxy), new[] { typeof(IWampClient), typeof(IWampClient<TMessage>) },
+                    (typeof(IWampProxy), new[] { typeof(IWampClientProxy<TMessage>) },
                      proxyGenerationOptions,
                      wampOutgoingInterceptor)
-                as IWampClient<TMessage>;
+                as IWampClientProxy<TMessage>;
 
             monitor.Client = result;
 
