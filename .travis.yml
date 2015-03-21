@@ -13,5 +13,5 @@ script:
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/mono/Tests/WampSharp.Tests.Wampv2/bin/Release/WampSharp.Tests.Wampv2.dll
 
 branches:
- only:
-  - wampv2
+ except:
+  - wampv1
