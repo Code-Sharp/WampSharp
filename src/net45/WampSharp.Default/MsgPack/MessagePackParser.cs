@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Msgpack;
 using WampSharp.Core.Message;
@@ -9,10 +10,12 @@ namespace WampSharp.Msgpack
 {
     public class MessagePackParser : IWampBinaryMessageParser<JToken>
     {
+        private readonly JsonSerializer mSerializer;
         private readonly JsonWampMessageFormatter mMessageFormatter;
 
-        public MessagePackParser()
+        public MessagePackParser(JsonSerializer serializer)
         {
+            mSerializer = serializer;
             mMessageFormatter = new JsonWampMessageFormatter();
         }
 
@@ -29,15 +32,15 @@ namespace WampSharp.Msgpack
             }
         }
 
-        public byte[] Format(WampMessage<JToken> message)
+        public byte[] Format(WampMessage<object> message)
         {
-            JToken formatted = mMessageFormatter.Format(message);
+            object[] array = mMessageFormatter.Format(message);
 
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 using (MessagePackWriter writer = new MessagePackWriter(memoryStream))
                 {
-                    formatted.WriteTo(writer);
+                    mSerializer.Serialize(writer, array);
                     memoryStream.Position = 0;
                     byte[] result = memoryStream.ToArray();
                     return result;

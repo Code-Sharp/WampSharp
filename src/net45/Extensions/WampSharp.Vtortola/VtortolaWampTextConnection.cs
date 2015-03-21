@@ -26,7 +26,7 @@ namespace WampSharp.Vtortola
             }
         }
 
-        protected override async Task SendAsync(WampMessage<TMessage> message)
+        protected override async Task SendAsync(WampMessage<object> message)
         {
             string raw = mBinding.Format(message);
 

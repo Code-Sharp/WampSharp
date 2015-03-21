@@ -14,7 +14,7 @@ namespace WampSharp.V2.Realm.Binded
 
         public WampBindedRealm(IWampHostedRealm realm,
                                IWampSessionServer<TMessage> session,
-                               IWampEventSerializer<TMessage> eventSerializer,
+                               IWampEventSerializer eventSerializer,
                                IWampBinding<TMessage> binding)
         {
             mRealm = realm;

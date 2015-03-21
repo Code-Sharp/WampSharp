@@ -20,7 +20,7 @@ namespace WampSharp.Tests.TestHelpers.Integration
         private readonly IWampFormatter<TMessage> mFormatter;
 
         public WampPlayground(IWampFormatter<TMessage> wampFormatter)
-            : this(wampFormatter, new MockConnectionListener<TMessage>())
+            : this(wampFormatter, new MockConnectionListener<TMessage>(wampFormatter))
         {
         }
 

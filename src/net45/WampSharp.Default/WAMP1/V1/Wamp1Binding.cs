@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
@@ -24,8 +25,12 @@ namespace WampSharp.V1
 
     public class Wamp1Binding : Wamp1Binding<JToken>
     {
-        public Wamp1Binding() : 
-            base(new JTokenMessageParser(), new JsonFormatter())
+        public Wamp1Binding() : this(new JsonSerializer())
+        {
+        }
+
+        public Wamp1Binding(JsonSerializer serializer) : 
+            base(new JTokenMessageParser(serializer), new JsonFormatter(serializer))
         {
         }
     }

@@ -27,7 +27,7 @@ namespace WampSharp.Vtortola
             }
         }
 
-        protected async override Task SendAsync(WampMessage<TMessage> message)
+        protected async override Task SendAsync(WampMessage<object> message)
         {
             using (WebSocketMessageWriteStream stream = 
                 mWebsocket.CreateMessageWriter(WebSocketMessageType.Binary))

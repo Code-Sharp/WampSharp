@@ -12,12 +12,18 @@ namespace WampSharp.Tests.Dispatch
     [TestFixture]
     public class WampRequestMapperTests
     {
+        private readonly WampRequestMapper<MockRaw> mServerMapper = 
+            new WampRequestMapper<MockRaw>(typeof (MockWampServer),
+            new MockRawFormatter());
+
+        private WampRequestMapper<MockRaw> mClientMapper = new WampRequestMapper<MockRaw>(typeof(MockWampClient),
+            new MockRawFormatter());
+
         [TestCaseSource(typeof (Messages), "PrefixMessages")]
         public void Prefix(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof (MockWampServer),
-                                               new MockRawFormatter());
+                mServerMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -32,8 +38,7 @@ namespace WampSharp.Tests.Dispatch
         public void Call(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof (MockWampServer),
-                                               new MockRawFormatter());
+                mServerMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -48,8 +53,7 @@ namespace WampSharp.Tests.Dispatch
         public void Subscribe(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof (MockWampServer),
-                                               new MockRawFormatter());
+                mServerMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -64,8 +68,7 @@ namespace WampSharp.Tests.Dispatch
         public void Unsubscribe(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof (MockWampServer),
-                                               new MockRawFormatter());
+                mServerMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -80,8 +83,7 @@ namespace WampSharp.Tests.Dispatch
         public void Publish(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof (MockWampServer),
-                                               new MockRawFormatter());
+                mServerMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -96,8 +98,7 @@ namespace WampSharp.Tests.Dispatch
         public void PublishExcludeMe(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof (MockWampServer),
-                                               new MockRawFormatter());
+                mServerMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -112,8 +113,7 @@ namespace WampSharp.Tests.Dispatch
         public void PublishExcludeList(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof (MockWampServer),
-                                               new MockRawFormatter());
+                mServerMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -128,8 +128,7 @@ namespace WampSharp.Tests.Dispatch
         public void PublishEligibleList(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof (MockWampServer),
-                                               new MockRawFormatter());
+                mServerMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -145,8 +144,7 @@ namespace WampSharp.Tests.Dispatch
         public void Welcome(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof(MockWampClient),
-                                               new MockRawFormatter());
+                mClientMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -161,8 +159,7 @@ namespace WampSharp.Tests.Dispatch
         public void CallResult(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof(MockWampClient),
-                                               new MockRawFormatter());
+                mClientMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -177,8 +174,7 @@ namespace WampSharp.Tests.Dispatch
         public void CallErrorSimple(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof(MockWampClient),
-                                               new MockRawFormatter());
+                mClientMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -193,8 +189,7 @@ namespace WampSharp.Tests.Dispatch
         public void CallErrorDetailed(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof(MockWampClient),
-                                               new MockRawFormatter());
+                mClientMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -209,8 +204,7 @@ namespace WampSharp.Tests.Dispatch
         public void Event(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof (MockWampClient),
-                                               new MockRawFormatter());
+                mClientMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 
@@ -225,8 +219,7 @@ namespace WampSharp.Tests.Dispatch
         public void UnknownMessageReturnsNullIfMissingContractNotImplemented(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
-                new WampRequestMapper<MockRaw>(typeof(MockWampServer),
-                                               new MockRawFormatter());
+                mServerMapper;
 
             WampMethodInfo mapped = mapper.Map(message);
 

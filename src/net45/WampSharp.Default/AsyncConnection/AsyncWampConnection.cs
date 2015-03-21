@@ -7,21 +7,21 @@ namespace WampSharp
 {
     public abstract class AsyncWampConnection<TMessage> : IWampConnection<TMessage>
     {
-        private readonly ActionBlock<WampMessage<TMessage>> mSendBlock;
+        private readonly ActionBlock<WampMessage<object>> mSendBlock;
 
         protected AsyncWampConnection()
         {
-            mSendBlock = new ActionBlock<WampMessage<TMessage>>(x => InnerSend(x));
+            mSendBlock = new ActionBlock<WampMessage<object>>(x => InnerSend(x));
         }
 
-        public void Send(WampMessage<TMessage> message)
+        public void Send(WampMessage<object> message)
         {
             mSendBlock.Post(message);
         }
 
 #if !NET40
 
-        protected async Task InnerSend(WampMessage<TMessage> message)
+        protected async Task InnerSend(WampMessage<object> message)
         {
             if (IsConnected)
             {
@@ -67,7 +67,7 @@ namespace WampSharp
         public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
         public event EventHandler ConnectionClosed;
         public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
-        protected abstract Task SendAsync(WampMessage<TMessage> message);
+        protected abstract Task SendAsync(WampMessage<object> message);
 
         protected virtual void RaiseConnectionOpen()
         {

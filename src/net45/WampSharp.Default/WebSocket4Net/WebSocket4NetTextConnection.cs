@@ -45,7 +45,7 @@ namespace WampSharp.WebSocket4Net
             RaiseMessageArrived(message);
         }
 
-        public override void Send(WampMessage<TMessage> message)
+        public override void Send(WampMessage<object> message)
         {
             string text = mBinding.Format(message);
 

@@ -75,7 +75,7 @@ namespace WampSharp.WebSocket4Net
             mWebSocket.Close();
         }
 
-        void IWampConnection<TMessage>.Send(WampMessage<TMessage> message)
+        void IWampConnection<TMessage>.Send(WampMessage<object> message)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace WampSharp.WebSocket4Net
             }
         }
 
-        public abstract void Send(WampMessage<TMessage> message);
+        public abstract void Send(WampMessage<object> message);
 
         public event EventHandler ConnectionOpen;
 

@@ -23,7 +23,7 @@ namespace WampSharp.Core.Client
             mIncomingHandlerBuilder = incomingHandlerBuilder;
         }
 
-        public IWampOutgoingMessageHandler<TMessage> Build(TRawClient client, IWampConnection<TMessage> connection)
+        public IWampOutgoingMessageHandler Build(TRawClient client, IWampConnection<TMessage> connection)
         {
             IWampIncomingMessageHandler<TMessage> incomingMessageHandler =  mIncomingHandlerBuilder.Build(client, connection);
             return new WampServerProxyHandler<TMessage>(connection, incomingMessageHandler);

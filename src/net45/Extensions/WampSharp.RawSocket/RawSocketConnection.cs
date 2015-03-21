@@ -55,7 +55,7 @@ namespace WampSharp.RawSocket
             mConnection.Close();
         }
 
-        public void Send(WampMessage<TMessage> message)
+        public void Send(WampMessage<object> message)
         {
             byte[] bytes = mBinding.Format(message);
 

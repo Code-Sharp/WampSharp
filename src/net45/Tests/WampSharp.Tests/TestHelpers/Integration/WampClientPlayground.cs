@@ -29,7 +29,7 @@ namespace WampSharp.Tests.TestHelpers.Integration
                                                  IWampBinding<TMessage> binding,
                                                  IWampClientAuthenticator authenticator)
         {
-            MockConnection<TMessage> connection = new MockConnection<TMessage>();
+            MockConnection<TMessage> connection = new MockConnection<TMessage>(binding.Formatter);
 
             IWampConnection<TMessage> serverConnection = connection.SideAToSideB;
             IWampConnection<TMessage> clientConnection = connection.SideBToSideA;

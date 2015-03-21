@@ -23,10 +23,9 @@ namespace WampSharp.Fleck
             RaiseMessageArrived(parsed);
         }
 
-        protected override Task SendAsync(WampMessage<TMessage> message)
+        protected override Task SendAsync(WampMessage<object> message)
         {
-            byte[] bytes =
-                mBinding.Format(message);
+            byte[] bytes = mBinding.Format(message);
 
             return mWebSocketConnection.Send(bytes);
         }

@@ -18,7 +18,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
         {
             mBinding = new MockBinding();
 
-            mClientBuilder = new WampMockClientBuilder<MockRaw>(Binding.Formatter);
+            mClientBuilder = new WampMockClientBuilder<MockRaw>(Binding);
 
             mServer = CreateServer();
 

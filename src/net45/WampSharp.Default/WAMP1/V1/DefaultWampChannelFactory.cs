@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
 
@@ -6,14 +7,30 @@ namespace WampSharp.V1
 {
     public class DefaultWampChannelFactory : WampChannelFactory<JToken>
     {
+        private readonly JsonSerializer mSerializer;
+
         public DefaultWampChannelFactory()
-            : this(new JsonFormatter())
+            : this(new JsonSerializer())
         {
+        }
+
+        public DefaultWampChannelFactory(JsonSerializer serializer)
+            : this(new JsonFormatter(serializer))
+        {
+            mSerializer = serializer;
         }
 
         public DefaultWampChannelFactory(IWampFormatter<JToken> formatter)
             : base(formatter)
         {
+        }
+
+        public JsonSerializer Serializer
+        {
+            get
+            {
+                return mSerializer;
+            }
         }
     }
 }

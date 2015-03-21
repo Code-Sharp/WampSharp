@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
@@ -10,12 +11,22 @@ namespace WampSharp.V1
     public class DefaultWampHost : DefaultWampHost<JToken>
     {
         public DefaultWampHost(string location) :
-            base(location, new JTokenMessageParser(), new JsonFormatter())
+            this(location, new JsonSerializer())
+        {
+        }
+
+        public DefaultWampHost(string location, JsonSerializer serializer) :
+            base(location, new JTokenMessageParser(serializer), new JsonFormatter(serializer))
         {
         }
 
         public DefaultWampHost(string location, IWampServerBuilder<JToken> serverBuilder) :
-            base(location, serverBuilder, new JTokenMessageParser(), new JsonFormatter())
+            this(location, serverBuilder, new JsonSerializer())
+        {
+        }
+
+        public DefaultWampHost(string location, IWampServerBuilder<JToken> serverBuilder, JsonSerializer serializer) :
+            base(location, serverBuilder, new JTokenMessageParser(serializer), new JsonFormatter(serializer))
         {
         }
     }

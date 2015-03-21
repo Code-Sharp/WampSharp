@@ -21,7 +21,7 @@ namespace WampSharp.V2.Binding
         /// <see cref="WampMessage{TMessage}"/> with additional properties
         /// which include a raw format of the message. This allows optimization
         /// of serializing the exact same message for multiple client.</remarks>
-        WampMessage<TMessage> GetRawMessage(WampMessage<TMessage> message);
+        WampMessage<object> GetRawMessage(WampMessage<object> message);
         
         /// <summary>
         /// Get the <see cref="IWampFormatter{TMessage}"/> this binding serializes
