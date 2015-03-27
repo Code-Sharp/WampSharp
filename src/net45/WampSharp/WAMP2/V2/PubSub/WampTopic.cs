@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
-using System.Reactive.Subjects;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.PubSub
 {
@@ -15,7 +14,8 @@ namespace WampSharp.V2.PubSub
 
         private readonly WampIdGenerator mGenerator = new WampIdGenerator();
 
-        private readonly Subject<IPublication> mSubject = new Subject<IPublication>();
+        private readonly SwapCollection<IWampRawTopicRouterSubscriber> mSubscribers =
+            new SwapCollection<IWampRawTopicRouterSubscriber>();
         
         private readonly string mTopicUri;
 
@@ -35,7 +35,7 @@ namespace WampSharp.V2.PubSub
         {
             get
             {
-                return mSubject.HasObservers;
+                return mSubscribers.Count > 0;
             }
         }
 
@@ -84,13 +84,13 @@ namespace WampSharp.V2.PubSub
         {
             RegisterSubscriberEventsIfNeeded(subscriber);
 
-            IDisposable subscriptionDisposable = 
-                mSubject.Subscribe(new SubscriberObserver(subscriber));
+            mSubscribers.Add(subscriber);
 
-            IDisposable result = subscriptionDisposable;
-
-            result = new CompositeDisposable(subscriptionDisposable, 
-                Disposable.Create(() => OnSubscriberLeave(subscriber)));
+            IDisposable result = Disposable.Create(() =>
+            {
+                mSubscribers.Remove(subscriber);
+                OnSubscriberLeave(subscriber);
+            });
 
             return result;
         }
@@ -99,7 +99,7 @@ namespace WampSharp.V2.PubSub
         {
             UnregisterSubscriberEventsIfNeeded(subscriber);
 
-            if (!mSubject.HasObservers)
+            if (mSubscribers.Count == 0)
             {
                 RaiseTopicEmpty();
             }
@@ -107,7 +107,7 @@ namespace WampSharp.V2.PubSub
 
         public void Dispose()
         {
-            mSubject.Dispose();
+            mSubscribers.Clear();
         }
 
         #endregion
@@ -192,8 +192,10 @@ namespace WampSharp.V2.PubSub
         {
             long publicationId = mGenerator.Generate();
 
-            mSubject.OnNext
-                (new Publication(publishAction, publicationId));
+            foreach (IWampRawTopicRouterSubscriber subscriber in mSubscribers)
+            {
+                publishAction(subscriber, publicationId);
+            }
 
             return publicationId;
         }
@@ -245,55 +247,6 @@ namespace WampSharp.V2.PubSub
             if (handler != null)
             {
                 handler(this, e);
-            }
-        }
-
-        #endregion
-
-        #region Nested Classes
-
-        private class SubscriberObserver : IObserver<IPublication>
-        {
-            private readonly IWampRawTopicRouterSubscriber mSubscriber;
-
-            public SubscriberObserver(IWampRawTopicRouterSubscriber subscriber)
-            {
-                mSubscriber = subscriber;
-            }
-
-            public void OnNext(IPublication publication)
-            {
-                publication.Publish(mSubscriber);
-            }
-
-            public void OnError(Exception error)
-            {
-            }
-
-            public void OnCompleted()
-            {
-            }
-        }
-
-        private interface IPublication
-        {
-            void Publish(IWampRawTopicRouterSubscriber subscriber);
-        }
-
-        private class Publication : IPublication
-        {
-            private readonly Action<IWampRawTopicRouterSubscriber, long> mPublishAction;
-            private readonly long mPublicationId;
-
-            public Publication(Action<IWampRawTopicRouterSubscriber, long> publishAction, long publicationId)
-            {
-                mPublishAction = publishAction;
-                mPublicationId = publicationId;
-            }
-
-            public void Publish(IWampRawTopicRouterSubscriber subscriber)
-            {
-                mPublishAction(subscriber, mPublicationId);
             }
         }
 

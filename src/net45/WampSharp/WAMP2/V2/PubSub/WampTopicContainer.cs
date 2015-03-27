@@ -33,7 +33,6 @@ namespace WampSharp.V2.PubSub
 
         #region Public Methods
 
-
         public IEnumerable<string> TopicUris
         {
             get
