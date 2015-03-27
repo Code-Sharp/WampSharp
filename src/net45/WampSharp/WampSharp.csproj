@@ -259,6 +259,8 @@
     <Compile Include="WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopicAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\ArgumentUnpacker.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WildCardSubscriptionId.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WildCardTopicContainer.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\LocalParameter.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />

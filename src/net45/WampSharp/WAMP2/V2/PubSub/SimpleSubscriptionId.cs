@@ -1,6 +1,6 @@
 namespace WampSharp.V2.PubSub
 {
-    public class SimpleSubscriptionId : IWampCustomizedSubscriptionId
+    public abstract class SimpleSubscriptionId : IWampCustomizedSubscriptionId
     {
         private readonly string mTopicUri;
 

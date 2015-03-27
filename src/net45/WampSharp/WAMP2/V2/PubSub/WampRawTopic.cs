@@ -19,18 +19,20 @@ namespace WampSharp.V2.PubSub
         private readonly IWampBinding<TMessage> mBinding; 
         private readonly IWampEventSerializer<TMessage> mSerializer;
         private readonly string mTopicUri;
+        private readonly SubscribeOptions mSubscribeOptions;
         private readonly IWampCustomizedSubscriptionId mCustomizedSubscriptionId;
 
         #endregion
 
         #region Constructor
 
-        public WampRawTopic(string topicUri, IWampCustomizedSubscriptionId customizedSubscriptionId, IWampEventSerializer<TMessage> serializer, IWampBinding<TMessage> binding)
+        public WampRawTopic(string topicUri, SubscribeOptions subscribeOptions, IWampCustomizedSubscriptionId customizedSubscriptionId, IWampEventSerializer<TMessage> serializer, IWampBinding<TMessage> binding)
         {
             mSerializer = serializer;
             mSubscriberBook = new RawTopicSubscriberBook(this);
             mTopicUri = topicUri;
             mBinding = binding;
+            mSubscribeOptions = subscribeOptions;
             mCustomizedSubscriptionId = customizedSubscriptionId;
         }
 
@@ -78,9 +80,19 @@ namespace WampSharp.V2.PubSub
 
             bool disclosePublisher = options.DiscloseMe ?? false;
 
-            if ((extendedOptions != null) && disclosePublisher)
+            if (extendedOptions != null)
             {
-                result.Publisher = extendedOptions.PublisherId;
+                if (disclosePublisher)
+                {
+                    result.Publisher = extendedOptions.PublisherId;
+                }
+
+                string match = mSubscribeOptions.Match;
+
+                if (match != "exact")
+                {
+                    result.Topic = extendedOptions.TopicUri;
+                }
             }
 
             return result;

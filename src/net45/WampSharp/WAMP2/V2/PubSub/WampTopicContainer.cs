@@ -33,6 +33,7 @@ namespace WampSharp.V2.PubSub
             {
                 mExactTopicContainer,
                 new PrefixTopicContainer(),
+                new WildCardTopicContainer()
             };
         }
 

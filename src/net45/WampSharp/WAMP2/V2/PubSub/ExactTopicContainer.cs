@@ -24,7 +24,7 @@ namespace WampSharp.V2.PubSub
 
         public override bool Handles(SubscribeOptions options)
         {
-            return options.Match == null || options.Match == "exact";
+            return options.Match == "exact";
         }
     }
 }

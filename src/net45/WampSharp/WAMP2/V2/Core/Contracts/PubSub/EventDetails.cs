@@ -5,7 +5,7 @@ namespace WampSharp.V2.Core.Contracts
     /// <summary>
     /// Represents details for EVENT message.
     /// </summary>
-    [WampDetailsOptions(WampMessageType.v2Publish)]
+    [WampDetailsOptions(WampMessageType.v2Event)]
     public class EventDetails : WampDetailsOptions
     {
         /// <summary>
@@ -13,5 +13,11 @@ namespace WampSharp.V2.Core.Contracts
         /// </summary>
         [PropertyName("publisher")]
         public long? Publisher { get; set; }
+
+        /// <summary>
+        /// Gets or sets the topic of this publication.
+        /// </summary>
+        [PropertyName("topic")]
+        public string Topic { get; set; }
     }
 }
