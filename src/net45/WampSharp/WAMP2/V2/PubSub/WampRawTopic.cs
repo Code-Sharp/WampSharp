@@ -147,17 +147,23 @@ namespace WampSharp.V2.PubSub
                 new RemoteWampTopicSubscriber(this.SubscriptionId,
                                               request.Client as IWampSubscriber);
 
-            this.RaiseSubscriptionAdding(remoteSubscriber, options);
-
             IWampClient<TMessage> client = request.Client;
 
             RemoteObserver observer = mSubscriberBook.Subscribe(client);
 
+            if (!observer.IsOpen)
+            {
+                this.RaiseSubscriptionAdding(remoteSubscriber, options);                
+            }
+
             request.Subscribed(this.SubscriptionId);
 
-            observer.Open();
+            if (!observer.IsOpen)
+            {
+                observer.Open();
 
-            this.RaiseSubscriptionAdded(remoteSubscriber, options);
+                this.RaiseSubscriptionAdded(remoteSubscriber, options);                
+            }
         }
 
         public void Unsubscribe(IUnsubscribeRequest<TMessage> request)
@@ -321,7 +327,7 @@ namespace WampSharp.V2.PubSub
 
         private class RemoteObserver : IWampRawClient<TMessage>
         {
-            private bool mOpen = false;
+            private bool mIsOpen = false;
 
             private readonly IWampRawClient<TMessage> mClient;
             private readonly long mSessionId;
@@ -341,14 +347,22 @@ namespace WampSharp.V2.PubSub
                 }
             }
 
+            public bool IsOpen
+            {
+                get
+                {
+                    return mIsOpen;
+                }
+            }
+
             public void Open()
             {
-                mOpen = true;
+                mIsOpen = true;
             }
 
             public void Message(WampMessage<TMessage> message)
             {
-                if (mOpen)
+                if (mIsOpen)
                 {
                     mClient.Message(message);
                 }
