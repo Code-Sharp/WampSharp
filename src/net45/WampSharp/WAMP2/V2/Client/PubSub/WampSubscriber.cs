@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SystemEx;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
-using SystemEx;
 using WampSharp.Core.Utilities;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -26,10 +25,10 @@ namespace WampSharp.V2.Client
         private readonly IWampFormatter<TMessage> mFormatter;
         private readonly IWampClientConnectionMonitor mMonitor;
 
-        private readonly SwapDictionary<long, List<Subscription>> mSubscriptionIdToSubscriptions =
-            new SwapDictionary<long, List<Subscription>>();
+        private readonly SwapDictionary<long, SwapCollection<Subscription>> mSubscriptionIdToSubscriptions =
+            new SwapDictionary<long, SwapCollection<Subscription>>();
 
-        private object mLock = new object();
+        private readonly object mLock = new object();
 
         public WampSubscriber(IWampServerProxy proxy,
                               IWampFormatter<TMessage> formatter,
@@ -61,7 +60,7 @@ namespace WampSharp.V2.Client
 
             lock (mLock)
             {
-                List<Subscription> subscriptions;
+                SwapCollection<Subscription> subscriptions;
 
                 long subscriptionId = subscription.SubscriptionId;
 
@@ -229,7 +228,7 @@ namespace WampSharp.V2.Client
 
         private void InnerEvent(long subscriptionId, Action<IWampRawTopicClientSubscriber> action)
         {
-            List<Subscription> subscriptions;
+            SwapCollection<Subscription> subscriptions;
 
             if (mSubscriptionIdToSubscriptions.TryGetValue(subscriptionId, out subscriptions))
             {
