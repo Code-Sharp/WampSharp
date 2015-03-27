@@ -119,6 +119,7 @@
     <Compile Include="Core\Utilities\GenericTypeExtensions.cs" />
     <Compile Include="Core\Utilities\ReadOnlyDictionary.cs" />
     <Compile Include="Core\Utilities\SwapDictionary.cs" />
+    <Compile Include="Core\Utilities\SwapHashSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WAMP1\V1\Api\Client\IWampChannel.cs" />
     <Compile Include="WAMP1\V1\Api\Client\IWampChannelFactory.cs" />
