@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
@@ -359,7 +360,7 @@ namespace WampSharp.V2.PubSub
             private readonly IDictionary<long, Subscription> mSubscriberIdToSubscriber =
                 new SwapDictionary<long, Subscription>();
 
-            private SwapHashSet<long> mSubscriberIds = new SwapHashSet<long>();
+            private ImmutableHashSet<long> mSubscriberIds = ImmutableHashSet<long>.Empty;
 
             private readonly WampRawTopic<TMessage> mRawTopic;
             
@@ -392,7 +393,7 @@ namespace WampSharp.V2.PubSub
                     {
                         RemoteObserver result = new RemoteObserver(client);
 
-                        mSubscriberIds.Add(client.Session);
+                        mSubscriberIds = mSubscriberIds.Add(client.Session);
 
                         mSubscriberIdToSubscriber[client.Session] =
                             new Subscription(mRawTopic, client, result);
@@ -407,7 +408,7 @@ namespace WampSharp.V2.PubSub
                 lock (mLock)
                 {
                     bool result;
-                    mSubscriberIds.Remove(client.Session);
+                    mSubscriberIds = mSubscriberIds.Remove(client.Session);
                     result = mSubscriberIdToSubscriber.Remove(client.Session);
                     return result;
                 }
@@ -439,11 +440,11 @@ namespace WampSharp.V2.PubSub
 
             private IEnumerable<long> GetRelevantSubscriberIds(PublishOptions options)
             {
-                var result = new HashSet<long>(mSubscriberIds);
+                ImmutableHashSet<long> result = mSubscriberIds;
 
                 if (options.Eligible != null)
                 {
-                    result = new HashSet<long>(options.Eligible);
+                    result = ImmutableHashSet.Create(options.Eligible);
                 }
 
                 bool excludeMe = options.ExcludeMe ?? true;
@@ -452,12 +453,12 @@ namespace WampSharp.V2.PubSub
 
                 if (excludeMe && casted != null)
                 {
-                    result.Remove(casted.PublisherId);
+                    result = result.Remove(casted.PublisherId);
                 }
 
                 if (options.Exclude != null)
                 {
-                    result.ExceptWith(options.Exclude);
+                    result = result.Except(options.Exclude);
                 }
 
                 return result;
