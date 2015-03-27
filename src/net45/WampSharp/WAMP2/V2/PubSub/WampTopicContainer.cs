@@ -113,7 +113,7 @@ namespace WampSharp.V2.PubSub
             foreach (MatchTopicContainer container in mInnerContainers)
             {
                 published =
-                    published || publishAction(container, publicationId);
+                    published | publishAction(container, publicationId);
             }
 
             if (published)

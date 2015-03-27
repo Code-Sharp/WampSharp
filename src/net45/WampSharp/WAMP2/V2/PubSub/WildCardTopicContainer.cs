@@ -28,9 +28,6 @@ namespace WampSharp.V2.PubSub
             string wildcard = e.Topic.TopicUri;
 
             mWildCardToEvaluator.Remove(wildcard);
-
-            TopicCreated -= OnTopicCreated;
-            TopicRemoved -= OnTopicRemoved;
         }
 
         public override IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options)
