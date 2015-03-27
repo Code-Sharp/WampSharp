@@ -250,6 +250,11 @@
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
     <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
+    <Compile Include="WAMP2\V2\PubSub\ExactTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\MatchTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\PrefixSubscriptionId.cs" />
+    <Compile Include="WAMP2\V2\PubSub\PrefixTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\SimpleSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\LocalSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopicAttribute.cs" />
@@ -304,7 +309,7 @@
     <Compile Include="WAMP2\V2\Core\WampRequestIdMapper.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampCustomizedSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\IWampRawTopicRouterSubscriber.cs" />
-    <Compile Include="WAMP2\V2\PubSub\OptionLessSubscriptionId.cs" />
+    <Compile Include="WAMP2\V2\PubSub\ExactTopicSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Api\Server\IWampHost.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawTopicClientSubscriber.cs" />
@@ -451,7 +456,6 @@
     <Compile Include="WAMP2\V2\PubSub\WampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampRawTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopic.cs" />
-    <Compile Include="WAMP2\V2\PubSub\WampTopicContainer.cs" />
     <Compile Include="WAMP2\V2\Realm\Interfaces\IWampRealm.cs" />
     <Compile Include="WAMP2\V2\Realm\Binded\IWampBindedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Realm\Binded\WampBindedRealm.cs" />
@@ -487,6 +491,7 @@
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryTransport.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs" />
     <Compile Include="WAMP2\V2\Transports\WebSocketTransport.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WampTopicContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

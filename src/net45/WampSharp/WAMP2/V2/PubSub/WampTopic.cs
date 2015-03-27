@@ -12,8 +12,6 @@ namespace WampSharp.V2.PubSub
     {
         #region Data Members
 
-        private readonly WampIdGenerator mGenerator = new WampIdGenerator();
-
         private readonly SwapCollection<IWampRawTopicRouterSubscriber> mSubscribers =
             new SwapCollection<IWampRawTopicRouterSubscriber>();
         
@@ -47,30 +45,29 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options)
+        public void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options)
         {
-            Action<IWampRawTopicRouterSubscriber, long> publishAction =
-                (subscriber, publicationId) => subscriber.Event(formatter, publicationId, options);
+            Action<IWampRawTopicRouterSubscriber> publishAction =
+                (subscriber) => subscriber.Event(formatter, publicationId, options);
 
-            return InnerPublish(publishAction);
+            InnerPublish(publishAction);
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, TMessage[] arguments)
+        public void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options, TMessage[] arguments)
         {
-            Action<IWampRawTopicRouterSubscriber, long> publishAction =
-                (subscriber, publicationId) => subscriber.Event(formatter, publicationId, options, arguments);
+            Action<IWampRawTopicRouterSubscriber> publishAction =
+                (subscriber) => subscriber.Event(formatter, publicationId, options, arguments);
 
-            return InnerPublish(publishAction);
+            InnerPublish(publishAction);
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
+        public void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
         {
-            Action<IWampRawTopicRouterSubscriber, long> publishAction =
-                (subscriber, publicationId) => subscriber.Event(formatter, publicationId, options, arguments, argumentKeywords);
+            Action<IWampRawTopicRouterSubscriber> publishAction =
+                (subscriber) => subscriber.Event(formatter, publicationId, options, arguments, argumentKeywords);
 
-            return InnerPublish(publishAction);
+            InnerPublish(publishAction);
         }
-
 
         public bool Persistent
         {
@@ -188,16 +185,12 @@ namespace WampSharp.V2.PubSub
 
         #region Private methods
 
-        private long InnerPublish(Action<IWampRawTopicRouterSubscriber, long> publishAction)
+        private void InnerPublish(Action<IWampRawTopicRouterSubscriber> publishAction)
         {
-            long publicationId = mGenerator.Generate();
-
             foreach (IWampRawTopicRouterSubscriber subscriber in mSubscribers)
             {
-                publishAction(subscriber, publicationId);
+                publishAction(subscriber);
             }
-
-            return publicationId;
         }
 
         protected virtual void RaiseTopicEmpty()
