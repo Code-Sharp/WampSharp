@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.Fleck;
@@ -11,12 +12,22 @@ namespace WampSharp.V1
     public class DefaultWampCraHost : DefaultWampCraHost<JToken>
     {
         public DefaultWampCraHost(string location, IWampCraServerBuilder<JToken> serverBuilder) : 
-            base(location, serverBuilder, new JTokenMessageParser(), new JsonFormatter())
+            this(location, serverBuilder, new JsonSerializer())
         {
         }
 
-        public DefaultWampCraHost(string location, WampCraAuthenticaticatorBuilder<JToken> craAuthenticaticatorBuilder) :
-            base(location, new JTokenMessageParser(), new JsonFormatter(), craAuthenticaticatorBuilder)
+        public DefaultWampCraHost(string location, IWampCraServerBuilder<JToken> serverBuilder, JsonSerializer serializer) : 
+            base(location, serverBuilder, new JTokenMessageParser(serializer), new JsonFormatter(serializer))
+        {
+        }
+
+        public DefaultWampCraHost(string location, WampCraAuthenticaticatorBuilder<JToken> craAuthenticaticatorBuilder) : 
+            this(location, craAuthenticaticatorBuilder, new JsonSerializer())
+        {
+        }
+
+        public DefaultWampCraHost(string location, WampCraAuthenticaticatorBuilder<JToken> craAuthenticaticatorBuilder, JsonSerializer serializer) :
+            base(location, new JTokenMessageParser(serializer), new JsonFormatter(serializer), craAuthenticaticatorBuilder)
         {
         }
     }

@@ -7,13 +7,13 @@ using WampSharp.Core.Proxy;
 namespace WampSharp.Core.Client
 {
     /// <summary>
-    /// An implementation of <see cref="IWampOutgoingMessageHandler{TMessage}"/>
+    /// An implementation of <see cref="IWampOutgoingMessageHandler"/>
     /// that sends <see cref="WampMessage{TMessage}"/> to a given
     /// <see cref="IWampConnection{TMessage}"/> and receives from that connection
     /// messages which are handled by an <see cref="IWampIncomingMessageHandler{TMessage,TClient}"/>
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public class WampServerProxyHandler<TMessage> : IWampOutgoingMessageHandler<TMessage>
+    public class WampServerProxyHandler<TMessage> : IWampOutgoingMessageHandler
     {
         private readonly IWampConnection<TMessage> mConnection;
         private readonly IWampIncomingMessageHandler<TMessage> mIncomingHandler;
@@ -42,7 +42,7 @@ namespace WampSharp.Core.Client
             mIncomingHandler.HandleMessage(wampMessage);
         }
 
-        public void Handle(WampMessage<TMessage> message)
+        public void Handle(WampMessage<object> message)
         {
             mConnection.Send(message);
         }

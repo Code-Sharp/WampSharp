@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.Core.Serialization;
 
 namespace WampSharp.Tests
 {
@@ -12,10 +14,10 @@ namespace WampSharp.Tests
         private readonly DirectedConnection mSideAToSideBConnection;
         private readonly DirectedConnection mSideBToSideAConnection;
 
-        public MockConnection()
+        public MockConnection(IWampFormatter<TMessage> formatter)
         {
-            mSideAToSideBConnection = new DirectedConnection(mSideBToSideA, mSideAToSideB);
-            mSideBToSideAConnection = new DirectedConnection(mSideAToSideB, mSideBToSideA);
+            mSideAToSideBConnection = new DirectedConnection(mSideBToSideA, mSideAToSideB, formatter);
+            mSideBToSideAConnection = new DirectedConnection(mSideAToSideB, mSideBToSideA, formatter);
         }
 
         public IDirectedControlledWampConnection<TMessage> SideAToSideB
@@ -39,12 +41,15 @@ namespace WampSharp.Tests
             private readonly IObservable<WampMessage<TMessage>> mIncoming;
             private readonly IObserver<WampMessage<TMessage>> mOutgoing;
             private IDisposable mSubscription;
+            private readonly IWampFormatter<TMessage> mFormatter;
 
             public DirectedConnection(IObservable<WampMessage<TMessage>> incoming,
-                                      IObserver<WampMessage<TMessage>> outgoing)
+                IObserver<WampMessage<TMessage>> outgoing,
+                IWampFormatter<TMessage> formatter)
             {
                 mIncoming = incoming;
                 mOutgoing = outgoing;
+                mFormatter = formatter;
 
                 mSubscription = mIncoming.Subscribe(x => OnNewMessage(x),
                     ex => OnError(ex),
@@ -89,9 +94,12 @@ namespace WampSharp.Tests
                 mSubscription = null;
             }
 
-            public void Send(WampMessage<TMessage> message)
+            public void Send(WampMessage<object> message)
             {
-                mOutgoing.OnNext(message);
+                WampMessage<TMessage> typedMessage =
+                    mFormatter.SerializeMessage(message);
+
+                mOutgoing.OnNext(typedMessage);
             }
 
             public event EventHandler ConnectionOpen;

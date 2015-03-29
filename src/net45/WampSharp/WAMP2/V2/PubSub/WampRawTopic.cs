@@ -21,7 +21,7 @@ namespace WampSharp.V2.PubSub
             new ConcurrentDictionary<long, Subscription>();
 
         private readonly IWampBinding<TMessage> mBinding; 
-        private readonly IWampEventSerializer<TMessage> mSerializer;
+        private readonly IWampEventSerializer mSerializer;
         private readonly Subject<RemotePublication> mSubject = new Subject<RemotePublication>();
         private readonly string mTopicUri;
         private readonly IWampCustomizedSubscriptionId mCustomizedSubscriptionId;
@@ -30,7 +30,7 @@ namespace WampSharp.V2.PubSub
 
         #region Constructor
 
-        public WampRawTopic(string topicUri, IWampCustomizedSubscriptionId customizedSubscriptionId, IWampEventSerializer<TMessage> serializer, IWampBinding<TMessage> binding)
+        public WampRawTopic(string topicUri, IWampCustomizedSubscriptionId customizedSubscriptionId, IWampEventSerializer serializer, IWampBinding<TMessage> binding)
         {
             mSerializer = serializer;
             mTopicUri = topicUri;
@@ -44,7 +44,7 @@ namespace WampSharp.V2.PubSub
 
         public void Event<TRaw>(IWampFormatter<TRaw> formatter, long publicationId, PublishOptions options)
         {
-            Func<EventDetails, WampMessage<TMessage>> action =
+            Func<EventDetails, WampMessage<object>> action =
                 eventDetails => mSerializer.Event(SubscriptionId, publicationId, eventDetails);
 
             InnerEvent(options, action);
@@ -53,7 +53,7 @@ namespace WampSharp.V2.PubSub
         public void Event<TRaw>(IWampFormatter<TRaw> formatter, long publicationId, PublishOptions options,
                                 TRaw[] arguments)
         {
-            Func<EventDetails, WampMessage<TMessage>> action =
+            Func<EventDetails, WampMessage<object>> action =
                 details => mSerializer.Event(SubscriptionId,
                                              publicationId,
                                              details,
@@ -64,7 +64,7 @@ namespace WampSharp.V2.PubSub
 
         public void Event<TRaw>(IWampFormatter<TRaw> formatter, long publicationId, PublishOptions options, TRaw[] arguments, IDictionary<string, TRaw> argumentsKeywords)
         {
-            Func<EventDetails, WampMessage<TMessage>> action =
+            Func<EventDetails, WampMessage<object>> action =
                 details => mSerializer.Event(SubscriptionId, publicationId, details,
                                              arguments.Cast<object>().ToArray(),
                                              argumentsKeywords.ToDictionary(x => x.Key,
@@ -90,17 +90,17 @@ namespace WampSharp.V2.PubSub
             return result;
         }
 
-        private void Publish(WampMessage<TMessage> message, PublishOptions options)
+        private void Publish(WampMessage<object> message, PublishOptions options)
         {
-            WampMessage<TMessage> raw = mBinding.GetRawMessage(message);
+            WampMessage<object> raw = mBinding.GetRawMessage(message);
             mSubject.OnNext(new RemotePublication(raw, options));
         }
 
-        private void InnerEvent(PublishOptions options, Func<EventDetails, WampMessage<TMessage>> action)
+        private void InnerEvent(PublishOptions options, Func<EventDetails, WampMessage<object>> action)
         {
             EventDetails details = GetDetails(options);
 
-            WampMessage<TMessage> message = action(details);
+            WampMessage<object> message = action(details);
 
             Publish(message, options);
         }
@@ -325,16 +325,16 @@ namespace WampSharp.V2.PubSub
 
         private class RemotePublication
         {
-            private readonly WampMessage<TMessage> mMessage;
+            private readonly WampMessage<object> mMessage;
             private readonly PublishOptions mOptions;
 
-            public RemotePublication(WampMessage<TMessage> message, PublishOptions options)
+            public RemotePublication(WampMessage<object> message, PublishOptions options)
             {
                 mMessage = message;
                 mOptions = options;
             }
 
-            public WampMessage<TMessage> Message
+            public WampMessage<object> Message
             {
                 get { return mMessage; }
             }

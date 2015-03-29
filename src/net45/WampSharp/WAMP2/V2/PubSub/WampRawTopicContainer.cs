@@ -12,7 +12,7 @@ namespace WampSharp.V2.PubSub
     internal class WampRawTopicContainer<TMessage> : IWampRawTopicContainer<TMessage>
     {
         private readonly IWampTopicContainer mTopicContainer;
-        private readonly IWampEventSerializer<TMessage> mEventSerializer;
+        private readonly IWampEventSerializer mEventSerializer;
         private readonly IWampBinding<TMessage> mBinding;
         private readonly object mLock = new object();
 
@@ -23,7 +23,7 @@ namespace WampSharp.V2.PubSub
             new ConcurrentDictionary<IWampCustomizedSubscriptionId, WampRawTopic<TMessage>>();
 
         public WampRawTopicContainer(IWampTopicContainer topicContainer,
-                                     IWampEventSerializer<TMessage> eventSerializer,
+                                     IWampEventSerializer eventSerializer,
                                      IWampBinding<TMessage> binding)
         {
             mTopicContainer = topicContainer;

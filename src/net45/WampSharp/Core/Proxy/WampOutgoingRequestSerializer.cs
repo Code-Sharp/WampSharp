@@ -9,9 +9,9 @@ using WampSharp.Core.Utilities;
 namespace WampSharp.Core.Proxy
 {
     /// <summary>
-    /// An implementation of <see cref="IWampOutgoingRequestSerializer{TMessage}"/>.
+    /// An implementation of <see cref="IWampOutgoingRequestSerializer"/>.
     /// </summary>
-    public class WampOutgoingRequestSerializer<TMessage> : IWampOutgoingRequestSerializer<TMessage>
+    public class WampOutgoingRequestSerializer<TMessage> : IWampOutgoingRequestSerializer
     {
         private readonly IDictionary<MethodInfo, WampMethodInfo> mMethodToWampMethod =
             new SwapDictionary<MethodInfo, WampMethodInfo>();
@@ -28,13 +28,13 @@ namespace WampSharp.Core.Proxy
             mFormatter = formatter;
         }
 
-        public WampMessage<TMessage> SerializeRequest(MethodInfo method, object[] arguments)
+        public WampMessage<object> SerializeRequest(MethodInfo method, object[] arguments)
         {
             WampMethodInfo wampMethod = GetWampMethod(method);
 
             WampMessageType messageType = wampMethod.MessageType;
 
-            WampMessage<TMessage> result = new WampMessage<TMessage>()
+            WampMessage<object> result = new WampMessage<object>()
                                                {
                                                    MessageType = messageType
                                                };
@@ -54,21 +54,11 @@ namespace WampSharp.Core.Proxy
                 argumentsToSerialize.RemoveAt(argumentsToSerialize.Count - 1);
             }
 
-            List<TMessage> messageArguments = new List<TMessage>();
-
-            foreach (object argument in argumentsToSerialize)
-            {
-                TMessage serialized = mFormatter.Serialize(argument);
-                messageArguments.Add(serialized);
-            }
+            List<object> messageArguments = argumentsToSerialize.ToList();
 
             if (wampMethod.HasParamsArgument)
             {
-                foreach (object argument in paramsArgument)
-                {
-                    TMessage serialized = mFormatter.Serialize(argument);
-                    messageArguments.Add(serialized);
-                }                
+                messageArguments.AddRange(paramsArgument);
             }
 
             result.Arguments = messageArguments.ToArray();

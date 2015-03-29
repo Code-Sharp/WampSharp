@@ -17,12 +17,12 @@ namespace WampSharp.Newtonsoft
                        };
         }
 
-        public JToken Format(WampMessage<JToken> message)
+        public object[] Format(WampMessage<object> message)
         {
             object[] content = new object[message.Arguments.Length + 1];
             content[0] = (int) message.MessageType;
             message.Arguments.CopyTo(content, 1);
-            return new JArray(content);
+            return content;
         }
     }
 }

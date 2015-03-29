@@ -4,11 +4,11 @@ using WampSharp.Core.Proxy;
 namespace WampSharp.Core.Listener
 {
     /// <summary>
-    /// An implementation of <see cref="IWampOutgoingMessageHandler{TMessage}"/>
+    /// An implementation of <see cref="IWampOutgoingMessageHandler"/>
     /// that dispatches messages to an <see cref="IWampConnection{TMessage}"/>.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public class WampOutgoingMessageHandler<TMessage> : IWampOutgoingMessageHandler<TMessage>
+    public class WampOutgoingMessageHandler<TMessage> : IWampOutgoingMessageHandler
     {
         private readonly IWampConnection<TMessage> mConnection;
 
@@ -22,7 +22,7 @@ namespace WampSharp.Core.Listener
             mConnection = connection;
         }
 
-        public void Handle(WampMessage<TMessage> message)
+        public void Handle(WampMessage<object> message)
         {
             mConnection.Send(message);
         }

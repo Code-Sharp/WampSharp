@@ -38,7 +38,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
         private readonly IWampBinding<TMessage> mBinding;
 
         public WampPlayground(IWampBinding<TMessage> binding)
-            : this(binding, new MockConnectionListener<TMessage>(),
+            : this(binding, new MockConnectionListener<TMessage>(binding.Formatter),
                    EqualityComparer<TMessage>.Default)
         {
         }

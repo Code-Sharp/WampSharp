@@ -12,12 +12,12 @@ namespace WampSharp.Binding
     public class JTokenMsgpackBinding : MsgPackBinding<JToken>
     {
         public JTokenMsgpackBinding() :
-            base(new JsonFormatter(), new MessagePackParser())
+            this(new JsonSerializer())
         {
         }
 
         public JTokenMsgpackBinding(JsonSerializer serializer) :
-            base(new JsonFormatter(serializer), new MessagePackParser())
+            base(new JsonFormatter(serializer), new MessagePackParser(serializer))
         {
         }
     }

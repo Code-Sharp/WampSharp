@@ -2,6 +2,8 @@
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.Core.Serialization;
+using WampSharp.V2.Binding;
 
 namespace WampSharp.Tests.TestHelpers.Integration
 {
@@ -10,6 +12,13 @@ namespace WampSharp.Tests.TestHelpers.Integration
         private readonly ISubject<IWampConnection<TMessage>> mSubject =
             new ReplaySubject<IWampConnection<TMessage>>();
 
+        private readonly IWampFormatter<TMessage> mFormatter;
+
+        public MockConnectionListener(IWampFormatter<TMessage> formatter)
+        {
+            mFormatter = formatter;
+        }
+
         public IDisposable Subscribe(IObserver<IWampConnection<TMessage>> observer)
         {
             return mSubject.Subscribe(observer);
@@ -17,7 +26,7 @@ namespace WampSharp.Tests.TestHelpers.Integration
 
         public IControlledWampConnection<TMessage> CreateClientConnection()
         {
-            return new ListenerControlledConnection(this);
+            return new ListenerControlledConnection(this, mFormatter);
         }
 
         private void OnNewConnection(IWampConnection<TMessage> connection)
@@ -34,9 +43,9 @@ namespace WampSharp.Tests.TestHelpers.Integration
             private readonly MockConnection<TMessage> mConnection;
             private readonly MockConnectionListener<TMessage> mListener;
 
-            public ListenerControlledConnection(MockConnectionListener<TMessage> listener)
+            public ListenerControlledConnection(MockConnectionListener<TMessage> listener, IWampFormatter<TMessage> formatter)
             {
-                mConnection = new MockConnection<TMessage>();
+                mConnection = new MockConnection<TMessage>(formatter);
                 mListener = listener;
             }
 
@@ -52,7 +61,7 @@ namespace WampSharp.Tests.TestHelpers.Integration
                 mConnection.SideAToSideB.Dispose();
             }
 
-            public void Send(WampMessage<TMessage> message)
+            public void Send(WampMessage<object> message)
             {
                 mConnection.SideAToSideB.Send(message);
             }

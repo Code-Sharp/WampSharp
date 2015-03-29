@@ -240,6 +240,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\TestHelpers\MockRawFormatter.cs">
       <Link>TestHelpers\MockRawFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\WampFormatterExtensions.cs">
+      <Link>WampFormatterExtensions.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

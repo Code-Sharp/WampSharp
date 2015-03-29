@@ -103,7 +103,7 @@ namespace WampSharp.SignalR
                 RaiseConnectionClosed();
             }
 
-            protected override Task SendAsync(WampMessage<TMessage> message)
+            protected override Task SendAsync(WampMessage<object> message)
             {
                 string text = mBinding.Format(message);
                 return mConnection.Send(mConnectionId, text);

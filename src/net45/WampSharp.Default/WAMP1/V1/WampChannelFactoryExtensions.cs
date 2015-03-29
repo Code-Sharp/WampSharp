@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
 using WampSharp.V2.Binding.Parsers;
@@ -9,9 +10,9 @@ namespace WampSharp.V1
 {
     public static class WampChannelFactoryExtensions
     {
-        public static IWampChannel<JToken> CreateChannel(this IWampChannelFactory<JToken> factory, string address)
+        public static IWampChannel<JToken> CreateChannel(this DefaultWampChannelFactory factory, string address)
         {
-            return factory.CreateChannel(address, new JTokenMessageParser());
+            return factory.CreateChannel(address, new JTokenMessageParser(factory.Serializer));
         }
 
         public static IWampChannel<TMessage> CreateChannel<TMessage>(this IWampChannelFactory<TMessage> factory, string address, IWampTextMessageParser<TMessage> parser)

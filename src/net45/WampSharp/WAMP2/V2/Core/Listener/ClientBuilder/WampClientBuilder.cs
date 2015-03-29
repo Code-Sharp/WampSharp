@@ -20,7 +20,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
 
         private readonly IWampClientContainer<TMessage, IWampClient<TMessage>> mContainer;
         private readonly ProxyGenerator mGenerator = new ProxyGenerator();
-        private readonly IWampOutgoingRequestSerializer<TMessage> mOutgoingSerializer;
+        private readonly IWampOutgoingRequestSerializer mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
         private readonly IWampIdGenerator mSessionIdGenerator;
         private readonly IWampBinding<TMessage> mBinding;
@@ -34,12 +34,12 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         /// </summary>
         /// <param name="sessionIdGenerator">A given <see cref="IWampIdGenerator"/> used in order
         /// to generate session ids for clients.</param>
-        /// <param name="outgoingSerializer">A <see cref="IWampOutgoingRequestSerializer{TRequest}"/>
+        /// <param name="outgoingSerializer">A <see cref="IWampOutgoingRequestSerializer"/>
         /// used to serialize message calls into <see cref="WampMessage{TMessage}"/>s</param>
         /// <param name="outgoingHandlerBuilder">An <see cref="IWampOutgoingMessageHandlerBuilder{TMessage}"/> used to build
-        /// a <see cref="IWampOutgoingMessageHandler{TMessage}"/> per connection.</param>
+        /// a <see cref="IWampOutgoingMessageHandler"/> per connection.</param>
         /// <param name="container">A <see cref="IWampClientContainer{TMessage,TClient}"/> that contains all clients.</param>
-        public WampClientBuilder(IWampIdGenerator sessionIdGenerator, IWampOutgoingRequestSerializer<TMessage> outgoingSerializer, IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage, IWampClient<TMessage>> container, IWampBinding<TMessage> binding)
+        public WampClientBuilder(IWampIdGenerator sessionIdGenerator, IWampOutgoingRequestSerializer outgoingSerializer, IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage, IWampClient<TMessage>> container, IWampBinding<TMessage> binding)
         {
             mOutgoingSerializer = outgoingSerializer;
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
@@ -52,7 +52,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
 
         public IWampClient<TMessage> Create(IWampConnection<TMessage> connection)
         {
-            IWampOutgoingMessageHandler<TMessage> outgoingHandler = 
+            IWampOutgoingMessageHandler outgoingHandler = 
                 mOutgoingHandlerBuilder.Build(connection);
 
             WampOutgoingInterceptor<TMessage> wampOutgoingInterceptor =

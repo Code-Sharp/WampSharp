@@ -9,11 +9,11 @@ namespace WampSharp.V2.PubSub
 {
     public class WampPubSubServer<TMessage> : IWampPubSubServer<TMessage>
     {
-        private readonly IWampEventSerializer<TMessage> mEventSerializer;
+        private readonly IWampEventSerializer mEventSerializer;
         private readonly IWampBinding<TMessage> mBinding;
         private readonly IWampRawTopicContainer<TMessage> mRawTopicContainer;
 
-        public WampPubSubServer(IWampTopicContainer topicContainer, IWampEventSerializer<TMessage> eventSerializer, IWampBinding<TMessage> binding)
+        public WampPubSubServer(IWampTopicContainer topicContainer, IWampEventSerializer eventSerializer, IWampBinding<TMessage> binding)
         {
             mBinding = binding;
             mEventSerializer = eventSerializer;

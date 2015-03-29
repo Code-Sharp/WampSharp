@@ -14,6 +14,6 @@ namespace WampSharp.V2.Core.Contracts
         /// </summary>
         /// <param name="message">The message to send.</param>
         [WampRawHandler]
-        void Message(WampMessage<TMessage> message);
+        void Message(WampMessage<object> message);
     }
 }
