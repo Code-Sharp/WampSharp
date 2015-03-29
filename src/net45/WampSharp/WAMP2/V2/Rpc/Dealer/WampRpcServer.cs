@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Castle.Core.Logging;
-using WampSharp.Core.Logs;
+using WampSharp.Logging;
+
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
@@ -11,7 +11,7 @@ namespace WampSharp.V2.Rpc
     public class WampRpcServer<TMessage> : IWampRpcServer<TMessage>,
         IWampErrorCallback<TMessage>
     {
-        private readonly ILogger mLogger;
+        private readonly ILog mLogger;
         private readonly IWampFormatter<TMessage> mFormatter; 
         private readonly IWampRpcOperationInvoker mInvoker;
         private readonly IWampCalleeOperationCatalog mCalleeCatalog;
@@ -20,7 +20,7 @@ namespace WampSharp.V2.Rpc
         public WampRpcServer(IWampRpcOperationCatalog catalog, IWampBinding<TMessage> binding)
         {
             mInvoker = catalog;
-            mLogger = WampLoggerFactory.Create(this.GetType());
+            mLogger = LogProvider.GetLogger(this.GetType());
             mFormatter = binding.Formatter;
 
             mHandler = new WampCalleeInvocationHandler<TMessage>(binding.Formatter);

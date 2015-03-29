@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Castle.Core.Logging;
-using WampSharp.Core.Logs;
+using WampSharp.Logging;
+
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
 using WampSharp.V2.Core;
@@ -17,12 +17,12 @@ namespace WampSharp.V2.PubSub
         private readonly MethodInfo mMethod;
         private readonly LocalParameter[] mParameters;
         private readonly Func<object, object[], object> mMethodInvoker;
-        private readonly ILogger mLogger;
+        private readonly ILog mLogger;
 
         public MethodInfoSubscriber(object instance, MethodInfo method, string topic)
             : base(topic)
         {
-            mLogger = WampLoggerFactory.Create(typeof(MethodInfoSubscriber) + "." + topic);
+            mLogger = LogProvider.GetLogger(typeof(MethodInfoSubscriber) + "." + topic);
             mInstance = instance;
             mMethod = method;
 

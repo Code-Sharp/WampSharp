@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Subjects;
-using Castle.Core.Logging;
+using WampSharp.Logging;
 using WampSharp.Core.Listener;
-using WampSharp.Core.Logs;
+
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
 
@@ -15,14 +15,14 @@ namespace WampSharp.V2.Transports
     /// </summary>
     public abstract class WebSocketTransport<TConnection> : IWampTransport
     {
-        protected readonly ILogger mLogger;
+        protected readonly ILog mLogger;
 
         private readonly IDictionary<string, ConnectionListener> mBindings =
             new Dictionary<string, ConnectionListener>();
 
         public WebSocketTransport()
         {
-            mLogger = WampLoggerFactory.Create(this.GetType());
+            mLogger = LogProvider.GetLogger(this.GetType());
         }
 
         #region Protected Members

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Castle.Core.Logging;
-using WampSharp.Core.Logs;
+using WampSharp.Logging;
+
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
 

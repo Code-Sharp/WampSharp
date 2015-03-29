@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-using Castle.Core.Logging;
+using WampSharp.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Msgpack;
 using WampSharp.Core.Dispatch.Handler;
-using WampSharp.Core.Logs;
 using WampSharp.Core.Message;
 using WampSharp.Newtonsoft;
 using WampSharp.V2.Binding.Parsers;
@@ -15,14 +14,14 @@ namespace WampSharp.Msgpack
     public class MessagePackParser : IWampBinaryMessageParser<JToken>
     {
         private readonly JsonSerializer mSerializer;
-        private readonly ILogger mLogger;
+        private readonly ILog mLogger;
         private readonly JsonWampMessageFormatter mMessageFormatter;
 
         public MessagePackParser(JsonSerializer serializer)
         {
             mSerializer = serializer;
             mMessageFormatter = new JsonWampMessageFormatter();
-            mLogger = WampLoggerFactory.Create(this.GetType());
+            mLogger = LogProvider.GetLogger(this.GetType());
         }
 
         public WampMessage<JToken> Parse(byte[] raw)

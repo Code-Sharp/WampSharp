@@ -1,8 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using Castle.Core.Logging;
+using WampSharp.Logging;
 using WampSharp.Core.Listener;
-using WampSharp.Core.Logs;
 using WampSharp.Core.Message;
 
 namespace WampSharp
@@ -10,11 +9,11 @@ namespace WampSharp
     public abstract class AsyncWampConnection<TMessage> : IWampConnection<TMessage>
     {
         private readonly ActionBlock<WampMessage<object>> mSendBlock;
-        protected readonly ILogger mLogger;
+        protected readonly ILog mLogger;
 
         protected AsyncWampConnection()
         {
-            mLogger = WampLoggerFactory.Create(this.GetType());
+            mLogger = LogProvider.GetLogger(this.GetType());
             mSendBlock = new ActionBlock<WampMessage<object>>(x => InnerSend(x));
         }
 

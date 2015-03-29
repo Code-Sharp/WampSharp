@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
+using WampSharp.Logging;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Error;
 

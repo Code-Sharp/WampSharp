@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Castle.Core.Logging;
-using WampSharp.Core.Logs;
+using WampSharp.Logging;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
@@ -20,7 +19,7 @@ namespace WampSharp.Core.Dispatch.Handler
     {
         #region Members
 
-        private readonly ILogger mLogger;
+        private readonly ILog mLogger;
         
         private readonly object mInstance;
         private readonly IWampFormatter<TMessage> mFormatter;
@@ -37,7 +36,7 @@ namespace WampSharp.Core.Dispatch.Handler
         public WampMethodBuilder(object instance, IWampFormatter<TMessage> formatter)
         {
             mInstance = instance;
-            mLogger = WampLoggerFactory.Create(this.GetType());
+            mLogger = LogProvider.GetLogger(this.GetType());
             mFormatter = formatter;
         }
 

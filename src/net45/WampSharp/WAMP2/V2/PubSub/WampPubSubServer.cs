@@ -1,7 +1,7 @@
-﻿using System;
+﻿#if !PCL
+using System;
 using System.Collections.Generic;
-using Castle.Core.Logging;
-using WampSharp.Core.Logs;
+using WampSharp.Logging;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
@@ -10,13 +10,13 @@ namespace WampSharp.V2.PubSub
     public class WampPubSubServer<TMessage> : IWampPubSubServer<TMessage>
     {
         private readonly IWampEventSerializer mEventSerializer;
-        private readonly ILogger mLogger;
+        private readonly ILog mLogger;
         private readonly IWampBinding<TMessage> mBinding;
         private readonly IWampRawTopicContainer<TMessage> mRawTopicContainer;
 
         public WampPubSubServer(IWampTopicContainer topicContainer, IWampEventSerializer eventSerializer, IWampBinding<TMessage> binding)
         {
-            mLogger = WampLoggerFactory.Create(this.GetType());
+            mLogger = LogProvider.GetLogger(this.GetType());
             mBinding = binding;
             mEventSerializer = eventSerializer;
             mRawTopicContainer = new WampRawTopicContainer<TMessage>(topicContainer, mEventSerializer, mBinding);
@@ -132,3 +132,4 @@ namespace WampSharp.V2.PubSub
         }
     }
 }
+#endif

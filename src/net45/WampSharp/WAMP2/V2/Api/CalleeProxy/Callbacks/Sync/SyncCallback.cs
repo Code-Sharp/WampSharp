@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Castle.Core.Logging;
-using WampSharp.Core.Logs;
 using WampSharp.Core.Serialization;
+using WampSharp.Logging;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
@@ -11,7 +10,7 @@ namespace WampSharp.V2.CalleeProxy
     internal class SyncCallback<TResult> : SyncCallbackBase
     {
         private readonly IOperationResultExtractor<TResult> mExtractor;
-        private readonly ILogger mLogger;
+        private readonly ILog mLogger;
         protected readonly MethodInfoHelper mMethodInfoHelper;
         private readonly object[] mArguments;
         private TResult mResult;
@@ -19,7 +18,7 @@ namespace WampSharp.V2.CalleeProxy
         public SyncCallback(string procedureUri, MethodInfoHelper methodInfoHelper, object[] arguments, IOperationResultExtractor<TResult> extractor)
         {
             mMethodInfoHelper = methodInfoHelper;
-            mLogger = WampLoggerFactory.Create(typeof (SyncCallback<TResult>) + "." + procedureUri);
+            mLogger = LogProvider.GetLogger(typeof (SyncCallback<TResult>) + "." + procedureUri);
             mArguments = arguments;
             mExtractor = extractor;
         }

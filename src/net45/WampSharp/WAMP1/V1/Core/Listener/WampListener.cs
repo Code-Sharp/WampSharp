@@ -1,6 +1,7 @@
 using System;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Listener;
+using WampSharp.Logging;
 using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.V1.Core.Listener
@@ -70,7 +71,7 @@ namespace WampSharp.V1.Core.Listener
         {
             RaiseSessionClosed(connection);
 
-            if (mLogger.IsDebugEnabled)
+            if (mLogger.IsDebugEnabled())
             {
                 IWampClient client = ClientContainer.GetClient(connection);
                 mLogger.DebugFormat("Client disconnected, session id: {0}", client.SessionId);

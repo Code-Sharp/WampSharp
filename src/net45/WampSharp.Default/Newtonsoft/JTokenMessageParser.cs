@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
-using Castle.Core.Logging;
+using WampSharp.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using WampSharp.Core.Logs;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding.Parsers;
 
@@ -13,13 +12,13 @@ namespace WampSharp.Newtonsoft
     {
         private readonly JsonSerializer mSerializer;
         private readonly IWampMessageFormatter<JToken> mMessageFormatter;
-        private readonly ILogger mLogger;
+        private readonly ILog mLogger;
 
         public JTokenMessageParser(JsonSerializer serializer)
         {
             mSerializer = serializer;
             mMessageFormatter = new JsonWampMessageFormatter();
-            mLogger = WampLoggerFactory.Create(this.GetType());
+            mLogger = LogProvider.GetLogger(this.GetType());
         }
 
         public WampMessage<JToken> Parse(string text)

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Castle.Core.Logging;
+using WampSharp.Logging;
 using WampSharp.Core.Dispatch.Handler;
-using WampSharp.Core.Logs;
+
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
@@ -19,7 +20,7 @@ namespace WampSharp.Core.Proxy
             new SwapDictionary<MethodInfo, WampMethodInfo>();
 
         private readonly IWampFormatter<TMessage> mFormatter;
-        private readonly ILogger mLogger = WampLoggerFactory.Create(typeof(WampOutgoingRequestSerializer<TMessage>));
+        private readonly ILog mLogger = LogProvider.GetLogger(typeof(WampOutgoingRequestSerializer<TMessage>));
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampOutgoingRequestSerializer{TMessage}"/>.

@@ -1,7 +1,6 @@
 ﻿using System;
-using Castle.Core.Logging;
+using WampSharp.Logging;
 using WampSharp.Core.Dispatch.Handler;
-using WampSharp.Core.Logs;
 using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Dispatch
@@ -17,7 +16,7 @@ namespace WampSharp.Core.Dispatch
         IWampIncomingMessageHandler<TMessage, TClient>,
         IWampIncomingMessageHandler<TMessage>
     {
-        private readonly ILogger mLogger;
+        private readonly ILog mLogger;
         private readonly IWampRequestMapper<TMessage> mWampRequestMapper;
         private readonly DelegateCache<WampMethodInfo, Action<TClient, WampMessage<TMessage>>> mDelegateCache;
 
@@ -35,7 +34,7 @@ namespace WampSharp.Core.Dispatch
              IMethodBuilder<WampMethodInfo, Action<TClient, WampMessage<TMessage>>> methodBuilder)
         {
             mWampRequestMapper = wampRequestMapper;
-            mLogger = WampLoggerFactory.Create(this.GetType());
+            mLogger = LogProvider.GetLogger(this.GetType());
             mDelegateCache = new DelegateCache<WampMethodInfo, Action<TClient, WampMessage<TMessage>>>(methodBuilder);
         }
 

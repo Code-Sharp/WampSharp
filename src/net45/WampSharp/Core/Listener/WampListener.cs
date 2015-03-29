@@ -2,8 +2,8 @@
 using System;
 using Castle.Core.Logging;
 using WampSharp.Core.Dispatch;
-using WampSharp.Core.Logs;
 using WampSharp.Core.Message;
+using WampSharp.Logging;
 
 namespace WampSharp.Core.Listener
 {
@@ -19,7 +19,7 @@ namespace WampSharp.Core.Listener
         private readonly IWampClientContainer<TMessage, TClient> mClientContainer;
         private readonly IWampConnectionListener<TMessage> mListener;
         private IDisposable mSubscription;
-        protected readonly ILogger mLogger;
+        protected readonly ILog mLogger;
         private readonly IContextProperties mContextProperties;
 
         /// <summary>
@@ -38,14 +38,14 @@ namespace WampSharp.Core.Listener
             mHandler = handler;
             mClientContainer = clientContainer;
             mListener = listener;
-            mLogger = WampLoggerFactory.Create(this.GetType());
-            
-            IExtendedLogger extendedLogger = mLogger as IExtendedLogger;
+            mLogger = LogProvider.GetLogger(this.GetType());
 
-            if (extendedLogger != null)
-            {
-                mContextProperties = extendedLogger.ThreadProperties;                
-            }
+            //IExtendedLogger extendedLogger = mLogger as IExtendedLogger;
+
+            //if (extendedLogger != null)
+            //{
+            //    mContextProperties = extendedLogger.ThreadProperties;                
+            //}
         }
 
         /// <summary>
