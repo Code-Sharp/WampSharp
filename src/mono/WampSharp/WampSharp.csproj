@@ -102,6 +102,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Dispatch\Handler\IWampRequestMapper.cs">
       <Link>Core\Dispatch\Handler\IWampRequestMapper.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Logs\WampLoggerFactory.cs">
+      <Link>Core\Logs\WampLoggerFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Dispatch\Handler\WampMethodBuilder.cs">
       <Link>Core\Dispatch\Handler\WampMethodBuilder.cs</Link>
     </Compile>
@@ -164,6 +167,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Listener\WampListener.cs">
       <Link>Core\Listener\WampListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Logs\ReadableConsoleFactory.cs">
+      <Link>Core\Logs\ReadableConsoleFactory.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Message\MessageType\MessageCategory.cs">
       <Link>Core\Message\MessageType\MessageCategory.cs</Link>

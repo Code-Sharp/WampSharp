@@ -78,6 +78,7 @@
     <Compile Include="Core\Dispatch\Handler\DelegateCache.cs" />
     <Compile Include="Core\Dispatch\Handler\IMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\IWampRequestMapper.cs" />
+    <Compile Include="Core\Logs\WampLoggerFactory.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodInfo.cs" />
     <Compile Include="Core\Dispatch\Handler\WampRequestMapper.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Core\Listener\Connections\WampConnectionMonitor.cs" />
     <Compile Include="Core\Listener\Connections\WampMessageArrivedEventArgs.cs" />
     <Compile Include="Core\Listener\WampListener.cs" />
+    <Compile Include="Core\Logs\ReadableConsoleFactory.cs" />
     <Compile Include="Core\Message\MessageType\MessageCategory.cs" />
     <Compile Include="Core\Message\MessageType\MessageDirection.cs" />
     <Compile Include="Core\Message\MessageType\MessageTypeDetailsAttribute.cs" />

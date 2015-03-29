@@ -1,5 +1,7 @@
 ﻿using System;
+using Castle.Core.Logging;
 using WampSharp.Core.Dispatch;
+using WampSharp.Core.Logs;
 using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Listener
@@ -16,6 +18,8 @@ namespace WampSharp.Core.Listener
         private readonly IWampClientContainer<TMessage, TClient> mClientContainer;
         private readonly IWampConnectionListener<TMessage> mListener;
         private IDisposable mSubscription;
+        protected readonly ILogger mLogger;
+        private readonly IContextProperties mContextProperties;
 
         /// <summary>
         /// Creates a new instance of <see cref="WampListener{TMessage, TClient}"/>
@@ -33,6 +37,14 @@ namespace WampSharp.Core.Listener
             mHandler = handler;
             mClientContainer = clientContainer;
             mListener = listener;
+            mLogger = WampLoggerFactory.Create(this.GetType());
+            
+            IExtendedLogger extendedLogger = mLogger as IExtendedLogger;
+
+            if (extendedLogger != null)
+            {
+                mContextProperties = extendedLogger.ThreadProperties;                
+            }
         }
 
         /// <summary>
@@ -92,7 +104,38 @@ namespace WampSharp.Core.Listener
         {
             TClient client = ClientContainer.GetClient(connection);
 
-            mHandler.HandleMessage(client, message);
+            try
+            {
+                SetSessionId(client);
+                mHandler.HandleMessage(client, message);
+            }
+            finally
+            {
+                CleanSessionId();
+            }
+        }
+
+        private void SetSessionId(TClient client)
+        {
+            SetSessionId(client, GetSessionId);
+        }
+
+        private void CleanSessionId()
+        {
+            SetSessionId(default(TClient), x => null);
+        }
+
+        private void SetSessionId(TClient client, Func<TClient, object> sessionId)
+        {
+            if (mContextProperties != null)
+            {
+                mContextProperties["WampSessionId"] = sessionId(client);
+            }
+        }
+
+        protected virtual object GetSessionId(TClient client)
+        {
+            return null;
         }
 
         protected virtual void OnNewConnection(IWampConnection<TMessage> connection)

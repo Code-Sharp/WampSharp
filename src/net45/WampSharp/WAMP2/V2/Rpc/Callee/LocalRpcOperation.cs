@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core.Logging;
+using WampSharp.Core.Logs;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -14,12 +16,15 @@ namespace WampSharp.V2.Rpc
 
         private readonly string mProcedure;
 
+        protected readonly ILogger mLogger;
+
         protected readonly static IWampFormatter<object> ObjectFormatter =
             WampObjectFormatter.Value;
 
         protected LocalRpcOperation(string procedure)
         {
             mProcedure = procedure;
+            mLogger = WampLoggerFactory.Create(typeof (LocalRpcOperation) + "." + procedure);
         }
 
         public string Procedure

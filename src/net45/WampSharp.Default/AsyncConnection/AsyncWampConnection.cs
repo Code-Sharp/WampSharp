@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using Castle.Core.Logging;
 using WampSharp.Core.Listener;
+using WampSharp.Core.Logs;
 using WampSharp.Core.Message;
 
 namespace WampSharp
@@ -8,9 +10,11 @@ namespace WampSharp
     public abstract class AsyncWampConnection<TMessage> : IWampConnection<TMessage>
     {
         private readonly ActionBlock<WampMessage<object>> mSendBlock;
+        protected readonly ILogger mLogger;
 
         protected AsyncWampConnection()
         {
+            mLogger = WampLoggerFactory.Create(this.GetType());
             mSendBlock = new ActionBlock<WampMessage<object>>(x => InnerSend(x));
         }
 
@@ -31,8 +35,9 @@ namespace WampSharp
 
                     await sendAsync.ConfigureAwait(false);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    mLogger.Error("An error occured while attempting to send a message to remote peer.", ex);
                 }
             }
         }
@@ -46,7 +51,12 @@ namespace WampSharp
                 
                 Task result = sendAsync.ContinueWith(task =>
                 {
-                    var exception = task.Exception;
+                    var ex = task.Exception;
+
+                    if (ex != null)
+                    {
+                        mLogger.Error("An error occured while attempting to send a message to remote peer.", ex);                        
+                    }
                 });
                 
                 return result;
@@ -87,10 +97,11 @@ namespace WampSharp
             if (handler != null) handler(this, EventArgs.Empty);
         }
 
-        protected virtual void RaiseConnectionError(Exception e)
+        protected virtual void RaiseConnectionError(Exception ex)
         {
+            mLogger.Error("A connection error occured", ex);
             var handler = ConnectionError;
-            if (handler != null) handler(this, new WampConnectionErrorEventArgs(e));
+            if (handler != null) handler(this, new WampConnectionErrorEventArgs(ex));
         }
         
         void IDisposable.Dispose()

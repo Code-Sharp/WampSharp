@@ -32,7 +32,9 @@ namespace WampSharp.V2.CalleeProxy
         {
             MethodInfoHelper methodInfoHelper = new MethodInfoHelper(method);
 
-            SyncCallback<T> syncCallback = new SyncCallback<T>(methodInfoHelper, arguments, extractor);
+            string procedureUri = interceptor.GetProcedureUri(method);
+
+            SyncCallback<T> syncCallback = new SyncCallback<T>(procedureUri, methodInfoHelper, arguments, extractor);
 
             object[] argumentsToSend = 
                 methodInfoHelper.GetInputArguments(arguments);

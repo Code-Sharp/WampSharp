@@ -21,7 +21,7 @@ namespace WampSharp.V1.Core.Listener
         /// Occurs when a WAMP session is closed.
         /// </summary>
         public event EventHandler<WampSessionEventArgs> SessionClosed;
-    	
+
         /// <summary>
         /// Creates a new instance of <see cref="WampListener{TMessage}"/>
         /// </summary>
@@ -32,10 +32,15 @@ namespace WampSharp.V1.Core.Listener
         /// <param name="clientContainer">The <see cref="IWampClientContainer{TMessage,TClient}"/> use
         /// in order to store the connected clients.</param>
         public WampListener(IWampConnectionListener<TMessage> listener,
-                            IWampIncomingMessageHandler<TMessage, IWampClient> handler,
-                            IWampClientContainer<TMessage, IWampClient> clientContainer)
+            IWampIncomingMessageHandler<TMessage, IWampClient> handler,
+            IWampClientContainer<TMessage, IWampClient> clientContainer)
             : base(listener, handler, clientContainer)
         {
+        }
+
+        protected override object GetSessionId(IWampClient client)
+        {
+            return client.SessionId;
         }
 
         protected override void OnConnectionOpen(IWampConnection<TMessage> connection)
@@ -43,6 +48,8 @@ namespace WampSharp.V1.Core.Listener
             base.OnConnectionOpen(connection);
 
             IWampClient client = ClientContainer.GetClient(connection);
+
+            mLogger.DebugFormat("Client connected, session id: {0}", client.SessionId);
 
             client.Welcome(client.SessionId, 1, "WampSharp");
             
@@ -62,6 +69,12 @@ namespace WampSharp.V1.Core.Listener
         protected override void OnCloseConnection(IWampConnection<TMessage> connection)
         {
             RaiseSessionClosed(connection);
+
+            if (mLogger.IsDebugEnabled)
+            {
+                IWampClient client = ClientContainer.GetClient(connection);
+                mLogger.DebugFormat("Client disconnected, session id: {0}", client.SessionId);
+            }
 
             base.OnCloseConnection(connection);
         }

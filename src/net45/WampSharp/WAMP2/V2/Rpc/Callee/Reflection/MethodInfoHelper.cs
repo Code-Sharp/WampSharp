@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Castle.Core.Logging;
+using WampSharp.Core.Logs;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
 
@@ -92,7 +94,8 @@ namespace WampSharp.V2.Rpc
 
                     if (!outOrRefParameters.TryGetValue(parameter.Name, out currentValue))
                     {
-                        // Log or something??
+                        throw new Exception(string.Format("Argument {0} not found in arguments dictionary",
+                            parameter.Name));
                     }
                     else
                     {
