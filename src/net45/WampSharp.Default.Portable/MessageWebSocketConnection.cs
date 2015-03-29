@@ -10,28 +10,35 @@ namespace WampSharp.Default
     public abstract class MessageWebSocketConnection<TMessage> : AsyncWampConnection<TMessage>,
         IControlledWampConnection<TMessage>
     {
-        private readonly MessageWebSocket mWebSocket;
+        protected MessageWebSocket mWebSocket;
         private readonly string mUri;
         private readonly IWampBinding<TMessage> mBinding;
         private bool mIsConnected;
+        private readonly SocketMessageType mSocketMessageType;
 
-        public MessageWebSocketConnection(MessageWebSocket webSocket,
-            string uri,
+        protected MessageWebSocketConnection(string uri,
             IWampBinding<TMessage> binding, SocketMessageType messageType)
         {
-            mWebSocket = webSocket;
-            mWebSocket.Control.MessageType = messageType;
-            mWebSocket.Control.SupportedProtocols.Add(binding.Name);
             mUri = uri;
             mBinding = binding;
-            mWebSocket.MessageReceived += OnMessageReceived;
-            mWebSocket.Closed += OnClosed;
+            mSocketMessageType = messageType;
+        }
+
+        private MessageWebSocket CreateWebSocket()
+        {
+            MessageWebSocket socket = new MessageWebSocket();
+            socket.Control.MessageType = mSocketMessageType;
+            socket.Control.SupportedProtocols.Add(mBinding.Name);
+            socket.MessageReceived += OnMessageReceived;
+            socket.Closed += OnClosed;
+            return socket;
         }
 
         protected abstract void OnMessageReceived(MessageWebSocket sender, MessageWebSocketMessageReceivedEventArgs args);
 
         protected void OnClosed(IWebSocket sender, WebSocketClosedEventArgs args)
         {
+            mWebSocket = null;
             mIsConnected = false;
             RaiseConnectionClosed();
         }
@@ -50,6 +57,7 @@ namespace WampSharp.Default
         {
             try
             {
+                mWebSocket = CreateWebSocket();
                 await mWebSocket.ConnectAsync(new Uri(mUri));
                 mIsConnected = true;
                 RaiseConnectionOpen();

@@ -9,17 +9,10 @@ namespace WampSharp.Default
 {
     public class MessageWebSocketTextConnection<TMessage> : MessageWebSocketConnection<TMessage>
     {
-        private readonly MessageWebSocket mWebSocket;
         private readonly IWampTextBinding<TMessage> mTextBinding;
 
-        public MessageWebSocketTextConnection(MessageWebSocket webSocket, string uri, IWampBinding<TMessage> binding) : 
-            base(webSocket, uri, binding, SocketMessageType.Utf8)
-        {
-            mWebSocket = webSocket;
-        }
-
         public MessageWebSocketTextConnection(string uri, IWampTextBinding<TMessage> binding) : 
-            this(new MessageWebSocket(), uri, binding)
+            base(uri, binding, SocketMessageType.Utf8)
         {
             mTextBinding = binding;
         }
@@ -41,6 +34,11 @@ namespace WampSharp.Default
             catch (Exception ex)
             {
                 RaiseConnectionError(ex);
+
+                if (mWebSocket != null)
+                {
+                    mWebSocket.Dispose();                    
+                }
             }
         }
 
@@ -61,6 +59,12 @@ namespace WampSharp.Default
             catch (Exception ex)
             {
                 RaiseConnectionError(ex);
+
+                if (mWebSocket != null)
+                {
+                    mWebSocket.Dispose();
+                }
+                
                 throw;
             }
         }
