@@ -219,11 +219,17 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\GenericTypeExtensions.cs">
       <Link>Core\Utilities\GenericTypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\Method.cs">
+      <Link>Core\Utilities\Method.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\ReadOnlyDictionary.cs">
       <Link>Core\Utilities\ReadOnlyDictionary.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\SwapDictionary.cs">
       <Link>Core\Utilities\SwapDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\TaskMethodInvokeGenerator.cs">
+      <Link>Core\Utilities\TaskMethodInvokeGenerator.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
@@ -570,6 +576,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\AsyncDisposable\CompositeAsyncDisposable.cs">
       <Link>Core\Utilities\AsyncDisposable\CompositeAsyncDisposable.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorBase.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorBase.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs</Link>
     </Compile>
@@ -615,8 +624,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\ArgumentUnpacker.cs">
       <Link>WAMP2\V2\Core\ArgumentUnpacker.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\LocalParameter.cs">
-      <Link>WAMP2\V2\Rpc\Callee\LocalParameter.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\LocalParameter.cs">
+      <Link>WAMP2\V2\Core\LocalParameter.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs</Link>
@@ -635,6 +644,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\MethodInfoValidation.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\MethodInfoValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\MethodInvokeGenerator.cs">
+      <Link>Core\Utilities\MethodInvokeGenerator.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs</Link>
@@ -969,8 +981,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\OperationExtractor.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\OperationExtractor.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\TypeExtensions.cs">
-      <Link>WAMP2\V2\Rpc\Callee\Reflection\TypeExtensions.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\TypeExtensions.cs">
+      <Link>Core\Utilities\TypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs">
       <Link>WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs</Link>
@@ -1236,8 +1248,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\SyncMethodInfoRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\SyncMethodInfoRpcOperation.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ParameterInfoExtensions.cs">
-      <Link>WAMP2\V2\Rpc\Callee\Reflection\ParameterInfoExtensions.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ParameterInfoExtensions.cs">
+      <Link>Core\Utilities\ParameterInfoExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\RpcParameter.cs">
       <Link>WAMP2\V2\Rpc\Callee\RpcParameter.cs</Link>

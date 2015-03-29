@@ -1,24 +1,22 @@
-﻿using System.Threading.Tasks;
+﻿using System.Reflection;
+using System.Threading.Tasks;
 using Castle.DynamicProxy;
-using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal class AsyncCalleeProxyInterceptor : IInterceptor
+    internal class AsyncCalleeProxyInterceptor<TResult> : CalleeProxyInterceptorBase<TResult>
     {
-        private readonly IWampCalleeProxyInvocationHandler mHandler;
-        private readonly ICalleeProxyInterceptor mInterceptor;
-
-        public AsyncCalleeProxyInterceptor(IWampCalleeProxyInvocationHandler handler, ICalleeProxyInterceptor interceptor)
+        public AsyncCalleeProxyInterceptor(MethodInfo method, IWampCalleeProxyInvocationHandler handler, ICalleeProxyInterceptor interceptor) : 
+            base(method, handler, interceptor)
         {
-            mHandler = handler;
-            mInterceptor = interceptor;
         }
 
-        public void Intercept(IInvocation invocation)
+        public override void Intercept(IInvocation invocation)
         {
+            MethodInfo method = invocation.Method;
+
             Task result =
-                mHandler.InvokeAsync(mInterceptor, invocation.Method, invocation.Arguments);
+                Handler.InvokeAsync<TResult>(Interceptor, method, Extractor, invocation.Arguments);
 
             invocation.ReturnValue = result;
         }

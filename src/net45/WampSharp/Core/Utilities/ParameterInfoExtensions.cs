@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace WampSharp.V2.Rpc
+namespace WampSharp.Core.Utilities
 {
     internal static class ParameterInfoExtensions
     {

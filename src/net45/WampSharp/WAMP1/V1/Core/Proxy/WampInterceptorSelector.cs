@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Castle.DynamicProxy;
@@ -15,42 +16,33 @@ namespace WampSharp.V1.Core.Proxy
     /// <typeparam name="TMessage"></typeparam>
     public class WampInterceptorSelector<TMessage> : IInterceptorSelector
     {
-        private readonly WampOutgoingInterceptor<TMessage> mInterceptor;
-
-        /// <summary>
-        /// Creates a new instance of <see cref="WampInterceptorSelector{TMessage}"/>.
-        /// </summary>
-        /// <param name="interceptor">The given <see cref="WampOutgoingInterceptor{TMessage}"/> used
-        /// for WAMP method calls</param>
-        public WampInterceptorSelector(WampOutgoingInterceptor<TMessage> interceptor)
-        {
-            mInterceptor = interceptor;
-        }
-
         public IInterceptor[] SelectInterceptors(Type type, MethodInfo method, IInterceptor[] interceptors)
         {
-            if (method.IsDefined(typeof (WampHandlerAttribute), true))
+            IEnumerable<IInterceptor> relevantInterceptors = Enumerable.Empty<IInterceptor>();
+
+            if (method.IsDefined(typeof(WampHandlerAttribute), true))
             {
-                return new IInterceptor[] {mInterceptor};
+                relevantInterceptors = 
+                    interceptors.OfType<WampOutgoingInterceptor<TMessage>>();
             }
             else if (method.IsSpecialName)
             {
                 // In case you were wondering, this is how a patch looks like.
                 if (method.Name == "get_SessionId")
                 {
-                    return interceptors.OfType<SessionIdPropertyInterceptor>()
-                        .Cast<IInterceptor>()
-                        .ToArray();
+                    relevantInterceptors =
+                        interceptors.OfType<SessionIdPropertyInterceptor>();
                 }
                 else if (method.Name == "get_CraAuthenticator" || method.Name == "set_CraAuthenticator")
                 {
-                    return interceptors.OfType<WampCraAuthenticatorPropertyInterceptor>()
-                        .Cast<IInterceptor>()
-                        .ToArray();
+                    relevantInterceptors =
+                        interceptors.OfType<WampCraAuthenticatorPropertyInterceptor>();
                 }
             }
 
-            return null;
+            IInterceptor[] result = relevantInterceptors.ToArray();
+
+            return result;
         }
     }
 }

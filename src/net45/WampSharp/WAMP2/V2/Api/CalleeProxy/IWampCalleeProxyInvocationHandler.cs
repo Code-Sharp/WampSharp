@@ -6,11 +6,11 @@ namespace WampSharp.V2.CalleeProxy
 {
     internal interface IWampCalleeProxyInvocationHandler
     {
-        object Invoke(ICalleeProxyInterceptor interceptor, MethodInfo method, object[] arguments);
-        Task InvokeAsync(ICalleeProxyInterceptor interceptor, MethodInfo method, object[] arguments);
+        T Invoke<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, IOperationResultExtractor<T> extractor, object[] arguments);
+        Task<T> InvokeAsync<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, IOperationResultExtractor<T> extractor, object[] arguments);
 
 #if !NET40
-        Task InvokeProgressiveAsync<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, object[] arguments, IProgress<T> progress);
+        Task<T> InvokeProgressiveAsync<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, IOperationResultExtractor<T> extractor, object[] arguments, IProgress<T> progress);
 #endif
     }
 }

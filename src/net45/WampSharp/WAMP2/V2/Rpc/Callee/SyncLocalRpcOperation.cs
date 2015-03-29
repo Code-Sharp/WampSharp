@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Error;
@@ -32,6 +33,12 @@ namespace WampSharp.V2.Rpc
             {
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
                 callback.Error(ex);
+            }
+            catch (Exception ex)
+            {
+                WampRpcRuntimeException wampException = ConvertExceptionToRuntimeException(ex);
+                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+                callback.Error(wampException);
             }
         }
 

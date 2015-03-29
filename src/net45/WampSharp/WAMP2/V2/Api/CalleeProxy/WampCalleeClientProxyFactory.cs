@@ -84,30 +84,34 @@ namespace WampSharp.V2.CalleeProxy
             #region Overridden
 
 #if NET45
-            protected async override Task<object> AwaitForResult(AsyncOperationCallback asyncOperationCallback)
+            protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
 #else
-            protected override Task<object> AwaitForResult(AsyncOperationCallback asyncOperationCallback)
+            protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
 #endif
             {
 #if NET45
-                Task<object> task = await Task.WhenAny(asyncOperationCallback.Task,
-                                                       mDisconnectionTaskCompletionSource.Task);
+                Task<T> operationTask = asyncOperationCallback.Task;
 
-                object result = await task;
+                Task task = await Task.WhenAny(operationTask,
+                    mDisconnectionTaskCompletionSource.Task)
+                    .ConfigureAwait(false);
+
+                T result = await operationTask.ConfigureAwait(false);
 
                 return result;
 #else
-                IObservable<object> merged =
+                IObservable<T> merged =
                     Observable.Amb(asyncOperationCallback.Task.ToObservable(),
-                                     mDisconnectionTaskCompletionSource.Task.ToObservable());
+                                     mDisconnectionTaskCompletionSource.Task.ToObservable().Cast<T>());
                 
-                Task<object> task = merged.ToTask();
+                Task<T> task = merged.ToTask();
 
                 return task;
 #endif
             }
 
-            protected override void WaitForResult(SyncCallback callback)
+        
+            protected override void WaitForResult<T>(SyncCallback<T> callback)
             {
                 int signaledIndex =
                     WaitHandle.WaitAny(new[] {mDisconnectionWaitHandle, callback.WaitHandle},

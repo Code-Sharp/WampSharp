@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WampSharp.V2.Rpc
+namespace WampSharp.Core.Utilities
 {
     internal static class TypeExtensions
     {

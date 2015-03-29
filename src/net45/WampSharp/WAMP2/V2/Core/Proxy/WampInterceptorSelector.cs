@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Castle.DynamicProxy;
@@ -15,32 +16,24 @@ namespace WampSharp.V2.Core.Proxy
     /// <typeparam name="TMessage"></typeparam>
     public class WampInterceptorSelector<TMessage> : IInterceptorSelector
     {
-        private readonly WampOutgoingInterceptor<TMessage> mInterceptor;
-        private readonly WampRawOutgoingInterceptor<TMessage> mRawInterceptor;
-
-        /// <summary>
-        /// Creates a new instance of <see cref="WampInterceptorSelector{TMessage}"/>.
-        /// </summary>
-        /// <param name="interceptor">The given <see cref="WampOutgoingInterceptor{TMessage}"/> used
-        /// for WAMP method calls</param>
-        public WampInterceptorSelector(WampOutgoingInterceptor<TMessage> interceptor, WampRawOutgoingInterceptor<TMessage> rawInterceptor)
-        {
-            mInterceptor = interceptor;
-            mRawInterceptor = rawInterceptor;
-        }
-
         public IInterceptor[] SelectInterceptors(Type type, MethodInfo method, IInterceptor[] interceptors)
         {
+            IEnumerable<IInterceptor> relevantInterceptors = Enumerable.Empty<IInterceptor>();
+
             if (method.IsDefined(typeof(WampRawHandlerAttribute), true))
             {
-                return new IInterceptor[] { mRawInterceptor };
+                relevantInterceptors =
+                    interceptors.OfType<WampRawOutgoingInterceptor<TMessage>>();
             }
-            if (method.IsDefined(typeof(WampHandlerAttribute), true))
+            else if (method.IsDefined(typeof(WampHandlerAttribute), true))
             {
-                return new IInterceptor[] {mInterceptor};
+                relevantInterceptors =
+                    interceptors.OfType<WampOutgoingInterceptor<TMessage>>();
             }
 
-            return null;
+            IInterceptor[] result = relevantInterceptors.ToArray();
+
+            return result;
         }
     }
 }

@@ -58,8 +58,7 @@ namespace WampSharp.V1.Core.Listener.ClientBuilder
                 new ProxyGenerationOptions()
                     {
                         Selector =
-                            new WampInterceptorSelector<TMessage>
-                            (wampOutgoingInterceptor)
+                            new WampInterceptorSelector<TMessage>()
                     };
 
             proxyGenerationOptions.AddMixinInstance

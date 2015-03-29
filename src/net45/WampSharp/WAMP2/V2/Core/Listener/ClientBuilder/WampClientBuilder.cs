@@ -67,9 +67,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                 new ProxyGenerationOptions()
                     {
                         Selector =
-                            new WampInterceptorSelector<TMessage>
-                            (wampOutgoingInterceptor,
-                             wampRawOutgoingInterceptor)
+                            new WampInterceptorSelector<TMessage>()
                     };
 
             WampConnectionMonitor<TMessage> monitor = 
@@ -92,6 +90,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                 mGenerator.CreateInterfaceProxyWithoutTarget
                     (typeof(IWampProxy), new[] { typeof(IWampClient), typeof(IWampClient<TMessage>) },
                      proxyGenerationOptions,
+                     wampRawOutgoingInterceptor,
                      wampOutgoingInterceptor)
                 as IWampClient<TMessage>;
 

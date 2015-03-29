@@ -5,28 +5,29 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal class SyncCallback : SyncCallbackBase
+    internal class SyncCallback<TResult> : SyncCallbackBase
     {
-        private IOperationResultExtractor mExtractor;
+        private readonly IOperationResultExtractor<TResult> mExtractor;
         protected readonly MethodInfoHelper mMethodInfoHelper;
         private readonly object[] mArguments;
-        private object mResult;
+        private TResult mResult;
 
-        public SyncCallback(MethodInfoHelper methodInfoHelper, object[] arguments, IOperationResultExtractor extractor)
+        public SyncCallback(MethodInfoHelper methodInfoHelper, object[] arguments, IOperationResultExtractor<TResult> extractor)
         {
             mMethodInfoHelper = methodInfoHelper;
             mArguments = arguments;
             mExtractor = extractor;
         }
 
-        public object OperationResult
+        public TResult OperationResult
         {
             get { return mResult; }
         }
 
         public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
         {
-            SetResult(null);
+            // TODO: throw exception if not nullable.
+            SetResult(default(TResult));
         }
 
         public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
@@ -48,11 +49,11 @@ namespace WampSharp.V2.CalleeProxy
 
         private void SetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
         {
-            object result = mExtractor.GetResult(formatter, arguments);
+            TResult result = mExtractor.GetResult(formatter, arguments);
             SetResult(result);
         }
 
-        protected void SetResult(object result)
+        protected void SetResult(TResult result)
         {
             mResult = result;
             ResultArrived();
