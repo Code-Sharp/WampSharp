@@ -1,3 +1,4 @@
+#if !PCL
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -144,3 +145,4 @@ namespace WampSharp.V2
         }
     }
 }
+#endif

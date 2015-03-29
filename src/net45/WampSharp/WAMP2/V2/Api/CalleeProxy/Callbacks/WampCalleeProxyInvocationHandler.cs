@@ -8,7 +8,11 @@ using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.V2.CalleeProxy
 {
+#if PCL
+    public abstract class WampCalleeProxyInvocationHandler : IWampCalleeProxyInvocationHandler
+#else
     internal abstract class WampCalleeProxyInvocationHandler : IWampCalleeProxyInvocationHandler
+#endif
     {
         public T Invoke<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, IOperationResultExtractor<T> extractor, object[] arguments)
         {
@@ -74,12 +78,20 @@ namespace WampSharp.V2.CalleeProxy
 
         protected abstract void Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments);
 
+#if PCL
+        internal virtual void WaitForResult<T>(SyncCallback<T> callback)
+#else
         protected virtual void WaitForResult<T>(SyncCallback<T> callback)
+#endif
         {
             callback.Wait(Timeout.Infinite);
         }
 
+#if PCL
+        internal virtual Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+#else
         protected virtual Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+#endif
         {
             return asyncOperationCallback.Task;
         }

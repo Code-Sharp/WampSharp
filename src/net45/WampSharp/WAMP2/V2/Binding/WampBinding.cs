@@ -38,6 +38,7 @@ namespace WampSharp.V2.Binding
 
         public abstract WampMessage<object> GetRawMessage(WampMessage<object> message);
 
+#if !PCL
         public virtual IWampBindingHost CreateHost(IWampHostedRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener)
         {
             WampBindingHost<TMessage> result =
@@ -45,5 +46,6 @@ namespace WampSharp.V2.Binding
 
             return result;
         }
+#endif
     }
 }

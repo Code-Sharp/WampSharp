@@ -1,4 +1,7 @@
-﻿using System.Runtime.Remoting.Messaging;
+﻿#if !PCL
+using System.Runtime.Remoting.Messaging;
+#endif
+using System;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2
@@ -8,8 +11,10 @@ namespace WampSharp.V2
     /// </summary>
     public class WampEventContext
     {
+
         #region Static Members
 
+#if !PCL 
         public static WampEventContext Current
         {
             get
@@ -21,6 +26,23 @@ namespace WampSharp.V2
                 CallContext.LogicalSetData(typeof (WampEventContext).Name, value);
             }
         }
+#else
+        [ThreadStatic]
+        private static WampEventContext mCurrent;
+
+        public static WampEventContext Current
+        {
+            get
+            {
+                return mCurrent;
+            }
+            internal set
+            {
+                mCurrent = value;
+            }
+        }
+
+#endif
 
         #endregion
 

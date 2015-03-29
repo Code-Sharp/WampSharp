@@ -92,7 +92,7 @@ namespace WampSharp.Core.Utilities
                 returnValueStatements.Add(call);
                 returnValueStatements.Add(Expression.Assign(resultVariable, Expression.Constant(null, typeof(object))));
             }
-            else if (typeof(TResult).IsValueType != method.ReturnType.IsValueType)
+            else if (typeof(TResult).IsValueType() != method.ReturnType.IsValueType())
             {
                 returnValueStatements.Add(Expression.Assign(resultVariable, Expression.Convert(call, typeof(TResult))));
             }
@@ -135,7 +135,7 @@ namespace WampSharp.Core.Utilities
                 {
                     Expression boxedVariable = variable;
 
-                    if (parameterType.IsValueType)
+                    if (parameterType.IsValueType())
                     {
                         boxedVariable =
                             Expression.Convert(boxedVariable, typeof(object));

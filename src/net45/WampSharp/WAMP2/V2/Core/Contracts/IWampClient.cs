@@ -18,6 +18,8 @@
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public interface IWampClient<TMessage> :
+        IWampSessionClient,
+        IWampError<TMessage>,
         IWampCallee<TMessage>,
         IWampCaller<TMessage>,
         IWampPublisher<TMessage>,

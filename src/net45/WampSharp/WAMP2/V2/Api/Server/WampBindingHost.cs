@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !PCL
+using System;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
@@ -124,3 +125,4 @@ namespace WampSharp.V2
         }
     }
 }
+#endif

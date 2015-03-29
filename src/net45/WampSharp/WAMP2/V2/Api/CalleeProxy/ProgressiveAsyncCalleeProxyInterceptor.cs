@@ -1,3 +1,4 @@
+#if CASTLE
 #if !NET40
 using System;
 using System.Linq;
@@ -33,4 +34,5 @@ namespace WampSharp.V2.CalleeProxy
         }
     }
 }
+#endif
 #endif

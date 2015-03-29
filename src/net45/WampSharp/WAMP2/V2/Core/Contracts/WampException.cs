@@ -5,7 +5,9 @@ using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Core.Contracts
 {
+#if !PCL
     [Serializable]
+#endif
     public class WampException : Exception
     {
         private readonly string mErrorUri;
@@ -71,10 +73,12 @@ namespace WampSharp.V2.Core.Contracts
             mArgumentsKeywords = argumentsKeywords;
         }
 
+#if !PCL
         protected WampException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
 
         public string ErrorUri
         {

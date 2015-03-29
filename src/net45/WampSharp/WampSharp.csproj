@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45 CASTLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\WampSharp.XML</DocumentationFile>
@@ -254,6 +254,7 @@
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
     <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
+    <Compile Include="WAMP2\V2\Client\ManualWampServerProxyBuilder.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
     <Compile Include="WAMP2\V2\PubSub\ExactTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\MatchTopicContainer.cs" />

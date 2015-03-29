@@ -1,3 +1,4 @@
+#if CASTLE
 using System;
 using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
@@ -100,3 +101,4 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         }
     }
 }
+#endif

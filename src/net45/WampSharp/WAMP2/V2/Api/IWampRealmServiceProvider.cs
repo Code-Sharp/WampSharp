@@ -31,6 +31,8 @@ namespace WampSharp.V2
         /// <see cref="IAsyncDisposable"/>- disposing it will unregister the instance.</returns>
         Task<IAsyncDisposable> RegisterCallee(object instance, ICalleeRegistrationInterceptor interceptor);
         
+#if !PCL
+
         /// <summary>
         /// Gets a proxy of a callee registered in the realm.
         /// </summary>
@@ -45,6 +47,8 @@ namespace WampSharp.V2
         /// <typeparam name="TProxy"></typeparam>
         /// <returns>The proxy to the callee.</returns>
         TProxy GetCalleeProxy<TProxy>(ICalleeProxyInterceptor interceptor) where TProxy : class;
+
+#endif
 
         /// <summary>
         /// Gets a <see cref="ISubject{TResult}"/> representing a

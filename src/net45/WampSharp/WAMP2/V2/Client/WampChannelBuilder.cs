@@ -19,12 +19,15 @@ namespace WampSharp.V2.Client
             mBinding = binding;
 
             IWampFormatter<TMessage> formatter = mBinding.Formatter;
-
+#if !PCL
             mFactory =
                 new WampServerProxyBuilder<TMessage, WampClient<TMessage>, IWampServerProxy>(
                     new WampOutgoingRequestSerializer<TMessage>(formatter),
                     new WampServerProxyOutgoingMessageHandlerBuilder<TMessage, WampClient<TMessage>>
                         (new WampServerProxyIncomingMessageHandlerBuilder<TMessage, WampClient<TMessage>>(formatter)));
+#else
+            mFactory = new ManualWampServerProxyBuilder<TMessage>(formatter);
+#endif
         }
 
 

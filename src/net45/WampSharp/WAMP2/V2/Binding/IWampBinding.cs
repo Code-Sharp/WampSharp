@@ -29,6 +29,7 @@ namespace WampSharp.V2.Binding
         /// </summary>
         IWampFormatter<TMessage> Formatter { get; }
 
+#if !PCL
         /// <summary>
         /// Creates a <see cref="IWampBindingHost"/> hosting this binding.
         /// </summary>
@@ -38,6 +39,7 @@ namespace WampSharp.V2.Binding
         /// TODO: get rid of this?
         IWampBindingHost CreateHost(IWampHostedRealmContainer realmContainer,
                                     IWampConnectionListener<TMessage> connectionListener);
+#endif
     }
 
     /// <summary>

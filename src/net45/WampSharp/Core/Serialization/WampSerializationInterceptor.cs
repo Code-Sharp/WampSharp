@@ -1,4 +1,5 @@
-﻿using Castle.DynamicProxy;
+﻿#if CASTLE
+using Castle.DynamicProxy;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 
@@ -37,3 +38,4 @@ namespace WampSharp.Core.Serialization
         }
     }
 }
+#endif

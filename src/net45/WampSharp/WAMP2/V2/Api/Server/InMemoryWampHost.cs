@@ -1,3 +1,4 @@
+#if !PCL
 using System.Reactive.Concurrency;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
@@ -55,3 +56,4 @@ namespace WampSharp.V2
         }
     }
 }
+#endif

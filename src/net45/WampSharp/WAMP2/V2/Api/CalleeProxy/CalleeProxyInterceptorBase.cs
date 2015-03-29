@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if CASTLE
+using System;
 using System.Reflection;
 using Castle.DynamicProxy;
 using WampSharp.Core.Utilities;
@@ -89,3 +90,4 @@ namespace WampSharp.V2.CalleeProxy
         }
     }
 }
+#endif

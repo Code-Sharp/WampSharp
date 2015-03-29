@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.V2.Core
 {
@@ -26,11 +27,8 @@ namespace WampSharp.V2.Core
         public object Deserialize(Type type, object message)
         {
             MethodInfo genericMethod =
-                typeof (WampObjectFormatter).
-                    GetMethods(BindingFlags.Instance |
-                               BindingFlags.Public)
-                                            .First
-                    (x => x.Name == "Deserialize" && x.IsGenericMethod);
+                Method.Get((WampObjectFormatter x) => x.Deserialize<object>(default(object)))
+                    .GetGenericMethodDefinition();
 
             // This actually only throws an exception if types don't match.
             object converted =

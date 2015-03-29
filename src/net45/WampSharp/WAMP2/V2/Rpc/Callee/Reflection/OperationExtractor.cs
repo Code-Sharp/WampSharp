@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Core.Contracts;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
@@ -41,8 +42,7 @@ namespace WampSharp.V2.Rpc
                 Type type,
                 ICalleeRegistrationInterceptor interceptor)
         {
-            foreach (var method in type.GetMethods(BindingFlags.Instance |
-                                                   BindingFlags.Public))
+            foreach (var method in type.GetInstanceMethods())
             {
                 if (interceptor.IsCalleeProcedure(method))
                 {

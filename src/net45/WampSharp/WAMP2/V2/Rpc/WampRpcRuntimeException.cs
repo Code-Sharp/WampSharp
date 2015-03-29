@@ -5,7 +5,9 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
+#if !PCL
     [Serializable]
+#endif
     public class WampRpcRuntimeException : WampException
     {
         private const string ErrorUri = "wamp.error.runtime_error";
@@ -38,9 +40,11 @@ namespace WampSharp.V2.Rpc
         {
         }
 
+#if !PCL
         protected WampRpcRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
     }
 }

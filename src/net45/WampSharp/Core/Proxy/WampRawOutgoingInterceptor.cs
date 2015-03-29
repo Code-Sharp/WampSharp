@@ -1,4 +1,5 @@
-﻿using Castle.DynamicProxy;
+﻿#if CASTLE
+using Castle.DynamicProxy;
 using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Proxy
@@ -32,3 +33,4 @@ namespace WampSharp.Core.Proxy
         }
     }
 }
+#endif

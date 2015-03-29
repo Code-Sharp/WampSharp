@@ -12,93 +12,102 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
+#if !PCL
     internal class WampCalleeClientProxyFactory : WampCalleeProxyFactory
     {
         public WampCalleeClientProxyFactory(IWampRpcOperationCatalogProxy catalogProxy, IWampClientConnectionMonitor monitor) : 
             base(new ClientInvocationHandler(catalogProxy, monitor))
         {
         }
-
-        private class ClientInvocationHandler : WampCalleeProxyInvocationHandler
-        {
-            #region Data Members
-
-            private readonly IWampRpcOperationCatalogProxy mCatalogProxy;
-            private readonly IWampClientConnectionMonitor mMonitor;
-
-            private TaskCompletionSource<object> mDisconnectionTaskCompletionSource;
-
-            private ManualResetEvent mDisconnectionWaitHandle;
-
-            private Exception mDisconnectionException;
-            private readonly CallOptions mEmptyOptions = new CallOptions();
-
-            #endregion
-
-            #region Constructor
-
-            public ClientInvocationHandler(IWampRpcOperationCatalogProxy catalogProxy,
-                IWampClientConnectionMonitor monitor)
-            {
-                mCatalogProxy = catalogProxy;
-                mMonitor = monitor;
-                mDisconnectionTaskCompletionSource = new TaskCompletionSource<object>();
-                mDisconnectionWaitHandle = new ManualResetEvent(false);                
-
-                mMonitor.ConnectionEstablished += OnConnectionEstablished;
-                mMonitor.ConnectionError += OnConnectionError;
-                mMonitor.ConnectionBroken += OnConnectionBroken;
-            }
-
-            #endregion
-
-            #region Private Methods
-
-            private void OnConnectionEstablished(object sender, WampSessionEventArgs e)
-            {
-                mDisconnectionTaskCompletionSource = new TaskCompletionSource<object>();
-                mDisconnectionWaitHandle = new ManualResetEvent(false);                
-            }
-
-            private void OnConnectionBroken(object sender, WampSessionCloseEventArgs e)
-            {
-                Exception exception = new WampConnectionBrokenException(e);
-                SetException(exception);
-            }
-
-            private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
-            {
-                Exception exception = e.Exception;
-                SetException(exception);
-            }
-
-            private void SetException(Exception exception)
-            {
-                mDisconnectionException = exception;
-                mDisconnectionTaskCompletionSource.TrySetException(exception);
-                mDisconnectionWaitHandle.Set();
-            }
-
-            #endregion
-
-            #region Overridden
-
-#if NET45
-            protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
-#else
-            protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+    }
 #endif
-            {
+
+#if PCL
+    public class ClientInvocationHandler : WampCalleeProxyInvocationHandler
+#else
+    internal class ClientInvocationHandler : WampCalleeProxyInvocationHandler
+#endif
+    {
+        #region Data Members
+
+        private readonly IWampRpcOperationCatalogProxy mCatalogProxy;
+        private readonly IWampClientConnectionMonitor mMonitor;
+
+        private TaskCompletionSource<object> mDisconnectionTaskCompletionSource;
+
+        private ManualResetEvent mDisconnectionWaitHandle;
+
+        private Exception mDisconnectionException;
+        private readonly CallOptions mEmptyOptions = new CallOptions();
+
+        #endregion
+
+        #region Constructor
+
+        public ClientInvocationHandler(IWampRpcOperationCatalogProxy catalogProxy,
+            IWampClientConnectionMonitor monitor)
+        {
+            mCatalogProxy = catalogProxy;
+            mMonitor = monitor;
+            mDisconnectionTaskCompletionSource = new TaskCompletionSource<object>();
+            mDisconnectionWaitHandle = new ManualResetEvent(false);
+
+            mMonitor.ConnectionEstablished += OnConnectionEstablished;
+            mMonitor.ConnectionError += OnConnectionError;
+            mMonitor.ConnectionBroken += OnConnectionBroken;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void OnConnectionEstablished(object sender, WampSessionEventArgs e)
+        {
+            mDisconnectionTaskCompletionSource = new TaskCompletionSource<object>();
+            mDisconnectionWaitHandle = new ManualResetEvent(false);
+        }
+
+        private void OnConnectionBroken(object sender, WampSessionCloseEventArgs e)
+        {
+            Exception exception = new WampConnectionBrokenException(e);
+            SetException(exception);
+        }
+
+        private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
+        {
+            Exception exception = e.Exception;
+            SetException(exception);
+        }
+
+        private void SetException(Exception exception)
+        {
+            mDisconnectionException = exception;
+            mDisconnectionTaskCompletionSource.TrySetException(exception);
+            mDisconnectionWaitHandle.Set();
+        }
+
+        #endregion
+
+        #region Overridden
+
+#if PCL
+        internal override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+#elif NET45
+        protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+#elif NET40
+        protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+#endif
+        {
 #if NET45
-                Task<T> operationTask = asyncOperationCallback.Task;
+            Task<T> operationTask = asyncOperationCallback.Task;
 
-                Task task = await Task.WhenAny(operationTask,
-                    mDisconnectionTaskCompletionSource.Task)
-                    .ConfigureAwait(false);
+            Task task = await Task.WhenAny(operationTask,
+                mDisconnectionTaskCompletionSource.Task)
+                .ConfigureAwait(false);
 
-                T result = await operationTask.ConfigureAwait(false);
+            T result = await operationTask.ConfigureAwait(false);
 
-                return result;
+            return result;
 #else
                 IObservable<T> merged =
                     Observable.Amb(asyncOperationCallback.Task.ToObservable(),
@@ -106,38 +115,41 @@ namespace WampSharp.V2.CalleeProxy
                 
                 Task<T> task = merged.ToTask();
 
-                return task;
+            return task;
 #endif
-            }
+        }
 
         
+#if PCL    
+            internal override void WaitForResult<T>(SyncCallback<T> callback)
+#else
             protected override void WaitForResult<T>(SyncCallback<T> callback)
+#endif
             {
                 int signaledIndex =
                     WaitHandle.WaitAny(new[] {mDisconnectionWaitHandle, callback.WaitHandle},
                                    Timeout.Infinite);
 
 
-                if (signaledIndex == 0)
-                {
-                    callback.SetException(mDisconnectionException);
-                }
-
-                base.WaitForResult(callback);
-            }
-
-            protected override void Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments)
+            if (signaledIndex == 0)
             {
-                CallOptions callOptions = interceptor.GetCallOptions(method);
-                var procedureUri = interceptor.GetProcedureUri(method);
-
-                mCatalogProxy.Invoke(callback,
-                                     callOptions,
-                                     procedureUri,
-                                     arguments);
+                callback.SetException(mDisconnectionException);
             }
 
-            #endregion
+            base.WaitForResult(callback);
         }
+
+        protected override void Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments)
+        {
+            CallOptions callOptions = interceptor.GetCallOptions(method);
+            var procedureUri = interceptor.GetProcedureUri(method);
+
+            mCatalogProxy.Invoke(callback,
+                                 callOptions,
+                                 procedureUri,
+                                 arguments);
+        }
+
+        #endregion
     }
 }

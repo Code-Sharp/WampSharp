@@ -1,3 +1,4 @@
+#if !PCL
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
@@ -52,3 +53,4 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         }
     }
 }
+#endif
