@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !PCL
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -494,3 +495,4 @@ namespace WampSharp.V2.PubSub
         #endregion
     }
 }
+#endif

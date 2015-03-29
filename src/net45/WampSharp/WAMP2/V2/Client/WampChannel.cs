@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Client
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !PCL
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,3 +127,4 @@ namespace WampSharp.V2.PubSub
         }
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !PCL
+using System;
 using Castle.Core.Logging;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Logs;
@@ -173,3 +174,4 @@ namespace WampSharp.Core.Listener
         }
     }
 }
+#endif

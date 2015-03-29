@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Dispatch;
+﻿#if !PCL
+using WampSharp.Core.Dispatch;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Core.Contracts;
 
@@ -63,3 +64,4 @@ namespace WampSharp.V2.Core.Listener
         }
     }
 }
+#endif
