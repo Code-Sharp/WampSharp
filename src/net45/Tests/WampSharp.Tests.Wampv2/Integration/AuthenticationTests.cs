@@ -309,12 +309,12 @@ namespace WampSharp.Tests.Wampv2.Integration
                 throw new NotImplementedException();
             }
 
-            public void OnNewClient(IWampClient<TMessage> client)
+            public void OnNewClient(IWampClientProxy<TMessage> client)
             {
                 throw new NotImplementedException();
             }
 
-            public void OnClientDisconnect(IWampClient<TMessage> client)
+            public void OnClientDisconnect(IWampClientProxy<TMessage> client)
             {
                 throw new NotImplementedException();
             }
@@ -365,17 +365,17 @@ namespace WampSharp.Tests.Wampv2.Integration
                 throw new NotImplementedException();
             }
 
-            public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error)
+            public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error)
             {
                 throw new NotImplementedException();
             }
 
-            public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
+            public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
             {
                 throw new NotImplementedException();
             }
 
-            public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
+            public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
                 TMessage argumentsKeywords)
             {
                 throw new NotImplementedException();

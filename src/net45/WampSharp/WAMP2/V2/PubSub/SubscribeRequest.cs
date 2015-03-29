@@ -4,12 +4,12 @@ namespace WampSharp.V2.PubSub
 {
     internal class SubscribeRequest<TMessage> : ISubscribeRequest<TMessage>
     {
-        private readonly IWampClient<TMessage> mClient;
+        private readonly IWampClientProxy<TMessage> mClient;
         private readonly long mRequestId;
 
         public SubscribeRequest(IWampSubscriber subscriber, long requestId)
         {
-            mClient = subscriber as IWampClient<TMessage>;
+            mClient = subscriber as IWampClientProxy<TMessage>;
             mRequestId = requestId;
         }
 
@@ -21,7 +21,7 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public IWampClient<TMessage> Client
+        public IWampClientProxy<TMessage> Client
         {
             get
             {

@@ -7,7 +7,7 @@ namespace WampSharp.Tests.Wampv2
 {
     internal class RequestMapper : IWampRequestMapper<MockRaw>
     {
-        private interface IWampAll : IWampClient, IWampServerProxy
+        private interface IWampAll : IWampClientProxy, IWampServerProxy
         {
         }
 

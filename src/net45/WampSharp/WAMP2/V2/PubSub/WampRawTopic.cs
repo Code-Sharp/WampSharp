@@ -159,7 +159,7 @@ namespace WampSharp.V2.PubSub
                 new RemoteWampTopicSubscriber(this.SubscriptionId,
                                               request.Client as IWampSubscriber);
 
-            IWampClient<TMessage> client = request.Client;
+            IWampClientProxy<TMessage> client = request.Client;
 
             RemoteObserver observer = mSubscriberBook.Subscribe(client);
 
@@ -180,7 +180,7 @@ namespace WampSharp.V2.PubSub
 
         public void Unsubscribe(IUnsubscribeRequest<TMessage> request)
         {
-            IWampClient<TMessage> client = request.Client;
+            IWampClientProxy<TMessage> client = request.Client;
 
             if (mSubscriberBook.Unsubscribe(client))
             {
@@ -286,10 +286,10 @@ namespace WampSharp.V2.PubSub
         private class Subscription
         {
             private readonly WampRawTopic<TMessage> mParent;
-            private readonly IWampClient<TMessage> mClient;
+            private readonly IWampClientProxy<TMessage> mClient;
             private readonly RemoteObserver mObserver;
 
-            public Subscription(WampRawTopic<TMessage> parent, IWampClient<TMessage> client, RemoteObserver observer)
+            public Subscription(WampRawTopic<TMessage> parent, IWampClientProxy<TMessage> client, RemoteObserver observer)
             {
                 mParent = parent;
                 mClient = client;
@@ -316,14 +316,14 @@ namespace WampSharp.V2.PubSub
 
             private class DisconnectUnsubscribeRequest : IUnsubscribeRequest<TMessage>
             {
-                private readonly IWampClient<TMessage> mClient;
+                private readonly IWampClientProxy<TMessage> mClient;
 
-                public DisconnectUnsubscribeRequest(IWampClient<TMessage> client)
+                public DisconnectUnsubscribeRequest(IWampClientProxy<TMessage> client)
                 {
                     mClient = client;
                 }
 
-                public IWampClient<TMessage> Client
+                public IWampClientProxy<TMessage> Client
                 {
                     get
                     {
@@ -347,7 +347,7 @@ namespace WampSharp.V2.PubSub
             public RemoteObserver(IWampRawClient<TMessage> client)
             {
                 mClient = client;
-                IWampClient casted = mClient as IWampClient;
+                IWampClientProxy casted = mClient as IWampClientProxy;
                 mSessionId = casted.Session;
             }
 
@@ -405,7 +405,7 @@ namespace WampSharp.V2.PubSub
                 }
             }
 
-            public RemoteObserver Subscribe(IWampClient<TMessage> client)
+            public RemoteObserver Subscribe(IWampClientProxy<TMessage> client)
             {
                 Subscription subscription;
 
@@ -429,7 +429,7 @@ namespace WampSharp.V2.PubSub
                 }
             }
 
-            public bool Unsubscribe(IWampClient<TMessage> client)
+            public bool Unsubscribe(IWampClientProxy<TMessage> client)
             {
                 lock (mLock)
                 {

@@ -11,7 +11,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
     {
         private readonly MessageMapper mMapper = new MessageMapper();
         
-        public CalleeMessagePlayer(IEnumerable<WampMessage<MockRaw>> messages, WampMessageType[] categories, IWampIncomingMessageHandler<MockRaw, IWampClient<MockRaw>> handler)
+        public CalleeMessagePlayer(IEnumerable<WampMessage<MockRaw>> messages, WampMessageType[] categories, IWampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> handler)
             : base(messages, categories, handler)
         {
         }

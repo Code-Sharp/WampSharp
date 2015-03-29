@@ -4,7 +4,7 @@ namespace WampSharp.V2.PubSub
 {
     internal interface ISubscribeRequest<TMessage>
     {
-        IWampClient<TMessage> Client { get; }
+        IWampClientProxy<TMessage> Client { get; }
 
         void Subscribed(long subscriptionId);
     }

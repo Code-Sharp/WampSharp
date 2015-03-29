@@ -8,9 +8,9 @@ namespace WampSharp.V2.Rpc
         long RegisterInvocation(IWampRpcOperation operation, IWampRawRpcOperationRouterCallback callback, InvocationDetails options, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null);
 
         void Error(IWampCallee wampCallee, long requestId, TMessage details, string error);
-        void Error(IWampClient wampCallee, long requestId, TMessage details, string error, TMessage[] arguments);
+        void Error(IWampClientProxy wampCallee, long requestId, TMessage details, string error, TMessage[] arguments);
 
-        void Error(IWampClient wampCallee, long requestId, TMessage details, string error, TMessage[] arguments,
+        void Error(IWampClientProxy wampCallee, long requestId, TMessage details, string error, TMessage[] arguments,
                    TMessage argumentsKeywords);
 
         void Unregistered(IWampRpcOperation operation);

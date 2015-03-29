@@ -11,8 +11,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
         public DealerCall Call { get; set; }
         public IEnumerable<WampMessage<MockRaw>> Registrations { get; set; }
 
-        public MockClient<IWampClient<MockRaw>> Callee { get; set; }
-        public MockClient<IWampClient<MockRaw>> Caller { get; set; }
+        public MockClient<IWampClientProxy<MockRaw>> Callee { get; set; }
+        public MockClient<IWampClientProxy<MockRaw>> Caller { get; set; }
 
         protected override object CreateServer()
         {

@@ -1,6 +1,4 @@
-﻿using WampSharp.V2.Rpc;
-
-namespace WampSharp.V2.Core.Contracts
+﻿namespace WampSharp.V2.Core.Contracts
 {
     /// <summary>
     /// Represents all methods defined for a WAMP2 router.
@@ -8,7 +6,8 @@ namespace WampSharp.V2.Core.Contracts
     /// <typeparam name="TMessage"></typeparam>
     public interface IWampServer<TMessage> :
         IWampSessionServer<TMessage>,
-        IWampRpcServer<TMessage>,
+        IWampDealer<TMessage>,
+        IWampRpcInvocationCallback<TMessage>,
         IWampErrorCallback<TMessage>,
         IWampBroker<TMessage>
     {
