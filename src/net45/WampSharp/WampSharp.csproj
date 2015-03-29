@@ -40,6 +40,9 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.34-rc\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -121,8 +124,10 @@
     <Compile Include="Core\Utilities\GenericTypeExtensions.cs" />
     <Compile Include="Core\Utilities\Method.cs" />
     <Compile Include="Core\Utilities\ReadOnlyDictionary.cs" />
+    <Compile Include="Core\Utilities\SwapCollection.cs" />
     <Compile Include="Core\Utilities\SwapDictionary.cs" />
     <Compile Include="Core\Utilities\TaskMethodInvokeGenerator.cs" />
+    <Compile Include="Core\Utilities\SwapHashSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WAMP1\V1\Api\Client\IWampChannel.cs" />
     <Compile Include="WAMP1\V1\Api\Client\IWampChannelFactory.cs" />
@@ -250,11 +255,18 @@
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
     <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
+    <Compile Include="WAMP2\V2\PubSub\ExactTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\MatchTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\PrefixSubscriptionId.cs" />
+    <Compile Include="WAMP2\V2\PubSub\PrefixTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\SimpleSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\LocalSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopicAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\ArgumentUnpacker.cs" />
     <Compile Include="WAMP2\V2\Core\LocalParameter.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WildCardSubscriptionId.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WildCardTopicContainer.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />
@@ -305,7 +317,7 @@
     <Compile Include="WAMP2\V2\Core\WampRequestIdMapper.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampCustomizedSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\IWampRawTopicRouterSubscriber.cs" />
-    <Compile Include="WAMP2\V2\PubSub\OptionLessSubscriptionId.cs" />
+    <Compile Include="WAMP2\V2\PubSub\ExactTopicSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Api\Server\IWampHost.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawTopicClientSubscriber.cs" />
@@ -452,7 +464,6 @@
     <Compile Include="WAMP2\V2\PubSub\WampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampRawTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopic.cs" />
-    <Compile Include="WAMP2\V2\PubSub\WampTopicContainer.cs" />
     <Compile Include="WAMP2\V2\Realm\Interfaces\IWampRealm.cs" />
     <Compile Include="WAMP2\V2\Realm\Binded\IWampBindedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Realm\Binded\WampBindedRealm.cs" />
@@ -489,6 +500,7 @@
     <Compile Include="WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\WampFormatterExtensions.cs" />
     <Compile Include="WAMP2\V2\Transports\WebSocketTransport.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WampTopicContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

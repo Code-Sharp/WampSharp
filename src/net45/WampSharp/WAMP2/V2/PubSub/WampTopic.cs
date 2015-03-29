@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
-using System.Reactive.Subjects;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.PubSub
 {
@@ -13,9 +12,8 @@ namespace WampSharp.V2.PubSub
     {
         #region Data Members
 
-        private readonly WampIdGenerator mGenerator = new WampIdGenerator();
-
-        private readonly Subject<IPublication> mSubject = new Subject<IPublication>();
+        private readonly SwapCollection<IWampRawTopicRouterSubscriber> mSubscribers =
+            new SwapCollection<IWampRawTopicRouterSubscriber>();
         
         private readonly string mTopicUri;
 
@@ -35,7 +33,7 @@ namespace WampSharp.V2.PubSub
         {
             get
             {
-                return mSubject.HasObservers;
+                return mSubscribers.Count > 0;
             }
         }
 
@@ -47,30 +45,29 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options)
+        public void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options)
         {
-            Action<IWampRawTopicRouterSubscriber, long> publishAction =
-                (subscriber, publicationId) => subscriber.Event(formatter, publicationId, options);
+            Action<IWampRawTopicRouterSubscriber> publishAction =
+                (subscriber) => subscriber.Event(formatter, publicationId, options);
 
-            return InnerPublish(publishAction);
+            InnerPublish(publishAction);
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, TMessage[] arguments)
+        public void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options, TMessage[] arguments)
         {
-            Action<IWampRawTopicRouterSubscriber, long> publishAction =
-                (subscriber, publicationId) => subscriber.Event(formatter, publicationId, options, arguments);
+            Action<IWampRawTopicRouterSubscriber> publishAction =
+                (subscriber) => subscriber.Event(formatter, publicationId, options, arguments);
 
-            return InnerPublish(publishAction);
+            InnerPublish(publishAction);
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
+        public void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
         {
-            Action<IWampRawTopicRouterSubscriber, long> publishAction =
-                (subscriber, publicationId) => subscriber.Event(formatter, publicationId, options, arguments, argumentKeywords);
+            Action<IWampRawTopicRouterSubscriber> publishAction =
+                (subscriber) => subscriber.Event(formatter, publicationId, options, arguments, argumentKeywords);
 
-            return InnerPublish(publishAction);
+            InnerPublish(publishAction);
         }
-
 
         public bool Persistent
         {
@@ -84,13 +81,13 @@ namespace WampSharp.V2.PubSub
         {
             RegisterSubscriberEventsIfNeeded(subscriber);
 
-            IDisposable subscriptionDisposable = 
-                mSubject.Subscribe(new SubscriberObserver(subscriber));
+            mSubscribers.Add(subscriber);
 
-            IDisposable result = subscriptionDisposable;
-
-            result = new CompositeDisposable(subscriptionDisposable, 
-                Disposable.Create(() => OnSubscriberLeave(subscriber)));
+            IDisposable result = Disposable.Create(() =>
+            {
+                mSubscribers.Remove(subscriber);
+                OnSubscriberLeave(subscriber);
+            });
 
             return result;
         }
@@ -99,7 +96,7 @@ namespace WampSharp.V2.PubSub
         {
             UnregisterSubscriberEventsIfNeeded(subscriber);
 
-            if (!mSubject.HasObservers)
+            if (mSubscribers.Count == 0)
             {
                 RaiseTopicEmpty();
             }
@@ -107,7 +104,7 @@ namespace WampSharp.V2.PubSub
 
         public void Dispose()
         {
-            mSubject.Dispose();
+            mSubscribers.Clear();
         }
 
         #endregion
@@ -188,14 +185,12 @@ namespace WampSharp.V2.PubSub
 
         #region Private methods
 
-        private long InnerPublish(Action<IWampRawTopicRouterSubscriber, long> publishAction)
+        private void InnerPublish(Action<IWampRawTopicRouterSubscriber> publishAction)
         {
-            long publicationId = mGenerator.Generate();
-
-            mSubject.OnNext
-                (new Publication(publishAction, publicationId));
-
-            return publicationId;
+            foreach (IWampRawTopicRouterSubscriber subscriber in mSubscribers)
+            {
+                publishAction(subscriber);
+            }
         }
 
         protected virtual void RaiseTopicEmpty()
@@ -245,55 +240,6 @@ namespace WampSharp.V2.PubSub
             if (handler != null)
             {
                 handler(this, e);
-            }
-        }
-
-        #endregion
-
-        #region Nested Classes
-
-        private class SubscriberObserver : IObserver<IPublication>
-        {
-            private readonly IWampRawTopicRouterSubscriber mSubscriber;
-
-            public SubscriberObserver(IWampRawTopicRouterSubscriber subscriber)
-            {
-                mSubscriber = subscriber;
-            }
-
-            public void OnNext(IPublication publication)
-            {
-                publication.Publish(mSubscriber);
-            }
-
-            public void OnError(Exception error)
-            {
-            }
-
-            public void OnCompleted()
-            {
-            }
-        }
-
-        private interface IPublication
-        {
-            void Publish(IWampRawTopicRouterSubscriber subscriber);
-        }
-
-        private class Publication : IPublication
-        {
-            private readonly Action<IWampRawTopicRouterSubscriber, long> mPublishAction;
-            private readonly long mPublicationId;
-
-            public Publication(Action<IWampRawTopicRouterSubscriber, long> publishAction, long publicationId)
-            {
-                mPublishAction = publishAction;
-                mPublicationId = publicationId;
-            }
-
-            public void Publish(IWampRawTopicRouterSubscriber subscriber)
-            {
-                mPublishAction(subscriber, mPublicationId);
             }
         }
 

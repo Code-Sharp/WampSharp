@@ -1,15 +1,15 @@
 namespace WampSharp.V2.PubSub
 {
-    public class OptionlessSubscriptionId : IWampCustomizedSubscriptionId
+    public abstract class SimpleSubscriptionId : IWampCustomizedSubscriptionId
     {
         private readonly string mTopicUri;
 
-        public OptionlessSubscriptionId(string topicUri)
+        public SimpleSubscriptionId(string topicUri)
         {
             mTopicUri = topicUri;
         }
 
-        protected bool Equals(OptionlessSubscriptionId other)
+        protected bool Equals(SimpleSubscriptionId other)
         {
             return string.Equals(mTopicUri, other.mTopicUri);
         }
@@ -19,7 +19,7 @@ namespace WampSharp.V2.PubSub
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((OptionlessSubscriptionId) obj);
+            return Equals((SimpleSubscriptionId) obj);
         }
 
         public override int GetHashCode()

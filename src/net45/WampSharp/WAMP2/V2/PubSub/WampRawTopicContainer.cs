@@ -42,7 +42,7 @@ namespace WampSharp.V2.PubSub
 
                 if (!mTopicUriToTopic.TryGetValue(customizedSubscriptionId, out rawTopic))
                 {
-                    rawTopic = CreateRawTopic(topicUri, customizedSubscriptionId);
+                    rawTopic = CreateRawTopic(topicUri, options, customizedSubscriptionId);
 
                     IDisposable disposable =
                         mTopicContainer.Subscribe(rawTopic, topicUri, options);
@@ -104,10 +104,11 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        private WampRawTopic<TMessage> CreateRawTopic(string topicUri, IWampCustomizedSubscriptionId customizedSubscriptionId)
+        private WampRawTopic<TMessage> CreateRawTopic(string topicUri, SubscribeOptions subscriptionOptions, IWampCustomizedSubscriptionId customizedSubscriptionId)
         {
             WampRawTopic<TMessage> newTopic =
                 new WampRawTopic<TMessage>(topicUri,
+                                           subscriptionOptions,
                                            customizedSubscriptionId,
                                            mEventSerializer,
                                            mBinding);
