@@ -53,6 +53,14 @@ namespace WampSharp.V2.Core.Contracts
             mArgumentsKeywords = argumentsKeywords;
         }
 
+        public WampException(string errorUri, string messageDetails) :
+            base(string.Format("Error uri: '{0}', details: {1}",
+                errorUri, messageDetails))
+        {
+            mErrorUri = errorUri;
+            mArguments = new object[] {messageDetails};
+        }
+
         public WampException(IDictionary<string, object> details, string errorUri, object[] arguments,
                              IDictionary<string, object> argumentsKeywords, string message, Exception inner)
             : base(message, inner)

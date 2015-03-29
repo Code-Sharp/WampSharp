@@ -1,47 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Castle.Core.Logging;
+using WampSharp.Core.Logs;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.PubSub
 {
     public class WampPubSubServer<TMessage> : IWampPubSubServer<TMessage>
     {
-        private readonly IWampEventSerializer<TMessage> mEventSerializer;
+        private readonly IWampEventSerializer mEventSerializer;
+        private readonly ILogger mLogger;
         private readonly IWampBinding<TMessage> mBinding;
         private readonly IWampRawTopicContainer<TMessage> mRawTopicContainer;
 
-        public WampPubSubServer(IWampTopicContainer topicContainer, IWampEventSerializer<TMessage> eventSerializer, IWampBinding<TMessage> binding)
+        public WampPubSubServer(IWampTopicContainer topicContainer, IWampEventSerializer eventSerializer, IWampBinding<TMessage> binding)
         {
+            mLogger = WampLoggerFactory.Create(this.GetType());
             mBinding = binding;
             mEventSerializer = eventSerializer;
             mRawTopicContainer = new WampRawTopicContainer<TMessage>(topicContainer, mEventSerializer, mBinding);
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri)
+        public void Publish(IWampPublisher publisher,
+            long requestId,
+            PublishOptions options,
+            string topicUri)
         {
-            InnerPublish(publisher, requestId, options,
-                         publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri));
+            InnerPublish(publisher, topicUri, requestId, options, publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri));
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri,
-                            TMessage[] arguments)
+        public void Publish(IWampPublisher publisher,
+            long requestId,
+            PublishOptions options,
+            string topicUri,
+            TMessage[] arguments)
         {
-            InnerPublish(publisher, requestId, options,
-                         publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri, arguments));
+            InnerPublish(publisher, topicUri, requestId, options, publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri, arguments));
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
+        public void Publish(IWampPublisher publisher,
+            long requestId,
+            PublishOptions options,
+            string topicUri,
+            TMessage[] arguments,
+            IDictionary<string, TMessage> argumentKeywords)
         {
-            InnerPublish(publisher, requestId, options,
-                         publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri, arguments, argumentKeywords));
+            InnerPublish(publisher, topicUri, requestId, options, publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri, arguments, argumentKeywords));
         }
 
-        private void InnerPublish(IWampPublisher publisher, long requestId, PublishOptions options, Func<PublishOptions, long> action)
+        private void InnerPublish(IWampPublisher publisher, string topicUri, long requestId, PublishOptions options, Func<PublishOptions, long> action)
         {
-            PublishOptions publishOptions = GetPublishOptions(publisher, options);
+            PublishOptions publishOptions = GetPublishOptions(publisher, topicUri, options);
 
             bool acknowledge = publishOptions.Acknowledge ?? false;
 
@@ -52,18 +62,24 @@ namespace WampSharp.V2.PubSub
             }
             catch (WampException ex)
             {
+                mLogger.ErrorFormat(ex,
+                    "Failed publishing to topic '{0}'. Publication request id: {1} ",
+                    topicUri, requestId);
+
                 PublishErrorIfNeeded(publisher, requestId, acknowledge, ex);
             }
         }
 
-        private PublishOptions GetPublishOptions(IWampPublisher publisher, PublishOptions options)
+        private PublishOptions GetPublishOptions(IWampPublisher publisher, string topicUri, PublishOptions options)
         {
             IWampClientProxy casted = publisher as IWampClientProxy;
 
             PublishOptionsExtended result = new PublishOptionsExtended(options);
 
             result.PublisherId = casted.Session;
-            
+
+            result.TopicUri = topicUri;
+
             return result;
         }
 
@@ -73,7 +89,9 @@ namespace WampSharp.V2.PubSub
             {
                 SubscribeRequest<TMessage> subscribeRequest = 
                     new SubscribeRequest<TMessage>(subscriber, requestId);
-                
+
+                options.Match = options.Match ?? "exact";
+
                 mRawTopicContainer.Subscribe(subscribeRequest, options, topicUri);
             }
             catch (WampException ex)

@@ -39,7 +39,7 @@ namespace WampSharp.V2.Transports
         private IWampConnectionListener<TMessage> RegisterBinding<TMessage>(IWampBinding<TMessage> binding)
         {
             InMemoryConnectionListener<TMessage> result =
-                new InMemoryConnectionListener<TMessage>(mRouterScheduler);
+                new InMemoryConnectionListener<TMessage>(mRouterScheduler, binding);
 
             mBindings[binding.Name] = result;
 

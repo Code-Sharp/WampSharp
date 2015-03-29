@@ -25,7 +25,7 @@ namespace WampSharp.Fleck
             RaiseMessageArrived(parsed);
         }
 
-        protected override Task SendAsync(WampMessage<TMessage> message)
+        protected override Task SendAsync(WampMessage<object> message)
         {
             string raw = mBinding.Format(message);
 

@@ -16,17 +16,17 @@ namespace WampSharp.Core.Client
     {
         private readonly IWampServerProxyOutgoingMessageHandlerBuilder<TMessage, TRawClient> mOutgoingHandlerBuilder;
         private readonly ProxyGenerator mProxyGenerator = new ProxyGenerator();
-        private readonly IWampOutgoingRequestSerializer<TMessage> mOutgoingSerializer;
+        private readonly IWampOutgoingRequestSerializer mOutgoingSerializer;
 
         /// <summary>
         /// Creates a new instance of <see cref="WampServerProxyBuilder{TMessage,TRawClient,TServer}"/>
         /// </summary>
-        /// <param name="outgoingSerializer">A <see cref="IWampOutgoingRequestSerializer{TMessage}"/>
+        /// <param name="outgoingSerializer">A <see cref="IWampOutgoingRequestSerializer"/>
         /// used in order to serialize requests into <see cref="WampMessage{TMessage}"/>s.</param>
         /// <param name="outgoingHandlerBuilder">A <see cref="IWampServerProxyOutgoingMessageHandlerBuilder{TMessage,TRawClient}"/>
-        /// used in order to build an <see cref="IWampOutgoingMessageHandler{TMessage}"/> that will handle serialized
+        /// used in order to build an <see cref="IWampOutgoingMessageHandler"/> that will handle serialized
         /// <see cref="WampMessage{TMessage}"/>s.</param>
-        public WampServerProxyBuilder(IWampOutgoingRequestSerializer<TMessage> outgoingSerializer,
+        public WampServerProxyBuilder(IWampOutgoingRequestSerializer outgoingSerializer,
                                       IWampServerProxyOutgoingMessageHandlerBuilder<TMessage, TRawClient> outgoingHandlerBuilder)
         {
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
@@ -35,7 +35,7 @@ namespace WampSharp.Core.Client
 
         public TServer Create(TRawClient client, IWampConnection<TMessage> connection)
         {
-            IWampOutgoingMessageHandler<TMessage> handler =
+            IWampOutgoingMessageHandler handler =
                 mOutgoingHandlerBuilder.Build(client, connection);
 
             WampOutgoingInterceptor<TMessage> interceptor =

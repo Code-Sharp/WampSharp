@@ -26,24 +26,24 @@ namespace WampSharp.V2.Binding
             return mParser.Parse(message);
         }
 
-        public TRaw Format(WampMessage<TMessage> message)
+        public TRaw Format(WampMessage<object> message)
         {
-            RawMessage<TMessage, TRaw> textMessage = GetFormattedMessage(message);
+            RawMessage<object, TRaw> textMessage = GetFormattedMessage(message);
             return textMessage.Raw;
         }
 
-        public override WampMessage<TMessage> GetRawMessage(WampMessage<TMessage> message)
+        public override WampMessage<object> GetRawMessage(WampMessage<object> message)
         {
             return GetFormattedMessage(message);
         }
 
-        private RawMessage<TMessage, TRaw> GetFormattedMessage(WampMessage<TMessage> message)
+        private RawMessage<object, TRaw> GetFormattedMessage(WampMessage<object> message)
         {
-            RawMessage<TMessage, TRaw> result = message as RawMessage<TMessage, TRaw>;
+            RawMessage<object, TRaw> result = message as RawMessage<object, TRaw>;
 
             if (result == null)
             {
-                result = new RawMessage<TMessage, TRaw>(message);
+                result = new RawMessage<object, TRaw>(message);
                 result.Raw = mParser.Format(message);
             }
 

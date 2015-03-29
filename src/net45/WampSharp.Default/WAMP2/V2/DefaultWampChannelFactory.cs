@@ -38,17 +38,17 @@ namespace WampSharp.V2
         /// <param name="address">The given address.</param>
         /// <param name="realm">The given realm to connect to.</param>
         /// <param name="binding">The given text binding.</param>
-        /// <param name="autenticator">The authenticator object to handle CHALLENGE request.</param>
+        /// <param name="authenticator">The authenticator object to handle CHALLENGE request.</param>
         /// <returns></returns>
         public IWampChannel CreateChannel<TMessage>(string address,
                                                     string realm,
                                                     IWampTextBinding<TMessage> binding,
-                                                    IWampClientAutenticator autenticator)
+                                                    IWampClientAuthenticator authenticator)
         {
             var connection =
                 new WebSocket4NetTextConnection<TMessage>(address, binding);
 
-            return this.CreateChannel(realm, connection, binding, autenticator);
+            return this.CreateChannel(realm, connection, binding, authenticator);
         }
 
         /// <summary>
@@ -76,17 +76,17 @@ namespace WampSharp.V2
         /// <param name="address">The given address.</param>
         /// <param name="realm">The given realm to connect to.</param>
         /// <param name="binding">The given binary binding.</param>
-        /// <param name="autenticator">The authenticator object to handle CHALLENGE request.</param>
+        /// <param name="authenticator">The authenticator object to handle CHALLENGE request.</param>
         /// <returns></returns>
         public IWampChannel CreateChannel<TMessage>(string address,
                                                     string realm,
                                                     IWampBinaryBinding<TMessage> binding,
-                                                    IWampClientAutenticator autenticator)
+                                                    IWampClientAuthenticator authenticator)
         {
             var connection =
                 new WebSocket4NetBinaryConnection<TMessage>(address, binding);
 
-            return this.CreateChannel(realm, connection, binding, autenticator);
+            return this.CreateChannel(realm, connection, binding, authenticator);
         }
 
         /// <summary>
@@ -108,13 +108,13 @@ namespace WampSharp.V2
         /// </summary>
         /// <param name="address">The given address.</param>
         /// <param name="realm">The given realm to connect to.</param>
-        /// <param name="autenticator">The authenticator object to handle CHALLENGE request.</param>
+        /// <param name="authenticator">The authenticator object to handle CHALLENGE request.</param>
         /// <returns></returns>
         public IWampChannel CreateJsonChannel(string address,
                                               string realm,
-                                              IWampClientAutenticator autenticator)
+                                              IWampClientAuthenticator authenticator)
         {
-            return this.CreateChannel(address, realm, mJsonBinding, autenticator);
+            return this.CreateChannel(address, realm, mJsonBinding, authenticator);
         }
 
         /// <summary>
@@ -136,13 +136,13 @@ namespace WampSharp.V2
         /// </summary>
         /// <param name="address">The given address.</param>
         /// <param name="realm">The given realm to connect to.</param>
-        /// <param name="autenticator">The authenticator object to handle CHALLENGE request.</param>
+        /// <param name="authenticator">The authenticator object to handle CHALLENGE request.</param>
         /// <returns></returns>
         public IWampChannel CreateMsgpackChannel(string address,
                                                  string realm,
-                                                 IWampClientAutenticator autenticator)
+                                                 IWampClientAuthenticator authenticator)
         {
-            return this.CreateChannel(address, realm, mMsgpackBinding, autenticator);
+            return this.CreateChannel(address, realm, mMsgpackBinding, authenticator);
         }
     }
 }

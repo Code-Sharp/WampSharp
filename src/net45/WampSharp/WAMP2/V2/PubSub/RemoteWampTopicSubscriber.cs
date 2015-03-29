@@ -4,7 +4,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
 {
-    public class RemoteWampTopicSubscriber : IRemoteWampTopicSubscriber
+    internal class RemoteWampTopicSubscriber : IRemoteWampTopicSubscriber
     {
         private readonly IWampClientProxy mSubscriber;
         private readonly long mSubscriptionId;
@@ -16,7 +16,7 @@ namespace WampSharp.V2.PubSub
             mSubscriptionId = subscriptionId;
         }
 
-        public long Session
+        public long SessionId
         {
             get
             {

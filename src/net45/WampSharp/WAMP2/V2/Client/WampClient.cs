@@ -98,9 +98,9 @@ namespace WampSharp.V2.Client
             get { return SessionClient.OpenTask; }
         }
 
-        public void Challenge(string challenge, ChallengeDetails extra)
+        public void Challenge(string authMethod, ChallengeDetails extra)
         {
-            SessionClient.Challenge(challenge, extra);
+            SessionClient.Challenge(authMethod, extra);
         }
 
         public void Welcome(long session, TMessage details)

@@ -78,16 +78,6 @@ namespace WampSharp.Newtonsoft
             }
         }
 
-        public JToken Parse(string message)
-        {
-            return JToken.Parse(message);
-        }
-
-        public string Format(JToken message)
-        {
-            return message.ToString();
-        }
-
         public TTarget Deserialize<TTarget>(JToken message)
         {
             return mSerializer.Deserialize<TTarget>(message.CreateReader());

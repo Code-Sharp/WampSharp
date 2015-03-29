@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WampSharp.Core.Contracts;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
@@ -24,7 +24,7 @@ namespace WampSharp.V2.Client
         private readonly object mLock = new object();
         private bool mGoodbyeSent;
         private readonly IDictionary<string, object> mDetails = GetDetails();
-		private readonly IWampClientAutenticator mAuthenticator;
+		private readonly IWampClientAuthenticator mAuthenticator;
 
         private static Dictionary<string, object> GetDetails()
         {
@@ -80,30 +80,37 @@ namespace WampSharp.V2.Client
                 };
         }
 
-        public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter, IWampClientAutenticator authenticator)
+        public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter, IWampClientAuthenticator authenticator)
         {
             mRealm = realm;
             mFormatter = formatter;
             mServerProxy = realm.Proxy;
-            mAuthenticator = authenticator ?? new DefaultWampClientAutenticator();
+            mAuthenticator = authenticator ?? new DefaultWampClientAuthenticator();
         }
 
-        public void Challenge(string challenge, ChallengeDetails extra)
-		{
-			ChallengeResult result = mAuthenticator.Authenticate(challenge, extra);
-			
-			IDictionary<string, object> authenticationExtraData = result.Extra ?? EmptyDetails;
-			
-			string authenticationSignature = result.Signature;
-			
-			mServerProxy.Authenticate(authenticationSignature, authenticationExtraData);
+        public void Challenge(string authMethod, ChallengeDetails extra)
+        {
+            try
+            {
+                AuthenticationResponse response = mAuthenticator.Authenticate(authMethod, extra);
+
+                IDictionary<string, object> authenticationExtraData = response.Extra ?? EmptyDetails;
+
+                string authenticationSignature = response.Signature;
+
+                mServerProxy.Authenticate(authenticationSignature, authenticationExtraData);
+            }
+            catch (WampAuthenticationException ex)
+            {
+                mServerProxy.Abort(ex.Details, ex.Reason);
+                OnConnectionError(ex);
+            }
         }
 
         public void Welcome(long session, TMessage details)
         {
             mSession = session;
-            mOpenTask.SetResult(true);
-            mOpenTask = null;
+            mOpenTask.TrySetResult(true);
 
             OnConnectionEstablished(new WampSessionEventArgs
                 (session, new SerializedValue<TMessage>(mFormatter, details)));
@@ -127,22 +134,25 @@ namespace WampSharp.V2.Client
         private void RaiseConnectionBroken<T>(IWampFormatter<T> formatter, SessionCloseType sessionCloseType, T details, string reason)
         {
             mConnectionBrokenRaised = true;
-            
-            OnConnectionBroken
-                (new WampSessionCloseEventArgs
-                     (sessionCloseType, mSession,
-                      new SerializedValue<T>(formatter, details),
-                      reason));
+
+            WampSessionCloseEventArgs closeEventArgs = new WampSessionCloseEventArgs
+                (sessionCloseType, mSession,
+                    new SerializedValue<T>(formatter, details),
+                    reason);
+
+            SetOpenTaskErrorIfNeeded(new WampConnectionBrokenException(closeEventArgs));
+
+            OnConnectionBroken(closeEventArgs);
         }
 
         public void Heartbeat(int incomingSeq, int outgoingSeq)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Heartbeat(int incomingSeq, int outgoingSeq, string discard)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public long Session
@@ -233,7 +243,7 @@ namespace WampSharp.V2.Client
 
             if (openTask != null)
             {
-                openTask.SetException(exception);
+                openTask.TrySetException(exception);
             }
         }
 

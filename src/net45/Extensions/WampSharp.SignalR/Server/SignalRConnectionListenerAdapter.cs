@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
@@ -58,7 +59,7 @@ namespace WampSharp.SignalR
             return mSubject.Subscribe(observer);
         }
 
-        private class SignalRTextConnection : IWampConnection<TMessage>
+        private class SignalRTextConnection : AsyncWampConnection<TMessage>
         {
             private readonly IConnection mConnection;
             private readonly string mConnectionId;
@@ -74,16 +75,15 @@ namespace WampSharp.SignalR
                 mParent = parent;
             }
 
-            public void Dispose()
+            public override void Dispose()
             {
                 SignalRTextConnection value;
                 mParent.mConnectionIdToConnection.TryRemove(this.mConnectionId, out value);
             }
 
-            public void Send(WampMessage<TMessage> message)
+            protected override bool IsConnected
             {
-                string text = mBinding.Format(message);
-                mConnection.Send(mConnectionId, text);
+                get { return true; }
             }
 
             public void OnConnected()
@@ -103,43 +103,10 @@ namespace WampSharp.SignalR
                 RaiseConnectionClosed();
             }
 
-            public event EventHandler ConnectionOpen;
-
-            public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
-
-            public event EventHandler ConnectionClosed;
-
-            public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
-
-            protected virtual void RaiseConnectionOpen()
+            protected override Task SendAsync(WampMessage<object> message)
             {
-                EventHandler handler = ConnectionOpen;
-                if (handler != null) handler(this, EventArgs.Empty);
-            }
-
-            protected virtual void RaiseMessageArrived(WampMessage<TMessage> message)
-            {
-                EventHandler<WampMessageArrivedEventArgs<TMessage>> handler = MessageArrived;
-
-                if (handler != null)
-                {
-                    WampMessageArrivedEventArgs<TMessage> e =
-                        new WampMessageArrivedEventArgs<TMessage>(message);
-
-                    handler(this, e);
-                }
-            }
-
-            protected virtual void RaiseConnectionClosed()
-            {
-                EventHandler handler = ConnectionClosed;
-                if (handler != null) handler(this, EventArgs.Empty);
-            }
-
-            protected virtual void RaiseConnectionError(WampConnectionErrorEventArgs e)
-            {
-                EventHandler<WampConnectionErrorEventArgs> handler = ConnectionError;
-                if (handler != null) handler(this, e);
+                string text = mBinding.Format(message);
+                return mConnection.Send(mConnectionId, text);
             }
         }
     }

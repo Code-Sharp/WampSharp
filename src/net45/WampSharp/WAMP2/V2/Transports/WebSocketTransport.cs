@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Subjects;
+using Castle.Core.Logging;
 using WampSharp.Core.Listener;
+using WampSharp.Core.Logs;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
 
@@ -13,8 +15,15 @@ namespace WampSharp.V2.Transports
     /// </summary>
     public abstract class WebSocketTransport<TConnection> : IWampTransport
     {
+        protected readonly ILogger mLogger;
+
         private readonly IDictionary<string, ConnectionListener> mBindings =
             new Dictionary<string, ConnectionListener>();
+
+        public WebSocketTransport()
+        {
+            mLogger = WampLoggerFactory.Create(this.GetType());
+        }
 
         #region Protected Members
 
@@ -34,9 +43,17 @@ namespace WampSharp.V2.Transports
         {
             string protocol = GetSubProtocol(connection);
 
-            ConnectionListener listener = mBindings[protocol];
+            ConnectionListener listener;
 
-            listener.OnNewConnection(connection);
+            if (mBindings.TryGetValue(protocol, out listener))
+            {
+                listener.OnNewConnection(connection);
+            }
+            else
+            {
+                mLogger.ErrorFormat("No handler registered for protocol '{0}'",
+                    protocol);
+            }
         }
 
         #endregion

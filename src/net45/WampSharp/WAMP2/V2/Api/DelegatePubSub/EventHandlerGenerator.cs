@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
@@ -111,16 +112,6 @@ namespace WampSharp.V2.DelegatePubSub
             TDelegate result = lambda.Compile();
 
             return result;
-        }
-
-        private static class Method
-        {
-            public static MethodInfo Get<T>(Expression<Action<T>> methodCall)
-            {
-                MethodCallExpression callExpression = methodCall.Body as MethodCallExpression;
-
-                return callExpression.Method;
-            }
         }
 
         private static void ValidateMethod(MethodInfo method)

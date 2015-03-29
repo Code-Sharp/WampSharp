@@ -16,17 +16,17 @@ namespace WampSharp.Vtortola
             mBinding = binding;
         }
 
-        protected override WampMessage<TMessage> ParseMessage(WebSocketMessageReadStream readStream)
+        protected async override Task<WampMessage<TMessage>> ParseMessage(WebSocketMessageReadStream readStream)
         {
             using (StreamReader streamReader = new StreamReader(readStream))
             {
-                string raw = streamReader.ReadToEnd();
+                string raw = await streamReader.ReadToEndAsync();
                 WampMessage<TMessage> result = mBinding.Parse(raw);
                 return result;
             }
         }
 
-        protected override async Task SendAsync(WampMessage<TMessage> message)
+        protected override async Task SendAsync(WampMessage<object> message)
         {
             string raw = mBinding.Format(message);
 

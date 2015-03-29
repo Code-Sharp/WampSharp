@@ -1,7 +1,8 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
@@ -13,8 +14,9 @@ namespace WampSharp.V2.PubSub
     {
         #region Fields
 
-        private readonly ConcurrentDictionary<string, WampTopic> mTopicUriToSubject;
-        private readonly object mLock = new object();
+        private readonly WampIdGenerator mGenerator = new WampIdGenerator();
+        private readonly MatchTopicContainer[] mInnerContainers;
+        private readonly ExactTopicContainer mExactTopicContainer;
 
         #endregion
 
@@ -25,206 +27,160 @@ namespace WampSharp.V2.PubSub
         /// </summary>
         public WampTopicContainer()
         {
-            mTopicUriToSubject =
-                new ConcurrentDictionary<string, WampTopic>();
+            mExactTopicContainer = new ExactTopicContainer();
+
+            mInnerContainers = new MatchTopicContainer[]
+            {
+                mExactTopicContainer,
+                new PrefixTopicContainer(),
+                new WildCardTopicContainer()
+            };
         }
 
         #endregion
 
-        #region Public Methods
-
-
         public IEnumerable<string> TopicUris
         {
-            get
-            {
-                return mTopicUriToSubject.Keys;
-            }
+            get { return mExactTopicContainer.TopicUris; }
         }
 
         public IEnumerable<IWampTopic> Topics
         {
-            get
-            {
-                return mTopicUriToSubject.Values;
-            }
-        }
-
-        public virtual IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options)
-        {
-            return new OptionlessSubscriptionId(topicUri);
+            get { return mExactTopicContainer.Topics; }
         }
 
         public IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {
-            lock (mLock)
-            {
-                IWampTopic topic = GetOrCreateTopicByUri(topicUri);
+            MatchTopicContainer topicContainer = GetInnerContainer(options);
 
-                return topic.Subscribe(subscriber);
+            return topicContainer.Subscribe(subscriber, topicUri, options);
+        }
+
+        public IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options)
+        {
+            MatchTopicContainer topicContainer = GetInnerContainer(options);
+
+            return topicContainer.GetSubscriptionId(topicUri, options);
+        }
+
+        private MatchTopicContainer GetInnerContainer(SubscribeOptions options)
+        {
+            MatchTopicContainer topicContainer = mInnerContainers.FirstOrDefault(x => x.Handles(options));
+
+            if (topicContainer == null)
+            {
+                throw new WampException(WampErrors.InvalidTopic,
+                    "unknown match type: " + options.Match);
             }
+
+            return topicContainer;
         }
 
         public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri)
         {
-            return TopicInvokeSafe(topicUri,
-                                   topic => topic.Publish(formatter, options));
+            Func<MatchTopicContainer, long, bool> publishAction =
+                (container, publicationId) =>
+                    container.Publish(formatter, publicationId, options, topicUri);
+
+            return InnerPublish(publishAction, topicUri);
         }
 
         public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri, TMessage[] arguments)
         {
-            return TopicInvokeSafe(topicUri,
-                                   topic => topic.Publish(formatter, options, arguments));
+            Func<MatchTopicContainer, long, bool> publishAction =
+                (container, publicationId) =>
+                    container.Publish(formatter, publicationId, options, topicUri, arguments);
+
+            return InnerPublish(publishAction, topicUri);
         }
 
-        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
+        public long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions options, string topicUri, TMessage[] arguments,
+            IDictionary<string, TMessage> argumentKeywords)
         {
-            return TopicInvokeSafe(topicUri,
-                                   topic => topic.Publish(formatter, options, arguments, argumentKeywords));
+            Func<MatchTopicContainer, long, bool> publishAction =
+                (container, publicationId) =>
+                    container.Publish(formatter, publicationId, options, topicUri, arguments, argumentKeywords);
+
+            return InnerPublish(publishAction, topicUri);
         }
 
-        private TResult TopicInvokeSafe<TResult>
-            (string topicUri, Func<IWampTopic, TResult> invoker)
+        private long InnerPublish(Func<MatchTopicContainer, long, bool> publishAction, string topicUri)
         {
-            lock (mLock)
+            bool published = false;
+
+            long publicationId = mGenerator.Generate();
+
+            foreach (MatchTopicContainer container in mInnerContainers)
             {
-                IWampTopic topic = GetTopicByUri(topicUri);
+                published =
+                    published | publishAction(container, publicationId);
+            }
 
-                if (topic != null)
-                {
-                    return invoker(topic);
-                }
-                else
-                {
-                    throw new WampException(WampErrors.InvalidTopic,
-                                            "topicUri: " + topicUri);
-                }
+            if (published)
+            {
+                return publicationId;
+            }
+            else
+            {
+                throw new WampException(WampErrors.InvalidTopic,
+                                 "topicUri: " + topicUri);
             }
         }
 
         public IWampTopic CreateTopicByUri(string topicUri, bool persistent)
         {
-            WampTopic wampTopic = CreateWampTopic(topicUri, persistent);
-
-            IDictionary<string, WampTopic> casted = mTopicUriToSubject;
-
-            casted.Add(topicUri, wampTopic);
-
-            RaiseTopicCreated(wampTopic);
-
-            return wampTopic;
+            return mExactTopicContainer.CreateTopicByUri(topicUri, persistent);
         }
 
         public IWampTopic GetOrCreateTopicByUri(string topicUri)
         {
-            // Pretty ugly.
-            bool created = false;
-
-            WampTopic result =
-                mTopicUriToSubject.GetOrAdd(topicUri,
-                                            key =>
-                                                {
-                                                    WampTopic topic = CreateWampTopic(topicUri, false);
-                                                    created = true;
-                                                    return topic;
-                                                });
-
-            if (created)
-            {
-                RaiseTopicCreated(result);
-            }
-
-            return result;
+            return mExactTopicContainer.GetOrCreateTopicByUri(topicUri);
         }
 
         public IWampTopic GetTopicByUri(string topicUri)
         {
-            WampTopic result;
-
-            if (mTopicUriToSubject.TryGetValue(topicUri, out result))
-            {
-                return result;
-            }
-
-            return null;
+            return mExactTopicContainer.GetTopicByUri(topicUri);
         }
 
         public bool TryRemoveTopicByUri(string topicUri, out IWampTopic topic)
         {
-            WampTopic value;
-            bool result = mTopicUriToSubject.TryRemove(topicUri, out value);
-            topic = value;
-
-            if (result)
-            {
-                RaiseTopicRemoved(topic);
-            }
-
-            return result;
+            return mExactTopicContainer.TryRemoveTopicByUri(topicUri, out topic);
         }
 
-        #endregion
-
-        #region Private Methods
-
-        private WampTopic CreateWampTopic(string topicUri, bool persistent)
+        public event EventHandler<WampTopicCreatedEventArgs> TopicCreated
         {
-            WampTopic topic = new WampTopic(topicUri, persistent);
-
-            // Non persistent topics die when they are empty :)
-            if (!persistent)
+            add
             {
-                topic.TopicEmpty += OnTopicEmpty;
-            }
-
-            return topic;
-        }
-
-        private void OnTopicEmpty(object sender, EventArgs e)
-        {
-            lock (mLock)
-            {
-                IWampTopic topic = sender as IWampTopic;
-
-                if (!topic.HasSubscribers)
+                foreach (MatchTopicContainer container in mInnerContainers)
                 {
-                    topic.TopicEmpty -= OnTopicEmpty;
-                    topic.Dispose();
-
-                    IWampTopic deletedTopic;
-                    TryRemoveTopicByUri(topic.TopicUri, out deletedTopic);
+                    container.TopicCreated += value;
+                }
+            }
+            remove
+            {
+                foreach (MatchTopicContainer container in mInnerContainers)
+                {
+                    container.TopicCreated -= value;
                 }
             }
         }
 
-        #endregion
-
-        #region Events
-
-        public event EventHandler<WampTopicCreatedEventArgs> TopicCreated;
-
-        public event EventHandler<WampTopicRemovedEventArgs> TopicRemoved;
-
-        private void RaiseTopicCreated(IWampTopic wampTopic)
+        public event EventHandler<WampTopicRemovedEventArgs> TopicRemoved
         {
-            EventHandler<WampTopicCreatedEventArgs> topicCreated = TopicCreated;
-
-            if (topicCreated != null)
+            add
             {
-                topicCreated(this, new WampTopicCreatedEventArgs(wampTopic));
+                foreach (MatchTopicContainer container in mInnerContainers)
+                {
+                    container.TopicRemoved += value;
+                }
+            }
+            remove
+            {
+                foreach (MatchTopicContainer container in mInnerContainers)
+                {
+                    container.TopicRemoved -= value;
+                }
             }
         }
-
-        private void RaiseTopicRemoved(IWampTopic topic)
-        {
-            EventHandler<WampTopicRemovedEventArgs> topicRemoved = TopicRemoved;
-
-            if (topicRemoved != null)
-            {
-                topicRemoved(this, new WampTopicRemovedEventArgs(topic));
-            }
-        }
-
-        #endregion
     }
 }

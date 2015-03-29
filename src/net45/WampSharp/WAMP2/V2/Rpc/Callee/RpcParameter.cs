@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using WampSharp.V2.Core;
 
 namespace WampSharp.V2.Rpc
 {

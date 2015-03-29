@@ -10,12 +10,12 @@ namespace WampSharp.Binding
     /// </summary>
     public class JTokenJsonBinding : JsonBinding<JToken>
     {
-        public JTokenJsonBinding() : base(new JsonFormatter(), new JTokenMessageParser())
+        public JTokenJsonBinding() : this(new JsonSerializer())
         {
         }
 
         public JTokenJsonBinding(JsonSerializer serializer) :
-            base(new JsonFormatter(serializer), new JTokenMessageParser())
+            base(new JsonFormatter(serializer), new JTokenMessageParser(serializer))
         {
         }
     }

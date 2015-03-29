@@ -38,10 +38,10 @@ namespace WampSharp.V2
         {
             WampSessionServer<TMessage> session = new WampSessionServer<TMessage>();
 
-            IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer =
+            IWampOutgoingRequestSerializer outgoingRequestSerializer =
                 new WampOutgoingRequestSerializer<TMessage>(binding.Formatter);
 
-            IWampEventSerializer<TMessage> eventSerializer = GetEventSerializer(outgoingRequestSerializer);
+            IWampEventSerializer eventSerializer = GetEventSerializer(outgoingRequestSerializer);
 
             mRealmContainer = new WampBindedRealmContainer<TMessage>(realmContainer, session, eventSerializer, binding);
 
@@ -53,16 +53,16 @@ namespace WampSharp.V2
             mListener = GetWampListener(connectionListener, binding, outgoingRequestSerializer);
         }
 
-        private static IWampEventSerializer<TMessage> GetEventSerializer(
-            IWampOutgoingRequestSerializer<TMessage> outgoingSerializer)
+        private static IWampEventSerializer GetEventSerializer(
+            IWampOutgoingRequestSerializer outgoingSerializer)
         {
             WampMessageSerializerFactory<TMessage> serializerGenerator =
                 new WampMessageSerializerFactory<TMessage>(outgoingSerializer);
 
-            return serializerGenerator.GetSerializer<IWampEventSerializer<TMessage>>();
+            return serializerGenerator.GetSerializer<IWampEventSerializer>();
         }
 
-        private WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
+        private WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer outgoingRequestSerializer)
         {
             IWampClientBuilderFactory<TMessage, IWampClientProxy<TMessage>> clientBuilderFactory =
                 GetWampClientBuilder(binding, outgoingRequestSerializer);
@@ -89,7 +89,7 @@ namespace WampSharp.V2
                  mSession);
         }
 
-        private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
+        private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer outgoingRequestSerializer)
         {
             WampIdGenerator wampIdGenerator =
                 new WampIdGenerator();

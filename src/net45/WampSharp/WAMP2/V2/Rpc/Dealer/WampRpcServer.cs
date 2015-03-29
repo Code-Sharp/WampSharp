@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Castle.Core.Logging;
+using WampSharp.Core.Logs;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
@@ -7,8 +9,9 @@ using WampSharp.V2.Core.Contracts;
 namespace WampSharp.V2.Rpc
 {
     public class WampRpcServer<TMessage> : IWampRpcServer<TMessage>,
-        IWampErrorCallback<TMessage> 
+        IWampErrorCallback<TMessage>
     {
+        private readonly ILogger mLogger;
         private readonly IWampFormatter<TMessage> mFormatter; 
         private readonly IWampRpcOperationInvoker mInvoker;
         private readonly IWampCalleeOperationCatalog mCalleeCatalog;
@@ -17,6 +20,7 @@ namespace WampSharp.V2.Rpc
         public WampRpcServer(IWampRpcOperationCatalog catalog, IWampBinding<TMessage> binding)
         {
             mInvoker = catalog;
+            mLogger = WampLoggerFactory.Create(this.GetType());
             mFormatter = binding.Formatter;
 
             mHandler = new WampCalleeInvocationHandler<TMessage>(binding.Formatter);
@@ -34,6 +38,10 @@ namespace WampSharp.V2.Rpc
             }
             catch (WampException exception)
             {
+                mLogger.ErrorFormat(exception,
+                    "Failed registering procedure '{0}'. Registration request id: {1} ",
+                    procedure, requestId);
+
                 callee.RegisterError(requestId, exception);
             }
         }
@@ -47,6 +55,11 @@ namespace WampSharp.V2.Rpc
             }
             catch (WampException exception)
             {
+                mLogger.ErrorFormat(exception,
+                    "Failed unregistering procedure with registration id {0}. Unregistration request id: {1} ",
+                    registrationId,
+                    requestId);
+
                 callee.UnregisterError(requestId, exception);
             }
         }

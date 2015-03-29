@@ -15,6 +15,7 @@ namespace WampSharp.V1.Rpc.Server
         private readonly object mInstance;
         private readonly MethodInfo mMethod;
         private readonly string mProcUri;
+        private readonly Func<object, object[], object> mMethodInvoke;
 
         /// <summary>
         /// Creates a new instance of <see cref="MethodInfoWampRpcMethod"/>.
@@ -26,6 +27,7 @@ namespace WampSharp.V1.Rpc.Server
         {
             mInstance = instance;
             mMethod = method;
+            mMethodInvoke = MethodInvokeGenerator.CreateInvokeMethod(method);
 
             mProcUri = GetProcUri(method, baseUri);
         }
@@ -115,14 +117,7 @@ namespace WampSharp.V1.Rpc.Server
         {
             object result;
 
-            try
-            {
-                result = mMethod.Invoke(GetInstance(client), parameters);
-            }
-            catch (TargetInvocationException ex)
-            {
-                throw ex.InnerException;
-            }
+            result = mMethodInvoke(GetInstance(client), parameters);
 
             return result;
         }

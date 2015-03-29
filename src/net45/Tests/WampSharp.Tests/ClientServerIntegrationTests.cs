@@ -50,7 +50,7 @@ namespace WampSharp.Tests
 
             Mock<IWampClient<JToken>> clientMock = new Mock<IWampClient<JToken>>();
             
-            MockConnection<JToken> connection = new MockConnection<JToken>();
+            MockConnection<JToken> connection = new MockConnection<JToken>(mFormatter);
             
             IWampServer client = GetClient(connection.SideAToSideB, clientMock.Object);
 
@@ -95,7 +95,7 @@ namespace WampSharp.Tests
 
             WampListener<JToken> listener = GetListener(mockListener, serverMock.Object);
 
-            MockConnection<JToken> connection = new MockConnection<JToken>();
+            MockConnection<JToken> connection = new MockConnection<JToken>(mFormatter);
 
             WampRpcClientFactory<JToken> factory =
                 new WampRpcClientFactory<JToken>(new WampRpcSerializer(new WampDelegateProcUriMapper(x => x.Name)),
@@ -150,7 +150,7 @@ namespace WampSharp.Tests
 
             WampListener<JToken> listener = GetListener(mockListener, rpcServer);
 
-            MockConnection<JToken> connection = new MockConnection<JToken>();
+            MockConnection<JToken> connection = new MockConnection<JToken>(mFormatter);
 
             WampRpcClientFactory<JToken> factory =
                 new WampRpcClientFactory<JToken>(new WampRpcSerializer(new WampDelegateProcUriMapper(x => "http://www.yogev.com/pr/" + x.Name)),

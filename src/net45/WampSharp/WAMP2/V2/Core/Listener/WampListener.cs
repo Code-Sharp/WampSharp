@@ -17,11 +17,11 @@ namespace WampSharp.V2.Core.Listener
         /// Creates a new instance of <see cref="WampListener{TMessage}"/>
         /// </summary>
         /// <param name="listener">The <see cref="IWampConnectionListener{TMessage}"/> used in order to 
-        /// accept incoming connections.</param>
+        ///     accept incoming connections.</param>
         /// <param name="handler">The <see cref="IWampIncomingMessageHandler{TMessage}"/> used
-        /// in order to dispatch incoming messages.</param>
+        ///     in order to dispatch incoming messages.</param>
         /// <param name="clientContainer">The <see cref="IWampClientContainer{TMessage,TClient}"/> use
-        /// in order to store the connected clients.</param>
+        ///     in order to store the connected clients.</param>
         /// <param name="sessionHandler">A session handler that handles new clients.</param>
         public WampListener(IWampConnectionListener<TMessage> listener,
                             IWampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>> handler,
@@ -32,11 +32,18 @@ namespace WampSharp.V2.Core.Listener
             mSessionHandler = sessionHandler;
         }
 
+        protected override object GetSessionId(IWampClientProxy<TMessage> client)
+        {
+            return client.Session;
+        }
+
         protected override void OnNewConnection(IWampConnection<TMessage> connection)
         {
             base.OnNewConnection(connection);
 
             IWampClientProxy<TMessage> client = ClientContainer.GetClient(connection);
+
+            mLogger.DebugFormat("Client connected, session id: " + client.Session);
 
             mSessionHandler.OnNewClient(client);
         }
@@ -47,6 +54,8 @@ namespace WampSharp.V2.Core.Listener
 
             if (ClientContainer.TryGetClient(connection, out client))
             {
+                mLogger.DebugFormat("Client disconnected, session id: " + client.Session);
+
                 mSessionHandler.OnClientDisconnect(client);
             }
 

@@ -7,11 +7,13 @@ namespace WampSharp.Tests.Api
 {
     public class WampChannelTests
     {
+        private readonly MockRawFormatter mFormatter = new MockRawFormatter();
+
         [Test]
         public void OpenAsyncWillNotBlockOnConnectionLost()
         {
-            var wampChannelFactory = new WampChannelFactory<MockRaw>(new MockRawFormatter());
-            var mockConnection = new MockConnection<MockRaw>();
+            var wampChannelFactory = new WampChannelFactory<MockRaw>(mFormatter);
+            var mockConnection = new MockConnection<MockRaw>(mFormatter);
             var mockControlledWampConnection = mockConnection.SideAToSideB;
             
             var wampChannel = wampChannelFactory.CreateChannel(mockControlledWampConnection);
@@ -25,8 +27,8 @@ namespace WampSharp.Tests.Api
         [Test]
         public void OpenAsyncWillThrowAndExpcetionIfAnErrorOccurs()
         {
-            var wampChannelFactory = new WampChannelFactory<MockRaw>(new MockRawFormatter());
-            var mockConnection = new MockConnection<MockRaw>();
+            var wampChannelFactory = new WampChannelFactory<MockRaw>(mFormatter);
+            var mockConnection = new MockConnection<MockRaw>(mFormatter);
 
             var wampChannel = wampChannelFactory.CreateChannel(mockConnection.SideAToSideB);
             var openAsyncTask = wampChannel.OpenAsync();

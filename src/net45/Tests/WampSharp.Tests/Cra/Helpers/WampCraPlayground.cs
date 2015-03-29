@@ -9,7 +9,7 @@ namespace WampSharp.Tests.Cra.Helpers
     {
         public WampCraPlayground(IWampFormatter<TMessage> formatter, 
                                     WampCraAuthenticaticatorBuilder<TMessage> craAuthenticaticatorBuilder) : 
-                                        this(formatter, new MockConnectionListener<TMessage>(), craAuthenticaticatorBuilder)
+                                        this(formatter, new MockConnectionListener<TMessage>(formatter), craAuthenticaticatorBuilder)
         {
         }
 

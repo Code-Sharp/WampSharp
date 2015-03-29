@@ -14,7 +14,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
     public class WampClientBuilderFactory<TMessage> : IWampClientBuilderFactory<TMessage, IWampClientProxy<TMessage>>
     {
         private readonly IWampIdGenerator mSessionIdGenerator;
-        private readonly IWampOutgoingRequestSerializer<TMessage> mOutgoingSerializer;
+        private readonly IWampOutgoingRequestSerializer mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
         private IWampBinding<TMessage> mBinding;
 
@@ -23,13 +23,13 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         /// </summary>
         /// <param name="sessionIdGenerator">The <see cref="IWampIdGenerator"/> used to generate
         /// session ids.</param>
-        /// <param name="outgoingSerializer">The <see cref="IWampOutgoingRequestSerializer{TMessage}"/>
+        /// <param name="outgoingSerializer">The <see cref="IWampOutgoingRequestSerializer"/>
         /// used to serialize methods call to <see cref="WampMessage{TMessage}"/>s.</param>
-        /// <param name="outgoingHandlerBuilder">The <see cref="IWampOutgoingMessageHandler{TMessage}"/>
-        /// used to create the <see cref="IWampOutgoingMessageHandler{TMessage}"/> used to
+        /// <param name="outgoingHandlerBuilder">The <see cref="IWampOutgoingMessageHandler"/>
+        /// used to create the <see cref="IWampOutgoingMessageHandler"/> used to
         /// handle outgoing <see cref="WampMessage{TMessage}"/>s.</param>
         public WampClientBuilderFactory(IWampIdGenerator sessionIdGenerator,
-                                        IWampOutgoingRequestSerializer<TMessage> outgoingSerializer,
+                                        IWampOutgoingRequestSerializer outgoingSerializer,
                                         IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampBinding<TMessage> binding)
         {
             mSessionIdGenerator = sessionIdGenerator;

@@ -124,6 +124,7 @@
     <Compile Include="TestHelpers\Messages.cs" />
     <Compile Include="TestHelpers\MockRaw.cs" />
     <Compile Include="TestHelpers\MockRawFormatter.cs" />
+    <Compile Include="WampFormatterExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

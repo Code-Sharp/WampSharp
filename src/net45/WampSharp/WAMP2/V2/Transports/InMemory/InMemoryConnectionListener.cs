@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.V2.Binding;
 
 namespace WampSharp.V2.Transports
 {
@@ -13,10 +14,12 @@ namespace WampSharp.V2.Transports
     {
         private readonly Subject<IWampConnection<TMessage>> mSubject = new Subject<IWampConnection<TMessage>>();
         private readonly IScheduler mServerScheduler;
+        private readonly IWampBinding<TMessage> mBinding;
 
-        public InMemoryConnectionListener(IScheduler serverScheduler)
+        public InMemoryConnectionListener(IScheduler serverScheduler, IWampBinding<TMessage> binding)
         {
             mServerScheduler = serverScheduler;
+            mBinding = binding;
         }
 
         public IDisposable Subscribe(IObserver<IWampConnection<TMessage>> observer)
@@ -36,10 +39,10 @@ namespace WampSharp.V2.Transports
             Subject<Unit> connectionClosed = new Subject<Unit>();
 
             InMemoryConnection serverToClient =
-                new InMemoryConnection(serverInput, clientInput, mServerScheduler, connectionOpen, connectionClosed);
+                new InMemoryConnection(mBinding, serverInput, clientInput, mServerScheduler, connectionOpen, connectionClosed);
 
             IWampConnection<TMessage> clientToServer =
-                new InMemoryConnection(clientInput, serverInput, scheduler, connectionOpen, connectionClosed);
+                new InMemoryConnection(mBinding, clientInput, serverInput, scheduler, connectionOpen, connectionClosed);
 
             mSubject.OnNext(clientToServer);
 
@@ -59,14 +62,16 @@ namespace WampSharp.V2.Transports
             private IDisposable mSubscription;
             private readonly ISubject<Unit> mConnectionOpen;
             private readonly ISubject<Unit> mConnectionClosed;
+            private readonly IWampBinding<TMessage> mBinding;
 
-            public InMemoryConnection(IObservable<WampMessage<TMessage>> incoming, IObserver<WampMessage<TMessage>> outgoing, IScheduler scheduler, ISubject<Unit> connectionOpen, ISubject<Unit> connectionClosed)
+            public InMemoryConnection(IWampBinding<TMessage> binding, IObservable<WampMessage<TMessage>> incoming, IObserver<WampMessage<TMessage>> outgoing, IScheduler scheduler, ISubject<Unit> connectionOpen, ISubject<Unit> connectionClosed)
             {
                 mIncoming = incoming;
                 mOutgoing = outgoing;
                 mConnectionOpen = connectionOpen;
                 mScheduler = scheduler;
                 mConnectionClosed = connectionClosed;
+                mBinding = binding;
 
                 IDisposable connectionClosedSubscription =
                     mConnectionClosed.Subscribe(x => RaiseConnectionClosed());
@@ -119,9 +124,10 @@ namespace WampSharp.V2.Transports
                 mSubscription = null;
             }
 
-            public void Send(WampMessage<TMessage> message)
+            public void Send(WampMessage<object> message)
             {
-                mOutgoing.OnNext(message);
+                var typedMessage = mBinding.Formatter.SerializeMessage(message);
+                mOutgoing.OnNext(typedMessage);
             }
 
             public event EventHandler ConnectionOpen;

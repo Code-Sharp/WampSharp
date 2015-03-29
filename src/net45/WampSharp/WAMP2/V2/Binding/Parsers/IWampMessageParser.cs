@@ -20,6 +20,6 @@ namespace WampSharp.V2.Binding.Parsers
         /// </summary>
         /// <param name="message">The given <see cref="WampMessage{TMessage}"/>.</param>
         /// <returns>A raw format representing the given <see cref="WampMessage{TMessage}"/>.</returns>
-        TRaw Format(WampMessage<TMessage> message);
+        TRaw Format(WampMessage<object> message);
     }
 }

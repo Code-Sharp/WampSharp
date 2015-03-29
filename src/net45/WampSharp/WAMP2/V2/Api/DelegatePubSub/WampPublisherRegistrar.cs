@@ -9,7 +9,7 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.DelegatePubSub
 {
-    public class WampPublisherRegistrar
+    internal class WampPublisherRegistrar
     {
         private readonly IWampRealmProxy mProxy;
 

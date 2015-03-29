@@ -29,8 +29,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                 new WampMessageSerializerFactory<MockRaw>
                     (new WampOutgoingRequestSerializer<MockRaw>(Binding.Formatter));
 
-            IWampEventSerializer<MockRaw> eventSerializer =
-                serializerGenerator.GetSerializer<IWampEventSerializer<MockRaw>>();
+            IWampEventSerializer eventSerializer =
+                serializerGenerator.GetSerializer<IWampEventSerializer>();
 
             return new WampPubSubServer<MockRaw>(new WampTopicContainer(),
                                                  eventSerializer,

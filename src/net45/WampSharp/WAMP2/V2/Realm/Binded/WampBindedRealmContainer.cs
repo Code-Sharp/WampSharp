@@ -8,7 +8,7 @@ namespace WampSharp.V2.Realm.Binded
     {
         private readonly IWampHostedRealmContainer mRealmContainer;
         private readonly IWampSessionServer<TMessage> mSession;
-        private readonly IWampEventSerializer<TMessage> mEventSerializer;
+        private readonly IWampEventSerializer mEventSerializer;
         private readonly IWampBinding<TMessage> mBinding;
 
         private readonly ConcurrentDictionary<string, IWampBindedRealm<TMessage>> mRealmNameToRealm =
@@ -17,7 +17,7 @@ namespace WampSharp.V2.Realm.Binded
 
         public WampBindedRealmContainer(IWampHostedRealmContainer realmContainer,
                                   IWampSessionServer<TMessage> session,
-                                  IWampEventSerializer<TMessage> eventSerializer,
+                                  IWampEventSerializer eventSerializer,
                                   IWampBinding<TMessage> binding)
         {
             mSession = session;

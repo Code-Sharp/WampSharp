@@ -34,6 +34,10 @@
     <DocumentationFile>bin\Release\WampSharp.Default.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.Core.3.3.1\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Fleck, Version=0.12.0.40, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Fleck.0.12.0.40\lib\net40\Fleck.dll</HintPath>
@@ -71,10 +75,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Tasks.Dataflow">
-      <HintPath>..\packages\HomeLab.Tpl.DataFlow.4.0.0\lib\net40\System.Threading.Tasks.Dataflow.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebSocket4Net, Version=0.10.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
@@ -83,6 +83,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\net45\WampSharp.Default\AsyncConnection\ActionBlock.cs">
+      <Link>AsyncConnection\ActionBlock.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp.Default\AsyncConnection\AsyncWampConnection.cs">
       <Link>AsyncConnection\AsyncWampConnection.cs</Link>
     </Compile>
@@ -166,7 +169,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WampSharp\WampSharp.csproj">

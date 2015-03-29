@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.AspNet.SignalR.Client.Transports;
 using WampSharp.Core.Listener;
@@ -11,8 +13,11 @@ namespace WampSharp.SignalR
     /// Represents a <see cref="IWampConnection{TMessage}"/> implemented using SignalR.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public class SignalRTextConnection<TMessage> : IControlledWampConnection<TMessage>
+    public class SignalRTextConnection<TMessage> :
+        AsyncWampConnection<TMessage>,
+        IControlledWampConnection<TMessage>
     {
+        private int mIsConnected = 0;
         private readonly IWampTextBinding<TMessage> mBinding;
         private readonly Connection mConnection;
         private readonly IClientTransport mTransport;
@@ -37,12 +42,12 @@ namespace WampSharp.SignalR
         private void OnReceived(string text)
         {
             WampMessage<TMessage> message = mBinding.Parse(text);
-            this.RaiseMessageArrived(new WampMessageArrivedEventArgs<TMessage>(message));
+            this.RaiseMessageArrived(message);
         }
 
         private void OnError(Exception exception)
         {
-            this.RaiseConnectionError(new WampConnectionErrorEventArgs(exception));
+            this.RaiseConnectionError(exception);
         }
 
         private void OnClosed()
@@ -50,69 +55,43 @@ namespace WampSharp.SignalR
             this.RaiseConnectionClosed();
         }
 
-        public void Connect()
+        public async void Connect()
         {
-            mConnection.Start(mTransport)
-                .ContinueWith(x =>
-                                  {
-                                      x.Wait();
-                                      RaiseConnectionOpen();
-                                  });
+            await mConnection.Start(mTransport);
+            RaiseConnectionOpen();
         }
 
-        public void Dispose()
+        protected override void RaiseConnectionOpen()
+        {
+            Interlocked.CompareExchange(ref mIsConnected, 1, 0);
+
+            base.RaiseConnectionOpen();
+        }
+
+        protected override void RaiseConnectionClosed()
+        {
+            Interlocked.CompareExchange(ref mIsConnected, 0, 1);
+
+            base.RaiseConnectionClosed();
+        }
+
+        protected override Task SendAsync(WampMessage<object> message)
+        {
+            string text = mBinding.Format(message);
+            return mConnection.Send(text);
+        }
+
+        public override void Dispose()
         {
             mConnection.Dispose();
         }
 
-        public void Send(WampMessage<TMessage> message)
+        protected override bool IsConnected
         {
-            string text = mBinding.Format(message);
-            mConnection.Send(text);
+            get
+            {
+                return mIsConnected == 1;
+            }
         }
-
-        protected virtual void RaiseConnectionOpen()
-        {
-            EventHandler handler = ConnectionOpen;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
-        protected virtual void RaiseMessageArrived(WampMessageArrivedEventArgs<TMessage> e)
-        {
-            EventHandler<WampMessageArrivedEventArgs<TMessage>> handler = MessageArrived;
-            if (handler != null) handler(this, e);
-        }
-
-        protected virtual void RaiseConnectionClosed()
-        {
-            EventHandler handler = ConnectionClosed;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
-        protected virtual void RaiseConnectionError(WampConnectionErrorEventArgs e)
-        {
-            EventHandler<WampConnectionErrorEventArgs> handler = ConnectionError;
-            if (handler != null) handler(this, e);
-        }
-
-        /// <summary>
-        /// Occurs when this connection opens.
-        /// </summary>
-        public event EventHandler ConnectionOpen;
-
-        /// <summary>
-        /// Occurs when a message arrives.
-        /// </summary>
-        public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
-
-        /// <summary>
-        /// Occurs when this connection closes.
-        /// </summary>
-        public event EventHandler ConnectionClosed;
-
-        /// <summary>
-        /// Occurs when this connection occurs an error.
-        /// </summary>
-        public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
     }
 }

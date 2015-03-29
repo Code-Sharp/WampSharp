@@ -26,11 +26,9 @@ namespace WampSharp.V2.CalleeProxy
             private readonly IWampRpcOperationCatalogProxy mCatalogProxy;
             private readonly IWampClientConnectionMonitor mMonitor;
 
-            private readonly TaskCompletionSource<object> mDisconnectionTaskCompletionSource =
-                new TaskCompletionSource<object>();
-            
-            private readonly ManualResetEvent mDisconnectionWaitHandle =
-                new ManualResetEvent(false);
+            private TaskCompletionSource<object> mDisconnectionTaskCompletionSource;
+
+            private ManualResetEvent mDisconnectionWaitHandle;
 
             private Exception mDisconnectionException;
             private readonly CallOptions mEmptyOptions = new CallOptions();
@@ -44,7 +42,10 @@ namespace WampSharp.V2.CalleeProxy
             {
                 mCatalogProxy = catalogProxy;
                 mMonitor = monitor;
+                mDisconnectionTaskCompletionSource = new TaskCompletionSource<object>();
+                mDisconnectionWaitHandle = new ManualResetEvent(false);                
 
+                mMonitor.ConnectionEstablished += OnConnectionEstablished;
                 mMonitor.ConnectionError += OnConnectionError;
                 mMonitor.ConnectionBroken += OnConnectionBroken;
             }
@@ -52,6 +53,12 @@ namespace WampSharp.V2.CalleeProxy
             #endregion
 
             #region Private Methods
+
+            private void OnConnectionEstablished(object sender, WampSessionEventArgs e)
+            {
+                mDisconnectionTaskCompletionSource = new TaskCompletionSource<object>();
+                mDisconnectionWaitHandle = new ManualResetEvent(false);                
+            }
 
             private void OnConnectionBroken(object sender, WampSessionCloseEventArgs e)
             {
@@ -68,7 +75,7 @@ namespace WampSharp.V2.CalleeProxy
             private void SetException(Exception exception)
             {
                 mDisconnectionException = exception;
-                mDisconnectionTaskCompletionSource.SetException(exception);
+                mDisconnectionTaskCompletionSource.TrySetException(exception);
                 mDisconnectionWaitHandle.Set();
             }
 
@@ -77,30 +84,34 @@ namespace WampSharp.V2.CalleeProxy
             #region Overridden
 
 #if NET45
-            protected async override Task<object> AwaitForResult(AsyncOperationCallback asyncOperationCallback)
+            protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
 #else
-            protected override Task<object> AwaitForResult(AsyncOperationCallback asyncOperationCallback)
+            protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
 #endif
             {
 #if NET45
-                Task<object> task = await Task.WhenAny(asyncOperationCallback.Task,
-                                                       mDisconnectionTaskCompletionSource.Task);
+                Task<T> operationTask = asyncOperationCallback.Task;
 
-                object result = await task;
+                Task task = await Task.WhenAny(operationTask,
+                    mDisconnectionTaskCompletionSource.Task)
+                    .ConfigureAwait(false);
+
+                T result = await operationTask.ConfigureAwait(false);
 
                 return result;
 #else
-                IObservable<object> merged =
+                IObservable<T> merged =
                     Observable.Amb(asyncOperationCallback.Task.ToObservable(),
-                                     mDisconnectionTaskCompletionSource.Task.ToObservable());
+                                     mDisconnectionTaskCompletionSource.Task.ToObservable().Cast<T>());
                 
-                Task<object> task = merged.ToTask();
+                Task<T> task = merged.ToTask();
 
                 return task;
 #endif
             }
 
-            protected override void WaitForResult(SyncCallback callback)
+        
+            protected override void WaitForResult<T>(SyncCallback<T> callback)
             {
                 int signaledIndex =
                     WaitHandle.WaitAny(new[] {mDisconnectionWaitHandle, callback.WaitHandle},

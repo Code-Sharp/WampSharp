@@ -8,5 +8,8 @@
 
         [IgnoreProperty]
         public long PublisherId { get; set; }
+
+        [IgnoreProperty]
+        public string TopicUri { get; set; }
     }
 }

@@ -109,7 +109,7 @@ namespace WampSharp.V2.PubSub
         /// <param name="options">The subscription options.</param>
         /// <returns>The generated id.</returns>
         /// <remarks>If you don't know what to do here, use a simple 
-        /// <see cref="OptionlessSubscriptionId"/>.</remarks>
+        /// <see cref="ExactTopicSubscriptionId"/>.</remarks>
         IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options);
     }
 }

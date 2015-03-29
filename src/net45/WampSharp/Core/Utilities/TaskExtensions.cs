@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using WampSharp.Core.Utilities;
 
 namespace WampSharp.Core.Utilities
 {
@@ -12,14 +11,14 @@ namespace WampSharp.Core.Utilities
 
         private static MethodInfo GetCastGenericTaskToNonGenericMethod()
         {
-            return typeof(TaskExtensions).GetMethod("InnerCastTask",
-                                                     BindingFlags.Static | BindingFlags.NonPublic);
+            return Method.Get(() => CastGenericTaskToNonGeneric<object>(default(Task<object>)))
+                .GetGenericMethodDefinition();
         }
 
         private static MethodInfo GetCastTaskToGenericTaskMethod()
         {
-            return typeof(TaskExtensions).GetMethod("InternalCastTask",
-                                                     BindingFlags.Static | BindingFlags.NonPublic);
+            return Method.Get(() => CastTaskToGenericTask<object>(default(Task<object>)))
+                .GetGenericMethodDefinition();
         }
 
         public static Task Cast(this Task<object> task, Type taskType)
@@ -28,7 +27,7 @@ namespace WampSharp.Core.Utilities
                                                 .Invoke(null, new object[] {task});
         }
 
-        private static Task<T> InternalCastTask<T>(Task<object> task)
+        private static Task<T> CastTaskToGenericTask<T>(Task<object> task)
         {
             return task.ContinueWithSafe(x => (T)x.Result);
         }
@@ -99,7 +98,27 @@ namespace WampSharp.Core.Utilities
             return result;
         }
 
-        private static Task<object> InnerCastTask<T>(Task<T> task)
+        /// <summary>
+        /// Casts a <see cref="Task{TResult}"/> to a Task of type Task{object}.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static Task<object> CastTask<TResult>(this Task<TResult> task)
+        {
+            return task.ContinueWithSafe(x => (object)x.Result);
+        }
+
+        /// <summary>
+        /// Casts a <see cref="Task{TResult}"/> to a Task of type Task{object}.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static Task<object> ContinueWithNull(this Task task)
+        {
+            return task.ContinueWithSafe(x => (object)null);
+        }
+
+        private static Task<object> CastGenericTaskToNonGeneric<T>(Task<T> task)
         {
             return task.ContinueWithSafe(t => (object)t.Result);
         }
@@ -107,23 +126,44 @@ namespace WampSharp.Core.Utilities
         private static Task<TResult> ContinueWithSafe<TTask, TResult>(this TTask task, Func<TTask, TResult> transform)
             where TTask : Task
         {
-            return task.ContinueWith(t => ContinueWithSafeCallback((TTask) t, transform),
-                                     TaskContinuationOptions.ExecuteSynchronously);
-        }
-
-        private static TResult ContinueWithSafeCallback<TTask, TResult>(TTask task, Func<TTask, TResult> transform)
-            where TTask : Task
-        {
-            AggregateException aggregateException = task.Exception;
-
-            if (aggregateException != null)
+            if (task == null)
             {
-                throw aggregateException.InnerException;
+                throw new ArgumentNullException("task");
             }
 
-            TResult result = transform(task);
+            if (transform == null)
+            {
+                throw new ArgumentNullException("transform");
+            }
 
-            return result;
+            TaskCompletionSource<TResult> taskResult = new TaskCompletionSource<TResult>();
+
+            task.ContinueWith(_ =>
+            {
+                if (task.IsFaulted)
+                {
+                    taskResult.TrySetException(task.Exception.InnerExceptions);
+                }
+                else if (task.IsCanceled)
+                {
+                    taskResult.TrySetCanceled();
+                }
+                else
+                {
+                    try
+                    {
+                        TResult result = transform(task);
+                        taskResult.TrySetResult(result);
+                    }
+                    catch (Exception ex)
+                    {
+                        taskResult.TrySetException(ex);
+                    }
+                }
+            },
+                TaskContinuationOptions.ExecuteSynchronously);
+
+            return taskResult.Task;
         }
     }
 }

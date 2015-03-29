@@ -23,6 +23,6 @@ namespace WampSharp.Newtonsoft
         /// </summary>
         /// <param name="message">The given <see cref="WampMessage{TMessage}"/>.</param>
         /// <returns>The converted JSON array</returns>
-        TMessage Format(WampMessage<TMessage> message);
+        object[] Format(WampMessage<object> message);
     }
 }

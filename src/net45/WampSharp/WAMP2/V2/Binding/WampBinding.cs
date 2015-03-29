@@ -36,7 +36,7 @@ namespace WampSharp.V2.Binding
             }
         }
 
-        public abstract WampMessage<TMessage> GetRawMessage(WampMessage<TMessage> message);
+        public abstract WampMessage<object> GetRawMessage(WampMessage<object> message);
 
         public virtual IWampBindingHost CreateHost(IWampHostedRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener)
         {

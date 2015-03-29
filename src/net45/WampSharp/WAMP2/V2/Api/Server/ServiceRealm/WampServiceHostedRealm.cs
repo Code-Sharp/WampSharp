@@ -9,11 +9,13 @@ namespace WampSharp.V2
     {
         private readonly IWampHostedRealm mUnderlyingRealm;
         private readonly IWampChannel mInternalChannel;
+        private readonly long mSessionId;
 
-        public WampServiceHostedRealm(IWampHostedRealm underlyingRealm, IWampChannel internalChannel)
+        public WampServiceHostedRealm(IWampHostedRealm underlyingRealm, IWampChannel internalChannel, long sessionId)
         {
             mUnderlyingRealm = underlyingRealm;
             mInternalChannel = internalChannel;
+            mSessionId = sessionId;
         }
 
         public string Name
@@ -57,6 +59,14 @@ namespace WampSharp.V2
             get
             {
                 return mInternalChannel.RealmProxy.Services;
+            }
+        }
+
+        public long SessionId
+        {
+            get
+            {
+                return mSessionId;
             }
         }
     }

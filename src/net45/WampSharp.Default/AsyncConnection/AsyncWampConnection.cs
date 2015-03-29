@@ -1,29 +1,31 @@
 using System;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
+using Castle.Core.Logging;
 using WampSharp.Core.Listener;
+using WampSharp.Core.Logs;
 using WampSharp.Core.Message;
 
 namespace WampSharp
 {
     public abstract class AsyncWampConnection<TMessage> : IWampConnection<TMessage>
     {
-        private readonly ActionBlock<WampMessage<TMessage>> mSendBlock;
+        private readonly ActionBlock<WampMessage<object>> mSendBlock;
+        protected readonly ILogger mLogger;
 
         protected AsyncWampConnection()
         {
-            mSendBlock = new ActionBlock<WampMessage<TMessage>>(x => InnerSend(x),
-                new ExecutionDataflowBlockOptions() {MaxDegreeOfParallelism = 1});
+            mLogger = WampLoggerFactory.Create(this.GetType());
+            mSendBlock = new ActionBlock<WampMessage<object>>(x => InnerSend(x));
         }
 
-        public void Send(WampMessage<TMessage> message)
+        public void Send(WampMessage<object> message)
         {
             mSendBlock.Post(message);
         }
 
 #if !NET40
 
-        protected async Task InnerSend(WampMessage<TMessage> message)
+        protected async Task InnerSend(WampMessage<object> message)
         {
             if (IsConnected)
             {
@@ -33,8 +35,9 @@ namespace WampSharp
 
                     await sendAsync.ConfigureAwait(false);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    mLogger.Error("An error occured while attempting to send a message to remote peer.", ex);
                 }
             }
         }
@@ -48,7 +51,12 @@ namespace WampSharp
                 
                 Task result = sendAsync.ContinueWith(task =>
                 {
-                    var exception = task.Exception;
+                    var ex = task.Exception;
+
+                    if (ex != null)
+                    {
+                        mLogger.Error("An error occured while attempting to send a message to remote peer.", ex);                        
+                    }
                 });
                 
                 return result;
@@ -69,7 +77,7 @@ namespace WampSharp
         public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
         public event EventHandler ConnectionClosed;
         public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
-        protected abstract Task SendAsync(WampMessage<TMessage> message);
+        protected abstract Task SendAsync(WampMessage<object> message);
 
         protected virtual void RaiseConnectionOpen()
         {
@@ -89,10 +97,11 @@ namespace WampSharp
             if (handler != null) handler(this, EventArgs.Empty);
         }
 
-        protected virtual void RaiseConnectionError(Exception e)
+        protected virtual void RaiseConnectionError(Exception ex)
         {
+            mLogger.Error("A connection error occured", ex);
             var handler = ConnectionError;
-            if (handler != null) handler(this, new WampConnectionErrorEventArgs(e));
+            if (handler != null) handler(this, new WampConnectionErrorEventArgs(ex));
         }
         
         void IDisposable.Dispose()

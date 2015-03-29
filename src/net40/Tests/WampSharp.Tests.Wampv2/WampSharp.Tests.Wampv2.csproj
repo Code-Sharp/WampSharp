@@ -81,11 +81,20 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\RawTest.cs">
       <Link>Client\RawTest.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\AuthenticationTests.cs">
+      <Link>Integration\AuthenticationTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\CallerDealerTests.cs">
       <Link>Integration\CallerDealerTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\MockRawCallback.cs">
       <Link>Integration\MockRawCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PublisherSubscriber.cs">
+      <Link>Integration\PublisherSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PubSubReflectionTests.cs">
+      <Link>Integration\PubSubReflectionTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcOptionsTests.cs">
       <Link>Integration\RpcOptionsTests.cs</Link>

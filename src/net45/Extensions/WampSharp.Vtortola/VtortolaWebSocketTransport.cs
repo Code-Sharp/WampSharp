@@ -2,10 +2,12 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Castle.Core.Logging;
 using vtortola.WebSockets;
 using vtortola.WebSockets.Deflate;
 using vtortola.WebSockets.Rfc6455;
 using WampSharp.Core.Listener;
+using WampSharp.Core.Logs;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Transports;
 
@@ -70,12 +72,19 @@ namespace WampSharp.Vtortola
         {
             while (mListener.IsStarted)
             {
-                WebSocket websocket = await mListener.AcceptWebSocketAsync(CancellationToken.None)
-                    .ConfigureAwait(false);
-
-                if (websocket != null)
+                try
                 {
-                    OnNewConnection(websocket);
+                    WebSocket websocket = await mListener.AcceptWebSocketAsync(CancellationToken.None)
+                        .ConfigureAwait(false);
+
+                    if (websocket != null)
+                    {
+                        OnNewConnection(websocket);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    mLogger.Error("An error occured while trying to accept a client", ex);
                 }
             }
         }

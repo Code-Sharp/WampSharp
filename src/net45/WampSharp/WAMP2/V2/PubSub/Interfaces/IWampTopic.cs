@@ -24,31 +24,34 @@ namespace WampSharp.V2.PubSub
         /// Publishes a message to the topic
         /// </summary>
         /// <param name="formatter">The formatter been used to publish the message.</param>
+        /// <param name="publicationId"></param>
         /// <param name="publishOptions">The options of the publication.</param>
         /// <typeparam name="TMessage"></typeparam>
         /// <returns>The publication id.</returns>
-        long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions publishOptions);
+        void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions publishOptions);
 
         /// <summary>
         /// Publishes a message to the topic
         /// </summary>
         /// <param name="formatter">The formatter been used to publish the message.</param>
+        /// <param name="publicationId"></param>
         /// <param name="publishOptions">The options of the publication.</param>
         /// <param name="arguments">The arguments to publish.</param>
         /// <typeparam name="TMessage"></typeparam>
         /// <returns>The publication id.</returns>
-        long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions publishOptions, TMessage[] arguments);
-        
+        void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions publishOptions, TMessage[] arguments);
+
         /// <summary>
         /// Publishes a message to the topic
         /// </summary>
         /// <param name="formatter">The formatter been used to publish the message.</param>
+        /// <param name="publicationId"></param>
         /// <param name="publishOptions">The options of the publication.</param>
         /// <param name="arguments">The arguments to publish.</param>
         /// <param name="argumentKeywords">The arguments keywords to publish.</param>
         /// <typeparam name="TMessage"></typeparam>
         /// <returns>The publication id.</returns>
-        long Publish<TMessage>(IWampFormatter<TMessage> formatter, PublishOptions publishOptions, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords);
+        void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions publishOptions, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords);
 
         /// <summary>
         /// Subscribes a given subscriber to the topic.
