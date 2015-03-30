@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Reflection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2;
@@ -10,7 +10,7 @@ namespace WampSharp.Newtonsoft
 {
     public class DetailsOptionsConverter : JsonConverter
     {
-        private IWampFormatter<JToken> mFormatter;
+        private readonly IWampFormatter<JToken> mFormatter;
 
         public DetailsOptionsConverter(IWampFormatter<JToken> formatter)
         {
