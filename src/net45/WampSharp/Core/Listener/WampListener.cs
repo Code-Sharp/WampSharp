@@ -1,6 +1,5 @@
 ﻿#if !PCL
 using System;
-using Castle.Core.Logging;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Message;
 using WampSharp.Logging;
@@ -20,7 +19,6 @@ namespace WampSharp.Core.Listener
         private readonly IWampConnectionListener<TMessage> mListener;
         private IDisposable mSubscription;
         protected readonly ILog mLogger;
-        private readonly IContextProperties mContextProperties;
 
         /// <summary>
         /// Creates a new instance of <see cref="WampListener{TMessage, TClient}"/>
@@ -39,13 +37,6 @@ namespace WampSharp.Core.Listener
             mClientContainer = clientContainer;
             mListener = listener;
             mLogger = LogProvider.GetLogger(this.GetType());
-
-            //IExtendedLogger extendedLogger = mLogger as IExtendedLogger;
-
-            //if (extendedLogger != null)
-            //{
-            //    mContextProperties = extendedLogger.ThreadProperties;                
-            //}
         }
 
         /// <summary>
@@ -105,33 +96,26 @@ namespace WampSharp.Core.Listener
         {
             TClient client = ClientContainer.GetClient(connection);
 
-            try
+            using (IDisposable sessionIdMappedContext = SessionIdMappedContext(client))
             {
-                SetSessionId(client);
                 mHandler.HandleMessage(client, message);
             }
-            finally
+        }
+
+        private IDisposable SessionIdMappedContext(TClient client)
+        {
+            object sessionIdValue = GetSessionId(client);
+            string sessionIdString = null;
+
+            if (sessionIdValue != null)
             {
-                CleanSessionId();
+                sessionIdString = sessionIdValue.ToString();
             }
-        }
 
-        private void SetSessionId(TClient client)
-        {
-            SetSessionId(client, GetSessionId);
-        }
+            IDisposable disposable = 
+                LogProvider.OpenMappedContext("WampSessionId", sessionIdString);
 
-        private void CleanSessionId()
-        {
-            SetSessionId(default(TClient), x => null);
-        }
-
-        private void SetSessionId(TClient client, Func<TClient, object> sessionId)
-        {
-            if (mContextProperties != null)
-            {
-                mContextProperties["WampSessionId"] = sessionId(client);
-            }
+            return disposable;
         }
 
         protected virtual object GetSessionId(TClient client)
