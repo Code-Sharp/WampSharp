@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Session
@@ -34,6 +36,19 @@ namespace WampSharp.V2.Session
                                     }},
                             }}
                 };
+        }
+
+        public WampSessionServer(IWampBinding<TMessage> binding,
+                                 IWampHostedRealmContainer realmContainer,
+                                 IWampRouterBuilder builder,
+                                 IWampEventSerializer eventSerializer)
+        {
+            mRealmContainer =
+                new WampBindedRealmContainer<TMessage>(realmContainer,
+                                                       this,
+                                                       builder,
+                                                       eventSerializer,
+                                                       binding);
         }
 
         public void OnNewClient(IWampClientProxy<TMessage> client)

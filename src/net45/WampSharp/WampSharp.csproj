@@ -253,11 +253,14 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
+    <Compile Include="WAMP2\V2\Binding\IWampRouterBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\WampRouterBindingExtensions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
     <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
     <Compile Include="WAMP2\V2\Client\ManualWampServerProxyBuilder.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
     <Compile Include="WAMP2\V2\PubSub\ExactTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\PubSub\MatchTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\PrefixSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\PrefixTopicContainer.cs" />
@@ -269,6 +272,8 @@
     <Compile Include="WAMP2\V2\Core\LocalParameter.cs" />
     <Compile Include="WAMP2\V2\PubSub\WildCardSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\WildCardTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\Realm\IWampRouterBuilder.cs" />
+    <Compile Include="WAMP2\V2\Realm\WampRouterBuilder.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />
@@ -455,7 +460,6 @@
     <Compile Include="WAMP2\V2\PubSub\Interfaces\ISubscribeRequest.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\ISubscriptionNotifier.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IUnsubscribeRequest.cs" />
-    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampTopic.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampTopicContainer.cs" />

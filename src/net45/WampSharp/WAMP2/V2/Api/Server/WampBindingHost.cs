@@ -35,19 +35,15 @@ namespace WampSharp.V2
         /// <param name="connectionListener">The <see cref="IWampConnectionListener{TMessage}"/> this 
         /// binding host listens to.</param>
         /// <param name="binding">The <see cref="IWampBinding{TMessage}"/> associated with this binding host.</param>
-        public WampBindingHost(IWampHostedRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
+        public WampBindingHost(IWampHostedRealmContainer realmContainer, IWampRouterBuilder builder, IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
         {
-            WampSessionServer<TMessage> session = new WampSessionServer<TMessage>();
-
             IWampOutgoingRequestSerializer outgoingRequestSerializer =
                 new WampOutgoingRequestSerializer<TMessage>(binding.Formatter);
 
             IWampEventSerializer eventSerializer = GetEventSerializer(outgoingRequestSerializer);
 
-            mRealmContainer = new WampBindedRealmContainer<TMessage>(realmContainer, session, eventSerializer, binding);
-
-            // TODO: implement the constructor interface pattern.
-            session.RealmContainer = mRealmContainer;
+            IWampSessionServer<TMessage> session = 
+                builder.CreateSessionHandler(realmContainer, binding, eventSerializer);
 
             mSession = session;
 

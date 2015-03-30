@@ -1,7 +1,5 @@
-﻿using WampSharp.Core.Listener;
-using WampSharp.Core.Message;
+﻿using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Binding
 {
@@ -28,18 +26,6 @@ namespace WampSharp.V2.Binding
         /// or deserializes messages with.
         /// </summary>
         IWampFormatter<TMessage> Formatter { get; }
-
-#if !PCL
-        /// <summary>
-        /// Creates a <see cref="IWampBindingHost"/> hosting this binding.
-        /// </summary>
-        /// <param name="realmContainer"></param>
-        /// <param name="connectionListener"></param>
-        /// <returns></returns>
-        /// TODO: get rid of this?
-        IWampBindingHost CreateHost(IWampHostedRealmContainer realmContainer,
-                                    IWampConnectionListener<TMessage> connectionListener);
-#endif
     }
 
     /// <summary>

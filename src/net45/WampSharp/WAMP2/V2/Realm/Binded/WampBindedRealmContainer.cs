@@ -9,6 +9,7 @@ namespace WampSharp.V2.Realm.Binded
     {
         private readonly IWampHostedRealmContainer mRealmContainer;
         private readonly IWampSessionServer<TMessage> mSession;
+        private readonly IWampRouterBuilder mRouterBuilder;
         private readonly IWampEventSerializer mEventSerializer;
         private readonly IWampBinding<TMessage> mBinding;
 
@@ -16,12 +17,14 @@ namespace WampSharp.V2.Realm.Binded
             new ConcurrentDictionary<string, IWampBindedRealm<TMessage>>();
 
 
-        public WampBindedRealmContainer(IWampHostedRealmContainer realmContainer,
-                                  IWampSessionServer<TMessage> session,
-                                  IWampEventSerializer eventSerializer,
-                                  IWampBinding<TMessage> binding)
+        public WampBindedRealmContainer(IWampHostedRealmContainer realmContainer, 
+            IWampSessionServer<TMessage> session, 
+            IWampRouterBuilder routerBuilder, 
+            IWampEventSerializer eventSerializer, 
+            IWampBinding<TMessage> binding)
         {
             mSession = session;
+            mRouterBuilder = routerBuilder;
             mEventSerializer = eventSerializer;
             mBinding = binding;
             mRealmContainer = realmContainer;
@@ -36,10 +39,7 @@ namespace WampSharp.V2.Realm.Binded
         {
             IWampHostedRealm realm = mRealmContainer.GetRealmByName(realmName);
 
-            return new WampBindedRealm<TMessage>(realm,
-                                           mSession,
-                                           mEventSerializer,
-                                           mBinding);
+            return new WampBindedRealm<TMessage>(realm, mRouterBuilder, mSession, mBinding, mEventSerializer);
         }
     }
 }

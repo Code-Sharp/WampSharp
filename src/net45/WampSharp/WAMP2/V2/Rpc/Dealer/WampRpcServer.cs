@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
 using WampSharp.Logging;
-
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class WampRpcServer<TMessage> : IWampRpcServer<TMessage>,
-        IWampErrorCallback<TMessage>
+    public class WampRpcServer<TMessage> : IWampRpcServer<TMessage>
     {
         private readonly ILog mLogger;
         private readonly IWampFormatter<TMessage> mFormatter; 

@@ -2,20 +2,18 @@
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.PubSub;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2
 {
     public class WampServer<TMessage> : IWampServer<TMessage>, IWampMissingMethodContract<TMessage, IWampClientProxy>
     {
         private readonly IWampSessionServer<TMessage> mSession;
-        private readonly IWampRpcServer<TMessage> mDealer;
-        private readonly IWampPubSubServer<TMessage> mBroker;
+        private readonly IWampDealer<TMessage> mDealer;
+        private readonly IWampBroker<TMessage> mBroker;
 
         public WampServer(IWampSessionServer<TMessage> session,
-                          IWampRpcServer<TMessage> dealer,
-                          IWampPubSubServer<TMessage> broker)
+                          IWampDealer<TMessage> dealer,
+                          IWampBroker<TMessage> broker)
         {
             mSession = session;
             mDealer = dealer;
