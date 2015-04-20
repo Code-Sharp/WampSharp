@@ -234,6 +234,7 @@
     <Compile Include="WAMP1\V1\Rpc\WampRpcCallException.cs" />
     <Compile Include="WAMP1\V1\Rpc\WampRpcMethodAttribute.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CachedCalleeProxyInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyBase.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\IOperationResultExtractor.cs" />

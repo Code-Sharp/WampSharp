@@ -22,11 +22,7 @@ namespace WampSharp.V2.CalleeProxy
     }
 #endif
 
-#if PCL
-    public class ClientInvocationHandler : WampCalleeProxyInvocationHandler
-#else
     internal class ClientInvocationHandler : WampCalleeProxyInvocationHandler
-#endif
     {
         #region Data Members
 
@@ -90,9 +86,7 @@ namespace WampSharp.V2.CalleeProxy
 
         #region Overridden
 
-#if PCL
-        internal override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
-#elif NET45
+#if NET45
         protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
 #elif NET40
         protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
@@ -119,15 +113,11 @@ namespace WampSharp.V2.CalleeProxy
 #endif
         }
 
-        
-#if PCL    
-            internal override void WaitForResult<T>(SyncCallback<T> callback)
-#else
-            protected override void WaitForResult<T>(SyncCallback<T> callback)
-#endif
-            {
-                int signaledIndex =
-                    WaitHandle.WaitAny(new[] {mDisconnectionWaitHandle, callback.WaitHandle},
+
+        protected override void WaitForResult<T>(SyncCallback<T> callback)
+        {
+            int signaledIndex =
+                WaitHandle.WaitAny(new[] {mDisconnectionWaitHandle, callback.WaitHandle},
                                    Timeout.Infinite);
 
 

@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.V2.Rpc
 {
@@ -9,7 +11,9 @@ namespace WampSharp.V2.Rpc
             WampResultAttribute resultAttribute = 
                 method.ReturnParameter.GetCustomAttribute<WampResultAttribute>(true);
 
-            if (!method.ReturnType.IsArray)
+            Type unwrapped = TaskExtensions.UnwrapReturnType(method.ReturnType);
+
+            if (!unwrapped.IsArray)
             {
                 return false;
             }
