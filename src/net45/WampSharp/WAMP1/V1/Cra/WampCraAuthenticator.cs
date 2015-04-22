@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using WampSharp.Core.Cra;
 using WampSharp.Core.Serialization;
 using WampSharp.V1.Core.Listener;
 using WampSharp.V1.PubSub.Server;

@@ -172,7 +172,7 @@
     <Compile Include="WAMP1\V1\Cra\WampCraAuthenticator.cs" />
     <Compile Include="WAMP1\V1\Cra\WampCraAuthenticatorBuilder.cs" />
     <Compile Include="WAMP1\V1\Cra\WampCraChallenge.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraHelpers.cs" />
+    <Compile Include="Core\Cra\WampCraHelpers.cs" />
     <Compile Include="WAMP1\V1\Cra\WampCraHost.cs" />
     <Compile Include="WAMP1\V1\Cra\WampCraPendingAuth.cs" />
     <Compile Include="WAMP1\V1\Cra\WampCraPermissions.cs" />
@@ -256,6 +256,7 @@
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampRouterBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\WampRouterBindingExtensions.cs" />
+    <Compile Include="WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
     <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
     <Compile Include="WAMP2\V2\Client\ManualWampServerProxyBuilder.cs" />

@@ -4,13 +4,16 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace WampSharp.V1.Cra
+namespace WampSharp.Core.Cra
 {
     /// <summary>
     /// WAMP-CRA Authentication Helper methods.
     /// </summary>
     public static class WampCraHelpers
     {
+        private const int DEFAULT_ITERATIONS = 1000;
+        private const int DEFAULT_KEY_LEN = 32;
+
         /// <summary>
         /// Computes a derived cryptographic key from a password according to PBKDF2
         /// http://en.wikipedia.org/wiki/PBKDF2. The function will only return a derived key
@@ -28,32 +31,71 @@ namespace WampSharp.V1.Cra
         /// value of parameter 'secret' if not.</returns>
         public static string DeriveKey(string secret, IDictionary<string, string> extra)
         {
-            const int DEFAULT_ITERATIONS = 1000;
-            const int DEFAULT_KEY_LEN = 32;
-
             string salt;
+
             if (extra == null || !extra.TryGetValue("salt", out salt))
+            {
                 return secret;
+            }
 
             string strTemp;
+
             int iterations = DEFAULT_ITERATIONS;
+
             if (extra.TryGetValue("iterations", out strTemp))
             {
-                iterations = int.TryParse(strTemp, out iterations) ? iterations : DEFAULT_ITERATIONS;
+                iterations =
+                    int.TryParse(strTemp, out iterations)
+                        ? iterations
+                        : DEFAULT_ITERATIONS;
             }
 
             int keyLen = DEFAULT_KEY_LEN;
+
             if (extra.TryGetValue("keylen", out strTemp))
             {
                 keyLen = int.TryParse(strTemp, out keyLen) ? keyLen : DEFAULT_KEY_LEN;
             }
 
+            string result = DeriveKey(secret, salt, iterations, keyLen);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Computes a derived cryptographic key from a password according to PBKDF2
+        /// http://en.wikipedia.org/wiki/PBKDF2. The function will only return a derived key
+        /// if at least 'salt' is present in the 'extra' dictionary. The complete set of
+        /// attributes that can be set in 'extra': 
+        ///    salt: The salt value to be used.
+        ///    iterations: Number of iterations of derivation algorithm to run. 
+        ///    keylen: Key length to derive.
+        /// </summary>
+        /// <param name="secret">The secret key from which to derive. </param>
+        /// <param name="salt"></param>
+        /// <param name="iterations"></param>
+        /// <param name="keyLen"></param>
+        /// <returns>A derived key (Base64 encoded) if a salt is provided in the extra parameter, or the
+        /// value of parameter 'secret' if not.</returns>
+        public static string DeriveKey(string secret, string salt, int? iterations = DEFAULT_ITERATIONS, int? keyLen = DEFAULT_KEY_LEN)
+        {
+            if (salt == null)
+            {
+                return secret;
+            }
+
             byte[] secretBytes = Encoding.UTF8.GetBytes(secret);
             byte[] saltBytes = Encoding.UTF8.GetBytes(salt);
-            byte[] keyBytes = PBKDF2Sha256GetBytes(keyLen, secretBytes, saltBytes, iterations);
+
+            int keyLength = keyLen ?? DEFAULT_KEY_LEN;
+            int iterationCount = iterations ?? DEFAULT_ITERATIONS;
+            
+            byte[] keyBytes = PBKDF2Sha256GetBytes(keyLength, secretBytes, saltBytes, iterationCount);
             string result = Convert.ToBase64String(keyBytes);
+            
             Array.Clear(secretBytes, 0, secretBytes.Length);
             Array.Clear(saltBytes, 0, saltBytes.Length);
+            
             return result;
         }
 
@@ -74,6 +116,7 @@ namespace WampSharp.V1.Cra
             }
 
             authSecret = DeriveKey(authSecret, authExtra);
+            
             using (HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(authSecret)))
             {
                 byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(authChallenge));
@@ -100,7 +143,7 @@ namespace WampSharp.V1.Cra
         /// <returns>A byte array filled with pseudo-random key bytes.</returns>
         private static byte[] PBKDF2Sha256GetBytes(int dklen, byte[] password, byte[] salt, int iterationCount)
         {
-            using (HMACSHA256 hmac = new System.Security.Cryptography.HMACSHA256(password))
+            using (HMACSHA256 hmac = new HMACSHA256(password))
             {
                 int hashLength = hmac.HashSize/8;
                 if ((hmac.HashSize & 7) != 0)
@@ -118,7 +161,7 @@ namespace WampSharp.V1.Cra
                 }
                 byte[] extendedkey = new byte[salt.Length + 4];
                 Buffer.BlockCopy(salt, 0, extendedkey, 0, salt.Length);
-                using (MemoryStream ms = new System.IO.MemoryStream())
+                using (MemoryStream ms = new MemoryStream())
                 {
                     for (int i = 0; i < keyLength; i++)
                     {
@@ -152,6 +195,21 @@ namespace WampSharp.V1.Cra
                     Array.Clear(extendedkey, 0, extendedkey.Length);
                     return dk;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Signs a challenge with a given authentication key.
+        /// </summary>
+        /// <param name="authenticationKey"></param>
+        /// <param name="challenge"></param>
+        /// <returns>The signed challenge.</returns>
+        public static string Sign(string authenticationKey, string challenge)
+        {
+            using (HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(authenticationKey)))
+            {
+                byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(challenge));
+                return Convert.ToBase64String(hash);
             }
         }
     }
