@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET40 CASTLE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET40 CASTLE LIBLOG_PUBLIC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\WampSharp.XML</DocumentationFile>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NET40 CASTLE</DefineConstants>
+    <DefineConstants>TRACE;NET40 CASTLE LIBLOG_PUBLIC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\WampSharp.XML</DocumentationFile>
@@ -67,8 +67,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\net45\WampSharp\App_Packages\LibLog.3.1\LibLog.cs">
-      <Link>App_Packages\LibLog.3.1\LibLog.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\App_Packages\LibLog.4.2\LibLog.cs">
+      <Link>App_Packages\LibLog.4.2\LibLog.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Client\IWampServerProxyBuilder.cs">
       <Link>Core\Client\IWampServerProxyBuilder.cs</Link>

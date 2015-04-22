@@ -1,5 +1,6 @@
 ﻿#if !PCL
 using System;
+using System.Reactive.Disposables;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Message;
 using WampSharp.Logging;
@@ -112,10 +113,17 @@ namespace WampSharp.Core.Listener
                 sessionIdString = sessionIdValue.ToString();
             }
 
-            IDisposable disposable = 
-                LogProvider.OpenMappedContext("WampSessionId", sessionIdString);
+            if (LogProvider.CurrentLogProvider == null)
+            {
+                return Disposable.Empty;
+            }
+            else
+            {
+                IDisposable disposable =
+                    LogProvider.OpenMappedContext("WampSessionId", sessionIdString);
 
-            return disposable;
+                return disposable;
+            }
         }
 
         protected virtual object GetSessionId(TClient client)
