@@ -1,5 +1,3 @@
-#if !PCL
-
 using WampSharp.Core.Listener;
 using WampSharp.V2.Realm;
 
@@ -21,5 +19,3 @@ namespace WampSharp.V2.Binding
             IWampConnectionListener<TMessage> connectionListener);
     }
 }
-
-#endif

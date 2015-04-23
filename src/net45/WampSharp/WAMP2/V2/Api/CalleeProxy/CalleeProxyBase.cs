@@ -1,6 +1,8 @@
 using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Client;
 
 namespace WampSharp.V2.CalleeProxy
@@ -10,11 +12,12 @@ namespace WampSharp.V2.CalleeProxy
         private readonly WampCalleeProxyInvocationHandler mHandler;
         private readonly ICalleeProxyInterceptor mInterceptor;
 
-        public CalleeProxyBase(IWampChannel channel, ICalleeProxyInterceptor interceptor)
+        public CalleeProxyBase(IWampRpcOperationCatalogProxy rpcCatalog,
+                               IWampClientConnectionMonitor monitor,
+                               ICalleeProxyInterceptor interceptor)
         {
             mInterceptor = interceptor;
-            IWampRealmProxy realmProxy = channel.RealmProxy;
-            mHandler = new ClientInvocationHandler(realmProxy.RpcCatalog, realmProxy.Monitor);
+            mHandler = new ClientInvocationHandler(rpcCatalog, monitor);
         }
 
         protected T SingleInvokeSync<T>(MethodBase method, params object[] arguments)
@@ -99,6 +102,16 @@ namespace WampSharp.V2.CalleeProxy
                  resultExtractor,
                  arguments,
                  progress);
+        }
+
+        protected static MethodInfo GetMethodInfo(Expression<Action> expression)
+        {
+            return Method.Get(expression);
+        }
+
+        protected static MethodInfo GetMethodInfo<T>(Expression<Action<T>> expression)
+        {
+            return Method.Get(expression);
         }
     }
 }

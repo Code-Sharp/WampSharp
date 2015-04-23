@@ -1,6 +1,4 @@
-﻿#if !PCL
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
@@ -127,5 +125,3 @@ namespace WampSharp.V2.Session
         }
     }
 }
-
-#endif

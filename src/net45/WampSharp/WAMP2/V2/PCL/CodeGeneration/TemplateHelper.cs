@@ -1,3 +1,4 @@
+#if PCL
 using System.Collections.Generic;
 
 namespace WampSharp.CodeGeneration
@@ -18,3 +19,4 @@ namespace WampSharp.CodeGeneration
         }
     }
 }
+#endif

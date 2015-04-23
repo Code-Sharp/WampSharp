@@ -22,10 +22,7 @@ namespace WampSharp.V2
             new OperationExtractor();
 
         private readonly IWampRealmProxy mProxy;
-
-#if !PCL
         private readonly WampCalleeClientProxyFactory mCalleeProxyFactory;
-#endif
         private readonly WampPublisherRegistrar mPublisherRegistrar;
         private readonly WampSubscriberRegistrar mSubscriberRegistrar;
 
@@ -35,11 +32,9 @@ namespace WampSharp.V2
             mSubscriberRegistrar = new WampSubscriberRegistrar(mProxy);
             mPublisherRegistrar = new WampPublisherRegistrar(mProxy);
 
-#if !PCL
             mCalleeProxyFactory = new WampCalleeClientProxyFactory
                 (mProxy.RpcCatalog,
                  mProxy.Monitor);
-#endif
         }
 
         public Task<IAsyncDisposable> RegisterCallee(object instance)
@@ -66,7 +61,6 @@ namespace WampSharp.V2
             return registrations.ToAsyncDisposableTask();
         }
 
-#if !PCL
         public TProxy GetCalleeProxy<TProxy>() where TProxy : class
         {
             return mCalleeProxyFactory.GetProxy<TProxy>(CalleeProxyInterceptor.Default);
@@ -76,7 +70,6 @@ namespace WampSharp.V2
         {
             return mCalleeProxyFactory.GetProxy<TProxy>(interceptor);
         }
-#endif
 
         public ISubject<TEvent> GetSubject<TEvent>(string topicUri)
         {

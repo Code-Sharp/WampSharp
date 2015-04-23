@@ -1,4 +1,3 @@
-#if !PCL
 using System;
 using System.Collections.Concurrent;
 using System.Reactive.Concurrency;
@@ -49,4 +48,3 @@ namespace WampSharp.V2
         }
     }
 }
-#endif

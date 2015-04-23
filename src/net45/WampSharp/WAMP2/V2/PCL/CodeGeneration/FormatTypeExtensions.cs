@@ -1,5 +1,7 @@
-﻿using System;
+﻿#if PCL
+using System;
 using System.Linq;
+using System.Reflection;
 
 namespace WampSharp.CodeGeneration
 {
@@ -7,7 +9,7 @@ namespace WampSharp.CodeGeneration
     {
         public static string FormatType(Type type)
         {
-            if (!type.IsGenericType && !type.IsArray)
+            if (!type.IsGenericType() && !type.IsArray)
             {
                 return Prettify(type.FullName);
             }
@@ -16,7 +18,7 @@ namespace WampSharp.CodeGeneration
                 return string.Format("{0}[{1}]", FormatType(type.GetElementType()),
                     new string(',', type.GetArrayRank() - 1));
             }
-            else if (type.IsGenericType)
+            else if (type.IsGenericType())
             {
                 string truncatedName = type.FullName.Substring(0, type.FullName.IndexOf('`'));
 
@@ -88,7 +90,7 @@ namespace WampSharp.CodeGeneration
                     result = "IProgress";
                     break;
                 default :
-                   result = "global::" + result;
+                   result = "global::" + result.Replace("+", ".");
                     break;
             }
 
@@ -96,3 +98,4 @@ namespace WampSharp.CodeGeneration
         }
     }
 }
+#endif

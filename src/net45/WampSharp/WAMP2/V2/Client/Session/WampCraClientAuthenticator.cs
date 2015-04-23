@@ -1,3 +1,4 @@
+#if !PCL
 using WampSharp.Core.Cra;
 using WampSharp.V2.Core.Contracts;
 
@@ -85,3 +86,4 @@ namespace WampSharp.V2.Client
         }
     }
 }
+#endif

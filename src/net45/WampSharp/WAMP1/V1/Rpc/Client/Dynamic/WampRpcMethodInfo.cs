@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !PCL
+using System;
 using System.Globalization;
 using System.Reflection;
 
@@ -106,3 +107,4 @@ namespace WampSharp.V1.Rpc.Client
         #endregion
     }
 }
+#endif

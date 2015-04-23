@@ -1,6 +1,9 @@
-﻿using System.Runtime.Remoting.Messaging;
+﻿using System;
 using WampSharp.V1.Core.Contracts;
+#if !PCL
+using System.Runtime.Remoting.Messaging;
 using WampSharp.V1.Cra;
+#endif
 
 namespace WampSharp.V1
 {
@@ -8,6 +11,7 @@ namespace WampSharp.V1
     {
         #region Static Members
 
+#if !PCL
         public static WampRequestContext Current
         {
             get
@@ -19,7 +23,23 @@ namespace WampSharp.V1
                 CallContext.LogicalSetData(typeof (WampRequestContext).Name, value);
             }
         }
+#else
+        [ThreadStatic]
+        private static WampRequestContext mCurrent;
 
+        public static WampRequestContext Current
+        {
+            get
+            {
+                return mCurrent;
+            }
+            internal set
+            {
+                mCurrent = value;
+            }
+        }
+
+#endif
         #endregion
 
         #region Members
@@ -47,6 +67,7 @@ namespace WampSharp.V1
             }
         }
 
+#if !PCL
         public IWampCraAuthenticator Authenticator
         {
             get
@@ -54,6 +75,7 @@ namespace WampSharp.V1
                 return mClient.CraAuthenticator;
             }
         }
+#endif
 
         #endregion
     }

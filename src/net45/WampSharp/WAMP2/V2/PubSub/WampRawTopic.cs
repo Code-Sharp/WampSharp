@@ -1,5 +1,4 @@
-﻿#if !PCL
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -338,14 +337,14 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        private class RemoteObserver : IWampRawClient<TMessage>
+        private class RemoteObserver : IWampRawClient
         {
             private bool mIsOpen = false;
 
-            private readonly IWampRawClient<TMessage> mClient;
+            private readonly IWampRawClient mClient;
             private readonly long mSessionId;
 
-            public RemoteObserver(IWampRawClient<TMessage> client)
+            public RemoteObserver(IWampRawClient client)
             {
                 mClient = client;
                 IWampClientProxy casted = mClient as IWampClientProxy;
@@ -495,4 +494,3 @@ namespace WampSharp.V2.PubSub
         #endregion
     }
 }
-#endif

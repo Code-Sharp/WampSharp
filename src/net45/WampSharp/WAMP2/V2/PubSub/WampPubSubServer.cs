@@ -1,5 +1,4 @@
-﻿#if !PCL
-using System;
+﻿using System;
 using System.Collections.Generic;
 using WampSharp.Logging;
 using WampSharp.V2.Binding;
@@ -132,4 +131,3 @@ namespace WampSharp.V2.PubSub
         }
     }
 }
-#endif

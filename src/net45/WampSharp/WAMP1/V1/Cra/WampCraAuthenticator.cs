@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !PCL
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using WampSharp.Core.Cra;
@@ -433,3 +434,4 @@ namespace WampSharp.V1.Cra
         #endregion
     }
 }
+#endif

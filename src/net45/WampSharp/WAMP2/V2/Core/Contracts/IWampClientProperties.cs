@@ -9,6 +9,11 @@ namespace WampSharp.V2.Core.Contracts
     public interface IWampClientProperties
     {
         /// <summary>
+        /// Gets or sets a value indicating whether the connection was closed in an orderly manner
+        /// </summary>
+        bool GoodbyeSent { get; set; }
+
+        /// <summary>
         /// Gets the session of the current client. 
         /// </summary>
         long Session { get; }
@@ -25,11 +30,6 @@ namespace WampSharp.V2.Core.Contracts
     /// </summary>
     public interface IWampClientProperties<TMessage>
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether the connection was closed in an orderly manner
-        /// </summary>
-        bool GoodbyeSent { get; set; }
-
         /// <summary>
         /// Gets the realm the current client belongs to.
         /// </summary>

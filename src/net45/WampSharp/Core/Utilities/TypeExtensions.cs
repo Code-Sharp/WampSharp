@@ -38,7 +38,7 @@ namespace System.Reflection
 #endif
         }
 
-        public static IEnumerable<MethodInfo> GetInstanceMethods(this Type type)
+        public static IEnumerable<MethodInfo> GetPublicInstanceMethods(this Type type)
         {
 #if PCL
             return type.GetTypeInfo().DeclaredMethods
@@ -47,6 +47,19 @@ namespace System.Reflection
             return type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
 #endif
         }
+
+        public static IEnumerable<MethodInfo> GetInstanceMethods(this Type type)
+        {
+#if PCL
+            return type.GetTypeInfo().DeclaredMethods
+                .Where(x => !x.IsStatic);
+#else
+            return type.GetMethods(BindingFlags.Public |
+                BindingFlags.NonPublic |
+                BindingFlags.Instance);
+#endif
+        }
+
 
         public static bool IsGenericType(this Type type)
         {

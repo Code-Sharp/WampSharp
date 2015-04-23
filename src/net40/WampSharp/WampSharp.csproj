@@ -601,6 +601,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorBase.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorBase.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs</Link>
     </Compile>
@@ -643,11 +646,44 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampChannelReconnector.cs">
       <Link>WAMP2\V2\Api\WampChannelReconnector.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\ManualWampServerProxyBuilder.cs">
-      <Link>WAMP2\V2\Client\ManualWampServerProxyBuilder.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs">
       <Link>WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\CodeGeneration\CalleeProxyCodeGenerator.cs">
+      <Link>WAMP2\V2\PCL\CodeGeneration\CalleeProxyCodeGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\CodeGeneration\FormatTypeExtensions.cs">
+      <Link>WAMP2\V2\PCL\CodeGeneration\FormatTypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\CodeGeneration\TemplateHelper.cs">
+      <Link>WAMP2\V2\PCL\CodeGeneration\TemplateHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\WampMessageSerializerFactory.cs">
+      <Link>WAMP2\V2\PCL\WampMessageSerializerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\ManualWampServerProxyBuilder.cs">
+      <Link>WAMP2\V2\PCL\ManualWampServerProxyBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\ProxyBase.cs">
+      <Link>WAMP2\V2\PCL\ProxyBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\WampCalleeClientProxyFactory.cs">
+      <Link>WAMP2\V2\PCL\WampCalleeClientProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\WampClientBuilder.cs">
+      <Link>WAMP2\V2\PCL\WampClientBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\WampClientProxy.cs">
+      <Link>WAMP2\V2\PCL\WampClientProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\WampClientProxyBase.cs">
+      <Link>WAMP2\V2\PCL\WampClientProxyBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\WampProtocol.cs">
+      <Link>WAMP2\V2\PCL\WampProtocol.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\WampServerProxyBuilder.cs">
+      <Link>WAMP2\V2\PCL\WampServerProxyBuilder.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\ExactTopicContainer.cs">
       <Link>WAMP2\V2\PubSub\ExactTopicContainer.cs</Link>

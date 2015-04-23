@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if CASTLE
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -23,3 +24,4 @@ namespace WampSharp.V1.Rpc.Client
         }
     }
 }
+#endif

@@ -7,7 +7,9 @@ namespace WampSharp.V1.Rpc
     /// An exception having details that will be sent
     /// through a CALLERROR WAMP message.
     /// </summary>
+#if !PCL
     [Serializable]
+#endif
     public class WampRpcCallException : Exception
     {
         private readonly string mProcUri;
@@ -43,12 +45,13 @@ namespace WampSharp.V1.Rpc
             mErrorDetails = errorDetails;
         }
 
+#if !PCL
         protected WampRpcCallException(
             SerializationInfo info,
             StreamingContext context) : base(info, context)
         {
         }
-
+#endif
         /// <summary>
         /// The called method's proc uri.
         /// </summary>

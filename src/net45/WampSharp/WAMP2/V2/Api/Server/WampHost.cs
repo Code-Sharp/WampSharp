@@ -1,5 +1,4 @@
-﻿#if !PCL
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
@@ -77,4 +76,3 @@ namespace WampSharp.V2
         }
     }
 }
-#endif

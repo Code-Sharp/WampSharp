@@ -1,5 +1,4 @@
-﻿#if !PCL
-using WampSharp.Core.Dispatch;
+﻿using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
@@ -34,4 +33,3 @@ namespace WampSharp.Core.Client
         }
     }
 }
-#endif
