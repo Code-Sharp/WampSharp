@@ -30,24 +30,12 @@ namespace WampSharp.V2.CalleeProxy
 
         private static void GenerateCodeAndThrowException<T>() where T : class
         {
-            const string runtimeGenerationNotSupported =
-                "No runtime type code generation available on this platform.";
-
             CalleeProxyCodeGenerator generator = new CalleeProxyCodeGenerator(typeof (T).Namespace + ".Generated");
 
-            string generatedCode;
-
-            try
-            {
-                generatedCode = generator.GenerateCode(typeof (T));
-            }
-            catch (Exception)
-            {
-                throw new NotSupportedException(runtimeGenerationNotSupported);
-            }
+            string generatedCode = generator.GenerateCode(typeof(T));
 
             throw new NotSupportedException
-                (runtimeGenerationNotSupported +
+                ("No runtime type code generation available on this platform." +
                  " You might want to try to use this method using the type declared in the inner exception.",
                  new GeneratedCodeException(generatedCode));
         }

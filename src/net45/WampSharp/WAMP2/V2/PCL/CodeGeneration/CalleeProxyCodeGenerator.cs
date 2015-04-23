@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.V2.Rpc;
-using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.CodeGeneration
 {
@@ -15,6 +14,7 @@ namespace WampSharp.CodeGeneration
 
         private readonly string mClassDeclarationTemplate =
 @"using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.V2;
@@ -52,15 +52,15 @@ namespace {$namespace}
 
         public string GenerateCode(Type interfaceType)
         {
-            ProxyMethodWriter writer = new ProxyMethodWriter();
-
             List<string> methods = new List<string>();
             List<string> fields = new List<string>();
 
             int methodIndex = 0;
 
-            foreach (MethodInfo method in interfaceType.GetPublicInstanceMethods())
+            foreach (MethodInfo method in GetMethods(interfaceType))
             {
+                IProxyMethodWriter writer = GetWriter(method);
+
                 string methodCode = writer.WriteMethod(methodIndex, method);
                 string methodField = writer.WriteField(methodIndex, method);
                 methods.Add(methodCode);
@@ -80,9 +80,57 @@ namespace {$namespace}
             dictionary["implementedInterface"] = FormatTypeExtensions.FormatType(interfaceType);
             dictionary["proxyName"] = GetInterfaceName(interfaceType);
 
-            string processed = TemplateHelper.ProcessTemplate(mClassDeclarationTemplate, dictionary);
+            string processed = CodeGenerationHelper.ProcessTemplate(mClassDeclarationTemplate, dictionary);
 
             return processed;
+        }
+
+        private IEnumerable<MethodInfo> GetMethods(Type interfaceType)
+        {
+            foreach (Type type in GetTypesToExplore(interfaceType))
+            {
+                foreach (MethodInfo method in type.GetPublicInstanceMethods())
+                {
+                    yield return method;
+                }
+            }
+        }
+
+        private IEnumerable<Type> GetTypesToExplore(Type interfaceType)
+        {
+            yield return interfaceType;
+
+            foreach (Type implementedInterface in interfaceType.GetTypeInfo().ImplementedInterfaces)
+            {
+                yield return implementedInterface;
+            }
+        }
+
+        private IProxyMethodWriter GetWriter(MethodInfo method)
+        {
+            ValidateMethod(method);
+
+            if (method.GetParameters().Any(x => x.IsOut || x.ParameterType.IsByRef))
+            {
+                return new OutRefProxyMethodWriter();
+            }
+
+            return new SimpleProxyMethodWriter();
+        }
+
+        private static void ValidateMethod(MethodInfo method)
+        {
+            if (typeof (Task).IsAssignableFrom(method.ReturnType))
+            {
+                if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
+                {
+                    MethodInfoValidation.ValidateProgressiveMethod(method);
+                }
+                else
+                {
+                    MethodInfoValidation.ValidateAsyncMethod(method);
+                }
+            }
         }
 
         private static string JoinLines(List<string> lines)
@@ -109,122 +157,6 @@ namespace {$namespace}
             {
                 return result;
             }
-        }
-    }
-
-    public interface IProxyMethodWriter
-    {
-        string WriteMethod(int methodIndex, MethodInfo method);
-    }
-
-    class ProxyMethodWriter : IProxyMethodWriter
-    {
-        private string mMethodTemplate =
-@"
-public {$returnType} {$methodName}({$parametersDeclaration})
-{
-    {$return}{$invokeMethod}{$genericType}({$parameterList});
-}";
-
-        public string WriteMethod(int methodIndex, MethodInfo method)
-        {
-            string methodField = "mMethod" + methodIndex;
-            
-            IDictionary<string, string> dictionary =
-                new Dictionary<string, string>();
-
-            ParameterInfo[] parameters = method.GetParameters();
-
-            dictionary["methodName"] = method.Name;
-            dictionary["parameterList"] =
-                string.Join(", ",
-                            new[] {methodField}.Concat(parameters.Select(x => x.Name)));
-
-            dictionary["returnType"] = FormatTypeExtensions.FormatType(method.ReturnType);
-
-            string invokeMethod;
-
-            if (method.GetCustomAttribute<WampProgressiveResultProcedureAttribute>() != null)
-            {
-                invokeMethod = "InvokeProgressiveAsync";
-
-                dictionary["parameterList"] =
-                    string.Join(", ",
-                                new[] {methodField}.Concat
-                                    (new[] {parameters.Last()}.Concat(parameters.Take(parameters.Length - 1))
-                                                              .Select(x => x.Name)));
-            }
-            else if (typeof (Task).IsAssignableFrom(method.ReturnType))
-            {
-                invokeMethod = "InvokeAsync";
-            }
-            else
-            {
-                invokeMethod = "InvokeSync";
-            }
-
-            Type returnType = TaskExtensions.UnwrapReturnType(method.ReturnType);
-
-            if (method.ReturnType != typeof(void))
-            {
-                dictionary["return"] = "return ";
-                dictionary["genericType"] = GetGenericType(returnType);
-            }
-            else
-            {
-                dictionary["return"] = string.Empty;
-                dictionary["genericType"] = string.Empty;
-            }
-
-            if (method.ReturnType == typeof (Task))
-            {
-                dictionary["genericType"] = string.Empty;                
-            }
-
-            if (!method.HasMultivaluedResult())
-            {
-                invokeMethod = "Single" + invokeMethod;
-            }
-            else
-            {
-                invokeMethod = "Multi" + invokeMethod;
-                dictionary["genericType"] = GetGenericType(returnType.GetElementType());
-            }
-
-            dictionary["invokeMethod"] = invokeMethod;
-
-            dictionary["parametersDeclaration"] =
-                string.Join(", ",
-                            parameters.Select
-                                (x => FormatTypeExtensions.FormatType(x.ParameterType) + " " + x.Name));
-
-            return TemplateHelper.ProcessTemplate(mMethodTemplate, dictionary);
-        }
-
-        private static string GetGenericType(Type returnType)
-        {
-            return string.Format("<{0}>", FormatTypeExtensions.FormatType(returnType));
-        }
-
-        private string mFieldTemplate =
-            @"private static readonly MethodInfo mMethod{$methodIndex} = GetMethodInfo(({$interfaceType} instance) => instance.{$methodName}({$defaults}));";
-
-        public string WriteField(int methodIndex, MethodInfo method)
-        {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-
-            Type type = method.DeclaringType;
-
-            dictionary["methodIndex"] = methodIndex.ToString();
-            dictionary["interfaceType"] = FormatTypeExtensions.FormatType(type);
-            dictionary["methodName"] = method.Name;
-            dictionary["defaults"] =
-                string.Join(", ",
-                            method.GetParameters()
-                                  .Select(x => string.Format("default({0})",
-                                                             FormatTypeExtensions.FormatType(x.ParameterType))));
-
-            return TemplateHelper.ProcessTemplate(mFieldTemplate, dictionary);
         }
     }
 }
