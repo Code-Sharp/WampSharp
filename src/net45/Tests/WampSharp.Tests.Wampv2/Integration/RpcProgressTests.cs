@@ -53,7 +53,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             MyOperation myOperation = new MyOperation();
 
             await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, new RegisterOptions());
-            ILongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ILongOpService>();
+            ILongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxyPortable<ILongOpService>();
 
             List<int> results = new List<int>();
             MyProgress<int> progress = new MyProgress<int>(i => results.Add(i));

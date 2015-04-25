@@ -267,6 +267,7 @@
     <Compile Include="WAMP2\V2\PCL\CodeGeneration\OutRefProxyMethodWriter.cs" />
     <Compile Include="WAMP2\V2\PCL\CodeGeneration\SimpleProxyMethodWriter.cs" />
     <Compile Include="WAMP2\V2\PCL\CodeGeneration\TemplateHelper.cs" />
+    <Compile Include="WAMP2\V2\PCL\GeneratedCodeException.cs" />
     <Compile Include="WAMP2\V2\PCL\WampMessageSerializerFactory.cs" />
     <Compile Include="WAMP2\V2\PCL\ManualWampServerProxyBuilder.cs" />
     <Compile Include="WAMP2\V2\PCL\ProxyBase.cs" />

@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Binding\MockBinding.cs" />
     <Compile Include="Binding\MockWampMessage.cs" />
+    <Compile Include="CalleeProxyExtensions.cs" />
     <Compile Include="Client\Callee\CalleeTest.cs" />
     <Compile Include="Client\Callee\InvocationCalleeeTest.cs" />
     <Compile Include="Client\Callee\RawInvocationCalleeTests.cs" />

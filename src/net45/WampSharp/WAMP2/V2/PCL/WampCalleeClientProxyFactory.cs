@@ -39,23 +39,6 @@ namespace WampSharp.V2.CalleeProxy
                  " You might want to try to use this method using the type declared in the inner exception.",
                  new GeneratedCodeException(generatedCode));
         }
-
-        internal class GeneratedCodeException : Exception
-        {
-            private readonly string mGeneratedCode;
-
-            public GeneratedCodeException(string generatedCode)
-                : base("Try the code attached in the GeneratedCode property.")
-            {
-                mGeneratedCode = generatedCode;
-            }
-
-            public string GeneratedCode
-            {
-                get { return mGeneratedCode; }
-            }
-        }
     }
-
 }
 #endif
