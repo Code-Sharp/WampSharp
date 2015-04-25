@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 
-namespace WampSharp.Tests
+namespace WampSharp.Tests.TestHelpers
 {
     public class MockConnection<TMessage>
     {

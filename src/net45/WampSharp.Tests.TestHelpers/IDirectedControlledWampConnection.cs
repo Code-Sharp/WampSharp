@@ -1,7 +1,7 @@
 ﻿using System;
 using WampSharp.Core.Listener;
 
-namespace WampSharp.Tests
+namespace WampSharp.Tests.TestHelpers
 {
     public interface IDirectedControlledWampConnection<TMessage> : 
         IControlledWampConnection<TMessage>

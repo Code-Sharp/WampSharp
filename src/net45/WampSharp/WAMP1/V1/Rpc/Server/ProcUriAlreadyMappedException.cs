@@ -7,9 +7,7 @@ namespace WampSharp.V1.Rpc.Server
     /// Indicates that a given proc uri is already mapped in
     /// <see cref="IWampRpcMetadataCatalog"/>.
     /// </summary>
-#if !PCL
     [Serializable]
-#endif
     public class ProcUriAlreadyMappedException : Exception
     {
         /// <summary>
@@ -20,12 +18,10 @@ namespace WampSharp.V1.Rpc.Server
         {
         }
 
-#if !PCL
         protected ProcUriAlreadyMappedException(
             SerializationInfo info,
             StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
 }

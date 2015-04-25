@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RawSocket", "Exte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.EdgeJs", "Samples\WAMP2\WampSharp.Samples.EdgeJs\WampSharp.Samples.EdgeJs.csproj", "{0BB21BE8-6C6B-4CB2-BD09-6A0A863D529E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Tests.TestHelpers", "WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj", "{78AB08FB-F75D-4F93-A25F-164BF90DD408}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -241,6 +243,16 @@ Global
 		{0BB21BE8-6C6B-4CB2-BD09-6A0A863D529E}.Release|ARM.ActiveCfg = Release|Any CPU
 		{0BB21BE8-6C6B-4CB2-BD09-6A0A863D529E}.Release|x64.ActiveCfg = Release|Any CPU
 		{0BB21BE8-6C6B-4CB2-BD09-6A0A863D529E}.Release|x86.ActiveCfg = Release|Any CPU
+		{78AB08FB-F75D-4F93-A25F-164BF90DD408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78AB08FB-F75D-4F93-A25F-164BF90DD408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78AB08FB-F75D-4F93-A25F-164BF90DD408}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{78AB08FB-F75D-4F93-A25F-164BF90DD408}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{78AB08FB-F75D-4F93-A25F-164BF90DD408}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{78AB08FB-F75D-4F93-A25F-164BF90DD408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78AB08FB-F75D-4F93-A25F-164BF90DD408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78AB08FB-F75D-4F93-A25F-164BF90DD408}.Release|ARM.ActiveCfg = Release|Any CPU
+		{78AB08FB-F75D-4F93-A25F-164BF90DD408}.Release|x64.ActiveCfg = Release|Any CPU
+		{78AB08FB-F75D-4F93-A25F-164BF90DD408}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -264,5 +276,6 @@ Global
 		{305C0F3D-1A51-4D8C-8729-481F73A7C7D6} = {AF224856-8194-4CA0-92D9-03926B743987}
 		{678473BD-87FC-4788-A444-4ABF45FDCFEC} = {FA4B348E-3BBD-4F98-B429-891376EBA17E}
 		{0BB21BE8-6C6B-4CB2-BD09-6A0A863D529E} = {AF224856-8194-4CA0-92D9-03926B743987}
+		{78AB08FB-F75D-4F93-A25F-164BF90DD408} = {D07452C1-0C0A-45C3-8A1B-33BD8FF93C5E}
 	EndGlobalSection
 EndGlobal

@@ -2,7 +2,7 @@ using System.Linq;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 
-namespace WampSharp.Tests
+namespace WampSharp.Tests.TestHelpers
 {
     public static class WampFormatterExtensions
     {

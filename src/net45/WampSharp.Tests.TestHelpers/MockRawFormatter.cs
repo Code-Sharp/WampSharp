@@ -2,19 +2,21 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
-using WampSharp.Newtonsoft;
 
 namespace WampSharp.Tests.TestHelpers
 {
     public class MockRawFormatter : IWampFormatter<MockRaw>
     {
-        private JsonSerializer mSerializer;
+        private readonly JsonSerializer mSerializer;
 
-        public MockRawFormatter()
+        public MockRawFormatter(JsonSerializer serializer)
         {
-            mSerializer = new JsonSerializer();
+            mSerializer = serializer;
             mSerializer.Converters.Add(new MockRawConverter());
-            mSerializer.ContractResolver = new JsonPropertyNameContractResolver();
+        }
+
+        public MockRawFormatter() : this(new JsonSerializer())
+        {
         }
 
         public bool CanConvert(MockRaw argument, Type type)
