@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Client;
@@ -8,7 +7,6 @@ using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
-using WampSharp.Fleck;
 using WampSharp.Newtonsoft;
 using WampSharp.Tests.Rpc.Helpers;
 using WampSharp.Tests.TestHelpers;

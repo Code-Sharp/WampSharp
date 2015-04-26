@@ -1,14 +1,10 @@
 ﻿using System.Linq;
 using Moq;
-using NUnit.Framework;
 using Newtonsoft.Json.Linq;
-using WampSharp.Core;
-using WampSharp.Core.Contracts;
+using NUnit.Framework;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
-using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
-using WampSharp.Fleck;
 using WampSharp.Newtonsoft;
 using WampSharp.V1.Core.Contracts;
 

@@ -4,7 +4,7 @@ using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 
-namespace WampSharp
+namespace WampSharp.Core.Listener
 {
     /// <summary>
     /// A workaround until tpl dataflow is compatible with mono.

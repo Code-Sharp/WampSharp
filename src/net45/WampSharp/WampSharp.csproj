@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\WampSharp.XML</DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -82,6 +83,8 @@
     <Compile Include="Core\Dispatch\Handler\DelegateCache.cs" />
     <Compile Include="Core\Dispatch\Handler\IMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\IWampRequestMapper.cs" />
+    <Compile Include="Core\Listener\Connections\AsyncConnection\ActionBlock.cs" />
+    <Compile Include="Core\Listener\Connections\AsyncConnection\AsyncWampConnection.cs" />
     <Compile Include="Core\Logs\LogErrorExtensions.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodInfo.cs" />

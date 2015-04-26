@@ -38,9 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Castle.Core.3.3.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Fleck, Version=0.12.0.40, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Fleck, Version=0.13.0.48, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Fleck.0.12.0.40\lib\net40\Fleck.dll</HintPath>
+      <HintPath>..\..\..\packages\Fleck.0.13.0.48\lib\net40\Fleck.dll</HintPath>
     </Reference>
     <Reference Include="MsgPack, Version=0.5.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -96,6 +96,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
+      <Project>{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59}</Project>
+      <Name>WampSharp.NewtonsoftJson</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj">
+      <Project>{061D1C1C-52A7-4FCB-9DF8-C1E28BFAD378}</Project>
+      <Name>WampSharp.NewtonsoftMsgpack</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Default\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.csproj">
+      <Project>{48543B7C-D8FF-4AAC-B3BA-F8CC53EF6E01}</Project>
+      <Name>WampSharp.WebSocket4Net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\WampSharp.Default\WampSharp.Default.csproj">
       <Project>{6AB75291-D296-457E-88A3-B41B16A1A247}</Project>
       <Name>WampSharp.Default</Name>

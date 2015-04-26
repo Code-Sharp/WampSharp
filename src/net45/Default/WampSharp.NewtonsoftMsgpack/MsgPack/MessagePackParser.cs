@@ -4,7 +4,6 @@ using WampSharp.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Msgpack;
-using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Newtonsoft;
 using WampSharp.V2.Binding.Parsers;

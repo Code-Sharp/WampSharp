@@ -1,10 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using WampSharp.Logging;
-using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.Logging;
 
-namespace WampSharp
+namespace WampSharp.Core.Listener
 {
     public abstract class AsyncWampConnection<TMessage> : IWampConnection<TMessage>
     {
