@@ -1,4 +1,3 @@
-#if CASTLE
 using Castle.DynamicProxy;
 using WampSharp.V1.Cra;
 
@@ -21,4 +20,3 @@ namespace WampSharp.V1.Core.Proxy
         }
     }
 }
-#endif

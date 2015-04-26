@@ -114,6 +114,10 @@
       <Project>{48543B7C-D8FF-4AAC-B3BA-F8CC53EF6E01}</Project>
       <Name>WampSharp.WebSocket4Net</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WampSharp.WAMP1\WampSharp.WAMP1.csproj">
+      <Project>{78C5F5EB-DE92-408E-87C7-6287BC8CC399}</Project>
+      <Name>WampSharp.WAMP1</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WampSharp\WampSharp.csproj">
       <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>
       <Name>WampSharp</Name>

@@ -73,6 +73,10 @@
       <Project>{6AB75291-D296-457E-88A3-B41B16A1A247}</Project>
       <Name>WampSharp.Default</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\WampSharp.WAMP1\WampSharp.WAMP1.csproj">
+      <Project>{78C5F5EB-DE92-408E-87C7-6287BC8CC399}</Project>
+      <Name>WampSharp.WAMP1</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj">
       <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>
       <Name>WampSharp</Name>

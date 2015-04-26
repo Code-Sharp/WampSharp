@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WampSharp.V1;
 using WampSharp.V1.PubSub.Server;
 
@@ -13,7 +9,6 @@ namespace WampSharp.PubSubServerSample
         static void Main(string[] args)
         {
             // http://autobahn.ws/static/file/autobahnjs.html
-
             const string location = "ws://127.0.0.1:9000/";
             using (IWampHost host = new DefaultWampHost(location))
             {

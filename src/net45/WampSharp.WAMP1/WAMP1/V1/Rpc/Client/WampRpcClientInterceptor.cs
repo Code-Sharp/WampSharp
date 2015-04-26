@@ -1,5 +1,4 @@
-﻿#if CASTLE
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 
 namespace WampSharp.V1.Rpc.Client
 {
@@ -53,4 +52,3 @@ namespace WampSharp.V1.Rpc.Client
         public abstract void Intercept(IInvocation invocation);
     }
 }
-#endif
