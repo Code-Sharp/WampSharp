@@ -126,13 +126,13 @@
       <Project>{6ab75291-d296-457e-88a3-b41b16a1a247}</Project>
       <Name>WampSharp.Default</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj">
-      <Project>{78AB08FB-F75D-4F93-A25F-164BF90DD408}</Project>
-      <Name>WampSharp.Tests.TestHelpers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>
       <Name>WampSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj">
+      <Project>{78AB08FB-F75D-4F93-A25F-164BF90DD408}</Project>
+      <Name>WampSharp.Tests.TestHelpers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -64,7 +64,7 @@
     <Compile Include="WampFormatterExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WampSharp\WampSharp.csproj">
+    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>
       <Name>WampSharp</Name>
     </ProjectReference>
