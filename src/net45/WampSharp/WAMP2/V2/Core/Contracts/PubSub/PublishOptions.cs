@@ -1,7 +1,9 @@
-﻿using WampSharp.Core.Message;
+﻿using System.Runtime.Serialization;
+using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
+    [DataContract]
     [WampDetailsOptions(WampMessageType.v2Publish)]
     public class PublishOptions : WampDetailsOptions
     {
@@ -19,19 +21,19 @@ namespace WampSharp.V2.Core.Contracts
             this.OriginalValue = options.OriginalValue;
         }
 
-        [PropertyName("acknowledge")]
+        [DataMember(Name = "acknowledge")]
         public bool? Acknowledge { get; set; }
 
-        [PropertyName("exclude_me")]
+        [DataMember(Name = "exclude_me")]
         public bool? ExcludeMe { get; set; }
 
-        [PropertyName("exclude")]
+        [DataMember(Name = "exclude")]
         public long[] Exclude { get; set; }
 
-        [PropertyName("eligible")]
+        [DataMember(Name = "eligible")]
         public long[] Eligible { get; set; }
 
-        [PropertyName("disclose_me")]
+        [DataMember(Name = "disclose_me")]
         public bool? DiscloseMe { get; set; }
     }
 }

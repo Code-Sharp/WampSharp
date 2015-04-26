@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Security.Authentication;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -180,9 +181,10 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(deserializedDetails, Is.EqualTo(myAbortDetails));
         }
 
+        [DataContract]
         private class MyAbortDetails : AbortDetails
         {
-            [JsonProperty("user")]
+            [DataMember(Name = "user")]
             public string User { get; set; }
 
             protected bool Equals(MyAbortDetails other)
@@ -448,9 +450,10 @@ namespace WampSharp.Tests.Wampv2.Integration
             }
         }
 
+        [DataContract]
         private class MyChallengeDetails : ChallengeDetails
         {
-            [JsonProperty("number")]
+            [DataMember(Name = "number")]
             public int MyNumber { get; set; }
 
             protected bool Equals(MyChallengeDetails other)

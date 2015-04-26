@@ -48,7 +48,6 @@
     <Compile Include="Newtonsoft\DetailsOptionsConverter.cs" />
     <Compile Include="Newtonsoft\IWampMessageFormatter.cs" />
     <Compile Include="Newtonsoft\JsonFormatter.cs" />
-    <Compile Include="Newtonsoft\JsonPropertyNameContractResolver.cs" />
     <Compile Include="Newtonsoft\JsonWampMessageFormatter.cs" />
     <Compile Include="Newtonsoft\JTokenMessageParser.cs" />
     <Compile Include="Newtonsoft\SerializedValueConverter.cs" />

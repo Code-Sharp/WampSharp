@@ -1,15 +1,18 @@
-﻿namespace WampSharp.V2.Core.Contracts
+﻿using System.Runtime.Serialization;
+
+namespace WampSharp.V2.Core.Contracts
 {
+    [DataContract]
     public class PublishOptionsExtended : PublishOptions
     {
         public PublishOptionsExtended(PublishOptions options) : base(options)
         {
         }
 
-        [IgnoreProperty]
+        [IgnoreDataMember]
         public long PublisherId { get; set; }
 
-        [IgnoreProperty]
+        [IgnoreDataMember]
         public string TopicUri { get; set; }
     }
 }

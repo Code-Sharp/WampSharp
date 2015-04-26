@@ -1,11 +1,13 @@
-﻿using WampSharp.Core.Message;
+﻿using System.Runtime.Serialization;
+using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
+    [DataContract]
     [WampDetailsOptions(WampMessageType.v2Subscribe)]
     public class SubscribeOptions : WampDetailsOptions
     {
-        [PropertyName("match")]
+        [DataMember(Name = "match")]
         public string Match { get; set; }
 
         protected bool Equals(SubscribeOptions other)

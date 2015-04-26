@@ -1,11 +1,13 @@
+using System.Runtime.Serialization;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
+    [DataContract]
     [WampDetailsOptions(WampMessageType.v2Result)]
     public class ResultDetails : WampDetailsOptions
     {
-        [PropertyName("progress")]
+        [DataMember(Name = "progress")]
         public bool? Progress { get; set; }
     }
 }

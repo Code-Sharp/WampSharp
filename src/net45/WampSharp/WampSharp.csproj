@@ -226,7 +226,6 @@
     <Compile Include="WAMP2\V2\Client\Session\DefaultWampClientAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationException.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\Attributes\IgnorePropertyAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\EventDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\PublishOptionsExtended.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\CancelOptions.cs" />
@@ -234,7 +233,6 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\ResultDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\CallOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InvocationDetails.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\Attributes\PropertyNameAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\PublishOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\SubscribeOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\YieldOptions.cs" />

@@ -1,5 +1,8 @@
+using System.Runtime.Serialization;
+
 namespace WampSharp.V2.Core.Contracts
 {
+    [DataContract]
     public class InvocationDetailsExtended : InvocationDetails
     {
         public InvocationDetailsExtended()
@@ -12,10 +15,10 @@ namespace WampSharp.V2.Core.Contracts
             CallerOptions = details.CallerOptions;
         }
 
-        [IgnoreProperty]
+        [IgnoreDataMember]
         public CallOptions CallerOptions { get; set; }
 
-        [IgnoreProperty]
+        [IgnoreDataMember]
         public long? CallerSession { get; set; }
     }
 }
