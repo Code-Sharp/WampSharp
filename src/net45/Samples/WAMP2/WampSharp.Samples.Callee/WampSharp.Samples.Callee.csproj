@@ -108,9 +108,13 @@
       <Project>{48543B7C-D8FF-4AAC-B3BA-F8CC53EF6E01}</Project>
       <Name>WampSharp.WebSocket4Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WampSharp.Default\WampSharp.Default.csproj">
-      <Project>{6AB75291-D296-457E-88A3-B41B16A1A247}</Project>
-      <Name>WampSharp.Default</Name>
+    <ProjectReference Include="..\..\..\WampSharp.Default.Client\WampSharp.Default.Client.csproj">
+      <Project>{A86753C0-0D7E-442C-A507-CDE7E95BC1DB}</Project>
+      <Name>WampSharp.Default.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WampSharp.Default.Router\WampSharp.Default.Router.csproj">
+      <Project>{C48C5249-2253-44A8-9B53-730B48FF2403}</Project>
+      <Name>WampSharp.Default.Router</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj">
       <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>

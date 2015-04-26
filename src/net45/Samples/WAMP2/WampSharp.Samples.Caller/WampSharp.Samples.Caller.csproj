@@ -101,9 +101,13 @@
       <Project>{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59}</Project>
       <Name>WampSharp.NewtonsoftJson</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WampSharp.Default\WampSharp.Default.csproj">
-      <Project>{6ab75291-d296-457e-88a3-b41b16a1a247}</Project>
-      <Name>WampSharp.Default</Name>
+    <ProjectReference Include="..\..\..\WampSharp.Default.Client\WampSharp.Default.Client.csproj">
+      <Project>{A86753C0-0D7E-442C-A507-CDE7E95BC1DB}</Project>
+      <Name>WampSharp.Default.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WampSharp.Default.Router\WampSharp.Default.Router.csproj">
+      <Project>{C48C5249-2253-44A8-9B53-730B48FF2403}</Project>
+      <Name>WampSharp.Default.Router</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj">
       <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>

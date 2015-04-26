@@ -126,10 +126,6 @@
       <Project>{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59}</Project>
       <Name>WampSharp.NewtonsoftJson</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\WampSharp.Default\WampSharp.Default.csproj">
-      <Project>{6ab75291-d296-457e-88a3-b41b16a1a247}</Project>
-      <Name>WampSharp.Default</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\WampSharp.WAMP1\WampSharp.WAMP1.csproj">
       <Project>{78c5f5eb-de92-408e-87c7-6287bc8cc399}</Project>
       <Name>WampSharp.WAMP1</Name>
