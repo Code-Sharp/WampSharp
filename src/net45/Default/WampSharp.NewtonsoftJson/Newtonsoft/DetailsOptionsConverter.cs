@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;

@@ -2,7 +2,9 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using WampSharp.V2.Binding;
 using Windows.Networking.Sockets;
+using WampSharp.Core.Message;
 
 namespace WampSharp.Windows
 {

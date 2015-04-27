@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿#if !PCL
+using Newtonsoft.Json.Linq;
 using WampSharp.Binding;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Client;
@@ -148,3 +149,4 @@ namespace WampSharp.V2
         }
     }
 }
+#endif

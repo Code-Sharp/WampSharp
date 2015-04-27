@@ -34,9 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fleck, Version=0.12.0.40, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Fleck.0.12.0.40\lib\net40\Fleck.dll</HintPath>
+    <Reference Include="Fleck">
+      <HintPath>..\..\..\packages\Fleck.0.13.0.48\lib\net40\Fleck.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MsgPack, Version=0.5.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -88,9 +88,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\WampSharp.Default\WampSharp.Default.csproj">
-      <Project>{6AB75291-D296-457E-88A3-B41B16A1A247}</Project>
-      <Name>WampSharp.Default</Name>
+    <ProjectReference Include="..\..\..\WampSharp.Default.Client\WampSharp.Default.Client.csproj">
+      <Project>{A86753C0-0D7E-442C-A507-CDE7E95BC1DB}</Project>
+      <Name>WampSharp.Default.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WampSharp.Default.Router\WampSharp.Default.Router.csproj">
+      <Project>{C48C5249-2253-44A8-9B53-730B48FF2403}</Project>
+      <Name>WampSharp.Default.Router</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj">
       <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>

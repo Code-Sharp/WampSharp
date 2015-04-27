@@ -1,4 +1,14 @@
-﻿using WampSharp.V2;
+﻿#if PCL
+using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using Microsoft.CSharp;
+using WampSharp.V2.CalleeProxy;
+#endif 
+using WampSharp.V2;
 
 namespace WampSharp.Tests.Wampv2
 {
