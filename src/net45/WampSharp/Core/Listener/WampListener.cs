@@ -1,5 +1,4 @@
-﻿#if !PCL
-using System;
+﻿using System;
 using System.Reactive.Disposables;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Message;
@@ -166,4 +165,3 @@ namespace WampSharp.Core.Listener
         }
     }
 }
-#endif

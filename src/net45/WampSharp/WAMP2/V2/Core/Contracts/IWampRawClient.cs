@@ -6,8 +6,7 @@ namespace WampSharp.V2.Core.Contracts
     /// <summary>
     /// Represents a proxy to a client that can send raw messages.
     /// </summary>
-    /// <typeparam name="TMessage"></typeparam>
-    public interface IWampRawClient<TMessage>
+    public interface IWampRawClient
     {
         /// <summary>
         /// Sends a raw message to current client.

@@ -9,7 +9,8 @@
         IWampCaller,
         IWampPublisher,
         IWampSubscriber,
-        IWampClientProperties
+        IWampClientProperties,
+        IWampRawClient
     {
     }
 
@@ -19,8 +20,7 @@
     /// <typeparam name="TMessage"></typeparam>
     public interface IWampClientProxy<TMessage> :
         IWampClientProxy,
-        IWampClientProperties<TMessage>,
-        IWampRawClient<TMessage>
+        IWampClientProperties<TMessage>
     {
     }
 }

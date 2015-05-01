@@ -1,3 +1,5 @@
+#if !PCL
+using System.Runtime.Serialization;
 using WampSharp.Core.Cra;
 using WampSharp.V2.Core.Contracts;
 
@@ -80,8 +82,9 @@ namespace WampSharp.V2.Client
 
         internal class WampCraChallengeDetails
         {
-            [PropertyName("challenge")]
+            [DataMember(Name = "challenge")]
             public string Challenge { get; set; }
         }
     }
 }
+#endif

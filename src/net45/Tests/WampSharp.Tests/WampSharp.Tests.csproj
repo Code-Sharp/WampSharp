@@ -39,7 +39,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -80,9 +80,7 @@
     <Compile Include="Dispatch\Helpers\MockWampServer.cs" />
     <Compile Include="Dispatch\Helpers\MockWampServerWithMissing.cs" />
     <Compile Include="Dispatch\WampRequestMapperTests.cs" />
-    <Compile Include="IDirectedControlledWampConnection.cs" />
     <Compile Include="ListenerTests.cs" />
-    <Compile Include="MockConnection.cs" />
     <Compile Include="MockListener.cs" />
     <Compile Include="Rpc\Helpers\MockRpcCatalog.cs" />
     <Compile Include="Rpc\Helpers\MockRpcMethod.cs" />
@@ -109,8 +107,6 @@
     <Compile Include="Rpc\RpcCalls.cs" />
     <Compile Include="Rpc\WampRpcClientFactoryTests.cs" />
     <Compile Include="Rpc\WampRpcClientHandlerTests.cs" />
-    <Compile Include="TestHelpers\Integration\MockConnectionListener.cs" />
-    <Compile Include="TestHelpers\Integration\WampClientPlayground.cs" />
     <Compile Include="TestHelpers\Integration\WampPlayground.cs" />
     <Compile Include="TestHelpers\MockRawComparer.cs" />
     <Compile Include="Proxy\Helpers\MockSessionGuidGenerator.cs" />
@@ -118,25 +114,29 @@
     <Compile Include="RpcTests.cs" />
     <Compile Include="TestHelpers\Method.cs" />
     <Compile Include="TestHelpers\MessagesArguments.cs" />
-    <Compile Include="TestHelpers\MockRawConverter.cs" />
     <Compile Include="TestHelpers\WampMessageEqualityComparer.cs" />
     <Compile Include="TestHelpers\WampV1Messages.cs" />
     <Compile Include="TestHelpers\Messages.cs" />
-    <Compile Include="TestHelpers\MockRaw.cs" />
-    <Compile Include="TestHelpers\MockRawFormatter.cs" />
-    <Compile Include="WampFormatterExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WampSharp.Default\WampSharp.Default.csproj">
-      <Project>{6ab75291-d296-457e-88a3-b41b16a1a247}</Project>
-      <Name>WampSharp.Default</Name>
+    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
+      <Project>{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59}</Project>
+      <Name>WampSharp.NewtonsoftJson</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WampSharp.WAMP1\WampSharp.WAMP1.csproj">
+      <Project>{78c5f5eb-de92-408e-87c7-6287bc8cc399}</Project>
+      <Name>WampSharp.WAMP1</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>
       <Name>WampSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj">
+      <Project>{78AB08FB-F75D-4F93-A25F-164BF90DD408}</Project>
+      <Name>WampSharp.Tests.TestHelpers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,6 +1,4 @@
-﻿#if !PCL
-
-using WampSharp.V2.Binding;
+﻿using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Realm
@@ -22,5 +20,3 @@ namespace WampSharp.V2.Realm
              IWampBinding<TMessage> binding);
     }
 }
-
-#endif

@@ -6,22 +6,14 @@
     <owners />
     <dependencies>
       <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="Fleck" version="[0.12.0.40]" />
-      <dependency id="Newtonsoft.Json" version="[6.0.6]" />
-      <dependency id="WebSocket4Net" version="[0.10]" />
-      <dependency id="Newtonsoft.Msgpack" version="[0.1.4]" />
+      <dependency id="WampSharp.Default.Client" version="[$version$]" />
+      <dependency id="WampSharp.Default.Router" version="[$version$]" />
     </dependencies>
     <id>WampSharp.Default</id>
     <title>WampSharp default binding</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>WampSharp above Fleck, Newtonsoft.Json and WebSocket4Net</description>
+    <description>WampSharp above Fleck, Newtonsoft.Json Newtonsoft.Msgpack and WebSocket4Net</description>
     <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
-    <tags>websockets wampws rpc pubsub fleck newtonsoft json msgpack wampv1 wampv2</tags>
+    <tags>websockets wampws rpc pubsub fleck websocket4net newtonsoft json msgpack wampv2</tags>
   </metadata>
-  <files>
-    <file src="bin\net45\WampSharp.Default.dll" target="lib\net45\WampSharp.Default.dll" />
-    <file src="bin\net45\WampSharp.Default.xml" target="lib\net45\WampSharp.Default.xml" />
-    <file src="bin\net40\WampSharp.Default.dll" target="lib\net40\WampSharp.Default.dll" />
-    <file src="bin\net40\WampSharp.Default.xml" target="lib\net40\WampSharp.Default.xml" />
-  </files>
 </package>

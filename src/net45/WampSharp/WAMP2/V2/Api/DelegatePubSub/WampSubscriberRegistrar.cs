@@ -36,7 +36,7 @@ namespace WampSharp.V2.DelegatePubSub
 
             foreach (Type type in typesToExplore)
             {
-                foreach (MethodInfo method in type.GetInstanceMethods())
+                foreach (MethodInfo method in type.GetPublicInstanceMethods())
                 {
                     if (interceptor.IsSubscriberHandler(method))
                     {

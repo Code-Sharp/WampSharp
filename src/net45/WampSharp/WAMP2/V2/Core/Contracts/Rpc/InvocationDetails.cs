@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
+    [DataContract]
     [WampDetailsOptions(WampMessageType.v2Invocation)]
     public class InvocationDetails : WampDetailsOptions
     {
@@ -22,25 +24,25 @@ namespace WampSharp.V2.Core.Contracts
             OriginalValue = details.OriginalValue;
         }
 
-        [PropertyName("timeout")]
+        [DataMember(Name = "timeout")]
         internal bool? Timeout { get; set; }
 
-        [PropertyName("receive_progress")]
+        [DataMember(Name = "receive_progress")]
         public bool? ReceiveProgress { get; set; }
 
-        [PropertyName("caller")]
+        [DataMember(Name = "caller")]
         public long? Caller { get; set; }
 
-        [PropertyName("caller_transport")]
+        [DataMember(Name = "caller_transport")]
         internal IDictionary<string, object> CallerTransport { get; set; }
 
-        [PropertyName("authid")]
+        [DataMember(Name = "authid")]
         internal string AuthId { get; set; }
 
-        [PropertyName("authrole")]
+        [DataMember(Name = "authrole")]
         internal string AuthRole { get; set; }
 
-        [PropertyName("authmethod")]
+        [DataMember(Name = "authmethod")]
         internal string AuthMethod { get; set; }
     }
 }

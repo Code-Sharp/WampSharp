@@ -42,7 +42,7 @@ namespace WampSharp.V2.Rpc
                 Type type,
                 ICalleeRegistrationInterceptor interceptor)
         {
-            foreach (var method in type.GetInstanceMethods())
+            foreach (var method in type.GetPublicInstanceMethods())
             {
                 if (interceptor.IsCalleeProcedure(method))
                 {

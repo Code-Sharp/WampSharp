@@ -1,5 +1,4 @@
-﻿#if !PCL
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
@@ -43,4 +42,3 @@ namespace WampSharp.V2.Realm.Binded
         }
     }
 }
-#endif

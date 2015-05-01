@@ -25,7 +25,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ArgumentsService>(playground);
 
             IArgumentsService proxy =
-                channel.RealmProxy.Services.GetCalleeProxy<IArgumentsService>();
+                channel.RealmProxy.Services.GetCalleeProxyPortable<IArgumentsService>();
 
             int five = proxy.Add2(2, 3);
 
@@ -39,8 +39,8 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             var channel = await SetupService<ArgumentsService>(playground);
 
-            IArgumentsService proxy = 
-                channel.RealmProxy.Services.GetCalleeProxy<IArgumentsService>();
+            IArgumentsService proxy =
+                channel.RealmProxy.Services.GetCalleeProxyPortable<IArgumentsService>();
 
             Task<int> task = proxy.Add2Async(2, 3);
             
@@ -93,7 +93,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ErrorsService>(playground);
 
             IErrorsService proxy =
-                channel.RealmProxy.Services.GetCalleeProxy<IErrorsService>();
+                channel.RealmProxy.Services.GetCalleeProxyPortable<IErrorsService>();
 
             Task<int> result = proxy.SqrtAsync(number);
 
@@ -125,7 +125,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ArgumentsService>(playground);
 
             IArgumentsService proxy =
-                channel.RealmProxy.Services.GetCalleeProxy<IArgumentsService>();
+                channel.RealmProxy.Services.GetCalleeProxyPortable<IArgumentsService>();
 
             string[] orders = 
                 proxy.Orders("Book", 3);
@@ -141,7 +141,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ComplexResultService>(playground);
 
             IComplexResultService proxy =
-                channel.RealmProxy.Services.GetCalleeProxy<IComplexResultService>();
+                channel.RealmProxy.Services.GetCalleeProxyPortable<IComplexResultService>();
 
             int c;
             int ci;
@@ -159,7 +159,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ComplexResultService>(playground);
 
             IComplexResultService proxy =
-                channel.RealmProxy.Services.GetCalleeProxy<IComplexResultService>();
+                channel.RealmProxy.Services.GetCalleeProxyPortable<IComplexResultService>();
 
             string[] splitName = proxy.SplitName("Homer Simpson");
 

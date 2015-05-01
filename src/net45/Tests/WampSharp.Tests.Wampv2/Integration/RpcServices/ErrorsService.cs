@@ -100,11 +100,6 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
                                      base(details, ErrorUri, arguments, argumentsKeywords, message, inner)
             {
             }
-
-            protected AppException1(SerializationInfo info, StreamingContext context)
-                : base(info, context)
-            {
-            }
         }
     }
 }

@@ -11,22 +11,19 @@ namespace WampSharp.V2.Client
     internal class WampChannelBuilder<TMessage>
     {
         private readonly IWampBinding<TMessage> mBinding;
-        private IWampServerProxyBuilder<TMessage, WampClient<TMessage>, IWampServerProxy> mFactory;
+        private WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy> mFactory;
 
         public WampChannelBuilder(IWampBinding<TMessage> binding)
         {
             mBinding = binding;
 
             IWampFormatter<TMessage> formatter = mBinding.Formatter;
-#if !PCL
+
             mFactory =
-                new WampServerProxyBuilder<TMessage, WampClient<TMessage>, IWampServerProxy>(
+                new WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy>(
                     new WampOutgoingRequestSerializer<TMessage>(formatter),
-                    new WampServerProxyOutgoingMessageHandlerBuilder<TMessage, WampClient<TMessage>>
-                        (new WampServerProxyIncomingMessageHandlerBuilder<TMessage, WampClient<TMessage>>(formatter)));
-#else
-            mFactory = new ManualWampServerProxyBuilder<TMessage>(formatter);
-#endif
+                    new WampServerProxyOutgoingMessageHandlerBuilder<TMessage, IWampClient<TMessage>>
+                        (new WampServerProxyIncomingMessageHandlerBuilder<TMessage, IWampClient<TMessage>>(formatter)));
         }
 
 

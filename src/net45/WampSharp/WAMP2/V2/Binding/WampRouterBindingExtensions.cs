@@ -1,5 +1,3 @@
-#if !PCL
-
 using WampSharp.Core.Listener;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
@@ -34,5 +32,3 @@ namespace WampSharp.V2.Binding
         }
     }
 }
-
-#endif

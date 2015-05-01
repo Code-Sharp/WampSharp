@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using WampSharp.Core.Message;
+using WampSharp.Tests.TestHelpers;
 using WampSharp.V2.Binding;
 
 namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder

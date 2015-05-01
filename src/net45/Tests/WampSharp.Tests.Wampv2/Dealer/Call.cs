@@ -3,6 +3,7 @@ using System.Linq;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.V2.Core.Contracts;
+using MockRawFormatter = WampSharp.Tests.Wampv2.TestHelpers.MockRawFormatter;
 
 namespace WampSharp.Tests.Wampv2.Dealer
 {

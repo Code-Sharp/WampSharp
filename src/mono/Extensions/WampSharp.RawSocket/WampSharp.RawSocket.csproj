@@ -120,10 +120,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WampSharp.Default\WampSharp.Default.csproj">
-      <Project>{6ab75291-d296-457e-88a3-b41b16a1a247}</Project>
-      <Name>WampSharp.Default</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>
       <Name>WampSharp</Name>

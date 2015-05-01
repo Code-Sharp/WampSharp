@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <owners />
+    <dependencies>
+      <dependency id="WampSharp" version="[$version$]" />
+      <dependency id="Fleck" version="[0.12.0.40]" />
+    </dependencies>
+    <id>WampSharp.WebSocket4Net</id>
+    <title>WampSharp WebSocket4Net connection</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp WebSocket4Net support</description>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <tags>websockets wampws rpc pubsub websocket4net wampv1 wampv2</tags>
+  </metadata>
+  <files>
+    <file src="bin\net45\WampSharp.WebSocket4Net.dll" target="lib\net45\WampSharp.WebSocket4Net.dll" />
+    <file src="bin\net45\WampSharp.WebSocket4Net.xml" target="lib\net45\WampSharp.WebSocket4Net.xml" />
+    <file src="bin\net40\WampSharp.WebSocket4Net.dll" target="lib\net40\WampSharp.WebSocket4Net.dll" />
+    <file src="bin\net40\WampSharp.WebSocket4Net.xml" target="lib\net40\WampSharp.WebSocket4Net.xml" />
+  </files>
+</package>

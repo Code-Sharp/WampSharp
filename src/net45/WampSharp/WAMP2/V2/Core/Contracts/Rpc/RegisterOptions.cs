@@ -1,7 +1,9 @@
-﻿using WampSharp.Core.Message;
+﻿using System.Runtime.Serialization;
+using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
+    [DataContract]
     [WampDetailsOptions(WampMessageType.v2Register)]
     public class RegisterOptions : WampDetailsOptions
     {
@@ -14,7 +16,7 @@ namespace WampSharp.V2.Core.Contracts
             this.DiscloseCaller = other.DiscloseCaller;
         }
 
-        [PropertyName("disclose_caller")]
+        [DataMember(Name = "disclose_caller")]
         public bool? DiscloseCaller { get; set; }
     }
 }

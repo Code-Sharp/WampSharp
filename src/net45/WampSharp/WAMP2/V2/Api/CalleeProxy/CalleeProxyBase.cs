@@ -1,7 +1,10 @@
 using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Client;
+using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
@@ -10,11 +13,12 @@ namespace WampSharp.V2.CalleeProxy
         private readonly WampCalleeProxyInvocationHandler mHandler;
         private readonly ICalleeProxyInterceptor mInterceptor;
 
-        public CalleeProxyBase(IWampChannel channel, ICalleeProxyInterceptor interceptor)
+        public CalleeProxyBase(IWampRpcOperationCatalogProxy rpcCatalog,
+                               IWampClientConnectionMonitor monitor,
+                               ICalleeProxyInterceptor interceptor)
         {
             mInterceptor = interceptor;
-            IWampRealmProxy realmProxy = channel.RealmProxy;
-            mHandler = new ClientInvocationHandler(realmProxy.RpcCatalog, realmProxy.Monitor);
+            mHandler = new ClientInvocationHandler(rpcCatalog, monitor);
         }
 
         protected T SingleInvokeSync<T>(MethodBase method, params object[] arguments)
@@ -47,6 +51,7 @@ namespace WampSharp.V2.CalleeProxy
             return InvokeAsync(method, new MultiValueExtractor<T>(), arguments);
         }
 
+#if NET45
         protected Task<T> SingleInvokeProgressiveAsync<T>(MethodBase method, IProgress<T> progress,
                                                           params object[] arguments)
         {
@@ -58,6 +63,8 @@ namespace WampSharp.V2.CalleeProxy
         {
             return InvokeProgressiveAsync<T[]>(method, progress, new MultiValueExtractor<T>(), arguments);
         }
+
+#endif
 
         private T InvokeSync<T>(MethodBase method,
                                 IOperationResultExtractor<T> valueExtractor,
@@ -85,6 +92,8 @@ namespace WampSharp.V2.CalleeProxy
                  arguments);
         }
 
+#if NET45
+
         private Task<T> InvokeProgressiveAsync<T>
             (MethodBase method,
              IProgress<T> progress,
@@ -99,6 +108,28 @@ namespace WampSharp.V2.CalleeProxy
                  resultExtractor,
                  arguments,
                  progress);
+        }
+
+#endif
+
+        protected static MethodInfo GetMethodInfo(Expression<Action> expression)
+        {
+            return Method.Get(expression);
+        }
+
+        protected static MethodInfo GetMethodInfo<T>(Expression<Action<T>> expression)
+        {
+            return Method.Get(expression);
+        }
+
+        protected static MethodInfo GetMethodInfo(Func<Expression<Action>> expressionFactory)
+        {
+            return Method.Get(expressionFactory());
+        }
+
+        protected static MethodInfo GetMethodInfo<T>(Func<Expression<Action<T>>> expressionFactory)
+        {
+            return Method.Get(expressionFactory());
         }
     }
 }
