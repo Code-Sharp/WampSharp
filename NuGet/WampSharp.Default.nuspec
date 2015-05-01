@@ -15,4 +15,5 @@
     <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
     <tags>websockets wampws rpc pubsub fleck websocket4net newtonsoft json msgpack wampv2</tags>
   </metadata>
+  <files />
 </package>
