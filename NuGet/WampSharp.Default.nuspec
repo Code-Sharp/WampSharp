@@ -5,7 +5,6 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
-      <dependency id="WampSharp" version="[$version$]" />
       <dependency id="WampSharp.Default.Client" version="[$version$]" />
       <dependency id="WampSharp.Default.Router" version="[$version$]" />
     </dependencies>

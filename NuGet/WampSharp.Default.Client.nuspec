@@ -6,13 +6,11 @@
     <owners />
     <dependencies>
       <group>
-        <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
         <dependency id="WampSharp.NewtonsoftMsgpack" version="[$version$]" />
         <dependency id="WampSharp.WebSocket4Net" version="[$version$]" />
       </group>
-      <group>
-        <dependency id="WampSharp" version="[$version$]" />
+      <group targetFramework="portable-win81+wpa81">
         <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
         <dependency id="WampSharp.Windows" version="[$version$]" />
       </group>

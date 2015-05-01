@@ -5,7 +5,6 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
-      <dependency id="WampSharp" version="[$version$]" />
       <dependency id="WampSharp.Fleck" version="[$version$]" />
       <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
       <dependency id="WampSharp.NewtonsoftMsgpack" version="[$version$]" />
