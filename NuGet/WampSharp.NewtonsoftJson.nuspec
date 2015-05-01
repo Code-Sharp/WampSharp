@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <owners />
+    <dependencies>
+      <dependency id="WampSharp" version="[$version$]" />
+      <dependency id="Newtonsoft.Json" version="[6.0.6]" />
+    </dependencies>
+    <id>WampSharp.NewtonsoftJson</id>
+    <title>WampSharp Newtonsoft.Json binding</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp Newtonsoft.Json support</description>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <tags>websockets wampws rpc pubsub newtonsoft json wampv1 wampv2</tags>
+  </metadata>
+  <files>
+    <file src="bin\net45\WampSharp.NewtonsoftJson.dll" target="lib\net45\WampSharp.NewtonsoftJson.dll" />
+    <file src="bin\net45\WampSharp.NewtonsoftJson.xml" target="lib\net45\WampSharp.NewtonsoftJson.xml" />
+    <file src="bin\net40\WampSharp.NewtonsoftJson.dll" target="lib\net40\WampSharp.NewtonsoftJson.dll" />
+    <file src="bin\net40\WampSharp.NewtonsoftJson.xml" target="lib\net40\WampSharp.NewtonsoftJson.xml" />
+    <file src="bin\pcl\WampSharp.NewtonsoftJson.dll" target="lib\portable-net45%2Bwin%2Bwpa81\WampSharp.NewtonsoftJson.dll" />
+    <file src="bin\pcl\WampSharp.NewtonsoftJson.xml" target="lib\portable-net45%2Bwin%2Bwpa81\WampSharp.NewtonsoftJson.xml" />
+  </files>
+</package>

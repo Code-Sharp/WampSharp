@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <owners />
+    <dependencies>
+      <dependency id="WampSharp" version="[$version$]" />
+      <dependency id="Fleck" version="[0.13.0.48]" />
+    </dependencies>
+    <id>WampSharp.Fleck</id>
+    <title>WampSharp Fleck transport</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp Fleck support</description>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <tags>websockets wampws rpc pubsub fleck wampv1 wampv2</tags>
+  </metadata>
+  <files>
+    <file src="bin\net45\WampSharp.Fleck.dll" target="lib\net45\WampSharp.Fleck.dll" />
+    <file src="bin\net45\WampSharp.Fleck.xml" target="lib\net45\WampSharp.Fleck.xml" />
+    <file src="bin\net40\WampSharp.Fleck.dll" target="lib\net40\WampSharp.Fleck.dll" />
+    <file src="bin\net40\WampSharp.Fleck.xml" target="lib\net40\WampSharp.Fleck.xml" />
+  </files>
+</package>

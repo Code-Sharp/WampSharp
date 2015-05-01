@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <owners />
+    <dependencies>
+      <group>
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
+        <dependency id="WampSharp.NewtonsoftMsgpack" version="[$version$]" />
+        <dependency id="WampSharp.WebSocket4Net" version="[$version$]" />
+      </group>
+      <group>
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
+        <dependency id="WampSharp.Windows" version="[$version$]" />
+      </group>
+    </dependencies>
+    <id>WampSharp.Default.Client</id>
+    <title>WampSharp default client binding</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp above Newtonsoft.Json, Newtonsoft.Msgpack and WebSocket4Net</description>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <tags>websockets wampws rpc pubsub newtonsoft json msgpack wampv2</tags>
+  </metadata>
+  <files>
+    <file src="bin\net45\WampSharp.Default.Client.dll" target="lib\net45\WampSharp.Default.Client.dll" />
+    <file src="bin\net45\WampSharp.Default.Client.xml" target="lib\net45\WampSharp.Default.Client.xml" />
+    <file src="bin\net40\WampSharp.Default.Client.dll" target="lib\net40\WampSharp.Default.Client.dll" />
+    <file src="bin\net40\WampSharp.Default.Client.xml" target="lib\net40\WampSharp.Default.Client.xml" />
+    <file src="bin\pcl\WampSharp.Default.Client.dll" target="lib\portable-win81%2Bwpa81\WampSharp.Default.Client.dll" />
+    <file src="bin\pcl\WampSharp.Default.Client.xml" target="lib\portable-win81%2Bwpa81\WampSharp.Default.Client.xml" />
+  </files>
+</package>
