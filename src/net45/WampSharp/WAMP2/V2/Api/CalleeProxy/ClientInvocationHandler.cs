@@ -1,4 +1,8 @@
 using System;
+#if NET40
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+#endif
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;

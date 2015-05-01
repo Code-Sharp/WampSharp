@@ -41,7 +41,7 @@ namespace WampSharp.Core.Listener
         }
 
 #else
-        protected Task InnerSend(WampMessage<TMessage> message)
+        protected Task InnerSend(WampMessage<object> message)
         {
             if (IsConnected)
             {

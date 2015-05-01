@@ -51,6 +51,7 @@ namespace WampSharp.V2.CalleeProxy
             return InvokeAsync(method, new MultiValueExtractor<T>(), arguments);
         }
 
+#if NET45
         protected Task<T> SingleInvokeProgressiveAsync<T>(MethodBase method, IProgress<T> progress,
                                                           params object[] arguments)
         {
@@ -62,6 +63,8 @@ namespace WampSharp.V2.CalleeProxy
         {
             return InvokeProgressiveAsync<T[]>(method, progress, new MultiValueExtractor<T>(), arguments);
         }
+
+#endif
 
         private T InvokeSync<T>(MethodBase method,
                                 IOperationResultExtractor<T> valueExtractor,
@@ -89,6 +92,8 @@ namespace WampSharp.V2.CalleeProxy
                  arguments);
         }
 
+#if NET45
+
         private Task<T> InvokeProgressiveAsync<T>
             (MethodBase method,
              IProgress<T> progress,
@@ -104,6 +109,8 @@ namespace WampSharp.V2.CalleeProxy
                  arguments,
                  progress);
         }
+
+#endif
 
         protected static MethodInfo GetMethodInfo(Expression<Action> expression)
         {
