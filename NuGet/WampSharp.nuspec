@@ -32,7 +32,7 @@
     <file src="bin\net45\WampSharp.xml" target="lib\net45\WampSharp.xml" />
     <file src="bin\net40\WampSharp.dll" target="lib\net40\WampSharp.dll" />
     <file src="bin\net40\WampSharp.xml" target="lib\net40\WampSharp.xml" />
-    <file src="bin\pcl\WampSharp.dll" target="lib\portable-net45%2Bwin%2Bwpa81\WampSharp.dll" />
-    <file src="bin\pcl\WampSharp.xml" target="lib\portable-net45%2Bwin%2Bwpa81\WampSharp.xml" />
+    <file src="bin\pcl\WampSharp.dll" target="lib\portable-net45+win+wpa81\WampSharp.dll" />
+    <file src="bin\pcl\WampSharp.xml" target="lib\portable-net45+win+wpa81\WampSharp.xml" />
   </files>
 </package>

@@ -27,7 +27,7 @@
     <file src="bin\net45\WampSharp.Default.Client.xml" target="lib\net45\WampSharp.Default.Client.xml" />
     <file src="bin\net40\WampSharp.Default.Client.dll" target="lib\net40\WampSharp.Default.Client.dll" />
     <file src="bin\net40\WampSharp.Default.Client.xml" target="lib\net40\WampSharp.Default.Client.xml" />
-    <file src="bin\pcl\WampSharp.Default.Client.dll" target="lib\portable-win81%2Bwpa81\WampSharp.Default.Client.dll" />
-    <file src="bin\pcl\WampSharp.Default.Client.xml" target="lib\portable-win81%2Bwpa81\WampSharp.Default.Client.xml" />
+    <file src="bin\pcl\WampSharp.Default.Client.dll" target="lib\portable-win81+wpa81\WampSharp.Default.Client.dll" />
+    <file src="bin\pcl\WampSharp.Default.Client.xml" target="lib\portable-win81+wpa81\WampSharp.Default.Client.xml" />
   </files>
 </package>
