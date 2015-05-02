@@ -351,6 +351,11 @@ namespace WampSharp.V2.PubSub
                 mSessionId = casted.Session;
             }
 
+            public RemoteObserver(long sessionId)
+            {
+                mSessionId = sessionId;
+            }
+
             public long SessionId
             {
                 get
@@ -379,14 +384,36 @@ namespace WampSharp.V2.PubSub
                     mClient.Message(message);
                 }
             }
+
+            protected bool Equals(RemoteObserver other)
+            {
+                return (ReferenceEquals(mClient, other.mClient)) ||
+                       mSessionId == other.mSessionId;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) {return false;}
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != this.GetType()) return false;
+                return Equals((RemoteObserver) obj);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return mSessionId.GetHashCode();
+                }
+            }
         }
 
         private class RawTopicSubscriberBook
         {
-            private readonly IDictionary<long, Subscription> mSubscriberIdToSubscriber =
+            private readonly IDictionary<long, Subscription> mSessionIdToSubscription =
                 new SwapDictionary<long, Subscription>();
 
-            private ImmutableHashSet<long> mSubscriberIds = ImmutableHashSet<long>.Empty;
+            private ImmutableHashSet<RemoteObserver> mRemoteObservers = ImmutableHashSet<RemoteObserver>.Empty;
 
             private readonly WampRawTopic<TMessage> mRawTopic;
             
@@ -401,7 +428,7 @@ namespace WampSharp.V2.PubSub
             {
                 get
                 {
-                    return mSubscriberIds.Count > 0;
+                    return mRemoteObservers.Count > 0;
                 }
             }
 
@@ -409,7 +436,7 @@ namespace WampSharp.V2.PubSub
             {
                 Subscription subscription;
 
-                if (mSubscriberIdToSubscriber.TryGetValue(client.Session, out subscription))
+                if (mSessionIdToSubscription.TryGetValue(client.Session, out subscription))
                 {
                     return subscription.Observer;
                 }
@@ -419,9 +446,9 @@ namespace WampSharp.V2.PubSub
                     {
                         RemoteObserver result = new RemoteObserver(client);
 
-                        mSubscriberIds = mSubscriberIds.Add(client.Session);
+                        mRemoteObservers = mRemoteObservers.Add(result);
 
-                        mSubscriberIdToSubscriber[client.Session] =
+                        mSessionIdToSubscription[client.Session] =
                             new Subscription(mRawTopic, client, result);
 
                         return result;                        
@@ -434,43 +461,23 @@ namespace WampSharp.V2.PubSub
                 lock (mLock)
                 {
                     bool result;
-                    mSubscriberIds = mSubscriberIds.Remove(client.Session);
-                    result = mSubscriberIdToSubscriber.Remove(client.Session);
+                    mRemoteObservers = mRemoteObservers.Remove(new RemoteObserver(client));
+                    result = mSessionIdToSubscription.Remove(client.Session);
                     return result;
                 }
             }
 
             public IEnumerable<RemoteObserver> GetRelevantSubscribers(PublishOptions options)
             {
-                IEnumerable<long> relevantSubscriberIds = 
-                    GetRelevantSubscriberIds(options);
-
-                IEnumerable<RemoteObserver> relevantSubscribers =
-                    relevantSubscriberIds.Select(GetSubscriberById)
-                        .Where(x => x != null);
-
-                return relevantSubscribers;
-            }
-
-            private RemoteObserver GetSubscriberById(long subscriberId)
-            {
-                Subscription subscription;
-
-                if (mSubscriberIdToSubscriber.TryGetValue(subscriberId, out subscription))
-                {
-                    return subscription.Observer;
-                }
-
-                return null;
-            }
-
-            private IEnumerable<long> GetRelevantSubscriberIds(PublishOptions options)
-            {
-                ImmutableHashSet<long> result = mSubscriberIds;
+                ImmutableHashSet<RemoteObserver> result = mRemoteObservers;
 
                 if (options.Eligible != null)
                 {
-                    result = ImmutableHashSet.Create(options.Eligible);
+                    var eligibleObservers = 
+                        GetRemoteObservers(options.Eligible)
+                            .ToArray();
+
+                    result = ImmutableHashSet.Create(eligibleObservers);
                 }
 
                 bool excludeMe = options.ExcludeMe ?? true;
@@ -479,15 +486,37 @@ namespace WampSharp.V2.PubSub
 
                 if (excludeMe && casted != null)
                 {
-                    result = result.Remove(casted.PublisherId);
+                    result = result.Remove(new RemoteObserver(casted.PublisherId));
                 }
 
                 if (options.Exclude != null)
                 {
-                    result = result.Except(options.Exclude);
+                    var excludedObservers =
+                        options.Exclude.Select
+                            (sessionId => new RemoteObserver(sessionId));
+
+                    result = result.Except(excludedObservers);
                 }
 
                 return result;
+            }
+
+            private RemoteObserver GetRemoteObserverById(long sessionId)
+            {
+                Subscription subscription;
+
+                if (mSessionIdToSubscription.TryGetValue(sessionId, out subscription))
+                {
+                    return subscription.Observer;
+                }
+
+                return null;
+            }
+
+            private IEnumerable<RemoteObserver> GetRemoteObservers(long[] sessionIds)
+            {
+                return sessionIds.Select(id => GetRemoteObserverById(id))
+                                 .Where(x => x != null);
             }
         }
 
