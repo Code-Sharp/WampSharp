@@ -15,33 +15,50 @@ namespace WampSharp.V2.Session
         public WampSessionServer()
         {
             // Do it with reflection and attributes :)
-            mWelcomeDetails = new Dictionary<string,object>()
+            mWelcomeDetails = new Dictionary<string, object>()
+            {
                 {
-                    {"roles",
-                        new Dictionary<string,object>()
+                    "roles",
+                    new Dictionary<string, object>()
+                    {
+                        {
+                            "dealer", new Dictionary<string, object>()
                             {
-                                {"dealer", new Dictionary<string, object>()
+                                //{"pattern_based_registration", true},
+                                {"registration_revocation", true},
+                                //{"shared_registration", true},
+                                {"caller_identification", true},
+                                {"registration_meta_api", true},
+                                {"progressive_call_results", true},
+                            }
+                        },
+                        {
+                            "broker", new Dictionary<string, object>()
+                            {
+                                {
+                                    "features",
+                                    new Dictionary<string, object>()
                                     {
-                                                                   
-                                    }},
-                                {"broker", new Dictionary<string,object>()
-                                    {
-                                        {"features",
-                                            new Dictionary<string, object>()
-                                                {
-                                                    {"publisher_identification", true},
-                                                    {"publisher_exclusion", true},
-                                                    {"subscriber_blackwhite_listing", true},
-                                                }}
-                                    }},
-                            }}
-                };
+                                        {"publisher_identification", true},
+                                        {"pattern_based_subscription", true},
+                                        //{"subscription_meta_api", true},
+                                        {"subscription_revocation", true},
+                                        {"publisher_exclusion", true},
+                                        {"subscriber_blackwhite_listing", true},
+                                    }
+                                }
+                            }
+                        },
+                    }
+                }
+            };
         }
 
         public WampSessionServer(IWampBinding<TMessage> binding,
                                  IWampHostedRealmContainer realmContainer,
                                  IWampRouterBuilder builder,
-                                 IWampEventSerializer eventSerializer)
+                                 IWampEventSerializer eventSerializer) :
+            this()
         {
             mRealmContainer =
                 new WampBindedRealmContainer<TMessage>(realmContainer,

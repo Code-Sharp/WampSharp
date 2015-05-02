@@ -30,54 +30,60 @@ namespace WampSharp.V2.Client
         {
             // TODO: Do it with reflection :)
             return new Dictionary<string, object>
+            {
                 {
+                    "roles", new Dictionary<string, object>
                     {
-                        "roles", new Dictionary<string, object>
+                        {
+                            "caller", new Dictionary<string, object>
                             {
                                 {
-                                    "caller", new Dictionary<string, object>
-                                        {
-                                            {
-                                                "features", new Dictionary<string, object>
-                                                    {
-                                                        {"caller_identification", true}
-                                                    }
-                                            }
-                                        }
-                                },
-                                {
-                                    "callee", new Dictionary<string, object>
-                                        {
-                                            {"features", new Dictionary<string, object>()}
-                                        }
-                                },
-                                {
-                                    "publisher", new Dictionary<string, object>
-                                        {
-                                            {
-                                                "features", new Dictionary<string, object>
-                                                    {
-                                                        {"subscriber_blackwhite_listing", true},
-                                                        {"publisher_exclusion", true},
-                                                        {"publisher_identification", true},
-                                                    }
-                                            }
-                                        }
-                                },
-                                {
-                                    "subscriber", new Dictionary<string, object>
-                                        {
-                                            {
-                                                "features", new Dictionary<string, object>
-                                                    {
-                                                        {"publisher_identification", true},
-                                                    }
-                                            }
-                                        }
+                                    "features", new Dictionary<string, object>
+                                    {
+                                        {"caller_identification", true},
+                                        {"progressive_call_results", true}
+                                    }
                                 }
                             }
+                        },
+                        {
+                            "callee", new Dictionary<string, object>
+                            {
+                                {
+                                    "features", new Dictionary<string, object>()
+                                    {
+                                        {"progressive_call_results", true}
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "publisher", new Dictionary<string, object>
+                            {
+                                {
+                                    "features", new Dictionary<string, object>
+                                    {
+                                        {"subscriber_blackwhite_listing", true},
+                                        {"publisher_exclusion", true},
+                                        {"publisher_identification", true},
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "subscriber", new Dictionary<string, object>
+                            {
+                                {
+                                    "features", new Dictionary<string, object>
+                                    {
+                                        {"publisher_identification", true},
+                                    }
+                                }
+                            }
+                        }
                     }
-                };
+                }
+            };
         }
 
         public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter, IWampClientAuthenticator authenticator)
