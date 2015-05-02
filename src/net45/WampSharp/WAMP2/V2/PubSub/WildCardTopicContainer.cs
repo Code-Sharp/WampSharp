@@ -82,7 +82,7 @@ namespace WampSharp.V2.PubSub
             {
                 string[] uriParts = uri.Split('.');
 
-                if (mParts.Length > uriParts.Length)
+                if (mParts.Length != uriParts.Length)
                 {
                     return false;
                 }

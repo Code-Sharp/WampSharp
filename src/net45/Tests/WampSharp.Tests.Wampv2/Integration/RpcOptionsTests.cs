@@ -64,7 +64,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             WampPlayground playground = new WampPlayground();
 
-            CallerCallee dualChannel = await SetupService(playground);
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
             IWampChannel calleeChannel = dualChannel.CalleeChannel;
             IWampChannel callerChannel = dualChannel.CallerChannel;
 
@@ -83,38 +83,11 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(myOperation.Details.Caller, Is.EqualTo(expectedCaller));
         }
 
-        private static async Task<CallerCallee> SetupService(WampPlayground playground)
-        {
-            const string realmName = "realm1";
-
-            playground.Host.Open();
-
-            CallerCallee result = new CallerCallee();
-
-            result.CalleeChannel =
-                playground.CreateNewChannel(realmName);
-
-            result.CallerChannel =
-                playground.CreateNewChannel(realmName);
-
-            long? callerSessionId = null;
-
-            result.CallerChannel.RealmProxy.Monitor.ConnectionEstablished +=
-                (x, y) => { callerSessionId = y.SessionId; };
-
-            await result.CalleeChannel.Open();
-            await result.CallerChannel.Open();
-
-            result.CallerSessionId = callerSessionId.Value;
-
-            return result;
-        }
-
         private async Task MethodInfoTest(bool hasSessionId, RegisterOptions registerOptions, CallOptions callOptions)
         {
             WampPlayground playground = new WampPlayground();
 
-            CallerCallee dualChannel = await SetupService(playground);
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
             IWampChannel calleeChannel = dualChannel.CalleeChannel;
             IWampChannel callerChannel = dualChannel.CallerChannel;
 
@@ -141,13 +114,6 @@ namespace WampSharp.Tests.Wampv2.Integration
             }
 
             Assert.That(details.Caller, Is.EqualTo(expectedCaller));
-        }
-
-        private class CallerCallee
-        {
-            public IWampChannel CalleeChannel { get; set; }
-            public IWampChannel CallerChannel { get; set; }
-            public long CallerSessionId { get; set; }
         }
 
         public class MyOperation : IWampRpcOperation

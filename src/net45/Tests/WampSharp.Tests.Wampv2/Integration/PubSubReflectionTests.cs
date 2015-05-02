@@ -24,7 +24,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             WampPlayground playground = new WampPlayground();
 
-            PublisherSubscriber dualChannel = await GetPublisherSubscriber(playground);
+            PublisherSubscriber dualChannel = await playground.GetPublisherSubscriberDualChannel();
             IWampChannel publisher = dualChannel.Publisher;
             IWampChannel subscriber = dualChannel.Subscriber;
 
@@ -67,7 +67,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             WampPlayground playground = new WampPlayground();
 
-            PublisherSubscriber dualChannel = await GetPublisherSubscriber(playground);
+            PublisherSubscriber dualChannel = await playground.GetPublisherSubscriberDualChannel();
             IWampChannel publisher = dualChannel.Publisher;
             IWampChannel subscriber = dualChannel.Subscriber;
 
@@ -102,7 +102,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             WampPlayground playground = new WampPlayground();
 
-            PublisherSubscriber dualChannel = await GetPublisherSubscriber(playground);
+            PublisherSubscriber dualChannel = await playground.GetPublisherSubscriberDualChannel();
             IWampChannel publisher = dualChannel.Publisher;
             IWampChannel subscriber = dualChannel.Subscriber;
 
@@ -148,7 +148,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             WampPlayground playground = new WampPlayground();
 
-            PublisherSubscriber dualChannel = await GetPublisherSubscriber(playground);
+            PublisherSubscriber dualChannel = await playground.GetPublisherSubscriberDualChannel();
             IWampChannel publisher = dualChannel.Publisher;
             IWampChannel subscriber = dualChannel.Subscriber;
 
@@ -184,7 +184,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             WampPlayground playground = new WampPlayground();
 
-            PublisherSubscriber dualChannel = await GetPublisherSubscriber(playground);
+            PublisherSubscriber dualChannel = await playground.GetPublisherSubscriberDualChannel();
             IWampChannel publisher = dualChannel.Publisher;
             IWampChannel subscriber = dualChannel.Subscriber;
 
@@ -212,33 +212,6 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
                 Assert.That(publisherId, Is.EqualTo(null));                
             }
-        }
-
-        private static async Task<PublisherSubscriber> GetPublisherSubscriber(WampPlayground playground)
-        {
-            const string realmName = "realm1";
-
-            playground.Host.Open();
-
-            PublisherSubscriber result = new PublisherSubscriber();
-
-            result.Publisher =
-                playground.CreateNewChannel(realmName);
-
-            result.Subscriber =
-                playground.CreateNewChannel(realmName);
-
-            long? publisherSessionId = null;
-
-            result.Publisher.RealmProxy.Monitor.ConnectionEstablished +=
-                (x, y) => { publisherSessionId = y.SessionId; };
-
-            await result.Publisher.Open();
-            await result.Subscriber.Open();
-
-            result.PublisherSessionId = publisherSessionId.Value;
-
-            return result;
         }
 
         public class MyCustomSubscriber : LocalSubscriber

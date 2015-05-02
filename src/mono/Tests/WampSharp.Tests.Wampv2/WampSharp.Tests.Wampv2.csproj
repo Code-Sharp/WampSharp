@@ -88,11 +88,17 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\AuthenticationTests.cs">
       <Link>Integration\AuthenticationTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\CallerCallee.cs">
+      <Link>Integration\CallerCallee.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\CallerDealerTests.cs">
       <Link>Integration\CallerDealerTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\MockRawCallback.cs">
       <Link>Integration\MockRawCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PatternBasedPubSubTests.cs">
+      <Link>Integration\PatternBasedPubSubTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PublisherSubscriber.cs">
       <Link>Integration\PublisherSubscriber.cs</Link>
@@ -150,6 +156,9 @@
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\WampPlayground.cs">
       <Link>TestHelpers\Integration\WampPlayground.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\WampPlaygroundRoleExtensions.cs">
+      <Link>TestHelpers\Integration\WampPlaygroundRoleExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\MockRawFormatter.cs">
       <Link>TestHelpers\MockRawFormatter.cs</Link>
