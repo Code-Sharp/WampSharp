@@ -19,7 +19,7 @@ namespace WampSharp.V2.CalleeProxy
             mHandler = handler;
         }
 
-        public TProxy GetProxy<TProxy>(ICalleeProxyInterceptor interceptor) where TProxy : class
+        public virtual TProxy GetProxy<TProxy>(ICalleeProxyInterceptor interceptor) where TProxy : class
         {
             ProxyGenerationOptions options = new ProxyGenerationOptions()
             {
