@@ -45,6 +45,11 @@ namespace WampSharp.V2.CalleeProxy
             mMonitor.ConnectionBroken += OnConnectionBroken;
         }
 
+        public ClientInvocationHandler(IWampRealmProxy realmProxy) :
+            this(realmProxy.RpcCatalog, realmProxy.Monitor)
+        {
+        }
+
         #endregion
 
         #region Private Methods

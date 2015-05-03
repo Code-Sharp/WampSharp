@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.Core.Utilities;
 using WampSharp.V2.Client;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
@@ -13,12 +12,11 @@ namespace WampSharp.V2.CalleeProxy
         private readonly WampCalleeProxyInvocationHandler mHandler;
         private readonly ICalleeProxyInterceptor mInterceptor;
 
-        public CalleeProxyBase(IWampRpcOperationCatalogProxy rpcCatalog,
-                               IWampClientConnectionMonitor monitor,
+        public CalleeProxyBase(IWampRealmProxy realmProxy,
                                ICalleeProxyInterceptor interceptor)
         {
             mInterceptor = interceptor;
-            mHandler = new ClientInvocationHandler(rpcCatalog, monitor);
+            mHandler = new ClientInvocationHandler(realmProxy);
         }
 
         protected T SingleInvokeSync<T>(MethodBase method, params object[] arguments)

@@ -8,14 +8,11 @@ namespace WampSharp.V2.CalleeProxy
 {
     public class WampCalleeClientProxyFactory : IWampCalleeProxyFactory
     {
-        private readonly IWampRpcOperationCatalogProxy mRpcCatalog;
-        private readonly IWampClientConnectionMonitor mMonitor;
+        private readonly IWampRealmProxy mRealmProxy;
 
-        public WampCalleeClientProxyFactory(IWampRpcOperationCatalogProxy rpcCatalog,
-                                            IWampClientConnectionMonitor monitor)
+        public WampCalleeClientProxyFactory(IWampRealmProxy realmProxy)
         {
-            mRpcCatalog = rpcCatalog;
-            mMonitor = monitor;
+            mRealmProxy = realmProxy;
         }
 
         public T GetProxy<T>(ICalleeProxyInterceptor interceptor) where T : class
@@ -25,7 +22,7 @@ namespace WampSharp.V2.CalleeProxy
                 GenerateCodeAndThrowException<T>();
             }
 
-            return (T) Activator.CreateInstance(typeof (T), mRpcCatalog, mMonitor, interceptor);
+            return (T) Activator.CreateInstance(typeof (T), mRealmProxy, interceptor);
         }
 
         private static void GenerateCodeAndThrowException<T>() where T : class

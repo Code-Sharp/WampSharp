@@ -36,10 +36,9 @@ namespace {$namespace}
 {$fields}
 
         public {$proxyName}Proxy
-                (IWampRpcOperationCatalogProxy rpcCatalog,
-                 IWampClientConnectionMonitor monitor, 
+                (IWampRealmProxy realmProxy,
                  ICalleeProxyInterceptor interceptor)
-            : base(rpcCatalog, monitor, interceptor)
+            : base(realmProxy, interceptor)
         {
         }
 {$implementedMethods}

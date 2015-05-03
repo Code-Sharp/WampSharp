@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
-using System.Reflection;
 using System.Threading.Tasks;
 using SystemEx;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
-using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.DelegatePubSub;
 using WampSharp.V2.Rpc;
 
@@ -32,9 +26,7 @@ namespace WampSharp.V2
             mSubscriberRegistrar = new WampSubscriberRegistrar(mProxy);
             mPublisherRegistrar = new WampPublisherRegistrar(mProxy);
 
-            mCalleeProxyFactory = new WampCalleeClientProxyFactory
-                (mProxy.RpcCatalog,
-                 mProxy.Monitor);
+            mCalleeProxyFactory = new WampCalleeClientProxyFactory(mProxy);
         }
 
         public Task<IAsyncDisposable> RegisterCallee(object instance)
