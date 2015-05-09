@@ -18,5 +18,11 @@ namespace WampSharp.V2.Core.Contracts
 
         [DataMember(Name = "disclose_caller")]
         public bool? DiscloseCaller { get; set; }
+
+        [DataMember(Name = "invoke")]
+        public string Invoke { get; set; }
+
+        [DataMember(Name = "match")]
+        public string Match { get; set; }
     }
 }

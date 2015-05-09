@@ -1,7 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Client;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
@@ -9,39 +11,57 @@ namespace WampSharp.V2.Rpc
 {
     public class WampRpcOperationCatalog : IWampRpcOperationCatalog
     {
-        private readonly ConcurrentDictionary<string, IWampRpcOperation> mProcedureToOperation =
-            new ConcurrentDictionary<string, IWampRpcOperation>();
+        private readonly ConcurrentDictionary<string, Registration> mProcedureToRegistration =
+            new ConcurrentDictionary<string, Registration>();
 
-        private readonly Dictionary<string, object> mEmptyDetails = new Dictionary<string, object>();
+        private readonly WampIdMapper<Registration> mRegistrationIdToRegistration =
+            new WampIdMapper<Registration>();
+        
+        private readonly object mLock = new object();
 
-        private readonly IWampFormatter<object> ObjectFormatter = WampObjectFormatter.Value;
-
-        public void Register(IWampRpcOperation operation)
+        public IWampRpcOperationRegistrationToken Register(IWampRpcOperation operation, RegisterOptions registerOptions)
         {
-            if (!mProcedureToOperation.TryAdd(operation.Procedure, operation))
+            lock (mLock)
             {
-                string registerError = 
-                    string.Format("register for already registered procedure URI '{0}'", operation.Procedure);
+                Registration registration =
+                    mProcedureToRegistration
+                        .GetOrAdd
+                        (operation.Procedure,
+                         procedureUri => CreateRegistration(registerOptions, procedureUri));
 
-                throw new WampException(WampErrors.ProcedureAlreadyExists,
-                                        registerError);
+                return registration.Register(operation, registerOptions);                
             }
         }
 
-        public void Unregister(IWampRpcOperation operation)
+        private Registration CreateRegistration(RegisterOptions registerOptions, string procedureUri)
         {
-            IWampRpcOperation result;
+            Registration result = new Registration(procedureUri, registerOptions);
 
-            if (operation == null)
-            {
-                throw new WampException(WampErrors.NoSuchRegistration);
-            }
+            result.Empty += OnRegistrationEmpty;
 
-            if (!mProcedureToOperation.TryRemove(operation.Procedure, out result))
+            long registrationId = mRegistrationIdToRegistration.Add(result);
+
+            result.RegistrationId = registrationId;
+
+            return result;
+        }
+
+        private void OnRegistrationEmpty(object sender, EventArgs e)
+        {
+            Registration registration = sender as Registration;
+
+            if (!registration.HasOperations)
             {
-                string registrationError = string.Format("no procedure '{0}' registered", operation.Procedure);
-                
-                throw new WampException(WampErrors.NoSuchRegistration, registrationError);
+                lock (mLock)
+                {
+                    if (!registration.HasOperations)
+                    {
+                        Registration removed;
+                        mRegistrationIdToRegistration.TryRemove(registration.RegistrationId, out removed);
+                        mProcedureToRegistration.TryRemove(registration.Procedure, out removed);
+                        registration.Empty -= OnRegistrationEmpty;
+                    }
+                }
             }
         }
 
@@ -55,8 +75,10 @@ namespace WampSharp.V2.Rpc
                    procedure);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationClientCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
-                                     string procedure, TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRawRpcOperationClientCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details,
+                                     string procedure,
+                                     TMessage[] arguments)
         {
             Invoke(new WampClientRouterCallbackAdapter(caller, details),
                    formatter,
@@ -65,8 +87,11 @@ namespace WampSharp.V2.Rpc
                    arguments);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationClientCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
-                                     string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public void Invoke<TMessage>(IWampRawRpcOperationClientCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details,
+                                     string procedure,
+                                     TMessage[] arguments,
+                                     IDictionary<string, TMessage> argumentsKeywords)
         {
             Invoke(new WampClientRouterCallbackAdapter(caller, details),
                    formatter,
@@ -76,20 +101,24 @@ namespace WampSharp.V2.Rpc
                    argumentsKeywords);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure)
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+                                     IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details,
+                                     string procedure)
         {
             IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
 
             if (operation != null)
             {
-                IWampRpcOperation<TMessage> casted = 
+                IWampRpcOperation<TMessage> casted =
                     CastOperation(operation, formatter);
 
                 casted.Invoke(caller, details);
             }
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure, TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details, string procedure, TMessage[] arguments)
         {
             IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
 
@@ -102,7 +131,9 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details, string procedure, TMessage[] arguments,
+                                     IDictionary<string, TMessage> argumentsKeywords)
         {
             IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
 
@@ -115,29 +146,24 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private IWampRpcOperation TryGetOperation(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, string procedure)
+        private IWampRpcOperation TryGetOperation(IWampRawRpcOperationRouterCallback caller, InvocationDetails details,
+                                                  string procedure)
         {
-            IWampRpcOperation operation;
+            Registration registration;
 
-            if (!mProcedureToOperation.TryGetValue(procedure, out operation))
+            if (mProcedureToRegistration.TryGetValue(procedure, out registration))
             {
-                string errorMessage = string.Format("no procedure '{0}' registered", procedure);
-
-                caller.Error(ObjectFormatter,
-                             mEmptyDetails,
-                             WampErrors.NoSuchProcedure,
-                             new object[] {errorMessage});
-                
-                return null;
+                return registration;
             }
             else
             {
-                return operation;
+                caller.NoProcedureRegistered(procedure);
+                return null;
             }
         }
 
-        private IWampRpcOperation<TMessage> CastOperation<TMessage>(IWampRpcOperation operation, IWampFormatter<TMessage> formatter)
-            
+        private IWampRpcOperation<TMessage> CastOperation<TMessage>
+            (IWampRpcOperation operation, IWampFormatter<TMessage> formatter)
         {
             IWampRpcOperation<TMessage> casted = operation as IWampRpcOperation<TMessage>;
 
@@ -149,6 +175,265 @@ namespace WampSharp.V2.Rpc
             {
                 return new CastedRpcOperation<TMessage>(operation, formatter);
             }
+        }
+    }
+
+    public interface IWampRpcOperationRegistrationToken : IDisposable
+    {
+        long RegistrationId { get; }
+    }
+
+    internal class Registration : IWampRpcOperation
+    {
+        private readonly string mProcedureUri;
+        private readonly RegisterOptions mRegisterOptions;
+
+        private IImmutableList<IWampRpcOperation> mOperations =
+            ImmutableList.Create<IWampRpcOperation>();
+
+        private readonly IWampRpcOperationSelector mSelector;
+        private readonly object mLock = new object();
+
+        public Registration(string procedureUri, RegisterOptions registerOptions)
+        {
+            mProcedureUri = procedureUri;
+            mSelector = GetOperationSelector(registerOptions.Invoke);
+            mRegisterOptions = registerOptions;
+        }
+
+        private static IWampRpcOperationSelector GetOperationSelector(string invocationPolicy)
+        {
+            switch (invocationPolicy)
+            {
+                case "single":
+                case "first":
+                    return new FirstOperationSelector();
+                case "last":
+                    return new LastOperationSelector();
+                case "random":
+                    return new RandomOperationSelector();
+                case "roundrobin":
+                    return new RoundrobinOperationSelector();
+                default:
+                    throw new WampException
+                        ("wamp.invalid_options",
+                         string.Format("invoke = {0} isn't supported", invocationPolicy));
+            }
+        }
+
+        public long RegistrationId { get; set; }
+
+        public event EventHandler Empty;
+
+        public IWampRpcOperationRegistrationToken Register(IWampRpcOperation operation, RegisterOptions registerOptions)
+        {
+            VerifyInvokePoliciesAreCompatible(registerOptions);
+
+            lock (mLock)
+            {
+                if (mRegisterOptions.Invoke != "single" || !mOperations.Any())
+                {
+                    if (!mOperations.Contains(operation))
+                    {
+                        mOperations = mOperations.Add(operation);                        
+                    }
+
+                    return new WampRpcOperationRegistrationToken(operation, this);
+                }
+                else
+                {
+                    string registerError =
+                        string.Format("register for already registered procedure '{0}'", operation.Procedure);
+
+                    throw new WampException(WampErrors.ProcedureAlreadyExists,
+                                            registerError);
+                }
+            }
+        }
+
+        private void VerifyInvokePoliciesAreCompatible(RegisterOptions registerOptions)
+        {
+            if (mRegisterOptions.Invoke != registerOptions.Invoke)
+            {
+                string messageDetails =
+                    string.Format(
+                        "register for already registered procedure '{0}' with conflicting invocation policy (has {1} and {2} was requested)",
+                        this.Procedure, 
+                        this.mRegisterOptions.Invoke, 
+                        registerOptions.Invoke);
+
+                throw new WampException
+                    (WampErrors.ProcedureExistsInvocationPolicyConflict,
+                     messageDetails);
+            }
+        }
+
+        private void RemoveOperation(IWampRpcOperation operation)
+        {
+            lock (mLock)
+            {
+                mOperations = mOperations.Remove(operation);
+
+                if (!mOperations.Any())
+                {
+                    RaiseEmpty();
+                }
+            }
+        }
+
+        protected virtual void RaiseEmpty()
+        {
+            EventHandler handler = Empty;
+
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
+        public string Procedure
+        {
+            get
+            {
+                return mProcedureUri;
+            }
+        }
+
+        public bool HasOperations
+        {
+            get
+            {
+                return mOperations.Any();
+            }
+        }
+
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details)
+        {
+            lock (mLock)
+            {
+                IWampRpcOperation operation = GetOperation(caller);
+
+                if (operation != null)
+                {
+                    operation.Invoke(caller, formatter, details);                    
+                }
+            }
+        }
+
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details,
+                                     TMessage[] arguments)
+        {
+            lock (mLock)
+            {
+                IWampRpcOperation operation = GetOperation(caller);
+
+                if (operation != null)
+                {
+                    operation.Invoke(caller, formatter, details, arguments);
+                }
+            }
+        }
+
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details,
+                                     TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        {
+            lock (mLock)
+            {
+                IWampRpcOperation operation = GetOperation(caller);
+
+                if (operation != null)
+                {
+                    operation.Invoke(caller, formatter, details, arguments, argumentsKeywords);
+                }
+            }
+        }
+
+        private IWampRpcOperation GetOperation(IWampRawRpcOperationRouterCallback caller)
+        {
+            IWampRpcOperation result = mSelector.SelectOperation(mOperations);
+
+            if (result == null)
+            {
+                caller.NoProcedureRegistered(Procedure);
+            }
+
+            return result;
+        }
+
+        private class WampRpcOperationRegistrationToken : IWampRpcOperationRegistrationToken
+        {
+            private readonly IWampRpcOperation mOperation;
+            private readonly Registration mRegistration;
+
+            public WampRpcOperationRegistrationToken(IWampRpcOperation operation, Registration registration)
+            {
+                mOperation = operation;
+                mRegistration = registration;
+            }
+
+            public void Dispose()
+            {
+                mRegistration.RemoveOperation(mOperation);
+            }
+
+            public long RegistrationId
+            {
+                get
+                {
+                    return mRegistration.RegistrationId;
+                }
+            }
+        }
+    }
+
+    internal interface IWampRpcOperationSelector
+    {
+        IWampRpcOperation SelectOperation(IReadOnlyList<IWampRpcOperation> operations);
+    }
+
+    internal class FirstOperationSelector : IWampRpcOperationSelector
+    {
+        public IWampRpcOperation SelectOperation(IReadOnlyList<IWampRpcOperation> operations)
+        {
+            return operations.FirstOrDefault();
+        }
+    }
+
+    internal class LastOperationSelector : IWampRpcOperationSelector
+    {
+        public IWampRpcOperation SelectOperation(IReadOnlyList<IWampRpcOperation> operations)
+        {
+            return operations.LastOrDefault();
+        }
+    }
+
+    internal class RandomOperationSelector : IWampRpcOperationSelector
+    {
+        private readonly Random mRandom = new Random();
+
+        public IWampRpcOperation SelectOperation(IReadOnlyList<IWampRpcOperation> operations)
+        {
+            int index = mRandom.Next(operations.Count);
+
+            return operations.ElementAtOrDefault(index);
+        }
+    }
+
+    internal class RoundrobinOperationSelector : IWampRpcOperationSelector
+    {
+        private int mIndex = 0;
+
+        public IWampRpcOperation SelectOperation(IReadOnlyList<IWampRpcOperation> operations)
+        {
+            int count = operations.Count;
+            int index = mIndex%count;
+
+            mIndex = (mIndex + 1)%count;
+
+            return operations.ElementAtOrDefault(index);
         }
     }
 }

@@ -199,6 +199,7 @@
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoValidation.cs" />
     <Compile Include="Core\Utilities\MethodInvokeGenerator.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\WampRawRpcOperationRouterCallbackExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyFactory.cs" />

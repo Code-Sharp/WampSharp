@@ -18,6 +18,15 @@ namespace WampSharp.Tests.Wampv2.Dealer
     [TestFixture]
     public class DealerTests
     {
+        class RegistrationTokenMock : IWampRpcOperationRegistrationToken
+        {
+            public void Dispose()
+            {
+            }
+
+            public long RegistrationId { get; set; }
+        }
+
         [Test]
         [TestCaseSource("GetRegistrationsTestCases")]
         public void RegisterCallsCatalogRegister(Registration[] registrations)
@@ -32,13 +41,20 @@ namespace WampSharp.Tests.Wampv2.Dealer
                     (catalog.Object,
                      new MockBinding());
 
+            catalog.Setup(x => x.Register
+                              (It.IsAny<IWampRpcOperation>(),
+                               It.IsAny<RegisterOptions>()))
+                   .Returns(new RegistrationTokenMock());
+
             foreach (Registration registration in registrations)
             {
                 server.Register(callee.Object, registration.RequestId, registration.Options, registration.Procedure);
 
                 catalog.Verify(x => x.Register
                                         (It.Is<IWampRpcOperation>
-                                             (operation => operation.Procedure == registration.Procedure)),
+                                             (operation => operation.Procedure == registration.Procedure),
+                                             It.Is<RegisterOptions>
+                                             (options => options == registration.Options)),
                                Times.Exactly(1));
 
                 callee.Verify(x => x.Registered(registration.RequestId, It.IsAny<long>()),
@@ -54,8 +70,9 @@ namespace WampSharp.Tests.Wampv2.Dealer
 
             string errorUri = "myerror";
             string argument = "any details";
-            
-            catalog.Setup(x => x.Register(It.IsAny<IWampRpcOperation>()))
+
+            catalog.Setup(x => x.Register(It.IsAny<IWampRpcOperation>(),
+                                          It.IsAny<RegisterOptions>()))
                    .Throws(new WampException(errorUri, argument));
 
             Mock<IWampCallee> callee = new Mock<IWampCallee>();

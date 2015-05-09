@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Client;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
@@ -14,9 +14,8 @@ namespace WampSharp.V2.Rpc
     {
         private readonly IWampRpcOperationCatalog mCatalog;
         private readonly IWampCalleeInvocationHandler<TMessage> mInvocationHandler;
-
-        private readonly WampIdMapper<WampCalleeRpcOperation> mRegistrationIdToOperation =
-            new WampIdMapper<WampCalleeRpcOperation>();
+        private readonly ConcurrentDictionary<IWampRpcOperation, IDisposable> mOperationToDisposable =
+            new ConcurrentDictionary<IWampRpcOperation, IDisposable>(); 
 
         public WampCalleeOperationCatalog(IWampRpcOperationCatalog catalog, IWampCalleeInvocationHandler<TMessage> invocationHandler)
         {
@@ -33,50 +32,45 @@ namespace WampSharp.V2.Rpc
                                            mInvocationHandler,
                                            this);
 
-            long registrationId = 
-                mRegistrationIdToOperation.Add(operation);
-
-            operation.RegistrationId = registrationId; // Hate this setter.
-
             try
             {
-                mCatalog.Register(operation);
+                IWampRpcOperationRegistrationToken token = 
+                    mCatalog.Register(operation, options);
 
+                long registrationId = token.RegistrationId;
+
+                operation.RegistrationId = registrationId;
+                
+                mOperationToDisposable[operation] = token;
+                
                 request.Registered(registrationId);
 
                 operation.Open();
 
                 return registrationId;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 operation.Dispose();
-
-                WampCalleeRpcOperation removedOperation;
-
-                mRegistrationIdToOperation.TryRemove
-                    (registrationId, out removedOperation);
-
                 throw;
             }
         }
 
         public void Unregister(IWampCallee callee, long registrationId)
         {
-            WampCalleeRpcOperation operation;
-            
-            if (!mRegistrationIdToOperation.TryGetValue(registrationId, out operation))
+            WampCalleeRpcOperation operation = 
+                new WampCalleeRpcOperation(callee, registrationId);
+
+            IDisposable disposable;
+
+            if (!mOperationToDisposable.TryRemove(operation, out disposable))
             {
                 throw new WampException(WampErrors.NoSuchRegistration, "registrationId: " + registrationId);
             }
 
-            if (operation.Callee != callee)
-            {
-                throw new WampException(WampErrors.NotAuthorized, "registrationId: " + registrationId);
-            }
+            disposable.Dispose();
+            operation.Dispose();
 
-            mRegistrationIdToOperation.TryRemove(registrationId, out operation);
-            mCatalog.Unregister(operation);
             mInvocationHandler.Unregistered(operation);
         }
 
@@ -103,6 +97,12 @@ namespace WampSharp.V2.Rpc
 
                 IWampConnectionMonitor monitor = callee as IWampConnectionMonitor;
                 monitor.ConnectionClosed += OnClientDisconnect;
+            }
+
+            public WampCalleeRpcOperation(IWampCallee callee, long registrationId)
+            {
+                mCallee = callee;
+                RegistrationId = registrationId;
             }
 
             private void OnClientDisconnect(object sender, EventArgs e)
@@ -269,6 +269,30 @@ namespace WampSharp.V2.Rpc
             {
                 IWampConnectionMonitor monitor = mCallee as IWampConnectionMonitor;
                 monitor.ConnectionClosed -= OnClientDisconnect;
+            }
+
+            protected bool Equals(WampCalleeRpcOperation other)
+            {
+                return Equals(mCallee, other.mCallee) &&
+                       (string.Equals(mProcedure, other.mProcedure) ||
+                        RegistrationId == other.RegistrationId);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != this.GetType()) return false;
+                return Equals((WampCalleeRpcOperation)obj);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    var hashCode = (mCallee != null ? mCallee.GetHashCode() : 0);
+                    return hashCode;
+                }
             }
         }
     }

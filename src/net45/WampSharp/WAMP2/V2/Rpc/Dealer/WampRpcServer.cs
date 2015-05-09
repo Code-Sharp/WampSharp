@@ -31,6 +31,8 @@ namespace WampSharp.V2.Rpc
         {
             try
             {
+                options.Invoke = options.Invoke ?? "single";
+
                 RegisterRequest registerRequest = new RegisterRequest(callee, requestId);
                 mCalleeCatalog.Register(registerRequest, options, procedure);
             }
