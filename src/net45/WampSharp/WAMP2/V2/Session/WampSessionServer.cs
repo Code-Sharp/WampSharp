@@ -28,7 +28,7 @@ namespace WampSharp.V2.Session
                                 {"registration_revocation", true},
                                 //{"shared_registration", true},
                                 {"caller_identification", true},
-                                {"registration_meta_api", true},
+                                //{"registration_meta_api", true},
                                 {"progressive_call_results", true},
                             }
                         },

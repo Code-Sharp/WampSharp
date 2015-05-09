@@ -4,15 +4,15 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    internal class WampRpcInvocation<TMessage>
+    internal class WampRpcInvocation
     {
-        private readonly IWampRpcOperation mOperation;
+        private readonly RemoteWampCalleeDetails mOperation;
         private readonly IWampRawRpcOperationRouterCallback mCallback;
         private readonly InvocationDetails mOptions;
         private readonly object[] mArguments;
         private readonly IDictionary<string, object> mArgumentsKeywords;
 
-        public WampRpcInvocation(IWampRpcOperation operation, IWampRawRpcOperationRouterCallback callback, InvocationDetails options, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        public WampRpcInvocation(RemoteWampCalleeDetails operation, IWampRawRpcOperationRouterCallback callback, InvocationDetails options, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             mOperation = operation;
             mCallback = callback;
@@ -21,7 +21,15 @@ namespace WampSharp.V2.Rpc
             mArgumentsKeywords = argumentsKeywords;
         }
 
-        public IWampRpcOperation Operation
+        public string Procedure
+        {
+            get
+            {
+                return mOperation.Procedure;
+            }
+        }
+
+        public RemoteWampCalleeDetails Operation
         {
             get
             {
