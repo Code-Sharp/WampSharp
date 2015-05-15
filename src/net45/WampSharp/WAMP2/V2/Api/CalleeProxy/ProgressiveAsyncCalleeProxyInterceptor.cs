@@ -1,10 +1,9 @@
-#if CASTLE
+#if CASTLE || DNX
 #if !NET40
 using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Castle.DynamicProxy;
 
 namespace WampSharp.V2.CalleeProxy
 {
@@ -14,23 +13,19 @@ namespace WampSharp.V2.CalleeProxy
         {
         }
 
-        public override void Intercept(IInvocation invocation)
+        public override object Invoke(MethodInfo method, object[] arguments)
         {
-            object[] arguments = invocation.Arguments;
-            
             object[] argumentsWithoutProgress = new object[arguments.Length - 1];
 
             Array.Copy(arguments, argumentsWithoutProgress, argumentsWithoutProgress.Length);
 
             IProgress<T> progress = arguments.Last() as IProgress<T>;
 
-            MethodInfo method = invocation.Method;
-            
             Task result =
                 Handler.InvokeProgressiveAsync
                     (Interceptor, method, Extractor, argumentsWithoutProgress, progress);
 
-            invocation.ReturnValue = result;
+            return result;
         }
     }
 }

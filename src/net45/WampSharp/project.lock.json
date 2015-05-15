@@ -13,7 +13,8 @@
       "System.Globalization >= 4.0.10-beta-22828",
       "System.Runtime >= 4.0.20-beta-22828",
       "System.Reflection.Extensions >= 4.0.0-beta-22816",
-      "System.ComponentModel >= 4.0.0-beta-22816"
+      "System.ComponentModel >= 4.0.0-beta-22816",
+      "System.Reflection.DispatchProxy >= 4.0.0-beta-22816"
     ],
     "DNXCore,Version=v5.0": [
       "System.Collections >= 4.0.10-beta-22816",
@@ -587,6 +588,35 @@
         "lib/contract/System.Reflection.dll",
         "lib/net45/System.Reflection.dll",
         "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Reflection.dll"
+      ]
+    },
+    "System.Reflection.DispatchProxy/4.0.0-beta-22816": {
+      "serviceable": false,
+      "sha": "DbgXS9tEq9q2BBDaSxr99MgBs/sx1y2yocowVfb4wgYNvulJnwVXXrO1nVbpxlu+lTVvrY3gPujCp7VJ2A15bw==",
+      "frameworks": {
+        "DNXCore,Version=v5.0": {
+          "dependencies": {
+            "System.Reflection": "4.0.10-beta-22816",
+            "System.Runtime": "4.0.20-beta-22816"
+          },
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/aspnetcore50/System.Reflection.DispatchProxy.dll"
+          ],
+          "compileAssemblies": [
+            "lib/contract/System.Reflection.DispatchProxy.dll"
+          ]
+        }
+      },
+      "files": [
+        "License.rtf",
+        "System.Reflection.DispatchProxy.4.0.0-beta-22816.nupkg",
+        "System.Reflection.DispatchProxy.4.0.0-beta-22816.nupkg.sha512",
+        "System.Reflection.DispatchProxy.nuspec",
+        "lib/aspnetcore50/System.Reflection.DispatchProxy.dll",
+        "lib/contract/System.Reflection.DispatchProxy.dll",
+        "lib/net45/_._",
+        "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Reflection.DispatchProxy.dll"
       ]
     },
     "System.Reflection.Extensions/4.0.0-beta-22816": {

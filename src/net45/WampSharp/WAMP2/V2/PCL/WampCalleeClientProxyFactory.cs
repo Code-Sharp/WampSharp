@@ -1,4 +1,4 @@
-﻿#if PCL
+﻿#if PCL && !DNX
 using System;
 using System.Reflection;
 using WampSharp.CodeGeneration;

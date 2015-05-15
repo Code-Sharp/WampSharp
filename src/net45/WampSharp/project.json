@@ -17,13 +17,13 @@
         "System.Globalization": "4.0.10-beta-22828",
         "System.Runtime": "4.0.20-beta-22828",
         "System.Reflection.Extensions": "4.0.0-beta-22816",
-        "System.ComponentModel": "4.0.0-beta-22816"
+        "System.ComponentModel": "4.0.0-beta-22816",
+        "System.Reflection.DispatchProxy": "4.0.0-beta-22816"
     },
 
     "frameworks": {
-        //"dnx451": { },
         "dnxcore50": {
-            "compilationOptions": { "define": [ "NET45", "PCL", "LIBLOG_PORTABLE", "LIBLOG_PUBLIC" ] },
+            "compilationOptions": { "define": [ "NET45", "PCL", "LIBLOG_PORTABLE", "LIBLOG_PUBLIC", "DNX" ] },
             "dependencies": {
                 "System.Collections": "4.0.10-beta-22816",
                 "System.Linq": "4.0.0-beta-22816",

@@ -1,7 +1,6 @@
-#if CASTLE
-﻿using System.Reflection;
+#if CASTLE || DNX
+using System.Reflection;
 using System.Threading.Tasks;
-using Castle.DynamicProxy;
 
 namespace WampSharp.V2.CalleeProxy
 {
@@ -12,14 +11,12 @@ namespace WampSharp.V2.CalleeProxy
         {
         }
 
-        public override void Intercept(IInvocation invocation)
+        public override object Invoke(MethodInfo method, object[] arguments)
         {
-            MethodInfo method = invocation.Method;
-
             Task result =
-                Handler.InvokeAsync<TResult>(Interceptor, method, Extractor, invocation.Arguments);
+                Handler.InvokeAsync<TResult>(Interceptor, method, Extractor, arguments);
 
-            invocation.ReturnValue = result;
+            return result;
         }
     }
 }

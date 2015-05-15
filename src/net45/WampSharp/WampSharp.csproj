@@ -158,6 +158,7 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\CompositeAsyncDisposable.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorBase.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampIncompatibleCalleeProxyMethodException.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs" />
