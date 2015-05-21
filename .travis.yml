@@ -1,6 +1,10 @@
 # see http://docs.travis-ci.com/user/languages/csharp/
 
 language: csharp
+
+mono:
+  -  3.12.1
+
 solution: src/mono/WampSharpMono.sln
 
 install:
