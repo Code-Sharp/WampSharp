@@ -145,6 +145,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\SerializedValue.cs">
       <Link>Integration\SerializedValue.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\SharedRpcTests.cs">
+      <Link>Integration\SharedRpcTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RequestMapper.cs">
       <Link>RequestMapper.cs</Link>
     </Compile>

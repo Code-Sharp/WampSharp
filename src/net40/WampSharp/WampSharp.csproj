@@ -465,6 +465,36 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\IWampRpcOperationRegistrationToken.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\IWampRpcOperationRegistrationToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\IWampRpcOperationSelector.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\IWampRpcOperationSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\LastOperationSelector.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\LastOperationSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\RandomOperationSelector.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\RandomOperationSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\ProcedureRegistration.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\ProcedureRegistration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\RoundrobinOperationSelector.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\RoundrobinOperationSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampCalleeRpcOperation.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\WampCalleeRpcOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\RemoteWampCalleeDetails.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\RemoteWampCalleeDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampRawRpcOperationRouterCallbackExtensions.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\WampRawRpcOperationRouterCallbackExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs">
       <Link>WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs</Link>
     </Compile>
