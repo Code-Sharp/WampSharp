@@ -199,6 +199,16 @@
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoValidation.cs" />
     <Compile Include="Core\Utilities\MethodInvokeGenerator.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\IWampRpcOperationRegistrationToken.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\IWampRpcOperationSelector.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\LastOperationSelector.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\RandomOperationSelector.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\ProcedureRegistration.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\RoundrobinOperationSelector.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\WampCalleeRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\RemoteWampCalleeDetails.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\WampRawRpcOperationRouterCallbackExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyFactory.cs" />

@@ -1,7 +1,7 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Client;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
@@ -9,39 +9,57 @@ namespace WampSharp.V2.Rpc
 {
     public class WampRpcOperationCatalog : IWampRpcOperationCatalog
     {
-        private readonly ConcurrentDictionary<string, IWampRpcOperation> mProcedureToOperation =
-            new ConcurrentDictionary<string, IWampRpcOperation>();
+        private readonly ConcurrentDictionary<string, ProcedureRegistration> mProcedureToRegistration =
+            new ConcurrentDictionary<string, ProcedureRegistration>();
 
-        private readonly Dictionary<string, object> mEmptyDetails = new Dictionary<string, object>();
+        private readonly WampIdMapper<ProcedureRegistration> mRegistrationIdToRegistration =
+            new WampIdMapper<ProcedureRegistration>();
+        
+        private readonly object mLock = new object();
 
-        private readonly IWampFormatter<object> ObjectFormatter = WampObjectFormatter.Value;
-
-        public void Register(IWampRpcOperation operation)
+        public IWampRpcOperationRegistrationToken Register(IWampRpcOperation operation, RegisterOptions registerOptions)
         {
-            if (!mProcedureToOperation.TryAdd(operation.Procedure, operation))
+            lock (mLock)
             {
-                string registerError = 
-                    string.Format("register for already registered procedure URI '{0}'", operation.Procedure);
+                ProcedureRegistration registration =
+                    mProcedureToRegistration
+                        .GetOrAdd
+                        (operation.Procedure,
+                         procedureUri => CreateRegistration(registerOptions, procedureUri));
 
-                throw new WampException(WampErrors.ProcedureAlreadyExists,
-                                        registerError);
+                return registration.Register(operation, registerOptions);                
             }
         }
 
-        public void Unregister(IWampRpcOperation operation)
+        private ProcedureRegistration CreateRegistration(RegisterOptions registerOptions, string procedureUri)
         {
-            IWampRpcOperation result;
+            ProcedureRegistration result = new ProcedureRegistration(procedureUri, registerOptions);
 
-            if (operation == null)
-            {
-                throw new WampException(WampErrors.NoSuchRegistration);
-            }
+            result.Empty += OnRegistrationEmpty;
 
-            if (!mProcedureToOperation.TryRemove(operation.Procedure, out result))
+            long registrationId = mRegistrationIdToRegistration.Add(result);
+
+            result.RegistrationId = registrationId;
+
+            return result;
+        }
+
+        private void OnRegistrationEmpty(object sender, EventArgs e)
+        {
+            ProcedureRegistration registration = sender as ProcedureRegistration;
+
+            if (!registration.HasOperations)
             {
-                string registrationError = string.Format("no procedure '{0}' registered", operation.Procedure);
-                
-                throw new WampException(WampErrors.NoSuchRegistration, registrationError);
+                lock (mLock)
+                {
+                    if (!registration.HasOperations)
+                    {
+                        ProcedureRegistration removed;
+                        mRegistrationIdToRegistration.TryRemove(registration.RegistrationId, out removed);
+                        mProcedureToRegistration.TryRemove(registration.Procedure, out removed);
+                        registration.Empty -= OnRegistrationEmpty;
+                    }
+                }
             }
         }
 
@@ -55,8 +73,10 @@ namespace WampSharp.V2.Rpc
                    procedure);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationClientCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
-                                     string procedure, TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRawRpcOperationClientCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details,
+                                     string procedure,
+                                     TMessage[] arguments)
         {
             Invoke(new WampClientRouterCallbackAdapter(caller, details),
                    formatter,
@@ -65,8 +85,11 @@ namespace WampSharp.V2.Rpc
                    arguments);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationClientCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
-                                     string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public void Invoke<TMessage>(IWampRawRpcOperationClientCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details,
+                                     string procedure,
+                                     TMessage[] arguments,
+                                     IDictionary<string, TMessage> argumentsKeywords)
         {
             Invoke(new WampClientRouterCallbackAdapter(caller, details),
                    formatter,
@@ -76,20 +99,24 @@ namespace WampSharp.V2.Rpc
                    argumentsKeywords);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure)
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+                                     IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details,
+                                     string procedure)
         {
             IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
 
             if (operation != null)
             {
-                IWampRpcOperation<TMessage> casted = 
+                IWampRpcOperation<TMessage> casted =
                     CastOperation(operation, formatter);
 
                 casted.Invoke(caller, details);
             }
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure, TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details, string procedure, TMessage[] arguments)
         {
             IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
 
@@ -102,7 +129,9 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details, string procedure, TMessage[] arguments,
+                                     IDictionary<string, TMessage> argumentsKeywords)
         {
             IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
 
@@ -115,29 +144,24 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private IWampRpcOperation TryGetOperation(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, string procedure)
+        private IWampRpcOperation TryGetOperation(IWampRawRpcOperationRouterCallback caller, InvocationDetails details,
+                                                  string procedure)
         {
-            IWampRpcOperation operation;
+            ProcedureRegistration registration;
 
-            if (!mProcedureToOperation.TryGetValue(procedure, out operation))
+            if (mProcedureToRegistration.TryGetValue(procedure, out registration))
             {
-                string errorMessage = string.Format("no procedure '{0}' registered", procedure);
-
-                caller.Error(ObjectFormatter,
-                             mEmptyDetails,
-                             WampErrors.NoSuchProcedure,
-                             new object[] {errorMessage});
-                
-                return null;
+                return registration;
             }
             else
             {
-                return operation;
+                caller.NoProcedureRegistered(procedure);
+                return null;
             }
         }
 
-        private IWampRpcOperation<TMessage> CastOperation<TMessage>(IWampRpcOperation operation, IWampFormatter<TMessage> formatter)
-            
+        private IWampRpcOperation<TMessage> CastOperation<TMessage>
+            (IWampRpcOperation operation, IWampFormatter<TMessage> formatter)
         {
             IWampRpcOperation<TMessage> casted = operation as IWampRpcOperation<TMessage>;
 

@@ -71,7 +71,7 @@ namespace WampSharp.Samples.Callee
 
             foreach (IWampRpcOperation operation in operations)
             {
-                realm.RpcCatalog.Register(operation);
+                realm.RpcCatalog.Register(operation, new RegisterOptions());
             }
 
             host.Open();

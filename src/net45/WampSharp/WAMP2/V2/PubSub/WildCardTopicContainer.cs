@@ -37,12 +37,14 @@ namespace WampSharp.V2.PubSub
 
         protected override IEnumerable<IWampTopic> GetMatchingTopics(string criteria)
         {
+            string[] uriParts = criteria.Split('.');
+
             foreach (var wildcardToEvaluator in mWildCardToEvaluator)
             {
                 string wildcard = wildcardToEvaluator.Key;
                 WildCardMatcher evaluator = wildcardToEvaluator.Value;
 
-                if (evaluator.IsMatched(criteria))
+                if (evaluator.IsMatched(uriParts))
                 {
                     IWampTopic topic = GetTopicByUri(wildcard);
 
@@ -78,10 +80,8 @@ namespace WampSharp.V2.PubSub
                         .Select(x => x.index).ToArray();
             }
 
-            public bool IsMatched(string uri)
+            public bool IsMatched(string[] uriParts)
             {
-                string[] uriParts = uri.Split('.');
-
                 if (mParts.Length != uriParts.Length)
                 {
                     return false;
