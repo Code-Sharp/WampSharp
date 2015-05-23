@@ -38,16 +38,16 @@ namespace WampSharp.V2.Rpc
 
                 CompositeDisposable disposable = new CompositeDisposable(token, operation);
 
-                // TODO: PATCH
-                // TODO: the operation is already present. Unsubscribe from the client events.
-                if (!mOperationToDisposable.TryAdd(operation, disposable))
-                {
-                    operation.Dispose();
-                }
+                bool alreadyRegistered = 
+                    !mOperationToDisposable.TryAdd(operation, disposable);
 
                 request.Registered(registrationId);
 
-                operation.Open();
+                // If the operation is already registered, ignore it.
+                if (!alreadyRegistered)
+                {
+                    operation.Open();
+                }
 
                 return registrationId;
             }

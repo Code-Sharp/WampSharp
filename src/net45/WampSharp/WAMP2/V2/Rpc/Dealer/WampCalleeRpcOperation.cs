@@ -17,7 +17,6 @@ namespace WampSharp.V2.Rpc
         private readonly IWampCalleeInvocationHandler<TMessage> mHandler;
         private readonly WampCalleeOperationCatalog<TMessage> mCatalog;
         private bool mClientDisconnected = false;
-        private bool mIsOpen = false;
 
         public WampCalleeRpcOperation(string procedure,
                                       IWampCallee callee,
@@ -28,12 +27,14 @@ namespace WampSharp.V2.Rpc
         {
             mHandler = handler;
             mCatalog = catalog;
-
-            IWampConnectionMonitor monitor = callee as IWampConnectionMonitor;
-            monitor.ConnectionClosed += OnClientDisconnect;
         }
 
         private void OnClientDisconnect(object sender, EventArgs e)
+        {
+            OnDisconnect();
+        }
+
+        private void OnDisconnect()
         {
             try
             {
@@ -44,11 +45,8 @@ namespace WampSharp.V2.Rpc
                 IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;
                 monitor.ConnectionClosed -= OnClientDisconnect;
 
-                if (mIsOpen)
-                {
-                    mCatalog.Unregister(Callee, RegistrationId);
-                    mHandler.Unregistered(this);                    
-                }
+                mCatalog.Unregister(Callee, RegistrationId);
+                mHandler.Unregistered(this);
             }
             finally
             {
@@ -171,7 +169,20 @@ namespace WampSharp.V2.Rpc
 
         public void Open()
         {
-            mIsOpen = true;
+            IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;            
+            bool connected = monitor.Connected;
+            
+            mClientDisconnected = !connected;
+
+            if (!connected)
+            {
+                OnDisconnect();
+            }
+            else
+            {
+                monitor.ConnectionClosed += OnClientDisconnect;                
+            }
+
             mResetEvent.Set();
         }
 
