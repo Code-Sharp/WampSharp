@@ -187,6 +187,7 @@
     <Compile Include="WAMP2\V2\PubSub\WampTopicAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\ArgumentUnpacker.cs" />
     <Compile Include="WAMP2\V2\Core\LocalParameter.cs" />
+    <Compile Include="WAMP2\V2\Core\WildCardMatcher.cs" />
     <Compile Include="WAMP2\V2\PubSub\WildCardSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\WildCardTopicContainer.cs" />
     <Compile Include="WAMP2\V2\Realm\IWampRouterBuilder.cs" />
@@ -199,16 +200,21 @@
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoValidation.cs" />
     <Compile Include="Core\Utilities\MethodInvokeGenerator.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\MatchRpcOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\IWampRpcOperationRegistrationToken.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\IWampRpcOperationSelector.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\LastOperationSelector.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\RandomOperationSelector.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\PrefixRpcOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\ProcedureRegistration.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\RoundrobinOperationSelector.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampCalleeRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\RemoteWampCalleeDetails.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampRawRpcOperationRouterCallbackExtensions.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\WildcardRpcOperationCatalog.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyFactory.cs" />
@@ -400,7 +406,6 @@
     <Compile Include="WAMP2\V2\Realm\Binded\WampBindedRealm.cs" />
     <Compile Include="WAMP2\V2\Realm\Binded\WampBindedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\AsyncLocalRpcOperation.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\LocalRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoHelper.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\SyncMethodInfoRpcOperation.cs" />

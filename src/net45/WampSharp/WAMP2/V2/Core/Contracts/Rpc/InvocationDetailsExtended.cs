@@ -20,5 +20,8 @@ namespace WampSharp.V2.Core.Contracts
 
         [IgnoreDataMember]
         public long? CallerSession { get; set; }
+
+        [IgnoreDataMember]
+        public string ProcedureUri { get; set; }
     }
 }

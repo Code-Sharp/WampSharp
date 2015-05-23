@@ -16,17 +16,16 @@ namespace WampSharp.V2.Rpc
         private readonly ManualResetEvent mResetEvent = new ManualResetEvent(false);
         private readonly IWampCalleeInvocationHandler<TMessage> mHandler;
         private readonly WampCalleeOperationCatalog<TMessage> mCatalog;
-        private readonly RegisterOptions mOptions;
         private bool mClientDisconnected = false;
+        private bool mIsOpen = false;
 
         public WampCalleeRpcOperation(string procedure,
                                       IWampCallee callee,
                                       RegisterOptions options,
                                       IWampCalleeInvocationHandler<TMessage> handler,
                                       WampCalleeOperationCatalog<TMessage> catalog) :
-                                          base(callee, procedure)
+                                          base(callee, procedure, options)
         {
-            mOptions = options;
             mHandler = handler;
             mCatalog = catalog;
 
@@ -45,18 +44,16 @@ namespace WampSharp.V2.Rpc
                 IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;
                 monitor.ConnectionClosed -= OnClientDisconnect;
 
-                mCatalog.Unregister(Callee, RegistrationId);
-                mHandler.Unregistered(this);
+                if (mIsOpen)
+                {
+                    mCatalog.Unregister(Callee, RegistrationId);
+                    mHandler.Unregistered(this);                    
+                }
             }
             finally
             {
                 mLock.ExitWriteLock();
             }
-        }
-
-        public RegisterOptions Options
-        {
-            get { return mOptions; }
         }
 
         public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details)
@@ -164,11 +161,17 @@ namespace WampSharp.V2.Rpc
                 result.ReceiveProgress = true;
             }
 
+            if (Options.Match != "exact")
+            {
+                result.Procedure = casted.ProcedureUri;
+            }
+
             return result;
         }
 
         public void Open()
         {
+            mIsOpen = true;
             mResetEvent.Set();
         }
 

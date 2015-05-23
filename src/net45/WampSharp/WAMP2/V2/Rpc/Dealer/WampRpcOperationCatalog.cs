@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -9,94 +9,43 @@ namespace WampSharp.V2.Rpc
 {
     public class WampRpcOperationCatalog : IWampRpcOperationCatalog
     {
-        private readonly ConcurrentDictionary<string, ProcedureRegistration> mProcedureToRegistration =
-            new ConcurrentDictionary<string, ProcedureRegistration>();
+        private readonly MatchRpcOperationCatalog[] mInnerCatalogs;
 
-        private readonly WampIdMapper<ProcedureRegistration> mRegistrationIdToRegistration =
-            new WampIdMapper<ProcedureRegistration>();
-        
-        private readonly object mLock = new object();
-
-        public IWampRpcOperationRegistrationToken Register(IWampRpcOperation operation, RegisterOptions registerOptions)
+        public WampRpcOperationCatalog()
         {
-            lock (mLock)
+            // We're passing the mapper to the inner catalogs so ids
+            // will be unique among all patterns.
+            WampIdMapper<ProcedureRegistration> mapper = 
+                new WampIdMapper<ProcedureRegistration>();
+ 
+            mInnerCatalogs = new MatchRpcOperationCatalog[]
             {
-                ProcedureRegistration registration =
-                    mProcedureToRegistration
-                        .GetOrAdd
-                        (operation.Procedure,
-                         procedureUri => CreateRegistration(registerOptions, procedureUri));
-
-                return registration.Register(operation, registerOptions);                
-            }
+                new ExactRpcOperationCatalog(mapper), 
+                new PrefixRpcOperationCatalog(mapper),
+                new WildcardRpcOperationCatalog(mapper)
+            };
         }
 
-        private ProcedureRegistration CreateRegistration(RegisterOptions registerOptions, string procedureUri)
+        public IWampRpcOperationRegistrationToken Register(IWampRpcOperation operation, RegisterOptions options)
         {
-            ProcedureRegistration result = new ProcedureRegistration(procedureUri, registerOptions);
+            MatchRpcOperationCatalog catalog = GetInnerCatalog(options);
 
-            result.Empty += OnRegistrationEmpty;
+            return catalog.Register(operation, options);
+        }
 
-            long registrationId = mRegistrationIdToRegistration.Add(result);
+        private MatchRpcOperationCatalog GetInnerCatalog(RegisterOptions options)
+        {
+            MatchRpcOperationCatalog result =
+                mInnerCatalogs.FirstOrDefault
+                    (innerCatalog => innerCatalog.Handles(options));
 
-            result.RegistrationId = registrationId;
-
+            if (result == null)
+            {
+                throw new WampException("wamp.error.invalid_options",
+                                        "unknown match type: " + options.Match);
+            }
+            
             return result;
-        }
-
-        private void OnRegistrationEmpty(object sender, EventArgs e)
-        {
-            ProcedureRegistration registration = sender as ProcedureRegistration;
-
-            if (!registration.HasOperations)
-            {
-                lock (mLock)
-                {
-                    if (!registration.HasOperations)
-                    {
-                        ProcedureRegistration removed;
-                        mRegistrationIdToRegistration.TryRemove(registration.RegistrationId, out removed);
-                        mProcedureToRegistration.TryRemove(registration.Procedure, out removed);
-                        registration.Empty -= OnRegistrationEmpty;
-                    }
-                }
-            }
-        }
-
-        public void Invoke<TMessage>(IWampRawRpcOperationClientCallback caller, IWampFormatter<TMessage> formatter,
-                                     InvocationDetails details,
-                                     string procedure)
-        {
-            Invoke(new WampClientRouterCallbackAdapter(caller, details),
-                   formatter,
-                   details,
-                   procedure);
-        }
-
-        public void Invoke<TMessage>(IWampRawRpcOperationClientCallback caller, IWampFormatter<TMessage> formatter,
-                                     InvocationDetails details,
-                                     string procedure,
-                                     TMessage[] arguments)
-        {
-            Invoke(new WampClientRouterCallbackAdapter(caller, details),
-                   formatter,
-                   details,
-                   procedure,
-                   arguments);
-        }
-
-        public void Invoke<TMessage>(IWampRawRpcOperationClientCallback caller, IWampFormatter<TMessage> formatter,
-                                     InvocationDetails details,
-                                     string procedure,
-                                     TMessage[] arguments,
-                                     IDictionary<string, TMessage> argumentsKeywords)
-        {
-            Invoke(new WampClientRouterCallbackAdapter(caller, details),
-                   formatter,
-                   details,
-                   procedure,
-                   arguments,
-                   argumentsKeywords);
         }
 
         public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
@@ -104,74 +53,45 @@ namespace WampSharp.V2.Rpc
                                      InvocationDetails details,
                                      string procedure)
         {
-            IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
-
-            if (operation != null)
-            {
-                IWampRpcOperation<TMessage> casted =
-                    CastOperation(operation, formatter);
-
-                casted.Invoke(caller, details);
-            }
+            InvokePattern(catalog => catalog.Invoke(caller, formatter, details, procedure), procedure);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
-                                     InvocationDetails details, string procedure, TMessage[] arguments)
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+                                     IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details,
+                                     string procedure,
+                                     TMessage[] arguments)
         {
-            IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
-
-            if (operation != null)
-            {
-                IWampRpcOperation<TMessage> casted =
-                    CastOperation(operation, formatter);
-
-                casted.Invoke(caller, details, arguments);
-            }
+            InvokePattern(catalog => catalog.Invoke(caller, formatter, details, procedure, arguments), procedure);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
-                                     InvocationDetails details, string procedure, TMessage[] arguments,
+        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+                                     IWampFormatter<TMessage> formatter,
+                                     InvocationDetails details,
+                                     string procedure,
+                                     TMessage[] arguments,
                                      IDictionary<string, TMessage> argumentsKeywords)
         {
-            IWampRpcOperation operation = TryGetOperation(caller, details, procedure);
-
-            if (operation != null)
-            {
-                IWampRpcOperation<TMessage> casted =
-                    CastOperation(operation, formatter);
-
-                casted.Invoke(caller, details, arguments, argumentsKeywords);
-            }
+            InvokePattern(catalog => catalog.Invoke(caller, formatter, details, procedure, arguments, argumentsKeywords), procedure);
         }
 
-        private IWampRpcOperation TryGetOperation(IWampRawRpcOperationRouterCallback caller, InvocationDetails details,
-                                                  string procedure)
+        private void InvokePattern(Func<MatchRpcOperationCatalog, bool> invokeAction, string procedure)
         {
-            ProcedureRegistration registration;
+            bool invoked = false;
 
-            if (mProcedureToRegistration.TryGetValue(procedure, out registration))
+            foreach (MatchRpcOperationCatalog catalog in mInnerCatalogs)
             {
-                return registration;
+                if (invokeAction(catalog))
+                {
+                    invoked = true;
+                }
             }
-            else
-            {
-                caller.NoProcedureRegistered(procedure);
-                return null;
-            }
-        }
 
-        private IWampRpcOperation<TMessage> CastOperation<TMessage>
-            (IWampRpcOperation operation, IWampFormatter<TMessage> formatter)
-        {
-            IWampRpcOperation<TMessage> casted = operation as IWampRpcOperation<TMessage>;
+            if (!invoked)
+            {
+                string errorMessage = string.Format("no procedure '{0}' registered", procedure);
 
-            if (casted != null)
-            {
-                return casted;
-            }
-            else
-            {
-                return new CastedRpcOperation<TMessage>(operation, formatter);
+                throw new WampException(WampErrors.NoSuchProcedure, errorMessage);
             }
         }
     }

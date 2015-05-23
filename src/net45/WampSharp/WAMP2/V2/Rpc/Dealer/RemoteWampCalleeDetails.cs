@@ -6,11 +6,13 @@ namespace WampSharp.V2.Rpc
     {
         private readonly IWampCallee mCallee;
         private readonly string mProcedure;
+        private readonly RegisterOptions mOptions;
 
-        protected RemoteWampCalleeDetails(IWampCallee callee, string procedure)
+        protected RemoteWampCalleeDetails(IWampCallee callee, string procedure, RegisterOptions options)
         {
             mCallee = callee;
             mProcedure = procedure;
+            mOptions = options;
         }
 
         public RemoteWampCalleeDetails(IWampCallee callee, long registrationId)
@@ -33,6 +35,11 @@ namespace WampSharp.V2.Rpc
             set;
         }
 
+        public RegisterOptions Options
+        {
+            get { return mOptions; }
+        }
+
         public IWampCallee Callee
         {
             get
@@ -53,8 +60,9 @@ namespace WampSharp.V2.Rpc
         protected bool Equals(RemoteWampCalleeDetails other)
         {
             return Equals(mCallee, other.mCallee) &&
-                   (string.Equals(mProcedure, other.mProcedure) ||
-                    RegistrationId == other.RegistrationId);
+                           (string.Equals(mProcedure, other.mProcedure) && 
+                           string.Equals(Options.Match, other.Options.Match)) || 
+                       RegistrationId == other.RegistrationId;
         }
 
         public override bool Equals(object obj)

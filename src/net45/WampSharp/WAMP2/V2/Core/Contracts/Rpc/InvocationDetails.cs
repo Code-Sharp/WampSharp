@@ -17,10 +17,7 @@ namespace WampSharp.V2.Core.Contracts
             Timeout = details.Timeout;
             ReceiveProgress = details.ReceiveProgress;
             Caller = details.Caller;
-            CallerTransport = details.CallerTransport;
-            AuthId = details.AuthId;
-            AuthRole = details.AuthRole;
-            AuthMethod = details.AuthMethod;
+            Procedure = details.Procedure;
             OriginalValue = details.OriginalValue;
         }
 
@@ -33,16 +30,7 @@ namespace WampSharp.V2.Core.Contracts
         [DataMember(Name = "caller")]
         public long? Caller { get; set; }
 
-        [DataMember(Name = "caller_transport")]
-        internal IDictionary<string, object> CallerTransport { get; set; }
-
-        [DataMember(Name = "authid")]
-        internal string AuthId { get; set; }
-
-        [DataMember(Name = "authrole")]
-        internal string AuthRole { get; set; }
-
-        [DataMember(Name = "authmethod")]
-        internal string AuthMethod { get; set; }
+        [DataMember(Name = "procedure")]
+        public string Procedure { get; set; }
     }
 }
