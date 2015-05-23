@@ -161,7 +161,7 @@ namespace WampSharp.V2.Rpc
         {
             lock (mLock)
             {
-                IWampRpcOperation operation = GetOperation(caller);
+                IWampRpcOperation operation = GetOperation();
 
                 if (operation != null)
                 {
@@ -170,13 +170,13 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private IWampRpcOperation GetOperation(IWampRawRpcOperationRouterCallback caller)
+        private IWampRpcOperation GetOperation()
         {
             IWampRpcOperation result = mSelector.SelectOperation(mOperations);
 
             if (result == null)
             {
-                caller.NoProcedureRegistered(Procedure);
+                WampRpcThrowHelper.NoProcedureRegistered(Procedure);
             }
 
             return result;

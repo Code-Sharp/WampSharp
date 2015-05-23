@@ -212,7 +212,7 @@
     <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\RoundrobinOperationSelector.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampCalleeRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\RemoteWampCalleeDetails.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Dealer\WampRawRpcOperationRouterCallbackExtensions.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\WampRpcThrowHelper.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WildcardRpcOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs" />

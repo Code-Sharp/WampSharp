@@ -89,9 +89,7 @@ namespace WampSharp.V2.Rpc
 
             if (!invoked)
             {
-                string errorMessage = string.Format("no procedure '{0}' registered", procedure);
-
-                throw new WampException(WampErrors.NoSuchProcedure, errorMessage);
+                WampRpcThrowHelper.NoProcedureRegistered(procedure);
             }
         }
     }
