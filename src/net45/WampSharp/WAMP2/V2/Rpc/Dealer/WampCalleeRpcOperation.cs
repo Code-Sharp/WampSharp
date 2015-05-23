@@ -12,11 +12,10 @@ namespace WampSharp.V2.Rpc
     internal class WampCalleeRpcOperation<TMessage> : RemoteWampCalleeDetails, IWampRpcOperation, IDisposable
     {
         private const string CalleeDisconnected = "wamp.error.callee_disconnected";
-        private readonly ReaderWriterLockSlim mLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
         private readonly ManualResetEvent mResetEvent = new ManualResetEvent(false);
         private readonly IWampCalleeInvocationHandler<TMessage> mHandler;
         private readonly WampCalleeOperationCatalog<TMessage> mCatalog;
-        private bool mClientDisconnected = false;
+        private long mClientDisconnected = 0;
 
         public WampCalleeRpcOperation(string procedure,
                                       IWampCallee callee,
@@ -36,21 +35,13 @@ namespace WampSharp.V2.Rpc
 
         private void OnDisconnect()
         {
-            try
+            if (Interlocked.CompareExchange(ref mClientDisconnected, 1, 0) == 0)
             {
-                mLock.EnterWriteLock();
-
-                mClientDisconnected = true;
-
                 IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;
                 monitor.ConnectionClosed -= OnClientDisconnect;
 
                 mCatalog.Unregister(Callee, RegistrationId);
-                mHandler.Unregistered(this);
-            }
-            finally
-            {
-                mLock.ExitWriteLock();
+                mHandler.Unregistered(this);                
             }
         }
 
@@ -109,29 +100,21 @@ namespace WampSharp.V2.Rpc
             Callee.Invocation(requestId, RegistrationId, options, arguments, argumentsKeywords);
         }
 
-        private void InvokePattern(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, Action<InvocationDetails> action)
+        private void InvokePattern(IWampRawRpcOperationRouterCallback caller, InvocationDetails details,
+                                   Action<InvocationDetails> action)
         {
             mResetEvent.WaitOne();
 
-            try
+            if (Interlocked.Read(ref mClientDisconnected) == 0)
             {
-                mLock.EnterReadLock();
-
-                if (!mClientDisconnected)
-                {
-                    var detailsForCallee = GetInvocationDetails(details);
-                    action(detailsForCallee);
-                }
-                else
-                {
-                    caller.Error(WampObjectFormatter.Value,
-                                 new Dictionary<string, string>(),
-                                 CalleeDisconnected);
-                }
+                var detailsForCallee = GetInvocationDetails(details);
+                action(detailsForCallee);
             }
-            finally
+            else
             {
-                mLock.ExitReadLock();
+                caller.Error(WampObjectFormatter.Value,
+                             new Dictionary<string, string>(),
+                             CalleeDisconnected);
             }
         }
 
@@ -170,17 +153,14 @@ namespace WampSharp.V2.Rpc
         public void Open()
         {
             IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;            
+
+            monitor.ConnectionClosed += OnClientDisconnect;
+
             bool connected = monitor.Connected;
-            
-            mClientDisconnected = !connected;
 
             if (!connected)
             {
                 OnDisconnect();
-            }
-            else
-            {
-                monitor.ConnectionClosed += OnClientDisconnect;                
             }
 
             mResetEvent.Set();
