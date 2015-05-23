@@ -14,8 +14,8 @@ namespace WampSharp.V2.Rpc
 
         public WampClientRouterCallbackAdapter(IWampRawRpcOperationClientCallback caller, InvocationDetails options)
         {
-            mNotifier = mCaller as ICallbackDisconnectionNotifier;
             mCaller = caller;
+            mNotifier = mCaller as ICallbackDisconnectionNotifier;
             mOptions = options;
         }
 

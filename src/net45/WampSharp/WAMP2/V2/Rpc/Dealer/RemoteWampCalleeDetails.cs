@@ -60,9 +60,9 @@ namespace WampSharp.V2.Rpc
         protected bool Equals(RemoteWampCalleeDetails other)
         {
             return Equals(mCallee, other.mCallee) &&
-                           (string.Equals(mProcedure, other.mProcedure) && 
-                           string.Equals(Options.Match, other.Options.Match)) || 
-                       RegistrationId == other.RegistrationId;
+                   ((string.Equals(mProcedure, other.mProcedure) &&
+                     string.Equals(Options.Match, other.Options.Match)) ||
+                    RegistrationId == other.RegistrationId);
         }
 
         public override bool Equals(object obj)
