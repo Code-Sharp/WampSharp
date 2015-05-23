@@ -156,13 +156,6 @@ namespace WampSharp.V2.Rpc
 
             monitor.ConnectionClosed += OnClientDisconnect;
 
-            bool connected = monitor.Connected;
-
-            if (!connected)
-            {
-                OnDisconnect();
-            }
-
             mResetEvent.Set();
         }
 
