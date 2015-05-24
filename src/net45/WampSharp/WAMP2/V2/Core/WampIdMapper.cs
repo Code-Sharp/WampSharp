@@ -33,5 +33,10 @@ namespace WampSharp.V2.Core
         {
             return mIdToValue.TryRemove(id, out value);
         }
+
+        public void Clear()
+        {
+            mIdToValue.Clear();
+        }
     }
 }

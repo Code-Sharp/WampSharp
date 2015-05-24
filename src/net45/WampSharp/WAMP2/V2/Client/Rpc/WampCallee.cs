@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SystemEx;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
-using SystemEx;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
@@ -62,7 +62,7 @@ namespace WampSharp.V2.Client
             if (mPendingRegistrations.TryRemove(requestId, out registerRequest))
             {
                 mRegistrations[registrationId] = registerRequest.Operation;
-                registerRequest.Complete(new UnregisterDisposable(this ,registrationId));
+                registerRequest.Complete(new UnregisterDisposable(this, registrationId));
             }
         }
 
@@ -128,34 +128,48 @@ namespace WampSharp.V2.Client
 
         public void Invocation(long requestId, long registrationId, InvocationDetails details)
         {
-            IWampRpcOperation operation = TryGetOperation(registrationId);
-
-            if (operation != null)
-            {
-                IWampRawRpcOperationRouterCallback callback = GetCallback(requestId);
-                operation.Invoke(callback, mFormatter, details);
-            }
+            InvocationPattern(requestId, registrationId, details,
+                              (operation, callback, invocationDetails) =>
+                                  operation.Invoke(callback,
+                                                   mFormatter,
+                                                   invocationDetails));
         }
 
         public void Invocation(long requestId, long registrationId, InvocationDetails details, TMessage[] arguments)
         {
-            IWampRpcOperation operation = TryGetOperation(registrationId);
-
-            if (operation != null)
-            {
-                IWampRawRpcOperationRouterCallback callback = GetCallback(requestId);
-                operation.Invoke(callback, mFormatter, details, arguments);
-            }
+            InvocationPattern(requestId, registrationId, details,
+                              (operation, callback, invocationDetails) =>
+                                  operation.Invoke(callback,
+                                                   mFormatter,
+                                                   invocationDetails,
+                                                   arguments));
         }
 
         public void Invocation(long requestId, long registrationId, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        {
+            InvocationPattern(requestId, registrationId, details,
+                              (operation, callback, invocationDetails) =>
+                                  operation.Invoke(callback,
+                                                   mFormatter,
+                                                   invocationDetails,
+                                                   arguments,
+                                                   argumentsKeywords));
+        }
+
+        private void InvocationPattern(long requestId, long registrationId, InvocationDetails details, Action<IWampRpcOperation, IWampRawRpcOperationRouterCallback, InvocationDetails> invocationAction)
         {
             IWampRpcOperation operation = TryGetOperation(registrationId);
 
             if (operation != null)
             {
                 IWampRawRpcOperationRouterCallback callback = GetCallback(requestId);
-                operation.Invoke(callback, mFormatter, details, arguments, argumentsKeywords);
+
+                InvocationDetails modifiedDetails = new InvocationDetails(details)
+                {
+                    Procedure = details.Procedure ?? operation.Procedure
+                };
+
+                invocationAction(operation, callback, modifiedDetails);
             }
         }
 
@@ -221,7 +235,7 @@ namespace WampSharp.V2.Client
 
         public void Interrupt(long requestId, TMessage options)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         private class RegisterRequest : WampPendingRequest<TMessage, IAsyncDisposable>
