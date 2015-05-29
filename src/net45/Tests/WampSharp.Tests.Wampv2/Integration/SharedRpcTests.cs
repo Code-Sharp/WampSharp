@@ -1,6 +1,4 @@
-﻿#if !NET40
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -254,5 +252,3 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
     }
 }
-
-#endif

@@ -53,8 +53,6 @@ namespace WampSharp.Tests.Api
             Assert.That(context.SessionId, Is.EqualTo(channel.GetMonitor().SessionId));
         }
 
-#if NET45
-
         [Test]
         public void AsyncAwaitTaskWork()
         {
@@ -85,7 +83,5 @@ namespace WampSharp.Tests.Api
 
             mock.Verify(x => x.ProcessNumber(4));
         }
-
-#endif
     }
 }

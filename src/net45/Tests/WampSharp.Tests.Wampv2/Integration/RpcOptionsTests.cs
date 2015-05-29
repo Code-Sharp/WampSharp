@@ -1,4 +1,3 @@
-#if !NET40
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -194,4 +193,3 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
     }
 }
-#endif
