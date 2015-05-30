@@ -12,51 +12,37 @@ namespace WampSharp.V2.Rpc
     internal class WampCalleeRpcOperation<TMessage> : RemoteWampCalleeDetails, IWampRpcOperation, IDisposable
     {
         private const string CalleeDisconnected = "wamp.error.callee_disconnected";
-        private readonly ReaderWriterLockSlim mLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
         private readonly ManualResetEvent mResetEvent = new ManualResetEvent(false);
         private readonly IWampCalleeInvocationHandler<TMessage> mHandler;
         private readonly WampCalleeOperationCatalog<TMessage> mCatalog;
-        private readonly RegisterOptions mOptions;
-        private bool mClientDisconnected = false;
+        private long mClientDisconnected = 0;
 
         public WampCalleeRpcOperation(string procedure,
                                       IWampCallee callee,
                                       RegisterOptions options,
                                       IWampCalleeInvocationHandler<TMessage> handler,
                                       WampCalleeOperationCatalog<TMessage> catalog) :
-                                          base(callee, procedure)
+                                          base(callee, procedure, options)
         {
-            mOptions = options;
             mHandler = handler;
             mCatalog = catalog;
-
-            IWampConnectionMonitor monitor = callee as IWampConnectionMonitor;
-            monitor.ConnectionClosed += OnClientDisconnect;
         }
 
         private void OnClientDisconnect(object sender, EventArgs e)
         {
-            try
+            OnDisconnect();
+        }
+
+        private void OnDisconnect()
+        {
+            if (Interlocked.CompareExchange(ref mClientDisconnected, 1, 0) == 0)
             {
-                mLock.EnterWriteLock();
-
-                mClientDisconnected = true;
-
                 IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;
                 monitor.ConnectionClosed -= OnClientDisconnect;
 
                 mCatalog.Unregister(Callee, RegistrationId);
-                mHandler.Unregistered(this);
+                mHandler.Unregistered(this);                
             }
-            finally
-            {
-                mLock.ExitWriteLock();
-            }
-        }
-
-        public RegisterOptions Options
-        {
-            get { return mOptions; }
         }
 
         public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details)
@@ -114,29 +100,21 @@ namespace WampSharp.V2.Rpc
             Callee.Invocation(requestId, RegistrationId, options, arguments, argumentsKeywords);
         }
 
-        private void InvokePattern(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, Action<InvocationDetails> action)
+        private void InvokePattern(IWampRawRpcOperationRouterCallback caller, InvocationDetails details,
+                                   Action<InvocationDetails> action)
         {
             mResetEvent.WaitOne();
 
-            try
+            if (Interlocked.Read(ref mClientDisconnected) == 0)
             {
-                mLock.EnterReadLock();
-
-                if (!mClientDisconnected)
-                {
-                    var detailsForCallee = GetInvocationDetails(details);
-                    action(detailsForCallee);
-                }
-                else
-                {
-                    caller.Error(WampObjectFormatter.Value,
-                                 new Dictionary<string, string>(),
-                                 CalleeDisconnected);
-                }
+                var detailsForCallee = GetInvocationDetails(details);
+                action(detailsForCallee);
             }
-            finally
+            else
             {
-                mLock.ExitReadLock();
+                caller.Error(WampObjectFormatter.Value,
+                             new Dictionary<string, string>(),
+                             CalleeDisconnected);
             }
         }
 
@@ -164,11 +142,20 @@ namespace WampSharp.V2.Rpc
                 result.ReceiveProgress = true;
             }
 
+            if (Options.Match != "exact")
+            {
+                result.Procedure = casted.ProcedureUri;
+            }
+
             return result;
         }
 
         public void Open()
         {
+            IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;            
+
+            monitor.ConnectionClosed += OnClientDisconnect;
+
             mResetEvent.Set();
         }
 

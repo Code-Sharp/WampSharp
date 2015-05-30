@@ -1,5 +1,4 @@
-﻿#if NET45
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SystemEx;
@@ -147,4 +146,3 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
     }
 }
-#endif

@@ -203,30 +203,35 @@ namespace WampSharp.V2.Client
 
         public void Event(long subscriptionId, long publicationId, EventDetails details)
         {
-            InnerEvent(subscriptionId, 
-                subscriber => subscriber.Event(Formatter, publicationId, details));
+            InnerEvent(subscriptionId,
+                       details,
+                       (subscriber, eventDetails) => subscriber.Event(Formatter,
+                                                                      publicationId,
+                                                                      eventDetails));
         }
 
         public void Event(long subscriptionId, long publicationId, EventDetails details, TMessage[] arguments)
         {
             InnerEvent(subscriptionId,
-                       subscriber => subscriber.Event(Formatter,
-                                                      publicationId,
-                                                      details,
-                                                      arguments));
+                       details,
+                       (subscriber, eventDetails) => subscriber.Event(Formatter,
+                                                                      publicationId,
+                                                                      eventDetails,
+                                                                      arguments));
         }
 
         public void Event(long subscriptionId, long publicationId, EventDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             InnerEvent(subscriptionId,
-                       subscriber => subscriber.Event(Formatter,
-                                                      publicationId,
-                                                      details,
-                                                      arguments,
-                                                      argumentsKeywords));
+                       details,
+                       (subscriber, eventDetails) => subscriber.Event(Formatter,
+                                                                      publicationId,
+                                                                      eventDetails,
+                                                                      arguments,
+                                                                      argumentsKeywords));
         }
 
-        private void InnerEvent(long subscriptionId, Action<IWampRawTopicClientSubscriber> action)
+        private void InnerEvent(long subscriptionId, EventDetails details, Action<IWampRawTopicClientSubscriber, EventDetails> action)
         {
             SwapCollection<Subscription> subscriptions;
 
@@ -234,7 +239,9 @@ namespace WampSharp.V2.Client
             {
                 foreach (Subscription subscription in subscriptions)
                 {
-                    action(subscription.Subscriber);                    
+                    EventDetails modifiedDetails = new EventDetails(details);
+                    modifiedDetails.Topic = modifiedDetails.Topic ?? subscription.TopicUri;
+                    action(subscription.Subscriber, modifiedDetails);                    
                 }
             }
         }

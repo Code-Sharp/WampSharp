@@ -125,7 +125,11 @@ namespace WampSharp.V2.Rpc
         }
 
         protected abstract void InnerInvoke<TMessage>
-            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
+            (IWampRawRpcOperationRouterCallback caller,
+             IWampFormatter<TMessage> formatter,
+             InvocationDetails details,
+             TMessage[] arguments,
+             IDictionary<string, TMessage> argumentsKeywords);
 
         protected class WampRpcErrorCallback : IWampErrorCallback
         {

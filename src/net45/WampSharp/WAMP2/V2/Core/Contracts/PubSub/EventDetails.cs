@@ -10,6 +10,16 @@ namespace WampSharp.V2.Core.Contracts
     [WampDetailsOptions(WampMessageType.v2Event)]
     public class EventDetails : WampDetailsOptions
     {
+        public EventDetails()
+        {
+        }
+
+        public EventDetails(EventDetails other)
+        {
+            Publisher = other.Publisher;
+            Topic = other.Topic;
+        }
+
         /// <summary>
         /// Gets or sets the publisher id of this publication.
         /// </summary>

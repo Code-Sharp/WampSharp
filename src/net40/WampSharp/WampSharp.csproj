@@ -303,6 +303,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampIncompatibleCalleeProxyMethodException.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\WampIncompatibleCalleeProxyMethodException.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs</Link>
     </Compile>
@@ -429,6 +432,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\LocalParameter.cs">
       <Link>WAMP2\V2\Core\LocalParameter.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\WildCardMatcher.cs">
+      <Link>WAMP2\V2\Core\WildCardMatcher.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\WildCardSubscriptionId.cs">
       <Link>WAMP2\V2\PubSub\WildCardSubscriptionId.cs</Link>
     </Compile>
@@ -465,6 +471,12 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\MatchRpcOperationCatalog.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\MatchRpcOperationCatalog.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs">
       <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs</Link>
     </Compile>
@@ -480,6 +492,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\RandomOperationSelector.cs">
       <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\RandomOperationSelector.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\PrefixRpcOperationCatalog.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\PrefixRpcOperationCatalog.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\ProcedureRegistration.cs">
       <Link>WAMP2\V2\Rpc\Dealer\ProcedureRegistration.cs</Link>
     </Compile>
@@ -492,8 +507,14 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\RemoteWampCalleeDetails.cs">
       <Link>WAMP2\V2\Rpc\Dealer\RemoteWampCalleeDetails.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampRawRpcOperationRouterCallbackExtensions.cs">
-      <Link>WAMP2\V2\Rpc\Dealer\WampRawRpcOperationRouterCallbackExtensions.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampRpcThrowHelper.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\WampRpcThrowHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WildcardRpcOperationCatalog.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\WildcardRpcOperationCatalog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs">
       <Link>WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs</Link>
@@ -1067,9 +1088,6 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\AsyncLocalRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\AsyncLocalRpcOperation.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs">
-      <Link>WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\LocalRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\LocalRpcOperation.cs</Link>

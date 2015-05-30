@@ -40,7 +40,7 @@ namespace WampSharp.V2.Rpc
                     return new RoundrobinOperationSelector();
                 default:
                     throw new WampException
-                        ("wamp.invalid_options",
+                        ("wamp.error.invalid_options",
                          string.Format("invoke = {0} isn't supported", invocationPolicy));
             }
         }
@@ -134,54 +134,49 @@ namespace WampSharp.V2.Rpc
         public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                      InvocationDetails details)
         {
-            lock (mLock)
-            {
-                IWampRpcOperation operation = GetOperation(caller);
-
-                if (operation != null)
-                {
-                    operation.Invoke(caller, formatter, details);                    
-                }
-            }
+            InvokePattern
+                (caller,
+                 operation => operation.Invoke(caller, formatter, details));
         }
 
         public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      TMessage[] arguments)
         {
-            lock (mLock)
-            {
-                IWampRpcOperation operation = GetOperation(caller);
-
-                if (operation != null)
-                {
-                    operation.Invoke(caller, formatter, details, arguments);
-                }
-            }
+            InvokePattern
+                (caller,
+                 operation => operation.Invoke(caller, formatter, details, arguments));
         }
 
         public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
+            InvokePattern
+                (caller,
+                 operation => operation.Invoke(caller, formatter, details, arguments, argumentsKeywords));
+        }
+
+        private void InvokePattern(IWampRawRpcOperationRouterCallback caller, Action<IWampRpcOperation> invokeAction)
+        {
             lock (mLock)
             {
-                IWampRpcOperation operation = GetOperation(caller);
+                IWampRpcOperation operation = GetOperation();
 
                 if (operation != null)
                 {
-                    operation.Invoke(caller, formatter, details, arguments, argumentsKeywords);
+                    invokeAction(operation);
                 }
             }
         }
 
-        private IWampRpcOperation GetOperation(IWampRawRpcOperationRouterCallback caller)
+        private IWampRpcOperation GetOperation()
         {
             IWampRpcOperation result = mSelector.SelectOperation(mOperations);
 
             if (result == null)
             {
-                caller.NoProcedureRegistered(Procedure);
+                WampRpcThrowHelper.NoProcedureRegistered(Procedure);
             }
 
             return result;

@@ -1,6 +1,4 @@
-﻿#if NET45
-
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using WampSharp.Tests.Wampv2.Integration;
 
 namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
@@ -62,5 +60,3 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
         }
     }
 }
-
-#endif

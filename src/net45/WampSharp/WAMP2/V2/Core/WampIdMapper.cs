@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 
 namespace WampSharp.V2.Core
 {
@@ -35,6 +32,11 @@ namespace WampSharp.V2.Core
         public bool TryRemove(long id, out T value)
         {
             return mIdToValue.TryRemove(id, out value);
+        }
+
+        public void Clear()
+        {
+            mIdToValue.Clear();
         }
     }
 }

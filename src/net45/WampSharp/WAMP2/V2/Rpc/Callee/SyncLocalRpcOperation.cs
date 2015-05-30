@@ -14,7 +14,11 @@ namespace WampSharp.V2.Rpc
         {
         }
 
-        protected override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+                                                      IWampFormatter<TMessage> formatter,
+                                                      InvocationDetails details,
+                                                      TMessage[] arguments,
+                                                      IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
@@ -23,7 +27,7 @@ namespace WampSharp.V2.Rpc
                 object result =
                     InvokeSync(caller,
                                formatter,
-                               options,
+                               details,
                                arguments,
                                argumentsKeywords,
                                out outputs);

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 
 namespace WampSharp.Core.Listener
 {
@@ -10,16 +13,31 @@ namespace WampSharp.Core.Listener
     internal class WampConnectionMonitor<TMessage> : IWampConnectionMonitor
     {
         private readonly IWampConnection<TMessage> mConnection;
-        private EventHandler mConnectionClosed;
+        private bool mConnected;
+
+        private readonly IEventPatternSource<EventArgs> mDisconnectionEventSource;
+        private readonly ISubject<EventPattern<EventArgs>> mDisconnectionSubject;
 
         public WampConnectionMonitor(IWampConnection<TMessage> connection)
         {
+            mConnected = true;
             mConnection = connection;
+            mDisconnectionSubject = new ReplaySubject<EventPattern<EventArgs>>(1);
+
+            mDisconnectionEventSource = mDisconnectionSubject.ToEventPattern();
             mConnection.ConnectionError += OnConnectionError;
             mConnection.ConnectionClosed += OnConnectionClosed;
         }
 
         public object Client { private get; set; }
+
+        public bool Connected
+        {
+            get
+            {
+                return mConnected;
+            }
+        }
 
         private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
         {
@@ -33,6 +51,7 @@ namespace WampSharp.Core.Listener
 
         private void OnConnectionClosed()
         {
+            mConnected = false;
             mConnection.ConnectionError -= OnConnectionError;
             mConnection.ConnectionClosed -= OnConnectionClosed;
             RaiseConnectionClosed(Client, EventArgs.Empty);
@@ -40,23 +59,18 @@ namespace WampSharp.Core.Listener
 
         private void RaiseConnectionClosed(object client, EventArgs empty)
         {
-            EventHandler connectionClosed = mConnectionClosed;
-
-            if (connectionClosed != null)
-            {
-                connectionClosed(client, empty);
-            }
+            mDisconnectionSubject.OnNext(new EventPattern<EventArgs>(client, empty));
         }
 
         public event EventHandler ConnectionClosed
         {
             add
             {
-                mConnectionClosed += value;
+                mDisconnectionEventSource.OnNext += new EventHandler<EventArgs>(value);
             }
             remove
             {
-                mConnectionClosed -= value;
+                mDisconnectionEventSource.OnNext -= new EventHandler<EventArgs>(value);
             }
         }
     }

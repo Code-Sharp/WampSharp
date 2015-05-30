@@ -2,7 +2,7 @@
 
 namespace WampSharp.V2.Rpc
 {
-    public interface IWampCalleeOperationCatalog
+    internal interface IWampCalleeOperationCatalog
     {
         long Register(IRegisterRequest request, RegisterOptions options, string procedure);
 

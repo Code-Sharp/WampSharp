@@ -11,5 +11,10 @@ namespace WampSharp.Core.Listener
         /// Occurs when a connection is closed.
         /// </summary>
         event EventHandler ConnectionClosed;
+
+        /// <summary>
+        /// Returns a value indicating whether the client is still connected.
+        /// </summary>
+        bool Connected { get; }
     }
 }

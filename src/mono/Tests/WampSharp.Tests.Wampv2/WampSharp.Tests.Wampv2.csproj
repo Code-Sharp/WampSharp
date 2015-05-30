@@ -100,6 +100,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PatternBasedPubSubTests.cs">
       <Link>Integration\PatternBasedPubSubTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PatternRpcTests.cs">
+      <Link>Integration\PatternRpcTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PublisherSubscriber.cs">
       <Link>Integration\PublisherSubscriber.cs</Link>
     </Compile>

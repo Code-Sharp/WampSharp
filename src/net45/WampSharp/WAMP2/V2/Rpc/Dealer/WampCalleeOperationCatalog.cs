@@ -35,13 +35,19 @@ namespace WampSharp.V2.Rpc
                 long registrationId = token.RegistrationId;
 
                 operation.RegistrationId = registrationId;
-                
-                mOperationToDisposable[operation] = 
-                    new CompositeDisposable(token, operation);
-                
+
+                CompositeDisposable disposable = new CompositeDisposable(token, operation);
+
+                bool alreadyRegistered = 
+                    !mOperationToDisposable.TryAdd(operation, disposable);
+
                 request.Registered(registrationId);
 
-                operation.Open();
+                // If the operation is already registered, ignore it.
+                if (!alreadyRegistered)
+                {
+                    operation.Open();
+                }
 
                 return registrationId;
             }

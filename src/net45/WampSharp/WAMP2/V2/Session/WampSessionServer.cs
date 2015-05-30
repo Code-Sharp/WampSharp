@@ -24,9 +24,9 @@ namespace WampSharp.V2.Session
                         {
                             "dealer", new Dictionary<string, object>()
                             {
-                                //{"pattern_based_registration", true},
-                                {"registration_revocation", true},
-                                //{"shared_registration", true},
+                                {"pattern_based_registration", true},
+                                //{"registration_revocation", true},
+                                {"shared_registration", true},
                                 {"caller_identification", true},
                                 //{"registration_meta_api", true},
                                 {"progressive_call_results", true},
@@ -42,7 +42,7 @@ namespace WampSharp.V2.Session
                                         {"publisher_identification", true},
                                         {"pattern_based_subscription", true},
                                         //{"subscription_meta_api", true},
-                                        {"subscription_revocation", true},
+                                        //{"subscription_revocation", true},
                                         {"publisher_exclusion", true},
                                         {"subscriber_blackwhite_listing", true},
                                     }

@@ -294,9 +294,6 @@ namespace WampSharp.V2.PubSub
                 mParent = parent;
                 mClient = client;
                 mObserver = observer;
-
-                IWampConnectionMonitor monitor = mClient as IWampConnectionMonitor;
-                monitor.ConnectionClosed += OnConnectionClosed;
             }
 
             public RemoteObserver Observer
@@ -305,6 +302,12 @@ namespace WampSharp.V2.PubSub
                 {
                     return mObserver;
                 }
+            }
+
+            public void Open()
+            {
+                IWampConnectionMonitor monitor = mClient as IWampConnectionMonitor;
+                monitor.ConnectionClosed += OnConnectionClosed;                
             }
 
             private void OnConnectionClosed(object sender, EventArgs e)
@@ -436,11 +439,7 @@ namespace WampSharp.V2.PubSub
             {
                 Subscription subscription;
 
-                if (mSessionIdToSubscription.TryGetValue(client.Session, out subscription))
-                {
-                    return subscription.Observer;
-                }
-                else
+                if (!mSessionIdToSubscription.TryGetValue(client.Session, out subscription))
                 {
                     lock (mLock)
                     {
@@ -448,12 +447,15 @@ namespace WampSharp.V2.PubSub
 
                         mRemoteObservers = mRemoteObservers.Add(result);
 
-                        mSessionIdToSubscription[client.Session] =
-                            new Subscription(mRawTopic, client, result);
+                        subscription = new Subscription(mRawTopic, client, result);
+ 
+                        mSessionIdToSubscription[client.Session] = subscription;
 
-                        return result;                        
+                        subscription.Open();
                     }
                 }
+
+                return subscription.Observer;
             }
 
             public bool Unsubscribe(IWampClientProxy<TMessage> client)

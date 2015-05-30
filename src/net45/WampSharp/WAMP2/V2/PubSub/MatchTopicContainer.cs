@@ -50,28 +50,37 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public bool Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options,
-            string topicUri)
+        public bool Publish<TMessage>(IWampFormatter<TMessage> formatter,
+                                      long publicationId,
+                                      PublishOptions options,
+                                      string topicUri)
         {
             return PublishSafe(topicUri,
-                topic =>
-                    topic.Publish(formatter, publicationId, options));
+                               topic =>
+                                   topic.Publish(formatter, publicationId, options));
         }
 
-        public bool Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options,
-            string topicUri, TMessage[] arguments)
+        public bool Publish<TMessage>(IWampFormatter<TMessage> formatter,
+                                      long publicationId,
+                                      PublishOptions options,
+                                      string topicUri,
+                                      TMessage[] arguments)
         {
             return PublishSafe(topicUri,
-                topic =>
-                    topic.Publish(formatter, publicationId, options, arguments));
+                               topic =>
+                                   topic.Publish(formatter, publicationId, options, arguments));
         }
 
-        public bool Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options,
-            string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
+        public bool Publish<TMessage>(IWampFormatter<TMessage> formatter,
+                                      long publicationId,
+                                      PublishOptions options,
+                                      string topicUri,
+                                      TMessage[] arguments,
+                                      IDictionary<string, TMessage> argumentKeywords)
         {
             return PublishSafe(topicUri,
-                topic =>
-                    topic.Publish(formatter, publicationId, options, arguments, argumentKeywords));
+                               topic =>
+                                   topic.Publish(formatter, publicationId, options, arguments, argumentKeywords));
         }
 
         private bool PublishSafe
