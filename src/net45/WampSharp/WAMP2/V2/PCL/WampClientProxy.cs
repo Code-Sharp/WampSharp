@@ -57,6 +57,14 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
             }
         }
 
+        public bool Connected
+        {
+            get
+            {
+                return mMonitor.Connected;
+            }
+        }
+
         public void Dispose()
         {
             mDisposable.Dispose();
