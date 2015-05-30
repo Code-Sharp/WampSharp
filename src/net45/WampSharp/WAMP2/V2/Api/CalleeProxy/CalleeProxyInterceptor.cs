@@ -42,6 +42,11 @@ namespace WampSharp.V2
             WampProcedureAttribute attribute = 
                 method.GetCustomAttribute<WampProcedureAttribute>();
 
+            if (attribute == null)
+            {
+                throw new WampIncompatibleCalleeProxyMethodException(method);
+            }
+
             return attribute.Procedure;
         }
     }
