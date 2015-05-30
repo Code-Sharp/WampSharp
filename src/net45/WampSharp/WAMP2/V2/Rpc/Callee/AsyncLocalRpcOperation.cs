@@ -19,14 +19,18 @@ namespace WampSharp.V2.Rpc
 
 #if NET45
 
-        protected async override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override async void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+                                                            IWampFormatter<TMessage> formatter,
+                                                            InvocationDetails details,
+                                                            TMessage[] arguments,
+                                                            IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
                 Task<object> task =
                     InvokeAsync(caller,
                                 formatter,
-                                options,
+                                details,
                                 arguments,
                                 argumentsKeywords);
 
@@ -39,14 +43,14 @@ namespace WampSharp.V2.Rpc
                 mLogger.ErrorFormat(ex, "An error occured while calling {0}", this.Procedure);
 
                 WampException wampException = ex as WampException;
-                
+
                 if (wampException == null)
                 {
                     wampException = ConvertExceptionToRuntimeException(ex);
                 }
 
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
-                
+
                 callback.Error(wampException);
             }
         }
