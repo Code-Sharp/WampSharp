@@ -84,6 +84,7 @@ namespace WampSharp.V2.Rpc
                 if (invokeAction(catalog))
                 {
                     invoked = true;
+                    break;
                 }
             }
 

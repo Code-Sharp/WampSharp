@@ -72,6 +72,7 @@
     <Compile Include="Integration\CallerDealerTests.cs" />
     <Compile Include="Integration\MockRawCallback.cs" />
     <Compile Include="Integration\PatternBasedPubSubTests.cs" />
+    <Compile Include="Integration\PatternRpcTests.cs" />
     <Compile Include="Integration\PublisherSubscriber.cs" />
     <Compile Include="Integration\PubSubReflectionTests.cs" />
     <Compile Include="Integration\RpcOptionsTests.cs" />
