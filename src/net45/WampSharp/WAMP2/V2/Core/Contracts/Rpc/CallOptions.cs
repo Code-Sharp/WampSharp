@@ -22,9 +22,15 @@ namespace WampSharp.V2.Core.Contracts
         [DataMember(Name = "timeout")]
         internal int? TimeoutMili { get; set; }
 
+        /// <summary>
+        /// If <see cref="bool.True"/>, indicates that the caller wants to receive progressive call results.
+        /// </summary>
         [DataMember(Name = "receive_progress")]
         public bool? ReceiveProgress { get; set; }
 
+        /// <summary>
+        /// If <see cref="bool.True"/>, the caller requests to disclose itself to the callee.
+        /// </summary>
         [DataMember(Name = "disclose_me")]
         public bool? DiscloseMe { get; set; }
     }

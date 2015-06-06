@@ -7,6 +7,10 @@ namespace WampSharp.V2.Core.Contracts
     [WampDetailsOptions(WampMessageType.v2Subscribe)]
     public class SubscribeOptions : WampDetailsOptions
     {
+        /// <summary>
+        /// The topic matching method to be used for the subscription.
+        /// (Mostly supported: null/"exact"/"prefix"/"wildcard")
+        /// </summary>
         [DataMember(Name = "match")]
         public string Match { get; set; }
 

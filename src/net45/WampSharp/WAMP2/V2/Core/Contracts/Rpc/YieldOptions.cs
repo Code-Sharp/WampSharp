@@ -7,6 +7,9 @@ namespace WampSharp.V2.Core.Contracts
     [WampDetailsOptions(WampMessageType.v2Yield)]
     public class YieldOptions : WampDetailsOptions
     {
+        /// <summary>
+        /// If <see cref="bool.True"/>, this result is a progressive invocation result, and subsequent results (or a final error) will follow.
+        /// </summary>
         [DataMember(Name = "progress")]
         public bool? Progress { get; set; }
     }

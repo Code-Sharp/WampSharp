@@ -24,12 +24,12 @@ namespace WampSharp.V2.Core.Contracts
         /// Gets or sets the publisher id of this publication.
         /// </summary>
         [DataMember(Name = "publisher")]
-        public long? Publisher { get; set; }
+        public long? Publisher { get; internal set; }
 
         /// <summary>
         /// Gets or sets the topic of this publication.
         /// </summary>
         [DataMember(Name = "topic")]
-        public string Topic { get; set; }
+        public string Topic { get; internal set; }
     }
 }
