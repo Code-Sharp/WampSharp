@@ -28,7 +28,7 @@ namespace WampSharp.V2.Binding
 
         public TRaw Format(WampMessage<object> message)
         {
-            RawMessage<object, TRaw> textMessage = GetFormattedMessage(message);
+            RawMessage<TRaw> textMessage = GetFormattedMessage(message);
             return textMessage.Raw;
         }
 
@@ -37,13 +37,13 @@ namespace WampSharp.V2.Binding
             return GetFormattedMessage(message);
         }
 
-        private RawMessage<object, TRaw> GetFormattedMessage(WampMessage<object> message)
+        private RawMessage<TRaw> GetFormattedMessage(WampMessage<object> message)
         {
-            RawMessage<object, TRaw> result = message as RawMessage<object, TRaw>;
+            RawMessage<TRaw> result = message as RawMessage<TRaw>;
 
             if (result == null)
             {
-                result = new RawMessage<object, TRaw>(message);
+                result = new RawMessage<TRaw>(message);
                 result.Raw = mParser.Format(message);
             }
 
