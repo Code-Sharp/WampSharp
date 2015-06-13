@@ -6,7 +6,7 @@
     <owners />
     <dependencies>
       <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="WebSocket4Net" version="[0.10]" />
+      <dependency id="WebSocket4Net" version="[0.12]" />
     </dependencies>
     <id>WampSharp.WebSocket4Net</id>
     <title>WampSharp WebSocket4Net connection</title>

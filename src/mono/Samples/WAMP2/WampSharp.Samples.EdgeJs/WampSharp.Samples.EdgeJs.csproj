@@ -38,7 +38,8 @@
       <HintPath>..\..\..\packages\Castle.Core.3.3.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="EdgeJs">
-      <HintPath>..\..\..\packages\Edge.js.0.9.2\lib\EdgeJs.dll</HintPath>
+      <HintPath>..\..\..\packages\Edge.js.0.10.0\lib\EdgeJs.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Fleck, Version=0.13.0.48, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -74,9 +75,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebSocket4Net, Version=0.10.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
+    <Reference Include="WebSocket4Net, Version=0.12.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\WebSocket4Net.0.10\lib\net45\WebSocket4Net.dll</HintPath>
+      <HintPath>..\..\..\packages\WebSocket4Net.0.12\lib\net45\WebSocket4Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
