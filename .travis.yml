@@ -2,6 +2,9 @@
 
 language: csharp
 
+mono:
+  -  3.12.0
+
 solution: src/mono/WampSharpMono.sln
 
 install:
