@@ -1,660 +1,459 @@
-WampSharp v1.2.1.6-beta release notes
+WampSharp v1.2.2.8-beta release notes
 =================================
 
 **Contents**
 
-1. [Api changes](#api-changes)
-	* [IAsyncDisposable](#IAsyncDisposable)
-	* [Other changes](#other-changes)
+1. [Breaking changes](#breaking-changes)
+	* [Library split up](#library-split-up)
+	 * [WampSharp.Default split up](#wampsharpdefault-split-up)
+	 * [WAMPv1 split up](#wampv1-split-up)
 2. [New features](#new-features)
-    * [vtortola.WebSocketListener support](#vtortolawebsocketlistener-support)
-    * [RawSocket transport support](#rawsocket-transport-support)
-    * [Progressive calls](#progressive-calls)
-    * [Caller identification](#caller-identification)
-    * [WampInvocationContext](#wampinvocationcontext)
-    * [Attribute based pub/sub](#attribute-based-pubsub)
-    * [WampEventContext](#wampeventcontext)
-    * [Registration customization](#registration-customization)
-    * [Authentication](#authentication)
+    * [Portable Class Library Support](#portable-class-library-support)
+    * [Logging support](#logging-support)
+    * [WampChannelReconnector](#wampchannelreconnector)
+    * [WAMP-CRA authentication](#wamp-cra-authentication)
+    * [Pattern based subscriptions](#pattern-based-subscriptions)
+    * [Shared registrations](#shared-registrations)
+    * [Pattern based registrations](#pattern-based-registrations)
 3. [Internal changes](#internal-changes)
-	* [Router IWampRealmServiceProvider](#router-iwamprealmserviceprovider)
-	* [Fleck transport](#fleck-transport)
+	* [Performance improvements](#performance-improvements)
+	* [Bug fixes](#bug-fixes)
 
+###Breaking changes
 
-###Api changes
+####Library split up
 
-####IAsyncDisposable
+##### WampSharp.Default split up
 
-A new type called IAsyncDisposable is introduced in the library. It's similar to IDisposable, but returns a Task.
+WampSharp.Default.dll has been split up into a couple of libraries. This allows you to consume only the libraries you are interested in:
 
-```csharp
-public interface IAsyncDisposable
-{
-    Task DisposeAsync();
-}
-```
+* WampSharp.Fleck - This NuGet package contains WampSharp implementation of a WebSocket transport using [Fleck](https://github.com/statianzo/Fleck).
+* WampSharp.NewtonsoftJson - This NuGet package contains WampSharp support for Json serialization using [Newtonsoft Json](http://www.newtonsoft.com/json)
+* WampSharp.NewtonsoftMsgpack - This NuGet package contains WampSharp support for MsgPack serialization using [Newtonsoft.Msgpack](https://github.com/Code-Sharp/Newtonsoft.Msgpack) (which internally uses [msgpack-cli](http://cli.msgpack.org/) and [Newtonsoft Json](http://www.newtonsoft.com/json))
+* WampSharp.WebSocket4Net - This NuGet package contains WampSharp implementation of a WebSocket client using [WebSocket4Net](https://github.com/kerryjiang/WebSocket4Net).
 
-Task&lt;IAsyncDisposable&gt; is returned from some methods:
+In addition the following packages exists:
 
-* IWampTopicProxy Subscribe method now returns an Task&lt;IAsyncDisposable&gt; instead of Task&lt;IDisposable&gt;, you can call DisposeAsync in order to unsubscribe from the topic.
-* IWampRpcOperationCatalogProxy Register method now returns Task&lt;IAsyncDisposable&gt; instead of Task. Call DisposeAsync to Unregister the procedure from router.
-* IWampRpcOperationCatalogProxy Unregister method has been removed. Use the IAsyncDisposable returned from Register instead.
-* IWampRealmServiceProvider Register method now returns a Task&lt;IAsyncDisposable&gt;, call DisposeAsync in order to unregister the callee.
+* WampSharp.Default.Client - adds DefaultWampChannelFactory which uses WampSharp.WebSocket4Net, WampSharp.NewtonsoftJson and WampSharp.NewtonsoftMsgpack
+* WampSharp.Default.Router - adds DefaultWampHost which uses WampSharp.Fleck, WampSharp.NewtonsoftJson and WampSharp.NewtonsoftMsgpack.
+* WampSharp.Default - references both WampSharp.Default.Client and WampSharp.Default.Router.
 
-The IAsyncDisposable mentioned above's Task completes when the router sends a UNSUBSCRIBED/UNREGISTERED message corresponding to the sent request.
+> Note: You don't have to consume the WampSharp.Default.Client/WampSharp.Default.Router libraries, you can always use directly [WampChannel](https://github.com/Code-Sharp/WampSharp/wiki/WampChannel) or [WampHost](https://github.com/Code-Sharp/WampSharp/wiki/WampHost) if you're interested only in some of the dependencies.
 
-#### Other changes
+##### WAMPv1 split up
 
-* SubscriptionRemoveEventArgs renamed to WampSubscriptionRemoveEventArgs.
-* WampConnectionBrokenException moved to namespace WampSharp.V2.Core.Contracts.
+From this version, WAMPv1 support has been moved to a dedicated dll name WampSharp.WAMP1.dll. The types DefaultWampHost, DefaultWampCraHost and DefaultWampChannelFactory (and some extension methods of IWampChannelFactory) are located in WampSharp.WAMP1.Default.dll.
+
+In order to update a WAMP1 application to this version, please uninstall WampSharp.Default and install WampSharp.WAMP1.Default instead.
+
+Please also note that [WAMPv1 is deprecated](https://groups.google.com/forum/#!msg/autobahnws/k-Jo8NnFtjA/qxnmFp2qGkMJ), and you're encouraged to upgrade your application to WAMPv2.
 
 ### New features
 
-#### vtortola.WebSocketListener support
+####Portable Class Library Support
+From this version, Portable Class Library is supported (to be precise, Windows Phone 8.1 and Windows 8.1 platforms).
 
-This version has support for [vtortola.WebSocketListener](http://www.github.com/vtortola/WebSocketListener). In order to use it, install the WampSharp.Vtortola package. Then create a WampHost and register the VtortolaWebSocketTransport:
+In order to use WampSharp in these platforms, simply install WampSharp.Default.Client and use DefaultWampChannelFactory as usual. Note that currently only Json serialization is supported in these platforms.
 
-```csharp
-WampHost host = new WampHost();
+The WampSharp implementation of a WebSocket client for these platforms is located in WampSharp.Windows and is called MessageWebSocketTextConnection (based on the [MessageWebSocket class](https://msdn.microsoft.com/library/windows/apps/br226842)).
 
-IWampTransport transport =
-    new VtortolaWebSocketTransport
-        (endpoint: new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8080),
-            perMessageDeflate: true);
+####Logging support
 
-host.RegisterTransport(transport,
-    new JTokenJsonBinding(),
-    new JTokenMsgpackBinding());
+From this version, some logs are written by the library. Logging is supported by the [LibLog](https://github.com/damianh/LibLog) project. In order to enable logs, just install your favorite logging library that [LibLog supports](https://github.com/damianh/LibLog/wiki), and configure it. Logs will be written to "WampSharp." prefixed loggers automatically.
 
-host.Open();
-```
+This is an initial logs works. You are welcome to request some other logs from this library - please comment [here](https://github.com/Code-Sharp/WampSharp/issues/6) about logs that you are interested in.
 
-This listener support [per message deflate](http://tools.ietf.org/html/draft-ietf-hybi-permessage-compression-17#section-8). To enable it, pass perMessageDeflate = true, in the transport's ctor.
+####WampChannelReconnector
 
-#### RawSocket transport support
+Available from WampSharp v1.2.1.7-beta, defines a mechanism for reconnecting to a remote router.
 
-This version has router-side only support for [RawSocket transport](https://github.com/tavendo/WAMP/blob/master/spec/advanced.md#rawsocket-transport). In order to use it, install the WampSharp.RawSocket package. Then create a WampHost and register the RawSocketTransport.
+In order to use it, create an instance of WampChannelReconnector, and pass to it a delegate that will be triggered everytime a channel gets connected to the remote router.
+
 Example:
 
 ```csharp
-WampHost host = new WampHost();
-
-IWampTransport transport =
-    new RawSocketTransport("127.0.0.1", 8080);
-
-host.RegisterTransport(transport,
-    new JTokenMsgpackBinding());
-
-host.Open();
-```
-
-> Note: There are a few issues currently with the SuperSocket dependency. After Installing WampSharp.RawSocketTransport, add manually a reference of SuperSocket.SocketEngine.dll (located in $(SolutionDir)\packages\SuperSocket\SuperSocket.SocketEngine.dll) to your project.
-
-
-> Note: The current implemented version of RawSocket protocol is the original version (before revision). This is the version also implemented by AutobahnPython/AutobahnCpp clients.
-
-#### Progressive calls
-
-From this version, progressive calls are supported. 
-In order to use progressive calls as a Caller, declare in your callee service a [WampProcedure] method having a [WampProgressiveCall] attribute and a IProgress&lt;T&gt; as the last parameter.
-> Note that the method return type should be Task&lt;T&gt; where this is the same T as in the IProgress&lt;T&gt; of the last parameter.
- 
-Example:
-
-```csharp
-public interface ILongOpService
-{
-    [WampProcedure("com.myapp.longop")]
-    [WampProgressiveResultProcedure]
-    Task<int> LongOp(int n, IProgress<int> progress);
-}
-```
-
-Then obtain the proxy and call it:
-```csharp
-public async Task Run()
+public static async Task Run()
 {
     DefaultWampChannelFactory factory = new DefaultWampChannelFactory();
 
-    IWampChannel channel = factory.CreateJsonChannel("ws://localhost:8080/ws", "realm1");
+    string address = "ws://localhost:8080/ws";
 
-    await channel.Open();
-    
-    ILongOpService proxy = channel.RealmProxy.Services.GetCalleeProxy<ILongOpService>();
-
-    Progress<int> progress = 
-        new Progress<int>(i => Console.WriteLine("Got progress " + i));
-
-    int result = await proxy.LongOp(10, progress);
-
-    Console.WriteLine("Got result " + result);
-}
-```
-
-In order to use progressive calls as a Callee, create a service with that implements an interface with the same kind of signature. In order to report progress, call the progress Report method. Example:
-
-```csharp
-public class LongOpService : ILongOpService
-{
-    public async Task<int> LongOp(int n, IProgress<int> progress)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            progress.Report(i);
-            await Task.Delay(100);
-        }
-
-        return n;
-    }
-}
-```
-
-> Note: you can put the attributes on the method itself instead of implementing an interface, i.e:
-> 
->```csharp
-> public class LongOpService
->{
->    [WampProcedure("com.myapp.longop")]
->    [WampProgressiveResultProcedure]
->    public async Task<int> LongOp(int n, IProgress<int> progress)
->    {
->	    // ...
->    }
-> }
->```
-
-Then register it to the realm regularly:
-```csharp
-public async Task Run()
-{
-    DefaultWampChannelFactory factory = new DefaultWampChannelFactory();
-
-    IWampChannel channel = factory.CreateJsonChannel("ws://localhost:8080/ws", "realm1");
-
-    await channel.Open();
-
-    ILongOpService service = new LongOpService();
-
-    IAsyncDisposable disposable = 
-        await channel.RealmProxy.Services.RegisterCallee(service);
-
-    Console.WriteLine("Registered LongOpService");
-}
-```
-
->Note:  The samples are based on [this](https://github.com/tavendo/AutobahnPython/tree/master/examples/twisted/wamp/basic/rpc/progress) AutobahnJS sample
-
-#### Caller identification
-
-From this version, it is possible to get/supply caller identification details. According to WAMP2 specification, a Callee can request to get caller identification details (by specifying disclose_caller = true on registration), and a Caller can request to disclose its identification (by specifying disclose_me = true on call request).
-
-Specifying these is now possible on callee registration and when obtaining callee proxy:
-
-Callee registration example:
-
-```csharp
-public async Task Run()
-{
-    DefaultWampChannelFactory factory = new DefaultWampChannelFactory();
-
-    IWampChannel channel = 
-        factory.CreateJsonChannel("ws://localhost:8080/ws", "realm1");
-
-    await channel.Open();
-
-    SquareService service = new SquareService();
-
-    var registerOptions =
-        new RegisterOptions
-        {
-            DiscloseCaller = true
-        };
-
-    IAsyncDisposable disposable =
-        await channel.RealmProxy.Services.RegisterCallee(service,
-            new CalleeRegistrationInterceptor(registerOptions));
-}
-```
-
-Callee proxy sample:
-```csharp
-public async Task Run()
-{
-    DefaultWampChannelFactory factory = new DefaultWampChannelFactory();
+    MySubscriber mySubscriber = new MySubscriber();
 
     IWampChannel channel =
-        factory.CreateJsonChannel("ws://localhost:8080/ws", "realm1");
+        factory.CreateJsonChannel(address, "realm1");
 
-    await channel.Open();
-
-    var callOptions = new CallOptions()
+    Func<Task> connect = async () =>
     {
-        DiscloseMe = true
+        await channel.Open();
+
+        var subscriptionTask =
+            channel.RealmProxy.Services.RegisterSubscriber(mySubscriber);
+
+        var asyncDisposable = await subscriptionTask;
     };
 
-    ISquareService proxy =
-        channel.RealmProxy.Services.GetCalleeProxy<ISquareService>
-        (new CachedCalleeProxyInterceptor(new CalleeProxyInterceptor(callOptions)));
+    WampChannelReconnector reconnector =
+        new WampChannelReconnector(channel, connect);
 
-    await proxy.Square(-2);
-    await proxy.Square(0);
-    await proxy.Square(2);
+    reconnector.Start();
 }
 
 ```
 
-In order to obtain these details as a Callee (using reflection api), access WampInvocationContext.Current.
+####WAMP-CRA Authentication
 
-Sample:
-
-```csharp
-public class SquareService
-{
-    [WampProcedure("com.myapp.square")]
-    public int Square(int n)
-    {
-        InvocationDetails details = 
-            WampInvocationContext.Current.InvocationDetails;
-
-        Console.WriteLine("Someone is calling me: " + details.Caller);
-
-        return n*n;
-    }
-}
-
-```
-
-> Note: The samples are based on [this](https://github.com/tavendo/AutobahnPython/tree/master/examples/twisted/wamp/basic/rpc/options) AutobahnJS sample
-
-
-#### WampInvocationContext
-
-WampInvocationContext allows you to get the invocation details provided with the current invocation. It currently contains the caller identification (if present) and whether the caller requested a progressive call. 
+[WAMP-CRA](http://crossbar.io/docs/WAMP-CRA-Authentication/) client side authentication is now supported. In order to use it, instantiate a new instance of WampCraAuthenticator and pass it to the channel factory.
 Example:
-
-```csharp
-public class LongOpService : ILongOpService
-{
-    public async Task<int> LongOp(int n, IProgress<int> progress)
-    {
-        InvocationDetails details = 
-            WampInvocationContext.Current.InvocationDetails;
-
-        for (int i = 0; i < n; i++)
-        {
-            if (details.ReceiveProgress == true)
-            {
-                progress.Report(i);                    
-            }
-
-            await Task.Delay(100);
-        }
-
-        return n;
-    }
-}
-```
-
-#### Attribute based pub/sub
-
-Allows to use WAMPv2 pub/sub features in a similar fashion as reflection rpc.
-
-In order to use it from a publisher, create a class containing an event decorated with a [WampTopic] attribute. Then register an instance of the class using the RegisterPublisher method of IWampRealmServiceProvider. The arguments published to the event will be treated as the arguments keywords of the publication.
-
-Example: Publisher class:
-```csharp
-public class MyClass
-{
-    [JsonProperty("counter")]
-    public int Counter { get; set; }
-
-    [JsonProperty("foo")]
-    public int[] Foo { get; set; }
-}
-
-public delegate void MyPublicationDelegate(int number1, int number2, string c, MyClass d);
-
-public interface IMyPublisher
-{
-    [WampTopic("com.myapp.heartbeat")]
-    event Action Heartbeat; 
-
-    [WampTopic("com.myapp.topic2")]
-    event MyPublicationDelegate MyEvent;
-}
-
-public class MyPublisher : IMyPublisher
-{
-    private readonly Random mRandom = new Random();
-    private IDisposable mSubscription;
-
-    public MyPublisher()
-    {
-        mSubscription = Observable.Timer(TimeSpan.FromSeconds(0),
-            TimeSpan.FromSeconds(1)).Select((x, i) => i)
-            .Subscribe(x => OnTimer(x));
-    }
-
-    private void OnTimer(int value)
-    {
-        RaiseHeartbeat();
-
-        RaiseMyEvent(mRandom.Next(0, 100),
-            23,
-            "Hello",
-            new MyClass()
-            {
-                Counter = value,
-                Foo = new int[] {1, 2, 3}
-            });
-    }
-
-    private void RaiseHeartbeat()
-    {
-        Action handler = Heartbeat;
-        
-        if (handler != null)
-        {
-            handler();
-        }
-    }
-
-    private void RaiseMyEvent(int number1, int number2, string c, MyClass d)
-    {
-        MyPublicationDelegate handler = MyEvent;
-        
-        if (handler != null)
-        {
-            handler(number1, number2, c, d);
-        }
-    }
-
-    public event Action Heartbeat;
-
-    public event MyPublicationDelegate MyEvent;
-}
-```
-
-Publisher registration:
-```csharp
-public static async Task Run()
-{
-    DefaultWampChannelFactory factory = new DefaultWampChannelFactory();
-
-    IWampChannel channel =
-        factory.CreateJsonChannel("ws://localhost:8080/ws", "realm1");
-
-    await channel.Open();
-
-    IDisposable publisherDisposable = 
-        channel.RealmProxy.Services.RegisterPublisher(new MyPublisher());
-
-    // call publisherDisposable.Dispose(); to unsubscribe from the event.
-}
-```
-
->Note: if the delegate used is of any Action&lt;&gt; type, the publication will send the parameters as the positional arguments of the publication, otherwise it will use the parameters as the keyword arguments of the publication (with the delegate parameters' names as the keys).
-
-In order to use the feature from a subscriber, create a class with a method having a [WampTopic] attribute, Then call RegisterSubscriber of IWampRealmServiceProvider.
-
-Example:
-
-```csharp
-public class MyClass
-{
-    [JsonProperty("counter")]
-    public int Counter { get; set; }
-
-    [JsonProperty("foo")]
-    public int[] Foo { get; set; }
-
-    public override string ToString()
-    {
-        return string.Format("counter: {0}, foo: [{1}]",
-            Counter,
-            string.Join(", ", Foo));
-    }
-}
-
-public interface IMySubscriber
-{
-    [WampTopic("com.myapp.heartbeat")]
-    void OnHeartbeat();
-
-    [WampTopic("com.myapp.topic2")]
-    void OnTopic2(int number1, int number2, string c, MyClass d);
-}
-
-public class MySubscriber : IMySubscriber
-{
-    public void OnHeartbeat()
-    {
-        long publicationId = WampEventContext.Current.PublicationId;
-        Console.WriteLine("Got heartbeat (publication ID " + publicationId + ")");
-    }
-
-    public void OnTopic2(int number1, int number2, string c, MyClass d)
-    {
-        Console.WriteLine("Got event: number1:{0}, number2:{1}, c:{2}, d:{3}",
-            number1, number2, c, d);
-    }
-}
-```
-
-Subscriber registration:
-```csharp
-public static async Task Run()
-{
-    DefaultWampChannelFactory factory = new DefaultWampChannelFactory();
-
-    IWampChannel channel =
-        factory.CreateJsonChannel("ws://localhost:8080/ws", "realm1");
-
-    await channel.Open();
-
-    Task<IAsyncDisposable> subscriptionTask = 
-        channel.RealmProxy.Services.RegisterSubscriber(new MySubscriber());
-
-    IAsyncDisposable asyncDisposable = await subscriptionTask;
-
-    // call await asyncDisposable.DisposeAsync(); to unsubscribe from the topic.
-}
-
-```
-
->Note:  The samples are based on [this](https://github.com/tavendo/AutobahnPython/tree/master/examples/twisted/wamp/basic/pubsub/complex) AutobahnJS sample, but are a bit different (WampSharp doesn't support publishing both positional arguments and keyword arguments with this feature)
-
-#### WampEventContext
-
-As illustrated in last sample, you can use in pub/sub based subscribers WampEventContext.Current in order to get details about the current received event:
-
-```csharp
-public class MySubscriber
-{
-    [WampTopic("com.myapp.topic1")]
-    public void OnTopic1(int counter)
-    {
-        WampEventContext context = WampEventContext.Current;
-
-        Console.WriteLine("Got event, publication ID {0}, publisher {1}: {2}",
-            context.PublicationId,
-            context.EventDetails.Publisher,
-            counter);
-    }
-}
-```
-
->Note:  The sample is based on [this](https://github.com/tavendo/AutobahnPython/tree/master/examples/twisted/wamp/basic/pubsub/options) AutobahnJS sample.
-
-#### Registration customization
-
-The RegisterCallee, GetCalleeProxy, RegisterSubscriber and RegisterPublisher methods of IWampRealmServiceProvider now all have overloads that receive an "interceptor" instance. The "interceptors" allow customizing the request being performed.
-
-For instance, assume you want to call procedures of a contract that its procedures uris are known only on runtime.  This is possible implementing a ICalleeProxyInterceptor:
-
-```csharp
-public class MyCalleeProxyInterceptor : CalleeProxyInterceptor
-{
-    private readonly int mCalleeIndex;
-
-    public MyCalleeProxyInterceptor(int calleeIndex) : 
-        base(new CallOptions())
-    {
-        mCalleeIndex = calleeIndex;
-    }
-
-    public override string GetProcedureUri(MethodInfo method)
-    {
-        string format = base.GetProcedureUri(method);
-        string result = string.Format(format, mCalleeIndex);
-        return result;
-    }
-}
-
-```
-
-This interceptor modifies the procedure uri of the procedure to call. For example, we can declare an interface with a method with this signature:
-
-```csharp
-public interface ISquareService
-{
-    [WampProcedure("com.myapp.square.{0}")]
-    Task<int> Square(int number);
-}
-```
-
-And then specify the index in runtime:
-```csharp
-public static async Task Run()
-{
-    DefaultWampChannelFactory factory = new DefaultWampChannelFactory();
-
-    IWampChannel channel =
-        factory.CreateJsonChannel("ws://localhost:8080/ws", "realm1");
-
-    await channel.Open();
-
-    int index = GetRuntimeIndex();
-
-    ISquareService proxy = 
-        channel.RealmProxy.Services.GetCalleeProxy<ISquareService>
-        (new CachedCalleeProxyInterceptor(
-            new MyCalleeProxyInterceptor(index)));
-
-    int nine = await proxy.Square(3); // Calls ("com.myapp.square." + index)
-}
-
-```
-
-> Note: we wrap our interceptor with the CachedCalleeProxyInterceptor in order to cache the results of our interceptor, in order to avoid calculating them each call.
-
-Other interceptors work similarly. 
-In addition, the interceptors allow modifying the options sent to each request.
-
-> Note: these interceptors are still "static", i.e: they don't allow returning a value that depends on the publication/call parameters.
-
-####Authentication
-
-Client-side authentication is now supported. In order to use client authentication, you need to implement an interface named IWampClientAuthenticator. Then, pass it to CreateChannel/CreateJsonChannel/CreateMsgpackChannel overloads of DefaultChannelFactory.
-In IWampClientAuthenticator we supply the supported authentication methods and the authenticationid, these are passed in the HELLO message to the router (as details.authmethods, details.authid). We also implement Authenticate method, which sends an AUTHENTICATE message to the router upon CHALLENGE.
-
-Example:
-```csharp
-public class TicketAuthenticator : IWampClientAuthenticator
-{
-    private static readonly string[] mAuthenticationMethods = { "ticket" };
-
-    private readonly IDictionary<string, string> mTickets =
-        new Dictionary<string, string>()
-        {
-            {"peter", "magic_secret_1"},
-            {"joe", "magic_secret_2"}
-        };
-
-    private const string User = "peter";
-
-    public AuthenticationResponse Authenticate(string authmethod, ChallengeDetails extra)
-    {
-        if (authmethod == "ticket")
-        {
-            Console.WriteLine("authenticating via '" + authmethod + "'");
-            
-            AuthenticationResponse result = 
-                new AuthenticationResponse {Signature = mTickets[User]};
-            
-            return result;
-        }
-        else
-        {
-            throw new WampAuthenticationException("don't know how to authenticate using '" + authmethod + "'");
-        }
-    }
-
-    public string[] AuthenticationMethods
-    {
-        get
-        {
-            return mAuthenticationMethods;
-        }
-    }
-
-    public string AuthenticationId
-    {
-        get
-        {
-            return User;
-        }
-    }
-}
-```
-
-Then we pass an instance of our authenticator to the ChannelFactory:
 
 ```csharp
 public async Task Run()
 {
     DefaultWampChannelFactory channelFactory = new DefaultWampChannelFactory();
 
-    IWampClientAuthenticator authenticator = new TicketAuthenticator();
-    
+    IWampClientAuthenticator authenticator;
+
+    if (false)
+    {
+        authenticator = new WampCraClientAuthenticator(authenticationId: "joe", authenticationKey: "secret2");
+    }
+    else
+    {
+        authenticator = 
+            new WampCraClientAuthenticator(authenticationId: "peter", secret: "secret1", salt: "salt123", iterations: 100, keyLen: 16);
+    }
+
     IWampChannel channel =
         channelFactory.CreateJsonChannel("ws://127.0.0.1:8080/ws",
             "realm1",
             authenticator);
-    
+
+    channel.RealmProxy.Monitor.ConnectionEstablished +=
+        (sender, args) =>
+        {
+            Console.WriteLine("connected session with ID " + args.SessionId);
+
+            dynamic details = args.Details.Deserialize<dynamic>();
+
+            Console.WriteLine("authenticated using method '{0}' and provider '{1}'", details.authmethod,
+                              details.authprovider);
+            
+            Console.WriteLine("authenticated with authid '{0}' and authrole '{1}'", details.authid,
+                              details.authrole);
+        };
+
+    channel.RealmProxy.Monitor.ConnectionBroken += (sender, args) =>
+    {
+        dynamic details = args.Details.Deserialize<dynamic>();
+        Console.WriteLine("disconnected " + args.Reason + " " + details.reason + details);
+    };
+
     IWampRealmProxy realmProxy = channel.RealmProxy;
 
-    await channel.Open();
+    await channel.Open().ConfigureAwait(false);
 
-    // Call a rpc for example
-    ITimeService proxy = realmProxy.Services.GetCalleeProxy<ITimeService>();
-    
+    // call a procedure we are allowed to call (so this should succeed)
+    //
+    IAdd2Service proxy = realmProxy.Services.GetCalleeProxy<IAdd2Service>();
+
     try
     {
-        string now = await proxy.Now();
-        Console.WriteLine("call result {0}", now);
+        var five = await proxy.Add2Async(2, 3)
+            .ConfigureAwait(false);
+
+        Console.WriteLine("call result {0}", five);
     }
     catch (Exception e)
     {
         Console.WriteLine("call error {0}", e);
     }
+
+    // (try to) register a procedure where we are not allowed to (so this should fail)
+    //
+    Mul2Service service = new Mul2Service();
+
+    try
+    {
+        await realmProxy.Services.RegisterCallee(service)
+            .ConfigureAwait(false);
+
+        Console.WriteLine("huh, function registered!");
+    }
+    catch (WampException ex)
+    {
+        Console.WriteLine("registration failed - this is expected: " + ex.ErrorUri);
+    }
+
+    // (try to) publish to some topics
+    //
+    string[] topics = {
+        "com.example.topic1",
+        "com.example.topic2",
+        "com.foobar.topic1",
+        "com.foobar.topic2"
+    };
+
+
+    foreach (string topic in topics)
+    {
+        IWampTopicProxy topicProxy = realmProxy.TopicContainer.GetTopicByUri(topic);
+
+        try
+        {
+            await topicProxy.Publish(new PublishOptions() { Acknowledge = true })
+                .ConfigureAwait(false);
+
+            Console.WriteLine("event published to topic " + topic);
+        }
+        catch (WampException ex)
+        {
+            Console.WriteLine("publication to topic " + topic + " failed: " + ex.ErrorUri);
+        }
+    }
+}
+
+
+public interface IAdd2Service
+{
+    [WampProcedure("com.example.add2")]
+    Task<int> Add2Async(int x, int y);
+}
+
+public class Mul2Service
+{
+    [WampProcedure("com.example.mul2")]
+    public int Multiply2(int x, int y)
+    {
+        return x*y;
+    }
 }
 ```
 
->Note:  The sample is based on [this](https://github.com/tavendo/AutobahnPython/tree/master/examples/twisted/wamp/authentication/ticket) AutobahnJS sample
+>Note:  The sample is based on [this](https://github.com/crossbario/crossbarexamples/tree/master/authenticate/wampcra) AutobahnJS sample
+
+#### Pattern based subscriptions
+
+This version has support for [pattern based subscriptions](http://crossbar.io/docs/Pattern-Based-Subscriptions/), for both router side and client side.
+
+In order to use it from router side, you need to do nothing - WampSharp router implementation supports pattern based subscriptions. If you want to publish events from the router side so that they will be sent for all matching subscriptions, use one of the Realm Services publication methods, or use TopicContainer.Publish method. (IWampTopic methods publish to a specific subscription and therefore ignore other possible matching subscriptions)
+
+In order to use it from client side, pass a SubscribeOptions with Match = "exact"/"prefix"/"wildcard" depending on your criteria:
+
+```csharp
+public async Task Run()
+{
+    DefaultWampChannelFactory channelFactory = new DefaultWampChannelFactory();
+
+    IWampChannel channel =
+        channelFactory.CreateJsonChannel("ws://127.0.0.1:8080/ws",
+            "realm1");
+
+    await channel.Open().ConfigureAwait(false);
+
+    await channel.RealmProxy.Services.RegisterSubscriber(new Subscriber1())
+        .ConfigureAwait(false);
+
+    await channel.RealmProxy.Services.RegisterSubscriber
+        (new Subscriber2(),
+         new SubscriberRegistrationInterceptor(new SubscribeOptions
+         {
+             Match = "prefix"
+         }))
+         .ConfigureAwait(false);
+
+    await channel.RealmProxy.Services.RegisterSubscriber
+        (new Subscriber3(),
+         new SubscriberRegistrationInterceptor(new SubscribeOptions
+         {
+             Match = "wildcard"
+         }))
+         .ConfigureAwait(false);
+}
+
+public class Subscriber1
+{
+    [WampTopic("com.example.topic1")]
+    public void Handler1(string message)
+    {
+        Console.WriteLine("handler1: msg = '{0}', topic = '{1}'", message,
+                          WampEventContext.Current.EventDetails.Topic);
+    }
+}
+
+public class Subscriber2
+{
+    [WampTopic("com.example")]
+    public void Handler2(string message)
+    {
+        Console.WriteLine("handler2: msg = '{0}', topic = '{1}'", message,
+                          WampEventContext.Current.EventDetails.Topic);
+    }             
+}
+
+public class Subscriber3
+{
+    [WampTopic("com..topic1")]
+    public void Handler3(string message)
+    {
+        Console.WriteLine("handler3: msg = '{0}', topic = '{1}'", message,
+                          WampEventContext.Current.EventDetails.Topic);
+    }             
+}
+```
+> Note: this sample is based on [this](https://github.com/crossbario/crossbarexamples/tree/master/patternsubs) Autobahn sample
+
+#### Shared registrations
+
+From this version [shared registrations](http://crossbar.io/docs/Shared-Registrations/) are supported both on router and client sides.
+
+In order to use shared registrations, pass to the Register methods, RegisterOptions with a desired Invoke (the policy to be used). The possible options are: single/first/last/random/roundrobin.
+
+Example:
+```csharp
+public async Task Run()
+{
+    DefaultWampChannelFactory channelFactory = new DefaultWampChannelFactory();
+
+    IWampChannel channel =
+        channelFactory.CreateJsonChannel
+            ("ws://127.0.0.1:8080/ws",
+             "realm1");
+
+    TaskCompletionSource<string> identTask = new TaskCompletionSource<string>();
+
+    channel.RealmProxy.Monitor.ConnectionEstablished += (sender, args) =>
+    {
+        string ident =
+            string.Format("MyComponent (PID {0}, Session {1})",
+                          Process.GetCurrentProcess().Id,
+                          args.SessionId);
+
+        identTask.SetResult(ident);
+    };
+
+    await channel.Open().ConfigureAwait(false);
+
+    string identValue = await identTask.Task;
+
+    await channel.RealmProxy.Services.RegisterCallee(new MyComponent(identValue),
+        new CalleeRegistrationInterceptor(new RegisterOptions()
+        {
+            Invoke = "roundrobin"
+        }))
+        .ConfigureAwait(false);
+}
+
+public class MyComponent
+{
+    private readonly string mIdent;
+
+    public MyComponent(string ident)
+    {
+        mIdent = ident;
+    }
+
+    [WampProcedure("com.example.add2")]
+    public object Add2(double x, double y)
+    {
+        Console.WriteLine("add2 called on {0}", mIdent);
+
+        return new
+        {
+            result = x + y,
+            ident = mIdent
+        };
+    }
+}
+```
+
+> Note: this sample is based on [this](https://github.com/crossbario/crossbarexamples/tree/master/sharedregs) Autobahn sample
+
+
+#### Pattern-based registrations
+
+From this version [pattern-based registrations](http://crossbar.io/docs/Pattern-Based-Registrations/) are supported both on router and client sides.
+
+In order to use shared registrations, pass to the Register methods, RegisterOptions with a desired Match (the policy to be used). The possible options are: exact/prefix/wildcard.
+
+Example:
+```csharp
+public static async Task Run()
+{
+    DefaultWampChannelFactory channelFactory = new DefaultWampChannelFactory();
+
+    IWampChannel channel =
+        channelFactory.CreateJsonChannel("ws://127.0.0.1:8080/ws",
+            "realm1");
+
+    await channel.Open().ConfigureAwait(false);
+
+    await channel.RealmProxy.Services.RegisterCallee(new Callee1())
+        .ConfigureAwait(false);
+
+    await channel.RealmProxy.Services.RegisterCallee
+        (new Callee2(),
+         new CalleeRegistrationInterceptor(new RegisterOptions
+         {
+             Match = "prefix"
+         }))
+         .ConfigureAwait(false);
+
+    await channel.RealmProxy.Services.RegisterCallee
+        (new Callee3(),
+         new CalleeRegistrationInterceptor(new RegisterOptions
+         {
+             Match = "wildcard"
+         }))
+         .ConfigureAwait(false);
+}
+
+public class Callee1
+{
+    [WampProcedure("com.example.procedure1")]
+    public void Endpoint1(string message)
+    {
+        Console.WriteLine("endpoint1: msg = '{0}', procedure = '{1}'", message,
+                          WampInvocationContext.Current.InvocationDetails.Procedure);
+    }
+}
+
+public class Callee2
+{
+    [WampProcedure("com.example")]
+    public void Endpoint2(string message)
+    {
+        Console.WriteLine("endpoint2: msg = '{0}', procedure = '{1}'", message,
+                          WampInvocationContext.Current.InvocationDetails.Procedure);
+    }             
+}
+
+public class Callee3
+{
+    [WampProcedure("com..procedure1")]
+    public void Endpoint3(string message)
+    {
+        Console.WriteLine("endpoint3: msg = '{0}', procedure = '{1}'", message,
+                          WampInvocationContext.Current.InvocationDetails.Procedure);
+    }             
+}
+
+```
+
+> Note: this sample is based on [this](https://github.com/crossbario/crossbarexamples/tree/master/patternregs) Autobahn sample
+
 
 ### Internal Changes
 
-#### Router IWampRealmServiceProvider
+####Performance improvements
 
-From this version, WampHost's Realms' Service property is implemented differently - it is implemented as a WAMP client with in-memory transport. That means that the WampHost communicates with the IWampRealmServiceProvider using "serialization", which adds a bit overhead. There are a couple of reasons for this change:
-	* This allows me to reuse code, instead of maintaining two different implementations of IWampRealmServiceProvider - one for the router and one for the client.
-	* It makes the router hosted components first class citizens - each realm internal client has now a session id (available via IHostedRealm.SessionId).
-	* It makes the code more consistent - whether if it runs in the router or as a client.
-	* WAMPv2 [discourages](https://github.com/tavendo/WAMP/blob/master/spec/basic.md#application-code) routers to run application code.
+This version introduces some optimizations:
 
-#### Fleck transport
+* Reflection optimizations - avoiding calling MethodInfo.Invoke using expression delegate compilation and other techniques - mostly in Reflection based roles, such as Reflection based callee, Reflection based subscriber, callee proxy.
+* Serialization optimizations - serializing entire WampMessages instead of serializing each element of the array separately.
+* Pub/Sub subscriber black and whitelisting, publisher exclusion calculation optimizations using HashSets.
 
-From this version, Fleck 0.12.0.40 is used. This version of Fleck has feedback for message send to clients. WampSharp uses this feedback and assures that messages are sent serially per client - i.e:  a message will only be sent after the previous one has been received by the client. This should avoid some race conditions and should implement [ordering-guarantees](https://github.com/tavendo/WAMP/blob/master/spec/basic.md#ordering-guarantees) better.
+####Bug fixes
+
+This version contains a couple of bug fixes, mainly [SUBSCRIBE fixes](https://github.com/Code-Sharp/WampSharp/issues/67).
 
 > Written with [StackEdit](https://stackedit.io/).
