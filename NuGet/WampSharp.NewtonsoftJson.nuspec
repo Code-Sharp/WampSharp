@@ -20,7 +20,7 @@
     <file src="bin\net45\WampSharp.NewtonsoftJson.xml" target="lib\net45\WampSharp.NewtonsoftJson.xml" />
     <file src="bin\net40\WampSharp.NewtonsoftJson.dll" target="lib\net40\WampSharp.NewtonsoftJson.dll" />
     <file src="bin\net40\WampSharp.NewtonsoftJson.xml" target="lib\net40\WampSharp.NewtonsoftJson.xml" />
-    <file src="bin\pcl\WampSharp.NewtonsoftJson.dll" target="lib\portable-net45+win+wpa81\WampSharp.NewtonsoftJson.dll" />
-    <file src="bin\pcl\WampSharp.NewtonsoftJson.xml" target="lib\portable-net45+win+wpa81\WampSharp.NewtonsoftJson.xml" />
+    <file src="bin\pcl\WampSharp.NewtonsoftJson.dll" target="lib\portable-win81+wpa81\WampSharp.NewtonsoftJson.dll" />
+    <file src="bin\pcl\WampSharp.NewtonsoftJson.xml" target="lib\portable-win81+wpa81\WampSharp.NewtonsoftJson.xml" />
   </files>
 </package>
