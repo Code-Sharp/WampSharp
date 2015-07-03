@@ -20,7 +20,6 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         private readonly IWampClientContainer<TMessage, IWampClientProxy<TMessage>> mContainer;
         private readonly IWampOutgoingRequestSerializer mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
-        private readonly IWampIdGenerator mSessionIdGenerator;
         private readonly IWampBinding<TMessage> mBinding;
 
         #endregion
@@ -30,20 +29,17 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         /// <summary>
         /// Creates a new instance of <see cref="WampClientBuilder{TMessage}"/>.
         /// </summary>
-        /// <param name="sessionIdGenerator">A given <see cref="IWampIdGenerator"/> used in order
-        /// to generate session ids for clients.</param>
         /// <param name="outgoingSerializer">A <see cref="IWampOutgoingRequestSerializer"/>
         /// used to serialize message calls into <see cref="WampMessage{TMessage}"/>s</param>
         /// <param name="outgoingHandlerBuilder">An <see cref="IWampOutgoingMessageHandlerBuilder{TMessage}"/> used to build
         /// a <see cref="IWampOutgoingMessageHandler"/> per connection.</param>
         /// <param name="container">A <see cref="IWampClientContainer{TMessage,TClient}"/> that contains all clients.</param>
-        public WampClientBuilder(IWampIdGenerator sessionIdGenerator, IWampOutgoingRequestSerializer outgoingSerializer, IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage, IWampClientProxy<TMessage>> container, IWampBinding<TMessage> binding)
+        public WampClientBuilder(IWampOutgoingRequestSerializer outgoingSerializer, IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage, IWampClientProxy<TMessage>> container, IWampBinding<TMessage> binding)
         {
             mOutgoingSerializer = outgoingSerializer;
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
             mContainer = container;
             mBinding = binding;
-            mSessionIdGenerator = sessionIdGenerator;
         }
 
         #endregion
@@ -66,7 +62,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                                               monitor,
                                               disposable);
 
-            result.Session = mSessionIdGenerator.Generate();
+            result.Session = (long) mContainer.GenerateClientId(result);
             result.Binding = mBinding;
             monitor.Client = result;
 

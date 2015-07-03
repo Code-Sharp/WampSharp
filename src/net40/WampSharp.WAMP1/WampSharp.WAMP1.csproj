@@ -152,6 +152,9 @@
     <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\IWampSessionIdGenerator.cs">
       <Link>WAMP1\V1\Core\Listener\IWampSessionIdGenerator.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\WampClientContainer.cs">
+      <Link>WAMP1\V1\Core\Listener\WampClientContainer.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\WampListener.cs">
       <Link>WAMP1\V1\Core\Listener\WampListener.cs</Link>
     </Compile>

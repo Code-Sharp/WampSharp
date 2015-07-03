@@ -12,25 +12,20 @@ namespace WampSharp.V1.Core.Listener.ClientBuilder
     /// <typeparam name="TMessage"></typeparam>
     public class WampClientBuilderFactory<TMessage> : IWampClientBuilderFactory<TMessage, IWampClient>
     {
-        private readonly IWampSessionIdGenerator mSessionIdGenerator;
         private readonly IWampOutgoingRequestSerializer mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
 
         /// <summary>
         /// Creates a new instance of <see cref="WampClientBuilderFactory{TMessage}"/>.
         /// </summary>
-        /// <param name="sessionIdGenerator">The <see cref="IWampSessionIdGenerator"/> used to generate
-        /// session ids.</param>
         /// <param name="outgoingSerializer">The <see cref="IWampOutgoingRequestSerializer"/>
         /// used to serialize methods call to <see cref="WampMessage{TMessage}"/>s.</param>
         /// <param name="outgoingHandlerBuilder">The <see cref="IWampOutgoingMessageHandler"/>
         /// used to create the <see cref="IWampOutgoingMessageHandler"/> used to
         /// handle outgoing <see cref="WampMessage{TMessage}"/>s.</param>
-        public WampClientBuilderFactory(IWampSessionIdGenerator sessionIdGenerator,
-                                        IWampOutgoingRequestSerializer outgoingSerializer,
+        public WampClientBuilderFactory(IWampOutgoingRequestSerializer outgoingSerializer,
                                         IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder)
         {
-            mSessionIdGenerator = sessionIdGenerator;
             mOutgoingSerializer = outgoingSerializer;
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
         }
@@ -39,8 +34,7 @@ namespace WampSharp.V1.Core.Listener.ClientBuilder
         {
             WampClientBuilder<TMessage> result =
                 new WampClientBuilder<TMessage>
-                    (mSessionIdGenerator,
-                     mOutgoingSerializer,
+                    (mOutgoingSerializer,
                      mOutgoingHandlerBuilder,
                      container);
 

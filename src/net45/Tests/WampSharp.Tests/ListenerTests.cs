@@ -9,6 +9,7 @@ using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Listener;
+using WampSharp.V1.Core.Listener.ClientBuilder;
 
 namespace WampSharp.Tests
 {
@@ -64,7 +65,7 @@ namespace WampSharp.Tests
             return new WampListener<JToken>
                 (listener,
                  handler,
-                 new WampClientContainer<JToken, IWampClient>(factory.Object));
+                 new WampClientContainer<JToken>(factory.Object));
         }
 
         private IWampIncomingMessageHandler<JToken, IWampClient> GetHandler(IWampServer<JToken> wampServer)

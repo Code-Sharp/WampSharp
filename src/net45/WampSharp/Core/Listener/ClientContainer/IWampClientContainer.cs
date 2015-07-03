@@ -36,5 +36,12 @@ namespace WampSharp.Core.Listener
         /// <param name="connection">The given connection.</param>
         /// <returns>A client proxy.</returns>
         bool TryGetClient(IWampConnection<TMessage> connection, out TClient client);
+
+        /// <summary>
+        /// Generates a client id.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        object GenerateClientId(TClient client);
     }
 }

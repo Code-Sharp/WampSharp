@@ -4,16 +4,11 @@ namespace WampSharp.V1.Core.Proxy
 {
     internal class SessionIdPropertyInterceptor : IInterceptor
     {
-        private readonly string mSessionId;
-
-        public SessionIdPropertyInterceptor(string sessionId)
-        {
-            mSessionId = sessionId;
-        }
+        public string SessionId { get; set; }
 
         public void Intercept(IInvocation invocation)
         {
-            invocation.ReturnValue = mSessionId;
+            invocation.ReturnValue = SessionId;
         }
     }
 }
