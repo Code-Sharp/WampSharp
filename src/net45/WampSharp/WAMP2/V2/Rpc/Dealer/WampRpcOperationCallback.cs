@@ -24,6 +24,7 @@ namespace WampSharp.V2.Rpc
             mRequestId = requestId;
 
             mMonitor = caller as IWampConnectionMonitor;
+            mMonitor.ConnectionClosed += OnConnectionClosed;
         }
 
         public void Result<TResult>(IWampFormatter<TResult> formatter, ResultDetails details)
@@ -56,15 +57,20 @@ namespace WampSharp.V2.Rpc
             mCaller.CallError(mRequestId, details, error, arguments.Cast<object>().ToArray(), argumentsKeywords);
         }
 
-        public event EventHandler Disconnected
+        public event EventHandler Disconnected;
+
+        private void OnConnectionClosed(object sender, EventArgs e)
         {
-            add
+            RaiseDisconnected();
+        }
+
+        private void RaiseDisconnected()
+        {
+            EventHandler handler = Disconnected;
+            
+            if (handler != null)
             {
-                mMonitor.ConnectionClosed += value;
-            }
-            remove
-            {
-                mMonitor.ConnectionClosed -= value;                
+                handler(this, EventArgs.Empty);
             }
         }
 

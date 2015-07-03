@@ -16,7 +16,13 @@ namespace WampSharp.V2.Rpc
         {
             mCaller = caller;
             mNotifier = mCaller as ICallbackDisconnectionNotifier;
+            mNotifier.Disconnected += OnDisconnected;
             mOptions = options;
+        }
+
+        private void OnDisconnected(object sender, EventArgs e)
+        {
+            RaiseDisconnected();
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, YieldOptions details)
@@ -59,15 +65,15 @@ namespace WampSharp.V2.Rpc
             return new ResultDetails {Progress = details.Progress};
         }
 
-        public event EventHandler Disconnected
+        public event EventHandler Disconnected;
+
+        private void RaiseDisconnected()
         {
-            add
+            EventHandler handler = Disconnected;
+            
+            if (handler != null)
             {
-                mNotifier.Disconnected += value;
-            }
-            remove
-            {
-                mNotifier.Disconnected -= value;                
+                handler(this, EventArgs.Empty);
             }
         }
     }
