@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Fleck;
 using WampSharp.Core.Listener;
+using WampSharp.Logging;
 
 namespace WampSharp.Fleck
 {
@@ -33,16 +35,25 @@ namespace WampSharp.Fleck
 #if NET40
         private void StartPing()
         {
-            Observable.Generate(0, x => true, x => x, x => x)
-                      .Select(x =>
-                                  Observable.FromAsync(() =>
-                                  {
-                                      byte[] ticks = GetCurrentTicks();
-                                      return mWebSocketConnection.SendPing(ticks);
-                                  }).Concat(Observable.Timer(mAutoSendPingInterval)
-                                                      .Select(y => Unit.Default))
+            Observable.Defer
+                (() => Observable.FromAsync
+                     (() =>
+                     {
+                         byte[] ticks = GetCurrentTicks();
+                         return mWebSocketConnection.SendPing(ticks);
+                     })
+                                 .Concat(Observable.Timer(mAutoSendPingInterval)
+                                                   .Select(y => Unit.Default))
                 )
-                      .Merge(1);
+                      .Repeat()
+                      .ToTask()
+                      .ContinueWith(x =>
+                      {
+                          if (x.Exception != null)
+                          {
+                              mLogger.WarnException("Failed pinging remote peer", x.Exception);
+                          }
+                      });
         }
 
 #elif NET45
@@ -63,8 +74,9 @@ namespace WampSharp.Fleck
                     await mWebSocketConnection.SendPing(ticks);
                     await Task.Delay(mAutoSendPingInterval);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    mLogger.WarnException("Failed pinging remote peer", ex);
                 }
             }
         }
