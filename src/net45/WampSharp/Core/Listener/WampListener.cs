@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Disposables;
+using SystemEx;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Message;
 using WampSharp.Logging;
@@ -79,16 +80,18 @@ namespace WampSharp.Core.Listener
 
         protected virtual void OnCloseConnection(IWampConnection<TMessage> connection)
         {
-            TClient client;
+            ClientContainer.RemoveClient(connection);
 
-            if (ClientContainer.TryGetClient(connection, out client))
+            IAsyncDisposable asyncDisposable = connection as IAsyncDisposable;
+
+            // Prefer the non-blocking version
+            if (asyncDisposable != null)
             {
-                IDisposable casted = client as IDisposable;
-
-                if (casted != null)
-                {
-                    casted.Dispose();
-                }                
+                asyncDisposable.DisposeAsync();
+            }
+            else
+            {
+                connection.Dispose();
             }
         }
 

@@ -1,11 +1,13 @@
 using System;
 using System.Threading.Tasks;
+using SystemEx;
 using WampSharp.Core.Message;
 using WampSharp.Logging;
 
 namespace WampSharp.Core.Listener
 {
-    public abstract class AsyncWampConnection<TMessage> : IWampConnection<TMessage>
+    public abstract class AsyncWampConnection<TMessage> : IWampConnection<TMessage>,
+        IAsyncDisposable
     {
         private readonly ActionBlock<WampMessage<object>> mSendBlock;
         protected readonly ILog mLogger;
@@ -110,5 +112,25 @@ namespace WampSharp.Core.Listener
         }
 
         public abstract void Dispose();
+
+#if NET45
+
+        async Task IAsyncDisposable.DisposeAsync()
+        {
+            mSendBlock.Complete();
+            await mSendBlock.Completion;
+            this.Dispose();
+        }
+
+#elif NET40
+
+        Task IAsyncDisposable.DisposeAsync()
+        {
+            mSendBlock.Complete();
+            return mSendBlock.Completion.ContinueWith(x => x.Dispose());
+        }
+
+#endif
+
     }
 }
