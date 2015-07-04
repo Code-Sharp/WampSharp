@@ -1,7 +1,10 @@
-﻿using Fleck;
+﻿using System;
+using Fleck;
 using WampSharp.Core.Listener;
+using WampSharp.Logging;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Transports;
+using LogLevel = Fleck.LogLevel;
 
 namespace WampSharp.Fleck
 {
@@ -20,6 +23,46 @@ namespace WampSharp.Fleck
         public FleckWebSocketTransport(string location)
         {
             mServer = new WebSocketServer(location);
+
+            RouteLogs();
+        }
+
+        private void RouteLogs()
+        {
+            Action<LogLevel, string, Exception> logAction = FleckLog.LogAction;
+
+            if (logAction != null &&
+                logAction.Method.DeclaringType == typeof (FleckLog))
+            {
+                FleckLog.LogAction = ConvertLog;
+            }
+        }
+
+        private void ConvertLog(LogLevel logLevel, string message, Exception exception)
+        {
+            switch (logLevel)
+            {
+                case LogLevel.Debug:
+                {
+                    mLogger.DebugException(message, exception);
+                    break;
+                }
+                case LogLevel.Info:
+                {
+                    mLogger.InfoException(message, exception);
+                    break;
+                }
+                case LogLevel.Warn:
+                {
+                    mLogger.WarnException(message, exception);
+                    break;
+                }
+                case LogLevel.Error:
+                {
+                    mLogger.ErrorException(message, exception);
+                    break;
+                }
+            }
         }
 
         protected override void OpenConnection<TMessage>(IWampConnection<TMessage> connection)
