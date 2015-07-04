@@ -399,6 +399,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\ExactTopicContainer.cs">
       <Link>WAMP2\V2\PubSub\ExactTopicContainer.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\ImmutableHashSetInterlocked.cs">
+      <Link>WAMP2\V2\PubSub\ImmutableHashSetInterlocked.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs</Link>
     </Compile>

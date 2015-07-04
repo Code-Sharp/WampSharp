@@ -413,15 +413,13 @@ namespace WampSharp.V2.PubSub
 
         private class RawTopicSubscriberBook
         {
-            private readonly IDictionary<long, Subscription> mSessionIdToSubscription =
-                new SwapDictionary<long, Subscription>();
+            private ImmutableDictionary<long, Subscription> mSessionIdToSubscription =
+                ImmutableDictionary<long, Subscription>.Empty;
 
             private ImmutableHashSet<RemoteObserver> mRemoteObservers = ImmutableHashSet<RemoteObserver>.Empty;
 
             private readonly WampRawTopic<TMessage> mRawTopic;
             
-            private readonly object mLock = new object();
-
             public RawTopicSubscriberBook(WampRawTopic<TMessage> rawTopic)
             {
                 mRawTopic = rawTopic;
@@ -441,18 +439,15 @@ namespace WampSharp.V2.PubSub
 
                 if (!mSessionIdToSubscription.TryGetValue(client.Session, out subscription))
                 {
-                    lock (mLock)
-                    {
-                        RemoteObserver result = new RemoteObserver(client);
+                    RemoteObserver result = new RemoteObserver(client);
 
-                        mRemoteObservers = mRemoteObservers.Add(result);
+                    ImmutableHashSetInterlocked.Add(ref mRemoteObservers, result);
 
-                        subscription = new Subscription(mRawTopic, client, result);
- 
-                        mSessionIdToSubscription[client.Session] = subscription;
+                    subscription = new Subscription(mRawTopic, client, result);
 
-                        subscription.Open();
-                    }
+                    ImmutableInterlocked.TryAdd(ref mSessionIdToSubscription, client.Session, subscription);
+
+                    subscription.Open();
                 }
 
                 return subscription.Observer;
@@ -460,13 +455,11 @@ namespace WampSharp.V2.PubSub
 
             public bool Unsubscribe(IWampClientProxy<TMessage> client)
             {
-                lock (mLock)
-                {
-                    bool result;
-                    mRemoteObservers = mRemoteObservers.Remove(new RemoteObserver(client));
-                    result = mSessionIdToSubscription.Remove(client.Session);
-                    return result;
-                }
+                bool result;
+                ImmutableHashSetInterlocked.Remove(ref mRemoteObservers , new RemoteObserver(client));
+                Subscription subscription;
+                result = ImmutableInterlocked.TryRemove(ref mSessionIdToSubscription, client.Session, out subscription);
+                return result;
             }
 
             public IEnumerable<RemoteObserver> GetRelevantSubscribers(PublishOptions options)
