@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 using System.Threading;
 
-namespace WampSharp.V2.PubSub
+namespace WampSharp.Core.Utilities
 {
     internal static class ImmutableHashSetInterlocked
     {

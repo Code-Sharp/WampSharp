@@ -182,7 +182,7 @@
     <Compile Include="WAMP2\V2\PCL\WampProtocol.cs" />
     <Compile Include="WAMP2\V2\PCL\WampServerProxyBuilder.cs" />
     <Compile Include="WAMP2\V2\PubSub\ExactTopicContainer.cs" />
-    <Compile Include="WAMP2\V2\PubSub\ImmutableHashSetInterlocked.cs" />
+    <Compile Include="Core\Utilities\ImmutableHashSetInterlocked.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\PubSub\MatchTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\PrefixSubscriptionId.cs" />
