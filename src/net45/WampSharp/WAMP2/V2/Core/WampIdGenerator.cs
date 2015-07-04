@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.V2.Core
 {
@@ -7,12 +9,13 @@ namespace WampSharp.V2.Core
     /// </summary>
     public class WampIdGenerator : IWampIdGenerator
     {
-        private Random mRandom = new Random();
         private readonly long mLimit = (long)Math.Pow(2, 50);
+        private readonly ThreadSafeRandom mRandom = new ThreadSafeRandom();
 
         public long Generate()
         {
-            return NextLong(mRandom, 0, mLimit);
+            Random random = mRandom.Random;
+            return NextLong(random, 0, mLimit);
         }
 
         #region From StackOverflow

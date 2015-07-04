@@ -130,6 +130,7 @@
     <Compile Include="Core\Utilities\SwapDictionary.cs" />
     <Compile Include="Core\Utilities\TaskMethodInvokeGenerator.cs" />
     <Compile Include="Core\Utilities\SwapHashSet.cs" />
+    <Compile Include="Core\Utilities\ThreadSafeRandom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Cra\WampCraHelpers.cs" />
     <Compile Include="Core\Utilities\TaskExtensions.cs" />

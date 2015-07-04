@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Threading;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.V1.Core.Listener
 {
@@ -12,7 +14,7 @@ namespace WampSharp.V1.Core.Listener
 
         private const int ID_LENGTH = 16;
         private readonly char[] mCharacters;
-        private readonly Random mRandom;
+        private readonly ThreadSafeRandom mRandom;
 
         #endregion
 
@@ -29,7 +31,7 @@ namespace WampSharp.V1.Core.Listener
                           .Concat(Enumerable.Range('a', 'z' - 'a' + 1))
                           .Select(x => (char) x).ToArray();
 
-            mRandom = new Random();
+            mRandom = new ThreadSafeRandom();
         }
 
         #endregion
@@ -42,10 +44,18 @@ namespace WampSharp.V1.Core.Listener
 
             for (int i = 0; i < ID_LENGTH; i++)
             {
-                resultArray[i] = mCharacters[mRandom.Next(mCharacters.Length)];
+                resultArray[i] = mCharacters[Random.Next(mCharacters.Length)];
             }
 
             return new string(resultArray);
+        }
+
+        private Random Random
+        {
+            get
+            {
+                return mRandom.Random;
+            }
         }
 
         #endregion

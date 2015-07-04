@@ -252,6 +252,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\SwapHashSet.cs">
       <Link>Core\Utilities\SwapHashSet.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ThreadSafeRandom.cs">
+      <Link>Core\Utilities\ThreadSafeRandom.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
