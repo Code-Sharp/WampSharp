@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 
 namespace WampSharp.Core.Listener
 {
@@ -15,16 +12,11 @@ namespace WampSharp.Core.Listener
         private readonly IWampConnection<TMessage> mConnection;
         private bool mConnected;
 
-        private readonly IEventPatternSource<EventArgs> mDisconnectionEventSource;
-        private readonly ISubject<EventPattern<EventArgs>> mDisconnectionSubject;
-
         public WampConnectionMonitor(IWampConnection<TMessage> connection)
         {
             mConnected = true;
             mConnection = connection;
-            mDisconnectionSubject = new ReplaySubject<EventPattern<EventArgs>>(1);
 
-            mDisconnectionEventSource = mDisconnectionSubject.ToEventPattern();
             mConnection.ConnectionError += OnConnectionError;
             mConnection.ConnectionClosed += OnConnectionClosed;
         }
@@ -59,19 +51,14 @@ namespace WampSharp.Core.Listener
 
         private void RaiseConnectionClosed(object client, EventArgs empty)
         {
-            mDisconnectionSubject.OnNext(new EventPattern<EventArgs>(client, empty));
+            EventHandler connectionClosed = ConnectionClosed;
+
+            if (connectionClosed != null)
+            {
+                connectionClosed(client, empty);
+            }
         }
 
-        public event EventHandler ConnectionClosed
-        {
-            add
-            {
-                mDisconnectionEventSource.OnNext += new EventHandler<EventArgs>(value);
-            }
-            remove
-            {
-                mDisconnectionEventSource.OnNext -= new EventHandler<EventArgs>(value);
-            }
-        }
+        public event EventHandler ConnectionClosed;
     }
 }

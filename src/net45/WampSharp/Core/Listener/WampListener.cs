@@ -76,6 +76,7 @@ namespace WampSharp.Core.Listener
 
         protected virtual void OnConnectionException(IWampConnection<TMessage> connection, Exception exception)
         {
+            OnCloseConnection(connection);
         }
 
         protected virtual void OnCloseConnection(IWampConnection<TMessage> connection)
@@ -139,6 +140,7 @@ namespace WampSharp.Core.Listener
 
             connection.MessageArrived += OnNewMessage;
             connection.ConnectionOpen += OnConnectionOpen;
+            connection.ConnectionError += OnConnectionError;
             connection.ConnectionClosed += OnConnectionClose;
         }
 
@@ -159,11 +161,22 @@ namespace WampSharp.Core.Listener
             OnConnectionOpen(connection);
         }
 
+        private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
+        {
+            OnConnectionClosed(sender);
+        }
+
         private void OnConnectionClose(object sender, EventArgs e)
+        {
+            OnConnectionClosed(sender);
+        }
+
+        private void OnConnectionClosed(object sender)
         {
             IWampConnection<TMessage> connection = sender as IWampConnection<TMessage>;
             connection.ConnectionClosed -= OnConnectionClose;
             connection.MessageArrived -= OnNewMessage;
+            connection.ConnectionError -= OnConnectionError;
             OnCloseConnection(connection);
         }
     }
