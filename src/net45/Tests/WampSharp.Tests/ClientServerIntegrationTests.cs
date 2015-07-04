@@ -190,10 +190,9 @@ namespace WampSharp.Tests
             return new WampListener<JToken>
                 (listener,
                  handler,
-                 new WampClientContainer<JToken, IWampClient>
+                 new WampClientContainer<JToken>
                      (new WampClientBuilderFactory<JToken>
-                          (new WampSessionIdGenerator(),
-                           new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                          (new WampOutgoingRequestSerializer<JToken>(mFormatter),
                            new WampOutgoingMessageHandlerBuilder<JToken>())));
         }
 

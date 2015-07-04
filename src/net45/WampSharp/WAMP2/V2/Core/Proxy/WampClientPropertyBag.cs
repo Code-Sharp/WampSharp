@@ -1,6 +1,5 @@
 ﻿using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Core.Proxy
@@ -8,23 +7,15 @@ namespace WampSharp.V2.Core.Proxy
     internal class WampClientPropertyBag<TMessage> : IWampClientProperties, IWampClientProperties<TMessage>
     {
         private readonly IWampBinding<TMessage> mBinding;
-        private readonly long mSession;
 
-        public WampClientPropertyBag(long session, IWampBinding<TMessage> binding)
+        public WampClientPropertyBag(IWampBinding<TMessage> binding)
         {
             mBinding = binding;
-            mSession = session;
         }
 
         public bool GoodbyeSent { get; set; }
 
-        public long Session
-        {
-            get
-            {
-                return mSession;
-            }
-        }
+        public long Session { get; set; }
 
         IWampBinding IWampClientProperties.Binding
         {

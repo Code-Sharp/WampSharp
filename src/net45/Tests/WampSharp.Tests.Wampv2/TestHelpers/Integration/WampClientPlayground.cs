@@ -5,8 +5,8 @@ using WampSharp.Core.Proxy;
 using WampSharp.V2;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Client;
-using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Core.Listener.ClientBuilder;
 
 namespace WampSharp.Tests.TestHelpers.Integration
@@ -51,13 +51,12 @@ namespace WampSharp.Tests.TestHelpers.Integration
         {
             WampClientBuilderFactory<TMessage> factory =
                 new WampClientBuilderFactory<TMessage>
-                    (new WampIdGenerator(),
-                     new WampOutgoingRequestSerializer<TMessage>(binding.Formatter),
+                    (new WampOutgoingRequestSerializer<TMessage>(binding.Formatter),
                      new WampOutgoingMessageHandlerBuilder<TMessage>(),
                      binding);
 
-            WampClientContainer<TMessage, IWampClientProxy<TMessage>> container =
-                new WampClientContainer<TMessage, IWampClientProxy<TMessage>>(factory);
+            WampClientContainer<TMessage> container =
+                new WampClientContainer<TMessage>(factory);
 
             WampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>> incomingMessageHandler =
                 new WampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>>

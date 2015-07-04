@@ -234,6 +234,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\GenericTypeExtensions.cs">
       <Link>Core\Utilities\GenericTypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\IdMapperBase.cs">
+      <Link>Core\Utilities\IdMapperBase.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\Method.cs">
       <Link>Core\Utilities\Method.cs</Link>
     </Compile>
@@ -350,6 +353,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs">
       <Link>WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Listener\WampClientContainer.cs">
+      <Link>WAMP2\V2\Core\Listener\WampClientContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\CodeGeneration\CalleeProxyCodeGenerator.cs">
       <Link>WAMP2\V2\PCL\CodeGeneration\CalleeProxyCodeGenerator.cs</Link>

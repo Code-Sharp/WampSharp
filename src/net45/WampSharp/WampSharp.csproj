@@ -124,6 +124,7 @@
     <Compile Include="Core\Utilities\CustomAttributeExtensions.cs" />
     <Compile Include="Core\Utilities\DictionaryExtensions.cs" />
     <Compile Include="Core\Utilities\GenericTypeExtensions.cs" />
+    <Compile Include="Core\Utilities\IdMapperBase.cs" />
     <Compile Include="Core\Utilities\Method.cs" />
     <Compile Include="Core\Utilities\ReadOnlyDictionary.cs" />
     <Compile Include="Core\Utilities\SwapCollection.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
     <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
+    <Compile Include="WAMP2\V2\Core\Listener\WampClientContainer.cs" />
     <Compile Include="WAMP2\V2\PCL\CodeGeneration\CalleeProxyCodeGenerator.cs" />
     <Compile Include="WAMP2\V2\PCL\CodeGeneration\FormatTypeExtensions.cs" />
     <Compile Include="WAMP2\V2\PCL\CodeGeneration\IProxyMethodWriter.cs" />

@@ -64,7 +64,7 @@ namespace WampSharp.V2
                 GetWampClientBuilder(binding, outgoingRequestSerializer);
 
             IWampClientContainer<TMessage, IWampClientProxy<TMessage>> clientContainer =
-                new WampClientContainer<TMessage, IWampClientProxy<TMessage>>(clientBuilderFactory);
+                new WampClientContainer<TMessage>(clientBuilderFactory);
 
             IWampRequestMapper<TMessage> requestMapper =
                 new WampRequestMapper<TMessage>(typeof(WampServer<TMessage>),
@@ -87,15 +87,11 @@ namespace WampSharp.V2
 
         private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer outgoingRequestSerializer)
         {
-            WampIdGenerator wampIdGenerator =
-                new WampIdGenerator();
-
             WampOutgoingMessageHandlerBuilder<TMessage> wampOutgoingMessageHandlerBuilder =
                 new WampOutgoingMessageHandlerBuilder<TMessage>();
 
             return new WampClientBuilderFactory<TMessage>
-                (wampIdGenerator,
-                 outgoingRequestSerializer,
+                (outgoingRequestSerializer,
                  wampOutgoingMessageHandlerBuilder,
                  binding);
         }

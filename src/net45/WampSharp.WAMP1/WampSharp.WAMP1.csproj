@@ -89,6 +89,7 @@
     <Compile Include="WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilder.cs" />
     <Compile Include="WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs" />
     <Compile Include="WAMP1\V1\Core\Listener\IWampSessionIdGenerator.cs" />
+    <Compile Include="WAMP1\V1\Core\Listener\WampClientContainer.cs" />
     <Compile Include="WAMP1\V1\Core\Listener\WampListener.cs" />
     <Compile Include="WAMP1\V1\Core\Listener\WampSessionEventArgs.cs" />
     <Compile Include="WAMP1\V1\Core\Listener\WampSessionIdGenerator.cs" />
