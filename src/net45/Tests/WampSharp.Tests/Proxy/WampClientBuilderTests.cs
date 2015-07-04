@@ -25,8 +25,7 @@ namespace WampSharp.Tests.Proxy
             mOutgoingMessageHandler = new MockOutgoingMessageHandler(mFormatter);
             
             mBuilder =
-                new WampClientBuilder<MockRaw>(new MockSessionGuidGenerator(),
-                    new WampOutgoingRequestSerializer<MockRaw>(formatter),
+                new WampClientBuilder<MockRaw>(new WampOutgoingRequestSerializer<MockRaw>(formatter),
                     new MockOutgoingMessageHandlerBuilder(mOutgoingMessageHandler),
                     new MockClientContainer());
 

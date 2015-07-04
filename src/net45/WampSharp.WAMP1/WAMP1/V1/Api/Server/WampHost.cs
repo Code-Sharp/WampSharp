@@ -44,7 +44,7 @@ namespace WampSharp.V1
                 GetWampClientBuilder(formatter);
             
             IWampClientContainer<TMessage, IWampClient> clientContainer =
-                new WampClientContainer<TMessage, IWampClient>(clientBuilderFactory);
+                new WampClientContainer<TMessage>(clientBuilderFactory);
             
             IWampRequestMapper<TMessage> requestMapper =
                 new WampRequestMapper<TMessage>(server.GetType(),
@@ -66,18 +66,14 @@ namespace WampSharp.V1
 
         private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampFormatter<TMessage> formatter)
         {
-            WampSessionIdGenerator wampSessionIdGenerator = 
-                new WampSessionIdGenerator();
-            
             WampOutgoingRequestSerializer<TMessage> wampOutgoingRequestSerializer = 
                 new WampOutgoingRequestSerializer<TMessage>(formatter);
 
             WampOutgoingMessageHandlerBuilder<TMessage> wampOutgoingMessageHandlerBuilder = 
                 new WampOutgoingMessageHandlerBuilder<TMessage>();
-            
+
             return new WampClientBuilderFactory<TMessage>
-                (wampSessionIdGenerator,
-                 wampOutgoingRequestSerializer,
+                (wampOutgoingRequestSerializer,
                  wampOutgoingMessageHandlerBuilder);
         }
 

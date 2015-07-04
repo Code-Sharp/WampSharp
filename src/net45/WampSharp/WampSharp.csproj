@@ -124,12 +124,14 @@
     <Compile Include="Core\Utilities\CustomAttributeExtensions.cs" />
     <Compile Include="Core\Utilities\DictionaryExtensions.cs" />
     <Compile Include="Core\Utilities\GenericTypeExtensions.cs" />
+    <Compile Include="Core\Utilities\IdMapperBase.cs" />
     <Compile Include="Core\Utilities\Method.cs" />
     <Compile Include="Core\Utilities\ReadOnlyDictionary.cs" />
     <Compile Include="Core\Utilities\SwapCollection.cs" />
     <Compile Include="Core\Utilities\SwapDictionary.cs" />
     <Compile Include="Core\Utilities\TaskMethodInvokeGenerator.cs" />
     <Compile Include="Core\Utilities\SwapHashSet.cs" />
+    <Compile Include="Core\Utilities\ThreadSafeRandom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Cra\WampCraHelpers.cs" />
     <Compile Include="Core\Utilities\TaskExtensions.cs" />
@@ -162,6 +164,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
     <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
+    <Compile Include="WAMP2\V2\Core\Listener\WampClientContainer.cs" />
     <Compile Include="WAMP2\V2\PCL\CodeGeneration\CalleeProxyCodeGenerator.cs" />
     <Compile Include="WAMP2\V2\PCL\CodeGeneration\FormatTypeExtensions.cs" />
     <Compile Include="WAMP2\V2\PCL\CodeGeneration\IProxyMethodWriter.cs" />
@@ -179,6 +182,7 @@
     <Compile Include="WAMP2\V2\PCL\WampProtocol.cs" />
     <Compile Include="WAMP2\V2\PCL\WampServerProxyBuilder.cs" />
     <Compile Include="WAMP2\V2\PubSub\ExactTopicContainer.cs" />
+    <Compile Include="Core\Utilities\ImmutableHashSetInterlocked.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\PubSub\MatchTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\PrefixSubscriptionId.cs" />

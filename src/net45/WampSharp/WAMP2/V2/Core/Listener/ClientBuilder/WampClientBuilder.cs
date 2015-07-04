@@ -33,20 +33,17 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         /// <summary>
         /// Creates a new instance of <see cref="WampClientBuilder{TMessage}"/>.
         /// </summary>
-        /// <param name="sessionIdGenerator">A given <see cref="IWampIdGenerator"/> used in order
-        /// to generate session ids for clients.</param>
         /// <param name="outgoingSerializer">A <see cref="IWampOutgoingRequestSerializer"/>
         /// used to serialize message calls into <see cref="WampMessage{TMessage}"/>s</param>
         /// <param name="outgoingHandlerBuilder">An <see cref="IWampOutgoingMessageHandlerBuilder{TMessage}"/> used to build
         /// a <see cref="IWampOutgoingMessageHandler"/> per connection.</param>
         /// <param name="container">A <see cref="IWampClientContainer{TMessage,TClient}"/> that contains all clients.</param>
-        public WampClientBuilder(IWampIdGenerator sessionIdGenerator, IWampOutgoingRequestSerializer outgoingSerializer, IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage, IWampClientProxy<TMessage>> container, IWampBinding<TMessage> binding)
+        public WampClientBuilder(IWampOutgoingRequestSerializer outgoingSerializer, IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampClientContainer<TMessage, IWampClientProxy<TMessage>> container, IWampBinding<TMessage> binding)
         {
             mOutgoingSerializer = outgoingSerializer;
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
             mContainer = container;
             mBinding = binding;
-            mSessionIdGenerator = sessionIdGenerator;
         }
 
         #endregion
@@ -76,14 +73,12 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
             
             proxyGenerationOptions.AddMixinInstance(monitor);
 
-            long session = mSessionIdGenerator.Generate();
-            
             proxyGenerationOptions.AddMixinInstance
                 (new WampClientContainerDisposable<TMessage, IWampClientProxy<TMessage>>
                     (mContainer, connection));
 
             WampClientPropertyBag<TMessage> propertyBag = 
-                new WampClientPropertyBag<TMessage>(session, mBinding);
+                new WampClientPropertyBag<TMessage>(mBinding);
             
             proxyGenerationOptions.AddMixinInstance(propertyBag);
 
@@ -96,6 +91,10 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                 as IWampClientProxy<TMessage>;
 
             monitor.Client = result;
+
+            long session = (long) mContainer.GenerateClientId(result);
+
+            propertyBag.Session = session;
 
             return result;
         }

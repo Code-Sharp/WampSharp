@@ -26,5 +26,10 @@ namespace WampSharp.Tests.Proxy.Helpers
         {
             throw new System.NotImplementedException();
         }
+
+        public object GenerateClientId(IWampClient client)
+        {
+            return "v59mbCGDXZ7WTyxB";
+        }
     }
 }

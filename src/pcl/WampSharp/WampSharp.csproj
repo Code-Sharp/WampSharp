@@ -237,6 +237,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\GenericTypeExtensions.cs">
       <Link>Core\Utilities\GenericTypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\IdMapperBase.cs">
+      <Link>Core\Utilities\IdMapperBase.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\Method.cs">
       <Link>Core\Utilities\Method.cs</Link>
     </Compile>
@@ -254,6 +257,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\SwapHashSet.cs">
       <Link>Core\Utilities\SwapHashSet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ThreadSafeRandom.cs">
+      <Link>Core\Utilities\ThreadSafeRandom.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
@@ -351,6 +357,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs">
       <Link>WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Listener\WampClientContainer.cs">
+      <Link>WAMP2\V2\Core\Listener\WampClientContainer.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PCL\CodeGeneration\CalleeProxyCodeGenerator.cs">
       <Link>WAMP2\V2\PCL\CodeGeneration\CalleeProxyCodeGenerator.cs</Link>
     </Compile>
@@ -401,6 +410,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\ExactTopicContainer.cs">
       <Link>WAMP2\V2\PubSub\ExactTopicContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ImmutableHashSetInterlocked.cs">
+      <Link>Core\Utilities\ImmutableHashSetInterlocked.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs">
       <Link>WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs</Link>
