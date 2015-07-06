@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
+using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
@@ -83,15 +85,84 @@ namespace WampSharp.V2.Session
         public void Hello(IWampSessionClient client, string realm, TMessage details)
         {
             IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
-            
-            IWampBindedRealm<TMessage> bindedRealm = 
-                mRealmContainer.GetRealmByName(realm);
-            
+
+            IWampBindedRealm<TMessage> bindedRealm = mRealmContainer.GetRealmByName(realm);
+
             wampClient.Realm = bindedRealm;
 
-            bindedRealm.Hello(wampClient.Session, details);
+            // TODO: Set authenticator with IWampAuthenticator
+            IWampSessionAuthenticator authenticator = wampClient.Authenticator ??
+                new TrustedAuthenticator();
 
-            client.Welcome(wampClient.Session, mWelcomeDetails);
+            try
+            {
+                bool authenticated = authenticator.IsAuthenticated;
+
+                if (authenticated)
+                {
+                    OnClientJoin(wampClient);
+                }
+                else
+                {
+                    wampClient.Challenge(authenticator.AuthenticationMethod,
+                                         authenticator.Details);
+                }
+            }
+            catch (WampAuthenticationException ex)
+            {
+                using (IDisposable disposable = client as IDisposable)
+                {
+                    client.Abort(ex.Details, ex.Reason);
+                }
+            }
+        }
+
+        internal class TrustedAuthenticator : IWampSessionAuthenticator
+        {
+            public bool IsAuthenticated { get { return true; }}
+            public string AuthenticationMethod { get; private set; }
+            public ChallengeDetails Details { get; private set; }
+            public void Authenticate(string signature, AuthenticateExtraData extra)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IWampAuthorizer Authorizer { get; private set; }
+        }
+
+        public void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
+        {
+            IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
+
+            IWampSessionAuthenticator authenticator = wampClient.Authenticator;
+
+            try
+            {
+                authenticator.Authenticate(signature, extra);
+
+                OnClientJoin(wampClient);
+            }
+            catch (WampAuthenticationException ex)
+            {
+                using (IDisposable disposable = client as IDisposable)
+                {
+                    wampClient.Abort(ex.Details, ex.Reason);
+                }
+            }
+        }
+
+        private void OnClientJoin(IWampClientProxy<TMessage> wampClient)
+        {
+            // TODO: change this to welcome details
+            TMessage details = default(TMessage);
+
+            wampClient.Realm.Hello(wampClient.Session, details);
+
+            var welcomeDetails = 
+                new Dictionary<string, object>(mWelcomeDetails);
+            
+            // TODO: Fill welcome details
+            wampClient.Welcome(wampClient.Session, welcomeDetails);
         }
 
         public void Abort(IWampSessionClient client, TMessage details, string reason)
@@ -103,10 +174,6 @@ namespace WampSharp.V2.Session
                 wampClient.GoodbyeSent = true;
                 wampClient.Realm.Abort(wampClient.Session, details, reason);
             }
-        }
-
-        public void Authenticate(IWampSessionClient client, string signature, TMessage extra)
-        {
         }
 
         public void Goodbye(IWampSessionClient client, TMessage details, string reason)

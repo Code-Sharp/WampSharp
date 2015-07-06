@@ -6,7 +6,9 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Transports
 {
@@ -54,7 +56,8 @@ namespace WampSharp.V2.Transports
             mSubject.Dispose();
         }
 
-        private class InMemoryConnection : IControlledWampConnection<TMessage>
+        private class InMemoryConnection : IControlledWampConnection<TMessage>,
+            IWampAuthenticatedConnection<TMessage>
         {
             private readonly IObservable<WampMessage<TMessage>> mIncoming;
             private readonly IObserver<WampMessage<TMessage>> mOutgoing;
@@ -155,6 +158,32 @@ namespace WampSharp.V2.Transports
                 if (connectionOpen != null)
                 {
                     connectionOpen(this, EventArgs.Empty);
+                }
+            }
+
+
+            public IWampSessionAuthenticator Authenticator { get; private set; }
+
+            private class InternalConnectionAuthorizer : IWampAuthorizer
+            {
+                public bool CanRegister(RegisterOptions options, string procedure)
+                {
+                    return true;
+                }
+
+                public bool CanCall(CallOptions options, string procedure)
+                {
+                    return true;
+                }
+
+                public bool CanPublish(PublishOptions options, string topicUri)
+                {
+                    return true;
+                }
+
+                public bool CanSubscribe(SubscribeOptions options, string topicUri)
+                {
+                    return true;
                 }
             }
         }

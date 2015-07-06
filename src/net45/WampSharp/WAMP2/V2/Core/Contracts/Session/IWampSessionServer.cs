@@ -1,5 +1,6 @@
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
+using WampSharp.V2.Authentication;
 
 namespace WampSharp.V2.Core.Contracts
 {
@@ -16,7 +17,7 @@ namespace WampSharp.V2.Core.Contracts
         void Abort([WampProxyParameter] IWampSessionClient client, TMessage details, string reason);
 
         [WampHandler(WampMessageType.v2Authenticate)]
-        void Authenticate([WampProxyParameter]IWampSessionClient client, string signature, TMessage extra);
+        void Authenticate([WampProxyParameter]IWampSessionClient client, string signature, AuthenticateExtraData extra);
 
         [WampHandler(WampMessageType.v2Goodbye)]
         void Goodbye([WampProxyParameter] IWampSessionClient client, TMessage details, string reason);

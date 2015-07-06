@@ -5,6 +5,7 @@ using WampSharp.Binding;
 using WampSharp.Core.Serialization;
 using WampSharp.Tests.TestHelpers.Integration;
 using WampSharp.V2;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
@@ -152,7 +153,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
                 throw new System.NotImplementedException();
             }
 
-            public void Authenticate(IWampSessionClient client, string signature, TMessage extra)
+            public void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
             {
                 throw new System.NotImplementedException();
             }

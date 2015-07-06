@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2
@@ -20,118 +21,118 @@ namespace WampSharp.V2
             mBroker = broker;
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri)
+        public virtual void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri)
         {
             mBroker.Publish(publisher, requestId, options, topicUri);
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri, TMessage[] arguments)
+        public virtual void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri, TMessage[] arguments)
         {
             mBroker.Publish(publisher, requestId, options, topicUri, arguments);
         }
 
-        public void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
+        public virtual void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords)
         {
             mBroker.Publish(publisher, requestId, options, topicUri, arguments, argumentKeywords);
         }
 
-        public void Subscribe(IWampSubscriber subscriber, long requestId, SubscribeOptions options, string topicUri)
+        public virtual void Subscribe(IWampSubscriber subscriber, long requestId, SubscribeOptions options, string topicUri)
         {
             mBroker.Subscribe(subscriber, requestId, options, topicUri);
         }
 
-        public void Unsubscribe(IWampSubscriber subscriber, long requestId, long subscriptionId)
+        public virtual void Unsubscribe(IWampSubscriber subscriber, long requestId, long subscriptionId)
         {
             mBroker.Unsubscribe(subscriber, requestId, subscriptionId);
         }
 
-        public void Register(IWampCallee callee, long requestId, RegisterOptions options, string procedure)
+        public virtual void Register(IWampCallee callee, long requestId, RegisterOptions options, string procedure)
         {
             mDealer.Register(callee, requestId, options, procedure);
         }
 
-        public void Unregister(IWampCallee callee, long requestId, long registrationId)
+        public virtual void Unregister(IWampCallee callee, long requestId, long registrationId)
         {
             mDealer.Unregister(callee, requestId, registrationId);
         }
 
-        public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure)
+        public virtual void Call(IWampCaller caller, long requestId, CallOptions options, string procedure)
         {
             mDealer.Call(caller, requestId, options, procedure);
         }
 
-        public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments)
+        public virtual void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments)
         {
             mDealer.Call(caller, requestId, options, procedure, arguments);
         }
 
-        public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public virtual void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             mDealer.Call(caller, requestId, options, procedure, arguments, argumentsKeywords);
         }
 
-        public void Cancel(IWampCaller caller, long requestId, CancelOptions options)
+        public virtual void Cancel(IWampCaller caller, long requestId, CancelOptions options)
         {
             mDealer.Cancel(caller, requestId, options);
         }
 
-        public void Yield(IWampCallee callee, long requestId, YieldOptions options)
+        public virtual void Yield(IWampCallee callee, long requestId, YieldOptions options)
         {
             mDealer.Yield(callee, requestId, options);
         }
 
-        public void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments)
+        public virtual void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments)
         {
             mDealer.Yield(callee, requestId, options, arguments);
         }
 
-        public void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public virtual void Yield(IWampCallee callee, long requestId, YieldOptions options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             mDealer.Yield(callee, requestId, options, arguments, argumentsKeywords);
         }
 
-        public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error)
+        public virtual void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error)
         {
             mDealer.Error(client, requestType, requestId, details, error);
         }
 
-        public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
+        public virtual void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
         {
             mDealer.Error(client, requestType, requestId, details, error, arguments);
         }
 
-        public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
+        public virtual void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
                           TMessage argumentsKeywords)
         {
             mDealer.Error(client, requestType, requestId, details, error, arguments, argumentsKeywords);
         }
 
-        public void Hello(IWampSessionClient client, string realm, TMessage details)
+        public virtual void Hello(IWampSessionClient client, string realm, TMessage details)
         {
             mSession.Hello(client, realm, details);
         }
 
-        public void Abort(IWampSessionClient client, TMessage details, string reason)
+        public virtual void Abort(IWampSessionClient client, TMessage details, string reason)
         {
             mSession.Abort(client, details, reason);
         }
 
-        public void Authenticate(IWampSessionClient client, string signature, TMessage extra)
+        public virtual void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
         {
             mSession.Authenticate(client, signature, extra);
         }
 
-        public void Goodbye(IWampSessionClient client, TMessage details, string reason)
+        public virtual void Goodbye(IWampSessionClient client, TMessage details, string reason)
         {
             mSession.Goodbye(client, details, reason);
         }
 
-        public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)
+        public virtual void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)
         {
             mSession.Heartbeat(client, incomingSeq, outgoingSeq);
         }
 
-        public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq, string discard)
+        public virtual void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq, string discard)
         {
             mSession.Heartbeat(client, incomingSeq, outgoingSeq, discard);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
@@ -66,7 +67,7 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 throw new System.NotImplementedException();
             }
 
-            public void Authenticate(IWampSessionClient client, string signature, TMessage extra)
+            public void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
             {
                 throw new System.NotImplementedException();
             }

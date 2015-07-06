@@ -8,6 +8,7 @@ using NUnit.Framework;
 using WampSharp.Binding;
 using WampSharp.Tests.TestHelpers.Integration;
 using WampSharp.V2;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
@@ -131,7 +132,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 Is.EqualTo("secretsignature"));
 
             IDictionary<string, ISerializedValue> deserializedExtra = 
-                jsonBinding.Formatter.Deserialize<IDictionary<string, ISerializedValue>>(mock.Extra);
+                mock.Extra.OriginalValue.Deserialize<IDictionary<string, ISerializedValue>>();
 
             Assert.That(deserializedExtra["secret1"].Deserialize<int>(),
                 Is.EqualTo(3));
@@ -226,13 +227,13 @@ namespace WampSharp.Tests.Wampv2.Integration
         private class AuthenticateMock : ChallengeMock
         {
             public string Signature { get; private set; }
-            public JToken Extra { get; private set; }
+            public AuthenticateExtraData Extra { get; private set; }
 
             public AuthenticateMock(string authMethod) : base(authMethod)
             {
             }
 
-            public override void Authenticate(IWampSessionClient client, string signature, JToken extra)
+            public override void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
             {
                 Extra = extra;
                 Signature = signature;
@@ -293,7 +294,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
             }
 
-            public virtual void Authenticate(IWampSessionClient client, string signature, TMessage extra)
+            public virtual void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
             {
             }
 

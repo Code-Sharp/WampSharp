@@ -156,8 +156,10 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\SubscriberRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
+    <Compile Include="WAMP2\V2\Api\Server\WampAuthenticationServer.cs" />
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
+    <Compile Include="WAMP2\V2\Authentication\IWampRouterAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampRouterBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\WampRouterBindingExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs" />

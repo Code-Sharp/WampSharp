@@ -1,4 +1,5 @@
-﻿using WampSharp.V2.Binding;
+﻿using WampSharp.V2.Authentication;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm.Binded;
 
@@ -11,6 +12,16 @@ namespace WampSharp.V2.Core.Proxy
         public WampClientPropertyBag(IWampBinding<TMessage> binding)
         {
             mBinding = binding;
+        }
+
+        public IWampSessionAuthenticator Authenticator { get; set; }
+
+        public IWampAuthorizer Authorizer
+        {
+            get
+            {
+                return Authenticator.Authorizer;
+            }
         }
 
         public bool GoodbyeSent { get; set; }
