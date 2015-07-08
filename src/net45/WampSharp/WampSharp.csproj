@@ -442,6 +442,7 @@
     <Compile Include="WAMP2\V2\Session\WampSessionServer.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryConnectionListener.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryTransport.cs" />
+    <Compile Include="WAMP2\V2\Transports\InMemory\InternalAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\WampFormatterExtensions.cs" />
     <Compile Include="WAMP2\V2\Transports\WebSocketTransport.cs" />

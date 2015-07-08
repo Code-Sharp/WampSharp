@@ -20,7 +20,9 @@ namespace WampSharp.V2.Authentication
     public interface IWampSessionAuthenticator
     {
         bool IsAuthenticated { get; }
-        
+
+        string AuthenticationId { get; }
+
         string AuthenticationMethod { get; }
         
         ChallengeDetails Details { get; }
@@ -30,9 +32,12 @@ namespace WampSharp.V2.Authentication
         IWampAuthorizer Authorizer { get; }
     }
 
-    public interface IWampAuthenticator
+    public interface IWampSessionAuthenticatorFactory
     {
-        IWampSessionAuthenticator OnNewClient(string authenticationId, string[] authenticationMethods);
+        IWampSessionAuthenticator GetSessionAuthenticator
+            (IWampSessionAuthenticator transportAuthenticator,
+             string authenticationId,
+             string[] authenticationMethods);
     }
 
     public class AuthenticateExtraData : WampDetailsOptions

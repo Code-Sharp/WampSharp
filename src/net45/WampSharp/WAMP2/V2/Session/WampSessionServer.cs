@@ -11,6 +11,7 @@ namespace WampSharp.V2.Session
 {
     internal class WampSessionServer<TMessage> : IWampSessionServer<TMessage>
     {
+        private IWampSessionAuthenticatorFactory mSessionAuthenticatorFactory;
         private IWampBindedRealmContainer<TMessage> mRealmContainer;
         private readonly Dictionary<string, object> mWelcomeDetails;
 
@@ -88,11 +89,15 @@ namespace WampSharp.V2.Session
 
             IWampBindedRealm<TMessage> bindedRealm = mRealmContainer.GetRealmByName(realm);
 
+            wampClient.Roles = details.Roles;
             wampClient.Realm = bindedRealm;
 
             // TODO: Set authenticator with IWampAuthenticator
-            IWampSessionAuthenticator authenticator = wampClient.Authenticator ??
-                new TrustedAuthenticator();
+            IWampSessionAuthenticator authenticator =
+                mSessionAuthenticatorFactory.GetSessionAuthenticator
+                    (wampClient.Authenticator,
+                     details.AuthenticationId,
+                     details.AuthenticationMethods);
 
             try
             {
@@ -115,20 +120,6 @@ namespace WampSharp.V2.Session
                     client.Abort(ex.Details, ex.Reason);
                 }
             }
-        }
-
-        internal class TrustedAuthenticator : IWampSessionAuthenticator
-        {
-            public bool IsAuthenticated { get { return true; }}
-            public string AuthenticationId { get { return "anonymous"; } }
-            public string AuthenticationMethod { get; private set; }
-            public ChallengeDetails Details { get; private set; }
-            public void Authenticate(string signature, AuthenticateExtraData extra)
-            {
-                throw new NotImplementedException();
-            }
-
-            public IWampAuthorizer Authorizer { get; private set; }
         }
 
         public void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
@@ -159,10 +150,12 @@ namespace WampSharp.V2.Session
 
             wampClient.Realm.Hello(wampClient.Session, details);
 
-            var welcomeDetails = 
+            var welcomeDetails =
                 new Dictionary<string, object>(mWelcomeDetails);
-            
-            // TODO: Fill welcome details
+
+            welcomeDetails["authmethod"] = wampClient.Authenticator.AuthenticationMethod;
+            welcomeDetails["authid"] = wampClient.Authenticator.AuthenticationId;
+
             wampClient.Welcome(wampClient.Session, welcomeDetails);
         }
 

@@ -28,6 +28,8 @@ namespace WampSharp.V2.Core.Contracts
         IWampSessionAuthenticator Authenticator { get; set; }
 
         IWampAuthorizer Authorizer { get; }
+
+        ClientRoles Roles { get; set; }
     }
 
     /// <summary>
