@@ -44,8 +44,8 @@ namespace WampSharp.Tests.Wampv2.Integration
             channel.Open();
 
             IDictionary<string, ISerializedValue> deserializedDetails =
-                jsonBinding.Formatter.Deserialize<IDictionary<string, ISerializedValue>>
-                    (mock.Details);
+                mock.Details.OriginalValue.Deserialize<IDictionary<string, ISerializedValue>>
+                    ();
 
             Assert.That(deserializedDetails["authmethods"].Deserialize<string[]>(),
                 Is.EquivalentTo(authenticator.AuthenticationMethods));
@@ -255,7 +255,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 mDetails = details;
             }
 
-            public override void Hello(IWampSessionClient client, string realm, JToken details)
+            public override void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
                 client.Challenge(mAuthMethod, mDetails);
             }
@@ -267,9 +267,9 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         private class HelloMock<TMessage> : MockServer<TMessage>
         {
-            private TMessage mDetails;
+            private HelloDetails mDetails;
 
-            public TMessage Details
+            public HelloDetails Details
             {
                 get
                 {
@@ -277,7 +277,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
             }
 
-            public override void Hello(IWampSessionClient client, string realm, TMessage details)
+            public override void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
                 mDetails = details;
             }
@@ -286,7 +286,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         private class MockServer<TMessage> : IWampServer<TMessage>
         {
 
-            public virtual void Hello(IWampSessionClient client, string realm, TMessage details)
+            public virtual void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
             }
 

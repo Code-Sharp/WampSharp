@@ -11,7 +11,7 @@ namespace WampSharp.V2.Core.Contracts
     public interface IWampSessionServer<TMessage>
     {
         [WampHandler(WampMessageType.v2Hello)]
-        void Hello([WampProxyParameter]IWampSessionClient client, string realm, TMessage details);
+        void Hello([WampProxyParameter] IWampSessionClient client, string realm, HelloDetails details);
 
         [WampHandler(WampMessageType.v2Abort)]
         void Abort([WampProxyParameter] IWampSessionClient client, TMessage details, string reason);

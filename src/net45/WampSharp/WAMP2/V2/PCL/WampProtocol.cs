@@ -32,7 +32,7 @@ namespace WampSharp.V2
         private static readonly MethodInfo mEvent3 = Method.Get((IWampClientProxy proxy) => proxy.Event(default(long), default(long), default(EventDetails)));
         private static readonly MethodInfo mEvent4 = Method.Get((IWampClientProxy proxy) => proxy.Event(default(long), default(long), default(EventDetails), default(object[])));
         private static readonly MethodInfo mEvent5 = Method.Get((IWampClientProxy proxy) => proxy.Event(default(long), default(long), default(EventDetails), default(object[]), default(IDictionary<string, object>)));
-        private static readonly MethodInfo mHello2 = Method.Get((IWampServerProxy proxy) => proxy.Hello(default(string), default(object)));
+        private static readonly MethodInfo mHello2 = Method.Get((IWampServerProxy proxy) => proxy.Hello(default(string), default(HelloDetails)));
         private static readonly MethodInfo mAuthenticate2 = Method.Get((IWampServerProxy proxy) => proxy.Authenticate(default(string), default(IDictionary<string, object>)));
         private static readonly MethodInfo mRegister3 = Method.Get((IWampServerProxy proxy) => proxy.Register(default(long), default(RegisterOptions), default(string)));
         private static readonly MethodInfo mUnregister2 = Method.Get((IWampServerProxy proxy) => proxy.Unregister(default(long), default(long)));
@@ -165,7 +165,7 @@ namespace WampSharp.V2
             return mSerializer.SerializeRequest(mEvent5, new object[] { subscriptionId, publicationId, details, arguments, argumentsKeywords });
         }
 
-        public WampMessage<object> Hello(string realm, object details)
+        public WampMessage<object> Hello(string realm, HelloDetails details)
         {
             return mSerializer.SerializeRequest(mHello2, new object[] { realm, details });
         }

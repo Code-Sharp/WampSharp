@@ -57,7 +57,7 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 mUnregisterCallback = value;
             }
 
-            public void Hello(IWampSessionClient client, string realm, TMessage details)
+            public void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
                 client.Welcome(83782, new { });
             }

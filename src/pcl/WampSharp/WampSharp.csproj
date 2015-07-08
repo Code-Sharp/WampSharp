@@ -333,11 +333,17 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\WampAuthenticationServer.cs">
+      <Link>WAMP2\V2\Api\Server\WampAuthenticationServer.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampEventContext.cs">
       <Link>WAMP2\V2\Api\WampEventContext.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\AsyncDisposable\IAsyncDisposable.cs">
       <Link>Core\Utilities\AsyncDisposable\IAsyncDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\IWampRouterAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\IWampRouterAuthenticator.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampRouterBinding.cs">
       <Link>WAMP2\V2\Binding\IWampRouterBinding.cs</Link>
@@ -356,6 +362,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs">
       <Link>WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\HelloDetails.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\HelloDetails.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Listener\WampClientContainer.cs">
       <Link>WAMP2\V2\Core\Listener\WampClientContainer.cs</Link>

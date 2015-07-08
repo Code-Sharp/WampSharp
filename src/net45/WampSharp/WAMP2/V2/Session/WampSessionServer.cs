@@ -82,7 +82,7 @@ namespace WampSharp.V2.Session
             }
         }
 
-        public void Hello(IWampSessionClient client, string realm, TMessage details)
+        public void Hello(IWampSessionClient client, string realm, HelloDetails details)
         {
             IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
 
@@ -120,6 +120,7 @@ namespace WampSharp.V2.Session
         internal class TrustedAuthenticator : IWampSessionAuthenticator
         {
             public bool IsAuthenticated { get { return true; }}
+            public string AuthenticationId { get { return "anonymous"; } }
             public string AuthenticationMethod { get; private set; }
             public ChallengeDetails Details { get; private set; }
             public void Authenticate(string signature, AuthenticateExtraData extra)

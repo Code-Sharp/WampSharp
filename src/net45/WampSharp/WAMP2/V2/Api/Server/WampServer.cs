@@ -107,7 +107,7 @@ namespace WampSharp.V2
             mDealer.Error(client, requestType, requestId, details, error, arguments, argumentsKeywords);
         }
 
-        public virtual void Hello(IWampSessionClient client, string realm, TMessage details)
+        public virtual void Hello(IWampSessionClient client, string realm, HelloDetails details)
         {
             mSession.Hello(client, realm, details);
         }

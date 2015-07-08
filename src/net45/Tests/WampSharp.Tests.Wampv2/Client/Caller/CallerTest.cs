@@ -143,7 +143,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
                 mCallerCallback = callback;
             }
 
-            public void Hello(IWampSessionClient client, string realm, TMessage details)
+            public void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
                 client.Welcome(83782, new {});
             }

@@ -17,7 +17,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="realm">The requested realm to join.</param>
         /// <param name="details">Details about the client.</param>
         [WampHandler(WampMessageType.v2Hello)]
-        void Hello(string realm, TMessage details);
+        void Hello(string realm, HelloDetails details);
 
         /// <summary>
         /// Sends a ABORT message.

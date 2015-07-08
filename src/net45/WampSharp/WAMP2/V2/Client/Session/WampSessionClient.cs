@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
@@ -23,64 +22,32 @@ namespace WampSharp.V2.Client
         private readonly IWampFormatter<TMessage> mFormatter;
         private readonly object mLock = new object();
         private bool mGoodbyeSent;
-        private readonly IDictionary<string, object> mDetails = GetDetails();
 		private readonly IWampClientAuthenticator mAuthenticator;
 
-        private static Dictionary<string, object> GetDetails()
+        private static HelloDetails GetDetails()
         {
-            // TODO: Do it with reflection :)
-            return new Dictionary<string, object>
+            return new HelloDetails()
             {
+                Roles = new ClientRoles()
                 {
-                    "roles", new Dictionary<string, object>
+                    Caller = new CallerFeatures()
                     {
-                        {
-                            "caller", new Dictionary<string, object>
-                            {
-                                {
-                                    "features", new Dictionary<string, object>
-                                    {
-                                        {"caller_identification", true},
-                                        {"progressive_call_results", true}
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            "callee", new Dictionary<string, object>
-                            {
-                                {
-                                    "features", new Dictionary<string, object>()
-                                    {
-                                        {"progressive_call_results", true}
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            "publisher", new Dictionary<string, object>
-                            {
-                                {
-                                    "features", new Dictionary<string, object>
-                                    {
-                                        {"subscriber_blackwhite_listing", true},
-                                        {"publisher_exclusion", true},
-                                        {"publisher_identification", true},
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            "subscriber", new Dictionary<string, object>
-                            {
-                                {
-                                    "features", new Dictionary<string, object>
-                                    {
-                                        {"publisher_identification", true},
-                                    }
-                                }
-                            }
-                        }
+                        CallerIdentification = true,
+                        ProgressiveCallResults = true
+                    },
+                    Callee = new CalleeFeatures()
+                    {
+                        ProgressiveCallResults = true
+                    },
+                    Publisher = new PublisherFeatures()
+                    {
+                        SubscriberBlackwhiteListing = true,
+                        PublisherExclusion = true,
+                        PublisherIdentification = true,
+                    },
+                    Subscriber = new SubscriberFeatures()
+                    {
+                        PublisherIdentification = true
                     }
                 }
             };
@@ -186,16 +153,16 @@ namespace WampSharp.V2.Client
 
         public void OnConnectionOpen()
         {
-            var details = new Dictionary<string, object>(mDetails);
+            HelloDetails details = GetDetails();
 
             if (mAuthenticator.AuthenticationId != null)
             {
-                details.Add("authid", mAuthenticator.AuthenticationId);
+                details.AuthenticationId = mAuthenticator.AuthenticationId;
             }
 
             if (mAuthenticator.AuthenticationMethods != null)
             {
-                details.Add("authmethods", mAuthenticator.AuthenticationMethods);
+                details.AuthenticationMethods = mAuthenticator.AuthenticationMethods;
             }
 
             mServerProxy.Hello

@@ -48,7 +48,7 @@ namespace WampSharp.V2.Client
             private static readonly MethodInfo mYield2 = Method.Get((IWampServerProxy proxy) => proxy.Yield(default(long), default(YieldOptions)));
             private static readonly MethodInfo mYield3 = Method.Get((IWampServerProxy proxy) => proxy.Yield(default(long), default(YieldOptions), default(object[])));
             private static readonly MethodInfo mYield4 = Method.Get((IWampServerProxy proxy) => proxy.Yield(default(long), default(YieldOptions), default(object[]), default(IDictionary<string, object>)));
-            private static readonly MethodInfo mHello2 = Method.Get((IWampServerProxy proxy) => proxy.Hello(default(string), default(object)));
+            private static readonly MethodInfo mHello2 = Method.Get((IWampServerProxy proxy) => proxy.Hello(default(string), default(HelloDetails)));
             private static readonly MethodInfo mAbort2 = Method.Get((IWampServerProxy proxy) => proxy.Abort(default(AbortDetails), default(string)));
             private static readonly MethodInfo mAuthenticate2 = Method.Get((IWampServerProxy proxy) => proxy.Authenticate(default(string), default(IDictionary<string, object>)));
             private static readonly MethodInfo mGoodbye2 = Method.Get((IWampServerProxy proxy) => proxy.Goodbye(default(object), default(string)));
@@ -131,7 +131,7 @@ namespace WampSharp.V2.Client
                 Send(mYield4, requestId, options, arguments, argumentsKeywords);
             }
 
-            public void Hello(string realm, object details)
+            public void Hello(string realm, HelloDetails details)
             {
                 Send(mHello2, realm, details);
             }
