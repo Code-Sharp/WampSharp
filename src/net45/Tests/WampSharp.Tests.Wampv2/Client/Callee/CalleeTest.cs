@@ -77,16 +77,6 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 throw new System.NotImplementedException();
             }
 
-            public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)
-            {
-                throw new System.NotImplementedException();
-            }
-
-            public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq, string discard)
-            {
-                throw new System.NotImplementedException();
-            }
-
             public void OnNewClient(IWampClientProxy<TMessage> client)
             {
                 throw new System.NotImplementedException();

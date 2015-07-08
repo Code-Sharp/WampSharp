@@ -21,11 +21,5 @@ namespace WampSharp.V2.Core.Contracts
 
         [WampHandler(WampMessageType.v2Goodbye)]
         void Goodbye(TMessage details, string reason);
-
-        [WampHandler(WampMessageType.v2Heartbeat)]
-        void Heartbeat(int incomingSeq, int outgoingSeq);
-
-        [WampHandler(WampMessageType.v2Heartbeat)]
-        void Heartbeat(int incomingSeq, int outgoingSeq, string discard);    
     }
 }

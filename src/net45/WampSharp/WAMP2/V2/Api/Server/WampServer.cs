@@ -127,16 +127,6 @@ namespace WampSharp.V2
             mSession.Goodbye(client, details, reason);
         }
 
-        public virtual void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)
-        {
-            mSession.Heartbeat(client, incomingSeq, outgoingSeq);
-        }
-
-        public virtual void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq, string discard)
-        {
-            mSession.Heartbeat(client, incomingSeq, outgoingSeq, discard);
-        }
-
         public void OnNewClient(IWampClientProxy<TMessage> client)
         {
             mSession.OnNewClient(client);

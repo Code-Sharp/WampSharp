@@ -14,8 +14,6 @@ namespace WampSharp.V2
         private static readonly MethodInfo mWelcome2 = Method.Get((IWampClientProxy proxy) => proxy.Welcome(default(long), default(object)));
         private static readonly MethodInfo mAbort2 = Method.Get((IWampClientProxy proxy) => proxy.Abort(default(object), default(string)));
         private static readonly MethodInfo mGoodbye2 = Method.Get((IWampClientProxy proxy) => proxy.Goodbye(default(object), default(string)));
-        private static readonly MethodInfo mHeartbeat2 = Method.Get((IWampClientProxy proxy) => proxy.Heartbeat(default(int), default(int)));
-        private static readonly MethodInfo mHeartbeat3 = Method.Get((IWampClientProxy proxy) => proxy.Heartbeat(default(int), default(int), default(string)));
         private static readonly MethodInfo mError4 = Method.Get((IWampClientProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string)));
         private static readonly MethodInfo mError5 = Method.Get((IWampClientProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[])));
         private static readonly MethodInfo mError6 = Method.Get((IWampClientProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[]), default(object)));
@@ -75,16 +73,6 @@ namespace WampSharp.V2
         public WampMessage<object> Goodbye(object details, string reason)
         {
             return mSerializer.SerializeRequest(mGoodbye2, new object[] { details, reason });
-        }
-
-        public WampMessage<object> Heartbeat(int incomingSeq, int outgoingSeq)
-        {
-            return mSerializer.SerializeRequest(mHeartbeat2, new object[] { incomingSeq, outgoingSeq });
-        }
-
-        public WampMessage<object> Heartbeat(int incomingSeq, int outgoingSeq, string discard)
-        {
-            return mSerializer.SerializeRequest(mHeartbeat3, new object[] { incomingSeq, outgoingSeq, discard });
         }
 
         public WampMessage<object> Error(int requestType, long requestId, object details, string error)

@@ -42,22 +42,5 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="reason">A uri representing the leave reason.</param>
         [WampHandler(WampMessageType.v2Goodbye)]
         void Goodbye(TMessage details, string reason);
-
-        /// <summary>
-        /// Sends a HEARTBEAT message.
-        /// </summary>
-        /// <param name="incomingSeq">The incoming count sequence.</param>
-        /// <param name="outgoingSeq">The outgoing count sequence.</param>
-        [WampHandler(WampMessageType.v2Heartbeat)]
-        void Heartbeat(int incomingSeq, int outgoingSeq);
-
-        /// <summary>
-        /// Sends a HEARTBEAT message.
-        /// </summary>
-        /// <param name="incomingSeq">The incoming count sequence.</param>
-        /// <param name="outgoingSeq">The outgoing count sequence.</param>
-        /// <param name="discard">???</param>
-        [WampHandler(WampMessageType.v2Heartbeat)]
-        void Heartbeat(int incomingSeq, int outgoingSeq, string discard);         
     }
 }

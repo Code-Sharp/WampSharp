@@ -22,12 +22,6 @@ namespace WampSharp.V2.Core.Contracts
         [WampHandler(WampMessageType.v2Goodbye)]
         void Goodbye([WampProxyParameter] IWampSessionClient client, TMessage details, string reason);
 
-        [WampHandler(WampMessageType.v2Heartbeat)]
-        void Heartbeat([WampProxyParameter]IWampSessionClient client, int incomingSeq, int outgoingSeq);
-
-        [WampHandler(WampMessageType.v2Heartbeat)]
-        void Heartbeat([WampProxyParameter]IWampSessionClient client, int incomingSeq, int outgoingSeq, string discard);
-
         #region Non-WAMP messages
 
         /// <summary>

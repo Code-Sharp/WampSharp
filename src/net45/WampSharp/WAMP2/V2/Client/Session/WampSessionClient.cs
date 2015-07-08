@@ -151,16 +151,6 @@ namespace WampSharp.V2.Client
             OnConnectionBroken(closeEventArgs);
         }
 
-        public void Heartbeat(int incomingSeq, int outgoingSeq)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Heartbeat(int incomingSeq, int outgoingSeq, string discard)
-        {
-            throw new NotImplementedException();
-        }
-
         public long Session
         {
             get

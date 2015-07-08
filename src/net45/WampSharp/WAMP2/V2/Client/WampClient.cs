@@ -118,16 +118,6 @@ namespace WampSharp.V2.Client
             SessionClient.Goodbye(details, reason);
         }
 
-        public void Heartbeat(int incomingSeq, int outgoingSeq)
-        {
-            SessionClient.Heartbeat(incomingSeq, outgoingSeq);
-        }
-
-        public void Heartbeat(int incomingSeq, int outgoingSeq, string discard)
-        {
-            SessionClient.Heartbeat(incomingSeq, outgoingSeq, discard);
-        }
-
         public long Session
         {
             get { return SessionClient.Session; }

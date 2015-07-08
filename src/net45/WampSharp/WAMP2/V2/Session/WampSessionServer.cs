@@ -188,14 +188,6 @@ namespace WampSharp.V2.Session
             }
         }
 
-        public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)
-        {
-        }
-
-        public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq, string discard)
-        {
-        }
-
         public IWampBindedRealmContainer<TMessage> RealmContainer
         {
             get

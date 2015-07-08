@@ -52,8 +52,6 @@ namespace WampSharp.V2.Client
             private static readonly MethodInfo mAbort2 = Method.Get((IWampServerProxy proxy) => proxy.Abort(default(AbortDetails), default(string)));
             private static readonly MethodInfo mAuthenticate2 = Method.Get((IWampServerProxy proxy) => proxy.Authenticate(default(string), default(IDictionary<string, object>)));
             private static readonly MethodInfo mGoodbye2 = Method.Get((IWampServerProxy proxy) => proxy.Goodbye(default(object), default(string)));
-            private static readonly MethodInfo mHeartbeat2 = Method.Get((IWampServerProxy proxy) => proxy.Heartbeat(default(int), default(int)));
-            private static readonly MethodInfo mHeartbeat3 = Method.Get((IWampServerProxy proxy) => proxy.Heartbeat(default(int), default(int), default(string)));
             private static readonly MethodInfo mError4 = Method.Get((IWampServerProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string)));
             private static readonly MethodInfo mError5 = Method.Get((IWampServerProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[])));
             private static readonly MethodInfo mError6 = Method.Get((IWampServerProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[]), default(object)));
@@ -151,16 +149,6 @@ namespace WampSharp.V2.Client
             public void Goodbye(object details, string reason)
             {
                 Send(mGoodbye2, details, reason);
-            }
-
-            public void Heartbeat(int incomingSeq, int outgoingSeq)
-            {
-                Send(mHeartbeat2, incomingSeq, outgoingSeq);
-            }
-
-            public void Heartbeat(int incomingSeq, int outgoingSeq, string discard)
-            {
-                Send(mHeartbeat3, incomingSeq, outgoingSeq, discard);
             }
 
             public void Error(int requestType, long requestId, object details, string error)

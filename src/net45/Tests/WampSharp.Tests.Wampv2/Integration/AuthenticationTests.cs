@@ -302,16 +302,6 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
             }
 
-            public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq, string discard)
-            {
-                throw new NotImplementedException();
-            }
-
             public void OnNewClient(IWampClientProxy<TMessage> client)
             {
                 throw new NotImplementedException();
