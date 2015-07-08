@@ -11,7 +11,6 @@ namespace WampSharp.V2.Authentication
         bool CanSubscribe(SubscribeOptions options, string topicUri);
     }
 
-
     public interface IWampAuthenticatedConnection<TMessage> : IWampConnection<TMessage>
     {
         IWampSessionAuthenticator Authenticator { get; }
@@ -36,8 +35,8 @@ namespace WampSharp.V2.Authentication
     {
         IWampSessionAuthenticator GetSessionAuthenticator
             (IWampSessionAuthenticator transportAuthenticator,
-             string authenticationId,
-             string[] authenticationMethods);
+             string realm,
+             HelloDetails details);
     }
 
     public class AuthenticateExtraData : WampDetailsOptions

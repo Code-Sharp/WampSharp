@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
@@ -11,14 +10,12 @@ namespace WampSharp.V2.Session
 {
     internal class WampSessionServer<TMessage> : IWampSessionServer<TMessage>
     {
-        private IWampSessionAuthenticatorFactory mSessionAuthenticatorFactory;
         private IWampBindedRealmContainer<TMessage> mRealmContainer;
-        private readonly Dictionary<string, object> mWelcomeDetails;
+        private readonly Dictionary<string, object> mWelcomeDetails = GetWelcomeDetails();
 
-        public WampSessionServer()
+        private static Dictionary<string, object> GetWelcomeDetails()
         {
-            // Do it with reflection and attributes :)
-            mWelcomeDetails = new Dictionary<string, object>()
+            return new Dictionary<string, object>()
             {
                 {
                     "roles",
@@ -60,8 +57,7 @@ namespace WampSharp.V2.Session
         public WampSessionServer(IWampBinding<TMessage> binding,
                                  IWampHostedRealmContainer realmContainer,
                                  IWampRouterBuilder builder,
-                                 IWampEventSerializer eventSerializer) :
-            this()
+                                 IWampEventSerializer eventSerializer)
         {
             mRealmContainer =
                 new WampBindedRealmContainer<TMessage>(realmContainer,
@@ -83,83 +79,43 @@ namespace WampSharp.V2.Session
             }
         }
 
-        public void Hello(IWampSessionClient client, string realm, HelloDetails details)
+        public virtual void Hello(IWampSessionClient client, string realm, HelloDetails details)
+        {
+            IWampClientProxy<TMessage> wampClient = GetWampClient(client, realm, details);
+
+            OnClientJoin(wampClient, default(TMessage));
+        }
+
+        protected IWampClientProxy<TMessage> GetWampClient(IWampSessionClient client, string realm, HelloDetails details)
         {
             IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
 
             IWampBindedRealm<TMessage> bindedRealm = mRealmContainer.GetRealmByName(realm);
 
             wampClient.Roles = details.Roles;
+            
             wampClient.Realm = bindedRealm;
-
-            // TODO: Set authenticator with IWampAuthenticator
-            IWampSessionAuthenticator authenticator =
-                mSessionAuthenticatorFactory.GetSessionAuthenticator
-                    (wampClient.Authenticator,
-                     details.AuthenticationId,
-                     details.AuthenticationMethods);
-
-            try
-            {
-                bool authenticated = authenticator.IsAuthenticated;
-
-                if (authenticated)
-                {
-                    OnClientJoin(wampClient);
-                }
-                else
-                {
-                    wampClient.Challenge(authenticator.AuthenticationMethod,
-                                         authenticator.Details);
-                }
-            }
-            catch (WampAuthenticationException ex)
-            {
-                using (IDisposable disposable = client as IDisposable)
-                {
-                    client.Abort(ex.Details, ex.Reason);
-                }
-            }
+            
+            return wampClient;
         }
 
-        public void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
+        public virtual void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
         {
-            IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
-
-            IWampSessionAuthenticator authenticator = wampClient.Authenticator;
-
-            try
-            {
-                authenticator.Authenticate(signature, extra);
-
-                OnClientJoin(wampClient);
-            }
-            catch (WampAuthenticationException ex)
-            {
-                using (IDisposable disposable = client as IDisposable)
-                {
-                    wampClient.Abort(ex.Details, ex.Reason);
-                }
-            }
+            // TODO: disconnect client.
         }
 
-        private void OnClientJoin(IWampClientProxy<TMessage> wampClient)
-        {
+        protected void OnClientJoin(IWampClientProxy<TMessage> wampClient,
             // TODO: change this to welcome details
-            TMessage details = default(TMessage);
-
+            TMessage details)
+        {
             wampClient.Realm.Hello(wampClient.Session, details);
 
-            var welcomeDetails =
-                new Dictionary<string, object>(mWelcomeDetails);
-
-            welcomeDetails["authmethod"] = wampClient.Authenticator.AuthenticationMethod;
-            welcomeDetails["authid"] = wampClient.Authenticator.AuthenticationId;
+            IDictionary<string, object> welcomeDetails = GetWelcomeDetails(wampClient);
 
             wampClient.Welcome(wampClient.Session, welcomeDetails);
         }
 
-        public void Abort(IWampSessionClient client, TMessage details, string reason)
+        public virtual void Abort(IWampSessionClient client, TMessage details, string reason)
         {
             using (IDisposable disposable = client as IDisposable)
             {
@@ -170,7 +126,7 @@ namespace WampSharp.V2.Session
             }
         }
 
-        public void Goodbye(IWampSessionClient client, TMessage details, string reason)
+        public virtual void Goodbye(IWampSessionClient client, TMessage details, string reason)
         {
             using (IDisposable disposable = client as IDisposable)
             {
@@ -180,6 +136,14 @@ namespace WampSharp.V2.Session
                 wampClient.GoodbyeSent = true;
                 wampClient.Realm.Goodbye(wampClient.Session, details, reason);
             }
+        }
+
+        protected virtual Dictionary<string, object> GetWelcomeDetails(IWampClientProxy<TMessage> wampClient)
+        {
+            var welcomeDetails =
+                new Dictionary<string, object>(mWelcomeDetails);
+
+            return welcomeDetails;
         }
 
         public IWampBindedRealmContainer<TMessage> RealmContainer

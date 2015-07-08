@@ -238,6 +238,7 @@
     <Compile Include="WAMP2\V2\Api\Server\ServiceRealm\ServiceHostedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostBase.cs" />
     <Compile Include="WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs" />
+    <Compile Include="WAMP2\V2\Session\WampAuthenticationSessionServer.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryBinding.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Api\WampInvocationContext.cs" />
