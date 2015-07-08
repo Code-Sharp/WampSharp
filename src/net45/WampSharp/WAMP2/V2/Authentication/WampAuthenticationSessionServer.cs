@@ -29,9 +29,9 @@ namespace WampSharp.V2.Session
             // TODO: Set authenticator with IWampAuthenticator
             IWampSessionAuthenticator authenticator =
                 mSessionAuthenticatorFactory.GetSessionAuthenticator
-                    (wampClient.Authenticator,
-                     details.AuthenticationId,
-                     details.AuthenticationMethods);
+                    (realm,
+                     details,
+                     wampClient.Authenticator);
 
             try
             {

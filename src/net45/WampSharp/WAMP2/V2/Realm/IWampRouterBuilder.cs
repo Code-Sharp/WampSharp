@@ -18,5 +18,10 @@ namespace WampSharp.V2.Realm
         IWampDealer<TMessage> CreateDealerHandler<TMessage>
             (IWampRealm realm,
              IWampBinding<TMessage> binding);
+
+        IWampServer<TMessage> CreateServer<TMessage>
+            (IWampSessionServer<TMessage> session,
+             IWampDealer<TMessage> dealer,
+             IWampBroker<TMessage> broker);
     }
 }

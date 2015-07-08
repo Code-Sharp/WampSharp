@@ -7,7 +7,8 @@ namespace WampSharp.V2
 {
     internal class WampAuthenticationServer<TMessage> : WampServer<TMessage>
     {
-        public WampAuthenticationServer(IWampSessionServer<TMessage> session, IWampDealer<TMessage> dealer, IWampBroker<TMessage> broker) : base(session, dealer, broker)
+        public WampAuthenticationServer(IWampSessionServer<TMessage> session, IWampDealer<TMessage> dealer, IWampBroker<TMessage> broker) : 
+            base(session, dealer, broker)
         {
         }
 

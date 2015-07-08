@@ -1,4 +1,5 @@
 ﻿using WampSharp.Core.Listener;
+using WampSharp.Core.Message;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Authentication
@@ -34,19 +35,13 @@ namespace WampSharp.V2.Authentication
     public interface IWampSessionAuthenticatorFactory
     {
         IWampSessionAuthenticator GetSessionAuthenticator
-            (IWampSessionAuthenticator transportAuthenticator,
-             string realm,
-             HelloDetails details);
+            (string realm,
+             HelloDetails details,
+             IWampSessionAuthenticator transportAuthenticator);
     }
 
+    [WampDetailsOptions(WampMessageType.v2Authenticate)]
     public class AuthenticateExtraData : WampDetailsOptions
     {
-    }
-
-    public class ChallengeRequest
-    {
-        public string AuthenticationMethod { get; set; }
-
-        public ChallengeDetails Details { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
@@ -39,13 +40,13 @@ namespace WampSharp.V2
                     mInternalHost);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             mInternalHost.Dispose();
             mExternalHost.Dispose();
         }
 
-        public IWampHostedRealmContainer RealmContainer
+        public virtual IWampHostedRealmContainer RealmContainer
         {
             get
             {
@@ -53,11 +54,13 @@ namespace WampSharp.V2
             }
         }
 
-        public void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings)
+        public virtual void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings)
         {
-            mExternalHost.RegisterTransport(transport, bindings);
+            IEnumerable<IWampBinding> bindingArray = bindings.ToArray();
+            
+            mExternalHost.RegisterTransport(transport, bindingArray);
 
-            foreach (IWampBinding currentBinding in bindings)
+            foreach (IWampBinding currentBinding in bindingArray)
             {
                 AddFormatter((dynamic) currentBinding);
             }
@@ -70,7 +73,7 @@ namespace WampSharp.V2
             mInternalHost.AddFormatter(formatter);
         }
 
-        public void Open()
+        public virtual void Open()
         {
             mExternalHost.Open();
         }

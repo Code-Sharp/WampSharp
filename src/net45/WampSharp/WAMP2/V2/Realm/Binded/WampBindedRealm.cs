@@ -28,7 +28,7 @@ namespace WampSharp.V2.Realm.Binded
             IWampBroker<TMessage> broker =
                 routerBuilder.CreateBrokerHandler(realm, binding, eventSerializer);
 
-            mServer = new WampServer<TMessage>(session, dealer, broker);
+            mServer = routerBuilder.CreateServer(session, dealer, broker);
         }
 
         public IWampServer<TMessage> Server

@@ -156,7 +156,8 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\SubscriberRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
-    <Compile Include="WAMP2\V2\Api\Server\WampAuthenticationServer.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampAuthenticationHost.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampAuthenticationServer.cs" />
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
     <Compile Include="WAMP2\V2\Authentication\IWampRouterAuthenticator.cs" />
@@ -238,7 +239,7 @@
     <Compile Include="WAMP2\V2\Api\Server\ServiceRealm\ServiceHostedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostBase.cs" />
     <Compile Include="WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs" />
-    <Compile Include="WAMP2\V2\Session\WampAuthenticationSessionServer.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampAuthenticationSessionServer.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryBinding.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Api\WampInvocationContext.cs" />
@@ -443,7 +444,7 @@
     <Compile Include="WAMP2\V2\Session\WampSessionServer.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryConnectionListener.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryTransport.cs" />
-    <Compile Include="WAMP2\V2\Transports\InMemory\InternalAuthenticator.cs" />
+    <Compile Include="WAMP2\V2\Authentication\InternalAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\WampFormatterExtensions.cs" />
     <Compile Include="WAMP2\V2\Transports\WebSocketTransport.cs" />
