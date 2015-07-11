@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using Fleck;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
@@ -21,7 +22,9 @@ namespace WampSharp.Fleck
         /// given the server address to run at.
         /// </summary>
         /// <param name="location">The given server address.</param>
-        public FleckWebSocketTransport(string location) : this(location, null)
+        /// <param name="certificate"></param>
+        public FleckWebSocketTransport(string location, X509Certificate2 certificate = null)
+            : this(location, null, certificate)
         {
         }
 
@@ -31,12 +34,15 @@ namespace WampSharp.Fleck
         /// </summary>
         /// <param name="location">The given server address.</param>
         /// <param name="cookieAuthenticatorFactory"></param>
+        /// <param name="certificate"></param>
         protected FleckWebSocketTransport(string location,
-                                          ICookieAuthenticatorFactory cookieAuthenticatorFactory = null)
+                                          ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
+                                          X509Certificate2 certificate = null)
             : base(cookieAuthenticatorFactory)
         {
             mServer = new WebSocketServer(location);
-
+            mServer.Certificate = certificate;
+            
             RouteLogs();
         }
 

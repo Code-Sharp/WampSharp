@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Logging;
@@ -21,6 +22,7 @@ namespace WampSharp.Vtortola
         private readonly IPEndPoint mEndpoint;
         private WebSocketListener mListener;
         private readonly bool mPerMessageDeflate;
+        private readonly X509Certificate2 mCertificate;
 
         /// <summary>
         /// Creates a new instance of <see cref="VtortolaWebSocketTransport"/>
@@ -29,8 +31,8 @@ namespace WampSharp.Vtortola
         /// <param name="endpoint"></param>
         /// <param name="perMessageDeflate">A value indicating whether to support permessage-deflate
         /// compression extension or not.</param>
-        public VtortolaWebSocketTransport(IPEndPoint endpoint, bool perMessageDeflate)
-            : this(endpoint, perMessageDeflate, null)
+        public VtortolaWebSocketTransport(IPEndPoint endpoint, bool perMessageDeflate, X509Certificate2 certificate = null)
+            : this(endpoint, perMessageDeflate, certificate, null)
         {
         }
 
@@ -44,12 +46,13 @@ namespace WampSharp.Vtortola
         /// <param name="authenticatorFactory"></param>
         protected VtortolaWebSocketTransport
             (IPEndPoint endpoint,
-             bool perMessageDeflate,
-             ICookieAuthenticatorFactory authenticatorFactory = null) :
-                 base(authenticatorFactory)
+             bool perMessageDeflate, X509Certificate2 certificate,
+             ICookieAuthenticatorFactory authenticatorFactory = null)
+            : base(authenticatorFactory)
         {
             mEndpoint = endpoint;
             mPerMessageDeflate = perMessageDeflate;
+            mCertificate = certificate;
         }
 
         public override void Dispose()
@@ -75,6 +78,11 @@ namespace WampSharp.Vtortola
             }
 
             listener.Standards.RegisterStandard(factory);
+
+            if (mCertificate != null)
+            {
+                listener.ConnectionExtensions.RegisterExtension(new WebSocketSecureConnectionExtension(mCertificate));
+            }
 
             listener.Start();
 
