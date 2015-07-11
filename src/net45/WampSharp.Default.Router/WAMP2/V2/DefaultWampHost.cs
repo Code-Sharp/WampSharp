@@ -4,6 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using WampSharp.Binding;
 using WampSharp.Fleck;
 using WampSharp.V2.Binding;
+using WampSharp.V2.Binding.Transports;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
@@ -21,7 +22,7 @@ namespace WampSharp.V2
         /// </summary>
         /// <param name="location">The given location.</param>
         public DefaultWampHost(string location)
-            : this(location, null)
+            : this(location: location, certificate: null)
         {
         }
 
@@ -33,7 +34,7 @@ namespace WampSharp.V2
         /// <param name="location">The given location.</param>
         /// <param name="certificate"></param>
         public DefaultWampHost(string location, X509Certificate2 certificate = null)
-            : this(location, null, certificate)
+            : this(location: location, bindings: null, certificate: certificate)
         {
         }
 
@@ -46,7 +47,7 @@ namespace WampSharp.V2
         /// <param name="bindings">The given bindings.</param>
         /// <param name="certificate"></param>
         public DefaultWampHost(string location, IEnumerable<IWampBinding> bindings, X509Certificate2 certificate = null)
-            : this(location, null, bindings, certificate)
+            : this(location: location, realmContainer: null, bindings: bindings, certificate: certificate)
         {
         }
 
@@ -66,6 +67,11 @@ namespace WampSharp.V2
 
             this.RegisterTransport(new FleckWebSocketTransport(location, certificate),
                                    bindings.ToArray());
+        }
+
+        public sealed override void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings)
+        {
+            base.RegisterTransport(transport, bindings);
         }
     }
 }

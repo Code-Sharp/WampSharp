@@ -5,6 +5,7 @@ using WampSharp.Binding;
 using WampSharp.Fleck;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
+using WampSharp.V2.Binding.Transports;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
@@ -21,7 +22,10 @@ namespace WampSharp.V2
         public DefaultWampAuthenticatedHost
             (string location,
              IWampSessionAuthenticatorFactory sessionAuthenticationFactory)
-            : this(location, sessionAuthenticationFactory, null, null)
+            : this(location: location,
+                   sessionAuthenticationFactory: sessionAuthenticationFactory,
+                   cookieAuthenticatorFactory: null,
+                   certificate: null)
         {
         }
 
@@ -39,11 +43,11 @@ namespace WampSharp.V2
              IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
              ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
              X509Certificate2 certificate = null)
-            : this(location,
-                   sessionAuthenticationFactory,
-                   null,
-                   cookieAuthenticatorFactory,
-                   certificate)
+            : this(location: location,
+                   sessionAuthenticationFactory: sessionAuthenticationFactory,
+                   bindings: null,
+                   cookieAuthenticatorFactory: cookieAuthenticatorFactory,
+                   certificate: certificate)
         {
         }
 
@@ -63,11 +67,12 @@ namespace WampSharp.V2
              IEnumerable<IWampBinding> bindings = null,
              ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
              X509Certificate2 certificate = null)
-            : this(location,
-                   sessionAuthenticationFactory,
-                   null, bindings,
-                   cookieAuthenticatorFactory,
-                   certificate)
+            : this(location: location,
+                   sessionAuthenticationFactory: sessionAuthenticationFactory,
+                   realmContainer: null,
+                   bindings: bindings,
+                   cookieAuthenticatorFactory: cookieAuthenticatorFactory,
+                   certificate: certificate)
         {
         }
 
@@ -94,6 +99,11 @@ namespace WampSharp.V2
             
             this.RegisterTransport(new FleckAuthenticatedWebSocketTransport(location, cookieAuthenticatorFactory, certificate),
                                    bindings.ToArray());
+        }
+
+        public override sealed void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings)
+        {
+            base.RegisterTransport(transport, bindings);
         }
     }
 }
