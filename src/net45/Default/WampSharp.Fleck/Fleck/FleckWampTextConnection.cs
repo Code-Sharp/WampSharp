@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Fleck;
 using WampSharp.Core.Message;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 
 namespace WampSharp.Fleck
@@ -10,8 +11,9 @@ namespace WampSharp.Fleck
         private readonly IWampTextBinding<TMessage> mBinding;
 
         public FleckWampTextConnection(IWebSocketConnection webSocketConnection,
-                                       IWampTextBinding<TMessage> binding)
-            : base(webSocketConnection)
+                                       IWampTextBinding<TMessage> binding,
+                                       ICookieAuthenticatorFactory cookieAuthenticatorFactory = null)
+            : base(webSocketConnection, cookieAuthenticatorFactory)
         {
             mBinding = binding;
             webSocketConnection.OnMessage = OnConnectionMessage;

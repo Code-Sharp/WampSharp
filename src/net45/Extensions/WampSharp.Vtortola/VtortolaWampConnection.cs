@@ -1,17 +1,24 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using vtortola.WebSockets;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.V2.Authentication;
 
 namespace WampSharp.Vtortola
 {
-    internal abstract class VtortolaWampConnection<TMessage> : AsyncWampConnection<TMessage>, IWampConnection<TMessage>
+    internal abstract class VtortolaWampConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>
     {
         protected readonly WebSocket mWebsocket;
 
-        protected VtortolaWampConnection(WebSocket websocket)
+        protected VtortolaWampConnection(WebSocket websocket,
+                                         ICookieAuthenticatorFactory cookieAuthenticatorFactory)
+            : base(new CookieCollectionCookieProvider(websocket.HttpRequest.Cookies),
+                   cookieAuthenticatorFactory)
         {
             mWebsocket = websocket;
         }

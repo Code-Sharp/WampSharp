@@ -2,6 +2,7 @@
 using Fleck;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Transports;
 using LogLevel = Fleck.LogLevel;
@@ -20,7 +21,19 @@ namespace WampSharp.Fleck
         /// given the server address to run at.
         /// </summary>
         /// <param name="location">The given server address.</param>
-        public FleckWebSocketTransport(string location)
+        public FleckWebSocketTransport(string location) : this(location, null)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="FleckWebSocketTransport"/>
+        /// given the server address to run at.
+        /// </summary>
+        /// <param name="location">The given server address.</param>
+        /// <param name="cookieAuthenticatorFactory"></param>
+        protected FleckWebSocketTransport(string location,
+                                          ICookieAuthenticatorFactory cookieAuthenticatorFactory = null)
+            : base(cookieAuthenticatorFactory)
         {
             mServer = new WebSocketServer(location);
 
@@ -76,12 +89,12 @@ namespace WampSharp.Fleck
 
         protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>(IWebSocketConnection connection, IWampBinaryBinding<TMessage> binding)
         {
-            return new FleckWampBinaryConnection<TMessage>(connection, binding);
+            return new FleckWampBinaryConnection<TMessage>(connection, binding, AuthenticatorFactory);
         }
 
         protected override IWampConnection<TMessage> CreateTextConnection<TMessage>(IWebSocketConnection connection, IWampTextBinding<TMessage> binding)
         {
-            return new FleckWampTextConnection<TMessage>(connection, binding);
+            return new FleckWampTextConnection<TMessage>(connection, binding, AuthenticatorFactory);
         }
 
         public override void Open()

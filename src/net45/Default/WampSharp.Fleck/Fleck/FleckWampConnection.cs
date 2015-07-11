@@ -6,17 +6,21 @@ using System.Threading.Tasks;
 using Fleck;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
+using WampSharp.V2.Authentication;
 
 namespace WampSharp.Fleck
 {
-    internal abstract class FleckWampConnection<TMessage> : AsyncWampConnection<TMessage>
+    internal abstract class FleckWampConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>
     {
         protected IWebSocketConnection mWebSocketConnection;
         private readonly byte[] mPingBuffer = new byte[8];
         private readonly TimeSpan mAutoSendPingInterval;
-        
-        public FleckWampConnection(IWebSocketConnection webSocketConnection, 
-            TimeSpan? autoSendPingInterval = null)
+
+        public FleckWampConnection(IWebSocketConnection webSocketConnection,
+                                   ICookieAuthenticatorFactory cookieAuthenticatorFactory,
+                                   TimeSpan? autoSendPingInterval = null) :
+                                       base(new FleckCookieProvider(webSocketConnection.ConnectionInfo),
+                                            cookieAuthenticatorFactory)
         {
             mWebSocketConnection = webSocketConnection;
             mAutoSendPingInterval = autoSendPingInterval ?? TimeSpan.FromSeconds(45);

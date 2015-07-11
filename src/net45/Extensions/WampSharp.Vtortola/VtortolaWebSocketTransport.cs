@@ -7,7 +7,7 @@ using vtortola.WebSockets;
 using vtortola.WebSockets.Deflate;
 using vtortola.WebSockets.Rfc6455;
 using WampSharp.Core.Listener;
-
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Transports;
 
@@ -16,8 +16,6 @@ namespace WampSharp.Vtortola
     /// <summary>
     /// Represents a WebSocket transport implemented with Vtortola.
     /// </summary>
-    /// TODO: This was copied and modified from Fleck implementation.
-    /// TODO: Refactor these classes in order to avoid code duplication.
     public class VtortolaWebSocketTransport : WebSocketTransport<WebSocket>
     {
         private readonly IPEndPoint mEndpoint;
@@ -32,6 +30,23 @@ namespace WampSharp.Vtortola
         /// <param name="perMessageDeflate">A value indicating whether to support permessage-deflate
         /// compression extension or not.</param>
         public VtortolaWebSocketTransport(IPEndPoint endpoint, bool perMessageDeflate)
+            : this(endpoint, perMessageDeflate, null)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="VtortolaWebSocketTransport"/>
+        /// given the endpoint to run at.
+        /// </summary>
+        /// <param name="endpoint"></param>
+        /// <param name="perMessageDeflate">A value indicating whether to support permessage-deflate
+        ///     compression extension or not.</param>
+        /// <param name="authenticatorFactory"></param>
+        protected VtortolaWebSocketTransport
+            (IPEndPoint endpoint,
+             bool perMessageDeflate,
+             ICookieAuthenticatorFactory authenticatorFactory = null) :
+                 base(authenticatorFactory)
         {
             mEndpoint = endpoint;
             mPerMessageDeflate = perMessageDeflate;
@@ -103,13 +118,13 @@ namespace WampSharp.Vtortola
         protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>
             (WebSocket connection, IWampBinaryBinding<TMessage> binding)
         {
-            return new VtortolaWampBinaryConnection<TMessage>(connection, binding);
+            return new VtortolaWampBinaryConnection<TMessage>(connection, binding, AuthenticatorFactory);
         }
 
         protected override IWampConnection<TMessage> CreateTextConnection<TMessage>
             (WebSocket connection, IWampTextBinding<TMessage> binding)
         {
-            return new VtortolaWampTextConnection<TMessage>(connection, binding);
+            return new VtortolaWampTextConnection<TMessage>(connection, binding, AuthenticatorFactory);
         }
     }
 }
