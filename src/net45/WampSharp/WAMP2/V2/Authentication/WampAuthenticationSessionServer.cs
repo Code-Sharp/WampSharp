@@ -26,12 +26,18 @@ namespace WampSharp.V2.Session
         {
             IWampClientProxy<TMessage> wampClient = GetWampClient(client, realm, details);
 
-            // TODO: Set authenticator with IWampAuthenticator
             IWampSessionAuthenticator authenticator =
                 mSessionAuthenticatorFactory.GetSessionAuthenticator
                     (realm,
                      details,
                      wampClient.Authenticator);
+
+            if (authenticator == null)
+            {
+                throw new Exception("Get null authenticator.");
+            }
+
+            wampClient.Authenticator = authenticator;
 
             try
             {
@@ -63,7 +69,16 @@ namespace WampSharp.V2.Session
             {
                 authenticator.Authenticate(signature, extra);
 
-                OnClientJoin(wampClient, default(TMessage));
+                if (authenticator.IsAuthenticated)
+                {
+                    OnClientJoin(wampClient, default(TMessage));
+                }
+                else
+                {
+                    SendAbort(client,
+                              new WampAuthenticationException(new AbortDetails(),
+                                                              WampErrors.AuthorizationFailed));
+                }
             }
             catch (WampAuthenticationException ex)
             {
@@ -79,13 +94,19 @@ namespace WampSharp.V2.Session
             }
         }
 
-        protected override Dictionary<string, object> GetWelcomeDetails(IWampClientProxy<TMessage> wampClient)
+        protected override WelcomeDetails GetWelcomeDetails(IWampClientProxy<TMessage> wampClient)
         {
-            Dictionary<string, object> result = 
+            WelcomeDetails welcomeDetails = 
                 base.GetWelcomeDetails(wampClient);
-            
-            result["authmethod"] = wampClient.Authenticator.AuthenticationMethod;
-            result["authid"] = wampClient.Authenticator.AuthenticationId;
+
+            IWampSessionAuthenticator authenticator = wampClient.Authenticator;
+
+            WelcomeDetails result = 
+                authenticator.WelcomeDetails ?? welcomeDetails;
+
+            result.Roles = welcomeDetails.Roles;
+            result.AuthenticationMethod = authenticator.AuthenticationMethod;
+            result.AuthenticationId = authenticator.AuthenticationId;
 
             return result;
         }

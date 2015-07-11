@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
@@ -49,6 +50,14 @@ namespace WampSharp.V2.Transports
             get
             {
                 return mAuthorizer;
+            }
+        }
+
+        public WelcomeDetails WelcomeDetails
+        {
+            get
+            {
+                return null;
             }
         }
 

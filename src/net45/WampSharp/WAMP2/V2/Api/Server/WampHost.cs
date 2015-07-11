@@ -17,19 +17,14 @@ namespace WampSharp.V2
         private readonly ServiceHostedRealmContainer mRealmContainer;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="WampHost"/>.
-        /// </summary>
-        public WampHost() : this(new WampRealmContainer())
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of <see cref="WampHost"/> given the
         /// <see cref="IWampRealmContainer"/> associated with this host.
         /// </summary>
         /// <param name="realmContainer"></param>
-        public WampHost(IWampRealmContainer realmContainer)
+        public WampHost(IWampRealmContainer realmContainer = null)
         {
+            realmContainer = realmContainer ?? new WampRealmContainer();
+
             mInternalHost = new InMemoryWampHost(realmContainer);
             mInternalHost.Open();
 

@@ -12,6 +12,7 @@ namespace WampSharp.V2.Authentication
         public abstract ChallengeDetails Details { get; }
         public abstract void Authenticate(string signature, AuthenticateExtraData extra);
         public abstract IWampAuthorizer Authorizer { get; }
+        public abstract WelcomeDetails WelcomeDetails { get; }
         internal ICookieProvider CookieProvider { get; set; }
 
         protected CookieAuthenticator(ICookieProvider cookieProvider)

@@ -1,4 +1,6 @@
-﻿using WampSharp.Core.Listener;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Core.Contracts;
 
@@ -17,6 +19,26 @@ namespace WampSharp.V2.Authentication
         IWampSessionAuthenticator Authenticator { get; }
     }
 
+    [DataContract]
+    [WampDetailsOptions(WampMessageType.v2Welcome)]
+    public class WelcomeDetails : WampDetailsOptions
+    {
+        [DataMember(Name = "roles")]
+        public RouterRoles Roles { get; internal set; }
+
+        [DataMember(Name = "authid")]
+        public string AuthenticationId { get; internal set; }
+
+        [DataMember(Name = "authmethod")]
+        public string AuthenticationMethod { get; internal set; }
+
+        [DataMember(Name = "authrole")]
+        public string AuthenticationRole { get; set; }
+
+        [DataMember(Name = "authprovider")]
+        public string AuthenticationProvider { get; set; }
+    }
+
     public interface IWampSessionAuthenticator
     {
         bool IsAuthenticated { get; }
@@ -24,12 +46,14 @@ namespace WampSharp.V2.Authentication
         string AuthenticationId { get; }
 
         string AuthenticationMethod { get; }
-        
+
         ChallengeDetails Details { get; }
-        
+
         void Authenticate(string signature, AuthenticateExtraData extra);
 
         IWampAuthorizer Authorizer { get; }
+
+        WelcomeDetails WelcomeDetails { get; }
     }
 
     public interface IWampSessionAuthenticatorFactory

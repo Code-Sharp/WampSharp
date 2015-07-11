@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
@@ -16,8 +17,15 @@ namespace WampSharp.V2
     {
         private readonly IWampSessionAuthenticatorFactory mSessionAuthenticationFactory;
 
-        public WampAuthenticationHost(IWampSessionAuthenticatorFactory sessionAuthenticationFactory)
+        public WampAuthenticationHost(IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
+                                      IWampRealmContainer realmContainer = null)
+            : base(realmContainer)
         {
+            if (sessionAuthenticationFactory == null)
+            {
+                throw new ArgumentNullException("sessionAuthenticationFactory");
+            }
+
             mSessionAuthenticationFactory = sessionAuthenticationFactory;
         }
 
@@ -32,9 +40,15 @@ namespace WampSharp.V2
         }
 
         private IWampBinding CreateAuthenticationBinding<TMessage>
-            (IWampBinding<TMessage> binding)
+            (IWampTextBinding<TMessage> binding)
         {
-            return new WampAuthenticationBinding<TMessage>(binding, mSessionAuthenticationFactory);
+            return new WampAuthenticationTextBinding<TMessage>(binding, mSessionAuthenticationFactory);
+        }
+
+        private IWampBinding CreateAuthenticationBinding<TMessage>
+            (IWampBinaryBinding<TMessage> binding)
+        {
+            return new WampAuthenticationBinaryBinding<TMessage>(binding, mSessionAuthenticationFactory);
         }
 
         /// <summary>
@@ -49,7 +63,7 @@ namespace WampSharp.V2
         }
     }
 
-    public class WampAuthenticationBinding<TMessage> : IWampRouterBinding<TMessage>
+    internal abstract class WampAuthenticationBinding<TMessage> : IWampRouterBinding<TMessage>
     {
         private readonly IWampBinding<TMessage> mBinding;
         private readonly IWampSessionAuthenticatorFactory mSessionAuthenticationFactory;
@@ -98,7 +112,54 @@ namespace WampSharp.V2
         }
     }
 
-    public class WampAuthenticationRouterBuilder : WampRouterBuilder
+    internal class WampAuthenticationBinaryBinding<TMessage> : WampAuthenticationBinding<TMessage>,
+        IWampBinaryBinding<TMessage>
+    {
+        private readonly IWampBinaryBinding<TMessage> mBinding;
+
+        public WampAuthenticationBinaryBinding(IWampBinaryBinding<TMessage> binding,
+                                               IWampSessionAuthenticatorFactory sessionAuthenticationFactory)
+            : base(binding, sessionAuthenticationFactory)
+        {
+            mBinding = binding;
+        }
+
+        public WampMessage<TMessage> Parse(byte[] raw)
+        {
+            return mBinding.Parse(raw);
+        }
+
+        public byte[] Format(WampMessage<object> message)
+        {
+            return mBinding.Format(message);
+        }
+    }
+
+    internal class WampAuthenticationTextBinding<TMessage> : WampAuthenticationBinding<TMessage>,
+        IWampTextBinding<TMessage>
+    {
+        private readonly IWampTextBinding<TMessage> mBinding;
+
+        public WampAuthenticationTextBinding(IWampTextBinding<TMessage> binding,
+                                             IWampSessionAuthenticatorFactory sessionAuthenticationFactory)
+            : base(binding, sessionAuthenticationFactory)
+        {
+            mBinding = binding;
+        }
+
+        public WampMessage<TMessage> Parse(string raw)
+        {
+            return mBinding.Parse(raw);
+        }
+
+        public string Format(WampMessage<object> message)
+        {
+            return mBinding.Format(message);
+        }
+    }
+
+
+    internal class WampAuthenticationRouterBuilder : WampRouterBuilder
     {
         private readonly IWampSessionAuthenticatorFactory mSessionAuthenticationFactory;
 

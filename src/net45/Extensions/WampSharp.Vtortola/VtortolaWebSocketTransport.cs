@@ -32,7 +32,7 @@ namespace WampSharp.Vtortola
         /// <param name="perMessageDeflate">A value indicating whether to support permessage-deflate
         /// compression extension or not.</param>
         public VtortolaWebSocketTransport(IPEndPoint endpoint, bool perMessageDeflate, X509Certificate2 certificate = null)
-            : this(endpoint, perMessageDeflate, certificate, null)
+            : this(endpoint, perMessageDeflate, null, certificate)
         {
         }
 
@@ -44,10 +44,9 @@ namespace WampSharp.Vtortola
         /// <param name="perMessageDeflate">A value indicating whether to support permessage-deflate
         ///     compression extension or not.</param>
         /// <param name="authenticatorFactory"></param>
+        /// <param name="certificate"></param>
         protected VtortolaWebSocketTransport
-            (IPEndPoint endpoint,
-             bool perMessageDeflate, X509Certificate2 certificate,
-             ICookieAuthenticatorFactory authenticatorFactory = null)
+            (IPEndPoint endpoint, bool perMessageDeflate, ICookieAuthenticatorFactory authenticatorFactory = null, X509Certificate2 certificate = null)
             : base(authenticatorFactory)
         {
             mEndpoint = endpoint;

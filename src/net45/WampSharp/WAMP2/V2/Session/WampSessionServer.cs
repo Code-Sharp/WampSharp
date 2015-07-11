@@ -11,44 +11,27 @@ namespace WampSharp.V2.Session
     internal class WampSessionServer<TMessage> : IWampSessionServer<TMessage>
     {
         private IWampBindedRealmContainer<TMessage> mRealmContainer;
-        private readonly Dictionary<string, object> mWelcomeDetails = GetWelcomeDetails();
+        private readonly WelcomeDetails mWelcomeDetails = GetWelcomeDetails();
 
-        private static Dictionary<string, object> GetWelcomeDetails()
+        private static WelcomeDetails GetWelcomeDetails()
         {
-            return new Dictionary<string, object>()
+            return new WelcomeDetails()
             {
+                Roles = new RouterRoles()
                 {
-                    "roles",
-                    new Dictionary<string, object>()
+                    Dealer = new DealerFeatures()
                     {
-                        {
-                            "dealer", new Dictionary<string, object>()
-                            {
-                                {"pattern_based_registration", true},
-                                //{"registration_revocation", true},
-                                {"shared_registration", true},
-                                {"caller_identification", true},
-                                //{"registration_meta_api", true},
-                                {"progressive_call_results", true},
-                            }
-                        },
-                        {
-                            "broker", new Dictionary<string, object>()
-                            {
-                                {
-                                    "features",
-                                    new Dictionary<string, object>()
-                                    {
-                                        {"publisher_identification", true},
-                                        {"pattern_based_subscription", true},
-                                        //{"subscription_meta_api", true},
-                                        //{"subscription_revocation", true},
-                                        {"publisher_exclusion", true},
-                                        {"subscriber_blackwhite_listing", true},
-                                    }
-                                }
-                            }
-                        },
+                        PatternBasedRegistration = true,
+                        SharedRegistration = true,
+                        CallerIdentification = true,
+                        ProgressiveCallResults = true
+                    },
+                    Broker = new BrokerFeatures()
+                    {
+                        PublisherIdentification = true,
+                        PatternBasedSubscription = true,
+                        PublisherExclusion = true,
+                        SubscriberBlackwhiteListing = true
                     }
                 }
             };
@@ -110,7 +93,7 @@ namespace WampSharp.V2.Session
         {
             wampClient.Realm.Hello(wampClient.Session, details);
 
-            IDictionary<string, object> welcomeDetails = GetWelcomeDetails(wampClient);
+            WelcomeDetails welcomeDetails = GetWelcomeDetails(wampClient);
 
             wampClient.Welcome(wampClient.Session, welcomeDetails);
         }
@@ -138,12 +121,9 @@ namespace WampSharp.V2.Session
             }
         }
 
-        protected virtual Dictionary<string, object> GetWelcomeDetails(IWampClientProxy<TMessage> wampClient)
+        protected virtual WelcomeDetails GetWelcomeDetails(IWampClientProxy<TMessage> wampClient)
         {
-            var welcomeDetails =
-                new Dictionary<string, object>(mWelcomeDetails);
-
-            return welcomeDetails;
+            return mWelcomeDetails;
         }
 
         public IWampBindedRealmContainer<TMessage> RealmContainer
