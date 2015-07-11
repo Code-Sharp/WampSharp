@@ -123,15 +123,23 @@ namespace WampSharp.V2
             IWampClientProperties wampClientProxy = clientProxy as IWampClientProxy;
             IWampAuthorizer authorizer = wampClientProxy.Authorizer;
 
-            bool isAuthorized = authorizationCheck(authorizer);
+            try
+            {
+                bool isAuthorized = authorizationCheck(authorizer);
 
-            if (isAuthorized)
-            {
-                action();
+                if (isAuthorized)
+                {
+                    action();
+                }
+                else
+                {
+                    reportError(new WampException(WampErrors.NotAuthorized));
+                }
             }
-            else
+            catch (WampException ex)
             {
-                reportError(new WampException(WampErrors.NotAuthorized));
+                // TODO: Maybe not catch these exceptions?
+                reportError(ex);
             }
         }
     }
