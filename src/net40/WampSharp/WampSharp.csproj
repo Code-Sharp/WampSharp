@@ -1208,9 +1208,6 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\InMemoryTransport.cs">
       <Link>WAMP2\V2\Transports\InMemory\InMemoryTransport.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\InternalAuthenticator.cs">
-      <Link>WAMP2\V2\Authentication\InternalAuthenticator.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs">
       <Link>WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs</Link>
     </Compile>

@@ -50,7 +50,7 @@ namespace WampSharp.V2.Session
                 else
                 {
                     wampClient.Challenge(authenticator.AuthenticationMethod,
-                                         authenticator.Details);
+                                         authenticator.ChallengeDetails);
                 }
             }
             catch (WampAuthenticationException ex)

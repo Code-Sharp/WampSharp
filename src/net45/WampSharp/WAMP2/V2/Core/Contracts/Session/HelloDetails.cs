@@ -8,6 +8,12 @@ namespace WampSharp.V2.Core.Contracts
     public class HelloDetails : WampDetailsOptions
     {
         /// <summary>
+        /// Gets the announced WAMP roles.
+        /// </summary>
+        [DataMember(Name = "roles")]
+        public ClientRoles Roles { get; internal set; }
+
+        /// <summary>
         /// Gets the announced authentication methods.
         /// </summary>
         [DataMember(Name = "authmethods")]
@@ -18,12 +24,6 @@ namespace WampSharp.V2.Core.Contracts
         /// </summary>
         [DataMember(Name = "authid")]
         public string AuthenticationId { get; internal set; }
-
-        /// <summary>
-        /// Gets the announced WAMP roles.
-        /// </summary>
-        [DataMember(Name = "roles")]
-        public ClientRoles Roles { get; internal set; }
     }
 
     [DataContract]
@@ -96,6 +96,7 @@ namespace WampSharp.V2.Core.Contracts
         public Role<SubscriberFeatures> Subscriber { get; internal set; }
     }
 
+    [DataContract]
     public class Role<TFeatures>
     {
         [DataMember(Name = "features")]

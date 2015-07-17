@@ -9,7 +9,7 @@ namespace WampSharp.V2.Authentication
         public abstract bool IsAuthenticated { get; }
         public abstract string AuthenticationId { get; }
         public abstract string AuthenticationMethod { get; }
-        public abstract ChallengeDetails Details { get; }
+        public abstract ChallengeDetails ChallengeDetails { get; }
         public abstract void Authenticate(string signature, AuthenticateExtraData extra);
         public abstract IWampAuthorizer Authorizer { get; }
         public abstract WelcomeDetails WelcomeDetails { get; }

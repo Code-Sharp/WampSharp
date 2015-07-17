@@ -10,6 +10,7 @@ using WampSharp.V2.Binding.Transports;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Session;
+using WampSharp.V2.Transports;
 
 namespace WampSharp.V2
 {
@@ -73,11 +74,8 @@ namespace WampSharp.V2
         {
             mBinding = binding;
 
-            // TODO: Wrap the SessionAuthenticationFactory so that
-            // TODO: InternalAuthenticator is never modified
-            // TODO: and so that other authorizers can't use Reserved URIs
-            // TODO: see issue #84
-            mSessionAuthenticationFactory = sessionAuthenticationFactory;
+            mSessionAuthenticationFactory = 
+                new RestrictedSessionAuthenticationFactory(sessionAuthenticationFactory);
         }
 
         public IWampBindingHost CreateHost(IWampHostedRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener)
@@ -108,6 +106,149 @@ namespace WampSharp.V2
             get
             {
                 return mBinding.Formatter;
+            }
+        }
+    }
+
+    internal class RestrictedSessionAuthenticationFactory : IWampSessionAuthenticatorFactory
+    {
+        private readonly IWampSessionAuthenticatorFactory mSessionAuthenticationFactory;
+
+        public RestrictedSessionAuthenticationFactory(IWampSessionAuthenticatorFactory sessionAuthenticationFactory)
+        {
+            mSessionAuthenticationFactory = sessionAuthenticationFactory;
+        }
+
+        public IWampSessionAuthenticator GetSessionAuthenticator
+            (string realm,
+             HelloDetails details,
+             IWampSessionAuthenticator transportAuthenticator)
+        {
+            IWampSessionAuthenticator result =
+                mSessionAuthenticationFactory.GetSessionAuthenticator
+                    (realm,
+                     details,
+                     transportAuthenticator);
+
+            if (result == null)
+            {
+                return null;
+            }
+            
+            return new RestrictedSessionAuthenticator(result);
+        }
+    }
+
+    internal class RestrictedSessionAuthenticator : IWampSessionAuthenticator
+    {
+        private readonly IWampSessionAuthenticator mAuthenticator;
+        private readonly RestrictedAuthorizer mAuthorizer;
+
+        public RestrictedSessionAuthenticator(IWampSessionAuthenticator authenticator)
+        {
+            mAuthenticator = authenticator;
+            mAuthorizer = new RestrictedAuthorizer(mAuthenticator);
+        }
+
+        public bool IsAuthenticated
+        {
+            get
+            {
+                return mAuthenticator.IsAuthenticated;
+            }
+        }
+
+        public string AuthenticationId
+        {
+            get
+            {
+                return mAuthenticator.AuthenticationId;
+            }
+        }
+
+        public string AuthenticationMethod
+        {
+            get
+            {
+                return mAuthenticator.AuthenticationMethod;
+            }
+        }
+
+        public ChallengeDetails ChallengeDetails
+        {
+            get
+            {
+                return mAuthenticator.ChallengeDetails;
+            }
+        }
+
+        public void Authenticate(string signature, AuthenticateExtraData extra)
+        {
+            mAuthenticator.Authenticate(signature, extra);
+        }
+
+        public IWampAuthorizer Authorizer
+        {
+            get
+            {
+                return mAuthorizer;
+            }
+        }
+
+        public WelcomeDetails WelcomeDetails
+        {
+            get { return mAuthenticator.WelcomeDetails; }
+        }
+    }
+
+    internal class RestrictedAuthorizer : IWampAuthorizer
+    {
+        private readonly IWampSessionAuthenticator mAuthenticator;
+
+        public RestrictedAuthorizer(IWampSessionAuthenticator authenticator)
+        {
+            mAuthenticator = authenticator;
+        }
+
+        public bool CanRegister(RegisterOptions options, string procedure)
+        {
+            if (procedure.StartsWith("wamp.", StringComparison.Ordinal))
+            {
+                return false;
+            }
+            else
+            {
+                return Authorizer.CanRegister(options, procedure);                
+            }
+        }
+
+        public bool CanCall(CallOptions options, string procedure)
+        {
+            return Authorizer.CanCall(options, procedure);
+        }
+
+        public bool CanPublish(PublishOptions options, string topicUri)
+        {
+            if (topicUri.StartsWith("wamp.", StringComparison.Ordinal))
+            {
+                return false;
+            }
+            else
+            {
+                return Authorizer.CanPublish(options, topicUri);
+            }
+        }
+
+        public bool CanSubscribe(SubscribeOptions options, string topicUri)
+        {
+            return Authorizer.CanSubscribe(options, topicUri);
+        }
+
+        public IWampAuthorizer Authorizer
+        {
+            get
+            {
+                return mAuthenticator.Authorizer;
             }
         }
     }
@@ -158,7 +299,6 @@ namespace WampSharp.V2
         }
     }
 
-
     internal class WampAuthenticationRouterBuilder : WampRouterBuilder
     {
         private readonly IWampSessionAuthenticatorFactory mSessionAuthenticationFactory;
@@ -185,5 +325,50 @@ namespace WampSharp.V2
         {
             return new WampAuthenticationServer<TMessage>(session, dealer, broker);
         }
+    }
+
+
+    public abstract class WampSessionAuthenticator : IWampSessionAuthenticator
+    {
+        private static readonly ChallengeDetails mEmptyChallengeDetails = new ChallengeDetails();
+
+        public WampSessionAuthenticator()
+        {
+            ChallengeDetails = mEmptyChallengeDetails;
+        }
+
+        public virtual bool IsAuthenticated { get; protected set; }
+        
+        public virtual IWampAuthorizer Authorizer { get; protected set; }
+
+        public abstract void Authenticate(string signature, AuthenticateExtraData extra);
+
+        public abstract string AuthenticationId { get; }
+        
+        public abstract string AuthenticationMethod { get; }
+
+        public virtual ChallengeDetails ChallengeDetails
+        {
+            get;
+            protected set;
+        }
+
+        public virtual WelcomeDetails WelcomeDetails
+        {
+            get;
+            protected set;
+        }
+    }
+
+    public abstract class WampSessionAuthenticator<TExtra> : WampSessionAuthenticator
+    {
+        public override void Authenticate(string signature, AuthenticateExtraData extra)
+        {
+            TExtra deserialized = extra.OriginalValue.Deserialize<TExtra>();
+
+            Authenticate(signature, deserialized);
+        }
+
+        protected abstract void Authenticate(string signature, TExtra extra);
     }
 }

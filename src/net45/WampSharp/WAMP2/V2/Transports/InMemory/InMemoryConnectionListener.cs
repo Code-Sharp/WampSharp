@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 
 namespace WampSharp.V2.Transports
@@ -55,8 +54,7 @@ namespace WampSharp.V2.Transports
             mSubject.Dispose();
         }
 
-        private class InMemoryConnection : IControlledWampConnection<TMessage>,
-            IWampAuthenticatedConnection<TMessage>
+        private class InMemoryConnection : IControlledWampConnection<TMessage>
         {
             private readonly IObservable<WampMessage<TMessage>> mIncoming;
             private readonly IObserver<WampMessage<TMessage>> mOutgoing;
@@ -157,14 +155,6 @@ namespace WampSharp.V2.Transports
                 if (connectionOpen != null)
                 {
                     connectionOpen(this, EventArgs.Empty);
-                }
-            }
-
-            public IWampSessionAuthenticator Authenticator
-            {
-                get
-                {
-                    return InternalAuthenticator.Instance;
                 }
             }
         }
