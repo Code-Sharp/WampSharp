@@ -331,10 +331,11 @@ namespace WampSharp.V2
     public abstract class WampSessionAuthenticator : IWampSessionAuthenticator
     {
         private static readonly ChallengeDetails mEmptyChallengeDetails = new ChallengeDetails();
+        private ChallengeDetails mChallengeDetails;
 
         public WampSessionAuthenticator()
         {
-            ChallengeDetails = mEmptyChallengeDetails;
+            mChallengeDetails = mEmptyChallengeDetails;
         }
 
         public virtual bool IsAuthenticated { get; protected set; }
@@ -349,8 +350,14 @@ namespace WampSharp.V2
 
         public virtual ChallengeDetails ChallengeDetails
         {
-            get;
-            protected set;
+            get
+            {
+                return mChallengeDetails;
+            }
+            protected set
+            {
+                mChallengeDetails = value;
+            }
         }
 
         public virtual WelcomeDetails WelcomeDetails

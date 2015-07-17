@@ -27,7 +27,6 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\WampSharp.XML</DocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -102,6 +101,12 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Contracts\WampRawHandlerAttribute.cs">
       <Link>Core\Contracts\WampRawHandlerAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Cra\CraChallenge.cs">
+      <Link>Core\Cra\CraChallenge.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Cra\IWampCraChallenge.cs">
+      <Link>Core\Cra\IWampCraChallenge.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Dispatch\Handler\DelegateCache.cs">
       <Link>Core\Dispatch\Handler\DelegateCache.cs</Link>
@@ -357,6 +362,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\IWampRouterAuthenticator.cs">
       <Link>WAMP2\V2\Authentication\IWampRouterAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCraAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\WampCraAuthenticator.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampRouterBinding.cs">
       <Link>WAMP2\V2\Binding\IWampRouterBinding.cs</Link>

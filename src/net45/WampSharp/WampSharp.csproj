@@ -24,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\WampSharp.XML</DocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -80,6 +79,8 @@
     <Compile Include="Core\Contracts\WampHandlerAttribute.cs" />
     <Compile Include="Core\Contracts\WampProxyParameterAttribute.cs" />
     <Compile Include="Core\Contracts\WampRawHandlerAttribute.cs" />
+    <Compile Include="Core\Cra\CraChallenge.cs" />
+    <Compile Include="Core\Cra\IWampCraChallenge.cs" />
     <Compile Include="Core\Dispatch\Handler\DelegateCache.cs" />
     <Compile Include="Core\Dispatch\Handler\IMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\IWampRequestMapper.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
     <Compile Include="WAMP2\V2\Authentication\IWampRouterAuthenticator.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampCraAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampRouterBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\WampRouterBindingExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs" />
