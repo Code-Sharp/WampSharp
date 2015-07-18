@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using WampSharp.V2.Authentication;
 
 namespace WampSharp.Core.Cra
 {
@@ -129,29 +128,6 @@ namespace WampSharp.Core.Cra
         {
             return AuthSignature(authChallenge, authSecret, CraChallenge.Create(authExtra));
         }
-
-
-        /// <summary>
-        /// Compute the authentication signature from an authentication challenge and a secret.
-        /// </summary>
-        /// <param name="authChallenge">The authentication challenge. </param>
-        /// <param name="authSecret">The authentication secret. </param>
-        /// <param name="authExtra">Extra data for salting the secret. Possible key values 'salt'
-        /// (required, otherwise uses @authSecret), 'iterations' (1000
-        /// default), and/or 'keylen' (32 default). </param>
-        /// <returns>The authentication signature.</returns>
-        public static string AuthSignature(string authChallenge, string authSecret, WampCraChallengeDetails authExtra)
-        {
-            if (authSecret == null)
-            {
-                authSecret = string.Empty;
-            }
-
-            authSecret = DeriveKey(authSecret, authExtra);
-
-            return Sign(authSecret, authChallenge);
-        }
-
 
         /// <summary>
         /// Implements PBKDF2 functionality by using a pseudorandom number generator based on
