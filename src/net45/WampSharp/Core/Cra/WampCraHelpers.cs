@@ -107,11 +107,7 @@ namespace WampSharp.Core.Cra
 
             authSecret = DeriveKey(authSecret, challenge);
 
-            using (HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(authSecret)))
-            {
-                byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(authChallenge));
-                return Convert.ToBase64String(hash);
-            }
+            return Sign(authSecret, authChallenge);
         }
 
 
