@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !PCL
+using System;
 using System.Runtime.Serialization;
 using WampSharp.Core.Cra;
 using WampSharp.V2.Client;
@@ -111,3 +112,4 @@ namespace WampSharp.V2.Authentication
         public int? KeyLength { get; private set; }
     }
 }
+#endif

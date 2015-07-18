@@ -77,7 +77,7 @@ connection.onopen = function (session) {
         {
         }
 
-        static void SessionCreated(object sender, WampSessionEventArgs e)
+        static void SessionCreated(object sender, WampSessionCreatedEventArgs e)
         {
         }
 

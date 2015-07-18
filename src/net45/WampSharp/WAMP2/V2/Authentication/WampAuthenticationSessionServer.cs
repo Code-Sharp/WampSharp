@@ -51,7 +51,7 @@ namespace WampSharp.V2.Session
 
                 if (authenticated)
                 {
-                    OnClientJoin(wampClient, default(TMessage));
+                    OnClientJoin(wampClient, details);
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace WampSharp.V2.Session
 
                 if (authenticator.IsAuthenticated)
                 {
-                    OnClientJoin(wampClient, default(TMessage));
+                    OnClientJoin(wampClient, wampClient.HelloDetails);
                 }
                 else
                 {

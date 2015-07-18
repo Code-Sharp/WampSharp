@@ -85,7 +85,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void Close(string reason, object details)
+        public void Close(string reason, GoodbyeDetails details)
         {
             mClient.Close(reason, details);
         }

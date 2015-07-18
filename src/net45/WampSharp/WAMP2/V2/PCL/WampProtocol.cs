@@ -4,6 +4,7 @@ using System.Reflection;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Utilities;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2
@@ -11,9 +12,9 @@ namespace WampSharp.V2
     internal class WampProtocol : IWampEventSerializer
     {
         private static readonly MethodInfo mChallenge2 = Method.Get((IWampClientProxy proxy) => proxy.Challenge(default(string), default(ChallengeDetails)));
-        private static readonly MethodInfo mWelcome2 = Method.Get((IWampClientProxy proxy) => proxy.Welcome(default(long), default(object)));
-        private static readonly MethodInfo mAbort2 = Method.Get((IWampClientProxy proxy) => proxy.Abort(default(object), default(string)));
-        private static readonly MethodInfo mGoodbye2 = Method.Get((IWampClientProxy proxy) => proxy.Goodbye(default(object), default(string)));
+        private static readonly MethodInfo mWelcome2 = Method.Get((IWampClientProxy proxy) => proxy.Welcome(default(long), default(WelcomeDetails)));
+        private static readonly MethodInfo mAbort2 = Method.Get((IWampClientProxy proxy) => proxy.Abort(default(AbortDetails), default(string)));
+        private static readonly MethodInfo mGoodbye2 = Method.Get((IWampClientProxy proxy) => proxy.Goodbye(default(GoodbyeDetails), default(string)));
         private static readonly MethodInfo mError4 = Method.Get((IWampClientProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string)));
         private static readonly MethodInfo mError5 = Method.Get((IWampClientProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[])));
         private static readonly MethodInfo mError6 = Method.Get((IWampClientProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[]), default(object)));
@@ -33,7 +34,7 @@ namespace WampSharp.V2
         private static readonly MethodInfo mEvent4 = Method.Get((IWampClientProxy proxy) => proxy.Event(default(long), default(long), default(EventDetails), default(object[])));
         private static readonly MethodInfo mEvent5 = Method.Get((IWampClientProxy proxy) => proxy.Event(default(long), default(long), default(EventDetails), default(object[]), default(IDictionary<string, object>)));
         private static readonly MethodInfo mHello2 = Method.Get((IWampServerProxy proxy) => proxy.Hello(default(string), default(HelloDetails)));
-        private static readonly MethodInfo mAuthenticate2 = Method.Get((IWampServerProxy proxy) => proxy.Authenticate(default(string), default(IDictionary<string, object>)));
+        private static readonly MethodInfo mAuthenticate2 = Method.Get((IWampServerProxy proxy) => proxy.Authenticate(default(string), default(AuthenticateExtraData)));
         private static readonly MethodInfo mRegister3 = Method.Get((IWampServerProxy proxy) => proxy.Register(default(long), default(RegisterOptions), default(string)));
         private static readonly MethodInfo mUnregister2 = Method.Get((IWampServerProxy proxy) => proxy.Unregister(default(long), default(long)));
         private static readonly MethodInfo mCall3 = Method.Get((IWampServerProxy proxy) => proxy.Call(default(long), default(CallOptions), default(string)));

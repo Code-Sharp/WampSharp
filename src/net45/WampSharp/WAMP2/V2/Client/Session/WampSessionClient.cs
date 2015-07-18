@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Core;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 
@@ -12,7 +12,8 @@ namespace WampSharp.V2.Client
     public class WampSessionClient<TMessage> : IWampSessionClientExtended<TMessage>,
         IWampClientConnectionMonitor
     {
-        private static IDictionary<string, object> EmptyDetails = new Dictionary<string, object>();
+        private static GoodbyeDetails EmptyGoodbyeDetails = new GoodbyeDetails();
+        private static AuthenticateExtraData EmptyAuthenticateDetails = new AuthenticateExtraData();
 
         private bool mConnectionBrokenRaised = false;
         private readonly IWampRealmProxy mRealm;
@@ -23,6 +24,7 @@ namespace WampSharp.V2.Client
         private readonly object mLock = new object();
         private bool mGoodbyeSent;
 		private readonly IWampClientAuthenticator mAuthenticator;
+        private HelloDetails mSentDetails;
 
         private static HelloDetails GetDetails()
         {
@@ -67,7 +69,7 @@ namespace WampSharp.V2.Client
             {
                 AuthenticationResponse response = mAuthenticator.Authenticate(authMethod, extra);
 
-                IDictionary<string, object> authenticationExtraData = response.Extra ?? EmptyDetails;
+                AuthenticateExtraData authenticationExtraData = response.Extra ?? EmptyAuthenticateDetails;
 
                 string authenticationSignature = response.Signature;
 
@@ -80,37 +82,37 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void Welcome(long session, TMessage details)
+        public void Welcome(long session, WelcomeDetails details)
         {
             mSession = session;
             mOpenTask.TrySetResult(true);
 
-            OnConnectionEstablished(new WampSessionEventArgs
-                (session, new SerializedValue<TMessage>(mFormatter, details)));
+            OnConnectionEstablished(new WampSessionCreatedEventArgs
+                (session, mSentDetails, details));
         }
 
-        public void Abort(TMessage details, string reason)
+        public void Abort(AbortDetails details, string reason)
         {
-            RaiseConnectionBroken(mFormatter, SessionCloseType.Abort, details, reason);
+            RaiseConnectionBroken(SessionCloseType.Abort, details, reason);
         }
 
-        public void Goodbye(TMessage details, string reason)
+        public void Goodbye(GoodbyeDetails details, string reason)
         {
             if (!mGoodbyeSent)
             {
-                mServerProxy.Goodbye(new {}, WampErrors.GoodbyeAndOut);
+                mServerProxy.Goodbye(new GoodbyeDetails(), WampErrors.GoodbyeAndOut);
             }
 
-            RaiseConnectionBroken(mFormatter, SessionCloseType.Goodbye, details, reason);
+            RaiseConnectionBroken(SessionCloseType.Goodbye, details, reason);
         }
 
-        private void RaiseConnectionBroken<T>(IWampFormatter<T> formatter, SessionCloseType sessionCloseType, T details, string reason)
+        private void RaiseConnectionBroken(SessionCloseType sessionCloseType, GoodbyeAbortDetails details, string reason)
         {
             mConnectionBrokenRaised = true;
 
             WampSessionCloseEventArgs closeEventArgs = new WampSessionCloseEventArgs
                 (sessionCloseType, mSession,
-                    new SerializedValue<T>(formatter, details),
+                    details,
                     reason);
 
             SetOpenTaskErrorIfNeeded(new WampConnectionBrokenException(closeEventArgs));
@@ -142,10 +144,10 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void Close(string reason, object details)
+        public void Close(string reason, GoodbyeDetails details)
         {
             reason = reason ?? WampErrors.CloseNormal;
-            details = details ?? EmptyDetails;
+            details = details ?? EmptyGoodbyeDetails;
 
             mGoodbyeSent = true;
             mServerProxy.Goodbye(details, reason);
@@ -153,21 +155,23 @@ namespace WampSharp.V2.Client
 
         public void OnConnectionOpen()
         {
-            HelloDetails details = GetDetails();
+            HelloDetails helloDetails = GetDetails();
 
             if (mAuthenticator.AuthenticationId != null)
             {
-                details.AuthenticationId = mAuthenticator.AuthenticationId;
+                helloDetails.AuthenticationId = mAuthenticator.AuthenticationId;
             }
 
             if (mAuthenticator.AuthenticationMethods != null)
             {
-                details.AuthenticationMethods = mAuthenticator.AuthenticationMethods;
+                helloDetails.AuthenticationMethods = mAuthenticator.AuthenticationMethods;
             }
 
             mServerProxy.Hello
                 (Realm.Name,
-                 details);
+                 helloDetails);
+
+            mSentDetails = helloDetails;
         }
 
         public void OnConnectionClosed()
@@ -176,10 +180,9 @@ namespace WampSharp.V2.Client
 
             if (!mConnectionBrokenRaised)
             {
-                RaiseConnectionBroken(WampObjectFormatter.Value,
-                                      SessionCloseType.Disconnection,
+                RaiseConnectionBroken(SessionCloseType.Disconnection,
                                       null,
-                                      null);                
+                                      null);
             }
 
             mConnectionBrokenRaised = false;
@@ -210,15 +213,15 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public event EventHandler<WampSessionEventArgs> ConnectionEstablished;
+        public event EventHandler<WampSessionCreatedEventArgs> ConnectionEstablished;
 
         public event EventHandler<WampSessionCloseEventArgs> ConnectionBroken;
 
         public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
 
-        protected virtual void OnConnectionEstablished(WampSessionEventArgs e)
+        protected virtual void OnConnectionEstablished(WampSessionCreatedEventArgs e)
         {
-            EventHandler<WampSessionEventArgs> handler = ConnectionEstablished;
+            EventHandler<WampSessionCreatedEventArgs> handler = ConnectionEstablished;
             if (handler != null) handler(this, e);
         }
 

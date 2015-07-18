@@ -112,7 +112,7 @@ namespace WampSharp.V2
             mSession.Hello(client, realm, details);
         }
 
-        public virtual void Abort(IWampSessionClient client, TMessage details, string reason)
+        public virtual void Abort(IWampSessionClient client, AbortDetails details, string reason)
         {
             mSession.Abort(client, details, reason);
         }
@@ -122,7 +122,7 @@ namespace WampSharp.V2
             mSession.Authenticate(client, signature, extra);
         }
 
-        public virtual void Goodbye(IWampSessionClient client, TMessage details, string reason)
+        public virtual void Goodbye(IWampSessionClient client, GoodbyeDetails details, string reason)
         {
             mSession.Goodbye(client, details, reason);
         }

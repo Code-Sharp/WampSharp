@@ -27,7 +27,7 @@ namespace WampSharp.V2.Client
         public WampAuthenticationException(
             string message = DefaultMessage,
             string reason = WampErrorCannotAuthenticate)
-            : this(new AbortDetails() {Message = message}, reason)
+            : this(new AbortDetails {Message = message}, reason)
         {
         }
 

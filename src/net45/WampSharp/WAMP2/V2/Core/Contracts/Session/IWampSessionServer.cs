@@ -14,13 +14,13 @@ namespace WampSharp.V2.Core.Contracts
         void Hello([WampProxyParameter] IWampSessionClient client, string realm, HelloDetails details);
 
         [WampHandler(WampMessageType.v2Abort)]
-        void Abort([WampProxyParameter] IWampSessionClient client, TMessage details, string reason);
+        void Abort([WampProxyParameter] IWampSessionClient client, AbortDetails details, string reason);
 
         [WampHandler(WampMessageType.v2Authenticate)]
         void Authenticate([WampProxyParameter]IWampSessionClient client, string signature, AuthenticateExtraData extra);
 
         [WampHandler(WampMessageType.v2Goodbye)]
-        void Goodbye([WampProxyParameter] IWampSessionClient client, TMessage details, string reason);
+        void Goodbye([WampProxyParameter] IWampSessionClient client, GoodbyeDetails details, string reason);
 
         #region Non-WAMP messages
 

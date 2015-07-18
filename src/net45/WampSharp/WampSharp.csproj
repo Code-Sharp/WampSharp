@@ -334,7 +334,7 @@
     <Compile Include="WAMP2\V2\Realm\Interfaces\IWampRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Realm\Interfaces\SessionCloseType.cs" />
     <Compile Include="WAMP2\V2\Realm\Interfaces\WampSessionCloseEventArgs.cs" />
-    <Compile Include="WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs" />
+    <Compile Include="WAMP2\V2\Realm\Interfaces\WampSessionCreatedEventArgs.cs" />
     <Compile Include="WAMP2\V2\Realm\WampRealm.cs" />
     <Compile Include="WAMP2\V2\Realm\WampRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\AsyncMethodInfoRpcOperation.cs" />

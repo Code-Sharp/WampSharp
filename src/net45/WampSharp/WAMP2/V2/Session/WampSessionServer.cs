@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
@@ -66,7 +65,7 @@ namespace WampSharp.V2.Session
         {
             IWampClientProxy<TMessage> wampClient = GetWampClient(client, realm, details);
 
-            OnClientJoin(wampClient, default(TMessage));
+            OnClientJoin(wampClient, details);
         }
 
         protected IWampClientProxy<TMessage> GetWampClient(IWampSessionClient client, string realm, HelloDetails details)
@@ -75,7 +74,7 @@ namespace WampSharp.V2.Session
 
             IWampBindedRealm<TMessage> bindedRealm = mRealmContainer.GetRealmByName(realm);
 
-            wampClient.Roles = details.Roles;
+            wampClient.HelloDetails = details;
             
             wampClient.Realm = bindedRealm;
             
@@ -88,17 +87,16 @@ namespace WampSharp.V2.Session
         }
 
         protected void OnClientJoin(IWampClientProxy<TMessage> wampClient,
-            // TODO: change this to welcome details
-            TMessage details)
+                                    HelloDetails details)
         {
-            wampClient.Realm.Hello(wampClient.Session, details);
-
             WelcomeDetails welcomeDetails = GetWelcomeDetails(wampClient);
+
+            wampClient.Realm.Hello(wampClient.Session, details, welcomeDetails);
 
             wampClient.Welcome(wampClient.Session, welcomeDetails);
         }
 
-        public virtual void Abort(IWampSessionClient client, TMessage details, string reason)
+        public virtual void Abort(IWampSessionClient client, AbortDetails details, string reason)
         {
             using (IDisposable disposable = client as IDisposable)
             {
@@ -109,7 +107,7 @@ namespace WampSharp.V2.Session
             }
         }
 
-        public virtual void Goodbye(IWampSessionClient client, TMessage details, string reason)
+        public virtual void Goodbye(IWampSessionClient client, GoodbyeDetails details, string reason)
         {
             using (IDisposable disposable = client as IDisposable)
             {

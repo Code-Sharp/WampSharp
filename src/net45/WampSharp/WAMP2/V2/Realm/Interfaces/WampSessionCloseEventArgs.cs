@@ -1,24 +1,28 @@
 ﻿using System;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Realm
 {
     /// <summary>
     /// Represents <see cref="EventArgs"/> for a session close event.
     /// </summary>
-    public class WampSessionCloseEventArgs : WampSessionEventArgs
+    public class WampSessionCloseEventArgs
     {
         private readonly string mReason;
         private readonly SessionCloseType mCloseType;
+        private readonly long mSessionId;
+        private readonly GoodbyeAbortDetails mDetails;
 
         public WampSessionCloseEventArgs
             (SessionCloseType closeType,
              long sessionId,
-             ISerializedValue details,
+             GoodbyeAbortDetails details,
              string reason)
-            : base(sessionId, details)
         {
             mReason = reason;
             mCloseType = closeType;
+            mSessionId = sessionId;
+            mDetails = details;
         }
 
         /// <summary>
@@ -40,6 +44,22 @@ namespace WampSharp.V2.Realm
             get
             {
                 return mCloseType;
+            }
+        }
+
+        public long SessionId
+        {
+            get
+            {
+                return mSessionId;
+            }
+        }
+
+        public GoodbyeAbortDetails Details
+        {
+            get
+            {
+                return mDetails;
             }
         }
     }

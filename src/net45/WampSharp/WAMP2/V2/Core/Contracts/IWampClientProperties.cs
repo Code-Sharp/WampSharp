@@ -29,7 +29,7 @@ namespace WampSharp.V2.Core.Contracts
 
         IWampAuthorizer Authorizer { get; }
 
-        ClientRoles Roles { get; set; }
+        HelloDetails HelloDetails { get; set; }
     }
 
     /// <summary>

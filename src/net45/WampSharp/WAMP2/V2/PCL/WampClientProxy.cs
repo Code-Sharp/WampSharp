@@ -46,7 +46,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
             }
         }
 
-        public ClientRoles Roles { get; set; }
+        public HelloDetails HelloDetails { get; set; }
 
         IWampBinding IWampClientProperties.Binding
         {

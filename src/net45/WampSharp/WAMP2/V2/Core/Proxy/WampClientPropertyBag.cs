@@ -24,7 +24,7 @@ namespace WampSharp.V2.Core.Proxy
             }
         }
 
-        public ClientRoles Roles { get; set; }
+        public HelloDetails HelloDetails { get; set; }
 
         public bool GoodbyeSent { get; set; }
 

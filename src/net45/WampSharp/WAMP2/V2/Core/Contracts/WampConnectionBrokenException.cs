@@ -16,7 +16,7 @@ namespace WampSharp.V2.Core.Contracts
             get { return mEventArgs.SessionId; }
         }
 
-        public ISerializedValue Details
+        public GoodbyeAbortDetails Details
         {
             get { return mEventArgs.Details; }
         }

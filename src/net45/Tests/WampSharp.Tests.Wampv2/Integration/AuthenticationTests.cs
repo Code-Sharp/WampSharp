@@ -103,10 +103,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                     {
                         return new AuthenticationResponse()
                         {
-                            Extra = new Dictionary<string, object>()
-                            {
-                                {"secret1", 3}
-                            },
+                            Extra = new MyAuthenticateExtraData() {Secret1 = 3},
                             Signature = "secretsignature"
                         };
                     })
@@ -177,7 +174,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 Is.EqualTo("some reason"));
 
             MyAbortDetails deserializedDetails =
-                jsonBinding.Formatter.Deserialize<MyAbortDetails>(mock.Details);
+                mock.Details.OriginalValue.Deserialize<MyAbortDetails>();
 
             Assert.That(deserializedDetails, Is.EqualTo(myAbortDetails));
         }
@@ -210,14 +207,14 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         private class AbortMock : ChallengeMock
         {
-            public JToken Details { get; private set; }
+            public AbortDetails Details { get; private set; }
             public string Reason { get; private set; }
 
             public AbortMock(string authMethod) : base(authMethod)
             {
             }
 
-            public override void Abort(IWampSessionClient client, JToken details, string reason)
+            public override void Abort(IWampSessionClient client, AbortDetails details, string reason)
             {
                 Reason = reason;
                 Details = details;
@@ -290,7 +287,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
             }
 
-            public virtual void Abort(IWampSessionClient client, TMessage details, string reason)
+            public virtual void Abort(IWampSessionClient client, AbortDetails details, string reason)
             {
             }
 
@@ -298,7 +295,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
             }
 
-            public void Goodbye(IWampSessionClient client, TMessage details, string reason)
+            public void Goodbye(IWampSessionClient client, GoodbyeDetails details, string reason)
             {
             }
 
@@ -467,4 +464,9 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
     }
 
+    public class MyAuthenticateExtraData : AuthenticateExtraData
+    {
+        [DataMember(Name = "secret1")]
+        public int Secret1 { get; set; }
+    }
 }

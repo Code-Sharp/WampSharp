@@ -1,6 +1,8 @@
 ﻿using System;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Rpc;
 
@@ -58,40 +60,40 @@ namespace WampSharp.V2.Realm
             }
         }
 
-        public event EventHandler<WampSessionEventArgs> SessionCreated;
+        public event EventHandler<WampSessionCreatedEventArgs> SessionCreated;
 
         public event EventHandler<WampSessionCloseEventArgs> SessionClosed;
 
-        public void Hello<TMessage>(IWampFormatter<TMessage> formatter, long sessionId, TMessage details)
+        public void Hello(long sessionId, HelloDetails helloDetails, WelcomeDetails welcomeDetails)
         {
-            RaiseSessionCreated(new WampSessionEventArgs(sessionId, new SerializedValue<TMessage>(formatter, details)));
+            RaiseSessionCreated(new WampSessionCreatedEventArgs(sessionId, helloDetails, welcomeDetails));
         }
 
-        public void Goodbye<TMessage>(IWampFormatter<TMessage> formatter, long session, TMessage details, string reason)
+        public void Goodbye(long session, GoodbyeDetails details, string reason)
         {
-            RaiseSessionClosed(SessionCloseType.Goodbye, formatter, session, details, reason);
+            RaiseSessionClosed(SessionCloseType.Goodbye, session, details, reason);
         }
 
-        public void Abort<TMessage>(IWampFormatter<TMessage> formatter, long session, TMessage details, string reason)
+        public void Abort(long session, AbortDetails details, string reason)
         {
-            RaiseSessionClosed(SessionCloseType.Abort, formatter, session, details, reason);
+            RaiseSessionClosed(SessionCloseType.Abort, session, details, reason);
         }
 
         public void SessionLost(long sessionId)
         {
-            RaiseSessionClosed(SessionCloseType.Disconnection, WampObjectFormatter.Value, sessionId, null, null);
+            RaiseSessionClosed(SessionCloseType.Disconnection, sessionId, null, null);
         }
 
-        private void RaiseSessionClosed<TMessage>(SessionCloseType sessionCloseType, IWampFormatter<TMessage> formatter, long session, TMessage details, string reason)
+        private void RaiseSessionClosed(SessionCloseType sessionCloseType, long session, GoodbyeAbortDetails details, string reason)
         {
             RaiseSessionClosed
                 (new WampSessionCloseEventArgs(sessionCloseType, session,
-                                               new SerializedValue<TMessage>(formatter, details), reason));
+                                               details, reason));
         }
 
-        protected virtual void RaiseSessionCreated(WampSessionEventArgs e)
+        protected virtual void RaiseSessionCreated(WampSessionCreatedEventArgs e)
         {
-            EventHandler<WampSessionEventArgs> handler = SessionCreated;
+            EventHandler<WampSessionCreatedEventArgs> handler = SessionCreated;
             if (handler != null) handler(this, e);
         }
 

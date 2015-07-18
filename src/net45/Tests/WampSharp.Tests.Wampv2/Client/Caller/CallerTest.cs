@@ -145,10 +145,10 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
 
             public void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
-                client.Welcome(83782, new {});
+                client.Welcome(83782, new WelcomeDetails());
             }
 
-            public void Abort(IWampSessionClient client, TMessage details, string reason)
+            public void Abort(IWampSessionClient client, AbortDetails details, string reason)
             {
                 throw new System.NotImplementedException();
             }
@@ -158,7 +158,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
                 throw new System.NotImplementedException();
             }
 
-            public void Goodbye(IWampSessionClient client, TMessage details, string reason)
+            public void Goodbye(IWampSessionClient client, GoodbyeDetails details, string reason)
             {
                 throw new System.NotImplementedException();
             }

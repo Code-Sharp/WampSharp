@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
@@ -103,17 +104,17 @@ namespace WampSharp.V2.Client
             SessionClient.Challenge(authMethod, extra);
         }
 
-        public void Welcome(long session, TMessage details)
+        public void Welcome(long session, WelcomeDetails details)
         {
             SessionClient.Welcome(session, details);
         }
 
-        public void Abort(TMessage details, string reason)
+        public void Abort(AbortDetails details, string reason)
         {
             SessionClient.Abort(details, reason);
         }
 
-        public void Goodbye(TMessage details, string reason)
+        public void Goodbye(GoodbyeDetails details, string reason)
         {
             SessionClient.Goodbye(details, reason);
         }
@@ -123,7 +124,7 @@ namespace WampSharp.V2.Client
             get { return SessionClient.Session; }
         }
 
-        public void Close(string reason, object details)
+        public void Close(string reason, GoodbyeDetails details)
         {
             SessionClient.Close(reason, details);
         }

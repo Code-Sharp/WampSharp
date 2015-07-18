@@ -54,7 +54,7 @@ namespace WampSharp.V2.CalleeProxy
 
         #region Private Methods
 
-        private void OnConnectionEstablished(object sender, WampSessionEventArgs e)
+        private void OnConnectionEstablished(object sender, WampSessionCreatedEventArgs e)
         {
             mDisconnectionTaskCompletionSource = new TaskCompletionSource<object>();
             mDisconnectionWaitHandle = new ManualResetEvent(false);
