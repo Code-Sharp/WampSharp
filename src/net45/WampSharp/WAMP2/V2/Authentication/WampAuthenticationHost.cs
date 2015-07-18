@@ -120,14 +120,12 @@ namespace WampSharp.V2
         }
 
         public IWampSessionAuthenticator GetSessionAuthenticator
-            (string realm,
-             HelloDetails details,
+            (PendingClientDetails details,
              IWampSessionAuthenticator transportAuthenticator)
         {
             IWampSessionAuthenticator result =
                 mSessionAuthenticationFactory.GetSessionAuthenticator
-                    (realm,
-                     details,
+                    (details,
                      transportAuthenticator);
 
             if (result == null)

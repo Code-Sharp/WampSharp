@@ -59,9 +59,17 @@ namespace WampSharp.V2.Authentication
     public interface IWampSessionAuthenticatorFactory
     {
         IWampSessionAuthenticator GetSessionAuthenticator
-            (string realm,
-             HelloDetails details,
+            (PendingClientDetails details,
              IWampSessionAuthenticator transportAuthenticator);
+    }
+
+    public class PendingClientDetails
+    {
+        public HelloDetails HelloDetails { get; internal set; }
+
+        public long SessionId { get; internal set; }
+
+        public string Realm { get; internal set; }
     }
 
     [WampDetailsOptions(WampMessageType.v2Authenticate)]

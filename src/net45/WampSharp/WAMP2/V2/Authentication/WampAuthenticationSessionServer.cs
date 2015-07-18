@@ -26,10 +26,16 @@ namespace WampSharp.V2.Session
         {
             IWampClientProxy<TMessage> wampClient = GetWampClient(client, realm, details);
 
+            PendingClientDetails clientDetails = new PendingClientDetails()
+            {
+                HelloDetails = details,
+                Realm = realm,
+                SessionId = wampClient.Session
+            };
+
             IWampSessionAuthenticator authenticator =
                 mSessionAuthenticatorFactory.GetSessionAuthenticator
-                    (realm,
-                     details,
+                    (clientDetails,
                      wampClient.Authenticator);
 
             if (authenticator == null)
