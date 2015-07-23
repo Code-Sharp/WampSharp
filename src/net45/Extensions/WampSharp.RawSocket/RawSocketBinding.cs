@@ -7,7 +7,7 @@ using WampSharp.V2.Binding.Parsers;
 namespace WampSharp.RawSocket
 {
     // TODO: The binding isn't hosted on the WampBindingHost, which avoids sharing 
-    // TODO: evet serialization
+    // TODO: event serialization
     public class RawSocketBinding<TMessage> : WampTransportBinding<TMessage, byte[]>
     {
         public RawSocketBinding(IWampTextBinding<TMessage> textBinding) :
@@ -36,8 +36,9 @@ namespace WampSharp.RawSocket
             }
 
             public abstract WampMessage<TMessage> Parse(byte[] raw);
-
             public abstract byte[] Format(WampMessage<object> message);
+            public abstract WampMessage<TMessage> Parse(byte[] bytes, int position, int length);
+            public abstract int Format(WampMessage<object> message, byte[] bytes, int position);
         }
 
         private class RawSocketBinaryMessageParser : RawSocketMessageParser
@@ -66,6 +67,17 @@ namespace WampSharp.RawSocket
                 WriteHeader(byteCount, result);
 
                 return result;
+            }
+
+            public override WampMessage<TMessage> Parse(byte[] bytes, int position, int length)
+            {
+                WampMessage<TMessage> parsed = mBinaryBinding.Parse(bytes, position, length);
+                return parsed;
+            }
+
+            public override int Format(WampMessage<object> message, byte[] bytes, int position)
+            {
+                return mBinaryBinding.Format(message, bytes, position);
             }
 
             private byte[] WriteContent(int byteCount, byte[] bytes)
@@ -107,6 +119,16 @@ namespace WampSharp.RawSocket
                 WriteHeader(byteCount, result);
 
                 return result;
+            }
+
+            public override WampMessage<TMessage> Parse(byte[] bytes, int position, int length)
+            {
+                return mTextBinding.Parse(bytes, position, length);
+            }
+
+            public override int Format(WampMessage<object> message, byte[] bytes, int position)
+            {
+                return mTextBinding.Format(message, bytes, position);
             }
 
             private byte[] WriteContent(int byteCount, string text)

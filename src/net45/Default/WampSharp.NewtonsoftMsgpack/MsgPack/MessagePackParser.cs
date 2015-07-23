@@ -10,7 +10,8 @@ using WampSharp.V2.Binding.Parsers;
 
 namespace WampSharp.Msgpack
 {
-    public class MessagePackParser : IWampBinaryMessageParser<JToken>
+    public class MessagePackParser : IWampBinaryMessageParser<JToken>,
+        IWampStreamingMessageParser<JToken>
     {
         private readonly JsonSerializer mSerializer;
         private readonly ILog mLogger;
@@ -73,6 +74,40 @@ namespace WampSharp.Msgpack
                         Convert.ToBase64String(result)));
                     
                     return result;
+                }
+            }
+        }
+
+        public WampMessage<JToken> Parse(byte[] bytes, int position, int length)
+        {
+            try
+            {
+                using (MemoryStream memoryStream = new MemoryStream(bytes, position, length))
+                {
+                    using (JsonReader reader = new MessagePackReader(memoryStream))
+                    {
+                        JToken parsed = JToken.ReadFrom(reader);
+                        return mMessageFormatter.Parse(parsed);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                mLogger.ErrorFormat(ex, "Failed parsing message.");
+                throw;
+            }
+        }
+
+        public int Format(WampMessage<object> message, byte[] bytes, int position)
+        {
+            using (MemoryStream memoryStream = new MemoryStream(bytes, position, bytes.Length))
+            {
+                using (MessagePackWriter writer = new MessagePackWriter(memoryStream))
+                {
+                    writer.Formatting = Formatting.None;
+                    object[] array = mMessageFormatter.Format(message);
+                    mSerializer.Serialize(writer, array);
+                    return (int)memoryStream.Position;
                 }
             }
         }

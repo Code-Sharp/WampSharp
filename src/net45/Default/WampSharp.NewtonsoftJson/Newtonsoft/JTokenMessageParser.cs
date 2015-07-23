@@ -8,7 +8,8 @@ using WampSharp.V2.Binding.Parsers;
 
 namespace WampSharp.Newtonsoft
 {
-    public class JTokenMessageParser : IWampTextMessageParser<JToken>
+    public class JTokenMessageParser : IWampTextMessageParser<JToken>,
+        IWampStreamingMessageParser<JToken>
     {
         private readonly JsonSerializer mSerializer;
         private readonly IWampMessageFormatter<JToken> mMessageFormatter;
@@ -46,6 +47,46 @@ namespace WampSharp.Newtonsoft
             
             mLogger.DebugFormat("Formatted message {0}", result);
             return result;
+        }
+
+        public WampMessage<JToken> Parse(byte[] bytes, int position, int length)
+        {
+            try
+            {
+                using (MemoryStream memoryStream = new MemoryStream(bytes, position, length))
+                {
+                    using (StreamReader streamReader = new StreamReader(memoryStream))
+                    {
+                        using (JsonReader reader = new JsonTextReader(streamReader))
+                        {
+                            JToken parsed = JToken.ReadFrom(reader);
+                            return mMessageFormatter.Parse(parsed);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                mLogger.ErrorFormat(ex, "Failed parsing message.");
+                throw;
+            }
+        }
+
+        public int Format(WampMessage<object> message, byte[] bytes, int position)
+        {
+            using (MemoryStream memoryStream = new MemoryStream(bytes, position, bytes.Length))
+            {
+                using (StreamWriter streamWriter = new StreamWriter(memoryStream))
+                {
+                    using (JsonTextWriter textWriter = new JsonTextWriter(streamWriter))
+                    {
+                        textWriter.Formatting = Formatting.None;
+                        object[] array = mMessageFormatter.Format(message);
+                        mSerializer.Serialize(textWriter, array);
+                        return (int) memoryStream.Position;
+                    }
+                }
+            }
         }
     }
 }

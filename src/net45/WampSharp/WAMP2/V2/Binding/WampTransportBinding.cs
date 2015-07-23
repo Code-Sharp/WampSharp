@@ -49,5 +49,16 @@ namespace WampSharp.V2.Binding
 
             return result;
         }
+
+        public WampMessage<TMessage> Parse(byte[] bytes, int position, int length)
+        {
+            return mParser.Parse(bytes, position, length);
+        }
+
+        public int Format(WampMessage<object> message, byte[] bytes, int position)
+        {
+            // TODO: You know! reuse the RawMessage if possible :)
+            return mParser.Format(message, bytes, position);
+        }
     }
 }
