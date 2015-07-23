@@ -36,6 +36,8 @@ namespace WampSharp.RawSocket
                     Array.Reverse(lengthBytes);
                 }
 
+                lengthBytes[0] = 0;
+
                 Array.Copy(lengthBytes, bytes, lengthBytes.Length);
             }
 

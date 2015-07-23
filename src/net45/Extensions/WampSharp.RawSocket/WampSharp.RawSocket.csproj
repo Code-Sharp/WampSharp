@@ -82,10 +82,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryTcpClientConnection.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Handshake.cs" />
     <Compile Include="ConnectionListener\BinaryConnectionListener.cs" />
     <Compile Include="ConnectionListener\ConnectionListener.cs" />
     <Compile Include="ConnectionListener\TextConnectionListener.cs" />
     <Compile Include="MessageArrivedEventArgs.cs" />
+    <Compile Include="NetworkStreamExtensions.cs" />
+    <Compile Include="RawSocketTcpClient.cs" />
     <Compile Include="SuperSocket\RawSocketServer.cs" />
     <Compile Include="SuperSocket\RawSocketSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,11 +99,19 @@
     <Compile Include="RawSocketTransport.cs" />
     <Compile Include="SuperSocket\RawSocketFilter.cs" />
     <Compile Include="SuperSocket\RawSocketFilterFactory.cs" />
+    <Compile Include="TcpClientConnection.cs" />
+    <Compile Include="TcpListenerRawSocketTransport.cs" />
+    <Compile Include="TextTcpClientConnection.cs" />
+    <Compile Include="WampFrameHeader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
+      <Project>{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59}</Project>
+      <Name>WampSharp.NewtonsoftJson</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>
       <Name>WampSharp</Name>
