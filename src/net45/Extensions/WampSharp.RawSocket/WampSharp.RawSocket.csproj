@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{678473BD-87FC-4788-A444-4ABF45FDCFEC}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WampSharp.RawSocket</RootNamespace>
     <AssemblyName>WampSharp.RawSocket</AssemblyName>
@@ -45,6 +45,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.IO.RecyclableMemoryStream.1.1.0.0\lib\net45\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SuperSocket.Common, Version=1.6.4.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\SuperSocket.1.6.4\lib\net45\SuperSocket.Common.dll</HintPath>
@@ -82,7 +86,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryTcpClientConnection.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Handshake.cs" />
     <Compile Include="ConnectionListener\BinaryConnectionListener.cs" />
@@ -90,6 +93,7 @@
     <Compile Include="ConnectionListener\TextConnectionListener.cs" />
     <Compile Include="MessageArrivedEventArgs.cs" />
     <Compile Include="NetworkStreamExtensions.cs" />
+    <Compile Include="RawSocketFrameHeaderParser.cs" />
     <Compile Include="RawSocketTcpClient.cs" />
     <Compile Include="SuperSocket\RawSocketServer.cs" />
     <Compile Include="SuperSocket\RawSocketSession.cs" />
@@ -101,10 +105,9 @@
     <Compile Include="SuperSocket\RawSocketFilterFactory.cs" />
     <Compile Include="TcpClientConnection.cs" />
     <Compile Include="TcpListenerRawSocketTransport.cs" />
-    <Compile Include="TextTcpClientConnection.cs" />
-    <Compile Include="WampFrameHeader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

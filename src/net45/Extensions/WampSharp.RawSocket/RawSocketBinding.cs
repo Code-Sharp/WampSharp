@@ -6,6 +6,8 @@ using WampSharp.V2.Binding.Parsers;
 
 namespace WampSharp.RawSocket
 {
+    // TODO: The binding isn't hosted on the WampBindingHost, which avoids sharing 
+    // TODO: evet serialization
     public class RawSocketBinding<TMessage> : WampTransportBinding<TMessage, byte[]>
     {
         public RawSocketBinding(IWampTextBinding<TMessage> textBinding) :
@@ -21,6 +23,7 @@ namespace WampSharp.RawSocket
         private abstract class RawSocketMessageParser : IWampMessageParser<TMessage, byte[]>
         {
             private const int mHeaderSize = sizeof (int);
+            private RawSocketFrameHeaderParser mParser = new RawSocketFrameHeaderParser();
 
             public int HeaderSize
             {
@@ -29,16 +32,7 @@ namespace WampSharp.RawSocket
 
             protected void WriteHeader(int byteCount, byte[] bytes)
             {
-                byte[] lengthBytes = BitConverter.GetBytes(byteCount);
-
-                if (BitConverter.IsLittleEndian)
-                {
-                    Array.Reverse(lengthBytes);
-                }
-
-                lengthBytes[0] = 0;
-
-                Array.Copy(lengthBytes, bytes, lengthBytes.Length);
+                mParser.WriteHeader(FrameType.WampMessage, byteCount, bytes);
             }
 
             public abstract WampMessage<TMessage> Parse(byte[] raw);

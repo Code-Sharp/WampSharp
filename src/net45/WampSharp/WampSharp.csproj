@@ -159,6 +159,7 @@
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampRouterBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\Parsers\IWampStreamingMessageParser.cs" />
     <Compile Include="WAMP2\V2\Binding\WampRouterBindingExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />

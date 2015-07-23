@@ -7,7 +7,7 @@ using WampSharp.V2;
 
 namespace WampSharp.RawSocket
 {
-    public enum MessageType
+    public enum FrameType
     {
         WampMessage = 0,
         Ping = 1,
@@ -33,35 +33,6 @@ namespace WampSharp.RawSocket
             myHost.Open();
 
             Console.ReadLine();
-        }
-
-        static void Main2(string[] args)
-        {
-            TcpListener listener = new TcpListener(IPAddress.Any, 8080);
-            
-            listener.Start();
-
-            TcpClient tcpClient = listener.AcceptTcpClient();
-
-            byte[] buffer = new byte[4];
-            int readBytes = tcpClient.GetStream().Read(buffer, 0, 4);
-
-            Handshake request = new Handshake(buffer);
-
-            Handshake response = request.GetAcceptedResponse(15);
-
-            byte[] responseArray = response.ToArray();
-
-            tcpClient.GetStream().Write(responseArray, 0, responseArray.Length);
-
-            readBytes = tcpClient.GetStream().Read(buffer, 0, 4);
-
-            WampFrameHeader header = new WampFrameHeader(buffer);
-
-            byte[] array = new byte[header.MessageLength];
-            readBytes = tcpClient.GetStream().Read(array, 0, array.Length);
-
-            string message = Encoding.UTF8.GetString(array);
         }
     }
 }

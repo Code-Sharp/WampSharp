@@ -97,14 +97,14 @@ namespace WampSharp.RawSocket
             (RawSocketTcpClient connection,
              IWampBinaryBinding<TMessage> binding)
         {
-            return new BinaryTcpClientConnection<TMessage>(connection.Client, connection.HandshakeRequest, binding);
+            return new TcpClientConnection<TMessage>(connection.Client, connection.HandshakeRequest, binding);
         }
 
         protected override IWampConnection<TMessage> CreateTextConnection<TMessage>
             (RawSocketTcpClient connection,
              IWampTextBinding<TMessage> binding)
         {
-            return new TextTcpClientConnection<TMessage>(connection.Client, connection.HandshakeRequest, binding);
+            return new TcpClientConnection<TMessage>(connection.Client, connection.HandshakeRequest, binding);
         }
     }
 }

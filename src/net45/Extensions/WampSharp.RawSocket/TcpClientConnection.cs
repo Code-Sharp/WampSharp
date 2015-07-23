@@ -1,7 +1,7 @@
 using System;
-using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
@@ -13,32 +13,9 @@ namespace WampSharp.RawSocket
     {
         private readonly Handshake mHandshake;
         private readonly IWampTransportBinding<TMessage, byte[]> mBinding;
+        private readonly RawSocketFrameHeaderParser mFrameHeaderParser = new RawSocketFrameHeaderParser();
         private readonly TcpClient mTcpClient;
         private readonly Func<TcpClient, Task> mTcpClientConnector;
-
-        protected TcpClientConnection(TcpClient tcpClient, string hostName, int port)
-        {
-            mTcpClient = tcpClient;
-
-            mTcpClientConnector = 
-                client => client.ConnectAsync(hostName, port);
-        }
-
-        protected TcpClientConnection(TcpClient tcpClient, IPAddress address, int port)
-        {
-            mTcpClient = tcpClient;
-
-            mTcpClientConnector =
-                client => client.ConnectAsync(address, port);
-        }
-
-        protected TcpClientConnection(TcpClient tcpClient, IPAddress[] addresses, int port)
-        {
-            mTcpClient = tcpClient;
-
-            mTcpClientConnector =
-                client => client.ConnectAsync(addresses, port);
-        }
 
         internal TcpClientConnection(TcpClient client,
                                      Handshake handshake,
@@ -47,6 +24,20 @@ namespace WampSharp.RawSocket
             mTcpClient = client;
             mHandshake = handshake;
             mBinding = binding;
+        }
+
+        public TcpClientConnection(TcpClient client,
+                                   Handshake handshakeRequest,
+                                   IWampTextBinding<TMessage> binding)
+            : this(client, handshakeRequest, new RawSocketBinding<TMessage>(binding))
+        {
+        }
+
+        public TcpClientConnection(TcpClient client,
+                                   Handshake handshakeRequest,
+                                   IWampBinaryBinding<TMessage> binding)
+            : this(client, handshakeRequest, new RawSocketBinding<TMessage>(binding))
+        {
         }
 
         protected override bool IsConnected
@@ -123,25 +114,20 @@ namespace WampSharp.RawSocket
 
                 while (IsConnected)
                 {
-                    await TcpClient.GetStream().ReadExactAsync(frameHeaderBytes)
+                    await TcpClient.GetStream()
+                                   .ReadExactAsync(frameHeaderBytes)
                                    .ConfigureAwait(false);
 
-                    WampFrameHeader frameHeader = new WampFrameHeader(frameHeaderBytes);
+                    int messageLength;
+                    FrameType frameType;
 
-                    int messageLength = frameHeader.MessageLength;
-                    MessageType messageType = frameHeader.MessageType;
-
-                    if (messageType == MessageType.WampMessage)
+                    if (mFrameHeaderParser.TryParse(frameHeaderBytes, out frameType, out messageLength))
                     {
-                        await HandleWampMessage(messageLength);
+                        await HandleFrame(frameType, messageLength);
                     }
-                    else if (messageType == MessageType.Ping)
+                    else
                     {
-                        await HandlePing(messageLength);
-                    }
-                    else if (messageType == MessageType.Pong)
-                    {
-                        await HandlePong(messageLength);
+                        mTcpClient.Close();   
                     }
                 }
 
@@ -150,6 +136,22 @@ namespace WampSharp.RawSocket
             catch (Exception ex)
             {
                 RaiseConnectionError(ex);
+            }
+        }
+
+        private async Task HandleFrame(FrameType frameType, int messageLength)
+        {
+            switch (frameType)
+            {
+                case FrameType.WampMessage:
+                    await HandleWampMessage(messageLength);
+                    break;
+                case FrameType.Ping:
+                    await HandlePing(messageLength);
+                    break;
+                case FrameType.Pong:
+                    await HandlePong(messageLength);
+                    break;
             }
         }
 
@@ -164,23 +166,38 @@ namespace WampSharp.RawSocket
                            .ConfigureAwait(false);
         }
 
+        private async Task HandleWampMessage(int messageLength)
+        {
+            byte[] buffer = await ReadBuffer(messageLength);
+
+            WampMessage<TMessage> parsed = mBinding.Parse(buffer);
+
+            RaiseMessageArrived(parsed);
+        }
+
+        private async Task<byte[]> ReadBuffer(int messageLength)
+        {
+            byte[] buffer = new byte[messageLength];
+
+            await TcpClient.GetStream().ReadExactAsync(buffer);
+
+            return buffer;
+        }
+
         private async Task HandlePong(int messageLength)
         {
         }
 
         private async Task HandlePing(int messageLength)
         {
-        }
+            byte[] buffer = await ReadBuffer(messageLength);
 
-        private async Task HandleWampMessage(int messageLength)
-        {
-            byte[] buffer = new byte[messageLength];
+            byte[] array = new byte[4];
 
-            await TcpClient.GetStream().ReadExactAsync(buffer);
+            mFrameHeaderParser.WriteHeader(FrameType.Pong, messageLength, array);
 
-            WampMessage<TMessage> parsed = mBinding.Parse(buffer);
-
-            RaiseMessageArrived(parsed);
+            await mTcpClient.GetStream().WriteAsync(array, 0, array.Length);
+            await mTcpClient.GetStream().WriteAsync(buffer, 0, buffer.Length);
         }
     }
 }
