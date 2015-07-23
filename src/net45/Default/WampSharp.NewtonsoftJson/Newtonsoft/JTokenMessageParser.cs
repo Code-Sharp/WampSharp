@@ -49,20 +49,14 @@ namespace WampSharp.Newtonsoft
             return result;
         }
 
-        public WampMessage<JToken> Parse(byte[] bytes, int position, int length)
+        public WampMessage<JToken> Parse(Stream stream)
         {
             try
             {
-                using (MemoryStream memoryStream = new MemoryStream(bytes, position, length))
+                using (JsonReader reader = new JsonTextReader(new StreamReader(stream)) {CloseInput = false})
                 {
-                    using (StreamReader streamReader = new StreamReader(memoryStream))
-                    {
-                        using (JsonReader reader = new JsonTextReader(streamReader))
-                        {
-                            JToken parsed = JToken.ReadFrom(reader);
-                            return mMessageFormatter.Parse(parsed);
-                        }
-                    }
+                    JToken parsed = JToken.ReadFrom(reader);
+                    return mMessageFormatter.Parse(parsed);
                 }
             }
             catch (Exception ex)
@@ -72,20 +66,14 @@ namespace WampSharp.Newtonsoft
             }
         }
 
-        public int Format(WampMessage<object> message, byte[] bytes, int position)
+        public void Format(WampMessage<object> message, Stream stream)
         {
-            using (MemoryStream memoryStream = new MemoryStream(bytes, position, bytes.Length))
+            using (JsonTextWriter textWriter = new JsonTextWriter(new StreamWriter(stream)) {CloseOutput = false})
             {
-                using (StreamWriter streamWriter = new StreamWriter(memoryStream))
-                {
-                    using (JsonTextWriter textWriter = new JsonTextWriter(streamWriter))
-                    {
-                        textWriter.Formatting = Formatting.None;
-                        object[] array = mMessageFormatter.Format(message);
-                        mSerializer.Serialize(textWriter, array);
-                        return (int) memoryStream.Position;
-                    }
-                }
+                textWriter.Formatting = Formatting.None;
+                object[] array = mMessageFormatter.Format(message);
+                mSerializer.Serialize(textWriter, array);
+                textWriter.Flush();
             }
         }
     }

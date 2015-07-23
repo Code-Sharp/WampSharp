@@ -78,17 +78,14 @@ namespace WampSharp.Msgpack
             }
         }
 
-        public WampMessage<JToken> Parse(byte[] bytes, int position, int length)
+        public WampMessage<JToken> Parse(Stream stream)
         {
             try
             {
-                using (MemoryStream memoryStream = new MemoryStream(bytes, position, length))
+                using (JsonReader reader = new MessagePackReader(stream) {CloseInput = false})
                 {
-                    using (JsonReader reader = new MessagePackReader(memoryStream))
-                    {
-                        JToken parsed = JToken.ReadFrom(reader);
-                        return mMessageFormatter.Parse(parsed);
-                    }
+                    JToken parsed = JToken.ReadFrom(reader);
+                    return mMessageFormatter.Parse(parsed);
                 }
             }
             catch (Exception ex)
@@ -98,17 +95,14 @@ namespace WampSharp.Msgpack
             }
         }
 
-        public int Format(WampMessage<object> message, byte[] bytes, int position)
+        public void Format(WampMessage<object> message, Stream stream)
         {
-            using (MemoryStream memoryStream = new MemoryStream(bytes, position, bytes.Length))
+            using (MessagePackWriter writer = new MessagePackWriter(stream) {CloseOutput = false})
             {
-                using (MessagePackWriter writer = new MessagePackWriter(memoryStream))
-                {
-                    writer.Formatting = Formatting.None;
-                    object[] array = mMessageFormatter.Format(message);
-                    mSerializer.Serialize(writer, array);
-                    return (int)memoryStream.Position;
-                }
+                writer.Formatting = Formatting.None;
+                object[] array = mMessageFormatter.Format(message);
+                mSerializer.Serialize(writer, array);
+                writer.Flush();
             }
         }
     }

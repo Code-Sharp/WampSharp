@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
@@ -23,7 +24,7 @@ namespace WampSharp.RawSocket
         private abstract class RawSocketMessageParser : IWampMessageParser<TMessage, byte[]>
         {
             private const int mHeaderSize = sizeof (int);
-            private RawSocketFrameHeaderParser mParser = new RawSocketFrameHeaderParser();
+            private readonly RawSocketFrameHeaderParser mParser = new RawSocketFrameHeaderParser();
 
             public int HeaderSize
             {
@@ -37,8 +38,8 @@ namespace WampSharp.RawSocket
 
             public abstract WampMessage<TMessage> Parse(byte[] raw);
             public abstract byte[] Format(WampMessage<object> message);
-            public abstract WampMessage<TMessage> Parse(byte[] bytes, int position, int length);
-            public abstract int Format(WampMessage<object> message, byte[] bytes, int position);
+            public abstract WampMessage<TMessage> Parse(Stream stream);
+            public abstract void Format(WampMessage<object> message, Stream stream);
         }
 
         private class RawSocketBinaryMessageParser : RawSocketMessageParser
@@ -69,15 +70,15 @@ namespace WampSharp.RawSocket
                 return result;
             }
 
-            public override WampMessage<TMessage> Parse(byte[] bytes, int position, int length)
+            public override WampMessage<TMessage> Parse(Stream stream)
             {
-                WampMessage<TMessage> parsed = mBinaryBinding.Parse(bytes, position, length);
+                WampMessage<TMessage> parsed = mBinaryBinding.Parse(stream);
                 return parsed;
             }
 
-            public override int Format(WampMessage<object> message, byte[] bytes, int position)
+            public override void Format(WampMessage<object> message, Stream stream)
             {
-                return mBinaryBinding.Format(message, bytes, position);
+                mBinaryBinding.Format(message, stream);
             }
 
             private byte[] WriteContent(int byteCount, byte[] bytes)
@@ -121,14 +122,14 @@ namespace WampSharp.RawSocket
                 return result;
             }
 
-            public override WampMessage<TMessage> Parse(byte[] bytes, int position, int length)
+            public override WampMessage<TMessage> Parse(Stream stream)
             {
-                return mTextBinding.Parse(bytes, position, length);
+                return mTextBinding.Parse(stream);
             }
 
-            public override int Format(WampMessage<object> message, byte[] bytes, int position)
+            public override void Format(WampMessage<object> message, Stream stream)
             {
-                return mTextBinding.Format(message, bytes, position);
+                mTextBinding.Format(message, stream);
             }
 
             private byte[] WriteContent(int byteCount, string text)

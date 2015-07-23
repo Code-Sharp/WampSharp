@@ -1,4 +1,5 @@
-﻿using WampSharp.Core.Message;
+﻿using System.IO;
+using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding.Messages;
 using WampSharp.V2.Binding.Parsers;
@@ -50,15 +51,15 @@ namespace WampSharp.V2.Binding
             return result;
         }
 
-        public WampMessage<TMessage> Parse(byte[] bytes, int position, int length)
+        public WampMessage<TMessage> Parse(Stream stream)
         {
-            return mParser.Parse(bytes, position, length);
+            return mParser.Parse(stream);
         }
 
-        public int Format(WampMessage<object> message, byte[] bytes, int position)
+        public void Format(WampMessage<object> message, Stream stream)
         {
             // TODO: You know! reuse the RawMessage if possible :)
-            return mParser.Format(message, bytes, position);
+            mParser.Format(message, stream);
         }
     }
 }
