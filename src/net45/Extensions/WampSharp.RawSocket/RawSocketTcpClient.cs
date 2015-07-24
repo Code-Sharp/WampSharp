@@ -26,7 +26,7 @@ namespace WampSharp.RawSocket
             byte[] bytes = new byte[4];
 
             await Client.GetStream()
-                        .ReadExactAsync(bytes, bytes.Length);
+                        .ReadExactAsync(bytes, 0, bytes.Length);
 
             HandshakeRequest = new Handshake(bytes);
         }

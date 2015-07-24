@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
-using WampSharp.V2.Binding;
+using WampSharp.V2.Binding.Parsers;
 
 namespace WampSharp.RawSocket
 {
@@ -13,34 +13,21 @@ namespace WampSharp.RawSocket
         IControlledWampConnection<TMessage>
     {
         private const string Tag = "WampSharp.RawSocket";
+        private const int FrameHeaderSize = 4;
         private readonly Handshake mHandshake;
-        private readonly IWampTransportBinding<TMessage, byte[]> mBinding;
+        private readonly IWampStreamingMessageParser<TMessage> mBinding;
         private readonly RawSocketFrameHeaderParser mFrameHeaderParser = new RawSocketFrameHeaderParser();
         private readonly TcpClient mTcpClient;
         private readonly Func<TcpClient, Task> mTcpClientConnector;
         private readonly RecyclableMemoryStreamManager mMemoryStreamManager = new RecyclableMemoryStreamManager();
 
-        internal TcpClientConnection(TcpClient client,
-                                     Handshake handshake,
-                                     IWampTransportBinding<TMessage, byte[]> binding)
+        public TcpClientConnection(TcpClient client,
+                                   Handshake handshake,
+                                   IWampStreamingMessageParser<TMessage> binding)
         {
             mTcpClient = client;
             mHandshake = handshake;
             mBinding = binding;
-        }
-
-        public TcpClientConnection(TcpClient client,
-                                   Handshake handshakeRequest,
-                                   IWampTextBinding<TMessage> binding)
-            : this(client, handshakeRequest, new RawSocketBinding<TMessage>(binding))
-        {
-        }
-
-        public TcpClientConnection(TcpClient client,
-                                   Handshake handshakeRequest,
-                                   IWampBinaryBinding<TMessage> binding)
-            : this(client, handshakeRequest, new RawSocketBinding<TMessage>(binding))
-        {
         }
 
         protected override bool IsConnected
@@ -61,16 +48,23 @@ namespace WampSharp.RawSocket
         {
             using (MemoryStream memoryStream = mMemoryStreamManager.GetStream())
             {
-                using (MemoryStream headerStream = mMemoryStreamManager.GetStream(Tag, 4))
-                {
-                    mBinding.Format(message, memoryStream);
-                    mFrameHeaderParser.WriteHeader(FrameType.WampMessage, (int)memoryStream.Length, headerStream.GetBuffer());
-                    headerStream.Position = 0;
-                    headerStream.SetLength(4);
+                memoryStream.Position = FrameHeaderSize;
 
-                    await mTcpClient.GetStream().WriteAsync(headerStream.GetBuffer(), 0, 4);
-                    await TcpClient.GetStream().WriteAsync(memoryStream.GetBuffer(), 0, (int)memoryStream.Length);
-                }
+                // Write the message to the memory stream
+                mBinding.Format(message, memoryStream);
+
+                int totalMessageLength = (int) memoryStream.Length;
+
+                // Compute the written message length
+                int messageLength = totalMessageLength - FrameHeaderSize;
+
+                byte[] buffer = memoryStream.GetBuffer();
+
+                // Write a message header
+                mFrameHeaderParser.WriteHeader(FrameType.WampMessage, messageLength, buffer);
+
+                // Write the whole message to the wire
+                await TcpClient.GetStream().WriteAsync(buffer, 0, totalMessageLength);
             }
         }
 
@@ -90,7 +84,7 @@ namespace WampSharp.RawSocket
             {
                 await SendHandshake();
 
-                byte[] buffer = new byte[4];
+                byte[] buffer = new byte[FrameHeaderSize];
 
                 await TcpClient.GetStream().ReadExactAsync(buffer);
 
@@ -124,7 +118,7 @@ namespace WampSharp.RawSocket
                     RaiseConnectionOpen();
                 }
 
-                byte[] frameHeaderBytes = new byte[4];
+                byte[] frameHeaderBytes = new byte[FrameHeaderSize];
 
                 while (IsConnected)
                 {
@@ -190,15 +184,15 @@ namespace WampSharp.RawSocket
             }
         }
 
-        private async Task<MemoryStream> ReadBuffer(int messageLength)
+        private async Task<MemoryStream> ReadBuffer(int messageLength, int position = 0)
         {
             MemoryStream stream = 
-                mMemoryStreamManager.GetStream(Tag, messageLength, true);
+                mMemoryStreamManager.GetStream(Tag, position + messageLength, true);
 
-            await TcpClient.GetStream().ReadExactAsync(stream.GetBuffer(), messageLength);
+            await TcpClient.GetStream().ReadExactAsync(stream.GetBuffer(), position, messageLength);
 
             stream.Position = 0;
-            stream.SetLength(messageLength);
+            stream.SetLength(position + messageLength);
 
             return stream;
         }
@@ -209,17 +203,15 @@ namespace WampSharp.RawSocket
 
         private async Task HandlePing(int messageLength)
         {
-            using (MemoryStream memoryStream = await ReadBuffer(messageLength))
+            using (MemoryStream memoryStream = await ReadBuffer(messageLength, FrameHeaderSize))
             {
-                using (MemoryStream headerStream = mMemoryStreamManager.GetStream(Tag, 4))
-                {
-                    mFrameHeaderParser.WriteHeader(FrameType.Pong, messageLength, headerStream.GetBuffer());
-                    headerStream.Position = 0;
-                    headerStream.SetLength(4);
+                byte[] buffer = memoryStream.GetBuffer();
 
-                    await mTcpClient.GetStream().WriteAsync(headerStream.GetBuffer(), 0, 4);
-                    await mTcpClient.GetStream().WriteAsync(memoryStream.GetBuffer(), 0, messageLength);
-                }
+                mFrameHeaderParser.WriteHeader(FrameType.Pong, messageLength, buffer);
+
+                NetworkStream networkStream = mTcpClient.GetStream();
+
+                await networkStream.WriteAsync(buffer, 0, (int) memoryStream.Length);
             }
         }
     }
