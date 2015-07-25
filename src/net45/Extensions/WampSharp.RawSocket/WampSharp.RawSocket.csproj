@@ -49,17 +49,13 @@
       <HintPath>..\..\packages\Microsoft.IO.RecyclableMemoryStream.1.1.0.0\lib\net45\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SuperSocket.Common, Version=1.6.4.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SuperSocket.1.6.4\lib\net45\SuperSocket.Common.dll</HintPath>
+    <Reference Include="MsgPack, Version=0.5.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MsgPack.Cli.0.5.4\lib\net45\MsgPack.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="SuperSocket.Facility, Version=1.6.4.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SuperSocket.1.6.4\lib\net45\SuperSocket.Facility.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.SocketBase, Version=1.6.4.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SuperSocket.1.6.4\lib\net45\SuperSocket.SocketBase.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -86,34 +82,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="FrameType.cs" />
     <Compile Include="Handshake.cs" />
-    <Compile Include="ConnectionListener\BinaryConnectionListener.cs" />
-    <Compile Include="ConnectionListener\ConnectionListener.cs" />
-    <Compile Include="ConnectionListener\TextConnectionListener.cs" />
-    <Compile Include="MessageArrivedEventArgs.cs" />
+    <Compile Include="HandshakeErrorCode.cs" />
+    <Compile Include="Handshaker.cs" />
     <Compile Include="NetworkStreamExtensions.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="RawSocketClientConnection.cs" />
     <Compile Include="RawSocketFrameHeaderParser.cs" />
+    <Compile Include="RawSocketProtocolException.cs" />
     <Compile Include="RawSocketTcpClient.cs" />
-    <Compile Include="SuperSocket\RawSocketServer.cs" />
-    <Compile Include="SuperSocket\RawSocketSession.cs" />
+    <Compile Include="SerializerType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RawSocketBinding.cs" />
-    <Compile Include="RawSocketConnection.cs" />
-    <Compile Include="RawSocketTransport.cs" />
-    <Compile Include="SuperSocket\RawSocketFilter.cs" />
-    <Compile Include="SuperSocket\RawSocketFilterFactory.cs" />
     <Compile Include="TcpClientConnection.cs" />
-    <Compile Include="TcpListenerRawSocketTransport.cs" />
+    <Compile Include="RawSocketTransport.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
       <Project>{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59}</Project>
       <Name>WampSharp.NewtonsoftJson</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj">
+      <Project>{061D1C1C-52A7-4FCB-9DF8-C1E28BFAD378}</Project>
+      <Name>WampSharp.NewtonsoftMsgpack</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>

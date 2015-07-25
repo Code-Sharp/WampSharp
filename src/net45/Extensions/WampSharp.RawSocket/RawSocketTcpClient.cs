@@ -1,12 +1,19 @@
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace WampSharp.RawSocket
 {
     public class RawSocketTcpClient
     {
         private readonly TcpClient mTcpClient;
-        public Handshake HandshakeRequest { get; private set; }
+        private readonly Handshake mHandshakeRequest;
+        private readonly Handshake mHandshakeResponse;
+
+        public RawSocketTcpClient(TcpClient tcpClient, Handshake handshakeRequest, Handshake handshakeResponse)
+        {
+            mTcpClient = tcpClient;
+            mHandshakeRequest = handshakeRequest;
+            mHandshakeResponse = handshakeResponse;
+        }
 
         public TcpClient Client
         {
@@ -16,19 +23,20 @@ namespace WampSharp.RawSocket
             }
         }
 
-        public RawSocketTcpClient(TcpClient tcpClient)
+        public Handshake HandshakeRequest
         {
-            mTcpClient = tcpClient;
+            get
+            {
+                return mHandshakeRequest;
+            }
         }
 
-        public async Task GetHandshakeRequest()
+        public Handshake HandshakeResponse
         {
-            byte[] bytes = new byte[4];
-
-            await Client.GetStream()
-                        .ReadExactAsync(bytes, 0, bytes.Length);
-
-            HandshakeRequest = new Handshake(bytes);
+            get
+            {
+                return mHandshakeResponse;
+            }
         }
     }
 }

@@ -58,11 +58,6 @@ namespace WampSharp.RawSocket
             SecondOctect = message[1];
 
             ReservedOctects = BitConverter.ToInt16(message, 2);
-
-            if (ReservedOctects != 0)
-            {
-                throw new ArgumentException("Reserved octects must be zeros.", "message");
-            }
         }
 
         // Should be 0x7F
@@ -135,14 +130,5 @@ namespace WampSharp.RawSocket
         {
             return new Handshake(errorCode);
         }
-    }
-
-    public enum HandshakeErrorCode
-    {
-        Illegal = 0,
-        SerializerUnsupported = 1,
-        MaximumMessageLengthUnacceptable = 2,
-        UseOfReservedBits = 3,
-        MaximumConnectionCountReached = 4
     }
 }

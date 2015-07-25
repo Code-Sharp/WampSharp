@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace WampSharp.RawSocket
 {
-    public static class NetworkStreamExtensions
+    internal static class NetworkStreamExtensions
     {
         public static Task ReadExactAsync(this NetworkStream networkStream, byte[] buffer, int position = 0)
         {
