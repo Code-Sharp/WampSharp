@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding.Parsers;
+using WampSharp.V2.Transports;
 
 namespace WampSharp.RawSocket
 {
@@ -19,6 +21,8 @@ namespace WampSharp.RawSocket
         private readonly long mMaxAllowedMessageSize;
         private readonly Handshake mHandshake;
         private readonly RecyclableMemoryStreamManager mMemoryStreamManager;
+        private readonly PingPongHandler mPingPongHandler;
+        private readonly Pinger mPinger;
 
         public TcpClientConnection(TcpClient client,
                                    long maxAllowedMessageSize,
@@ -31,6 +35,12 @@ namespace WampSharp.RawSocket
             mHandshake = handshake;
             mBinding = binding;
             mMemoryStreamManager = memoryStreamManager;
+
+            mPinger = new Pinger(this);
+
+            mPingPongHandler = new PingPongHandler(mLogger,
+                                                   mPinger,
+                                                   TimeSpan.FromMilliseconds(5));
         }
 
         protected override bool IsConnected
@@ -83,6 +93,8 @@ namespace WampSharp.RawSocket
             try
             {
                 RaiseConnectionOpen();
+
+                mPingPongHandler.Start();
 
                 byte[] frameHeaderBytes = new byte[FrameHeaderSize];
 
@@ -155,6 +167,15 @@ namespace WampSharp.RawSocket
 
         private async Task HandlePong(int messageLength)
         {
+            using (MemoryStream memoryStream = await ReadStream(messageLength))
+            {
+                byte[] buffer = memoryStream.GetBuffer();
+
+                ArraySegment<byte> arraySegment = 
+                    new ArraySegment<byte>(buffer, 0, messageLength);
+
+                mPinger.RaiseOnPong(arraySegment);
+            }
         }
 
         private async Task HandlePing(int messageLength)
@@ -168,6 +189,64 @@ namespace WampSharp.RawSocket
                 NetworkStream networkStream = mTcpClient.GetStream();
 
                 await networkStream.WriteAsync(buffer, 0, (int) memoryStream.Length);
+            }
+        }
+
+        private async Task SendPing(byte[] message)
+        {
+            int frameSize = message.Length + FrameHeaderSize;
+
+            using (MemoryStream memoryStream = mMemoryStreamManager.GetStream(Tag, frameSize))
+            {
+                byte[] buffer = memoryStream.GetBuffer();
+                mFrameHeaderParser.WriteHeader(FrameType.Ping, message.Length, buffer);
+                memoryStream.SetLength(FrameHeaderSize);
+                memoryStream.Position = FrameHeaderSize;
+
+                await memoryStream.WriteAsync(message, 0, message.Length);
+
+                await TcpClient.GetStream().WriteAsync(buffer, 0, frameSize);
+            }
+        }
+
+        internal class Pinger : IPinger
+        {
+            private readonly TcpClientConnection<TMessage> mParent;
+
+            public Pinger(TcpClientConnection<TMessage> parent)
+            {
+                mParent = parent;
+            }
+
+            public Task SendPing(byte[] message)
+            {
+                return mParent.SendPing(message);
+            }
+
+            public event Action<IList<byte>> OnPong;
+
+
+            public bool IsConnected
+            {
+                get
+                {
+                    return mParent.IsConnected;
+                }
+            }
+
+            public void Disconnect()
+            {
+                mParent.Dispose();
+            }
+
+            public void RaiseOnPong(IList<byte> bytes)
+            {
+                Action<IList<byte>> handler = OnPong;
+
+                if (handler != null)
+                {
+                    handler(bytes);
+                }
             }
         }
     }
