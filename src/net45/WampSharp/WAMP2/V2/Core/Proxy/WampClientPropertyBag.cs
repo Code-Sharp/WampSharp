@@ -13,7 +13,6 @@ namespace WampSharp.V2.Core.Proxy
         public WampClientPropertyBag(IWampBinding<TMessage> binding, WampTransportDetails transportDetails)
         {
             mBinding = binding;
-            mSession = session;
             mTransportDetails = transportDetails;
         }
 

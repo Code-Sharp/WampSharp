@@ -1,46 +1,46 @@
-﻿using WampSharp.V2.Core.Contracts;
+﻿using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Reflection
 {
     public class CrossbarHttpHeadersReceived
     {
-        [PropertyName("origin")]
+        [DataMember(Name = "origin")]
         public string Origin { get; set; }
 
-        [PropertyName("upgrade")]
+        [DataMember(Name = "upgrade")]
         public string Upgrade { get; set; }
 
-        [PropertyName("accept-language")]
+        [DataMember(Name = "accept-language")]
         public string AcceptLanguage { get; set; }
 
-        [PropertyName("accept-encoding")]
+        [DataMember(Name = "accept-encoding")]
         public string AcceptEncoding { get; set; }
 
-        [PropertyName("sec-websocket-version")]
+        [DataMember(Name = "sec-websocket-version")]
         public string SecWebsocketVersion { get; set; }
 
-        [PropertyName("sec-websocket-protocol")]
+        [DataMember(Name = "sec-websocket-protocol")]
         public string SecWebsocketProtocol { get; set; }
 
-        [PropertyName("host")]
+        [DataMember(Name = "host")]
         public string Host { get; set; }
 
-        [PropertyName("sec-websocket-key")]
+        [DataMember(Name = "sec-websocket-key")]
         public string SecWebsocketKey { get; set; }
 
-        [PropertyName("user-agent")]
+        [DataMember(Name = "user-agent")]
         public string UserAgent { get; set; }
 
-        [PropertyName("connection")]
+        [DataMember(Name = "connection")]
         public string Connection { get; set; }
 
-        [PropertyName("pragma")]
+        [DataMember(Name = "pragma")]
         public string Pragma { get; set; }
 
-        [PropertyName("cache-control")]
+        [DataMember(Name = "cache-control")]
         public string CacheControl { get; set; }
 
-        [PropertyName("sec-websocket-extensions")]
+        [DataMember(Name = "sec-websocket-extensions")]
         public string SecWebsocketExtensions { get; set; }
     }
 }

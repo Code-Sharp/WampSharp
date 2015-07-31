@@ -1,28 +1,28 @@
-using WampSharp.V2.Core.Contracts;
+using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Reflection
 {
     public class WampSessionDetails
     {
-        [PropertyName("realm")]
+        [DataMember(Name = "realm")]
         public string Realm { get; set; }
 
-        [PropertyName("authprovider")]
+        [DataMember(Name = "authprovider")]
         public object AuthProvider { get; set; }
 
-        [PropertyName("authid")]
+        [DataMember(Name = "authid")]
         public string AuthId { get; set; }
 
-        [PropertyName("authrole")]
+        [DataMember(Name = "authrole")]
         public string AuthRole { get; set; }
 
-        [PropertyName("authmethod")]
+        [DataMember(Name = "authmethod")]
         public string AuthMethod { get; set; }
 
-        [PropertyName("session")]
+        [DataMember(Name = "session")]
         public long Session { get; set; }
 
-        [PropertyName("transport")]
+        [DataMember(Name = "transport")]
         public WampTransportDetails TransportDetails { get; set; }
     }
 }

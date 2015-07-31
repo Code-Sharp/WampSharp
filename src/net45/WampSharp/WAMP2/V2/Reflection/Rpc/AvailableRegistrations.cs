@@ -1,16 +1,16 @@
-using WampSharp.V2.Core.Contracts;
+using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Reflection
 {
     public class AvailableRegistrations
     {
-        [PropertyName("prefix")]
+        [DataMember(Name = "prefix")]
         public long[] Prefix { get; set; }
 
-        [PropertyName("exact")]
+        [DataMember(Name = "exact")]
         public long[] Exact { get; set; }
 
-        [PropertyName("wildcard")]
+        [DataMember(Name = "wildcard")]
         public long[] Wildcard { get; set; }
     }
 }

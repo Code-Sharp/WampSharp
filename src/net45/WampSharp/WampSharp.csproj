@@ -209,13 +209,13 @@
     <Compile Include="WAMP2\V2\Core\ArgumentUnpacker.cs" />
     <Compile Include="WAMP2\V2\Reflection\Session\Crossbar\CrossbarWebSocketTransportDetails.cs" />
     <Compile Include="WAMP2\V2\Reflection\SubscriptionDescriptorService.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\LocalParameter.cs" />
     <Compile Include="WAMP2\V2\Core\LocalParameter.cs" />
     <Compile Include="WAMP2\V2\Core\WildCardMatcher.cs" />
     <Compile Include="WAMP2\V2\PubSub\WildCardSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\WildCardTopicContainer.cs" />
     <Compile Include="WAMP2\V2\Realm\IWampRouterBuilder.cs" />
     <Compile Include="WAMP2\V2\Realm\WampRouterBuilder.cs" />
+    <Compile Include="WAMP2\V2\PubSub\TopicContainerExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />

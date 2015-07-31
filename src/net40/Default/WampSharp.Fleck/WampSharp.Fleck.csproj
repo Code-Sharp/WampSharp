@@ -13,7 +13,6 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <SDK40ToolsPath>C:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.0.1 Tools\</SDK40ToolsPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckTransportDetails.cs">
+      <Link>Fleck\FleckTransportDetails.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckWampBinaryConnection.cs">
       <Link>Fleck\FleckWampBinaryConnection.cs</Link>
     </Compile>

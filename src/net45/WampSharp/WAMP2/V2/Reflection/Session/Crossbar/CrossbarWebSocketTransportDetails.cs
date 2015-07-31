@@ -1,19 +1,19 @@
-using WampSharp.V2.Core.Contracts;
+using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Reflection
 {
     public class CrossbarWebSocketTransportDetails : WampTransportDetails
     {
-        [PropertyName("peer")]
+        [DataMember(Name = "peer")]
         public string Peer { get; set; }
 
-        [PropertyName("protocol")]
+        [DataMember(Name = "protocol")]
         public string Protocol { get; set; }
 
-        [PropertyName("http_headers_received")]
+        [DataMember(Name = "http_headers_received")]
         public CrossbarHttpHeadersReceived HttpHeadersReceived { get; set; }
 
-        [PropertyName("http_headers_sent")]
+        [DataMember(Name = "http_headers_sent")]
         public CrossbarHttpHeadersSent HttpHeadersSent { get; set; }
     }
 }

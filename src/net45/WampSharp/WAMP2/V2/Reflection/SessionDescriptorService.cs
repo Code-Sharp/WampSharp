@@ -68,24 +68,24 @@ namespace WampSharp.V2.Reflection
 
         private class SessionMetadataSubscriber : IWampSessionMetadataSubscriber
         {
-            private readonly IWampTopic mOnJoinTopic;
-            private readonly IWampTopic mOnLeaveTopic;
+            private readonly IWampTopicContainer mTopicContainer;
             private readonly PublishOptions mPublishOptions = new PublishOptions();
+            private string mOnJoinUri = "wamp.session.on_join";
+            private string mOnLeaveUri = "wamp.session.on_leave";
 
             public SessionMetadataSubscriber(IWampTopicContainer topicContainer)
             {
-                mOnJoinTopic = topicContainer.CreateTopicByUri("wamp.session.on_join", true);
-                mOnLeaveTopic = topicContainer.CreateTopicByUri("wamp.session.on_leave", true);
+                mTopicContainer = topicContainer;
             }
 
             public void OnJoin(WampSessionDetails details)
             {
-                mOnJoinTopic.Publish(WampObjectFormatter.Value, mPublishOptions, new object[] {details});
+                mTopicContainer.Publish(mPublishOptions, mOnJoinUri, details);
             }
 
             public void OnLeave(long sessionId)
             {
-                mOnLeaveTopic.Publish(WampObjectFormatter.Value, mPublishOptions, new object[] { sessionId });
+                mTopicContainer.Publish(mPublishOptions, mOnLeaveUri, sessionId);
             }
         }
     }

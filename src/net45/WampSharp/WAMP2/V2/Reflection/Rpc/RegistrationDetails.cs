@@ -1,23 +1,23 @@
 using System;
-using WampSharp.V2.Core.Contracts;
+using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Reflection
 {
     public class RegistrationDetails
     {
-        [PropertyName("uri")]
+        [DataMember(Name = "uri")]
         public string Uri { get; set; }
 
-        [PropertyName("invoke")]
+        [DataMember(Name = "invoke")]
         public string Invoke { get; set; }
 
-        [PropertyName("id")]
+        [DataMember(Name = "id")]
         public int RegistrationId { get; set; }
 
-        [PropertyName("match")]
+        [DataMember(Name = "match")]
         public string Match { get; set; }
 
-        [PropertyName("created")]
+        [DataMember(Name = "created")]
         public DateTime Created { get; set; }
     }
 }

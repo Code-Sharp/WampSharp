@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fleck\FleckTransportDetails.cs" />
     <Compile Include="Fleck\FleckWampBinaryConnection.cs" />
     <Compile Include="Fleck\FleckWampConnection.cs" />
     <Compile Include="Fleck\FleckWampConnectionListener.cs" />

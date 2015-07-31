@@ -75,6 +75,9 @@
     <Compile Include="..\..\..\net45\Extensions\WampSharp.Vtortola\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.Vtortola\VtortolaTransportDetails.cs">
+      <Link>VtortolaTransportDetails.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Extensions\WampSharp.Vtortola\VtortolaWampBinaryConnection.cs">
       <Link>VtortolaWampBinaryConnection.cs</Link>
     </Compile>
@@ -83,6 +86,12 @@
     </Compile>
     <Compile Include="..\..\..\net45\Extensions\WampSharp.Vtortola\VtortolaWampTextConnection.cs">
       <Link>VtortolaWampTextConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.Vtortola\VtortolaWebSocketHttpRequest.cs">
+      <Link>VtortolaWebSocketHttpRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.Vtortola\VtortolaWebSocketHttpResponse.cs">
+      <Link>VtortolaWebSocketHttpResponse.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Extensions\WampSharp.Vtortola\VtortolaWebSocketTransport.cs">
       <Link>VtortolaWebSocketTransport.cs</Link>

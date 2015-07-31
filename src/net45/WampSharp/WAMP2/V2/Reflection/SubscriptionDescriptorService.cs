@@ -80,38 +80,36 @@ namespace WampSharp.V2.Reflection
 
         private class SubscriptionMetadataSubscriber : IWampSubscriptionMetadataSubscriber
         {
-            private readonly IWampTopic mOnCreateTopic;
-            private readonly IWampTopic mOnSubscribeTopic;
-            private readonly IWampTopic mOnDeleteTopic;
-            private readonly IWampTopic mOnUnsubscribeTopic;
+            private readonly IWampTopicContainer mTopicContainer;
             private readonly PublishOptions mPublishOptions = new PublishOptions();
+            private const string mOnCreateTopicUri = "wamp.subscription.on_create";
+            private const string mOnSubscribeTopicUri = "wamp.subscription.on_subscribe";
+            private const string mOnUnsubscribeTopicUri = "wamp.subscription.on_unsubscribe";
+            private const string mOnDeleteTopicUri = "wamp.subscription.on_delete";
 
             public SubscriptionMetadataSubscriber(IWampTopicContainer topicContainer)
             {
-                mOnCreateTopic = topicContainer.CreateTopicByUri("wamp.subscription.on_create", true);
-                mOnSubscribeTopic = topicContainer.CreateTopicByUri("wamp.subscription.on_subscribe", true);
-                mOnUnsubscribeTopic = topicContainer.CreateTopicByUri("wamp.subscription.on_unsubscribe", true);
-                mOnDeleteTopic = topicContainer.CreateTopicByUri("wamp.subscription.on_delete", true);
+                mTopicContainer = topicContainer;
             }
 
             public void OnCreate(long sessionId, SubscriptionDetails details)
             {
-                mOnCreateTopic.Publish(WampObjectFormatter.Value, mPublishOptions, new object[] { sessionId, details });
+                mTopicContainer.Publish(mPublishOptions, mOnCreateTopicUri, sessionId, details);
             }
 
             public void OnSubscribe(long sessionId, long subscriptionId)
             {
-                mOnCreateTopic.Publish(WampObjectFormatter.Value, mPublishOptions, new object[] { sessionId, subscriptionId });
+                mTopicContainer.Publish(mPublishOptions, mOnCreateTopicUri, sessionId, subscriptionId);
             }
 
             public void OnUnsubscribe(long sessionId, long subscriptionId)
             {
-                mOnCreateTopic.Publish(WampObjectFormatter.Value, mPublishOptions, new object[] { sessionId, subscriptionId });
+                mTopicContainer.Publish(mPublishOptions, mOnCreateTopicUri, sessionId, subscriptionId);
             }
 
             public void OnDelete(long sessionId, long subscriptionId)
             {
-                mOnCreateTopic.Publish(WampObjectFormatter.Value, mPublishOptions, new object[] { sessionId, subscriptionId });
+                mTopicContainer.Publish(mPublishOptions, mOnCreateTopicUri, sessionId, subscriptionId);
             }
         }
     }
