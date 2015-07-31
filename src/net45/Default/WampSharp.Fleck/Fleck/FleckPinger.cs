@@ -24,11 +24,11 @@ namespace WampSharp.Fleck
         {
             add
             {
-                mConnection.OnPong += value;
+                mConnection.OnPong += new Action<byte[]>(value);
             }
             remove
             {
-                mConnection.OnPong -= value;
+                mConnection.OnPong -= new Action<byte[]>(value);
             }
         }
 
