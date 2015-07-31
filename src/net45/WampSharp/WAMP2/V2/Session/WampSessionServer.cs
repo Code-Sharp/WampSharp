@@ -75,7 +75,9 @@ namespace WampSharp.V2.Session
             IWampBindedRealm<TMessage> bindedRealm = mRealmContainer.GetRealmByName(realm);
 
             wampClient.HelloDetails = details;
-            
+
+            details.TransportDetails = wampClient.TransportDetails;
+
             wampClient.Realm = bindedRealm;
             
             return wampClient;

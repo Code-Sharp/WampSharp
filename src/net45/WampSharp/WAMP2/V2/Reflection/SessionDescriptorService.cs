@@ -24,14 +24,14 @@ namespace WampSharp.V2.Reflection
             mRealm.SessionCreated += OnSessionCreated;
         }
 
-        private void OnSessionCreated(object sender, WampSessionEventArgs e)
+        private void OnSessionCreated(object sender, WampSessionCreatedEventArgs e)
         {
             WampSessionDetails sessionDetails = new WampSessionDetails()
             {
                 Realm = mRealm.Name,
                 Session = e.SessionId,
-                AuthMethod = "anonymous",
-                TransportDetails = e.TransportDetails
+                AuthMethod = e.WelcomeDetails.AuthenticationMethod ?? "anonymous",
+                TransportDetails = e.HelloDetails.TransportDetails
             };
             
             mSessionIdToDetails[e.SessionId] = sessionDetails;

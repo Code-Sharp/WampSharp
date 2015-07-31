@@ -1,5 +1,6 @@
 using System.Runtime.Serialization;
 using WampSharp.Core.Message;
+using WampSharp.V2.Reflection;
 
 namespace WampSharp.V2.Core.Contracts
 {
@@ -24,6 +25,12 @@ namespace WampSharp.V2.Core.Contracts
         /// </summary>
         [DataMember(Name = "authid")]
         public string AuthenticationId { get; internal set; }
+
+        /// <summary>
+        /// Gets the transport details associated with this client.
+        /// </summary>
+        [IgnoreDataMember]
+        public WampTransportDetails TransportDetails { get; internal set; }
     }
 
     [DataContract]

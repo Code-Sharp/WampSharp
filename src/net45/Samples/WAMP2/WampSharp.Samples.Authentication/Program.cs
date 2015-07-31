@@ -1,3 +1,4 @@
+    public interface ITimeService
 ﻿using System;
 using System.Collections.Generic;
 using WampSharp.V2;
@@ -100,10 +101,10 @@ namespace WampSharp.Samples.Authentication
             Console.ReadLine();
         }
 
-        private static void ConnectionEstablished(object sender, WampSessionEventArgs e)
+        private static void ConnectionEstablished(object sender, WampSessionCreatedEventArgs e)
         {
             IDictionary<string, object> details =
-                e.Details.Deserialize<IDictionary<string, object>>();
+                e.WelcomeDetails.OriginalValue.Deserialize<IDictionary<string, object>>();
 
             Console.WriteLine("connected session with ID " + e.SessionId);
             Console.WriteLine("authenticated using method '" + details["authmethod"] + "' and provider '" + details["authprovider"] + "'");
