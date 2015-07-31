@@ -16,8 +16,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
         public IEnumerable<WampMessage<MockRaw>> Publications { get; set; }
         public IEnumerable<WampMessage<MockRaw>> Events { get; set; }
 
-        public MockClient<IWampClient<MockRaw>> Publisher { get; set; }
-        public MockClient<IWampClient<MockRaw>> Subscriber { get; set; }
+        public MockClient<IWampClientProxy<MockRaw>> Publisher { get; set; }
+        public MockClient<IWampClientProxy<MockRaw>> Subscriber { get; set; }
 
         public IEnumerable<WampMessage<MockRaw>> PublicationAcks { get; set; }
 
@@ -29,8 +29,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                 new WampMessageSerializerFactory<MockRaw>
                     (new WampOutgoingRequestSerializer<MockRaw>(Binding.Formatter));
 
-            IWampEventSerializer<MockRaw> eventSerializer =
-                serializerGenerator.GetSerializer<IWampEventSerializer<MockRaw>>();
+            IWampEventSerializer eventSerializer =
+                serializerGenerator.GetSerializer<IWampEventSerializer>();
 
             return new WampPubSubServer<MockRaw>(new WampTopicContainer(),
                                                  eventSerializer,

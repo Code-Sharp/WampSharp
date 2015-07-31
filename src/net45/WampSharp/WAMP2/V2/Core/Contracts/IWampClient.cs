@@ -1,29 +1,15 @@
-﻿namespace WampSharp.V2.Core.Contracts
+namespace WampSharp.V2.Core.Contracts
 {
     /// <summary>
-    /// Represents a WAMP2 client proxy.
-    /// </summary>
-    public interface IWampClient :
-        IWampSessionClient,
-        IWampCallee,
-        IWampCaller,
-        IWampPublisher,
-        IWampSubscriber,
-        IWampClientProperties
-    {
-    }
-
-    /// <summary>
-    /// Represents a WAMP2 client/client proxy.
+    /// Contains all WAMPv2 client messages.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public interface IWampClient<TMessage> :
+    public interface IWampClient<TMessage> : IWampSessionClient<TMessage>,
+        IWampError<TMessage>,
         IWampCallee<TMessage>,
         IWampCaller<TMessage>,
         IWampPublisher<TMessage>,
-        IWampSubscriber<TMessage>,
-        IWampRawClient<TMessage>,
-        IWampClientProperties<TMessage>
+        IWampSubscriber<TMessage>
     {
     }
 }

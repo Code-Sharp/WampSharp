@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Security.Authentication;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -180,9 +181,10 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(deserializedDetails, Is.EqualTo(myAbortDetails));
         }
 
+        [DataContract]
         private class MyAbortDetails : AbortDetails
         {
-            [JsonProperty("user")]
+            [DataMember(Name = "user")]
             public string User { get; set; }
 
             protected bool Equals(MyAbortDetails other)
@@ -309,12 +311,12 @@ namespace WampSharp.Tests.Wampv2.Integration
                 throw new NotImplementedException();
             }
 
-            public void OnNewClient(IWampClient<TMessage> client)
+            public void OnNewClient(IWampClientProxy<TMessage> client)
             {
                 throw new NotImplementedException();
             }
 
-            public void OnClientDisconnect(IWampClient<TMessage> client)
+            public void OnClientDisconnect(IWampClientProxy<TMessage> client)
             {
                 throw new NotImplementedException();
             }
@@ -365,17 +367,17 @@ namespace WampSharp.Tests.Wampv2.Integration
                 throw new NotImplementedException();
             }
 
-            public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error)
+            public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error)
             {
                 throw new NotImplementedException();
             }
 
-            public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
+            public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
             {
                 throw new NotImplementedException();
             }
 
-            public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
+            public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
                 TMessage argumentsKeywords)
             {
                 throw new NotImplementedException();
@@ -448,9 +450,10 @@ namespace WampSharp.Tests.Wampv2.Integration
             }
         }
 
+        [DataContract]
         private class MyChallengeDetails : ChallengeDetails
         {
-            [JsonProperty("number")]
+            [DataMember(Name = "number")]
             public int MyNumber { get; set; }
 
             protected bool Equals(MyChallengeDetails other)

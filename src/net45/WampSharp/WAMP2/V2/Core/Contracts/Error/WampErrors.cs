@@ -14,6 +14,11 @@
         public const string InvalidUri = "wamp.error.invalid_uri";
 
         /// <summary>
+        /// The application payload could not be serialized.
+        /// </summary>
+        public const string InvalidPayload = "wamp.error.invalid_payload";
+
+        /// <summary>
         /// Indicates that the close was with a normal reason.
         /// </summary>
         public const string CloseNormal = "wamp.close.normal";
@@ -24,9 +29,23 @@
         public const string NotAuthorized = "wamp.error.not_authorized";
 
         /// <summary>
+        /// A Dealer or Broker could not determine if the *Peer* is authorized to perform
+        /// a join, call, register, publish or subscribe, since the authorization operation
+        /// *itself* failed. E.g. a custom authorizer did run into an error.
+        /// </summary>
+        public const string AuthorizationFailed = "wamp.error.authorization_failed";
+
+        /// <summary>
         /// *Peer* wanted to join a non-existing realm (and the *Router* did not allow to auto-create the realm).
         /// </summary>
         public const string NoSuchRealm = "wamp.error.no_such_realm";
+
+        /// <summary>
+        /// A *Peer* was to be authenticated under a Role that does not (or no longer) exists on the Router.
+        /// For example, the *Peer* was successfully authenticated, but the Role configured does not
+        /// exists - hence there is some misconfiguration in the Router.
+        /// </summary>
+        public const string NoSuchRole = "wamp.error.no_such_role";
 
         /// <summary>
         /// The *Peer* is shutting down completely - used as a `GOODBYE` (or `ABORT`) reason.
@@ -59,6 +78,11 @@
         public const string NoSuchRegistration = "wamp.error.no_such_registration";
 
         /// <summary>
+        /// A router could not perform an operation, since a session ID specified was non-existant.
+        /// </summary>
+        public const string NoSuchSession = "wamp.error.no_such_session";
+
+        /// <summary>
         /// A call failed, since the given argument types or values are not acceptable to the called procedure.
         /// </summary>
         public const string InvalidArgument = "wamp.error.invalid_argument";
@@ -71,6 +95,14 @@
         /// <summary>
         /// A procedure could not be registered, since a procedure with the given URI is already registered (and the *Dealer* is not able to set up a distributed registration).
         /// </summary>
-        public const string ProcedureAlreadyExists = "wamp.error.procedure_already_exists";         
+        public const string ProcedureAlreadyExists = "wamp.error.procedure_already_exists";
+
+        /// <summary>
+        /// A procedure could not be registered, since a procedure with the given URI is 
+        /// already registered, and the registration has a conflicting invocation policy.
+        /// </summary>
+        public const string ProcedureExistsInvocationPolicyConflict = "wamp.error.procedure_exists_with_different_invocation_policy";
+
+
     }
 }

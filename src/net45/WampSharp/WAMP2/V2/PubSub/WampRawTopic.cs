@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
-using System.Reactive.Subjects;
-using System.Threading;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.PubSub
 {
@@ -17,24 +15,24 @@ namespace WampSharp.V2.PubSub
     {
         #region Data Members
 
-        private readonly ConcurrentDictionary<long, Subscription> mSesssionIdToSubscription =
-            new ConcurrentDictionary<long, Subscription>();
-
+        private readonly RawTopicSubscriberBook mSubscriberBook;
         private readonly IWampBinding<TMessage> mBinding; 
-        private readonly IWampEventSerializer<TMessage> mSerializer;
-        private readonly Subject<RemotePublication> mSubject = new Subject<RemotePublication>();
+        private readonly IWampEventSerializer mSerializer;
         private readonly string mTopicUri;
+        private readonly SubscribeOptions mSubscribeOptions;
         private readonly IWampCustomizedSubscriptionId mCustomizedSubscriptionId;
 
         #endregion
 
         #region Constructor
 
-        public WampRawTopic(string topicUri, IWampCustomizedSubscriptionId customizedSubscriptionId, IWampEventSerializer<TMessage> serializer, IWampBinding<TMessage> binding)
+        public WampRawTopic(string topicUri, SubscribeOptions subscribeOptions, IWampCustomizedSubscriptionId customizedSubscriptionId, IWampEventSerializer serializer, IWampBinding<TMessage> binding)
         {
             mSerializer = serializer;
+            mSubscriberBook = new RawTopicSubscriberBook(this);
             mTopicUri = topicUri;
             mBinding = binding;
+            mSubscribeOptions = subscribeOptions;
             mCustomizedSubscriptionId = customizedSubscriptionId;
         }
 
@@ -44,7 +42,7 @@ namespace WampSharp.V2.PubSub
 
         public void Event<TRaw>(IWampFormatter<TRaw> formatter, long publicationId, PublishOptions options)
         {
-            Func<EventDetails, WampMessage<TMessage>> action =
+            Func<EventDetails, WampMessage<object>> action =
                 eventDetails => mSerializer.Event(SubscriptionId, publicationId, eventDetails);
 
             InnerEvent(options, action);
@@ -53,7 +51,7 @@ namespace WampSharp.V2.PubSub
         public void Event<TRaw>(IWampFormatter<TRaw> formatter, long publicationId, PublishOptions options,
                                 TRaw[] arguments)
         {
-            Func<EventDetails, WampMessage<TMessage>> action =
+            Func<EventDetails, WampMessage<object>> action =
                 details => mSerializer.Event(SubscriptionId,
                                              publicationId,
                                              details,
@@ -64,7 +62,7 @@ namespace WampSharp.V2.PubSub
 
         public void Event<TRaw>(IWampFormatter<TRaw> formatter, long publicationId, PublishOptions options, TRaw[] arguments, IDictionary<string, TRaw> argumentsKeywords)
         {
-            Func<EventDetails, WampMessage<TMessage>> action =
+            Func<EventDetails, WampMessage<object>> action =
                 details => mSerializer.Event(SubscriptionId, publicationId, details,
                                              arguments.Cast<object>().ToArray(),
                                              argumentsKeywords.ToDictionary(x => x.Key,
@@ -82,25 +80,42 @@ namespace WampSharp.V2.PubSub
 
             bool disclosePublisher = options.DiscloseMe ?? false;
 
-            if ((extendedOptions != null) && disclosePublisher)
+            if (extendedOptions != null)
             {
-                result.Publisher = extendedOptions.PublisherId;
+                if (disclosePublisher)
+                {
+                    result.Publisher = extendedOptions.PublisherId;
+                }
+
+                string match = mSubscribeOptions.Match;
+
+                if (match != "exact")
+                {
+                    result.Topic = extendedOptions.TopicUri;
+                }
             }
 
             return result;
         }
 
-        private void Publish(WampMessage<TMessage> message, PublishOptions options)
+        private void Publish(WampMessage<object> message, PublishOptions options)
         {
-            WampMessage<TMessage> raw = mBinding.GetRawMessage(message);
-            mSubject.OnNext(new RemotePublication(raw, options));
+            WampMessage<object> raw = mBinding.GetRawMessage(message);
+
+            IEnumerable<RemoteObserver> subscribers = 
+                mSubscriberBook.GetRelevantSubscribers(options);
+
+            foreach (RemoteObserver subscriber in subscribers)
+            {
+                subscriber.Message(raw);
+            }
         }
 
-        private void InnerEvent(PublishOptions options, Func<EventDetails, WampMessage<TMessage>> action)
+        private void InnerEvent(PublishOptions options, Func<EventDetails, WampMessage<object>> action)
         {
             EventDetails details = GetDetails(options);
 
-            WampMessage<TMessage> message = action(details);
+            WampMessage<object> message = action(details);
 
             Publish(message, options);
         }
@@ -109,7 +124,7 @@ namespace WampSharp.V2.PubSub
         {
             get
             {
-                return mSubject.HasObservers;
+                return mSubscriberBook.HasSubscribers;
             }
         }
 
@@ -144,36 +159,32 @@ namespace WampSharp.V2.PubSub
                 new RemoteWampTopicSubscriber(this.SubscriptionId,
                                               request.Client as IWampSubscriber);
 
-            this.RaiseSubscriptionAdding(remoteSubscriber, options);
+            IWampClientProxy<TMessage> client = request.Client;
 
-            IWampClient<TMessage> client = request.Client;
+            RemoteObserver observer = mSubscriberBook.Subscribe(client);
 
-            RemoteObserver observer = new RemoteObserver(client);
-            
-            IDisposable disposable = mSubject.Subscribe(observer);
-            
-            Subscription subscription = new Subscription(this, client, disposable);
-
-            mSesssionIdToSubscription.TryAdd(client.Session, subscription);
+            if (!observer.IsOpen)
+            {
+                this.RaiseSubscriptionAdding(remoteSubscriber, options);                
+            }
 
             request.Subscribed(this.SubscriptionId);
 
-            observer.Open();
+            if (!observer.IsOpen)
+            {
+                observer.Open();
 
-            this.RaiseSubscriptionAdded(remoteSubscriber, options);
+                this.RaiseSubscriptionAdded(remoteSubscriber, options);                
+            }
         }
 
         public void Unsubscribe(IUnsubscribeRequest<TMessage> request)
         {
-            IWampClient<TMessage> client = request.Client;
+            IWampClientProxy<TMessage> client = request.Client;
 
-            Subscription subscription;
-            
-            if (mSesssionIdToSubscription.TryRemove(client.Session, out subscription))
+            if (mSubscriberBook.Unsubscribe(client))
             {
                 this.RaiseSubscriptionRemoving(client.Session);
-
-                subscription.Dispose();
 
                 request.Unsubscribed();
 
@@ -272,20 +283,31 @@ namespace WampSharp.V2.PubSub
 
         #region Nested Types
 
-        private class Subscription : IDisposable
+        private class Subscription
         {
             private readonly WampRawTopic<TMessage> mParent;
-            private readonly IWampClient<TMessage> mClient;
-            private readonly IDisposable mDisposable;
+            private readonly IWampClientProxy<TMessage> mClient;
+            private readonly RemoteObserver mObserver;
 
-            public Subscription(WampRawTopic<TMessage> parent, IWampClient<TMessage> client, IDisposable disposable)
+            public Subscription(WampRawTopic<TMessage> parent, IWampClientProxy<TMessage> client, RemoteObserver observer)
             {
                 mParent = parent;
                 mClient = client;
-                mDisposable = disposable;
+                mObserver = observer;
+            }
 
+            public RemoteObserver Observer
+            {
+                get
+                {
+                    return mObserver;
+                }
+            }
+
+            public void Open()
+            {
                 IWampConnectionMonitor monitor = mClient as IWampConnectionMonitor;
-                monitor.ConnectionClosed += OnConnectionClosed;
+                monitor.ConnectionClosed += OnConnectionClosed;                
             }
 
             private void OnConnectionClosed(object sender, EventArgs e)
@@ -295,21 +317,16 @@ namespace WampSharp.V2.PubSub
                 monitor.ConnectionClosed -= OnConnectionClosed;
             }
 
-            public void Dispose()
-            {
-                mDisposable.Dispose();
-            }
-
             private class DisconnectUnsubscribeRequest : IUnsubscribeRequest<TMessage>
             {
-                private readonly IWampClient<TMessage> mClient;
+                private readonly IWampClientProxy<TMessage> mClient;
 
-                public DisconnectUnsubscribeRequest(IWampClient<TMessage> client)
+                public DisconnectUnsubscribeRequest(IWampClientProxy<TMessage> client)
                 {
                     mClient = client;
                 }
 
-                public IWampClient<TMessage> Client
+                public IWampClientProxy<TMessage> Client
                 {
                     get
                     {
@@ -323,97 +340,178 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        private class RemotePublication
+        private class RemoteObserver : IWampRawClient
         {
-            private readonly WampMessage<TMessage> mMessage;
-            private readonly PublishOptions mOptions;
+            private bool mIsOpen = false;
 
-            public RemotePublication(WampMessage<TMessage> message, PublishOptions options)
-            {
-                mMessage = message;
-                mOptions = options;
-            }
-
-            public WampMessage<TMessage> Message
-            {
-                get { return mMessage; }
-            }
-
-            public PublishOptions Options
-            {
-                get { return mOptions; }
-            }
-        }
-
-        private class RemoteObserver : IObserver<RemotePublication>
-        {
-            private bool mOpen = false;
-
-            private readonly IWampRawClient<TMessage> mClient;
+            private readonly IWampRawClient mClient;
             private readonly long mSessionId;
 
-            public RemoteObserver(IWampRawClient<TMessage> client)
+            public RemoteObserver(IWampRawClient client)
             {
                 mClient = client;
-                IWampClient casted = mClient as IWampClient;
+                IWampClientProxy casted = mClient as IWampClientProxy;
                 mSessionId = casted.Session;
             }
 
-            public void OnNext(RemotePublication value)
+            public RemoteObserver(long sessionId)
             {
-                if (mOpen)
+                mSessionId = sessionId;
+            }
+
+            public long SessionId
+            {
+                get
                 {
-                    if (ShouldPublish(value.Options))
-                    {
-                        mClient.Message(value.Message);
-                    }                    
+                    return mSessionId;
                 }
             }
 
-            private bool ShouldPublish(PublishOptions options)
+            public bool IsOpen
             {
-                PublishOptionsExtended extendedOptions = 
-                    options as PublishOptionsExtended;
-
-                if (extendedOptions == null)
+                get
                 {
-                    return true;
+                    return mIsOpen;
                 }
-
-                bool excludeMe = extendedOptions.ExcludeMe ?? true;
-
-                if (extendedOptions.PublisherId == mSessionId &&
-                    excludeMe)
-                {
-                    return false;
-                }
-
-                if ((extendedOptions.Exclude != null) &&
-                    (extendedOptions.Exclude.Contains(mSessionId)))
-                {
-                    return false;
-                }
-
-                if (extendedOptions.Eligible == null ||
-                    extendedOptions.Eligible.Contains(mSessionId))
-                {
-                    return true;
-                }
-
-                return false;
             }
 
             public void Open()
             {
-                mOpen = true;
+                mIsOpen = true;
             }
 
-            public void OnError(Exception error)
+            public void Message(WampMessage<object> message)
             {
+                if (mIsOpen)
+                {
+                    mClient.Message(message);
+                }
             }
 
-            public void OnCompleted()
+            protected bool Equals(RemoteObserver other)
             {
+                return (ReferenceEquals(mClient, other.mClient)) ||
+                       mSessionId == other.mSessionId;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) {return false;}
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != this.GetType()) return false;
+                return Equals((RemoteObserver) obj);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return mSessionId.GetHashCode();
+                }
+            }
+        }
+
+        private class RawTopicSubscriberBook
+        {
+            private ImmutableDictionary<long, Subscription> mSessionIdToSubscription =
+                ImmutableDictionary<long, Subscription>.Empty;
+
+            private ImmutableHashSet<RemoteObserver> mRemoteObservers = ImmutableHashSet<RemoteObserver>.Empty;
+
+            private readonly WampRawTopic<TMessage> mRawTopic;
+            
+            public RawTopicSubscriberBook(WampRawTopic<TMessage> rawTopic)
+            {
+                mRawTopic = rawTopic;
+            }
+
+            public bool HasSubscribers
+            {
+                get
+                {
+                    return mRemoteObservers.Count > 0;
+                }
+            }
+
+            public RemoteObserver Subscribe(IWampClientProxy<TMessage> client)
+            {
+                Subscription subscription;
+
+                if (!mSessionIdToSubscription.TryGetValue(client.Session, out subscription))
+                {
+                    RemoteObserver result = new RemoteObserver(client);
+
+                    ImmutableHashSetInterlocked.Add(ref mRemoteObservers, result);
+
+                    subscription = new Subscription(mRawTopic, client, result);
+
+                    ImmutableInterlocked.TryAdd(ref mSessionIdToSubscription, client.Session, subscription);
+
+                    subscription.Open();
+                }
+
+                return subscription.Observer;
+            }
+
+            public bool Unsubscribe(IWampClientProxy<TMessage> client)
+            {
+                bool result;
+                ImmutableHashSetInterlocked.Remove(ref mRemoteObservers , new RemoteObserver(client));
+                Subscription subscription;
+                result = ImmutableInterlocked.TryRemove(ref mSessionIdToSubscription, client.Session, out subscription);
+                return result;
+            }
+
+            public IEnumerable<RemoteObserver> GetRelevantSubscribers(PublishOptions options)
+            {
+                ImmutableHashSet<RemoteObserver> result = mRemoteObservers;
+
+                if (options.Eligible != null)
+                {
+                    var eligibleObservers = 
+                        GetRemoteObservers(options.Eligible)
+                            .ToArray();
+
+                    result = ImmutableHashSet.Create(eligibleObservers);
+                }
+
+                bool excludeMe = options.ExcludeMe ?? true;
+                
+                PublishOptionsExtended casted = options as PublishOptionsExtended;
+
+                if (excludeMe && casted != null)
+                {
+                    result = result.Remove(new RemoteObserver(casted.PublisherId));
+                }
+
+                if (options.Exclude != null)
+                {
+                    var excludedObservers =
+                        options.Exclude.Select
+                            (sessionId => new RemoteObserver(sessionId));
+
+                    result = result.Except(excludedObservers);
+                }
+
+                return result;
+            }
+
+            private RemoteObserver GetRemoteObserverById(long sessionId)
+            {
+                Subscription subscription;
+
+                if (mSessionIdToSubscription.TryGetValue(sessionId, out subscription))
+                {
+                    return subscription.Observer;
+                }
+
+                return null;
+            }
+
+            private IEnumerable<RemoteObserver> GetRemoteObservers(long[] sessionIds)
+            {
+                return sessionIds.Select(id => GetRemoteObserverById(id))
+                                 .Where(x => x != null);
             }
         }
 

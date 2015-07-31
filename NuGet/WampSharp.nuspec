@@ -5,20 +5,34 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
-      <dependency id="rx-main" version="[2.2.5]" />
-      <dependency id="Castle.Core" version="[3.3.1]" />
+      <group targetFramework="net45">
+        <dependency id="rx-main" version="[2.2.5]" />
+        <dependency id="Castle.Core" version="[3.3.1]" />
+        <dependency id="System.Collections.Immutable" version="[1.1.36]" />
+      </group>
+      <group targetFramework="net40">
+        <dependency id="rx-main" version="[2.2.5]" />
+        <dependency id="Castle.Core" version="[3.3.1]" />
+        <dependency id="Rackspace.Collections.Immutable" version="[1.1.36]" />
+      </group>
+      <group targetFramework="portable-win81+wpa81">
+        <dependency id="rx-main" version="[2.2.5]" />
+        <dependency id="System.Collections.Immutable" version="[1.1.36]" />
+      </group>
     </dependencies>
     <id>WampSharp</id>
     <title>WampSharp</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>An implementation of WAMP (The Web Application Messaging Protocol). Supports both WAMPv2 and WAMPv1.</description>
     <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
-    <tags>websockets wampws rpc pubsub wampv1 wampv2</tags>
+    <tags>websockets wampws rpc pubsub wampv2</tags>
   </metadata>
   <files>
     <file src="bin\net45\WampSharp.dll" target="lib\net45\WampSharp.dll" />
     <file src="bin\net45\WampSharp.xml" target="lib\net45\WampSharp.xml" />
     <file src="bin\net40\WampSharp.dll" target="lib\net40\WampSharp.dll" />
     <file src="bin\net40\WampSharp.xml" target="lib\net40\WampSharp.xml" />
+    <file src="bin\pcl\WampSharp.dll" target="lib\portable-win81+wpa81\WampSharp.dll" />
+    <file src="bin\pcl\WampSharp.xml" target="lib\portable-win81+wpa81\WampSharp.xml" />
   </files>
 </package>

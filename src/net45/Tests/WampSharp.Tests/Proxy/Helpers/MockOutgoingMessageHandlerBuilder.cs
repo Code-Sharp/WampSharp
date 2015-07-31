@@ -13,7 +13,7 @@ namespace WampSharp.Tests.Proxy.Helpers
             mHandler = handler;
         }
 
-        public IWampOutgoingMessageHandler<MockRaw> Build(IWampConnection<MockRaw> connection)
+        public IWampOutgoingMessageHandler Build(IWampConnection<MockRaw> connection)
         {
             return mHandler;
         }

@@ -14,21 +14,20 @@ namespace WampSharp.V2.Realm.Binded
         private readonly IWampRealmGate mRealmGate;
 
         public WampBindedRealm(IWampHostedRealm realm,
+                               IWampRouterBuilder routerBuilder,
                                IWampSessionServer<TMessage> session,
-                               IWampEventSerializer<TMessage> eventSerializer,
-                               IWampBinding<TMessage> binding)
+                               IWampBinding<TMessage> binding,
+                               IWampEventSerializer eventSerializer)
         {
             mRealm = realm;
             mRealmGate = realm as IWampRealmGate;
             mBinding = binding;
 
-            IWampRpcServer<TMessage> dealer =
-                new WampRpcServer<TMessage>(realm.RpcCatalog, binding);
+            IWampDealer<TMessage> dealer =
+                routerBuilder.CreateDealerHandler(realm, binding);
 
-            IWampPubSubServer<TMessage> broker =
-                new WampPubSubServer<TMessage>(realm.TopicContainer,
-                                               eventSerializer,
-                                               binding);
+            IWampBroker<TMessage> broker =
+                routerBuilder.CreateBrokerHandler(realm, binding, eventSerializer);
 
             mServer = new WampServer<TMessage>(session, dealer, broker);
         }

@@ -44,15 +44,4 @@ namespace WampSharp.V2.Rpc
         /// <typeparam name="TMessage"></typeparam>
         void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
     }
-
-    internal interface IWampRpcOperation<TMessage>
-    {
-        string Procedure { get; }
-
-        void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details);
-
-        void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, TMessage[] arguments);
-
-        void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);         
-    }
 }

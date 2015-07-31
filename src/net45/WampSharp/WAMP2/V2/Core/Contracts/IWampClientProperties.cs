@@ -1,15 +1,19 @@
 ﻿using WampSharp.V2.Binding;
-using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
 using WampSharp.V2.Reflection;
 
 namespace WampSharp.V2.Core.Contracts
 {
     /// <summary>
-    /// Contains additional properties of a <see cref="IWampClient"/> proxy.
+    /// Contains additional properties of a <see cref="IWampClientProxy"/> proxy.
     /// </summary>
     public interface IWampClientProperties
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether the connection was closed in an orderly manner
+        /// </summary>
+        bool GoodbyeSent { get; set; }
+
         /// <summary>
         /// Gets the session of the current client. 
         /// </summary>
@@ -23,20 +27,10 @@ namespace WampSharp.V2.Core.Contracts
     }
 
     /// <summary>
-    /// Contains additional properties of a <see cref="IWampClient{TMessage}"/> proxy.
+    /// Contains additional properties of a <see cref="IWampClientProxy{TMessage}"/> proxy.
     /// </summary>
     public interface IWampClientProperties<TMessage>
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether the connection was closed in an orderly manner
-        /// </summary>
-        bool GoodbyeSent { get; set; }
-
-        /// <summary>
-        /// Gets the session of the current client. 
-        /// </summary>
-        long Session { get; }
-
         /// <summary>
         /// Gets the realm the current client belongs to.
         /// </summary>

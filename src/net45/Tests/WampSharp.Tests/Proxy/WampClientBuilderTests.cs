@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
+using WampSharp.Core.Serialization;
 using WampSharp.Tests.Proxy.Helpers;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.V1.Core.Contracts;
@@ -14,17 +15,17 @@ namespace WampSharp.Tests.Proxy
         private WampClientBuilder<MockRaw> mBuilder;
         private MockOutgoingMessageHandler mOutgoingMessageHandler;
         private WampMessageEqualityComparer<MockRaw> mComparer;
+        private readonly IWampFormatter<MockRaw> mFormatter = new MockRawFormatter();
 
         [SetUp]
         public void Setup()
         {
             MockRawFormatter formatter = new MockRawFormatter();
 
-            mOutgoingMessageHandler = new MockOutgoingMessageHandler();
+            mOutgoingMessageHandler = new MockOutgoingMessageHandler(mFormatter);
             
             mBuilder =
-                new WampClientBuilder<MockRaw>(new MockSessionGuidGenerator(),
-                    new WampOutgoingRequestSerializer<MockRaw>(formatter),
+                new WampClientBuilder<MockRaw>(new WampOutgoingRequestSerializer<MockRaw>(formatter),
                     new MockOutgoingMessageHandlerBuilder(mOutgoingMessageHandler),
                     new MockClientContainer());
 
@@ -36,7 +37,7 @@ namespace WampSharp.Tests.Proxy
         [Test]
         public void Welcome()
         {
-            MockConnection<MockRaw> connection = new MockConnection<MockRaw>();
+            MockConnection<MockRaw> connection = new MockConnection<MockRaw>(mFormatter);
             IWampClient client = mBuilder.Create(connection.SideAToSideB);
 
             client.Welcome("v59mbCGDXZ7WTyxB", 1, "Autobahn/0.5.1");

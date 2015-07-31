@@ -8,7 +8,9 @@ namespace WampSharp.V2.Client
     /// An exception that can be thrown if can't authenticate with router.
     /// This sends an ABORT message to the router.
     /// </summary>
+#if !PCL
     [Serializable]
+#endif
     public class WampAuthenticationException : Exception
     {
         protected const string WampErrorCannotAuthenticate = "wamp.error.cannot_authenticate";

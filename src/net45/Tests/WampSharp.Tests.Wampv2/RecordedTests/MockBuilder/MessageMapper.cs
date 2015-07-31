@@ -21,7 +21,6 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
         public MessageMapper()
         {
             mSerializer = new JsonSerializer {NullValueHandling = NullValueHandling.Ignore};
-            mSerializer.ContractResolver = new JsonPropertyNameContractResolver();
             mSerializer.Converters.Add( new MockRawConverter());
         }
 

@@ -1,4 +1,5 @@
-﻿using Castle.DynamicProxy;
+﻿#if CASTLE
+using Castle.DynamicProxy;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 
@@ -11,15 +12,15 @@ namespace WampSharp.Core.Serialization
     /// <typeparam name="TMessage"></typeparam>
     public class WampSerializationInterceptor<TMessage> : IInterceptor
     {
-        private readonly IWampOutgoingRequestSerializer<TMessage> mSerializer;
+        private readonly IWampOutgoingRequestSerializer mSerializer;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampSerializationInterceptor{TMessage}"/>
-        /// given the <see cref="IWampOutgoingRequestSerializer{TMessage}"/> used to serialize
+        /// given the <see cref="IWampOutgoingRequestSerializer"/> used to serialize
         /// method calls to messages.
         /// </summary>
-        /// <param name="serializer">The given <see cref="IWampOutgoingRequestSerializer{TMessage}"/>.</param>
-        public WampSerializationInterceptor(IWampOutgoingRequestSerializer<TMessage> serializer)
+        /// <param name="serializer">The given <see cref="IWampOutgoingRequestSerializer"/>.</param>
+        public WampSerializationInterceptor(IWampOutgoingRequestSerializer serializer)
         {
             mSerializer = serializer;
         }
@@ -30,10 +31,11 @@ namespace WampSharp.Core.Serialization
         /// <param name="invocation"></param>
         public void Intercept(IInvocation invocation)
         {
-            WampMessage<TMessage> result =
+            WampMessage<object> result =
                 mSerializer.SerializeRequest(invocation.Method, invocation.Arguments);
 
             invocation.ReturnValue = result;
         }
     }
 }
+#endif

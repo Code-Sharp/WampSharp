@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
@@ -239,6 +238,7 @@ namespace WampSharp.V2.Client
         {
             // TODO: Just cleanup structures.
             // TODO: Services forward errors to client
+            mPendingCalls.Clear();
         }
     }
 }

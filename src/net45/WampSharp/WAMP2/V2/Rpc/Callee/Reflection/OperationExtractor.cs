@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Core.Contracts;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
@@ -41,8 +42,7 @@ namespace WampSharp.V2.Rpc
                 Type type,
                 ICalleeRegistrationInterceptor interceptor)
         {
-            foreach (var method in type.GetMethods(BindingFlags.Instance |
-                                                   BindingFlags.Public))
+            foreach (var method in type.GetPublicInstanceMethods())
             {
                 if (interceptor.IsCalleeProcedure(method))
                 {
@@ -68,7 +68,7 @@ namespace WampSharp.V2.Rpc
 #if !NET40
                 if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
                 {
-                    MethodInfoValidation.ValidateProgressiveMehotd(method);
+                    MethodInfoValidation.ValidateProgressiveMethod(method);
                     return CreateProgressiveOperation(instance, method, procedureUri);
                 }
                 else

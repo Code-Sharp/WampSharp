@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
+using WampSharp.Core.Serialization;
 using WampSharp.Tests.Proxy.Helpers;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.V1.Core.Contracts;
@@ -12,6 +13,7 @@ namespace WampSharp.Tests.Proxy
     {
         private WampOutgoingRequestSerializer<MockRaw> mOutgoingRequestSerializer;
         private WampMessageEqualityComparer<MockRaw> mComparer;
+        private IWampFormatter<MockRaw> mFormatter = new MockRawFormatter();
 
         [SetUp]
         public void Setup()
@@ -176,108 +178,140 @@ namespace WampSharp.Tests.Proxy
 
         public WampMessage<MockRaw> SerializeWelcome(string sessionId, int protocolVersion, string serverIdent)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message =
+                mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampClient client) =>
                             client.Welcome(default(string), default(int), default(string))),
                  new object[] {sessionId, protocolVersion, serverIdent});
+
+            return mFormatter.SerializeMessage(message);
         }
 
         public WampMessage<MockRaw> SerializeCallResult(string callId, object result)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message = 
+                mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampClient client) =>
-                            client.CallResult(default(string), default(object))),
-                 new object[] {callId, result});
+                    client.CallResult(default(string), default(object))),
+                    new object[] {callId, result});
+            
+            return mFormatter.SerializeMessage(message);
         }
 
         public WampMessage<MockRaw> SerializeCallError(string callId, string errorUri, string errorDesc)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message =
+                mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampClient client) =>
                             client.CallError(default(string), default(string), default(string))),
                  new object[] {callId, errorUri, errorDesc});
+
+            return mFormatter.SerializeMessage(message);
         }
 
         public WampMessage<MockRaw> SerializeCallError(string callId, string errorUri, string errorDesc, object errorDetails)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message =
+                mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampClient client) =>
                             client.CallError(default(string), default(string), default(string), default(object))),
                  new object[] {callId, errorUri, errorDesc, errorDetails});
+
+            return mFormatter.SerializeMessage(message);
         }
 
         public WampMessage<MockRaw> SerializeEvent(string topicUri, object @event)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message =
+                mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampClient client) =>
                             client.Event(default(string), default(object))),
                  new object[] {topicUri, @event});
+
+            return mFormatter.SerializeMessage(message);
         }
 
         public WampMessage<MockRaw> SerializePrefix(string prefix, string uri)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message =
+                mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampServer server) =>
                             server.Prefix(default(IWampClient), default(string), default(string))),
                  new object[] {default(IWampClient), prefix, uri});
+
+            return mFormatter.SerializeMessage(message);
         }
 
         public WampMessage<MockRaw> SerializeCall(string callId, string procUri, params object[] arguments)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message = mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampServer server) =>
                             server.Call(default(IWampClient), default(string), default(string), default(object[]))),
                  new object[] {default(IWampClient), callId, procUri, arguments});
+
+            return mFormatter.SerializeMessage(message);
         }
 
         public WampMessage<MockRaw> SerializeSubscribe(string topicUri)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message = mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampServer server) =>
                             server.Subscribe(default(IWampClient), default(string))),
                  new object[] {default(IWampClient), topicUri});
+
+            return mFormatter.SerializeMessage(message);
         }
 
         public WampMessage<MockRaw> SerializeUnsubscribe(string topicUri)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message = mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampServer server) =>
                             server.Unsubscribe(default(IWampClient), default(string))),
                  new object[] {default(IWampClient), topicUri});
+
+            return mFormatter.SerializeMessage(message);
         }
 
         public WampMessage<MockRaw> SerializePublish(string topicUri, object @event)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message = mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampServer server) =>
                             server.Publish(default(IWampClient), default(string), default(object))),
                  new object[] {default(IWampClient), topicUri, @event});
+            
+            return mFormatter.SerializeMessage(message);        
         }
 
         public WampMessage<MockRaw> SerializePublish(string topicUri, object @event, bool excludeMe)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message = mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampServer server) =>
                             server.Publish(default(IWampClient), default(string), default(object), default(bool))),
                  new object[] {default(IWampClient), topicUri, @event, excludeMe});
+
+            return mFormatter.SerializeMessage(message);
         }
 
         public WampMessage<MockRaw> SerializePublish(string topicUri, object @event, string[] exclude)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message = mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampServer server) =>
                             server.Publish(default(IWampClient), default(string), default(object), default(string[]))),
                  new object[] {default(IWampClient), topicUri, @event, exclude});
+            
+            return mFormatter.SerializeMessage(message);
         }
 
         public WampMessage<MockRaw> SerializePublish(string topicUri, object @event, string[] exclude,
                                             string[] eligible)
         {
-            return mOutgoingRequestSerializer.SerializeRequest
+            var message = mOutgoingRequestSerializer.SerializeRequest
                 (Method.Get((IWampServer server) =>
                             server.Publish(default(IWampClient), default(string), default(object), default(string[]),
                                            default(string[]))),
                  new object[] {default(IWampClient), topicUri, @event, exclude, eligible});
+
+            return mFormatter.SerializeMessage(message);
         }
         
         #endregion

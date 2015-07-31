@@ -2,7 +2,7 @@
 
 namespace WampSharp.V2.Rpc
 {
-    public class RegisterRequest : IRegisterRequest
+    internal class RegisterRequest : IRegisterRequest
     {
         private readonly IWampCallee mCallee;
         private readonly long mRequestId;

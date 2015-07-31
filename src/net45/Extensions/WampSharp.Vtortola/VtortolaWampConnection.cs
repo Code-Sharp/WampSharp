@@ -36,7 +36,7 @@ namespace WampSharp.Vtortola
                     {
                         using (message)
                         {
-                            WampMessage<TMessage> parsed = ParseMessage(message);
+                            WampMessage<TMessage> parsed = await ParseMessage(message);
                             RaiseMessageArrived(parsed);
                         }
                     }
@@ -50,7 +50,7 @@ namespace WampSharp.Vtortola
             }
         }
 
-        protected abstract WampMessage<TMessage> ParseMessage(WebSocketMessageReadStream readStream);
+        protected abstract Task<WampMessage<TMessage>> ParseMessage(WebSocketMessageReadStream readStream);
 
         protected override bool IsConnected
         {

@@ -8,21 +8,21 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
     public abstract class MessagePlayer<TMessage> : IMessagePlayer<TMessage>
     {
-        private readonly IWampIncomingMessageHandler<TMessage, IWampClient<TMessage>> mServerPipe;
+        private readonly IWampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>> mServerPipe;
         protected readonly IEnumerable<WampMessage<TMessage>> mMessages;
         private readonly WampMessageType[] mCategories;
-        private IWampClient<TMessage> mClient;
+        private IWampClientProxy<TMessage> mClient;
 
         public MessagePlayer(IEnumerable<WampMessage<TMessage>> messages,
                              WampMessageType[] categories,
-                             IWampIncomingMessageHandler<TMessage, IWampClient<TMessage>> handler)
+                             IWampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>> handler)
         {
             mMessages = messages;
             mCategories = categories;
             mServerPipe = handler;
         }
 
-        public IWampClient<TMessage> Client
+        public IWampClientProxy<TMessage> Client
         {
             get { return mClient; }
             set { mClient = value; }

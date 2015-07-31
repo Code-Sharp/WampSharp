@@ -1,7 +1,9 @@
-﻿using WampSharp.Core.Message;
+﻿using System.Runtime.Serialization;
+using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
+    [DataContract]
     [WampDetailsOptions(WampMessageType.v2Publish)]
     public class PublishOptions : WampDetailsOptions
     {
@@ -19,19 +21,34 @@ namespace WampSharp.V2.Core.Contracts
             this.OriginalValue = options.OriginalValue;
         }
 
-        [PropertyName("acknowledge")]
+        /// <summary>
+        /// If <see cref="bool.True"/>, acknowledge the publication with a success or error response.
+        /// </summary>
+        [DataMember(Name = "acknowledge")]
         public bool? Acknowledge { get; set; }
 
-        [PropertyName("exclude_me")]
+        /// <summary>
+        /// If <see cref="bool.True"/>, exclude the publisher from receiving the event, even if he is subscribed (and eligible).
+        /// </summary>
+        [DataMember(Name = "exclude_me")]
         public bool? ExcludeMe { get; set; }
 
-        [PropertyName("exclude")]
+        /// <summary>
+        /// List of WAMP session IDs to exclude from receiving this event.
+        /// </summary>
+        [DataMember(Name = "exclude")]
         public long[] Exclude { get; set; }
 
-        [PropertyName("eligible")]
+        /// <summary>
+        /// List of WAMP session IDs eligible to receive this event.
+        /// </summary>
+        [DataMember(Name = "eligible")]
         public long[] Eligible { get; set; }
 
-        [PropertyName("disclose_me")]
+        /// <summary>
+        /// If <see cref="bool.True"/>, request to disclose the publisher of this event to subscribers.
+        /// </summary>
+        [DataMember(Name = "disclose_me")]
         public bool? DiscloseMe { get; set; }
     }
 }

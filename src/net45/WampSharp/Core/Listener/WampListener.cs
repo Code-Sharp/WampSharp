@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Reactive.Disposables;
+using SystemEx;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Message;
+using WampSharp.Logging;
 
 namespace WampSharp.Core.Listener
 {
@@ -16,6 +19,7 @@ namespace WampSharp.Core.Listener
         private readonly IWampClientContainer<TMessage, TClient> mClientContainer;
         private readonly IWampConnectionListener<TMessage> mListener;
         private IDisposable mSubscription;
+        protected readonly ILog mLogger;
 
         /// <summary>
         /// Creates a new instance of <see cref="WampListener{TMessage, TClient}"/>
@@ -33,6 +37,7 @@ namespace WampSharp.Core.Listener
             mHandler = handler;
             mClientContainer = clientContainer;
             mListener = listener;
+            mLogger = LogProvider.GetLogger(this.GetType());
         }
 
         /// <summary>
@@ -71,20 +76,23 @@ namespace WampSharp.Core.Listener
 
         protected virtual void OnConnectionException(IWampConnection<TMessage> connection, Exception exception)
         {
+            OnCloseConnection(connection);
         }
 
         protected virtual void OnCloseConnection(IWampConnection<TMessage> connection)
         {
-            TClient client;
+            ClientContainer.RemoveClient(connection);
 
-            if (ClientContainer.TryGetClient(connection, out client))
+            IAsyncDisposable asyncDisposable = connection as IAsyncDisposable;
+
+            // Prefer the non-blocking version
+            if (asyncDisposable != null)
             {
-                IDisposable casted = client as IDisposable;
-
-                if (casted != null)
-                {
-                    casted.Dispose();
-                }                
+                asyncDisposable.DisposeAsync();
+            }
+            else
+            {
+                connection.Dispose();
             }
         }
 
@@ -92,7 +100,38 @@ namespace WampSharp.Core.Listener
         {
             TClient client = ClientContainer.GetClient(connection);
 
-            mHandler.HandleMessage(client, message);
+            using (IDisposable sessionIdMappedContext = SessionIdMappedContext(client))
+            {
+                mHandler.HandleMessage(client, message);
+            }
+        }
+
+        private IDisposable SessionIdMappedContext(TClient client)
+        {
+            object sessionIdValue = GetSessionId(client);
+            string sessionIdString = null;
+
+            if (sessionIdValue != null)
+            {
+                sessionIdString = sessionIdValue.ToString();
+            }
+
+            if (LogProvider.CurrentLogProvider == null)
+            {
+                return Disposable.Empty;
+            }
+            else
+            {
+                IDisposable disposable =
+                    LogProvider.OpenMappedContext("WampSessionId", sessionIdString);
+
+                return disposable;
+            }
+        }
+
+        protected virtual object GetSessionId(TClient client)
+        {
+            return null;
         }
 
         protected virtual void OnNewConnection(IWampConnection<TMessage> connection)
@@ -101,6 +140,7 @@ namespace WampSharp.Core.Listener
 
             connection.MessageArrived += OnNewMessage;
             connection.ConnectionOpen += OnConnectionOpen;
+            connection.ConnectionError += OnConnectionError;
             connection.ConnectionClosed += OnConnectionClose;
         }
 
@@ -121,11 +161,22 @@ namespace WampSharp.Core.Listener
             OnConnectionOpen(connection);
         }
 
+        private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
+        {
+            OnConnectionClosed(sender);
+        }
+
         private void OnConnectionClose(object sender, EventArgs e)
+        {
+            OnConnectionClosed(sender);
+        }
+
+        private void OnConnectionClosed(object sender)
         {
             IWampConnection<TMessage> connection = sender as IWampConnection<TMessage>;
             connection.ConnectionClosed -= OnConnectionClose;
             connection.MessageArrived -= OnNewMessage;
+            connection.ConnectionError -= OnConnectionError;
             OnCloseConnection(connection);
         }
     }

@@ -2,8 +2,12 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal interface IOperationResultExtractor
+#if PCL
+    public interface IOperationResultExtractor<out TResult>
+#else
+    internal interface IOperationResultExtractor<out TResult>
+#endif
     {
-        object GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments);
+        TResult GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments);
     }
 }

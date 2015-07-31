@@ -1,7 +1,8 @@
 ﻿using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
+using WampSharp.Tests.Wampv2.TestHelpers;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Core.Listener;
+using MockRawFormatter = WampSharp.Tests.Wampv2.TestHelpers.MockRawFormatter;
 
 namespace WampSharp.Tests.Wampv2.Binding
 {
@@ -11,9 +12,9 @@ namespace WampSharp.Tests.Wampv2.Binding
         {
         }
 
-        public override WampMessage<MockRaw> GetRawMessage(WampMessage<MockRaw> message)
+        public override WampMessage<object> GetRawMessage(WampMessage<object> message)
         {
-            return new MockWampMessage(message);
+            return message;
         }
     }
 }

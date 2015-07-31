@@ -5,7 +5,9 @@ using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Core.Contracts
 {
+#if !PCL
     [Serializable]
+#endif
     public class WampException : Exception
     {
         private readonly string mErrorUri;
@@ -53,6 +55,14 @@ namespace WampSharp.V2.Core.Contracts
             mArgumentsKeywords = argumentsKeywords;
         }
 
+        public WampException(string errorUri, string messageDetails) :
+            base(string.Format("Error uri: '{0}', details: {1}",
+                errorUri, messageDetails))
+        {
+            mErrorUri = errorUri;
+            mArguments = new object[] {messageDetails};
+        }
+
         public WampException(IDictionary<string, object> details, string errorUri, object[] arguments,
                              IDictionary<string, object> argumentsKeywords, string message, Exception inner)
             : base(message, inner)
@@ -63,10 +73,12 @@ namespace WampSharp.V2.Core.Contracts
             mArgumentsKeywords = argumentsKeywords;
         }
 
+#if !PCL
         protected WampException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
 
         public string ErrorUri
         {

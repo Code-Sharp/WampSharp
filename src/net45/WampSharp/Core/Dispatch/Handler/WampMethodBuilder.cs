@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
+using WampSharp.Logging;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.Core.Dispatch.Handler
 {
@@ -18,6 +19,8 @@ namespace WampSharp.Core.Dispatch.Handler
     {
         #region Members
 
+        private readonly ILog mLogger;
+        
         private readonly object mInstance;
         private readonly IWampFormatter<TMessage> mFormatter;
 
@@ -33,6 +36,7 @@ namespace WampSharp.Core.Dispatch.Handler
         public WampMethodBuilder(object instance, IWampFormatter<TMessage> formatter)
         {
             mInstance = instance;
+            mLogger = LogProvider.GetLogger(this.GetType());
             mFormatter = formatter;
         }
 
@@ -42,41 +46,22 @@ namespace WampSharp.Core.Dispatch.Handler
 
         public Action<TClient, WampMessage<TMessage>> BuildMethod(WampMethodInfo wampMethod)
         {
-            Action<object, object[]> action = BuildAction(wampMethod);
+            Func<object, object[], object> action = BuildAction(wampMethod);
 
             return (client, message) =>
-                   action(GetInstance(client, message, wampMethod), GetArguments(client, message, wampMethod));
+            {
+                object[] arguments = GetArguments(client, message, wampMethod);
+                object instance = GetInstance(client, message, wampMethod);
+                action(instance, arguments);
+            };
         }
 
-        private Action<object, object[]> BuildAction(WampMethodInfo wampMethod)
+        private Func<object, object[], object> BuildAction(WampMethodInfo wampMethod)
         {
-            MethodInfo method = wampMethod.Method;
+            Func<object, object[], object> method = 
+                MethodInvokeGenerator.CreateInvokeMethod(wampMethod.Method);
 
-            ParameterInfo[] parameters = wampMethod.Parameters;
-
-            ParameterExpression instance =
-                Expression.Parameter(typeof (object), "instance");
-
-            ParameterExpression arguments =
-                Expression.Parameter(typeof (object[]), "arguments");
-
-            IEnumerable<Expression> converted =
-                parameters.Select((x, i) =>
-                                  Expression.Convert
-                                      (Expression.ArrayIndex(arguments,
-                                                             Expression.Constant(i)),
-                                       x.ParameterType))
-                          .ToArray();
-
-            MethodCallExpression body =
-                Expression.Call(Expression.Convert(instance, method.DeclaringType),
-                                method,
-                                converted);
-
-            Expression<Action<object, object[]>> lambda =
-                Expression.Lambda<Action<object, object[]>>(body, instance, arguments);
-
-            return lambda.Compile();
+            return method;
         }
 
         #endregion
@@ -136,7 +121,7 @@ namespace WampSharp.Core.Dispatch.Handler
             List<object> converted =
                 parametersList.Zip(relevantArguments,
                                    (parameter, argument) =>
-                                   mFormatter.Deserialize(parameter.ParameterType, argument))
+                                   DeserializeArgument(parameter, argument))
                               .ToList();
 
             if (method.HasParamsArgument)
@@ -148,6 +133,19 @@ namespace WampSharp.Core.Dispatch.Handler
             }
 
             return converted.ToArray();
+        }
+
+        private object DeserializeArgument(ParameterInfo parameter, TMessage argument)
+        {
+            try
+            {
+                return mFormatter.Deserialize(parameter.ParameterType, argument);
+            }
+            catch (Exception ex)
+            {
+                mLogger.ErrorFormat(ex, "Failed deserializing {0}", parameter.Name);
+                throw;
+            }
         }
 
         #endregion

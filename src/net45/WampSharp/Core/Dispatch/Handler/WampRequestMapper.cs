@@ -64,9 +64,7 @@ namespace WampSharp.Core.Dispatch.Handler
         {
             IEnumerable<MethodInfo> allMethods =
                 type.GetInterfaces().SelectMany
-                    (x => x.GetMethods(BindingFlags.Instance |
-                                       BindingFlags.Public |
-                                       BindingFlags.NonPublic));
+                    (x => x.GetInstanceMethods());
 
             var relevantMethods =
                 allMethods.Select(method => new

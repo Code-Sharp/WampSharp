@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WampSharp.Core.Serialization;
+using WampSharp.Logging;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Error;
 
@@ -12,7 +14,11 @@ namespace WampSharp.V2.Rpc
         {
         }
 
-        protected override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+                                                      IWampFormatter<TMessage> formatter,
+                                                      InvocationDetails details,
+                                                      TMessage[] arguments,
+                                                      IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
@@ -21,7 +27,7 @@ namespace WampSharp.V2.Rpc
                 object result =
                     InvokeSync(caller,
                                formatter,
-                               options,
+                               details,
                                arguments,
                                argumentsKeywords,
                                out outputs);
@@ -30,8 +36,15 @@ namespace WampSharp.V2.Rpc
             }
             catch (WampException ex)
             {
+                mLogger.ErrorFormat(ex, "An error occured while calling {0}", this.Procedure);
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
                 callback.Error(ex);
+            }
+            catch (Exception ex)
+            {
+                WampRpcRuntimeException wampException = ConvertExceptionToRuntimeException(ex);
+                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+                callback.Error(wampException);
             }
         }
 

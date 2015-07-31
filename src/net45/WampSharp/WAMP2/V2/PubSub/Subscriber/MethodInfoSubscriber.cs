@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using WampSharp.Logging;
+
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.PubSub
 {
@@ -13,10 +16,13 @@ namespace WampSharp.V2.PubSub
         private readonly object mInstance;
         private readonly MethodInfo mMethod;
         private readonly LocalParameter[] mParameters;
+        private readonly Func<object, object[], object> mMethodInvoker;
+        private readonly ILog mLogger;
 
         public MethodInfoSubscriber(object instance, MethodInfo method, string topic)
             : base(topic)
         {
+            mLogger = LogProvider.GetLogger(typeof(MethodInfoSubscriber) + "." + topic);
             mInstance = instance;
             mMethod = method;
 
@@ -24,6 +30,8 @@ namespace WampSharp.V2.PubSub
             {
                 throw new ArgumentNullException("method");
             }
+
+            mMethodInvoker = MethodInvokeGenerator.CreateInvokeMethod(method);
 
             if (method.ReturnType != typeof (void))
             {
@@ -64,11 +72,11 @@ namespace WampSharp.V2.PubSub
                 object[] methodParameters =
                     UnpackParameters(formatter, arguments, argumentsKeywords);
 
-                mMethod.Invoke(mInstance, methodParameters);
+                mMethodInvoker(mInstance, methodParameters);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: Log that something went wrong
+                mLogger.ErrorFormat(ex, "An error occured while calling " + mMethod);
             }
             finally
             {

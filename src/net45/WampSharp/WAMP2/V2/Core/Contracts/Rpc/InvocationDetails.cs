@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Runtime.Serialization;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
+    [DataContract]
     [WampDetailsOptions(WampMessageType.v2Invocation)]
     public class InvocationDetails : WampDetailsOptions
     {
@@ -15,32 +16,29 @@ namespace WampSharp.V2.Core.Contracts
             Timeout = details.Timeout;
             ReceiveProgress = details.ReceiveProgress;
             Caller = details.Caller;
-            CallerTransport = details.CallerTransport;
-            AuthId = details.AuthId;
-            AuthRole = details.AuthRole;
-            AuthMethod = details.AuthMethod;
+            Procedure = details.Procedure;
             OriginalValue = details.OriginalValue;
         }
 
-        [PropertyName("timeout")]
+        [DataMember(Name = "timeout")]
         internal bool? Timeout { get; set; }
 
-        [PropertyName("receive_progress")]
-        public bool? ReceiveProgress { get; set; }
+        /// <summary>
+        /// Indicates if the callee should produce progressive results.
+        /// </summary>
+        [DataMember(Name = "receive_progress")]
+        public bool? ReceiveProgress { get; internal set; }
 
-        [PropertyName("caller")]
-        public long? Caller { get; set; }
+        /// <summary>
+        /// The WAMP session ID of the caller.
+        /// </summary>
+        [DataMember(Name = "caller")]
+        public long? Caller { get; internal set; }
 
-        [PropertyName("caller_transport")]
-        internal IDictionary<string, object> CallerTransport { get; set; }
-
-        [PropertyName("authid")]
-        internal string AuthId { get; set; }
-
-        [PropertyName("authrole")]
-        internal string AuthRole { get; set; }
-
-        [PropertyName("authmethod")]
-        internal string AuthMethod { get; set; }
+        /// <summary>
+        /// The actual procedure being called.
+        /// </summary>
+        [DataMember(Name = "procedure")]
+        public string Procedure { get; internal set; }
     }
 }

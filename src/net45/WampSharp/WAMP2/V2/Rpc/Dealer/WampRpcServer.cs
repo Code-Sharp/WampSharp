@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
+using WampSharp.Logging;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class WampRpcServer<TMessage> : IWampRpcServer<TMessage>,
-        IWampErrorCallback<TMessage> 
+    public class WampRpcServer<TMessage> : IWampRpcServer<TMessage>
     {
+        private readonly ILog mLogger;
         private readonly IWampFormatter<TMessage> mFormatter; 
         private readonly IWampRpcOperationInvoker mInvoker;
         private readonly IWampCalleeOperationCatalog mCalleeCatalog;
@@ -17,6 +18,7 @@ namespace WampSharp.V2.Rpc
         public WampRpcServer(IWampRpcOperationCatalog catalog, IWampBinding<TMessage> binding)
         {
             mInvoker = catalog;
+            mLogger = LogProvider.GetLogger(this.GetType());
             mFormatter = binding.Formatter;
 
             mHandler = new WampCalleeInvocationHandler<TMessage>(binding.Formatter);
@@ -29,11 +31,18 @@ namespace WampSharp.V2.Rpc
         {
             try
             {
+                options.Invoke = options.Invoke ?? "single";
+                options.Match = options.Match ?? "exact";
+
                 RegisterRequest registerRequest = new RegisterRequest(callee, requestId);
                 mCalleeCatalog.Register(registerRequest, options, procedure);
             }
             catch (WampException exception)
             {
+                mLogger.ErrorFormat(exception,
+                    "Failed registering procedure '{0}'. Registration request id: {1} ",
+                    procedure, requestId);
+
                 callee.RegisterError(requestId, exception);
             }
         }
@@ -47,48 +56,75 @@ namespace WampSharp.V2.Rpc
             }
             catch (WampException exception)
             {
+                mLogger.ErrorFormat(exception,
+                    "Failed unregistering procedure with registration id {0}. Unregistration request id: {1} ",
+                    registrationId,
+                    requestId);
+
                 callee.UnregisterError(requestId, exception);
             }
         }
 
         public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure)
         {
-            IWampRawRpcOperationClientCallback callback = GetCallback(caller, requestId);
-
-            InvocationDetails invocationOptions =
-                GetInvocationOptions(caller, options);
-
-            mInvoker.Invoke(callback, mFormatter, invocationOptions, procedure);
+            CallPattern(caller, requestId, options, procedure,
+                          (invoker, callback, invocationOptions) =>
+                              invoker.Invoke(callback,
+                                             mFormatter,
+                                             invocationOptions,
+                                             procedure));
         }
 
         public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments)
         {
-            IWampRawRpcOperationClientCallback callback = GetCallback(caller, requestId);
-
-            InvocationDetails invocationOptions = 
-                GetInvocationOptions(caller, options);
-
-            mInvoker.Invoke(callback, mFormatter, invocationOptions, procedure, arguments);
+            CallPattern(caller, requestId, options, procedure,
+                          (invoker, callback, invocationOptions) =>
+                              invoker.Invoke(callback,
+                                             mFormatter,
+                                             invocationOptions,
+                                             procedure,
+                                             arguments));
         }
 
         public void Call(IWampCaller caller, long requestId, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            IWampRawRpcOperationClientCallback callback = GetCallback(caller, requestId);
-
-            InvocationDetails invocationOptions =
-                GetInvocationOptions(caller, options);
-
-            mInvoker.Invoke(callback, mFormatter, invocationOptions, procedure, arguments, 
-                argumentsKeywords);
+            CallPattern(caller, requestId, options, procedure,
+                          (invoker, callback, invocationOptions) =>
+                              invoker.Invoke(callback,
+                                             mFormatter,
+                                             invocationOptions,
+                                             procedure,
+                                             arguments,
+                                             argumentsKeywords));
         }
 
-        private InvocationDetails GetInvocationOptions(IWampCaller caller, CallOptions options)
+        private void CallPattern(IWampCaller caller, long requestId, CallOptions options, string procedure, Action<IWampRpcOperationInvoker, IWampRawRpcOperationClientCallback, InvocationDetails> invokeAction)
         {
-            InvocationDetailsExtended result = new InvocationDetailsExtended();
+            try
+            {
+                IWampRawRpcOperationClientCallback callback = GetCallback(caller, requestId);
 
-            IWampClient wampCaller = caller as IWampClient;
-            result.CallerSession = wampCaller.Session;
-            result.CallerOptions = options;
+                InvocationDetails invocationOptions =
+                    GetInvocationOptions(caller, options, procedure);
+
+                invokeAction(mInvoker, callback, invocationOptions);
+            }
+            catch (WampException ex)
+            {
+                caller.CallError(requestId, ex);
+            }
+        }
+
+        private InvocationDetails GetInvocationOptions(IWampCaller caller, CallOptions options, string procedureUri)
+        {
+            IWampClientProxy wampCaller = caller as IWampClientProxy;
+
+            InvocationDetailsExtended result = new InvocationDetailsExtended
+            {
+                CallerSession = wampCaller.Session,
+                CallerOptions = options,
+                ProcedureUri = procedureUri
+            };
 
             return result;
         }
@@ -118,17 +154,17 @@ namespace WampSharp.V2.Rpc
             return new WampRpcOperationCallback(caller, requestId);
         }
 
-        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error)
+        public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error)
         {
             mHandler.Error(client, requestId, details, error);
         }
 
-        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
+        public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments)
         {
             mHandler.Error(client, requestId, details, error, arguments);
         }
 
-        public void Error(IWampClient client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
+        public void Error(IWampClientProxy client, int requestType, long requestId, TMessage details, string error, TMessage[] arguments,
                           TMessage argumentsKeywords)
         {
             mHandler.Error(client, requestId, details, error, arguments, argumentsKeywords);

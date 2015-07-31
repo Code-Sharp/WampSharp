@@ -1,4 +1,5 @@
-﻿using Castle.DynamicProxy;
+﻿#if CASTLE
+using Castle.DynamicProxy;
 using WampSharp.Core.Proxy;
 
 namespace WampSharp.Core.Serialization
@@ -15,11 +16,11 @@ namespace WampSharp.Core.Serialization
 
         /// <summary>
         /// Creates a new instance of <see cref="WampMessageSerializerFactory{TMessage}"/>
-        /// given a <see cref="IWampOutgoingRequestSerializer{TMessage}"/>, used to serialize
+        /// given a <see cref="IWampOutgoingRequestSerializer"/>, used to serialize
         /// message.
         /// </summary>
-        /// <param name="serializer">The given <see cref="IWampOutgoingRequestSerializer{TMessage}"/>.</param>
-        public WampMessageSerializerFactory(IWampOutgoingRequestSerializer<TMessage> serializer)
+        /// <param name="serializer">The given <see cref="IWampOutgoingRequestSerializer"/>.</param>
+        public WampMessageSerializerFactory(IWampOutgoingRequestSerializer serializer)
         {
             mSerializationInterceptor = new WampSerializationInterceptor<TMessage>(serializer);
         }
@@ -34,3 +35,4 @@ namespace WampSharp.Core.Serialization
         }
     }
 }
+#endif

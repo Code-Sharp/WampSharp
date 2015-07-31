@@ -2,26 +2,30 @@
 using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
     public class WampMockClientBuilder<TMessage>
     {
+        private readonly WampBinding<TMessage> mBinding;
+
         #region Members
 
         private readonly ProxyGenerator mGenerator = new ProxyGenerator();
-        private readonly IWampOutgoingRequestSerializer<TMessage> mOutgoingSerializer;
+        private readonly IWampOutgoingRequestSerializer mOutgoingSerializer;
 
-        public WampMockClientBuilder(IWampFormatter<TMessage> formatter)
+        public WampMockClientBuilder(WampBinding<TMessage> binding)
         {
+            mBinding = binding;
             mOutgoingSerializer =
-                new WampOutgoingRequestSerializer<TMessage>(formatter);
+                new WampOutgoingRequestSerializer<TMessage>(binding.Formatter);
         }
 
         #endregion
 
-        public IWampClient<TMessage> Create(long sessionId,
+        public IWampClientProxy<TMessage> Create(long sessionId,
                                             IMessagePlayer<TMessage> player,
                                             IMessageRecorder<TMessage> recorder)
         {
@@ -30,20 +34,20 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 
             options.Selector = new MockClientInterceptorSelector();
 
-            IWampClient<TMessage> result =
+            IWampClientProxy<TMessage> result =
                 mGenerator.CreateInterfaceProxyWithoutTarget
-                    (typeof (IWampClient),
+                    (typeof (IWampClientProxy),
                      new[]
                          {
-                             typeof (IWampClient<TMessage>),
+                             typeof (IWampClientProxy<TMessage>),
                              typeof (IWampConnectionMonitor)
                          },
                      options,
-                     new RecordAndPlayRawInterceptor<TMessage>(player, recorder),
+                     new RecordAndPlayRawInterceptor<TMessage>(player, recorder, mBinding),
                      new RecordAndPlayInterceptor<TMessage>
-                         (mOutgoingSerializer, player, recorder),
+                         (mOutgoingSerializer, player, recorder, mBinding),
                      new SessionPropertyInterceptor(sessionId))
-                as IWampClient<TMessage>;
+                as IWampClientProxy<TMessage>;
 
             return result;
         }

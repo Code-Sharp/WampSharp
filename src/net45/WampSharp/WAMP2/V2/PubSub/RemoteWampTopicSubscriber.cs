@@ -6,13 +6,13 @@ namespace WampSharp.V2.PubSub
 {
     internal class RemoteWampTopicSubscriber : IRemoteWampTopicSubscriber
     {
-        private readonly IWampClient mSubscriber;
+        private readonly IWampClientProxy mSubscriber;
         private readonly long mSubscriptionId;
         private readonly WampIdGenerator mIdGenerator = new WampIdGenerator();
 
         public RemoteWampTopicSubscriber(long subscriptionId, IWampSubscriber subscriber)
         {
-            mSubscriber = subscriber as IWampClient;
+            mSubscriber = subscriber as IWampClientProxy;
             mSubscriptionId = subscriptionId;
         }
 

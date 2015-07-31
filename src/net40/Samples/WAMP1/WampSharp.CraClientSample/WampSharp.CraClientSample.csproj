@@ -34,13 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fleck, Version=0.12.0.40, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Fleck, Version=0.13.0.48, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Fleck.0.12.0.40\lib\net40\Fleck.dll</HintPath>
+      <HintPath>..\..\..\packages\Fleck.0.13.0.48\lib\net40\Fleck.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -64,9 +64,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebSocket4Net, Version=0.10.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
+    <Reference Include="WebSocket4Net, Version=0.12.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\WebSocket4Net.0.10\lib\net40\WebSocket4Net.dll</HintPath>
+      <HintPath>..\..\..\packages\WebSocket4Net.0.12\lib\net40\WebSocket4Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -78,9 +78,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\WampSharp.Default\WampSharp.Default.csproj">
-      <Project>{6AB75291-D296-457E-88A3-B41B16A1A247}</Project>
-      <Name>WampSharp.Default</Name>
+    <ProjectReference Include="..\..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
+      <Project>{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59}</Project>
+      <Name>WampSharp.NewtonsoftJson</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WampSharp.WAMP1.Default\WampSharp.WAMP1.Default.csproj">
+      <Project>{3B1DC300-4401-4ACF-B215-65E90BA421BB}</Project>
+      <Name>WampSharp.WAMP1.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WampSharp.WAMP1\WampSharp.WAMP1.csproj">
+      <Project>{78C5F5EB-DE92-408E-87C7-6287BC8CC399}</Project>
+      <Name>WampSharp.WAMP1</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj">
       <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>

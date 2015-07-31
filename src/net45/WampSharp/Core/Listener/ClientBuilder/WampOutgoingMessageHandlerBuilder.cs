@@ -9,7 +9,7 @@ namespace WampSharp.Core.Listener
     /// <typeparam name="TMessage"></typeparam>
     public class WampOutgoingMessageHandlerBuilder<TMessage> : IWampOutgoingMessageHandlerBuilder<TMessage>
     {
-        public IWampOutgoingMessageHandler<TMessage> Build(IWampConnection<TMessage> connection)
+        public IWampOutgoingMessageHandler Build(IWampConnection<TMessage> connection)
         {
             return new WampOutgoingMessageHandler<TMessage>(connection);
         }

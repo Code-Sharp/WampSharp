@@ -37,7 +37,7 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -50,9 +50,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebSocket4Net, Version=0.10.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
+    <Reference Include="WebSocket4Net, Version=0.12.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\WebSocket4Net.0.10\lib\net45\WebSocket4Net.dll</HintPath>
+      <HintPath>..\..\..\packages\WebSocket4Net.0.12\lib\net45\WebSocket4Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -63,9 +63,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\WampSharp.Default\WampSharp.Default.csproj">
-      <Project>{6ab75291-d296-457e-88a3-b41b16a1a247}</Project>
-      <Name>WampSharp.Default</Name>
+    <ProjectReference Include="..\..\..\WampSharp.WAMP1.Default\WampSharp.WAMP1.Default.csproj">
+      <Project>{3B1DC300-4401-4ACF-B215-65E90BA421BB}</Project>
+      <Name>WampSharp.WAMP1.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WampSharp.WAMP1\WampSharp.WAMP1.csproj">
+      <Project>{78C5F5EB-DE92-408E-87C7-6287BC8CC399}</Project>
+      <Name>WampSharp.WAMP1</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj">
       <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <owners />
+    <dependencies>
+      <dependency id="WampSharp" version="[$version$]" />
+      <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
+      <dependency id="Newtonsoft.Msgpack" version="[0.1.4]" />
+    </dependencies>
+    <id>WampSharp.NewtonsoftMsgpack</id>
+    <title>WampSharp Newtonsoft.Msgpack binding</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp Newtonsoft.Msgpack support</description>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <tags>websockets wampws rpc pubsub newtonsoft msgpack wampv2</tags>
+  </metadata>
+  <files>
+    <file src="bin\net45\WampSharp.NewtonsoftMsgpack.dll" target="lib\net45\WampSharp.NewtonsoftMsgpack.dll" />
+    <file src="bin\net45\WampSharp.NewtonsoftMsgpack.xml" target="lib\net45\WampSharp.NewtonsoftMsgpack.xml" />
+    <file src="bin\net40\WampSharp.NewtonsoftMsgpack.dll" target="lib\net40\WampSharp.NewtonsoftMsgpack.dll" />
+    <file src="bin\net40\WampSharp.NewtonsoftMsgpack.xml" target="lib\net40\WampSharp.NewtonsoftMsgpack.xml" />
+  </files>
+</package>

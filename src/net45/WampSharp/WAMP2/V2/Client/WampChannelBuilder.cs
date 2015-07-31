@@ -4,7 +4,6 @@ using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Listener;
 
 namespace WampSharp.V2.Client
 {
@@ -12,7 +11,7 @@ namespace WampSharp.V2.Client
     internal class WampChannelBuilder<TMessage>
     {
         private readonly IWampBinding<TMessage> mBinding;
-        private IWampServerProxyBuilder<TMessage, WampClient<TMessage>, IWampServerProxy> mFactory;
+        private WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy> mFactory;
 
         public WampChannelBuilder(IWampBinding<TMessage> binding)
         {
@@ -21,10 +20,10 @@ namespace WampSharp.V2.Client
             IWampFormatter<TMessage> formatter = mBinding.Formatter;
 
             mFactory =
-                new WampServerProxyBuilder<TMessage, WampClient<TMessage>, IWampServerProxy>(
+                new WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy>(
                     new WampOutgoingRequestSerializer<TMessage>(formatter),
-                    new WampServerProxyOutgoingMessageHandlerBuilder<TMessage, WampClient<TMessage>>
-                        (new WampServerProxyIncomingMessageHandlerBuilder<TMessage, WampClient<TMessage>>(formatter)));
+                    new WampServerProxyOutgoingMessageHandlerBuilder<TMessage, IWampClient<TMessage>>
+                        (new WampServerProxyIncomingMessageHandlerBuilder<TMessage, IWampClient<TMessage>>(formatter)));
         }
 
 

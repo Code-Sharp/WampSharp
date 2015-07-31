@@ -8,19 +8,22 @@ namespace WampSharp.V2.Realm.Binded
     {
         private readonly IWampHostedRealmContainer mRealmContainer;
         private readonly IWampSessionServer<TMessage> mSession;
-        private readonly IWampEventSerializer<TMessage> mEventSerializer;
+        private readonly IWampRouterBuilder mRouterBuilder;
+        private readonly IWampEventSerializer mEventSerializer;
         private readonly IWampBinding<TMessage> mBinding;
 
         private readonly ConcurrentDictionary<string, IWampBindedRealm<TMessage>> mRealmNameToRealm =
             new ConcurrentDictionary<string, IWampBindedRealm<TMessage>>();
 
 
-        public WampBindedRealmContainer(IWampHostedRealmContainer realmContainer,
-                                  IWampSessionServer<TMessage> session,
-                                  IWampEventSerializer<TMessage> eventSerializer,
-                                  IWampBinding<TMessage> binding)
+        public WampBindedRealmContainer(IWampHostedRealmContainer realmContainer, 
+            IWampSessionServer<TMessage> session, 
+            IWampRouterBuilder routerBuilder, 
+            IWampEventSerializer eventSerializer, 
+            IWampBinding<TMessage> binding)
         {
             mSession = session;
+            mRouterBuilder = routerBuilder;
             mEventSerializer = eventSerializer;
             mBinding = binding;
             mRealmContainer = realmContainer;
@@ -35,10 +38,7 @@ namespace WampSharp.V2.Realm.Binded
         {
             IWampHostedRealm realm = mRealmContainer.GetRealmByName(realmName);
 
-            return new WampBindedRealm<TMessage>(realm,
-                                           mSession,
-                                           mEventSerializer,
-                                           mBinding);
+            return new WampBindedRealm<TMessage>(realm, mRouterBuilder, mSession, mBinding, mEventSerializer);
         }
     }
 }

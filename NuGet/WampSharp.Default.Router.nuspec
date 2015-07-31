@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <owners />
+    <dependencies>
+      <dependency id="WampSharp.Fleck" version="[$version$]" />
+      <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
+      <dependency id="WampSharp.NewtonsoftMsgpack" version="[$version$]" />
+    </dependencies>
+    <id>WampSharp.Default.Router</id>
+    <title>WampSharp default router binding</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp above Fleck, Newtonsoft.Json and WebSocket4Net</description>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <tags>websockets wampws rpc pubsub fleck newtonsoft json msgpack wampv2</tags>
+  </metadata>
+  <files>
+    <file src="bin\net45\WampSharp.Default.Router.dll" target="lib\net45\WampSharp.Default.Router.dll" />
+    <file src="bin\net45\WampSharp.Default.Router.xml" target="lib\net45\WampSharp.Default.Router.xml" />
+    <file src="bin\net40\WampSharp.Default.Router.dll" target="lib\net40\WampSharp.Default.Router.dll" />
+    <file src="bin\net40\WampSharp.Default.Router.xml" target="lib\net40\WampSharp.Default.Router.xml" />
+  </files>
+</package>

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Client;
@@ -8,9 +7,9 @@ using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
-using WampSharp.Fleck;
 using WampSharp.Newtonsoft;
 using WampSharp.Tests.Rpc.Helpers;
+using WampSharp.Tests.TestHelpers;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Listener;
 using WampSharp.V1.Core.Listener.ClientBuilder;
@@ -50,7 +49,7 @@ namespace WampSharp.Tests
 
             Mock<IWampClient<JToken>> clientMock = new Mock<IWampClient<JToken>>();
             
-            MockConnection<JToken> connection = new MockConnection<JToken>();
+            MockConnection<JToken> connection = new MockConnection<JToken>(mFormatter);
             
             IWampServer client = GetClient(connection.SideAToSideB, clientMock.Object);
 
@@ -95,7 +94,7 @@ namespace WampSharp.Tests
 
             WampListener<JToken> listener = GetListener(mockListener, serverMock.Object);
 
-            MockConnection<JToken> connection = new MockConnection<JToken>();
+            MockConnection<JToken> connection = new MockConnection<JToken>(mFormatter);
 
             WampRpcClientFactory<JToken> factory =
                 new WampRpcClientFactory<JToken>(new WampRpcSerializer(new WampDelegateProcUriMapper(x => x.Name)),
@@ -150,7 +149,7 @@ namespace WampSharp.Tests
 
             WampListener<JToken> listener = GetListener(mockListener, rpcServer);
 
-            MockConnection<JToken> connection = new MockConnection<JToken>();
+            MockConnection<JToken> connection = new MockConnection<JToken>(mFormatter);
 
             WampRpcClientFactory<JToken> factory =
                 new WampRpcClientFactory<JToken>(new WampRpcSerializer(new WampDelegateProcUriMapper(x => "http://www.yogev.com/pr/" + x.Name)),
@@ -191,10 +190,9 @@ namespace WampSharp.Tests
             return new WampListener<JToken>
                 (listener,
                  handler,
-                 new WampClientContainer<JToken, IWampClient>
+                 new WampClientContainer<JToken>
                      (new WampClientBuilderFactory<JToken>
-                          (new WampSessionIdGenerator(),
-                           new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                          (new WampOutgoingRequestSerializer<JToken>(mFormatter),
                            new WampOutgoingMessageHandlerBuilder<JToken>())));
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
+using WampSharp.Logging;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Error;
 
@@ -18,14 +19,18 @@ namespace WampSharp.V2.Rpc
 
 #if NET45
 
-        protected async override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override async void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+                                                            IWampFormatter<TMessage> formatter,
+                                                            InvocationDetails details,
+                                                            TMessage[] arguments,
+                                                            IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
                 Task<object> task =
                     InvokeAsync(caller,
                                 formatter,
-                                options,
+                                details,
                                 arguments,
                                 argumentsKeywords);
 
@@ -33,15 +38,19 @@ namespace WampSharp.V2.Rpc
 
                 CallResult(caller, result, null);
             }
-            catch (WampException ex)
-            {
-                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
-                callback.Error(ex);
-            }
             catch (Exception ex)
             {
-                WampRpcRuntimeException wampException = ConvertExceptionToRuntimeException(ex);
+                mLogger.ErrorFormat(ex, "An error occured while calling {0}", this.Procedure);
+
+                WampException wampException = ex as WampException;
+
+                if (wampException == null)
+                {
+                    wampException = ConvertExceptionToRuntimeException(ex);
+                }
+
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+
                 callback.Error(wampException);
             }
         }
@@ -63,6 +72,7 @@ namespace WampSharp.V2.Rpc
             }
             catch (WampException ex)
             {
+                mLogger.ErrorFormat(ex, "An error occured while calling {0}", this.Procedure);
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
                 callback.Error(ex);
             }
@@ -79,14 +89,17 @@ namespace WampSharp.V2.Rpc
             {
                 Exception innerException = task.Exception.InnerException;
 
-                WampException wampException = innerException as WampException;
+                mLogger.ErrorFormat(innerException, "An error occured while calling {0}", this.Procedure);
 
+                WampException wampException = innerException as WampException;
+                
                 if (wampException == null)
                 {
                     wampException = ConvertExceptionToRuntimeException(innerException);
                 }
 
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+                
                 callback.Error(wampException);
             }
         }

@@ -1,18 +1,15 @@
 ﻿using System;
 using Moq;
-using NUnit.Framework;
 using Newtonsoft.Json.Linq;
-using WampSharp.Core;
-using WampSharp.Core.Contracts;
+using NUnit.Framework;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
-using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
-using WampSharp.Fleck;
 using WampSharp.Newtonsoft;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Listener;
+using WampSharp.V1.Core.Listener.ClientBuilder;
 
 namespace WampSharp.Tests
 {
@@ -68,7 +65,7 @@ namespace WampSharp.Tests
             return new WampListener<JToken>
                 (listener,
                  handler,
-                 new WampClientContainer<JToken, IWampClient>(factory.Object));
+                 new WampClientContainer<JToken>(factory.Object));
         }
 
         private IWampIncomingMessageHandler<JToken, IWampClient> GetHandler(IWampServer<JToken> wampServer)

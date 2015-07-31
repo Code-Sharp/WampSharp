@@ -91,7 +91,8 @@ namespace WampSharp.V2.Rpc
 
                     if (!outOrRefParameters.TryGetValue(parameter.Name, out currentValue))
                     {
-                        // Log or something??
+                        throw new Exception(string.Format("Argument {0} not found in arguments dictionary",
+                            parameter.Name));
                     }
                     else
                     {

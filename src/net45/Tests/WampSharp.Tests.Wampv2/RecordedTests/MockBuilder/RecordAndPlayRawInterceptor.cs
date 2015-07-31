@@ -1,5 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using WampSharp.Core.Message;
+using WampSharp.Tests.TestHelpers;
+using WampSharp.V2.Binding;
 
 namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
@@ -7,19 +9,22 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
     {
         private readonly IMessagePlayer<TMessage> mPlayer;
         private readonly IMessageRecorder<TMessage> mRecorder;
+        private readonly IWampBinding<TMessage> mBinding;
 
-        public RecordAndPlayRawInterceptor(IMessagePlayer<TMessage> player, IMessageRecorder<TMessage> recorder)
+        public RecordAndPlayRawInterceptor(IMessagePlayer<TMessage> player, IMessageRecorder<TMessage> recorder, IWampBinding<TMessage> binding)
         {
             mPlayer = player;
             mRecorder = recorder;
+            mBinding = binding;
         }
 
         public void Intercept(IInvocation invocation)
         {
-            WampMessage<TMessage> message = invocation.Arguments[0] as WampMessage<TMessage>;
+            WampMessage<object> message = invocation.Arguments[0] as WampMessage<object>;
+            var typed = mBinding.Formatter.SerializeMessage(message);
 
-            mPlayer.Response(message);
-            mRecorder.Record(message);
+            mPlayer.Response(typed);
+            mRecorder.Record(typed);
         }
     }
 }

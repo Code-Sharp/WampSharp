@@ -36,20 +36,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Castle.Core.3.3.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.2.1409.1722, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+      <HintPath>..\..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Binding\MockBinding.cs" />
     <Compile Include="Binding\MockWampMessage.cs" />
+    <Compile Include="CalleeProxyExtensions.cs" />
     <Compile Include="Client\Callee\CalleeTest.cs" />
     <Compile Include="Client\Callee\InvocationCalleeeTest.cs" />
     <Compile Include="Client\Callee\RawInvocationCalleeTests.cs" />
@@ -66,8 +68,11 @@
     <Compile Include="Client\Caller\CallerRawTests.cs" />
     <Compile Include="Client\RawTest.cs" />
     <Compile Include="Integration\AuthenticationTests.cs" />
+    <Compile Include="Integration\CallerCallee.cs" />
     <Compile Include="Integration\CallerDealerTests.cs" />
     <Compile Include="Integration\MockRawCallback.cs" />
+    <Compile Include="Integration\PatternBasedPubSubTests.cs" />
+    <Compile Include="Integration\PatternRpcTests.cs" />
     <Compile Include="Integration\PublisherSubscriber.cs" />
     <Compile Include="Integration\PubSubReflectionTests.cs" />
     <Compile Include="Integration\RpcOptionsTests.cs" />
@@ -83,9 +88,13 @@
     <Compile Include="Integration\RpcServices\SlowSquareService.cs" />
     <Compile Include="Integration\RpcServices\TimeService.cs" />
     <Compile Include="Integration\SerializedValue.cs" />
+    <Compile Include="Integration\SharedRpcTests.cs" />
     <Compile Include="RequestMapper.cs" />
     <Compile Include="TestHelpers\Integration\MockTransport.cs" />
+    <Compile Include="TestHelpers\Integration\WampClientPlayground.cs" />
     <Compile Include="TestHelpers\Integration\WampPlayground.cs" />
+    <Compile Include="TestHelpers\Integration\WampPlaygroundRoleExtensions.cs" />
+    <Compile Include="TestHelpers\MockRawFormatter.cs" />
     <Compile Include="WampMessagePrinter.cs" />
     <Compile Include="Dealer\Call.cs" />
     <Compile Include="RecordedTests\BaseScenario.cs" />
@@ -121,17 +130,17 @@
     <Compile Include="WampMessageExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WampSharp.Default\WampSharp.Default.csproj">
-      <Project>{6AB75291-D296-457E-88A3-B41B16A1A247}</Project>
-      <Name>WampSharp.Default</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WampSharp.Tests\WampSharp.Tests.csproj">
-      <Project>{D3FB3310-A761-45B5-AC4B-78FE90C2829C}</Project>
-      <Name>WampSharp.Tests</Name>
+    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
+      <Project>{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59}</Project>
+      <Name>WampSharp.NewtonsoftJson</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>
       <Name>WampSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj">
+      <Project>{78AB08FB-F75D-4F93-A25F-164BF90DD408}</Project>
+      <Name>WampSharp.Tests.TestHelpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

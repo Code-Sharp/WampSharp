@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WampSharp.Logging;
+
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -14,12 +16,15 @@ namespace WampSharp.V2.Rpc
 
         private readonly string mProcedure;
 
+        protected readonly ILog mLogger;
+
         protected readonly static IWampFormatter<object> ObjectFormatter =
             WampObjectFormatter.Value;
 
         protected LocalRpcOperation(string procedure)
         {
             mProcedure = procedure;
+            mLogger = LogProvider.GetLogger(typeof (LocalRpcOperation) + "." + procedure);
         }
 
         public string Procedure
@@ -120,7 +125,11 @@ namespace WampSharp.V2.Rpc
         }
 
         protected abstract void InnerInvoke<TMessage>
-            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
+            (IWampRawRpcOperationRouterCallback caller,
+             IWampFormatter<TMessage> formatter,
+             InvocationDetails details,
+             TMessage[] arguments,
+             IDictionary<string, TMessage> argumentsKeywords);
 
         protected class WampRpcErrorCallback : IWampErrorCallback
         {

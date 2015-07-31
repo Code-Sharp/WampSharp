@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Session
@@ -13,34 +15,64 @@ namespace WampSharp.V2.Session
         public WampSessionServer()
         {
             // Do it with reflection and attributes :)
-            mWelcomeDetails = new Dictionary<string,object>()
+            mWelcomeDetails = new Dictionary<string, object>()
+            {
                 {
-                    {"roles",
-                        new Dictionary<string,object>()
+                    "roles",
+                    new Dictionary<string, object>()
+                    {
+                        {
+                            "dealer", new Dictionary<string, object>()
                             {
-                                {"dealer", new Dictionary<string, object>()
+                                {"pattern_based_registration", true},
+                                //{"registration_revocation", true},
+                                {"shared_registration", true},
+                                {"caller_identification", true},
+                                //{"registration_meta_api", true},
+                                {"progressive_call_results", true},
+                            }
+                        },
+                        {
+                            "broker", new Dictionary<string, object>()
+                            {
+                                {
+                                    "features",
+                                    new Dictionary<string, object>()
                                     {
-                                                                   
-                                    }},
-                                {"broker", new Dictionary<string,object>()
-                                    {
-                                        {"features",
-                                            new Dictionary<string, object>()
-                                                {
-                                                    {"publisher_identification", true},
-                                                    {"publisher_exclusion", true},
-                                                    {"subscriber_blackwhite_listing", true},
-                                                }}
-                                    }},
-                            }}
-                };
+                                        {"publisher_identification", true},
+                                        {"pattern_based_subscription", true},
+                                        //{"subscription_meta_api", true},
+                                        //{"subscription_revocation", true},
+                                        {"publisher_exclusion", true},
+                                        {"subscriber_blackwhite_listing", true},
+                                    }
+                                }
+                            }
+                        },
+                    }
+                }
+            };
         }
 
-        public void OnNewClient(IWampClient<TMessage> client)
+        public WampSessionServer(IWampBinding<TMessage> binding,
+                                 IWampHostedRealmContainer realmContainer,
+                                 IWampRouterBuilder builder,
+                                 IWampEventSerializer eventSerializer) :
+            this()
+        {
+            mRealmContainer =
+                new WampBindedRealmContainer<TMessage>(realmContainer,
+                                                       this,
+                                                       builder,
+                                                       eventSerializer,
+                                                       binding);
+        }
+
+        public void OnNewClient(IWampClientProxy<TMessage> client)
         {
         }
 
-        public void OnClientDisconnect(IWampClient<TMessage> client)
+        public void OnClientDisconnect(IWampClientProxy<TMessage> client)
         {
             if ((client.Realm != null) && !client.GoodbyeSent)
             {
@@ -50,7 +82,7 @@ namespace WampSharp.V2.Session
 
         public void Hello(IWampSessionClient client, string realm, TMessage details)
         {
-            IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
+            IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
             
             IWampBindedRealm<TMessage> bindedRealm = 
                 mRealmContainer.GetRealmByName(realm);
@@ -66,7 +98,7 @@ namespace WampSharp.V2.Session
         {
             using (IDisposable disposable = client as IDisposable)
             {
-                IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
+                IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
 
                 wampClient.GoodbyeSent = true;
                 wampClient.Realm.Abort(wampClient.Session, details, reason);
@@ -83,7 +115,7 @@ namespace WampSharp.V2.Session
             {
                 client.Goodbye(details, WampErrors.CloseNormal);
 
-                IWampClient<TMessage> wampClient = client as IWampClient<TMessage>;
+                IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
                 wampClient.GoodbyeSent = true;
                 wampClient.Realm.Goodbye(wampClient.Session, details, reason);
             }

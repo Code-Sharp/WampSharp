@@ -41,7 +41,7 @@ namespace WampSharp.RawSocket
 
             public abstract WampMessage<TMessage> Parse(byte[] raw);
 
-            public abstract byte[] Format(WampMessage<TMessage> message);
+            public abstract byte[] Format(WampMessage<object> message);
         }
 
         private class RawSocketBinaryMessageParser : RawSocketMessageParser
@@ -59,7 +59,7 @@ namespace WampSharp.RawSocket
                 return parsed;
             }
 
-            public override byte[] Format(WampMessage<TMessage> message)
+            public override byte[] Format(WampMessage<object> message)
             {
                 byte[] bytes = mBinaryBinding.Format(message);
 
@@ -99,7 +99,7 @@ namespace WampSharp.RawSocket
                 return parsed;
             }
 
-            public override byte[] Format(WampMessage<TMessage> message)
+            public override byte[] Format(WampMessage<object> message)
             {
                 string text = mTextBinding.Format(message);
 

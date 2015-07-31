@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
@@ -8,7 +9,7 @@ namespace WampSharp.Core.Listener
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     /// <typeparam name="TClient"></typeparam>
-    public class WampClientContainer<TMessage, TClient> : IWampClientContainer<TMessage, TClient>
+    public abstract class WampClientContainer<TMessage, TClient> : IWampClientContainer<TMessage, TClient>
     {
         #region Members
 
@@ -36,28 +37,30 @@ namespace WampSharp.Core.Listener
 
         #region Public Methods
 
-        public TClient GetClient(IWampConnection<TMessage> connection)
+        public virtual TClient GetClient(IWampConnection<TMessage> connection)
         {
             return mConnectionToClient.GetOrAdd(connection,
                                                 key => mClientBuilder.Create(key));
         }
 
-        public IEnumerable<TClient> GetAllClients()
+        public virtual IEnumerable<TClient> GetAllClients()
         {
             return mConnectionToClient.Values;
         }
 
-        public void RemoveClient(IWampConnection<TMessage> connection)
+        public virtual void RemoveClient(IWampConnection<TMessage> connection)
         {
             TClient client;
 
             mConnectionToClient.TryRemove(connection, out client);
         }
 
-        public bool TryGetClient(IWampConnection<TMessage> connection, out TClient client)
+        public virtual bool TryGetClient(IWampConnection<TMessage> connection, out TClient client)
         {
             return mConnectionToClient.TryGetValue(connection, out client);
         }
+
+        public abstract object GenerateClientId(TClient client);
 
         #endregion
     }

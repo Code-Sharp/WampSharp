@@ -1,4 +1,5 @@
 ﻿using System;
+using WampSharp.Logging;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 
@@ -15,6 +16,7 @@ namespace WampSharp.Core.Dispatch
         IWampIncomingMessageHandler<TMessage, TClient>,
         IWampIncomingMessageHandler<TMessage>
     {
+        private readonly ILog mLogger;
         private readonly IWampRequestMapper<TMessage> mWampRequestMapper;
         private readonly DelegateCache<WampMethodInfo, Action<TClient, WampMessage<TMessage>>> mDelegateCache;
 
@@ -32,6 +34,7 @@ namespace WampSharp.Core.Dispatch
              IMethodBuilder<WampMethodInfo, Action<TClient, WampMessage<TMessage>>> methodBuilder)
         {
             mWampRequestMapper = wampRequestMapper;
+            mLogger = LogProvider.GetLogger(this.GetType());
             mDelegateCache = new DelegateCache<WampMethodInfo, Action<TClient, WampMessage<TMessage>>>(methodBuilder);
         }
 
@@ -41,8 +44,13 @@ namespace WampSharp.Core.Dispatch
 
             if (method != null)
             {
+                mLogger.DebugFormat("Mapped message to method: {0}", method.Method);
                 Action<TClient, WampMessage<TMessage>> action = mDelegateCache.Get(method);
                 action(client, message);
+            }
+            else
+            {
+                mLogger.Warn("Failed to map message to a suitable method handler");                
             }
         }
 

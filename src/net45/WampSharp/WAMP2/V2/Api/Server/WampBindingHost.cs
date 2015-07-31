@@ -34,41 +34,37 @@ namespace WampSharp.V2
         /// <param name="connectionListener">The <see cref="IWampConnectionListener{TMessage}"/> this 
         /// binding host listens to.</param>
         /// <param name="binding">The <see cref="IWampBinding{TMessage}"/> associated with this binding host.</param>
-        public WampBindingHost(IWampHostedRealmContainer realmContainer, IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
+        public WampBindingHost(IWampHostedRealmContainer realmContainer, IWampRouterBuilder builder, IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding)
         {
-            WampSessionServer<TMessage> session = new WampSessionServer<TMessage>();
-
-            IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer =
+            IWampOutgoingRequestSerializer outgoingRequestSerializer =
                 new WampOutgoingRequestSerializer<TMessage>(binding.Formatter);
 
-            IWampEventSerializer<TMessage> eventSerializer = GetEventSerializer(outgoingRequestSerializer);
+            IWampEventSerializer eventSerializer = GetEventSerializer(outgoingRequestSerializer);
 
-            mRealmContainer = new WampBindedRealmContainer<TMessage>(realmContainer, session, eventSerializer, binding);
-
-            // TODO: implement the constructor interface pattern.
-            session.RealmContainer = mRealmContainer;
+            IWampSessionServer<TMessage> session = 
+                builder.CreateSessionHandler(realmContainer, binding, eventSerializer);
 
             mSession = session;
 
             mListener = GetWampListener(connectionListener, binding, outgoingRequestSerializer);
         }
 
-        private static IWampEventSerializer<TMessage> GetEventSerializer(
-            IWampOutgoingRequestSerializer<TMessage> outgoingSerializer)
+        private static IWampEventSerializer GetEventSerializer(
+            IWampOutgoingRequestSerializer outgoingSerializer)
         {
             WampMessageSerializerFactory<TMessage> serializerGenerator =
                 new WampMessageSerializerFactory<TMessage>(outgoingSerializer);
 
-            return serializerGenerator.GetSerializer<IWampEventSerializer<TMessage>>();
+            return serializerGenerator.GetSerializer<IWampEventSerializer>();
         }
 
-        private WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
+        private WampListener<TMessage> GetWampListener(IWampConnectionListener<TMessage> connectionListener, IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer outgoingRequestSerializer)
         {
-            IWampClientBuilderFactory<TMessage, IWampClient<TMessage>> clientBuilderFactory =
+            IWampClientBuilderFactory<TMessage, IWampClientProxy<TMessage>> clientBuilderFactory =
                 GetWampClientBuilder(binding, outgoingRequestSerializer);
 
-            IWampClientContainer<TMessage, IWampClient<TMessage>> clientContainer =
-                new WampClientContainer<TMessage, IWampClient<TMessage>>(clientBuilderFactory);
+            IWampClientContainer<TMessage, IWampClientProxy<TMessage>> clientContainer =
+                new WampClientContainer<TMessage>(clientBuilderFactory);
 
             IWampRequestMapper<TMessage> requestMapper =
                 new WampRequestMapper<TMessage>(typeof(WampServer<TMessage>),
@@ -77,8 +73,8 @@ namespace WampSharp.V2
             WampRealmMethodBuilder<TMessage> methodBuilder =
                 new WampRealmMethodBuilder<TMessage>(mSession, binding.Formatter);
 
-            IWampIncomingMessageHandler<TMessage, IWampClient<TMessage>> wampIncomingMessageHandler =
-                new WampIncomingMessageHandler<TMessage, IWampClient<TMessage>>
+            IWampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>> wampIncomingMessageHandler =
+                new WampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>>
                     (requestMapper,
                      methodBuilder);
 
@@ -89,17 +85,13 @@ namespace WampSharp.V2
                  mSession);
         }
 
-        private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer)
+        private static WampClientBuilderFactory<TMessage> GetWampClientBuilder(IWampBinding<TMessage> binding, IWampOutgoingRequestSerializer outgoingRequestSerializer)
         {
-            WampIdGenerator wampIdGenerator =
-                new WampIdGenerator();
-
             WampOutgoingMessageHandlerBuilder<TMessage> wampOutgoingMessageHandlerBuilder =
                 new WampOutgoingMessageHandlerBuilder<TMessage>();
 
             return new WampClientBuilderFactory<TMessage>
-                (wampIdGenerator,
-                 outgoingRequestSerializer,
+                (outgoingRequestSerializer,
                  wampOutgoingMessageHandlerBuilder,
                  binding);
         }

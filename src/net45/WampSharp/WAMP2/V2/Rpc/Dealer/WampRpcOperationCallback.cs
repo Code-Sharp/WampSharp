@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Client;
@@ -13,14 +16,15 @@ namespace WampSharp.V2.Rpc
     {
         private readonly IWampCaller mCaller;
         private readonly long mRequestId;
+        private readonly IWampConnectionMonitor mMonitor;
 
         public WampRpcOperationCallback(IWampCaller caller, long requestId)
         {
             mCaller = caller;
             mRequestId = requestId;
 
-            IWampConnectionMonitor monitor = caller as IWampConnectionMonitor;
-            monitor.ConnectionClosed += OnConnectionClosed;
+            mMonitor = caller as IWampConnectionMonitor;
+            mMonitor.ConnectionClosed += OnConnectionClosed;
         }
 
         public void Result<TResult>(IWampFormatter<TResult> formatter, ResultDetails details)
@@ -57,16 +61,13 @@ namespace WampSharp.V2.Rpc
 
         private void OnConnectionClosed(object sender, EventArgs e)
         {
-            IWampConnectionMonitor monitor = sender as IWampConnectionMonitor;
-            monitor.ConnectionClosed -= OnConnectionClosed;
-
             RaiseDisconnected();
         }
 
-        protected virtual void RaiseDisconnected()
+        private void RaiseDisconnected()
         {
             EventHandler handler = Disconnected;
-
+            
             if (handler != null)
             {
                 handler(this, EventArgs.Empty);

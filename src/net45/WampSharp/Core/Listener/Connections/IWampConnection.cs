@@ -26,7 +26,7 @@ namespace WampSharp.Core.Listener
         /// Sends a given message through the wire.
         /// </summary>
         /// <param name="message">The given message.</param>
-        void Send(WampMessage<TMessage> message);
+        void Send(WampMessage<object> message);
         
         /// <summary>
         /// Occurs when this connection opens.

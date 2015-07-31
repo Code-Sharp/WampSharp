@@ -4,26 +4,26 @@ using WampSharp.Core.Serialization;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal class SingleValueExtractor : IOperationResultExtractor
+    internal class SingleValueExtractor<TResult> : IOperationResultExtractor<TResult>
     {
-        private readonly Type mReturnType;
+        private readonly Type mReturnType = typeof(TResult);
         private readonly bool mHasReturnValue;
 
-        public SingleValueExtractor(Type returnType, bool hasReturnValue)
+        public SingleValueExtractor(bool hasReturnValue)
         {
-            mReturnType = returnType;
             mHasReturnValue = hasReturnValue;
         }
 
-        public object GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
+        public TResult GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
         {
             if (!mHasReturnValue || !arguments.Any())
             {
-                return null;
+                // TODO: throw exception if not nullable.
+                return default(TResult);
             }
             else
             {
-                object result = formatter.Deserialize(mReturnType, arguments[0]);
+                TResult result = formatter.Deserialize<TResult>(arguments[0]);
                 return result;
             }
         }

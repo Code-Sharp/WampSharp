@@ -9,7 +9,8 @@ namespace WampSharp.V2.Core.Contracts
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     /// <remarks>These messages are part of the WAMP2 specification.</remarks>
-    public interface IWampDealer<TMessage>
+    public interface IWampDealer<TMessage> : IWampRpcInvocationCallback<TMessage>,
+                                             IWampErrorCallback<TMessage>
     {
         /// <summary>
         /// Occurs when a REGISTER message arrives.

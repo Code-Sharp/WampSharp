@@ -19,16 +19,17 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45 CASTLE LIBLOG_PUBLIC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\WampSharp.XML</DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NET45</DefineConstants>
+    <DefineConstants>TRACE;NET45 CASTLE LIBLOG_PUBLIC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\WampSharp.XML</DocumentationFile>
@@ -40,9 +41,11 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.36.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
@@ -64,6 +67,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="Core\Client\IWampServerProxyBuilder.cs" />
     <Compile Include="Core\Client\IWampServerProxyIncomingMessageHandlerBuilder.cs" />
     <Compile Include="Core\Client\IWampServerProxyOutgoingMessageHandlerBuilder.cs" />
@@ -78,6 +82,9 @@
     <Compile Include="Core\Dispatch\Handler\DelegateCache.cs" />
     <Compile Include="Core\Dispatch\Handler\IMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\IWampRequestMapper.cs" />
+    <Compile Include="Core\Listener\Connections\AsyncConnection\ActionBlock.cs" />
+    <Compile Include="Core\Listener\Connections\AsyncConnection\AsyncWampConnection.cs" />
+    <Compile Include="Core\Logs\LogErrorExtensions.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodInfo.cs" />
     <Compile Include="Core\Dispatch\Handler\WampRequestMapper.cs" />
@@ -117,114 +124,19 @@
     <Compile Include="Core\Utilities\CustomAttributeExtensions.cs" />
     <Compile Include="Core\Utilities\DictionaryExtensions.cs" />
     <Compile Include="Core\Utilities\GenericTypeExtensions.cs" />
+    <Compile Include="Core\Utilities\IdMapperBase.cs" />
+    <Compile Include="Core\Utilities\Method.cs" />
     <Compile Include="Core\Utilities\ReadOnlyDictionary.cs" />
+    <Compile Include="Core\Utilities\SwapCollection.cs" />
     <Compile Include="Core\Utilities\SwapDictionary.cs" />
+    <Compile Include="Core\Utilities\TaskMethodInvokeGenerator.cs" />
+    <Compile Include="Core\Utilities\SwapHashSet.cs" />
+    <Compile Include="Core\Utilities\ThreadSafeRandom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WAMP1\V1\Api\Client\IWampChannel.cs" />
-    <Compile Include="WAMP1\V1\Api\Client\IWampChannelFactory.cs" />
-    <Compile Include="WAMP1\V1\Api\Client\WampChannel.cs" />
-    <Compile Include="WAMP1\V1\Api\Client\WampChannelFactory.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\DefaultWampServer.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\IWampHost.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\IWampServerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\WampHost.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\WampRequestContext.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\WampServerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Client\IWampAuxiliaryClientFactory.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Client\IWampClientConnectionMonitor.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Client\WampAuxiliaryClientFactory.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Client\WampClientConnectionMonitor.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Client\WampConnectionEstablishedEventArgs.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Server\WampAuxiliaryServer.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampAuxiliaryClient.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampAuxiliaryServer.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampClient.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampCraClient.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampPubSubClient.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampPubSubServer.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampRpcClient.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampRpcServer.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampServer.cs" />
-    <Compile Include="WAMP1\V1\Core\Curie\IWampCurieMapper.cs" />
-    <Compile Include="WAMP1\V1\Core\Curie\WampCurieMapper.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilder.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\IWampSessionIdGenerator.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\WampListener.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\WampSessionEventArgs.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\WampSessionIdGenerator.cs" />
-    <Compile Include="WAMP1\V1\Core\Proxy\SessionIdPropertyInterceptor.cs" />
-    <Compile Include="WAMP1\V1\Core\Proxy\WampCraAuthenticatorPropertyInterceptor.cs" />
-    <Compile Include="WAMP1\V1\Core\Proxy\WampInterceptorSelector.cs" />
-    <Compile Include="WAMP1\V1\Cra\IWampCraAuthenticator.cs" />
-    <Compile Include="WAMP1\V1\Cra\IWampCraProcedures.cs" />
-    <Compile Include="WAMP1\V1\Cra\IWampCraServerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Cra\MockWampCraProcedures.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraAuthenticator.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraAuthenticatorBuilder.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraChallenge.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraHelpers.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraHost.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraPendingAuth.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraPermissions.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraPermissionsMapper.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraRpcMetadata.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraRpcMethod.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraServer.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraServerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampPubSubPermissions.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampRpcPermissions.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Client\IWampPubSubClientFactory.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Client\IWampServerProxyFactory.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Client\WampPubSubClientFactory.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Client\WampPubSubSubject.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Client\WampServerProxyFactory.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionAddEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionRemoveEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampTopicCreatedEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampTopicEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampTopicRemovedEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\Interfaces\IWampTopic.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainer.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainerExtended.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\WampNotification.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\WampObserver.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\WampPubSubServer.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\WampTopic.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\WampTopicContainer.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\Dynamic\DynamicWampRpcClient.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\Dynamic\WampRpcMethodInfo.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampProcUriMapper.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampRpcClientFactory.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampRpcClientHandler.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampRpcClientHandlerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampRpcSerializer.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampServerProxyFactory.cs" />
+    <Compile Include="Core\Cra\WampCraHelpers.cs" />
     <Compile Include="Core\Utilities\TaskExtensions.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcCall.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientAsyncInterceptor.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientFactory.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientHandler.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientHandlerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientInterceptor.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientInterceptorSelector.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientSyncInterceptor.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcMethodAttributeProcUriMapper.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcRequest.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcSerializer.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampServerProxyFactory.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\IWampRpcMetadata.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\IWampRpcMetadataCatalog.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\IWampRpcMethod.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\MethodInfoWampRpcMetadata.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\MethodInfoWampRpcMethod.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\ProcUriAlreadyMappedException.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\WampRpcMetadataCatalog.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\WampRpcServer.cs" />
-    <Compile Include="WAMP1\V1\Rpc\WampRpcCallException.cs" />
-    <Compile Include="WAMP1\V1\Rpc\WampRpcMethodAttribute.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CachedCalleeProxyInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyBase.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\IOperationResultExtractor.cs" />
@@ -234,6 +146,9 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallback.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Sync\SyncCallbackBase.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\CompositeAsyncDisposable.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorBase.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\WampIncompatibleCalleeProxyMethodException.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\IPublisherRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\ISubscriberRegistrationInterceptor.cs" />
@@ -243,6 +158,11 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
+    <Compile Include="WAMP2\V2\Binding\IWampRouterBinding.cs" />
+    <Compile Include="WAMP2\V2\Binding\WampRouterBindingExtensions.cs" />
+    <Compile Include="WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
+    <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
     <Compile Include="WAMP2\V2\Reflection\SessionDescriptorService.cs" />
     <Compile Include="WAMP2\V2\Reflection\Rpc\AvailableRegistrations.cs" />
@@ -259,6 +179,30 @@
     <Compile Include="WAMP2\V2\Reflection\PubSub\SubscriptionDetails.cs" />
     <Compile Include="WAMP2\V2\Reflection\Rpc\RegistrationDetails.cs" />
     <Compile Include="WAMP2\V2\Reflection\Session\WampTransportDetails.cs" />
+    <Compile Include="WAMP2\V2\Core\Listener\WampClientContainer.cs" />
+    <Compile Include="WAMP2\V2\PCL\CodeGeneration\CalleeProxyCodeGenerator.cs" />
+    <Compile Include="WAMP2\V2\PCL\CodeGeneration\FormatTypeExtensions.cs" />
+    <Compile Include="WAMP2\V2\PCL\CodeGeneration\IProxyMethodWriter.cs" />
+    <Compile Include="WAMP2\V2\PCL\CodeGeneration\OutRefProxyMethodWriter.cs" />
+    <Compile Include="WAMP2\V2\PCL\CodeGeneration\SimpleProxyMethodWriter.cs" />
+    <Compile Include="WAMP2\V2\PCL\CodeGeneration\TemplateHelper.cs" />
+    <Compile Include="WAMP2\V2\PCL\GeneratedCodeException.cs" />
+    <Compile Include="WAMP2\V2\PCL\WampMessageSerializerFactory.cs" />
+    <Compile Include="WAMP2\V2\PCL\ManualWampServerProxyBuilder.cs" />
+    <Compile Include="WAMP2\V2\PCL\ProxyBase.cs" />
+    <Compile Include="WAMP2\V2\PCL\WampCalleeClientProxyFactory.cs" />
+    <Compile Include="WAMP2\V2\PCL\WampClientBuilder.cs" />
+    <Compile Include="WAMP2\V2\PCL\WampClientProxy.cs" />
+    <Compile Include="WAMP2\V2\PCL\WampClientProxyBase.cs" />
+    <Compile Include="WAMP2\V2\PCL\WampProtocol.cs" />
+    <Compile Include="WAMP2\V2\PCL\WampServerProxyBuilder.cs" />
+    <Compile Include="WAMP2\V2\PubSub\ExactTopicContainer.cs" />
+    <Compile Include="Core\Utilities\ImmutableHashSetInterlocked.cs" />
+    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\MatchTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\PrefixSubscriptionId.cs" />
+    <Compile Include="WAMP2\V2\PubSub\PrefixTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\PubSub\SimpleSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\LocalSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopicAttribute.cs" />
@@ -266,13 +210,35 @@
     <Compile Include="WAMP2\V2\Reflection\Session\Crossbar\CrossbarWebSocketTransportDetails.cs" />
     <Compile Include="WAMP2\V2\Reflection\SubscriptionDescriptorService.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\LocalParameter.cs" />
+    <Compile Include="WAMP2\V2\Core\LocalParameter.cs" />
+    <Compile Include="WAMP2\V2\Core\WildCardMatcher.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WildCardSubscriptionId.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WildCardTopicContainer.cs" />
+    <Compile Include="WAMP2\V2\Realm\IWampRouterBuilder.cs" />
+    <Compile Include="WAMP2\V2\Realm\WampRouterBuilder.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ICalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CallerProgress.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoValidation.cs" />
+    <Compile Include="Core\Utilities\MethodInvokeGenerator.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\MatchRpcOperationCatalog.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\IWampRpcOperationRegistrationToken.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\IWampRpcOperationSelector.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\LastOperationSelector.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\RandomOperationSelector.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\PrefixRpcOperationCatalog.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\ProcedureRegistration.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\RoundrobinOperationSelector.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\WampCalleeRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\RemoteWampCalleeDetails.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\WampRpcThrowHelper.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\WildcardRpcOperationCatalog.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyFactory.cs" />
@@ -298,7 +264,6 @@
     <Compile Include="WAMP2\V2\Client\Session\DefaultWampClientAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationException.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\Attributes\IgnorePropertyAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\EventDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\PublishOptionsExtended.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\CancelOptions.cs" />
@@ -306,7 +271,6 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\ResultDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\CallOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InvocationDetails.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\Attributes\PropertyNameAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\PublishOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\PubSub\SubscribeOptions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\YieldOptions.cs" />
@@ -315,7 +279,7 @@
     <Compile Include="WAMP2\V2\Core\WampRequestIdMapper.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampCustomizedSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\IWampRawTopicRouterSubscriber.cs" />
-    <Compile Include="WAMP2\V2\PubSub\OptionLessSubscriptionId.cs" />
+    <Compile Include="WAMP2\V2\PubSub\ExactTopicSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\Realm\Hosted\HostedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Api\Server\IWampHost.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\RawTopicClientSubscriber.cs" />
@@ -383,7 +347,7 @@
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\AsyncMethodInfoRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\IOperationExtractor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\OperationExtractor.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\TypeExtensions.cs" />
+    <Compile Include="Core\Utilities\TypeExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationClientCallback.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs" />
@@ -407,7 +371,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\Error\IWampSubscriberError.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Error\WampErrorHandlerAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Error\WampErrors.cs" />
-    <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\IWampClientProxy.cs" />
     <Compile Include="WAMP2\V2\Error\IWampErrorCallback.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampRawClient.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampServer.cs" />
@@ -451,7 +415,6 @@
     <Compile Include="WAMP2\V2\PubSub\Interfaces\ISubscribeRequest.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\ISubscriptionNotifier.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IUnsubscribeRequest.cs" />
-    <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampRawTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampTopic.cs" />
     <Compile Include="WAMP2\V2\PubSub\Interfaces\IWampTopicContainer.cs" />
@@ -462,17 +425,15 @@
     <Compile Include="WAMP2\V2\PubSub\WampPubSubServer.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampRawTopicContainer.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopic.cs" />
-    <Compile Include="WAMP2\V2\PubSub\WampTopicContainer.cs" />
     <Compile Include="WAMP2\V2\Realm\Interfaces\IWampRealm.cs" />
     <Compile Include="WAMP2\V2\Realm\Binded\IWampBindedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Realm\Binded\WampBindedRealm.cs" />
     <Compile Include="WAMP2\V2\Realm\Binded\WampBindedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\AsyncLocalRpcOperation.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\CastedRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\LocalRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoHelper.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\SyncMethodInfoRpcOperation.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ParameterInfoExtensions.cs" />
+    <Compile Include="Core\Utilities\ParameterInfoExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\RpcParameter.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\SyncLocalRpcOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\CollectionResultTreatment.cs" />
@@ -497,7 +458,9 @@
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryConnectionListener.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryTransport.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\WampCompositeFormatter.cs" />
+    <Compile Include="WAMP2\V2\Transports\InMemory\WampFormatterExtensions.cs" />
     <Compile Include="WAMP2\V2\Transports\WebSocketTransport.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WampTopicContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

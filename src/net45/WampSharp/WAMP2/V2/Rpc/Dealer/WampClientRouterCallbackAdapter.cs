@@ -1,18 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class WampClientRouterCallbackAdapter : IWampRawRpcOperationRouterCallback
+    internal class WampClientRouterCallbackAdapter : IWampRawRpcOperationRouterCallback,
+        ICallbackDisconnectionNotifier
     {
         private readonly IWampRawRpcOperationClientCallback mCaller;
         private readonly InvocationDetails mOptions;
+        private readonly ICallbackDisconnectionNotifier mNotifier;
 
         public WampClientRouterCallbackAdapter(IWampRawRpcOperationClientCallback caller, InvocationDetails options)
         {
             mCaller = caller;
+            mNotifier = mCaller as ICallbackDisconnectionNotifier;
+            mNotifier.Disconnected += OnDisconnected;
             mOptions = options;
+        }
+
+        private void OnDisconnected(object sender, EventArgs e)
+        {
+            RaiseDisconnected();
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, YieldOptions details)
@@ -53,6 +63,18 @@ namespace WampSharp.V2.Rpc
         private ResultDetails GetResultDetails(YieldOptions details)
         {
             return new ResultDetails {Progress = details.Progress};
+        }
+
+        public event EventHandler Disconnected;
+
+        private void RaiseDisconnected()
+        {
+            EventHandler handler = Disconnected;
+            
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
         }
     }
 }

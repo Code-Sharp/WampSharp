@@ -1,6 +1,10 @@
 # see http://docs.travis-ci.com/user/languages/csharp/
 
 language: csharp
+
+mono:
+  -  3.12.0
+
 solution: src/mono/WampSharpMono.sln
 
 install:
@@ -13,5 +17,5 @@ script:
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/mono/Tests/WampSharp.Tests.Wampv2/bin/Release/WampSharp.Tests.Wampv2.dll
 
 branches:
- only:
-  - wampv2
+ except:
+  - wampv1

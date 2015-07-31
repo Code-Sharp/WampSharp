@@ -1,22 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using WampSharp.Core.Listener;
-using WampSharp.Core.Serialization;
-using WampSharp.V2.Client;
-using WampSharp.V2.Core;
+using System.Collections.Concurrent;
+using System.Reactive.Disposables;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class WampCalleeOperationCatalog<TMessage> : IWampCalleeOperationCatalog
+    internal class WampCalleeOperationCatalog<TMessage> : IWampCalleeOperationCatalog
     {
         private readonly IWampRpcOperationCatalog mCatalog;
         private readonly IWampCalleeInvocationHandler<TMessage> mInvocationHandler;
-
-        private readonly WampIdMapper<WampCalleeRpcOperation> mRegistrationIdToOperation =
-            new WampIdMapper<WampCalleeRpcOperation>();
+        private readonly ConcurrentDictionary<RemoteWampCalleeDetails, IDisposable> mOperationToDisposable =
+            new ConcurrentDictionary<RemoteWampCalleeDetails, IDisposable>(); 
 
         public WampCalleeOperationCatalog(IWampRpcOperationCatalog catalog, IWampCalleeInvocationHandler<TMessage> invocationHandler)
         {
@@ -26,250 +20,59 @@ namespace WampSharp.V2.Rpc
 
         public long Register(IRegisterRequest request, RegisterOptions options, string procedure)
         {
-            WampCalleeRpcOperation operation =
-                new WampCalleeRpcOperation(procedure,
-                                           request.Callee,
-                                           options,
-                                           mInvocationHandler,
-                                           this);
-
-            long registrationId = 
-                mRegistrationIdToOperation.Add(operation);
-
-            operation.RegistrationId = registrationId; // Hate this setter.
+            WampCalleeRpcOperation<TMessage> operation =
+                new WampCalleeRpcOperation<TMessage>(procedure,
+                                                     request.Callee,
+                                                     options,
+                                                     mInvocationHandler,
+                                                     this);
 
             try
             {
-                mCatalog.Register(operation);
+                IWampRpcOperationRegistrationToken token = 
+                    mCatalog.Register(operation, options);
+
+                long registrationId = token.RegistrationId;
+
+                operation.RegistrationId = registrationId;
+
+                CompositeDisposable disposable = new CompositeDisposable(token, operation);
+
+                bool alreadyRegistered = 
+                    !mOperationToDisposable.TryAdd(operation, disposable);
 
                 request.Registered(registrationId);
 
-                operation.Open();
+                // If the operation is already registered, ignore it.
+                if (!alreadyRegistered)
+                {
+                    operation.Open();
+                }
 
                 return registrationId;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 operation.Dispose();
-
-                WampCalleeRpcOperation removedOperation;
-
-                mRegistrationIdToOperation.TryRemove
-                    (registrationId, out removedOperation);
-
                 throw;
             }
         }
 
         public void Unregister(IWampCallee callee, long registrationId)
         {
-            WampCalleeRpcOperation operation;
-            
-            if (!mRegistrationIdToOperation.TryGetValue(registrationId, out operation))
+            RemoteWampCalleeDetails operation = 
+                new RemoteWampCalleeDetails(callee, registrationId);
+
+            IDisposable disposable;
+
+            if (!mOperationToDisposable.TryRemove(operation, out disposable))
             {
                 throw new WampException(WampErrors.NoSuchRegistration, "registrationId: " + registrationId);
             }
 
-            if (operation.Callee != callee)
-            {
-                throw new WampException(WampErrors.NotAuthorized, "registrationId: " + registrationId);
-            }
+            disposable.Dispose();
 
-            mRegistrationIdToOperation.TryRemove(registrationId, out operation);
-            mCatalog.Unregister(operation);
             mInvocationHandler.Unregistered(operation);
-        }
-
-        private class WampCalleeRpcOperation : IWampRpcOperation, IDisposable
-        {
-            private const string CalleeDisconnected = "wamp.error.callee_disconnected";
-            private readonly ReaderWriterLockSlim mLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
-            private readonly ManualResetEvent mResetEvent = new ManualResetEvent(false);
-            private readonly IWampCallee mCallee;
-            private readonly IWampCalleeInvocationHandler<TMessage> mHandler;
-            private readonly WampCalleeOperationCatalog<TMessage> mCatalog;
-            private readonly string mProcedure;
-            private readonly RegisterOptions mOptions;
-            private bool mClientDisconnected = false;
-
-            public WampCalleeRpcOperation(string procedure, IWampCallee callee, RegisterOptions options, IWampCalleeInvocationHandler<TMessage> handler,
-                WampCalleeOperationCatalog<TMessage> catalog)
-            {
-                mCallee = callee;
-                mOptions = options;
-                mHandler = handler;
-                mCatalog = catalog;
-                mProcedure = procedure;
-
-                IWampConnectionMonitor monitor = callee as IWampConnectionMonitor;
-                monitor.ConnectionClosed += OnClientDisconnect;
-            }
-
-            private void OnClientDisconnect(object sender, EventArgs e)
-            {
-                try
-                {
-                    mLock.EnterWriteLock();
-
-                    mClientDisconnected = true;
-
-                    IWampConnectionMonitor monitor = Callee as IWampConnectionMonitor;
-                    monitor.ConnectionClosed -= OnClientDisconnect;
-
-                    mCatalog.Unregister(Callee, RegistrationId);
-                    mHandler.Unregistered(this);
-                }
-                finally
-                {
-                    mLock.ExitWriteLock();
-                }
-            }
-
-            public string Procedure
-            {
-                get
-                {
-                    return mProcedure;
-                }
-            }
-
-            public long RegistrationId
-            {
-                get; 
-                set;
-            }
-
-            public IWampCallee Callee
-            {
-                get
-                {
-                    return mCallee;
-                }
-            }
-
-            public RegisterOptions Options
-            {
-                get { return mOptions; }
-            }
-
-            public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details)
-            {
-                this.Invoke(caller, details);
-            }
-
-            public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments)
-            {
-                this.Invoke(caller, details, arguments.Cast<object>().ToArray());
-            }
-
-            public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments, IDictionary<string, TOther> argumentsKeywords)
-            {
-                this.Invoke(caller, details, arguments.Cast<object>().ToArray(), argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
-            }
-
-            public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details)
-            {
-                InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails));
-            }
-
-            public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments)
-            {
-                InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails, arguments));
-            }
-
-            public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
-            {
-                InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails, arguments, argumentsKeywords));
-            }
-
-            private void InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options)
-            {
-                long requestId =
-                    mHandler.RegisterInvocation(this, caller, options);
-
-                Callee.Invocation(requestId, RegistrationId, options);
-            }
-
-            private void InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options, object[] arguments)
-            {
-                long requestId =
-                    mHandler.RegisterInvocation(this, caller, options, arguments);
-
-                Callee.Invocation(requestId, RegistrationId, options, arguments);
-            }
-
-            private void InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options, object[] arguments,
-                                     IDictionary<string, object> argumentsKeywords)
-            {
-                long requestId =
-                    mHandler.RegisterInvocation(this, caller, options, arguments, argumentsKeywords);
-
-                Callee.Invocation(requestId, RegistrationId, options, arguments, argumentsKeywords);
-            }
-
-            private void InvokePattern(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, Action<InvocationDetails> action)
-            {
-                mResetEvent.WaitOne();
-
-                try
-                {
-                    mLock.EnterReadLock();
-
-                    if (!mClientDisconnected)
-                    {
-                        var detailsForCallee = GetInvocationDetails(details);
-                        action(detailsForCallee);
-                    }
-                    else
-                    {
-                        caller.Error(WampObjectFormatter.Value,
-                                     new Dictionary<string, string>(),
-                                     CalleeDisconnected);
-                    }
-                }
-                finally
-                {
-                    mLock.ExitReadLock();
-                }
-            }
-
-            private InvocationDetails GetInvocationDetails(InvocationDetails details)
-            {
-                InvocationDetailsExtended casted = details as InvocationDetailsExtended;
-
-                if (casted == null)
-                {
-                    return details;
-                }
-
-                InvocationDetails result = new InvocationDetails(casted);
-
-                CallOptions callerOptions = casted.CallerOptions;
-
-                if (Options.DiscloseCaller == true ||
-                    callerOptions.DiscloseMe == true)
-                {
-                    result.Caller = casted.CallerSession;
-                }
-
-                if (callerOptions.ReceiveProgress == true)
-                {
-                    result.ReceiveProgress = true;
-                }
-
-                return result;
-            }
-
-            public void Open()
-            {
-                mResetEvent.Set();
-            }
-
-            public void Dispose()
-            {
-                IWampConnectionMonitor monitor = mCallee as IWampConnectionMonitor;
-                monitor.ConnectionClosed -= OnClientDisconnect;
-            }
         }
     }
 }
