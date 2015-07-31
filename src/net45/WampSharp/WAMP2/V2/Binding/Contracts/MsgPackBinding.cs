@@ -11,7 +11,7 @@ namespace WampSharp.V2.Binding.Contracts
         IWampBinaryBinding<TMessage>
     {
         protected MsgPackBinding(IWampFormatter<TMessage> formatter, IWampBinaryMessageParser<TMessage> parser)
-            : base(formatter, parser, "wamp.2.msgpack")
+            : base(formatter, parser, WampSubProtocols.MsgPackSubProtocol)
         {
         }
     }

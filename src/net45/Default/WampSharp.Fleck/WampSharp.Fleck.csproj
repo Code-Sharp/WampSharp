@@ -61,6 +61,7 @@
     <Compile Include="Fleck\FleckTransportDetails.cs" />
     <Compile Include="Fleck\FleckAuthenticatedWebSocketTransport.cs" />
     <Compile Include="Fleck\FleckCookieProvider.cs" />
+    <Compile Include="Fleck\FleckPinger.cs" />
     <Compile Include="Fleck\FleckWampBinaryConnection.cs" />
     <Compile Include="Fleck\FleckWampConnection.cs" />
     <Compile Include="Fleck\FleckWampConnectionListener.cs" />

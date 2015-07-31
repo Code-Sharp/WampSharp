@@ -8,7 +8,8 @@ using WampSharp.V2.Binding.Parsers;
 
 namespace WampSharp.Newtonsoft
 {
-    public class JTokenMessageParser : IWampTextMessageParser<JToken>
+    public class JTokenMessageParser : IWampTextMessageParser<JToken>,
+        IWampStreamingMessageParser<JToken>
     {
         private readonly JsonSerializer mSerializer;
         private readonly IWampMessageFormatter<JToken> mMessageFormatter;
@@ -46,6 +47,34 @@ namespace WampSharp.Newtonsoft
             
             mLogger.DebugFormat("Formatted message {0}", result);
             return result;
+        }
+
+        public WampMessage<JToken> Parse(Stream stream)
+        {
+            try
+            {
+                using (JsonReader reader = new JsonTextReader(new StreamReader(stream)) {CloseInput = false})
+                {
+                    JToken parsed = JToken.ReadFrom(reader);
+                    return mMessageFormatter.Parse(parsed);
+                }
+            }
+            catch (Exception ex)
+            {
+                mLogger.ErrorFormat(ex, "Failed parsing message.");
+                throw;
+            }
+        }
+
+        public void Format(WampMessage<object> message, Stream stream)
+        {
+            using (JsonTextWriter textWriter = new JsonTextWriter(new StreamWriter(stream)) {CloseOutput = false})
+            {
+                textWriter.Formatting = Formatting.None;
+                object[] array = mMessageFormatter.Format(message);
+                mSerializer.Serialize(textWriter, array);
+                textWriter.Flush();
+            }
         }
     }
 }

@@ -1,95 +1,181 @@
 ﻿using System;
+using System.Linq;
+using System.Net.Sockets;
+using System.Threading.Tasks;
+using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Binding.Transports;
+using WampSharp.V2.Binding.Contracts;
+using WampSharp.V2.Binding.Parsers;
+using WampSharp.V2.Transports;
 
 namespace WampSharp.RawSocket
 {
-    /// <summary>
-    /// Represents a TCP raw-socket WAMP transport.
-    /// </summary>
-    public class RawSocketTransport : IWampTransport
+    public class RawSocketTransport : WebSocketTransport<RawSocketTcpClient>
     {
-        private readonly RawSocketServer mServer;
-        private ConnectionListener mConnectionListener;
+        private readonly Handshaker mHandshaker = new Handshaker();
+        private readonly TcpListener mListener;
+        private bool mIsStarted = false;
+        private readonly RecyclableMemoryStreamManager mRecyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
+        private readonly byte mMaxSize;
 
-        /// <summary>
-        /// Initializes a new instance of <see cref="RawSocketTransport"/>, 
-        /// given the ip and the listening port to open.
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="port"></param>
-        public RawSocketTransport(string ip, int port)
+        public RawSocketTransport(TcpListener listener, byte maxSize = 15)
         {
-            mServer = new RawSocketServer();
-            mServer.Setup(ip, port);
-        }
+            mListener = listener;
 
-        public void Dispose()
-        {
-            mServer.Stop();
-            mServer.Dispose();
-        }
-
-        public void Open()
-        {
-            mServer.Start();
-        }
-
-        public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampBinding<TMessage> binding)
-        {
-            return InnerGetListener((dynamic) binding);
-        }
-
-        private IWampConnectionListener<TMessage> CastBinding<TMessage>()
-        {
-            IWampConnectionListener<TMessage> result = mConnectionListener as IWampConnectionListener<TMessage>;
-
-            if (result == null)
+            if (maxSize >= 16)
             {
-                throw new Exception(
-                    "Already registered a binding for RawSocket transport. RawSocket transport currently supports only a single binding.");
+                throw new ArgumentException("Expected a number between 0 to 15", "maxSize");
             }
 
-            return result;
+            mMaxSize = maxSize;
         }
 
-        private IWampConnectionListener<TMessage> InnerGetListener<TMessage>(IWampBinaryBinding<TMessage> binding)
+        public override void Open()
         {
-            if (mConnectionListener == null)
-            {
-                BinaryConnectionListener<TMessage> binaryConnectionListener =
-                    new BinaryConnectionListener<TMessage>(binding);
+            mIsStarted = true;
 
-                SetConnection(binaryConnectionListener);
+            mListener.Start();
+
+            Task.Run(new Func<Task>(ListenAsync));
+        }
+
+        private async Task ListenAsync()
+        {
+            while (mIsStarted)
+            {
+                try
+                {
+                    RawSocketTcpClient client = 
+                        await AcceptClient().ConfigureAwait(false);
+
+                    if (!client.HandshakeResponse.IsError)
+                    {
+                        OnNewConnection(client);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //mLogger.Error("An error occured while trying to accept a client", ex);
+                }
+            }
+        }
+
+        private async Task<RawSocketTcpClient> AcceptClient()
+        {
+            TcpClient tcpClient = null;
+            try
+            {
+                tcpClient = await mListener.AcceptTcpClientAsync().ConfigureAwait(false);
+
+                Handshake handshakeRequest = await mHandshaker.GetHandshakeMessage(tcpClient);
+
+                Handshake handshakeResponse = GetHandshakeResponse(handshakeRequest);
+
+                await mHandshaker.SendHandshake(tcpClient, handshakeResponse)
+                                 .ConfigureAwait(false);
+
+                return new RawSocketTcpClient(tcpClient, handshakeRequest, handshakeResponse);
+            }
+            catch (Exception)
+            {
+                if ((tcpClient != null) && tcpClient.Connected)
+                {
+                    tcpClient.Close();
+                }
+
+                throw;
+            }
+        }
+
+        private Handshake GetHandshakeResponse(Handshake handshakeRequest)
+        {
+            Handshake handshakeResponse;
+
+            if (handshakeRequest.ReservedOctects != 0)
+            {
+                handshakeResponse = new Handshake(HandshakeErrorCode.UseOfReservedBits);
+            }
+            else
+            {
+                SerializerType serializerType = handshakeRequest.SerializerType;
+
+                string requestedSubprotocol = GetSubProtocol(serializerType);
+
+                if (!SubProtocols.Contains(requestedSubprotocol))
+                {
+                    handshakeResponse = new Handshake(HandshakeErrorCode.SerializerUnsupported);
+                }
+                else
+                {
+                    handshakeResponse = new Handshake(MaxSize, serializerType);
+                }
             }
 
-            return CastBinding<TMessage>();
+            return handshakeResponse;
         }
 
-        private IWampConnectionListener<TMessage> InnerGetListener<TMessage>(IWampTextBinding<TMessage> binding)
+        public byte MaxSize
         {
-            if (mConnectionListener == null)
+            get
             {
-                TextConnectionListener<TMessage> textConnectionListener = new TextConnectionListener<TMessage>(binding);
-
-                SetConnection(textConnectionListener);
+                return mMaxSize;
             }
-        
-            return CastBinding<TMessage>();
         }
 
-        private IWampConnectionListener<TMessage> InnerGetListener<TMessage>(IWampBinding<TMessage> binding)
+        protected override void OpenConnection<TMessage>(IWampConnection<TMessage> connection)
         {
-            throw new ArgumentException("Expected IWampTextBinding<TMessage> or IWampBinaryBinding<TMessage>",
-                                        "binding");
+            TcpClientConnection<TMessage> casted = connection as TcpClientConnection<TMessage>;
+            Task.Run(new Func<Task>(casted.HandleTcpClientAsync));
         }
 
-        private void SetConnection(ConnectionListener textConnectionListener)
+        protected override string GetSubProtocol(RawSocketTcpClient connection)
         {
-            mConnectionListener = textConnectionListener;
+            SerializerType serializerType = connection.HandshakeRequest.SerializerType;
 
-            mServer.SetConnectionListener(mConnectionListener);
+            return GetSubProtocol(serializerType);
+        }
+
+        private static string GetSubProtocol(SerializerType serializerType)
+        {
+            switch (serializerType)
+            {
+                case SerializerType.Json:
+                    return WampSubProtocols.JsonSubProtocol;
+                case SerializerType.MsgPack:
+                    return WampSubProtocols.MsgPackSubProtocol;
+            }
+
+            return serializerType.ToString();
+        }
+
+        protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>
+            (RawSocketTcpClient connection,
+             IWampBinaryBinding<TMessage> binding)
+        {
+            return CreateConnection(connection, binding);
+        }
+
+        protected override IWampConnection<TMessage> CreateTextConnection<TMessage>
+            (RawSocketTcpClient connection,
+             IWampTextBinding<TMessage> binding)
+        {
+            return CreateConnection(connection, binding);
+        }
+
+        private TcpClientConnection<TMessage> CreateConnection<TMessage>(RawSocketTcpClient connection, IWampStreamingMessageParser<TMessage> binding)
+        {
+            return new TcpClientConnection<TMessage>
+                (connection.Client,
+                 connection.HandshakeResponse.MaxMessageSizeInBytes,
+                 connection.HandshakeRequest,
+                 binding, mRecyclableMemoryStreamManager);
+        }
+
+        public override void Dispose()
+        {
+            mIsStarted = false;
+            mListener.Stop();
         }
     }
 }

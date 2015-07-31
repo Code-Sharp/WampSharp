@@ -6,7 +6,7 @@ namespace WampSharp.V2.Binding.Parsers
     /// Parses raw formatted messages from the stream into <see cref="WampMessage{TMessage}"/>s
     /// and vice versa.
     /// </summary>
-    public interface IWampMessageParser<TMessage, TRaw>
+    public interface IWampMessageParser<TMessage, TRaw> : IWampStreamingMessageParser<TMessage>
     {
         /// <summary>
         /// Parses a raw message to <see cref="WampMessage{TMessage}"/>.
