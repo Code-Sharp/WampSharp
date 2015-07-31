@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Serialization;
@@ -10,6 +14,9 @@ namespace WampSharp.Newtonsoft
     public class DetailsOptionsConverter : JsonConverter
     {
         private readonly IWampFormatter<JToken> mFormatter;
+
+        private ImmutableDictionary<Type, Func<WampDetailsOptions>> mTypeToConstructor =
+            ImmutableDictionary<Type, Func<WampDetailsOptions>>.Empty;
 
         public DetailsOptionsConverter(IWampFormatter<JToken> formatter)
         {
@@ -33,8 +40,7 @@ namespace WampSharp.Newtonsoft
         {
             JToken token = JToken.ReadFrom(reader);
 
-            WampDetailsOptions options = 
-                (WampDetailsOptions)Activator.CreateInstance(objectType, true);
+            WampDetailsOptions options = CreateInstance(objectType);
 
             JsonReader jsonReader = token.CreateReader();
             
@@ -43,6 +49,36 @@ namespace WampSharp.Newtonsoft
             options.OriginalValue = new SerializedValue<JToken>(mFormatter, token);
 
             return options;
+        }
+
+        private WampDetailsOptions CreateInstance(Type objectType)
+        {
+            Func<WampDetailsOptions> constructor = GetConstructor(objectType);
+
+            return constructor();
+        }
+
+        private Func<WampDetailsOptions> GetConstructor(Type objectType)
+        {
+            Func<WampDetailsOptions> constructor;
+
+            if (!mTypeToConstructor.TryGetValue(objectType, out constructor))
+            {
+                constructor = GenerateConstructor(objectType);
+
+                ImmutableInterlocked.TryAdd(ref mTypeToConstructor, objectType, constructor);
+            }
+
+            return constructor;
+        }
+
+        private Func<WampDetailsOptions> GenerateConstructor(Type objectType)
+        {
+            Expression<Func<WampDetailsOptions>> expression =
+                Expression.Lambda<Func<WampDetailsOptions>>
+                    (Expression.New(objectType));
+
+            return expression.Compile();
         }
 
         public override bool CanConvert(Type objectType)
