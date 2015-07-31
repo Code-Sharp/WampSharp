@@ -7,6 +7,7 @@ using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm.Binded;
+using WampSharp.V2.Reflection;
 
 namespace WampSharp.V2.Core.Listener.ClientBuilder
 {
@@ -35,6 +36,8 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         public IWampBindedRealm<TMessage> Realm { get; set; }
         
         public IWampBinding<TMessage> Binding { get; set; }
+
+        public WampTransportDetails TransportDetails { get; set; }
 
         public IWampSessionAuthenticator Authenticator { get; set; }
 
