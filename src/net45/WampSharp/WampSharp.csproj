@@ -474,6 +474,7 @@
     <Compile Include="WAMP2\V2\Transports\InMemory\WampFormatterExtensions.cs" />
     <Compile Include="WAMP2\V2\Transports\IPinger.cs" />
     <Compile Include="WAMP2\V2\Transports\PingPongHandler.cs" />
+    <Compile Include="WAMP2\V2\Transports\TextBinaryTransport.cs" />
     <Compile Include="WAMP2\V2\Transports\WebSocketTransport.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopicContainer.cs" />
   </ItemGroup>

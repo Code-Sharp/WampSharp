@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
@@ -272,6 +273,16 @@ namespace WampSharp.V2
         {
             return mBinding.Format(message);
         }
+
+        public WampMessage<TMessage> Parse(Stream stream)
+        {
+            return mBinding.Parse(stream);
+        }
+
+        public void Format(WampMessage<object> message, Stream stream)
+        {
+            mBinding.Format(message, stream);
+        }
     }
 
     internal class WampAuthenticationTextBinding<TMessage> : WampAuthenticationBinding<TMessage>,
@@ -294,6 +305,16 @@ namespace WampSharp.V2
         public string Format(WampMessage<object> message)
         {
             return mBinding.Format(message);
+        }
+
+        public WampMessage<TMessage> Parse(Stream stream)
+        {
+            return mBinding.Parse(stream);
+        }
+
+        public void Format(WampMessage<object> message, Stream stream)
+        {
+            mBinding.Format(message, stream);
         }
     }
 

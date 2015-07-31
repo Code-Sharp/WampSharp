@@ -67,6 +67,9 @@
     <Compile Include="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckCookieProvider.cs">
       <Link>Fleck\FleckCookieProvider.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckPinger.cs">
+      <Link>Fleck\FleckPinger.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckWampBinaryConnection.cs">
       <Link>Fleck\FleckWampBinaryConnection.cs</Link>
     </Compile>

@@ -1,5 +1,4 @@
-    public interface ITimeService
-﻿using System;
+using System;
 using System.Collections.Generic;
 using WampSharp.V2;
 using WampSharp.V2.Client;

@@ -367,8 +367,14 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCraAuthenticator.cs">
       <Link>WAMP2\V2\Authentication\WampCraAuthenticator.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Contracts\WampSubProtocols.cs">
+      <Link>WAMP2\V2\Binding\Contracts\WampSubProtocols.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampRouterBinding.cs">
       <Link>WAMP2\V2\Binding\IWampRouterBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Parsers\IWampStreamingMessageParser.cs">
+      <Link>WAMP2\V2\Binding\Parsers\IWampStreamingMessageParser.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\WampRouterBindingExtensions.cs">
       <Link>WAMP2\V2\Binding\WampRouterBindingExtensions.cs</Link>
@@ -390,9 +396,6 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Rpc\AvailableRegistrations.cs">
       <Link>WAMP2\V2\Reflection\Rpc\AvailableRegistrations.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\HelloDetails.cs">
-      <Link>WAMP2\V2\Core\Contracts\Session\HelloDetails.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\PubSub\AvailableSubscriptions.cs">
       <Link>WAMP2\V2\Reflection\PubSub\AvailableSubscriptions.cs</Link>
@@ -432,6 +435,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Session\WampTransportDetails.cs">
       <Link>WAMP2\V2\Reflection\Session\WampTransportDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\HelloDetails.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\HelloDetails.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Listener\WampClientContainer.cs">
       <Link>WAMP2\V2\Core\Listener\WampClientContainer.cs</Link>
@@ -1275,6 +1281,15 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\WampFormatterExtensions.cs">
       <Link>WAMP2\V2\Transports\InMemory\WampFormatterExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\IPinger.cs">
+      <Link>WAMP2\V2\Transports\IPinger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\PingPongHandler.cs">
+      <Link>WAMP2\V2\Transports\PingPongHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\TextBinaryTransport.cs">
+      <Link>WAMP2\V2\Transports\TextBinaryTransport.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\WebSocketTransport.cs">
       <Link>WAMP2\V2\Transports\WebSocketTransport.cs</Link>

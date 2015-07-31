@@ -11,7 +11,7 @@ using WampSharp.V2.Transports;
 
 namespace WampSharp.RawSocket
 {
-    public class RawSocketTransport : WebSocketTransport<RawSocketTcpClient>
+    public class RawSocketTransport : TextBinaryTransport<RawSocketTcpClient>
     {
         private readonly Handshaker mHandshaker = new Handshaker();
         private readonly TcpListener mListener;
