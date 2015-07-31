@@ -1,13 +1,15 @@
 ﻿using WampSharp.Core.Serialization;
 using WampSharp.V2.Reflection;
+using WampSharp.V2.Authentication;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Realm
 {
     internal interface IWampRealmGate
     {
-        void Hello<TMessage>(IWampFormatter<TMessage> formatter, long sessionId, WampTransportDetails transportDetails, TMessage details);
-        void Goodbye<TMessage>(IWampFormatter<TMessage> formatter, long session, TMessage details, string reason);
-        void Abort<TMessage>(IWampFormatter<TMessage> formatter, long session, TMessage details, string reason);
+        void Hello(long sessionId, HelloDetails helloDetails, WelcomeDetails welcomeDetails);
+        void Goodbye(long session, GoodbyeDetails details, string reason);
+        void Abort(long session, AbortDetails details, string reason);
         void SessionLost(long sessionId);
     }
 }

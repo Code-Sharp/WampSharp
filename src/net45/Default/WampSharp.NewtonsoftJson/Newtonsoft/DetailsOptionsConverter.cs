@@ -34,7 +34,7 @@ namespace WampSharp.Newtonsoft
             JToken token = JToken.ReadFrom(reader);
 
             WampDetailsOptions options = 
-                (WampDetailsOptions)Activator.CreateInstance(objectType);
+                (WampDetailsOptions)Activator.CreateInstance(objectType, true);
 
             JsonReader jsonReader = token.CreateReader();
             

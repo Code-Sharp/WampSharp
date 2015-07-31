@@ -42,7 +42,7 @@ namespace WampSharp.V2
             }
         }
 
-        public event EventHandler<WampSessionEventArgs> SessionCreated
+        public event EventHandler<WampSessionCreatedEventArgs> SessionCreated
         {
             add { mUnderlyingRealm.SessionCreated += value; }
             remove { mUnderlyingRealm.SessionCreated -= value; }

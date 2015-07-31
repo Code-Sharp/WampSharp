@@ -37,7 +37,7 @@ namespace WampSharp.V2.Core.Contracts
         }
 
         public WampException(IDictionary<string, object> details, string errorUri, object[] arguments,
-                             IDictionary<string, object> argumentsKeywords)
+                             IDictionary<string, object> argumentsKeywords) : base(errorUri)
         {
             mErrorUri = errorUri;
             mDetails = details;

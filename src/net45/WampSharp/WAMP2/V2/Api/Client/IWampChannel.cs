@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2
 {
@@ -30,6 +31,6 @@ namespace WampSharp.V2
         /// </summary>
         /// <param name="reason">The close reason.</param>
         /// <param name="details">The close details.</param>
-        void Close(string reason, object details);
+        void Close(string reason, GoodbyeDetails details);
     }
 }

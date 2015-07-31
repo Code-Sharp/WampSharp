@@ -1,6 +1,6 @@
 #if !PCL
-using System.Runtime.Serialization;
 using WampSharp.Core.Cra;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
@@ -13,17 +13,7 @@ namespace WampSharp.V2.Client
         private const string WAMP_CRA = "wampcra";
         private readonly string mAuthenticationId;
         private readonly string mAuthenticationKey;
-
-        /// <summary>
-        /// Initializes a new instance of a <see cref="WampCraClientAuthenticator"/>.
-        /// </summary>
-        /// <param name="authenticationId">The authentication id to use (for example, the user name)</param>
-        /// <param name="authenticationKey">The authentication key to use.</param>
-        public WampCraClientAuthenticator(string authenticationId, string authenticationKey)
-        {
-            mAuthenticationId = authenticationId;
-            mAuthenticationKey = authenticationKey;
-        }
+        private readonly string mSecret;
 
         /// <summary>
         /// Initializes a new instance of a <see cref="WampCraClientAuthenticator"/>.
@@ -35,10 +25,11 @@ namespace WampSharp.V2.Client
         /// <param name="keyLen">The key length to use (default value = 32).</param>
         public WampCraClientAuthenticator(string authenticationId,
                                           string secret,
-                                          string salt,
+                                          string salt = null,
                                           int? iterations = null,
                                           int? keyLen = null)
         {
+            mSecret = secret;
             mAuthenticationId = authenticationId;
             mAuthenticationKey = WampCraHelpers.DeriveKey(secret, salt, iterations, keyLen);
         }
@@ -50,8 +41,21 @@ namespace WampSharp.V2.Client
                 WampCraChallengeDetails challengeDetails = 
                     extra.OriginalValue.Deserialize<WampCraChallengeDetails>();
                 
-                string signature =
-                    WampCraHelpers.Sign(mAuthenticationKey, challengeDetails.Challenge);
+                string signature;
+
+                if (challengeDetails.Salt == null)
+                {
+                    signature =
+                        WampCraHelpers.Sign(mAuthenticationKey,
+                                            challengeDetails.Challenge);
+                }
+                else
+                {
+                    signature =
+                        WampCraHelpers.AuthSignature(challengeDetails.Challenge,
+                                                     mSecret,
+                                                     challengeDetails);
+                }
 
                 AuthenticationResponse result =
                     new AuthenticationResponse { Signature = signature };
@@ -78,12 +82,6 @@ namespace WampSharp.V2.Client
             {
                 return mAuthenticationId;
             }
-        }
-
-        internal class WampCraChallengeDetails
-        {
-            [DataMember(Name = "challenge")]
-            public string Challenge { get; set; }
         }
     }
 }

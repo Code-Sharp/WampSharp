@@ -1,4 +1,5 @@
-﻿using WampSharp.V2.Binding;
+﻿using WampSharp.V2.Authentication;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Reflection;
@@ -10,7 +11,6 @@ namespace WampSharp.V2.Realm.Binded
     {
         private readonly IWampServer<TMessage> mServer;
         private readonly IWampHostedRealm mRealm;
-        private readonly IWampBinding<TMessage> mBinding;
         private readonly IWampRealmGate mRealmGate;
 
         public WampBindedRealm(IWampHostedRealm realm,
@@ -21,7 +21,6 @@ namespace WampSharp.V2.Realm.Binded
         {
             mRealm = realm;
             mRealmGate = realm as IWampRealmGate;
-            mBinding = binding;
 
             IWampDealer<TMessage> dealer =
                 routerBuilder.CreateDealerHandler(realm, binding);
@@ -29,7 +28,7 @@ namespace WampSharp.V2.Realm.Binded
             IWampBroker<TMessage> broker =
                 routerBuilder.CreateBrokerHandler(realm, binding, eventSerializer);
 
-            mServer = new WampServer<TMessage>(session, dealer, broker);
+            mServer = routerBuilder.CreateServer(session, dealer, broker);
         }
 
         public IWampServer<TMessage> Server
@@ -40,19 +39,19 @@ namespace WampSharp.V2.Realm.Binded
             }
         }
 
-        public void Hello(long session, WampTransportDetails transportDetails, TMessage details)
+        public void Hello(long session, HelloDetails helloDetails, WelcomeDetails welcomeDetails)
         {
-            mRealmGate.Hello(mBinding.Formatter, session, transportDetails, details);
+            mRealmGate.Hello(session, helloDetails, welcomeDetails);
         }
 
-        public void Abort(long session, TMessage details, string reason)
+        public void Abort(long session, AbortDetails details, string reason)
         {
-            mRealmGate.Abort(mBinding.Formatter, session, details, reason);
+            mRealmGate.Abort(session, details, reason);
         }
 
-        public void Goodbye(long session, TMessage details, string reason)
+        public void Goodbye(long session, GoodbyeDetails details, string reason)
         {
-            mRealmGate.Goodbye(mBinding.Formatter, session, details, reason);
+            mRealmGate.Goodbye(session, details, reason);
         }
 
         public void SessionLost(long sessionId)

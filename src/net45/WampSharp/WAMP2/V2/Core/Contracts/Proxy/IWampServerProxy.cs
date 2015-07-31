@@ -13,7 +13,7 @@
     public interface IWampServerProxy<TMessage> :
         IWampBrokerProxy<TMessage>, 
         IWampDealerProxy<TMessage>, 
-        IWampSessionProxy<TMessage>,
+        IWampSessionProxy,
         IWampError<TMessage>
     {
     }

@@ -79,11 +79,14 @@
     <Compile Include="Core\Contracts\WampHandlerAttribute.cs" />
     <Compile Include="Core\Contracts\WampProxyParameterAttribute.cs" />
     <Compile Include="Core\Contracts\WampRawHandlerAttribute.cs" />
+    <Compile Include="Core\Cra\CraChallenge.cs" />
+    <Compile Include="Core\Cra\IWampCraChallenge.cs" />
     <Compile Include="Core\Dispatch\Handler\DelegateCache.cs" />
     <Compile Include="Core\Dispatch\Handler\IMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\IWampRequestMapper.cs" />
     <Compile Include="Core\Listener\Connections\AsyncConnection\ActionBlock.cs" />
     <Compile Include="Core\Listener\Connections\AsyncConnection\AsyncWampConnection.cs" />
+    <Compile Include="Core\Listener\Connections\AsyncConnection\AsyncWebSocketWampConnection.cs" />
     <Compile Include="Core\Logs\LogErrorExtensions.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodInfo.cs" />
@@ -156,8 +159,14 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\SubscriberRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
+    <Compile Include="WAMP2\V2\Authentication\CookieAuthenticator.cs" />
+    <Compile Include="WAMP2\V2\Authentication\CookieCollectionCookieProvider.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampAuthenticationHost.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampAuthenticationServer.cs" />
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
+    <Compile Include="WAMP2\V2\Authentication\IWampRouterAuthenticator.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampCraAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampRouterBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\WampRouterBindingExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs" />
@@ -179,6 +188,7 @@
     <Compile Include="WAMP2\V2\Reflection\PubSub\SubscriptionDetails.cs" />
     <Compile Include="WAMP2\V2\Reflection\Rpc\RegistrationDetails.cs" />
     <Compile Include="WAMP2\V2\Reflection\Session\WampTransportDetails.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Session\HelloDetails.cs" />
     <Compile Include="WAMP2\V2\Core\Listener\WampClientContainer.cs" />
     <Compile Include="WAMP2\V2\PCL\CodeGeneration\CalleeProxyCodeGenerator.cs" />
     <Compile Include="WAMP2\V2\PCL\CodeGeneration\FormatTypeExtensions.cs" />
@@ -253,6 +263,7 @@
     <Compile Include="WAMP2\V2\Api\Server\ServiceRealm\ServiceHostedRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostBase.cs" />
     <Compile Include="WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampAuthenticationSessionServer.cs" />
     <Compile Include="WAMP2\V2\Transports\InMemory\InMemoryBinding.cs" />
     <Compile Include="WAMP2\V2\Api\Server\WampHostExtensions.cs" />
     <Compile Include="WAMP2\V2\Api\WampInvocationContext.cs" />
@@ -341,7 +352,7 @@
     <Compile Include="WAMP2\V2\Realm\Interfaces\IWampRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Realm\Interfaces\SessionCloseType.cs" />
     <Compile Include="WAMP2\V2\Realm\Interfaces\WampSessionCloseEventArgs.cs" />
-    <Compile Include="WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs" />
+    <Compile Include="WAMP2\V2\Realm\Interfaces\WampSessionCreatedEventArgs.cs" />
     <Compile Include="WAMP2\V2\Realm\WampRealm.cs" />
     <Compile Include="WAMP2\V2\Realm\WampRealmContainer.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\AsyncMethodInfoRpcOperation.cs" />

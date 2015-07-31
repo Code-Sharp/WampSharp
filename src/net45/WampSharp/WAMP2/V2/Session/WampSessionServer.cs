@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
@@ -10,45 +10,27 @@ namespace WampSharp.V2.Session
     internal class WampSessionServer<TMessage> : IWampSessionServer<TMessage>
     {
         private IWampBindedRealmContainer<TMessage> mRealmContainer;
-        private readonly Dictionary<string, object> mWelcomeDetails;
+        private readonly WelcomeDetails mWelcomeDetails = GetWelcomeDetails();
 
-        public WampSessionServer()
+        private static WelcomeDetails GetWelcomeDetails()
         {
-            // Do it with reflection and attributes :)
-            mWelcomeDetails = new Dictionary<string, object>()
+            return new WelcomeDetails()
             {
+                Roles = new RouterRoles()
                 {
-                    "roles",
-                    new Dictionary<string, object>()
+                    Dealer = new DealerFeatures()
                     {
-                        {
-                            "dealer", new Dictionary<string, object>()
-                            {
-                                {"pattern_based_registration", true},
-                                //{"registration_revocation", true},
-                                {"shared_registration", true},
-                                {"caller_identification", true},
-                                //{"registration_meta_api", true},
-                                {"progressive_call_results", true},
-                            }
-                        },
-                        {
-                            "broker", new Dictionary<string, object>()
-                            {
-                                {
-                                    "features",
-                                    new Dictionary<string, object>()
-                                    {
-                                        {"publisher_identification", true},
-                                        {"pattern_based_subscription", true},
-                                        //{"subscription_meta_api", true},
-                                        //{"subscription_revocation", true},
-                                        {"publisher_exclusion", true},
-                                        {"subscriber_blackwhite_listing", true},
-                                    }
-                                }
-                            }
-                        },
+                        PatternBasedRegistration = true,
+                        SharedRegistration = true,
+                        CallerIdentification = true,
+                        ProgressiveCallResults = true
+                    },
+                    Broker = new BrokerFeatures()
+                    {
+                        PublisherIdentification = true,
+                        PatternBasedSubscription = true,
+                        PublisherExclusion = true,
+                        SubscriberBlackwhiteListing = true
                     }
                 }
             };
@@ -57,8 +39,7 @@ namespace WampSharp.V2.Session
         public WampSessionServer(IWampBinding<TMessage> binding,
                                  IWampHostedRealmContainer realmContainer,
                                  IWampRouterBuilder builder,
-                                 IWampEventSerializer eventSerializer) :
-            this()
+                                 IWampEventSerializer eventSerializer)
         {
             mRealmContainer =
                 new WampBindedRealmContainer<TMessage>(realmContainer,
@@ -80,21 +61,42 @@ namespace WampSharp.V2.Session
             }
         }
 
-        public void Hello(IWampSessionClient client, string realm, TMessage details)
+        public virtual void Hello(IWampSessionClient client, string realm, HelloDetails details)
         {
-            IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
-            
-            IWampBindedRealm<TMessage> bindedRealm = 
-                mRealmContainer.GetRealmByName(realm);
-            
-            wampClient.Realm = bindedRealm;
+            IWampClientProxy<TMessage> wampClient = GetWampClient(client, realm, details);
 
-            bindedRealm.Hello(wampClient.Session, wampClient.TransportDetails, details);
-
-            client.Welcome(wampClient.Session, mWelcomeDetails);
+            OnClientJoin(wampClient, details);
         }
 
-        public void Abort(IWampSessionClient client, TMessage details, string reason)
+        protected IWampClientProxy<TMessage> GetWampClient(IWampSessionClient client, string realm, HelloDetails details)
+        {
+            IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
+
+            IWampBindedRealm<TMessage> bindedRealm = mRealmContainer.GetRealmByName(realm);
+
+            wampClient.HelloDetails = details;
+            
+            wampClient.Realm = bindedRealm;
+            
+            return wampClient;
+        }
+
+        public virtual void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
+        {
+            // TODO: disconnect client.
+        }
+
+        protected void OnClientJoin(IWampClientProxy<TMessage> wampClient,
+                                    HelloDetails details)
+        {
+            WelcomeDetails welcomeDetails = GetWelcomeDetails(wampClient);
+
+            wampClient.Realm.Hello(wampClient.Session, details, welcomeDetails);
+
+            wampClient.Welcome(wampClient.Session, welcomeDetails);
+        }
+
+        public virtual void Abort(IWampSessionClient client, AbortDetails details, string reason)
         {
             using (IDisposable disposable = client as IDisposable)
             {
@@ -105,11 +107,7 @@ namespace WampSharp.V2.Session
             }
         }
 
-        public void Authenticate(IWampSessionClient client, string signature, TMessage extra)
-        {
-        }
-
-        public void Goodbye(IWampSessionClient client, TMessage details, string reason)
+        public virtual void Goodbye(IWampSessionClient client, GoodbyeDetails details, string reason)
         {
             using (IDisposable disposable = client as IDisposable)
             {
@@ -121,12 +119,9 @@ namespace WampSharp.V2.Session
             }
         }
 
-        public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)
+        protected virtual WelcomeDetails GetWelcomeDetails(IWampClientProxy<TMessage> wampClient)
         {
-        }
-
-        public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq, string discard)
-        {
+            return mWelcomeDetails;
         }
 
         public IWampBindedRealmContainer<TMessage> RealmContainer

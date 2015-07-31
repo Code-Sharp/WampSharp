@@ -102,6 +102,12 @@
     <Compile Include="..\..\net45\WampSharp\Core\Contracts\WampRawHandlerAttribute.cs">
       <Link>Core\Contracts\WampRawHandlerAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Cra\CraChallenge.cs">
+      <Link>Core\Cra\CraChallenge.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Cra\IWampCraChallenge.cs">
+      <Link>Core\Cra\IWampCraChallenge.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Dispatch\Handler\DelegateCache.cs">
       <Link>Core\Dispatch\Handler\DelegateCache.cs</Link>
     </Compile>
@@ -116,6 +122,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Listener\Connections\AsyncConnection\AsyncWampConnection.cs">
       <Link>Core\Listener\Connections\AsyncConnection\AsyncWampConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Listener\Connections\AsyncConnection\AsyncWebSocketWampConnection.cs">
+      <Link>Core\Listener\Connections\AsyncConnection\AsyncWebSocketWampConnection.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Logs\LogErrorExtensions.cs">
       <Link>Core\Logs\LogErrorExtensions.cs</Link>
@@ -333,11 +342,29 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\CookieAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\CookieAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\CookieCollectionCookieProvider.cs">
+      <Link>WAMP2\V2\Authentication\CookieCollectionCookieProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampAuthenticationHost.cs">
+      <Link>WAMP2\V2\Authentication\WampAuthenticationHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampAuthenticationServer.cs">
+      <Link>WAMP2\V2\Authentication\WampAuthenticationServer.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampEventContext.cs">
       <Link>WAMP2\V2\Api\WampEventContext.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\AsyncDisposable\IAsyncDisposable.cs">
       <Link>Core\Utilities\AsyncDisposable\IAsyncDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\IWampRouterAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\IWampRouterAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCraAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\WampCraAuthenticator.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampRouterBinding.cs">
       <Link>WAMP2\V2\Binding\IWampRouterBinding.cs</Link>
@@ -362,6 +389,8 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\Rpc\AvailableRegistrations.cs">
       <Link>WAMP2\V2\Reflection\Rpc\AvailableRegistrations.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\HelloDetails.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\HelloDetails.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\PubSub\AvailableSubscriptions.cs">
       <Link>WAMP2\V2\Reflection\PubSub\AvailableSubscriptions.cs</Link>
@@ -623,6 +652,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs">
       <Link>WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampAuthenticationSessionServer.cs">
+      <Link>WAMP2\V2\Authentication\WampAuthenticationSessionServer.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\InMemoryBinding.cs">
       <Link>WAMP2\V2\Transports\InMemory\InMemoryBinding.cs</Link>
@@ -888,8 +920,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\WampSessionCloseEventArgs.cs">
       <Link>WAMP2\V2\Realm\Interfaces\WampSessionCloseEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs">
-      <Link>WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\WampSessionCreatedEventArgs.cs">
+      <Link>WAMP2\V2\Realm\Interfaces\WampSessionCreatedEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\WampRealm.cs">
       <Link>WAMP2\V2\Realm\WampRealm.cs</Link>

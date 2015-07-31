@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Fleck;
 using WampSharp.Core.Message;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 
 namespace WampSharp.Fleck
@@ -10,8 +11,10 @@ namespace WampSharp.Fleck
         private readonly IWampBinaryBinding<TMessage> mBinding;
 
         public FleckWampBinaryConnection(IWebSocketConnection webSocketConnection,
-                                         IWampBinaryBinding<TMessage> binding) : 
-                                             base(webSocketConnection)
+                                         IWampBinaryBinding<TMessage> binding,
+                                         ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
+                                             base(webSocketConnection,
+                                                  cookieAuthenticatorFactory)
         {
             mBinding = binding;
             webSocketConnection.OnBinary = OnConnectionMessage;

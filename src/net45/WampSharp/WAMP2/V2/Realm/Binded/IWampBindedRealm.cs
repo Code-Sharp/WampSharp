@@ -1,4 +1,5 @@
-﻿using WampSharp.V2.Core.Contracts;
+﻿using WampSharp.V2.Authentication;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Reflection;
 
 namespace WampSharp.V2.Realm.Binded

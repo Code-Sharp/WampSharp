@@ -78,6 +78,9 @@
     <Compile Include="..\..\..\net45\Extensions\WampSharp.Vtortola\VtortolaTransportDetails.cs">
       <Link>VtortolaTransportDetails.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.Vtortola\VtortolaAuthenticatedWebSocketTransport.cs">
+      <Link>VtortolaAuthenticatedWebSocketTransport.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Extensions\WampSharp.Vtortola\VtortolaWampBinaryConnection.cs">
       <Link>VtortolaWampBinaryConnection.cs</Link>
     </Compile>

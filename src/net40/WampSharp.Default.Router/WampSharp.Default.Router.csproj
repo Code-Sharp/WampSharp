@@ -53,6 +53,9 @@
     <Compile Include="..\..\net45\WampSharp.Default.Router\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default.Router\WAMP2\V2\DefaultWampAuthenticatedHost.cs">
+      <Link>WAMP2\V2\DefaultWampAuthenticatedHost.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp.Default.Router\WAMP2\V2\DefaultWampHost.cs">
       <Link>WAMP2\V2\DefaultWampHost.cs</Link>
     </Compile>

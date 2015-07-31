@@ -1,9 +1,9 @@
 #if CASTLE
-using System;
 using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Proxy;
@@ -92,6 +92,14 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
                 new WampClientPropertyBag<TMessage>(mBinding, transportDetails);
             
             proxyGenerationOptions.AddMixinInstance(propertyBag);
+
+            IWampAuthenticatedConnection<TMessage> authenticatedConnection = 
+                connection as IWampAuthenticatedConnection<TMessage>;
+            
+            if (authenticatedConnection != null)
+            {
+                propertyBag.Authenticator = authenticatedConnection.Authenticator;
+            }
 
             IWampClientProxy<TMessage> result =
                 mGenerator.CreateInterfaceProxyWithoutTarget

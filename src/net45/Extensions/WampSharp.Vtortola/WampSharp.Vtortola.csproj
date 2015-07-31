@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VtortolaTransportDetails.cs" />
+    <Compile Include="VtortolaAuthenticatedWebSocketTransport.cs" />
     <Compile Include="VtortolaWampBinaryConnection.cs" />
     <Compile Include="VtortolaWampConnection.cs" />
     <Compile Include="VtortolaWampTextConnection.cs" />

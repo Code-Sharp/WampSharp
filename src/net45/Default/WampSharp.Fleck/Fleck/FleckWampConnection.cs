@@ -7,10 +7,11 @@ using Fleck;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
 using WampSharp.V2.Reflection;
+using WampSharp.V2.Authentication;
 
 namespace WampSharp.Fleck
 {
-    internal abstract class FleckWampConnection<TMessage> : AsyncWampConnection<TMessage>,
+    internal abstract class FleckWampConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>,
         IDetailedWampConnection<TMessage>
     {
         protected IWebSocketConnection mWebSocketConnection;
@@ -18,8 +19,11 @@ namespace WampSharp.Fleck
         private readonly TimeSpan mAutoSendPingInterval;
         private readonly FleckTransportDetails mTransportDetails;
 
-        public FleckWampConnection(IWebSocketConnection webSocketConnection, 
-            TimeSpan? autoSendPingInterval = null)
+        public FleckWampConnection(IWebSocketConnection webSocketConnection,
+                                   ICookieAuthenticatorFactory cookieAuthenticatorFactory,
+                                   TimeSpan? autoSendPingInterval = null) :
+                                       base(new FleckCookieProvider(webSocketConnection.ConnectionInfo),
+                                            cookieAuthenticatorFactory)
         {
             mWebSocketConnection = webSocketConnection;
             mAutoSendPingInterval = autoSendPingInterval ?? TimeSpan.FromSeconds(45);

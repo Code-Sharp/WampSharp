@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
@@ -56,32 +57,22 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 mUnregisterCallback = value;
             }
 
-            public void Hello(IWampSessionClient client, string realm, TMessage details)
+            public void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
-                client.Welcome(83782, new { });
+                client.Welcome(83782, new WelcomeDetails());
             }
 
-            public void Abort(IWampSessionClient client, TMessage details, string reason)
-            {
-                throw new System.NotImplementedException();
-            }
-
-            public void Authenticate(IWampSessionClient client, string signature, TMessage extra)
+            public void Abort(IWampSessionClient client, AbortDetails details, string reason)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Goodbye(IWampSessionClient client, TMessage details, string reason)
+            public void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
             {
                 throw new System.NotImplementedException();
             }
 
-            public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)
-            {
-                throw new System.NotImplementedException();
-            }
-
-            public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq, string discard)
+            public void Goodbye(IWampSessionClient client, GoodbyeDetails details, string reason)
             {
                 throw new System.NotImplementedException();
             }

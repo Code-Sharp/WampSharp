@@ -32,35 +32,26 @@ namespace WampSharp.Core.Cra
         /// value of parameter 'secret' if not.</returns>
         public static string DeriveKey(string secret, IDictionary<string, string> extra)
         {
-            string salt;
+            IWampCraChallenge adapter = CraChallenge.Create(extra);
 
-            if (extra == null || !extra.TryGetValue("salt", out salt))
+            string result = DeriveKey(secret, adapter);
+
+            return result;
+        }
+
+        public static string DeriveKey(string secret, IWampCraChallenge challenge)
+        {
+            if (challenge == null)
             {
                 return secret;
             }
-
-            string strTemp;
-
-            int iterations = DEFAULT_ITERATIONS;
-
-            if (extra.TryGetValue("iterations", out strTemp))
+            else
             {
-                iterations =
-                    int.TryParse(strTemp, out iterations)
-                        ? iterations
-                        : DEFAULT_ITERATIONS;
+                return DeriveKey(secret,
+                                 challenge.Salt,
+                                 challenge.Iterations,
+                                 challenge.KeyLength);
             }
-
-            int keyLen = DEFAULT_KEY_LEN;
-
-            if (extra.TryGetValue("keylen", out strTemp))
-            {
-                keyLen = int.TryParse(strTemp, out keyLen) ? keyLen : DEFAULT_KEY_LEN;
-            }
-
-            string result = DeriveKey(secret, salt, iterations, keyLen);
-
-            return result;
         }
 
         /// <summary>
@@ -96,9 +87,29 @@ namespace WampSharp.Core.Cra
             
             Array.Clear(secretBytes, 0, secretBytes.Length);
             Array.Clear(saltBytes, 0, saltBytes.Length);
-            
+           
             return result;
         }
+
+        /// <summary>
+        /// Compute the authentication signature from an authentication challenge and a secret.
+        /// </summary>
+        /// <param name="authChallenge">The authentication challenge. </param>
+        /// <param name="authSecret">The authentication secret. </param>
+        /// <param name="challenge">Extra data for salting the secret.</param>
+        /// <returns>The authentication signature.</returns>
+        public static string AuthSignature(string authChallenge, string authSecret, IWampCraChallenge challenge)
+        {
+            if (authSecret == null)
+            {
+                authSecret = string.Empty;
+            }
+
+            authSecret = DeriveKey(authSecret, challenge);
+
+            return Sign(authSecret, authChallenge);
+        }
+
 
         /// <summary>
         /// Compute the authentication signature from an authentication challenge and a secret.
@@ -111,18 +122,7 @@ namespace WampSharp.Core.Cra
         /// <returns>The authentication signature.</returns>
         public static string AuthSignature(string authChallenge, string authSecret, IDictionary<string, string> authExtra)
         {
-            if (authSecret == null)
-            {
-                authSecret = string.Empty;
-            }
-
-            authSecret = DeriveKey(authSecret, authExtra);
-            
-            using (HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(authSecret)))
-            {
-                byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(authChallenge));
-                return Convert.ToBase64String(hash);
-            }
+            return AuthSignature(authChallenge, authSecret, CraChallenge.Create(authExtra));
         }
 
         /// <summary>

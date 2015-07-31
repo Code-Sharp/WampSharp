@@ -8,7 +8,7 @@ namespace WampSharp.V2.Realm
 {
     public class WampRouterBuilder : IWampRouterBuilder
     {
-        public IWampSessionServer<TMessage> CreateSessionHandler<TMessage>(IWampHostedRealmContainer realmContainer, IWampBinding<TMessage> binding, IWampEventSerializer eventSerializer)
+        public virtual IWampSessionServer<TMessage> CreateSessionHandler<TMessage>(IWampHostedRealmContainer realmContainer, IWampBinding<TMessage> binding, IWampEventSerializer eventSerializer)
         {
             return new WampSessionServer<TMessage>(binding, realmContainer, this, eventSerializer);
         }
@@ -18,9 +18,14 @@ namespace WampSharp.V2.Realm
             return new WampPubSubServer<TMessage>(realm.TopicContainer, eventSerializer, binding);
         }
 
-        public IWampDealer<TMessage> CreateDealerHandler<TMessage>(IWampRealm realm, IWampBinding<TMessage> binding)
+        public virtual IWampDealer<TMessage> CreateDealerHandler<TMessage>(IWampRealm realm, IWampBinding<TMessage> binding)
         {
             return new WampRpcServer<TMessage>(realm.RpcCatalog, binding);
+        }
+
+        public virtual IWampServer<TMessage> CreateServer<TMessage>(IWampSessionServer<TMessage> session, IWampDealer<TMessage> dealer, IWampBroker<TMessage> broker)
+        {
+            return new WampServer<TMessage>(session, dealer, broker);
         }
     }
 }

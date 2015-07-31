@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Utilities;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Core.Listener.ClientBuilder
@@ -10,11 +11,9 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
     internal class WampClientProxyBase : ProxyBase
     {
         private static readonly MethodInfo mChallenge2 = Method.Get((IWampClientProxy proxy) => proxy.Challenge(default(string), default(ChallengeDetails)));
-        private static readonly MethodInfo mWelcome2 = Method.Get((IWampClientProxy proxy) => proxy.Welcome(default(long), default(object)));
-        private static readonly MethodInfo mAbort2 = Method.Get((IWampClientProxy proxy) => proxy.Abort(default(object), default(string)));
-        private static readonly MethodInfo mGoodbye2 = Method.Get((IWampClientProxy proxy) => proxy.Goodbye(default(object), default(string)));
-        private static readonly MethodInfo mHeartbeat2 = Method.Get((IWampClientProxy proxy) => proxy.Heartbeat(default(int), default(int)));
-        private static readonly MethodInfo mHeartbeat3 = Method.Get((IWampClientProxy proxy) => proxy.Heartbeat(default(int), default(int), default(string)));
+        private static readonly MethodInfo mWelcome2 = Method.Get((IWampClientProxy proxy) => proxy.Welcome(default(long), default(WelcomeDetails)));
+        private static readonly MethodInfo mAbort2 = Method.Get((IWampClientProxy proxy) => proxy.Abort(default(AbortDetails), default(string)));
+        private static readonly MethodInfo mGoodbye2 = Method.Get((IWampClientProxy proxy) => proxy.Goodbye(default(GoodbyeDetails), default(string)));
         private static readonly MethodInfo mError4 = Method.Get((IWampClientProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string)));
         private static readonly MethodInfo mError5 = Method.Get((IWampClientProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[])));
         private static readonly MethodInfo mError6 = Method.Get((IWampClientProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[]), default(object)));
@@ -44,29 +43,19 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
             Send(mChallenge2, authMethod, extra);
         }
 
-        public void Welcome(long session, object details)
+        public void Welcome(long session, WelcomeDetails details)
         {
             Send(mWelcome2, session, details);
         }
 
-        public void Abort(object details, string reason)
+        public void Abort(AbortDetails details, string reason)
         {
             Send(mAbort2, details, reason);
         }
 
-        public void Goodbye(object details, string reason)
+        public void Goodbye(GoodbyeDetails details, string reason)
         {
             Send(mGoodbye2, details, reason);
-        }
-
-        public void Heartbeat(int incomingSeq, int outgoingSeq)
-        {
-            Send(mHeartbeat2, incomingSeq, outgoingSeq);
-        }
-
-        public void Heartbeat(int incomingSeq, int outgoingSeq, string discard)
-        {
-            Send(mHeartbeat3, incomingSeq, outgoingSeq, discard);
         }
 
         public void Error(int requestType, long requestId, object details, string error)

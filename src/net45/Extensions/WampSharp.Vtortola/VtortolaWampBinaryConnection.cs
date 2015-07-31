@@ -2,6 +2,7 @@ using System.IO;
 using System.Threading.Tasks;
 using vtortola.WebSockets;
 using WampSharp.Core.Message;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 
 namespace WampSharp.Vtortola
@@ -10,8 +11,10 @@ namespace WampSharp.Vtortola
     {
         private readonly IWampBinaryBinding<TMessage> mBinding;
 
-        public VtortolaWampBinaryConnection(WebSocket connection, IWampBinaryBinding<TMessage> binding) :
-            base(connection)
+        public VtortolaWampBinaryConnection(WebSocket connection,
+                                            IWampBinaryBinding<TMessage> binding,
+                                            ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
+                                                base(connection, cookieAuthenticatorFactory)
         {
             mBinding = binding;
         }

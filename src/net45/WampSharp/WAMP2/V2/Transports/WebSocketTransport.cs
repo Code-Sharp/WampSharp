@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reactive.Subjects;
 using WampSharp.Logging;
 using WampSharp.Core.Listener;
-
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
 
@@ -16,12 +16,15 @@ namespace WampSharp.V2.Transports
     public abstract class WebSocketTransport<TConnection> : IWampTransport
     {
         protected readonly ILog mLogger;
+        
+        private readonly ICookieAuthenticatorFactory mAuthenticatorFactory;
 
         private readonly IDictionary<string, ConnectionListener> mBindings =
             new Dictionary<string, ConnectionListener>();
 
-        public WebSocketTransport()
+        public WebSocketTransport(ICookieAuthenticatorFactory authenticatorFactory)
         {
+            mAuthenticatorFactory = authenticatorFactory;
             mLogger = LogProvider.GetLogger(this.GetType());
         }
 
@@ -33,6 +36,11 @@ namespace WampSharp.V2.Transports
         protected string[] SubProtocols
         {
             get { return mBindings.Keys.ToArray(); }
+        }
+
+        protected ICookieAuthenticatorFactory AuthenticatorFactory
+        {
+            get { return mAuthenticatorFactory; }
         }
 
         /// <summary>

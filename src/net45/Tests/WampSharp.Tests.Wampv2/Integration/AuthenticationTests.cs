@@ -8,6 +8,7 @@ using NUnit.Framework;
 using WampSharp.Binding;
 using WampSharp.Tests.TestHelpers.Integration;
 using WampSharp.V2;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
@@ -43,8 +44,8 @@ namespace WampSharp.Tests.Wampv2.Integration
             channel.Open();
 
             IDictionary<string, ISerializedValue> deserializedDetails =
-                jsonBinding.Formatter.Deserialize<IDictionary<string, ISerializedValue>>
-                    (mock.Details);
+                mock.Details.OriginalValue.Deserialize<IDictionary<string, ISerializedValue>>
+                    ();
 
             Assert.That(deserializedDetails["authmethods"].Deserialize<string[]>(),
                 Is.EquivalentTo(authenticator.AuthenticationMethods));
@@ -102,10 +103,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                     {
                         return new AuthenticationResponse()
                         {
-                            Extra = new Dictionary<string, object>()
-                            {
-                                {"secret1", 3}
-                            },
+                            Extra = new MyAuthenticateExtraData() {Secret1 = 3},
                             Signature = "secretsignature"
                         };
                     })
@@ -131,7 +129,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 Is.EqualTo("secretsignature"));
 
             IDictionary<string, ISerializedValue> deserializedExtra = 
-                jsonBinding.Formatter.Deserialize<IDictionary<string, ISerializedValue>>(mock.Extra);
+                mock.Extra.OriginalValue.Deserialize<IDictionary<string, ISerializedValue>>();
 
             Assert.That(deserializedExtra["secret1"].Deserialize<int>(),
                 Is.EqualTo(3));
@@ -176,7 +174,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 Is.EqualTo("some reason"));
 
             MyAbortDetails deserializedDetails =
-                jsonBinding.Formatter.Deserialize<MyAbortDetails>(mock.Details);
+                mock.Details.OriginalValue.Deserialize<MyAbortDetails>();
 
             Assert.That(deserializedDetails, Is.EqualTo(myAbortDetails));
         }
@@ -209,14 +207,14 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         private class AbortMock : ChallengeMock
         {
-            public JToken Details { get; private set; }
+            public AbortDetails Details { get; private set; }
             public string Reason { get; private set; }
 
             public AbortMock(string authMethod) : base(authMethod)
             {
             }
 
-            public override void Abort(IWampSessionClient client, JToken details, string reason)
+            public override void Abort(IWampSessionClient client, AbortDetails details, string reason)
             {
                 Reason = reason;
                 Details = details;
@@ -226,13 +224,13 @@ namespace WampSharp.Tests.Wampv2.Integration
         private class AuthenticateMock : ChallengeMock
         {
             public string Signature { get; private set; }
-            public JToken Extra { get; private set; }
+            public AuthenticateExtraData Extra { get; private set; }
 
             public AuthenticateMock(string authMethod) : base(authMethod)
             {
             }
 
-            public override void Authenticate(IWampSessionClient client, string signature, JToken extra)
+            public override void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
             {
                 Extra = extra;
                 Signature = signature;
@@ -254,7 +252,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 mDetails = details;
             }
 
-            public override void Hello(IWampSessionClient client, string realm, JToken details)
+            public override void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
                 client.Challenge(mAuthMethod, mDetails);
             }
@@ -266,9 +264,9 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         private class HelloMock<TMessage> : MockServer<TMessage>
         {
-            private TMessage mDetails;
+            private HelloDetails mDetails;
 
-            public TMessage Details
+            public HelloDetails Details
             {
                 get
                 {
@@ -276,7 +274,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
             }
 
-            public override void Hello(IWampSessionClient client, string realm, TMessage details)
+            public override void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
                 mDetails = details;
             }
@@ -285,30 +283,20 @@ namespace WampSharp.Tests.Wampv2.Integration
         private class MockServer<TMessage> : IWampServer<TMessage>
         {
 
-            public virtual void Hello(IWampSessionClient client, string realm, TMessage details)
+            public virtual void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
             }
 
-            public virtual void Abort(IWampSessionClient client, TMessage details, string reason)
+            public virtual void Abort(IWampSessionClient client, AbortDetails details, string reason)
             {
             }
 
-            public virtual void Authenticate(IWampSessionClient client, string signature, TMessage extra)
+            public virtual void Authenticate(IWampSessionClient client, string signature, AuthenticateExtraData extra)
             {
             }
 
-            public void Goodbye(IWampSessionClient client, TMessage details, string reason)
+            public void Goodbye(IWampSessionClient client, GoodbyeDetails details, string reason)
             {
-            }
-
-            public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Heartbeat(IWampSessionClient client, int incomingSeq, int outgoingSeq, string discard)
-            {
-                throw new NotImplementedException();
             }
 
             public void OnNewClient(IWampClientProxy<TMessage> client)
@@ -476,4 +464,9 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
     }
 
+    public class MyAuthenticateExtraData : AuthenticateExtraData
+    {
+        [DataMember(Name = "secret1")]
+        public int Secret1 { get; set; }
+    }
 }

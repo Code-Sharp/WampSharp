@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using Fleck;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Transports;
 using LogLevel = Fleck.LogLevel;
@@ -20,10 +22,27 @@ namespace WampSharp.Fleck
         /// given the server address to run at.
         /// </summary>
         /// <param name="location">The given server address.</param>
-        public FleckWebSocketTransport(string location)
+        /// <param name="certificate"></param>
+        public FleckWebSocketTransport(string location, X509Certificate2 certificate = null)
+            : this(location, null, certificate)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="FleckWebSocketTransport"/>
+        /// given the server address to run at.
+        /// </summary>
+        /// <param name="location">The given server address.</param>
+        /// <param name="cookieAuthenticatorFactory"></param>
+        /// <param name="certificate"></param>
+        protected FleckWebSocketTransport(string location,
+                                          ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
+                                          X509Certificate2 certificate = null)
+            : base(cookieAuthenticatorFactory)
         {
             mServer = new WebSocketServer(location);
-
+            mServer.Certificate = certificate;
+            
             RouteLogs();
         }
 
@@ -76,12 +95,12 @@ namespace WampSharp.Fleck
 
         protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>(IWebSocketConnection connection, IWampBinaryBinding<TMessage> binding)
         {
-            return new FleckWampBinaryConnection<TMessage>(connection, binding);
+            return new FleckWampBinaryConnection<TMessage>(connection, binding, AuthenticatorFactory);
         }
 
         protected override IWampConnection<TMessage> CreateTextConnection<TMessage>(IWebSocketConnection connection, IWampTextBinding<TMessage> binding)
         {
-            return new FleckWampTextConnection<TMessage>(connection, binding);
+            return new FleckWampTextConnection<TMessage>(connection, binding, AuthenticatorFactory);
         }
 
         public override void Open()
