@@ -6,7 +6,7 @@ namespace WampSharp.V2.Realm
     /// <summary>
     /// Represents <see cref="EventArgs"/> for a session close event.
     /// </summary>
-    public class WampSessionCloseEventArgs
+    public class WampSessionCloseEventArgs : EventArgs
     {
         private readonly string mReason;
         private readonly SessionCloseType mCloseType;
