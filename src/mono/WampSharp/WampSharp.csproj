@@ -326,6 +326,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorBase.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorBase.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorFactory.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs</Link>
     </Compile>

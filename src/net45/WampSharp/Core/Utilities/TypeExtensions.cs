@@ -88,7 +88,7 @@ namespace System.Reflection
 #endif
         }
 
-#if PCL
+#if PCL && !DNX
         public static bool IsAssignableFrom(this Type interfaceType, Type type)
         {
             TypeInfo interfaceTypeInfo = interfaceType.GetTypeInfo();
