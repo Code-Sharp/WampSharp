@@ -6,6 +6,7 @@ namespace WampSharp.V2.Authentication
 {
     public abstract class CookieAuthenticator : IWampSessionAuthenticator
     {
+        private ICookieProvider mCookieProvider;
         public abstract bool IsAuthenticated { get; }
         public abstract string AuthenticationId { get; }
         public abstract string AuthenticationMethod { get; }
@@ -13,23 +14,22 @@ namespace WampSharp.V2.Authentication
         public abstract void Authenticate(string signature, AuthenticateExtraData extra);
         public abstract IWampAuthorizer Authorizer { get; }
         public abstract WelcomeDetails WelcomeDetails { get; }
-        internal ICookieProvider CookieProvider { get; set; }
 
         protected CookieAuthenticator(ICookieProvider cookieProvider)
         {
-            CookieProvider = cookieProvider;
+            mCookieProvider = cookieProvider;
         }
 
         protected Cookie GetCookieByName(string cookieName)
         {
-            return CookieProvider.GetCookieByName(cookieName);
+            return mCookieProvider.GetCookieByName(cookieName);
         }
 
         protected IEnumerable<Cookie> AvailableCookies
         {
             get
             {
-                return CookieProvider.Cookies;
+                return mCookieProvider.Cookies;
             }
         }
     }
