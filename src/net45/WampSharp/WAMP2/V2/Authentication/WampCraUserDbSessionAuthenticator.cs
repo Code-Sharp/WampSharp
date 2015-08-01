@@ -78,7 +78,7 @@ namespace WampSharp.V2.Authentication
 
         public string AuthenticationProvider { get; set; }
 
-        public ICollection<WampCraUriPermissions> Permissions { get; set; }
+        public IWampAuthorizer Authorizer { get; set; }
     }
 
     public class WampCraUriPermissions
@@ -205,7 +205,7 @@ namespace WampSharp.V2.Authentication
                     AuthenticationRole = role.AuthenticationRole
                 };
 
-            Authorizer = new WampCraUserDbAuthorizer(role);
+            Authorizer = role.Authorizer;
 
             mAuthenticationChallenge = details.ToString();
         }
@@ -239,7 +239,7 @@ namespace WampSharp.V2.Authentication
         }
     }
 
-    public class WampCraUserDbAuthorizer : IWampAuthorizer
+    public class WampCraStaticAuthorizer : IWampAuthorizer
     {
         private readonly Dictionary<string, WampCraUriPermissions> mExactUriToPermissions =
             new Dictionary<string, WampCraUriPermissions>();
@@ -247,13 +247,13 @@ namespace WampSharp.V2.Authentication
         private readonly SortedDictionary<string, WampCraUriPermissions> mPrefixedUriToPermissions =
             new SortedDictionary<string, WampCraUriPermissions>(StringComparer.Ordinal);
 
-        public WampCraUserDbAuthorizer(WampCraAuthenticationRole role)
+        public WampCraStaticAuthorizer(ICollection<WampCraUriPermissions> uriPermissions)
         {
-            foreach (WampCraUriPermissions uriPermissions in role.Permissions)
+            foreach (WampCraUriPermissions currentUriPermissions in uriPermissions)
             {
                 IDictionary<string, WampCraUriPermissions> permissions;
 
-                if (uriPermissions.Prefixed)
+                if (currentUriPermissions.Prefixed)
                 {
                     permissions = mPrefixedUriToPermissions;
                 }
@@ -262,7 +262,7 @@ namespace WampSharp.V2.Authentication
                     permissions = mExactUriToPermissions;
                 }
 
-                MapPermission(permissions, uriPermissions);
+                MapPermission(permissions, currentUriPermissions);
             }
         }
 

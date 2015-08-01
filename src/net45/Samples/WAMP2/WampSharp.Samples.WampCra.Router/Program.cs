@@ -68,32 +68,32 @@ namespace WampSharp.Samples.WampCra.Router
                         {
                             {
                                 "frontend",
-                                new WampCraAuthenticationRole()
+                                new WampCraAuthenticationRole
                                 {
-                                    Permissions = new List<WampCraUriPermissions>()
+                                    Authorizer = new WampCraStaticAuthorizer(new List<WampCraUriPermissions>
                                     {
-                                        new WampCraUriPermissions()
+                                        new WampCraUriPermissions
                                         {
                                             Uri = "com.example.add2",
                                             CanCall = true
                                         },
-                                        new WampCraUriPermissions()
+                                        new WampCraUriPermissions
                                         {
                                             Uri = "com.example.",
                                             Prefixed = true,
                                             CanPublish = true
                                         },
-                                        new WampCraUriPermissions()
+                                        new WampCraUriPermissions
                                         {
                                             Uri = "com.example.topic2",
                                             CanPublish = false
                                         },
-                                        new WampCraUriPermissions()
+                                        new WampCraUriPermissions
                                         {
                                             Uri = "com.foobar.topic1",
                                             CanPublish = true
                                         },
-                                    }
+                                    })
                                 }
                             }
                         }
