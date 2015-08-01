@@ -7,12 +7,12 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Authentication
 {
-    public abstract class WampCraAuthenticator : WampSessionAuthenticator
+    public abstract class WampCraSessionAuthenticator : WampSessionAuthenticator
     {
         private readonly string mAuthenticationId;
         private WampCraChallengeDetails mCraChallengeDetails;
 
-        protected WampCraAuthenticator(string authenticationId)
+        protected WampCraSessionAuthenticator(string authenticationId)
         {
             mAuthenticationId = authenticationId;
         }
@@ -86,13 +86,16 @@ namespace WampSharp.V2.Authentication
     [DataContract]
     public class WampCraChallengeDetails : ChallengeDetails, IWampCraChallenge
     {
+        private const int DefaultIterations = 1000;
+        private const int DefaultKeyLength = 32;
+
         public WampCraChallengeDetails(string salt,
-                                       int? iterations = 1000,
-                                       int? keyLen = 32)
+                                       int? iterations = DefaultIterations,
+                                       int? keyLen = DefaultKeyLength)
         {
             Salt = salt;
-            Iterations = iterations;
-            KeyLength = keyLen;
+            Iterations = iterations ?? DefaultIterations;
+            KeyLength = keyLen ?? DefaultKeyLength;
         }
 
         internal WampCraChallengeDetails()

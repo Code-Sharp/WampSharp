@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -166,7 +167,9 @@
     <Compile Include="WAMP2\V2\Api\WampEventContext.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\IAsyncDisposable.cs" />
     <Compile Include="WAMP2\V2\Authentication\IWampRouterAuthenticator.cs" />
-    <Compile Include="WAMP2\V2\Authentication\WampCraAuthenticator.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampCraSessionAuthenticator.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampCraPendingClientDetails.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampCraUserDbSessionAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Binding\Contracts\WampSubProtocols.cs" />
     <Compile Include="WAMP2\V2\Binding\IWampRouterBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\Parsers\IWampStreamingMessageParser.cs" />

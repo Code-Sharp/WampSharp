@@ -33,20 +33,20 @@ namespace WampSharp.V2.Session
                 SessionId = wampClient.Session
             };
 
-            IWampSessionAuthenticator authenticator =
-                mSessionAuthenticatorFactory.GetSessionAuthenticator
-                    (clientDetails,
-                     wampClient.Authenticator);
-
-            if (authenticator == null)
-            {
-                throw new Exception("Get null authenticator.");
-            }
-
-            wampClient.Authenticator = authenticator;
-
             try
             {
+                IWampSessionAuthenticator authenticator =
+                    mSessionAuthenticatorFactory.GetSessionAuthenticator
+                        (clientDetails,
+                         wampClient.Authenticator);
+
+                if (authenticator == null)
+                {
+                    throw new Exception("Get null authenticator.");
+                }
+
+                wampClient.Authenticator = authenticator;
+
                 bool authenticated = authenticator.IsAuthenticated;
 
                 if (authenticated)

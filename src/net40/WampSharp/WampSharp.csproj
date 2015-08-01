@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -364,8 +365,14 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\IWampRouterAuthenticator.cs">
       <Link>WAMP2\V2\Authentication\IWampRouterAuthenticator.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCraAuthenticator.cs">
-      <Link>WAMP2\V2\Authentication\WampCraAuthenticator.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCraSessionAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\WampCraSessionAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCraPendingClientDetails.cs">
+      <Link>WAMP2\V2\Authentication\WampCraPendingClientDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCraUserDbSessionAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\WampCraUserDbSessionAuthenticator.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Contracts\WampSubProtocols.cs">
       <Link>WAMP2\V2\Binding\Contracts\WampSubProtocols.cs</Link>

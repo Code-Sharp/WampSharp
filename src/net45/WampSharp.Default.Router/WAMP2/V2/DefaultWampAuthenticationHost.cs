@@ -10,7 +10,7 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
 {
-    public class DefaultWampAuthenticatedHost : WampAuthenticationHost
+    public class DefaultWampAuthenticationHost : WampAuthenticationHost
     {
         /// <summary>
         /// Initializes a new instance of <see cref="DefaultWampHost"/> listening at
@@ -19,7 +19,7 @@ namespace WampSharp.V2
         /// </summary>
         /// <param name="location">The given location.</param>
         /// <param name="sessionAuthenticationFactory"></param>
-        public DefaultWampAuthenticatedHost
+        public DefaultWampAuthenticationHost
             (string location,
              IWampSessionAuthenticatorFactory sessionAuthenticationFactory)
             : this(location: location,
@@ -38,7 +38,7 @@ namespace WampSharp.V2
         /// <param name="sessionAuthenticationFactory"></param>
         /// <param name="cookieAuthenticatorFactory"></param>
         /// <param name="certificate"></param>
-        public DefaultWampAuthenticatedHost
+        public DefaultWampAuthenticationHost
             (string location,
              IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
              ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
@@ -61,7 +61,7 @@ namespace WampSharp.V2
         /// <param name="bindings">The given bindings.</param>
         /// <param name="cookieAuthenticatorFactory"></param>
         /// <param name="certificate"></param>
-        public DefaultWampAuthenticatedHost
+        public DefaultWampAuthenticationHost
             (string location,
              IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
              IEnumerable<IWampBinding> bindings = null,
@@ -87,7 +87,7 @@ namespace WampSharp.V2
         /// <param name="bindings">The given bindings.</param>
         /// <param name="cookieAuthenticatorFactory"></param>
         /// <param name="certificate"></param>
-        public DefaultWampAuthenticatedHost(string location, 
+        public DefaultWampAuthenticationHost(string location, 
             IWampSessionAuthenticatorFactory sessionAuthenticationFactory, 
             IWampRealmContainer realmContainer = null, 
             IEnumerable<IWampBinding> bindings = null, 
