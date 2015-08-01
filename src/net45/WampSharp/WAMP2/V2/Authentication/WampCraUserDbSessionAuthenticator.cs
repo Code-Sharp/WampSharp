@@ -10,11 +10,11 @@ namespace WampSharp.V2.Authentication
 {
     public class WampCraStaticAuthenticationProvider : IWampCraAuthenticationProvider
     {
-        private readonly IDictionary<string, WampCraAuthenticationRole> mRoles;
+        private readonly IDictionary<string, IDictionary<string, WampCraAuthenticationRole>> mRealmToRoleNameToRole;
 
-        public WampCraStaticAuthenticationProvider(IDictionary<string, WampCraAuthenticationRole> roles)
+        public WampCraStaticAuthenticationProvider(IDictionary<string, IDictionary<string, WampCraAuthenticationRole>> realmToRoleNameToRole)
         {
-            mRoles = roles;
+            mRealmToRoleNameToRole = realmToRoleNameToRole;
         }
 
         public string ProviderName
@@ -25,11 +25,21 @@ namespace WampSharp.V2.Authentication
             }
         }
 
-        public WampCraAuthenticationRole GetRoleByName(string role)
+        public WampCraAuthenticationRole GetRoleByName(string realm, string role)
         {
-            WampCraAuthenticationRole result;
-            mRoles.TryGetValue(role, out result);
-            return result;
+            IDictionary<string, WampCraAuthenticationRole> roleNameToRole;
+
+            if (mRealmToRoleNameToRole.TryGetValue(realm, out roleNameToRole))
+            {
+                WampCraAuthenticationRole result;
+
+                if (roleNameToRole.TryGetValue(role, out result))
+                {
+                    return result;
+                }
+            }
+
+            return null;
         }
     }
 
@@ -59,7 +69,7 @@ namespace WampSharp.V2.Authentication
     {
         string ProviderName { get; }
 
-        WampCraAuthenticationRole GetRoleByName(string role);
+        WampCraAuthenticationRole GetRoleByName(string realm, string role);
     }
 
     public class WampCraAuthenticationRole
@@ -141,7 +151,7 @@ namespace WampSharp.V2.Authentication
             string authenticationRole = user.AuthenticationRole;
 
             WampCraAuthenticationRole role = 
-                mAuthenticationProvider.GetRoleByName(authenticationRole);
+                mAuthenticationProvider.GetRoleByName(details.Realm, authenticationRole);
 
             if (role == null)
             {

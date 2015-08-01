@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using WampSharp.V2;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Realm;
@@ -10,7 +9,7 @@ namespace WampSharp.Samples.WampCra.Router
 {
     public class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             HostCode();
             Console.ReadLine();
@@ -62,35 +61,40 @@ namespace WampSharp.Samples.WampCra.Router
         private class MyAuthenticationProvider : WampCraStaticAuthenticationProvider
         {
             public MyAuthenticationProvider() :
-                base(new Dictionary<string, WampCraAuthenticationRole>()
+                base(new Dictionary<string, IDictionary<string, WampCraAuthenticationRole>>()
                 {
                     {
-                        "frontend",
-                        new WampCraAuthenticationRole()
+                        "realm1", new Dictionary<string, WampCraAuthenticationRole>()
                         {
-                            Permissions = new List<WampCraUriPermissions>()
                             {
-                                new WampCraUriPermissions()
+                                "frontend",
+                                new WampCraAuthenticationRole()
                                 {
-                                    Uri = "com.example.add2",
-                                    CanCall = true
-                                },
-                                new WampCraUriPermissions()
-                                {
-                                    Uri = "com.example.",
-                                    Prefixed = true,
-                                    CanPublish = true
-                                },
-                                new WampCraUriPermissions()
-                                {
-                                    Uri = "com.example.topic2",
-                                    CanPublish = false
-                                },
-                                new WampCraUriPermissions()
-                                {
-                                    Uri = "com.foobar.topic1",
-                                    CanPublish = true
-                                },
+                                    Permissions = new List<WampCraUriPermissions>()
+                                    {
+                                        new WampCraUriPermissions()
+                                        {
+                                            Uri = "com.example.add2",
+                                            CanCall = true
+                                        },
+                                        new WampCraUriPermissions()
+                                        {
+                                            Uri = "com.example.",
+                                            Prefixed = true,
+                                            CanPublish = true
+                                        },
+                                        new WampCraUriPermissions()
+                                        {
+                                            Uri = "com.example.topic2",
+                                            CanPublish = false
+                                        },
+                                        new WampCraUriPermissions()
+                                        {
+                                            Uri = "com.foobar.topic1",
+                                            CanPublish = true
+                                        },
+                                    }
+                                }
                             }
                         }
                     }
@@ -102,25 +106,25 @@ namespace WampSharp.Samples.WampCra.Router
         private class MyUserDb : WampCraStaticUserDb
         {
             public MyUserDb() : base(new Dictionary<string, WampCraUser>()
+            {
                 {
+                    "joe", new WampCraUser()
                     {
-                        "joe", new WampCraUser()
-                        {
-                            Secret = "secret2",
-                            AuthenticationRole = "frontend"
-                        }
-                    },
+                        Secret = "secret2",
+                        AuthenticationRole = "frontend"
+                    }
+                },
+                {
+                    "peter", new WampCraUser()
                     {
-                        "peter", new WampCraUser()
-                        {
-                            Secret = "secret1",
-                            AuthenticationRole = "frontend",
-                            Salt = "salt123",
-                            Iterations = 100,
-                            KeyLength = 16
-                        }
-                    },
-                })
+                        Secret = "secret1",
+                        AuthenticationRole = "frontend",
+                        Salt = "salt123",
+                        Iterations = 100,
+                        KeyLength = 16
+                    }
+                },
+            })
             {
             }
         }
