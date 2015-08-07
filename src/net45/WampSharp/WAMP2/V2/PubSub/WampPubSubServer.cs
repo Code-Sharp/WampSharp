@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WampSharp.Logging;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
@@ -76,6 +77,12 @@ namespace WampSharp.V2.PubSub
             PublishOptionsExtended result = new PublishOptionsExtended(options);
 
             result.PublisherId = casted.Session;
+
+            WelcomeDetails welcomeDetails = casted.WelcomeDetails;
+
+            result.AuthenticationId = welcomeDetails.AuthenticationId;
+            result.AuthenticationMethod = welcomeDetails.AuthenticationMethod;
+            result.AuthenticationRole = welcomeDetails.AuthenticationRole;
 
             result.TopicUri = topicUri;
 

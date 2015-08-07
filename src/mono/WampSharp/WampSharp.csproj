@@ -385,6 +385,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs">
       <Link>WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\ExperimentalWampFeature.cs">
+      <Link>WAMP2\V2\Core\Contracts\ExperimentalWampFeature.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\IWampClient.cs">
       <Link>WAMP2\V2\Core\Contracts\IWampClient.cs</Link>
     </Compile>

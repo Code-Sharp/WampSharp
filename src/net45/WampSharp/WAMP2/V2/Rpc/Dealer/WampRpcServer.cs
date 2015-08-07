@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using WampSharp.Logging;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
@@ -125,6 +126,12 @@ namespace WampSharp.V2.Rpc
                 CallerOptions = options,
                 ProcedureUri = procedureUri
             };
+
+            WelcomeDetails welcomeDetails = wampCaller.WelcomeDetails;
+
+            result.AuthenticationId = welcomeDetails.AuthenticationId;
+            result.AuthenticationMethod = welcomeDetails.AuthenticationMethod;
+            result.AuthenticationRole = welcomeDetails.AuthenticationRole;
 
             return result;
         }

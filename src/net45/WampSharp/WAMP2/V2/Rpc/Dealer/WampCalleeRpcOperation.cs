@@ -135,6 +135,10 @@ namespace WampSharp.V2.Rpc
                 callerOptions.DiscloseMe == true)
             {
                 result.Caller = casted.CallerSession;
+
+                result.AuthenticationId = casted.AuthenticationId;
+                result.AuthenticationMethod = casted.AuthenticationMethod;
+                result.AuthenticationRole = casted.AuthenticationRole;
             }
 
             if (callerOptions.ReceiveProgress == true)

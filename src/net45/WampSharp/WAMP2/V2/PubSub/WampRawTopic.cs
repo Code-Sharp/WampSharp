@@ -85,6 +85,10 @@ namespace WampSharp.V2.PubSub
                 if (disclosePublisher)
                 {
                     result.Publisher = extendedOptions.PublisherId;
+
+                    result.AuthenticationId = extendedOptions.AuthenticationId;
+                    result.AuthenticationMethod = extendedOptions.AuthenticationMethod;
+                    result.AuthenticationRole = extendedOptions.AuthenticationRole;
                 }
 
                 string match = mSubscribeOptions.Match;

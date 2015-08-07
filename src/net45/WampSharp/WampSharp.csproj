@@ -175,6 +175,7 @@
     <Compile Include="WAMP2\V2\Binding\Parsers\IWampStreamingMessageParser.cs" />
     <Compile Include="WAMP2\V2\Binding\WampRouterBindingExtensions.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\ExperimentalWampFeature.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
     <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />

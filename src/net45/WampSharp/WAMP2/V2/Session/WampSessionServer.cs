@@ -93,6 +93,8 @@ namespace WampSharp.V2.Session
         {
             WelcomeDetails welcomeDetails = GetWelcomeDetails(wampClient);
 
+            wampClient.WelcomeDetails = welcomeDetails;
+
             wampClient.Realm.Hello(wampClient.Session, details, welcomeDetails);
 
             wampClient.Welcome(wampClient.Session, welcomeDetails);

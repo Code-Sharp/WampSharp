@@ -31,6 +31,8 @@ namespace WampSharp.V2.Core.Contracts
         IWampAuthorizer Authorizer { get; }
 
         HelloDetails HelloDetails { get; set; }
+
+        WelcomeDetails WelcomeDetails { get; set; }
     }
 
     /// <summary>

@@ -29,6 +29,8 @@ namespace WampSharp.V2.Core.Proxy
 
         public HelloDetails HelloDetails { get; set; }
 
+        public WelcomeDetails WelcomeDetails { get; set; }
+
         public bool GoodbyeSent { get; set; }
 
         public long Session { get; set; }

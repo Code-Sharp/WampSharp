@@ -51,6 +51,8 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
 
         public HelloDetails HelloDetails { get; set; }
 
+        public WelcomeDetails WelcomeDetails { get; set; }
+
         IWampBinding IWampClientProperties.Binding
         {
             get { return Binding; }
