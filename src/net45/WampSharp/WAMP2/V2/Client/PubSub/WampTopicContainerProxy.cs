@@ -42,9 +42,9 @@ namespace WampSharp.V2.Client
             mSubscriber.Subscribed(requestId, subscriptionId);
         }
 
-        public void Unsubscribed(long requestId, long subscriptionId)
+        public void Unsubscribed(long requestId)
         {
-            mSubscriber.Unsubscribed(requestId, subscriptionId);
+            mSubscriber.Unsubscribed(requestId);
         }
 
         public void Event(long subscriptionId, long publicationId, EventDetails details)

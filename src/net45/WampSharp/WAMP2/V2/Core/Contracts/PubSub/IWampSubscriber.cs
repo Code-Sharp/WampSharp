@@ -14,7 +14,7 @@ namespace WampSharp.V2.Core.Contracts
         void Subscribed(long requestId, long subscriptionId);
 
         [WampHandler(WampMessageType.v2Unsubscribed)]
-        void Unsubscribed(long requestId, long subscriptionId);
+        void Unsubscribed(long requestId);
 
         [WampHandler(WampMessageType.v2Event)]
         void Event(long subscriptionId, long publicationId, EventDetails details);

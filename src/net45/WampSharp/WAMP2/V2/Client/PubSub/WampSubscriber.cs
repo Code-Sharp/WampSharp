@@ -131,7 +131,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void Unsubscribed(long requestId, long subscriptionId)
+        public void Unsubscribed(long requestId)
         {
             UnsubscribeRequest request;
 

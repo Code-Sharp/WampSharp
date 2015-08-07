@@ -25,7 +25,7 @@ namespace WampSharp.V2.PubSub
 
         public void Unsubscribed()
         {
-            Client.Unsubscribed(mRequestId, mSubscriptionId);
+            Client.Unsubscribed(mRequestId);
         }
     }
 }

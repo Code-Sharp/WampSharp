@@ -28,7 +28,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         private static readonly MethodInfo mResult4 = Method.Get((IWampClientProxy proxy) => proxy.Result(default(long), default(ResultDetails), default(object[]), default(IDictionary<string, object>)));
         private static readonly MethodInfo mPublished2 = Method.Get((IWampClientProxy proxy) => proxy.Published(default(long), default(long)));
         private static readonly MethodInfo mSubscribed2 = Method.Get((IWampClientProxy proxy) => proxy.Subscribed(default(long), default(long)));
-        private static readonly MethodInfo mUnsubscribed2 = Method.Get((IWampClientProxy proxy) => proxy.Unsubscribed(default(long), default(long)));
+        private static readonly MethodInfo mUnsubscribed2 = Method.Get((IWampClientProxy proxy) => proxy.Unsubscribed(default(long)));
         private static readonly MethodInfo mEvent3 = Method.Get((IWampClientProxy proxy) => proxy.Event(default(long), default(long), default(EventDetails)));
         private static readonly MethodInfo mEvent4 = Method.Get((IWampClientProxy proxy) => proxy.Event(default(long), default(long), default(EventDetails), default(object[])));
         private static readonly MethodInfo mEvent5 = Method.Get((IWampClientProxy proxy) => proxy.Event(default(long), default(long), default(EventDetails), default(object[]), default(IDictionary<string, object>)));
@@ -128,9 +128,9 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
             Send(mSubscribed2, requestId, subscriptionId);
         }
 
-        public void Unsubscribed(long requestId, long subscriptionId)
+        public void Unsubscribed(long requestId)
         {
-            Send(mUnsubscribed2, requestId, subscriptionId);
+            Send(mUnsubscribed2, requestId);
         }
 
         public void Event(long subscriptionId, long publicationId, EventDetails details)
