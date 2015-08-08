@@ -89,6 +89,7 @@
     <Compile Include="Integration\RpcServices\TimeService.cs" />
     <Compile Include="Integration\SerializedValue.cs" />
     <Compile Include="Integration\SharedRpcTests.cs" />
+    <Compile Include="RecordedTests\MockBuilder\WelcomeDetailsInterceptor.cs" />
     <Compile Include="RequestMapper.cs" />
     <Compile Include="TestHelpers\Integration\MockTransport.cs" />
     <Compile Include="TestHelpers\Integration\WampClientPlayground.cs" />

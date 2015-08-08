@@ -1,7 +1,9 @@
 ﻿using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
+using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
@@ -25,14 +27,20 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 
         #endregion
 
-        public IWampClientProxy<TMessage> Create(long sessionId,
-                                            IMessagePlayer<TMessage> player,
-                                            IMessageRecorder<TMessage> recorder)
+        public IWampClientProxy<TMessage> Create(IMessagePlayer<TMessage> player,
+                                            IMessageRecorder<TMessage> recorder,
+                                            WampMessage<TMessage> welcomeMessage)
         {
             ProxyGenerationOptions options =
                 new ProxyGenerationOptions();
 
             options.Selector = new MockClientInterceptorSelector();
+
+            IWampFormatter<TMessage> formatter = mBinding.Formatter;
+
+            long sessionId = formatter.Deserialize<long>(welcomeMessage.Arguments[0]);
+            WelcomeDetails welcomeDetails = formatter.Deserialize<WelcomeDetails>(welcomeMessage.Arguments[1]);
+
 
             IWampClientProxy<TMessage> result =
                 mGenerator.CreateInterfaceProxyWithoutTarget
@@ -46,7 +54,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
                      new RecordAndPlayRawInterceptor<TMessage>(player, recorder, mBinding),
                      new RecordAndPlayInterceptor<TMessage>
                          (mOutgoingSerializer, player, recorder, mBinding),
-                     new SessionPropertyInterceptor(sessionId))
+                     new SessionPropertyInterceptor(sessionId),
+                     new WelcomeDetailsInterceptor(welcomeDetails))
                 as IWampClientProxy<TMessage>;
 
             return result;

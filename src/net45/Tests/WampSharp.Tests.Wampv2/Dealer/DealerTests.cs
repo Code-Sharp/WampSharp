@@ -9,6 +9,7 @@ using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.Wampv2.Binding;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
@@ -106,6 +107,9 @@ namespace WampSharp.Tests.Wampv2.Dealer
             Mock<IWampCaller> caller = new Mock<IWampCaller>();
             caller.As<IWampConnectionMonitor>();
             caller.As<IWampClientProxy>();
+            caller.As<IWampClientProperties>()
+                  .Setup(x => x.WelcomeDetails)
+                  .Returns(new WelcomeDetails());
 
             WampRpcServer<MockRaw> server =
                 new WampRpcServer<MockRaw>
