@@ -59,5 +59,10 @@ namespace WampSharp.V2.PubSub
         /// <param name="subscriber">The given subscriber.</param>
         /// <returns>A disposable, when disposed the subscription will be canceled.</returns>
         IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber);
+
+        /// <summary>
+        /// Gets the subscription id associated with this subscription.
+        /// </summary>
+        long SubscriptionId { get; }
     }
 }

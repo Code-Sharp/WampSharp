@@ -11,6 +11,7 @@ using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.Wampv2.Binding;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
@@ -19,13 +20,13 @@ namespace WampSharp.Tests.Wampv2.Dealer
     [TestFixture]
     public class DealerTests
     {
-        class RegistrationTokenMock : IWampRpcOperationRegistrationToken
+        class RegistrationSubscriptionTokenMock : IWampRegistrationSubscriptionToken
         {
             public void Dispose()
             {
             }
 
-            public long RegistrationId { get; set; }
+            public long TokenId { get; set; }
         }
 
         [Test]
@@ -45,7 +46,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
             catalog.Setup(x => x.Register
                               (It.IsAny<IWampRpcOperation>(),
                                It.IsAny<RegisterOptions>()))
-                   .Returns(new RegistrationTokenMock());
+                   .Returns(new RegistrationSubscriptionTokenMock());
 
             foreach (Registration registration in registrations)
             {

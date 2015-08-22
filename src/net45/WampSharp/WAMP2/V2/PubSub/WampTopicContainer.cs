@@ -4,6 +4,7 @@ using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.PubSub
 {
@@ -27,13 +28,15 @@ namespace WampSharp.V2.PubSub
         /// </summary>
         public WampTopicContainer()
         {
-            mExactTopicContainer = new ExactTopicContainer();
+            WampIdMapper<IWampTopic> subscriptionIdToTopic = new WampIdMapper<IWampTopic>();
+
+            mExactTopicContainer = new ExactTopicContainer(subscriptionIdToTopic);
 
             mInnerContainers = new MatchTopicContainer[]
             {
                 mExactTopicContainer,
-                new PrefixTopicContainer(),
-                new WildCardTopicContainer()
+                new PrefixTopicContainer(subscriptionIdToTopic),
+                new WildCardTopicContainer(subscriptionIdToTopic)
             };
         }
 
@@ -49,7 +52,7 @@ namespace WampSharp.V2.PubSub
             get { return mExactTopicContainer.Topics; }
         }
 
-        public IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
+        public IWampRegistrationSubscriptionToken Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {
             MatchTopicContainer topicContainer = GetInnerContainer(options);
 

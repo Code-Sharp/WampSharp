@@ -179,6 +179,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
     <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
+    <Compile Include="WAMP2\V2\PubSub\SubscriptionToken.cs" />
     <Compile Include="WAMP2\V2\Reflection\SessionDescriptorService.cs" />
     <Compile Include="WAMP2\V2\Reflection\Rpc\AvailableRegistrations.cs" />
     <Compile Include="WAMP2\V2\Reflection\PubSub\AvailableSubscriptions.cs" />
@@ -244,7 +245,7 @@
     <Compile Include="WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\MatchRpcOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Dealer\IWampRpcOperationRegistrationToken.cs" />
+    <Compile Include="WAMP2\V2\Core\IWampRegistrationSubscriptionToken.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\IWampRpcOperationSelector.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\LastOperationSelector.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\RandomOperationSelector.cs" />

@@ -400,6 +400,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs">
       <Link>WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\SubscriptionToken.cs">
+      <Link>WAMP2\V2\PubSub\SubscriptionToken.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Reflection\SessionDescriptorService.cs">
       <Link>WAMP2\V2\Reflection\SessionDescriptorService.cs</Link>
     </Compile>
@@ -595,8 +598,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs">
       <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\IWampRpcOperationRegistrationToken.cs">
-      <Link>WAMP2\V2\Rpc\Dealer\IWampRpcOperationRegistrationToken.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\IWampRegistrationSubscriptionToken.cs">
+      <Link>WAMP2\V2\Core\IWampRegistrationSubscriptionToken.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\IWampRpcOperationSelector.cs">
       <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\IWampRpcOperationSelector.cs</Link>

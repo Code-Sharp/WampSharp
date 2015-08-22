@@ -21,7 +21,7 @@ namespace WampSharp.V2.Rpc
             mRegistrationIdToRegistration = mapper;
         }
 
-        public IWampRpcOperationRegistrationToken Register(IWampRpcOperation operation, RegisterOptions registerOptions)
+        public IWampRegistrationSubscriptionToken Register(IWampRpcOperation operation, RegisterOptions registerOptions)
         {
             lock (mLock)
             {

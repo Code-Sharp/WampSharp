@@ -26,7 +26,7 @@ namespace WampSharp.V2.Rpc
             };
         }
 
-        public IWampRpcOperationRegistrationToken Register(IWampRpcOperation operation, RegisterOptions options)
+        public IWampRegistrationSubscriptionToken Register(IWampRpcOperation operation, RegisterOptions options)
         {
             MatchRpcOperationCatalog catalog = GetInnerCatalog(options);
 

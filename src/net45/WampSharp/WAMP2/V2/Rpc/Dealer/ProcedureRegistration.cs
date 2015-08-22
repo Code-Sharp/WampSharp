@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
@@ -49,7 +50,7 @@ namespace WampSharp.V2.Rpc
 
         public event EventHandler Empty;
 
-        public IWampRpcOperationRegistrationToken Register(IWampRpcOperation operation, RegisterOptions registerOptions)
+        public IWampRegistrationSubscriptionToken Register(IWampRpcOperation operation, RegisterOptions registerOptions)
         {
             VerifyInvokePoliciesAreCompatible(registerOptions);
 
@@ -62,7 +63,7 @@ namespace WampSharp.V2.Rpc
                         mOperations = mOperations.Add(operation);                        
                     }
 
-                    return new WampRpcOperationRegistrationToken(operation, this);
+                    return new WampRegistrationSubscriptionToken(operation, this);
                 }
                 else
                 {
@@ -182,12 +183,12 @@ namespace WampSharp.V2.Rpc
             return result;
         }
 
-        private class WampRpcOperationRegistrationToken : IWampRpcOperationRegistrationToken
+        private class WampRegistrationSubscriptionToken : IWampRegistrationSubscriptionToken
         {
             private readonly IWampRpcOperation mOperation;
             private readonly ProcedureRegistration mRegistration;
 
-            public WampRpcOperationRegistrationToken(IWampRpcOperation operation, ProcedureRegistration registration)
+            public WampRegistrationSubscriptionToken(IWampRpcOperation operation, ProcedureRegistration registration)
             {
                 mOperation = operation;
                 mRegistration = registration;
@@ -198,7 +199,7 @@ namespace WampSharp.V2.Rpc
                 mRegistration.RemoveOperation(mOperation);
             }
 
-            public long RegistrationId
+            public long TokenId
             {
                 get
                 {

@@ -1,4 +1,5 @@
-﻿using WampSharp.V2.Core.Contracts;
+﻿using WampSharp.V2.Core;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
@@ -12,6 +13,6 @@ namespace WampSharp.V2.Rpc
         /// </summary>
         /// <param name="operation"></param>
         /// <param name="options"></param>
-        IWampRpcOperationRegistrationToken Register(IWampRpcOperation operation, RegisterOptions options);
+        IWampRegistrationSubscriptionToken Register(IWampRpcOperation operation, RegisterOptions options);
     }
 }

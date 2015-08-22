@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.PubSub
 {
@@ -17,7 +19,7 @@ namespace WampSharp.V2.PubSub
         /// <param name="topicUri">The topic uri of the topic to subscribe to.</param>
         /// <param name="options">The options to subscribe with.</param>
         /// <returns>A disposable, that will cancel subscription to the topic when disposed.</returns>
-        IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options);
+        IWampRegistrationSubscriptionToken Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options);
 
         /// <summary>
         /// Publishes to a requestd topic with requested parameters. 

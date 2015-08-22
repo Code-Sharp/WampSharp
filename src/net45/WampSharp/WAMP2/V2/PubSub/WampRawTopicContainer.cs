@@ -6,6 +6,7 @@ using WampSharp.V2.Binding;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Listener;
+using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.PubSub
 {
@@ -16,8 +17,8 @@ namespace WampSharp.V2.PubSub
         private readonly IWampBinding<TMessage> mBinding;
         private readonly object mLock = new object();
 
-        private readonly WampIdMapper<WampRawTopic<TMessage>> mSubscriptionIdToTopic =
-            new WampIdMapper<WampRawTopic<TMessage>>();
+        private readonly ConcurrentDictionary<long, WampRawTopic<TMessage>> mSubscriptionIdToTopic =
+            new ConcurrentDictionary<long, WampRawTopic<TMessage>>();
 
         private readonly ConcurrentDictionary<IWampCustomizedSubscriptionId, WampRawTopic<TMessage>> mTopicUriToTopic =
             new ConcurrentDictionary<IWampCustomizedSubscriptionId, WampRawTopic<TMessage>>();
@@ -44,10 +45,17 @@ namespace WampSharp.V2.PubSub
                 {
                     rawTopic = CreateRawTopic(topicUri, options, customizedSubscriptionId);
 
-                    IDisposable disposable =
+                    IWampRegistrationSubscriptionToken subscriptionToken =
                         mTopicContainer.Subscribe(rawTopic, topicUri, options);
 
-                    rawTopic.SubscriptionDisposable = disposable;
+                    long subscriptionId =
+                        subscriptionToken.TokenId;
+
+                    mSubscriptionIdToTopic.TryAdd(subscriptionId, rawTopic);
+
+                    rawTopic.SubscriptionId = subscriptionId;
+
+                    rawTopic.SubscriptionDisposable = subscriptionToken;
                 }
 
                 rawTopic.Subscribe(request, options);
@@ -112,11 +120,6 @@ namespace WampSharp.V2.PubSub
                                            customizedSubscriptionId,
                                            mEventSerializer,
                                            mBinding);
-
-            long subscriptionId =
-                mSubscriptionIdToTopic.Add(newTopic);
-
-            newTopic.SubscriptionId = subscriptionId;
 
             mTopicUriToTopic.TryAdd(customizedSubscriptionId, newTopic);
 

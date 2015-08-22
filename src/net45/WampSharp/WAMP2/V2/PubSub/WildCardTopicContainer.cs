@@ -10,7 +10,8 @@ namespace WampSharp.V2.PubSub
         private readonly IDictionary<string, WildCardMatcher> mWildCardToEvaluator =
             new SwapDictionary<string, WildCardMatcher>();
 
-        public WildCardTopicContainer()
+        public WildCardTopicContainer(WampIdMapper<IWampTopic> subscriptionIdToTopic) : 
+            base(subscriptionIdToTopic)
         {
             TopicCreated += OnTopicCreated;
             TopicRemoved += OnTopicRemoved;
