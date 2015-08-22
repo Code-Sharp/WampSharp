@@ -93,7 +93,7 @@ namespace WampSharp.V2.PubSub
 
                 string match = mSubscribeOptions.Match;
 
-                if (match != "exact")
+                if (match != WampMatchPattern.Exact)
                 {
                     result.Topic = extendedOptions.TopicUri;
                 }

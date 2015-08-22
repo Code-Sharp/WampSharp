@@ -397,6 +397,12 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs">
       <Link>WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampInvokePolicy.cs">
+      <Link>WAMP2\V2\Core\Contracts\WampInvokePolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampMatchPattern.cs">
+      <Link>WAMP2\V2\Core\Contracts\WampMatchPattern.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\SubscriptionToken.cs">
       <Link>WAMP2\V2\PubSub\SubscriptionToken.cs</Link>
     </Compile>

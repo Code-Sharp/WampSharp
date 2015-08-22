@@ -17,7 +17,7 @@ namespace WampSharp.V2.Rpc
 
         public override bool Handles(RegisterOptions options)
         {
-            return options.Match == "wildcard";
+            return options.Match == WampMatchPattern.Wildcard;
         }
 
         protected override void OnRegistrationAdded(string procedureUri)

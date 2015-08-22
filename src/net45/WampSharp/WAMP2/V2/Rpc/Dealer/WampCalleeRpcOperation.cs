@@ -146,7 +146,7 @@ namespace WampSharp.V2.Rpc
                 result.ReceiveProgress = true;
             }
 
-            if (Options.Match != "exact")
+            if (Options.Match != WampMatchPattern.Exact)
             {
                 result.Procedure = casted.ProcedureUri;
             }

@@ -12,7 +12,7 @@ namespace WampSharp.V2.Rpc
 
         public override bool Handles(RegisterOptions options)
         {
-            return options.Match == "exact";
+            return options.Match == WampMatchPattern.Exact;
         }
 
         protected override IWampRpcOperation GetMatchingOperation(string criteria)

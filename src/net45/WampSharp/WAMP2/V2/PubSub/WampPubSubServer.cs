@@ -96,7 +96,7 @@ namespace WampSharp.V2.PubSub
                 SubscribeRequest<TMessage> subscribeRequest = 
                     new SubscribeRequest<TMessage>(subscriber, requestId);
 
-                options.Match = options.Match ?? "exact";
+                options.Match = options.Match ?? WampMatchPattern.Default;
 
                 mRawTopicContainer.Subscribe(subscribeRequest, options, topicUri);
             }

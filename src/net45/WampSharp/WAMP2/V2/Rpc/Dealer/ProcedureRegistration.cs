@@ -30,14 +30,14 @@ namespace WampSharp.V2.Rpc
         {
             switch (invocationPolicy)
             {
-                case "single":
-                case "first":
+                case WampInvokePolicy.Single:
+                case WampInvokePolicy.First:
                     return new FirstOperationSelector();
-                case "last":
+                case WampInvokePolicy.Last:
                     return new LastOperationSelector();
-                case "random":
+                case WampInvokePolicy.Random:
                     return new RandomOperationSelector();
-                case "roundrobin":
+                case WampInvokePolicy.Roundrobin:
                     return new RoundrobinOperationSelector();
                 default:
                     throw new WampException
@@ -56,7 +56,7 @@ namespace WampSharp.V2.Rpc
 
             lock (mLock)
             {
-                if (mRegisterOptions.Invoke != "single" || !mOperations.Any())
+                if (mRegisterOptions.Invoke != WampInvokePolicy.Single || !mOperations.Any())
                 {
                     if (!mOperations.Contains(operation))
                     {

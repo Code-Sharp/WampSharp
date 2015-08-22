@@ -32,8 +32,8 @@ namespace WampSharp.V2.Rpc
         {
             try
             {
-                options.Invoke = options.Invoke ?? "single";
-                options.Match = options.Match ?? "exact";
+                options.Invoke = options.Invoke ?? WampInvokePolicy.Default;
+                options.Match = options.Match ?? WampMatchPattern.Default;
 
                 RegisterRequest registerRequest = new RegisterRequest(callee, requestId);
                 mCalleeCatalog.Register(registerRequest, options, procedure);

@@ -1,4 +1,5 @@
 using System.Runtime.Serialization;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Reflection
 {
@@ -14,13 +15,13 @@ namespace WampSharp.V2.Reflection
             Wildcard = mEmptyArray;
         }
 
-        [DataMember(Name = "exact")]
+        [DataMember(Name = WampMatchPattern.Exact)]
         public long[] Exact { get; set; }
 
-        [DataMember(Name = "prefix")]
+        [DataMember(Name = WampMatchPattern.Prefix)]
         public long[] Prefix { get; set; }
 
-        [DataMember(Name = "wildcard")]
+        [DataMember(Name = WampMatchPattern.Wildcard)]
         public long[] Wildcard { get; set; }
     }
 }

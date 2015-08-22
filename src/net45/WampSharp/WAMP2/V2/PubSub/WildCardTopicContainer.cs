@@ -59,7 +59,7 @@ namespace WampSharp.V2.PubSub
 
         public override bool Handles(SubscribeOptions options)
         {
-            return options.Match == "wildcard";
+            return options.Match == WampMatchPattern.Wildcard;
         }
     }
 }

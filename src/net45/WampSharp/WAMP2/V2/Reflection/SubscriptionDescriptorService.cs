@@ -219,15 +219,15 @@ namespace WampSharp.V2.Reflection
             long[] subscriptions;
 
             // Yuck!
-            if (matchToSubscriptionId.TryGetValue("exact", out subscriptions))
+            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Exact, out subscriptions))
             {
                 result.Exact = subscriptions;
             }
-            if (matchToSubscriptionId.TryGetValue("prefix", out subscriptions))
+            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Prefix, out subscriptions))
             {
                 result.Prefix = subscriptions;
             }
-            if (matchToSubscriptionId.TryGetValue("wildcard", out subscriptions))
+            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Wildcard, out subscriptions))
             {
                 result.Wildcard = subscriptions;
             }
@@ -237,7 +237,7 @@ namespace WampSharp.V2.Reflection
 
         public long LookupSubscriptionId(string topicUri, SubscribeOptions options = null)
         {
-            string match = "exact";
+            string match = WampMatchPattern.Default;
 
             if (options != null)
             {

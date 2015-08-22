@@ -13,7 +13,7 @@ namespace WampSharp.V2.Rpc
 
         public override bool Handles(RegisterOptions options)
         {
-            return options.Match == "prefix";
+            return options.Match == WampMatchPattern.Prefix;
         }
 
         protected override IWampRpcOperation GetMatchingOperation(string criteria)

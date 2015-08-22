@@ -9,7 +9,7 @@ namespace WampSharp.V2.Core.Contracts
     {
         /// <summary>
         /// The topic matching method to be used for the subscription.
-        /// (Mostly supported: null/"exact"/"prefix"/"wildcard")
+        /// (Mostly supported: <see cref="WampMatchPattern"/> values: null/"exact"/"prefix"/"wildcard")
         /// </summary>
         [DataMember(Name = "match")]
         public string Match { get; set; }
