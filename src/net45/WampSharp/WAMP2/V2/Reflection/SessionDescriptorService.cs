@@ -1,6 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System.Collections.Immutable;
 using System.Linq;
-using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Realm;
@@ -12,8 +11,8 @@ namespace WampSharp.V2.Reflection
         private readonly IWampHostedRealm mRealm;
         private readonly IWampSessionMetadataSubscriber mSubscriber;
 
-        private readonly ConcurrentDictionary<long, WampSessionDetails> mSessionIdToDetails =
-            new ConcurrentDictionary<long, WampSessionDetails>(); 
+        private ImmutableDictionary<long, WampSessionDetails> mSessionIdToDetails =
+            ImmutableDictionary<long, WampSessionDetails>.Empty; 
 
         public SessionDescriptorService(IWampHostedRealm realm)
         {
@@ -33,14 +32,18 @@ namespace WampSharp.V2.Reflection
                 AuthMethod = e.WelcomeDetails.AuthenticationMethod ?? "anonymous",
                 TransportDetails = e.HelloDetails.TransportDetails
             };
-            
-            mSessionIdToDetails[e.SessionId] = sessionDetails;
+
+            ImmutableInterlocked.TryAdd(ref mSessionIdToDetails, e.SessionId, sessionDetails);
 
             mSubscriber.OnJoin(sessionDetails);
         }
 
         private void OnSessionClosed(object sender, WampSessionCloseEventArgs e)
         {
+            WampSessionDetails sessionDetails;
+
+            ImmutableInterlocked.TryRemove(ref mSessionIdToDetails, e.SessionId, out sessionDetails);
+
             mSubscriber.OnLeave(e.SessionId);
         }
 
@@ -63,7 +66,7 @@ namespace WampSharp.V2.Reflection
                 return result;
             }
 
-            throw new WampException("wamp.error.no_such_session");
+            throw new WampException(WampErrors.NoSuchSession);
         }
 
         private class SessionMetadataSubscriber : IWampSessionMetadataSubscriber
@@ -76,6 +79,8 @@ namespace WampSharp.V2.Reflection
             public SessionMetadataSubscriber(IWampTopicContainer topicContainer)
             {
                 mTopicContainer = topicContainer;
+                mTopicContainer.CreateTopicByUri(mOnJoinUri, true);
+                mTopicContainer.CreateTopicByUri(mOnLeaveUri, true);
             }
 
             public void OnJoin(WampSessionDetails details)

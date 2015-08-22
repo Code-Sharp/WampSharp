@@ -232,6 +232,7 @@
     <Compile Include="WAMP2\V2\Realm\IWampRouterBuilder.cs" />
     <Compile Include="WAMP2\V2\Realm\WampRouterBuilder.cs" />
     <Compile Include="WAMP2\V2\PubSub\TopicContainerExtensions.cs" />
+    <Compile Include="WAMP2\V2\Reflection\SubscriptionDetailsExtended.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />

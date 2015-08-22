@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Reflection
 {
+    [DataContract]
     public class SubscriptionDetails
     {
         [DataMember(Name = "uri")]

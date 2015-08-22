@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Fleck;
 using WampSharp.V2.Reflection;
 
 namespace WampSharp.Fleck
 {
+    [DataContract]
     internal class FleckTransportDetails : WampTransportDetails
     {
         private readonly IWebSocketConnectionInfo mConnectionInfo;

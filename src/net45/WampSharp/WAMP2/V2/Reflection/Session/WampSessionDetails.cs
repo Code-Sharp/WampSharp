@@ -2,6 +2,7 @@ using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Reflection
 {
+    [DataContract]
     public class WampSessionDetails
     {
         [DataMember(Name = "realm")]
