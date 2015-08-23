@@ -96,8 +96,9 @@ namespace WampSharp.V2.PubSub
                 {
                     if (!rawTopic.HasSubscribers)
                     {
-                        mSubscriptionIdToTopic.TryRemove(rawTopic.SubscriptionId, out rawTopic);
-                        mTopicUriToTopic.TryRemove(rawTopic.CustomizedSubscriptionId, out rawTopic);
+                        WampRawTopic<TMessage> rawTopicIgnore;
+                        mSubscriptionIdToTopic.TryRemove(rawTopic.SubscriptionId, out rawTopicIgnore); // "out rawTopic" makes it null in some cases
+                        mTopicUriToTopic.TryRemove(rawTopic.CustomizedSubscriptionId, out rawTopicIgnore); // "out rawTopic" makes it null in some cases
                         rawTopic.Dispose();
                     }
                 }
