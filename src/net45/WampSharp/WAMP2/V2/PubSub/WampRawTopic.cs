@@ -203,8 +203,11 @@ namespace WampSharp.V2.PubSub
 
         public void Dispose()
         {
-            SubscriptionDisposable.Dispose();
-            SubscriptionDisposable = null;
+            if (SubscriptionDisposable != null)
+            {
+                SubscriptionDisposable.Dispose();
+                SubscriptionDisposable = null;
+            }
         }
 
         #endregion

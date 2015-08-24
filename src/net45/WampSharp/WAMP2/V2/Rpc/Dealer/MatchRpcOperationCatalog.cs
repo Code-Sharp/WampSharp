@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
@@ -69,9 +70,8 @@ namespace WampSharp.V2.Rpc
                 {
                     if (!registration.HasOperations)
                     {
-                        ProcedureRegistration removed;
-                        mRegistrationIdToRegistration.TryRemove(registration.RegistrationId, out removed);
-                        mProcedureToRegistration.TryRemove(registration.Procedure, out removed);
+                        mRegistrationIdToRegistration.TryRemoveExact(registration.RegistrationId, registration);
+                        mProcedureToRegistration.TryRemoveExact(registration.Procedure, registration);
                         registration.Empty -= OnRegistrationEmpty;
                         OnRegistrationRemoved(registration.Procedure);
                     }

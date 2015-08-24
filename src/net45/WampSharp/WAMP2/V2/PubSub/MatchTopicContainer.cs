@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
@@ -198,16 +199,19 @@ namespace WampSharp.V2.PubSub
         {
             lock (mLock)
             {
-                IWampTopic topic = sender as IWampTopic;
+                WampTopic topic = sender as WampTopic;
 
                 if (!topic.HasSubscribers)
                 {
                     topic.TopicEmpty -= OnTopicEmpty;
                     topic.Dispose();
 
-                    IWampTopic deletedTopic;
-                    TryRemoveTopicByUri(topic.TopicUri, out deletedTopic);
-                    mSubscriptionIdToTopic.TryRemove(topic.SubscriptionId, out deletedTopic);
+                    mSubscriptionIdToTopic.TryRemoveExact(topic.SubscriptionId, topic);
+
+                    if (mTopicUriToSubject.TryRemoveExact(topic.TopicUri, topic))
+                    {
+                        RaiseTopicRemoved(topic);
+                    }
                 }
             }
         }

@@ -34,6 +34,11 @@ namespace WampSharp.Core.Utilities
             return mIdToValue.TryRemove(id, out value);
         }
 
+        public bool TryRemoveExact(TKey id, T value)
+        {
+            return mIdToValue.TryRemoveExact(id, value);
+        }
+
         public void Clear()
         {
             mIdToValue.Clear();

@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -104,8 +105,8 @@ namespace WampSharp.V2.PubSub
                 {
                     if (!rawTopic.HasSubscribers)
                     {
-                        mSubscriptionIdToTopic.TryRemove(rawTopic.SubscriptionId, out rawTopic);
-                        mTopicUriToTopic.TryRemove(rawTopic.CustomizedSubscriptionId, out rawTopic);
+                        mSubscriptionIdToTopic.TryRemoveExact(rawTopic.SubscriptionId, rawTopic);
+                        mTopicUriToTopic.TryRemoveExact(rawTopic.CustomizedSubscriptionId, rawTopic);
                         rawTopic.Dispose();
                     }
                 }
