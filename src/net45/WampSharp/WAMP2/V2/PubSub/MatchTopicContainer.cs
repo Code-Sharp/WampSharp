@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
@@ -184,15 +185,14 @@ namespace WampSharp.V2.PubSub
         {
             lock (mLock)
             {
-                IWampTopic topic = sender as IWampTopic;
+                WampTopic topic = sender as WampTopic;
 
                 if (!topic.HasSubscribers)
                 {
                     topic.TopicEmpty -= OnTopicEmpty;
                     topic.Dispose();
 
-                    IWampTopic deletedTopic;
-                    TryRemoveTopicByUri(topic.TopicUri, out deletedTopic);
+                    mTopicUriToSubject.TryRemoveExact(topic.TopicUri, topic);
                 }
             }
         }

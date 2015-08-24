@@ -1,10 +1,31 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace WampSharp.Core.Utilities
 {
     internal static class DictionaryExtensions
     {
+        public static bool TryRemoveExact<TKey, TValue>
+            (this ConcurrentDictionary<TKey, TValue> dictionary,
+             TKey key,
+             TValue value)
+        {
+            bool result = false;
+            TValue dictionaryValue;
+
+            if (dictionary.TryGetValue(key, out dictionaryValue))
+            {
+                if (object.ReferenceEquals(dictionaryValue, value))
+                {
+                    TValue removed;
+                    result = dictionary.TryRemove(key, out removed);
+                }
+            }
+
+            return result;
+        }
+
         public static bool Remove<TKey, TValue>(this IDictionary<TKey, ICollection<TValue>> dictionary,
                                                 TKey key,
                                                 TValue value)

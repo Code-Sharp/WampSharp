@@ -27,17 +27,27 @@ namespace WampSharp.Core.Listener
 
         protected async Task InnerSend(WampMessage<object> message)
         {
+            const string errorMessage = 
+                "An error occured while attempting to send a message to remote peer.";
+
             if (IsConnected)
             {
                 try
                 {
                     Task sendAsync = SendAsync(message);
 
-                    await sendAsync.ConfigureAwait(false);
+                    if (sendAsync != null)
+                    {
+                        await sendAsync.ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        mLogger.Error(errorMessage + " Got null Task.");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    mLogger.Error("An error occured while attempting to send a message to remote peer.", ex);
+                    mLogger.Error(errorMessage, ex);
                 }
             }
         }
@@ -45,28 +55,36 @@ namespace WampSharp.Core.Listener
 #else
         protected Task InnerSend(WampMessage<object> message)
         {
+            const string errorMessage =
+                "An error occured while attempting to send a message to remote peer.";
+
             if (IsConnected)
             {
                 Task sendAsync = SendAsync(message);
-                
-                Task result = sendAsync.ContinueWith(task =>
-                {
-                    var ex = task.Exception;
 
-                    if (ex != null)
+                if (sendAsync == null)
+                {
+                    mLogger.Error(errorMessage + " Got null Task.");
+                }
+                else
+                {
+                    Task result = sendAsync.ContinueWith(task =>
                     {
-                        mLogger.Error("An error occured while attempting to send a message to remote peer.", ex);                        
-                    }
-                });
-                
-                return result;
+                        var ex = task.Exception;
+
+                        if (ex != null)
+                        {
+                            mLogger.Error(errorMessage, ex);
+                        }
+                    });
+
+                    return result;
+                }
             }
-            else
-            {
-                TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
-                tcs.SetResult(null);
-                return tcs.Task;
-            }
+
+            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+            tcs.SetResult(null);
+            return tcs.Task;
         }
 
 #endif
