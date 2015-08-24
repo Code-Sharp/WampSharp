@@ -192,7 +192,10 @@ namespace WampSharp.V2.PubSub
                     topic.TopicEmpty -= OnTopicEmpty;
                     topic.Dispose();
 
-                    mTopicUriToSubject.TryRemoveExact(topic.TopicUri, topic);
+                    if (mTopicUriToSubject.TryRemoveExact(topic.TopicUri, topic))
+                    {
+                        RaiseTopicRemoved(topic);
+                    }
                 }
             }
         }
