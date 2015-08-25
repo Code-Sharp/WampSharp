@@ -115,6 +115,7 @@ namespace WampSharp.V2.Core.Contracts
         }
     }
 
+    [DataContract]
     public class CallerFeatures
     {
         [DataMember(Name = "caller_identification")]
@@ -124,12 +125,14 @@ namespace WampSharp.V2.Core.Contracts
         public bool? ProgressiveCallResults { get; internal set; }
     }
 
+    [DataContract]
     public class CalleeFeatures
     {
         [DataMember(Name = "progressive_call_results")]
         public bool? ProgressiveCallResults { get; internal set; }
     }
 
+    [DataContract]
     public class PublisherFeatures
     {
         [DataMember(Name = "subscriber_blackwhite_listing")]
@@ -142,6 +145,7 @@ namespace WampSharp.V2.Core.Contracts
         public bool? PublisherIdentification { get; internal set; }
     }
 
+    [DataContract]
     public class SubscriberFeatures
     {
         [DataMember(Name = "publisher_identification")]
