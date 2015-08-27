@@ -1,14 +1,14 @@
 using System;
-using System.Reactive.Linq;
+using System.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.Core.Listener
 {
     /// <summary>
     /// A workaround until tpl dataflow is compatible with mono.
-    /// see http://stackoverflow.com/questions/28708400/actionblock-framework-4-rx-alternative
     /// </summary>
     /// <typeparam name="TInput"></typeparam>
     internal class ActionBlock<TInput>
@@ -19,10 +19,12 @@ namespace WampSharp.Core.Listener
         public ActionBlock(Func<TInput, Task> action)
         {
             mCompletion =
-                mSubject.Select(x => Observable.FromAsync(() => action(x)))
-                    .Concat()
-                    .Count()
-                    .ToTask();
+                mSubject
+                    .ToAsyncEnumerable()
+                    .SelectMany(x => action(x)
+                                    .ContinueWithNull()
+                                    .ToAsyncEnumerable())
+                    .Count();
         }
 
         public Task Completion
