@@ -53,7 +53,7 @@ namespace WampSharp.V2.Client
 
         public void SetException(Exception exception)
         {
-            mTaskCompletionSource.SetException(exception);
+            mTaskCompletionSource.TrySetException(exception);
         }
     }
 }
