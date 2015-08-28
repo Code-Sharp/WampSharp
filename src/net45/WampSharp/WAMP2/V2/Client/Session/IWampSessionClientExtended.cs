@@ -4,7 +4,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
 {
-    internal interface IWampSessionClientExtended<TMessage> :
+    internal interface IWampSessionClientExtended :
         IWampSessionClient
     {
         // Maybe not such a good idea.

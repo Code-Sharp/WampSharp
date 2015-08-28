@@ -92,6 +92,7 @@
     <Compile Include="Core\Listener\Connections\AsyncConnection\ActionBlock.cs" />
     <Compile Include="Core\Listener\Connections\AsyncConnection\AsyncWampConnection.cs" />
     <Compile Include="Core\Listener\Connections\AsyncConnection\AsyncWebSocketWampConnection.cs" />
+    <Compile Include="Core\Listener\Connections\ReviveClientConnection.cs" />
     <Compile Include="Core\Logs\LogErrorExtensions.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodBuilder.cs" />
     <Compile Include="Core\Dispatch\Handler\WampMethodInfo.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="WAMP2\V2\Binding\IWampRouterBinding.cs" />
     <Compile Include="WAMP2\V2\Binding\Parsers\IWampStreamingMessageParser.cs" />
     <Compile Include="WAMP2\V2\Binding\WampRouterBindingExtensions.cs" />
+    <Compile Include="WAMP2\V2\Client\WampSessionNotEstablishedException.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\ExperimentalWampFeature.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />

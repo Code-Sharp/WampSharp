@@ -42,8 +42,21 @@ namespace WampSharp.V2.Client
             monitor.ConnectionError += OnConnectionError;
         }
 
+        private bool IsConnected
+        {
+            get
+            {
+                return mMonitor.IsConnected;
+            }
+        }
+
         public Task<IAsyncDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri)
         {
+            if (!IsConnected)
+            {
+                throw new WampSessionNotEstablishedException();
+            }
+
             SubscribeRequest request = new SubscribeRequest(mFormatter, subscriber, options, topicUri);
             long requestId = mPendingSubscriptions.Add(request);
             request.RequestId = requestId;
@@ -89,6 +102,11 @@ namespace WampSharp.V2.Client
 
         private Task UnsubscribeExternal(long subscriptionId)
         {
+            if (!IsConnected)
+            {
+                throw new WampSessionNotEstablishedException();
+            }
+
             UnsubscribeRequest request = new UnsubscribeRequest(mFormatter, subscriptionId);
             long requestId = mPendingUnsubscriptions.Add(request);
             request.RequestId = requestId;

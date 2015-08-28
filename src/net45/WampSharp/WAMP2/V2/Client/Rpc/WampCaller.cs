@@ -22,13 +22,17 @@ namespace WampSharp.V2.Client
             mProxy = proxy;
             mFormatter = formatter;
             mMonitor = monitor;
-
             monitor.ConnectionBroken += OnConnectionBroken;
             monitor.ConnectionError += OnConnectionError;
         }
 
         public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure)
         {
+            if (!IsConnected)
+            {
+                throw new WampSessionNotEstablishedException();
+            }
+
             CallDetails callDetails = new CallDetails(caller, options, procedure);
 
             long requestId = RegisterCall(callDetails);
@@ -38,6 +42,11 @@ namespace WampSharp.V2.Client
 
         public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments)
         {
+            if (!IsConnected)
+            {
+                throw new WampSessionNotEstablishedException();
+            }
+
             CallDetails callDetails = new CallDetails(caller, options, procedure, arguments);
 
             long requestId = RegisterCall(callDetails);
@@ -47,11 +56,24 @@ namespace WampSharp.V2.Client
 
         public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
+            if (!IsConnected)
+            {
+                throw new WampSessionNotEstablishedException();
+            }
+
             CallDetails callDetails = new CallDetails(caller, options, procedure, arguments, argumentsKeywords);
 
             long requestId = RegisterCall(callDetails);
 
             mProxy.Call(requestId, options, procedure, arguments, argumentsKeywords);
+        }
+
+        private bool IsConnected
+        {
+            get
+            {
+                return mMonitor.IsConnected;
+            }
         }
 
         public void Result(long requestId, ResultDetails details)
