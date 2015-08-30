@@ -7,7 +7,7 @@
     <dependencies>
       <dependency id="WampSharp" version="[$version$]" />
       <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
-      <dependency id="Newtonsoft.Msgpack" version="[0.1.4]" />
+      <dependency id="Newtonsoft.Msgpack" version="[0.1.5]" />
     </dependencies>
     <id>WampSharp.NewtonsoftMsgpack</id>
     <title>WampSharp Newtonsoft.Msgpack binding</title>
