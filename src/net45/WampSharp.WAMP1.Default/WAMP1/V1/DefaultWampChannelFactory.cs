@@ -20,7 +20,7 @@ namespace WampSharp.V1
             mSerializer = serializer;
         }
 
-        public DefaultWampChannelFactory(IWampFormatter<JToken> formatter)
+        private DefaultWampChannelFactory(IWampFormatter<JToken> formatter)
             : base(formatter)
         {
         }

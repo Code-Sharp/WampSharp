@@ -30,6 +30,27 @@ namespace WampSharp.V1.Rpc.Client
         {
             mFormatter = formatter;
             mServerProxy = serverProxyFactory.Create(new RpcWampClient(this), connection);
+
+            connection.ConnectionClosed += Connection_ConnectionClosed;
+            connection.ConnectionError += Connection_ConnectionError;
+        }
+
+        private void Connection_ConnectionError(object sender, WampConnectionErrorEventArgs e)
+        {
+            HandleConnectionIssue("Connection Error");
+        }
+
+        private void Connection_ConnectionClosed(object sender, EventArgs e)
+        {
+            HandleConnectionIssue("Connection Closed");
+        }
+
+        private void HandleConnectionIssue(string errorDesc)
+        {
+            foreach (var kvp in mCallIdToSubject)
+            {
+                ErrorArrived(kvp.Key, "http://api.wamp.ws/error#generic", errorDesc);
+            }
         }
 
         public object Handle(WampRpcCall rpcCall)
