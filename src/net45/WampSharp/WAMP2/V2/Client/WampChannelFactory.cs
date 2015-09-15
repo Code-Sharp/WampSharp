@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
 
@@ -26,6 +27,20 @@ namespace WampSharp.V2.Client
             WampChannelBuilder<TMessage> builder = GetChannelBuilder(binding);
             WampChannel<TMessage> channel = builder.CreateChannel(realm, connection, authenticator);
             return channel;
+        }
+
+        public IWampChannel CreateChannel<TMessage>(string realm,
+                                                    Func<IControlledWampConnection<TMessage>> connectionFactory,
+                                                    IWampBinding<TMessage> binding)
+        {
+            return this.CreateChannel(realm, new ReviveClientConnection<TMessage>(connectionFactory), binding);
+        }
+
+        public IWampChannel CreateChannel<TMessage>(string realm, Func<IControlledWampConnection<TMessage>> connectionFactory,
+                                                    IWampBinding<TMessage> binding,
+                                                    IWampClientAuthenticator authenticator)
+        {
+            return this.CreateChannel(realm, new ReviveClientConnection<TMessage>(connectionFactory), binding);
         }
 
         private WampChannelBuilder<TMessage> GetChannelBuilder<TMessage>(IWampBinding<TMessage> binding)

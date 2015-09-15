@@ -7,7 +7,7 @@ using WampSharp.V2.Core.Contracts;
 namespace WampSharp.V2.Client
 {
     internal class WampClient<TMessage> : IWampClient<TMessage>,
-                                          IWampSessionClientExtended<TMessage>,
+                                          IWampSessionClientExtended,
                                           IWampCalleeError<TMessage>,
                                           IWampCallerError<TMessage>,
                                           IWampPublisherError<TMessage>,
@@ -82,11 +82,11 @@ namespace WampSharp.V2.Client
             get { return mErrorHandler; }
         }
 
-        public IWampSessionClientExtended<TMessage> SessionClient
+        public IWampSessionClientExtended SessionClient
         {
             get
             {
-                return mRealm.Monitor as IWampSessionClientExtended<TMessage>;
+                return mRealm.Monitor as IWampSessionClientExtended;
             }
         }
 

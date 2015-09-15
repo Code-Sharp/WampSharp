@@ -128,6 +128,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Listener\Connections\AsyncConnection\AsyncWebSocketWampConnection.cs">
       <Link>Core\Listener\Connections\AsyncConnection\AsyncWebSocketWampConnection.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Listener\Connections\ReviveClientConnection.cs">
+      <Link>Core\Listener\Connections\ReviveClientConnection.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Logs\LogErrorExtensions.cs">
       <Link>Core\Logs\LogErrorExtensions.cs</Link>
     </Compile>
@@ -385,6 +388,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\WampRouterBindingExtensions.cs">
       <Link>WAMP2\V2\Binding\WampRouterBindingExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampSessionNotEstablishedException.cs">
+      <Link>WAMP2\V2\Client\WampSessionNotEstablishedException.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs">
       <Link>WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs</Link>

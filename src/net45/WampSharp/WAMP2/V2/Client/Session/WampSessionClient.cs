@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
@@ -9,7 +10,7 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Client
 {
-    public class WampSessionClient<TMessage> : IWampSessionClientExtended<TMessage>,
+    public class WampSessionClient<TMessage> : IWampSessionClientExtended,
         IWampClientConnectionMonitor
     {
         private static GoodbyeDetails EmptyGoodbyeDetails = new GoodbyeDetails();
@@ -25,6 +26,8 @@ namespace WampSharp.V2.Client
         private bool mGoodbyeSent;
 		private readonly IWampClientAuthenticator mAuthenticator;
         private HelloDetails mSentDetails;
+
+        private int mIsConnected = 0;
 
         private static HelloDetails GetDetails()
         {
@@ -87,6 +90,8 @@ namespace WampSharp.V2.Client
             mSession = session;
             mOpenTask.TrySetResult(true);
 
+            Interlocked.CompareExchange(ref mIsConnected, 1, 0);
+
             OnConnectionEstablished(new WampSessionCreatedEventArgs
                 (session, mSentDetails, details));
         }
@@ -116,6 +121,8 @@ namespace WampSharp.V2.Client
                     reason);
 
             SetOpenTaskErrorIfNeeded(new WampConnectionBrokenException(closeEventArgs));
+
+            Interlocked.CompareExchange(ref mIsConnected, 0, 1);
 
             OnConnectionBroken(closeEventArgs);
         }
@@ -218,6 +225,14 @@ namespace WampSharp.V2.Client
         public event EventHandler<WampSessionCloseEventArgs> ConnectionBroken;
 
         public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
+
+        public bool IsConnected
+        {
+            get
+            {
+                return mIsConnected == 1;
+            }
+        }
 
         protected virtual void OnConnectionEstablished(WampSessionCreatedEventArgs e)
         {
