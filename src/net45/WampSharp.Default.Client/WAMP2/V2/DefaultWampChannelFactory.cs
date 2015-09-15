@@ -1,12 +1,10 @@
 ﻿#if !PCL
 using System;
-using Newtonsoft.Json.Linq;
 using WampSharp.Binding;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Client;
 using WampSharp.WebSocket4Net;
-using WebSocket4Net;
 
 namespace WampSharp.V2
 {

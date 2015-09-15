@@ -60,6 +60,7 @@
     <Compile Include="Newtonsoft\SerializedValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WAMP2\Binding\JTokenJsonBinding.cs" />
+    <Compile Include="WAMP2\V2\Fluent\NewtonsoftJsonChannelFactoryExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">

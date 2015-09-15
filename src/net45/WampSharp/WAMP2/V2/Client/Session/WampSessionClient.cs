@@ -88,9 +88,10 @@ namespace WampSharp.V2.Client
         public void Welcome(long session, WelcomeDetails details)
         {
             mSession = session;
-            mOpenTask.TrySetResult(true);
 
             Interlocked.CompareExchange(ref mIsConnected, 1, 0);
+
+            mOpenTask.TrySetResult(true);
 
             OnConnectionEstablished(new WampSessionCreatedEventArgs
                 (session, mSentDetails, details));

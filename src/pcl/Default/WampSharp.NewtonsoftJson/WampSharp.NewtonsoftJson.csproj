@@ -79,6 +79,9 @@
     <Compile Include="..\..\..\net45\Default\WampSharp.NewtonsoftJson\WAMP2\Binding\JTokenJsonBinding.cs">
       <Link>WAMP2\Binding\JTokenJsonBinding.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.NewtonsoftJson\WAMP2\V2\Fluent\NewtonsoftJsonChannelFactoryExtensions.cs">
+      <Link>WAMP2\V2\Fluent\NewtonsoftJsonChannelFactoryExtensions.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">

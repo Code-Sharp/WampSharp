@@ -413,6 +413,21 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampMatchPattern.cs">
       <Link>WAMP2\V2\Core\Contracts\WampMatchPattern.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\ChannelFactoryExtensions.cs">
+      <Link>WAMP2\V2\Fluent\ChannelFactoryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\ChannelFactorySyntax.cs">
+      <Link>WAMP2\V2\Fluent\ChannelFactorySyntax.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\ChannelState.cs">
+      <Link>WAMP2\V2\Fluent\ChannelState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\IWampConnectionActivator.cs">
+      <Link>WAMP2\V2\Fluent\IWampConnectionActivator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs">
+      <Link>WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\SubscriptionToken.cs">
       <Link>WAMP2\V2\PubSub\SubscriptionToken.cs</Link>
     </Compile>

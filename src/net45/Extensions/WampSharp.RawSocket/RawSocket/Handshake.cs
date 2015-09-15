@@ -6,10 +6,10 @@ namespace WampSharp.RawSocket
     public class Handshake
     {
         /// <summary>
-        /// 
+        /// Creates a new instance of a <see cref="Handshake"/>.
         /// </summary>
-        /// <param name="maxLength">0 for 2^9, 1 for 2^10, ..., 15 for 2^24</param>
-        /// <param name="serializerType"></param>
+        /// <param name="maxLength">The max length to send. 0 for 2^9, 1 for 2^10, ..., 15 for 2^24</param>
+        /// <param name="serializerType">The serializer type.</param>
         public Handshake(byte maxLength, SerializerType serializerType)
         {
             MagicOctect = 0x7F;

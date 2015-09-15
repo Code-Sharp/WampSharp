@@ -187,6 +187,11 @@
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampInvokePolicy.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampMatchPattern.cs" />
+    <Compile Include="WAMP2\V2\Fluent\ChannelFactoryExtensions.cs" />
+    <Compile Include="WAMP2\V2\Fluent\ChannelFactorySyntax.cs" />
+    <Compile Include="WAMP2\V2\Fluent\ChannelState.cs" />
+    <Compile Include="WAMP2\V2\Fluent\IWampConnectionActivator.cs" />
+    <Compile Include="WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs" />
     <Compile Include="WAMP2\V2\PubSub\SubscriptionToken.cs" />
     <Compile Include="WAMP2\V2\Reflection\SessionDescriptorService.cs" />
     <Compile Include="WAMP2\V2\Reflection\Rpc\AvailableRegistrations.cs" />

@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using Microsoft.IO;
 using WampSharp.Core.Listener;
+using WampSharp.Logging;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Contracts;
 using WampSharp.V2.Binding.Parsers;
@@ -19,6 +20,11 @@ namespace WampSharp.RawSocket
         private readonly RecyclableMemoryStreamManager mRecyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
         private readonly byte mMaxSize;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="RawSocketTransport"/>.
+        /// </summary>
+        /// <param name="listener">The <see cref="TcpListener"/> to use.</param>
+        /// <param name="maxSize">The max message size to receive: </param>
         public RawSocketTransport(TcpListener listener, byte maxSize = 15)
         {
             mListener = listener;
@@ -56,7 +62,7 @@ namespace WampSharp.RawSocket
                 }
                 catch (Exception ex)
                 {
-                    //mLogger.Error("An error occured while trying to accept a client", ex);
+                    mLogger.Error("An error occured while trying to accept a client", ex);
                 }
             }
         }

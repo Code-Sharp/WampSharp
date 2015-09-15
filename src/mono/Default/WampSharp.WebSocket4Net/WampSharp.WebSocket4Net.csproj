@@ -50,6 +50,12 @@
     <Compile Include="..\..\..\net45\Default\WampSharp.WebSocket4Net\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.WebSocket4Net\WAMP2\V2\Fluent\WebSocket4NetActivator.cs">
+      <Link>WAMP2\V2\Fluent\WebSocket4NetActivator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.WebSocket4Net\WAMP2\V2\Fluent\WebSocket4NetChannelFactoryExtensions.cs">
+      <Link>WAMP2\V2\Fluent\WebSocket4NetChannelFactoryExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Default\WampSharp.WebSocket4Net\WebSocket4Net\WebSocket4NetBinaryConnection.cs">
       <Link>WebSocket4Net\WebSocket4NetBinaryConnection.cs</Link>
     </Compile>

@@ -25,38 +25,6 @@ namespace WampSharp.RawSocket
 
         public RawSocketClientConnection
             (Func<TcpClient> clientBuilder,
-             IPAddress address,
-             int port,
-             IWampStreamingMessageParser<TMessage> parser)
-            : this(clientBuilder,
-                   x => x.ConnectAsync(address, port),
-                   parser)
-        {
-        }
-
-        public RawSocketClientConnection(Func<TcpClient> clientBuilder,
-                                         IPAddress[] addresses,
-                                         int port,
-                                         IWampStreamingMessageParser<TMessage> parser)
-            : this(clientBuilder,
-                   x => x.ConnectAsync(addresses, port),
-                   parser)
-        {
-        }
-
-        public RawSocketClientConnection(Func<TcpClient> clientBuilder,
-                                         string host,
-                                         int port,
-                                         IWampStreamingMessageParser<TMessage> parser)
-            : this(clientBuilder,
-                   x => x.ConnectAsync(host, port),
-                   parser)
-        {
-        }
-
-
-        private RawSocketClientConnection
-            (Func<TcpClient> clientBuilder,
              Func<TcpClient, Task> connector,
              IWampStreamingMessageParser<TMessage> parser)
         {
