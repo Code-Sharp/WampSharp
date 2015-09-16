@@ -3,10 +3,10 @@ using System.Runtime.Serialization;
 namespace WampSharp.V2.Core.Contracts
 {
     /// <summary>
-    /// Represents details of an ABORT message.
+    /// Represents details of a GOODBYE message.
     /// </summary>
     [DataContract]
-    public class AbortDetails : GoodbyeAbortDetails
+    public class GoodbyeDetails : GoodbyeAbortDetails
     {
     }
 }

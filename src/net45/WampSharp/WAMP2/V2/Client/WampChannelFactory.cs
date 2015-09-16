@@ -40,7 +40,9 @@ namespace WampSharp.V2.Client
                                                     IWampBinding<TMessage> binding,
                                                     IWampClientAuthenticator authenticator)
         {
-            return this.CreateChannel(realm, new ReviveClientConnection<TMessage>(connectionFactory), binding);
+            return this.CreateChannel(realm,
+                                      new ReviveClientConnection<TMessage>(connectionFactory), binding,
+                                      authenticator);
         }
 
         private WampChannelBuilder<TMessage> GetChannelBuilder<TMessage>(IWampBinding<TMessage> binding)

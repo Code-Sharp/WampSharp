@@ -1,4 +1,5 @@
 using System;
+using WampSharp.V2.Authentication;
 
 namespace WampSharp.V2.Client
 {

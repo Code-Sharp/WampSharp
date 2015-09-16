@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using WampSharp.V2.Authentication;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
