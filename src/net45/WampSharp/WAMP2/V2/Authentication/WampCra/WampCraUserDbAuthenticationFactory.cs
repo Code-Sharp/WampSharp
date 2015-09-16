@@ -17,7 +17,7 @@ namespace WampSharp.V2.Authentication
         }
 
         public IWampSessionAuthenticator GetSessionAuthenticator
-            (PendingClientDetails details,
+            (WampPendingClientDetails details,
              IWampSessionAuthenticator transportAuthenticator)
         {
             HelloDetails helloDetails = details.HelloDetails;

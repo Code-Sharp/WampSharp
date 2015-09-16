@@ -12,7 +12,7 @@ namespace WampSharp.V2.Authentication
         /// <param name="transportAuthenticator">The client's transport </param>
         /// <returns>The <see cref="IWampSessionAuthenticator"/> created for the given client.</returns>
         IWampSessionAuthenticator GetSessionAuthenticator
-            (PendingClientDetails details,
+            (WampPendingClientDetails details,
              IWampSessionAuthenticator transportAuthenticator);
     }
 }

@@ -5,7 +5,7 @@ namespace WampSharp.V2.Authentication
     /// <summary>
     /// Represents details of a client pending for authentication.
     /// </summary>
-    public class PendingClientDetails
+    public class WampPendingClientDetails
     {
         /// <summary>
         /// Gets the pending client's HELLO message details.

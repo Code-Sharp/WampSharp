@@ -374,8 +374,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\IWampSessionAuthenticatorFactory.cs">
       <Link>WAMP2\V2\Authentication\IWampSessionAuthenticatorFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\PendingClientDetails.cs">
-      <Link>WAMP2\V2\Authentication\PendingClientDetails.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampPendingClientDetails.cs">
+      <Link>WAMP2\V2\Authentication\WampPendingClientDetails.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Restriction\RestrictedAuthorizer.cs">
       <Link>WAMP2\V2\Authentication\Restriction\RestrictedAuthorizer.cs</Link>

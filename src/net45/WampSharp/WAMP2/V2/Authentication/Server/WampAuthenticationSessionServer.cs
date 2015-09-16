@@ -24,7 +24,7 @@ namespace WampSharp.V2.Authentication
         {
             IWampClientProxy<TMessage> wampClient = GetWampClient(client, realm, details);
 
-            PendingClientDetails clientDetails = new PendingClientDetails()
+            WampPendingClientDetails clientDetails = new WampPendingClientDetails()
             {
                 HelloDetails = details,
                 Realm = realm,

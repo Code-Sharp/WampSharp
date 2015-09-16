@@ -173,7 +173,7 @@
     <Compile Include="WAMP2\V2\Authentication\IWampAuthorizer.cs" />
     <Compile Include="WAMP2\V2\Authentication\IWampSessionAuthenticator.cs" />
     <Compile Include="WAMP2\V2\Authentication\IWampSessionAuthenticatorFactory.cs" />
-    <Compile Include="WAMP2\V2\Authentication\PendingClientDetails.cs" />
+    <Compile Include="WAMP2\V2\Authentication\WampPendingClientDetails.cs" />
     <Compile Include="WAMP2\V2\Authentication\Restriction\RestrictedAuthorizer.cs" />
     <Compile Include="WAMP2\V2\Authentication\Restriction\RestrictedSessionAuthenticationFactory.cs" />
     <Compile Include="WAMP2\V2\Authentication\Restriction\RestrictedSessionAuthenticator.cs" />
