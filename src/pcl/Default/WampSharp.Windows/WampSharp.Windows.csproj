@@ -53,6 +53,12 @@
     <Compile Include="..\..\..\net45\Default\WampSharp.Windows\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.Windows\WAMP2\V2\Fluent\MessageWebSocketActivator.cs">
+      <Link>WAMP2\V2\Fluent\MessageWebSocketActivator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.Windows\WAMP2\V2\Fluent\MessageWebSocketChannelFactoryExtensions.cs">
+      <Link>WAMP2\V2\Fluent\MessageWebSocketChannelFactoryExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Default\WampSharp.Windows\Windows\MessageWebSocketConnection.cs">
       <Link>Windows\MessageWebSocketConnection.cs</Link>
     </Compile>
