@@ -4,7 +4,8 @@ using System.Net.Sockets;
 
 namespace WampSharp.V2.Fluent
 {
-    internal class RawSocketTransportSyntax : IRawSocketTransportSyntax
+    internal class RawSocketTransportSyntax : IRawSocketTransportSyntax,
+        IRawSocketTransportConnectFromSyntax
     {
         public RawSocketTransportSyntax(ChannelState state)
         {
@@ -13,24 +14,35 @@ namespace WampSharp.V2.Fluent
 
         public ChannelState State { get; set; }
 
-        public ChannelFactorySyntax.ITransportSyntax ConnectFrom(AddressFamily family)
+        public IRawSocketTransportConnectFromSyntax ConnectFrom(AddressFamily family)
         {
             return InnerConnectFrom(() => new TcpClient(family));
         }
 
-        public ChannelFactorySyntax.ITransportSyntax ConnectFrom(IPEndPoint localEndPoint)
+        public IRawSocketTransportConnectFromSyntax ConnectFrom(IPEndPoint localEndPoint)
         {
             return InnerConnectFrom(() => new TcpClient(localEndPoint));
         }
 
-        public ChannelFactorySyntax.ITransportSyntax ConnectFrom(string hostname, int port)
+        public IRawSocketTransportConnectFromSyntax ConnectFrom(string hostname, int port)
         {
             return InnerConnectFrom(() => new TcpClient(hostname, port));
         }
 
-        private ChannelState InnerConnectFrom(Func<TcpClient> clientBuilder)
+        private RawSocketTransportSyntax InnerConnectFrom(Func<TcpClient> clientBuilder)
         {
             ((RawSocketActivator) State.ConnectionActivator).ClientBuilder = clientBuilder;
+            return this;
+        }
+
+        public ChannelFactorySyntax.ITransportSyntax AutoPing(TimeSpan autoPingInterval)
+        {
+            return InnerSetInterval(autoPingInterval);
+        }
+
+        private ChannelState InnerSetInterval(TimeSpan autoPingInterval)
+        {
+            ((RawSocketActivator)State.ConnectionActivator).AutoPingInterval = autoPingInterval;
             return State;
         }
     }

@@ -19,15 +19,18 @@ namespace WampSharp.RawSocket
         private bool mIsStarted = false;
         private readonly RecyclableMemoryStreamManager mRecyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
         private readonly byte mMaxSize;
+        private readonly TimeSpan? mAutoPingInterval;
 
         /// <summary>
         /// Creates a new instance of <see cref="RawSocketTransport"/>.
         /// </summary>
         /// <param name="listener">The <see cref="TcpListener"/> to use.</param>
+        /// <param name="autoPingInterval">The auto pings send interval.</param>
         /// <param name="maxSize">The max message size to receive: </param>
-        public RawSocketTransport(TcpListener listener, byte maxSize = 15)
+        public RawSocketTransport(TcpListener listener, TimeSpan? autoPingInterval = null, byte maxSize = 15)
         {
             mListener = listener;
+            mAutoPingInterval = autoPingInterval;
 
             if (maxSize >= 16)
             {
@@ -175,7 +178,9 @@ namespace WampSharp.RawSocket
                 (connection.Client,
                  connection.HandshakeResponse.MaxMessageSizeInBytes,
                  connection.HandshakeRequest,
-                 binding, mRecyclableMemoryStreamManager);
+                 binding,
+                 mRecyclableMemoryStreamManager,
+                 mAutoPingInterval);
         }
 
         public override void Dispose()

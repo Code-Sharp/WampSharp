@@ -22,11 +22,13 @@ namespace WampSharp.RawSocket
         private byte mMaxLength = 15;
         private readonly RecyclableMemoryStreamManager mRecyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
         private TcpClient mClient;
+        private readonly TimeSpan? mAutoPingInterval;
 
         public RawSocketClientConnection
             (Func<TcpClient> clientBuilder,
              Func<TcpClient, Task> connector,
-             IWampStreamingMessageParser<TMessage> parser)
+             IWampStreamingMessageParser<TMessage> parser, 
+             TimeSpan? autoPingInterval)
         {
             mClientBuilder = clientBuilder;
             mConnector = connector;
@@ -37,6 +39,7 @@ namespace WampSharp.RawSocket
             }
 
             mParser = parser;
+            mAutoPingInterval = autoPingInterval;
         }
 
         public void Send(WampMessage<object> message)
@@ -187,7 +190,8 @@ namespace WampSharp.RawSocket
                      handshakeRequest.MaxMessageSizeInBytes,
                      handshakeResponse,
                      mParser,
-                     mRecyclableMemoryStreamManager);
+                     mRecyclableMemoryStreamManager,
+                     mAutoPingInterval);
 
 
             connection.ConnectionOpen += OnConnectionOpen;

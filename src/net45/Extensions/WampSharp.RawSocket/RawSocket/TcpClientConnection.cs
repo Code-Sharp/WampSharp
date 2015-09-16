@@ -24,11 +24,13 @@ namespace WampSharp.RawSocket
         private readonly PingPongHandler mPingPongHandler;
         private readonly Pinger mPinger;
 
-        public TcpClientConnection(TcpClient client,
-                                   long maxAllowedMessageSize,
-                                   Handshake handshake,
-                                   IWampStreamingMessageParser<TMessage> binding,
-                                   RecyclableMemoryStreamManager memoryStreamManager)
+        public TcpClientConnection
+            (TcpClient client,
+             long maxAllowedMessageSize,
+             Handshake handshake,
+             IWampStreamingMessageParser<TMessage> binding,
+             RecyclableMemoryStreamManager memoryStreamManager, 
+             TimeSpan? autoPingInterval)
         {
             mTcpClient = client;
             mMaxAllowedMessageSize = maxAllowedMessageSize;
@@ -38,9 +40,10 @@ namespace WampSharp.RawSocket
 
             mPinger = new Pinger(this);
 
-            mPingPongHandler = new PingPongHandler(mLogger,
-                                                   mPinger,
-                                                   TimeSpan.FromMilliseconds(5));
+            mPingPongHandler =
+                new PingPongHandler(mLogger,
+                                    mPinger,
+                                    autoPingInterval);
         }
 
         protected override bool IsConnected

@@ -106,6 +106,9 @@
     <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\RawSocket\RawSocketTransport.cs">
       <Link>RawSocket\RawSocketTransport.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\WAMP2\V2\Fluent\IRawSocketTransportConnectFromSyntax.cs">
+      <Link>WAMP2\V2\Fluent\IRawSocketTransportConnectFromSyntax.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\WAMP2\V2\Fluent\IRawSocketTransportSyntax.cs">
       <Link>WAMP2\V2\Fluent\IRawSocketTransportSyntax.cs</Link>
     </Compile>

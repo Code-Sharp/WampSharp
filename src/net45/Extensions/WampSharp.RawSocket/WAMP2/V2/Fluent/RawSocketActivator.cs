@@ -18,9 +18,11 @@ namespace WampSharp.V2.Fluent
 
         public Func<TcpClient> ClientBuilder { get; set; }
 
+        public TimeSpan? AutoPingInterval { get; set; }
+
         public IControlledWampConnection<TMessage> Activate<TMessage>(IWampBinding<TMessage> binding)
         {
-            return new RawSocketClientConnection<TMessage>(ClientBuilder, Connector, (dynamic) binding);
+            return new RawSocketClientConnection<TMessage>(ClientBuilder, Connector, (dynamic) binding, AutoPingInterval);
         }
     }
 }

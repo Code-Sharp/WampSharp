@@ -12,10 +12,10 @@ namespace WampSharp.V2.Transports
     {
         private readonly byte[] mPingBuffer = new byte[8];
         private readonly ILog mLogger;
-        private readonly TimeSpan mAutoSendPingInterval;
+        private readonly TimeSpan? mAutoSendPingInterval;
         private readonly IPinger mPinger;
 
-        public PingPongHandler(ILog logger, IPinger pinger, TimeSpan autoSendPingInterval)
+        public PingPongHandler(ILog logger, IPinger pinger, TimeSpan? autoSendPingInterval)
         {
             mLogger = logger;
             mAutoSendPingInterval = autoSendPingInterval;
@@ -25,7 +25,10 @@ namespace WampSharp.V2.Transports
 
         public void Start()
         {
-            StartPing();
+            if (mAutoSendPingInterval != null)
+            {
+                StartPing();
+            }
         }
 
         private void OnPong(IList<byte> collection)
@@ -45,7 +48,7 @@ namespace WampSharp.V2.Transports
                          byte[] ticks = GetCurrentTicks();
                          return mPinger.SendPing(ticks);
                      })
-                                 .Concat(Observable.Timer(mAutoSendPingInterval)
+                                 .Concat(Observable.Timer(mAutoSendPingInterval.Value)
                                                    .Select(y => Unit.Default))
                 )
                       .Repeat()
@@ -75,7 +78,7 @@ namespace WampSharp.V2.Transports
                 {
                     byte[] ticks = GetCurrentTicks();
                     await mPinger.SendPing(ticks);
-                    await Task.Delay(mAutoSendPingInterval);
+                    await Task.Delay(mAutoSendPingInterval.Value);
                 }
                 catch (Exception ex)
                 {
