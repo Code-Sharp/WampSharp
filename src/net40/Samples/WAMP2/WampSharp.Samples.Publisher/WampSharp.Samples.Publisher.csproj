@@ -101,10 +101,6 @@
       <Project>{061D1C1C-52A7-4FCB-9DF8-C1E28BFAD378}</Project>
       <Name>WampSharp.NewtonsoftMsgpack</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Extensions\WampSharp.RawSocket\WampSharp.RawSocket.csproj">
-      <Project>{678473BD-87FC-4788-A444-4ABF45FDCFEC}</Project>
-      <Name>WampSharp.RawSocket</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Extensions\WampSharp.Vtortola\WampSharp.Vtortola.csproj">
       <Project>{DE13BC69-B822-45EA-846F-DDEF66D34BD9}</Project>
       <Name>WampSharp.Vtortola</Name>
