@@ -1,6 +1,7 @@
 #if !PCL
 
 using System;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Authentication
 {
@@ -14,7 +15,7 @@ namespace WampSharp.V2.Authentication
 
         public string AuthenticationMethod
         {
-            get { return "wampcra"; }
+            get { return WampAuthenticationMethods.WampCra; }
         }
 
         public string AuthenticationId { get; set; }

@@ -6,7 +6,7 @@ namespace WampSharp.V2.Authentication
 {
     public class WampCraUserDbAuthenticationFactory : IWampSessionAuthenticatorFactory
     {
-        private const string WAMP_CRA = "wampcra";
+        private const string WAMP_CRA = WampAuthenticationMethods.WampCra;
         private readonly IWampCraAuthenticationProvider mAuthenticationProvider;
         private readonly IWampCraUserDb mUserDb;
 

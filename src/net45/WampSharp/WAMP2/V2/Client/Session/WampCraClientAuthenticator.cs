@@ -10,7 +10,7 @@ namespace WampSharp.V2.Client
     /// </summary>
     public class WampCraClientAuthenticator : IWampClientAuthenticator
     {
-        private const string WAMP_CRA = "wampcra";
+        private const string WAMP_CRA = WampAuthenticationMethods.WampCra;
         private readonly string mAuthenticationId;
         private readonly string mAuthenticationKey;
         private readonly string mSecret;

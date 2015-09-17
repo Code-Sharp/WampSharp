@@ -77,7 +77,7 @@ namespace WampSharp.V2.Authentication
         {
             get
             {
-                return "wampcra";
+                return WampAuthenticationMethods.WampCra;
             }
         }
     }

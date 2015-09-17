@@ -165,6 +165,7 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\SubscriberRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Session\AuthenticateExtraData.cs" />
     <Compile Include="WAMP2\V2\Authentication\Cookie\CookieCollectionCookieProvider.cs" />
     <Compile Include="WAMP2\V2\Authentication\Cookie\ICookieAuthenticatorFactory.cs" />
