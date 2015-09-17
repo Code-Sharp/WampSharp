@@ -70,7 +70,7 @@ namespace WampSharp.Windows
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose()
         {
             mWebSocket.Dispose();
         }

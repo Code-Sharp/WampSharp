@@ -136,7 +136,7 @@ namespace WampSharp.V2.Rpc
 
         private void ValidateRegisterUri(string procedure, string match)
         {
-            if (!mUriValidator.IsValid(procedure))
+            if (!mUriValidator.IsValid(procedure, match))
             {
                 throw new WampException(WampErrors.InvalidUri,
                                         string.Format("register for invalid procedure URI '{0}'", procedure));
