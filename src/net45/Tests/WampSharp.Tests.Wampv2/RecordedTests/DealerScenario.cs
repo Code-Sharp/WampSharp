@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
@@ -18,7 +19,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
         {
             return new WampRpcServer<MockRaw>
                 (new WampRpcOperationCatalog(),
-                 Binding);
+                 Binding,
+                 new LooseUriValidator());
         }
     }
 }

@@ -67,7 +67,7 @@ namespace WampSharp.Vtortola
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose()
         {
             mWebsocket.Dispose();
         }

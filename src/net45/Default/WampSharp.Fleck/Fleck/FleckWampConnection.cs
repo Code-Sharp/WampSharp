@@ -51,7 +51,7 @@ namespace WampSharp.Fleck
             RaiseConnectionClosed();
         }
 
-        public override void Dispose()
+        protected override void Dispose()
         {
             if (IsConnected)
             {

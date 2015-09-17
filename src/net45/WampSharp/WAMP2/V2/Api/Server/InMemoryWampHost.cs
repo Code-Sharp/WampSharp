@@ -2,6 +2,7 @@ using System.Reactive.Concurrency;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Transports;
 
@@ -17,7 +18,7 @@ namespace WampSharp.V2
         /// <summary>
         /// Initializes a new instance of <see cref="InMemoryWampHost"/>.
         /// </summary>
-        public InMemoryWampHost() : this(new WampRealmContainer())
+        public InMemoryWampHost() : this(new WampRealmContainer(), new LooseUriValidator())
         {
         }
 
@@ -26,8 +27,10 @@ namespace WampSharp.V2
         /// <see cref="IWampRealmContainer"/> associated with this host.
         /// </summary>
         /// <param name="realmContainer"></param>
-        public InMemoryWampHost(IWampRealmContainer realmContainer) :
-            base(realmContainer)
+        /// <param name="uriValidator"></param>
+        public InMemoryWampHost(IWampRealmContainer realmContainer,
+                                IWampUriValidator uriValidator) :
+                                    base(realmContainer, uriValidator)
         {
             mInternalBinding = new InMemoryBinding();
 
@@ -35,7 +38,7 @@ namespace WampSharp.V2
 
             this.RegisterTransport
                 (mInternalTransport,
-                    mInternalBinding);
+                 mInternalBinding);
         }
 
         public void AddFormatter<TMessage>(IWampFormatter<TMessage> formatter)

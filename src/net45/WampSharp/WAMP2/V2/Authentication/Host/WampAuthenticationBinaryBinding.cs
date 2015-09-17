@@ -1,6 +1,7 @@
 using System.IO;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
+using WampSharp.V2.Core;
 
 namespace WampSharp.V2.Authentication
 {
@@ -10,8 +11,9 @@ namespace WampSharp.V2.Authentication
         private readonly IWampBinaryBinding<TMessage> mBinding;
 
         public WampAuthenticationBinaryBinding(IWampBinaryBinding<TMessage> binding,
-                                               IWampSessionAuthenticatorFactory sessionAuthenticationFactory)
-            : base(binding, sessionAuthenticationFactory)
+                                               IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
+                                               IWampUriValidator uriValidator)
+            : base(binding, sessionAuthenticationFactory, uriValidator)
         {
             mBinding = binding;
         }

@@ -6,6 +6,7 @@ using WampSharp.Fleck;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
+using WampSharp.V2.Core;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
@@ -70,9 +71,9 @@ namespace WampSharp.V2
             : this(location: location,
                    sessionAuthenticationFactory: sessionAuthenticationFactory,
                    realmContainer: null,
+                   uriValidator: null,
                    bindings: bindings,
-                   cookieAuthenticatorFactory: cookieAuthenticatorFactory,
-                   certificate: certificate)
+                   cookieAuthenticatorFactory: cookieAuthenticatorFactory, certificate: certificate)
         {
         }
 
@@ -84,21 +85,24 @@ namespace WampSharp.V2
         /// <param name="location">The given location.</param>
         /// <param name="sessionAuthenticationFactory"></param>
         /// <param name="realmContainer">The given <see cref="IWampRealmContainer"/>.</param>
+        /// <param name="uriValidator"></param>
         /// <param name="bindings">The given bindings.</param>
         /// <param name="cookieAuthenticatorFactory"></param>
         /// <param name="certificate"></param>
-        public DefaultWampAuthenticationHost(string location, 
-            IWampSessionAuthenticatorFactory sessionAuthenticationFactory, 
-            IWampRealmContainer realmContainer = null, 
-            IEnumerable<IWampBinding> bindings = null, 
-            ICookieAuthenticatorFactory cookieAuthenticatorFactory = null, 
-            X509Certificate2 certificate = null)
-            : base(sessionAuthenticationFactory, realmContainer)
+        public DefaultWampAuthenticationHost(string location,
+                                             IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
+                                             IWampRealmContainer realmContainer = null,
+                                             IWampUriValidator uriValidator = null,
+                                             IEnumerable<IWampBinding> bindings = null,
+                                             ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
+                                             X509Certificate2 certificate = null)
+            : base(sessionAuthenticationFactory, realmContainer, uriValidator)
         {
             bindings = bindings ?? new IWampBinding[] {new JTokenJsonBinding(), new JTokenMsgpackBinding()};
-            
-            this.RegisterTransport(new FleckAuthenticatedWebSocketTransport(location, cookieAuthenticatorFactory, certificate),
-                                   bindings.ToArray());
+
+            this.RegisterTransport(
+                new FleckAuthenticatedWebSocketTransport(location, cookieAuthenticatorFactory, certificate),
+                bindings.ToArray());
         }
 
         public override sealed void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings)

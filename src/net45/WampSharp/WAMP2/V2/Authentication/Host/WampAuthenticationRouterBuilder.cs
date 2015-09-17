@@ -1,4 +1,5 @@
 using WampSharp.V2.Binding;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Session;
@@ -9,7 +10,9 @@ namespace WampSharp.V2.Authentication
     {
         private readonly IWampSessionAuthenticatorFactory mSessionAuthenticationFactory;
 
-        public WampAuthenticationRouterBuilder(IWampSessionAuthenticatorFactory sessionAuthenticationFactory)
+        public WampAuthenticationRouterBuilder(IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
+                                               IWampUriValidator uriValidator) :
+                                                   base(uriValidator)
         {
             mSessionAuthenticationFactory = sessionAuthenticationFactory;
         }

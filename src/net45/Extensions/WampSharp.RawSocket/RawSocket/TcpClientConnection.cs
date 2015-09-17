@@ -86,7 +86,7 @@ namespace WampSharp.RawSocket
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose()
         {
             TcpClient.Close();
         }

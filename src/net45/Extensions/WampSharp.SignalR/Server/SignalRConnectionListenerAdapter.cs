@@ -75,7 +75,7 @@ namespace WampSharp.SignalR
                 mParent = parent;
             }
 
-            public override void Dispose()
+            protected override void Dispose()
             {
                 SignalRTextConnection value;
                 mParent.mConnectionIdToConnection.TryRemove(this.mConnectionId, out value);

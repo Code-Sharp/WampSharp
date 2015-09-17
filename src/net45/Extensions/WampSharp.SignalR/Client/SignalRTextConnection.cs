@@ -81,7 +81,7 @@ namespace WampSharp.SignalR
             return mConnection.Send(text);
         }
 
-        public override void Dispose()
+        protected override void Dispose()
         {
             mConnection.Dispose();
         }

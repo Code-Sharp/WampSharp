@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using SystemEx;
 using WampSharp.Core.Message;
@@ -130,7 +131,7 @@ namespace WampSharp.Core.Listener
             this.Dispose();
         }
 
-        public abstract void Dispose();
+        protected abstract void Dispose();
 
 #if NET45
 

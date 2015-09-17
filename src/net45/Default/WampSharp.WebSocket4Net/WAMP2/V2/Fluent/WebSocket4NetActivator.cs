@@ -6,17 +6,19 @@ using WebSocket4Net;
 
 namespace WampSharp.V2.Fluent
 {
+    public delegate WebSocket WebSocket4NetFactory(string subprotocolName);
+
     internal class WebSocket4NetActivator : IWampConnectionActivator
     {
-        private readonly Func<WebSocket> mWebSocketFactory;
+        private readonly WebSocket4NetFactory mWebSocketFactory;
 
-        public WebSocket4NetActivator(Func<WebSocket> webSocketFactory)
+        public WebSocket4NetActivator(WebSocket4NetFactory webSocketFactory)
         {
             mWebSocketFactory = webSocketFactory;
         }
 
         public WebSocket4NetActivator(string serverAddress) : 
-            this(() => new WebSocket(serverAddress))
+            this(subprotocolName => new WebSocket(serverAddress, subprotocolName))
         {
         }
 
@@ -52,12 +54,12 @@ namespace WampSharp.V2.Fluent
 
         protected IControlledWampConnection<TMessage> CreateBinaryConnection<TMessage>(IWampBinaryBinding<TMessage> binaryBinding)
         {
-            return new WebSocket4NetBinaryConnection<TMessage>(mWebSocketFactory(), binaryBinding);
+            return new WebSocket4NetBinaryConnection<TMessage>(mWebSocketFactory(binaryBinding.Name), binaryBinding);
         }
 
         protected IControlledWampConnection<TMessage> CreateTextConnection<TMessage>(IWampTextBinding<TMessage> textBinding)
         {
-            return new WebSocket4NetTextConnection<TMessage>(mWebSocketFactory(), textBinding);
+            return new WebSocket4NetTextConnection<TMessage>(mWebSocketFactory(textBinding.Name), textBinding);
         }
     }
 }

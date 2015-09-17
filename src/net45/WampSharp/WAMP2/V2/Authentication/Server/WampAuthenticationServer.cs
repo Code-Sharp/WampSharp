@@ -32,7 +32,13 @@ namespace WampSharp.V2.Authentication
             InnerAction(publisher,
                         authorizer => authorizer.CanPublish(options, topicUri),
                         publishAction,
-                        exception => publisher.PublishError(requestId, exception));
+                        exception =>
+                        {
+                            if (options.Acknowledge == true)
+                            {
+                                publisher.PublishError(requestId, exception);
+                            }
+                        });
         }
 
         public override void Publish(IWampPublisher publisher, long requestId, PublishOptions options, string topicUri)
@@ -137,7 +143,6 @@ namespace WampSharp.V2.Authentication
             }
             catch (WampException ex)
             {
-                // TODO: Maybe not catch these exceptions?
                 reportError(ex);
             }
         }

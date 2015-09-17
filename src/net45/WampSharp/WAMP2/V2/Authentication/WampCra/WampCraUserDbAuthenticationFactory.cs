@@ -23,7 +23,8 @@ namespace WampSharp.V2.Authentication
         {
             HelloDetails helloDetails = details.HelloDetails;
 
-            if (!helloDetails.AuthenticationMethods.Contains(WAMP_CRA))
+            if ((helloDetails.AuthenticationMethods == null) || 
+                !helloDetails.AuthenticationMethods.Contains(WAMP_CRA))
             {
                 throw new WampAuthenticationException("supports only 'wampcra' authentication");
             }

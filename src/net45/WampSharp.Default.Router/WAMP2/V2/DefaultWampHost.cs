@@ -5,6 +5,7 @@ using WampSharp.Binding;
 using WampSharp.Fleck;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
+using WampSharp.V2.Core;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
@@ -47,7 +48,7 @@ namespace WampSharp.V2
         /// <param name="bindings">The given bindings.</param>
         /// <param name="certificate"></param>
         public DefaultWampHost(string location, IEnumerable<IWampBinding> bindings, X509Certificate2 certificate = null)
-            : this(location: location, realmContainer: null, bindings: bindings, certificate: certificate)
+            : this(location: location, realmContainer: null, uriValidator: null, bindings: bindings, certificate: certificate)
         {
         }
 
@@ -58,10 +59,15 @@ namespace WampSharp.V2
         /// </summary>
         /// <param name="location">The given location.</param>
         /// <param name="realmContainer">The given <see cref="IWampRealmContainer"/>.</param>
+        /// <param name="uriValidator">The <see cref="IWampUriValidator"/> to use to validate uris.</param>
         /// <param name="bindings">The given bindings.</param>
         /// <param name="certificate"></param>
-        public DefaultWampHost(string location, IWampRealmContainer realmContainer = null, IEnumerable<IWampBinding> bindings = null, X509Certificate2 certificate = null)
-            : base(realmContainer)
+        public DefaultWampHost(string location,
+            IWampRealmContainer realmContainer = null,
+            IWampUriValidator uriValidator = null,
+            IEnumerable<IWampBinding> bindings = null,
+            X509Certificate2 certificate = null)
+            : base(realmContainer, uriValidator)
         {
             bindings = bindings ?? new IWampBinding[] {new JTokenJsonBinding(), new JTokenMsgpackBinding()};
 

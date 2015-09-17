@@ -266,7 +266,8 @@ namespace WampSharp.RawSocket
 
         public void Dispose()
         {
-            Connection.Dispose();
+            IDisposable connection = Connection;
+            connection.Dispose();
         }
     }
 }

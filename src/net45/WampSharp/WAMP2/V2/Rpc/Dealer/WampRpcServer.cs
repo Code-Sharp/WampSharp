@@ -4,6 +4,7 @@ using WampSharp.Logging;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
@@ -13,12 +14,14 @@ namespace WampSharp.V2.Rpc
         private readonly ILog mLogger;
         private readonly IWampFormatter<TMessage> mFormatter; 
         private readonly IWampRpcOperationInvoker mInvoker;
+        private readonly IWampUriValidator mUriValidator;
         private readonly IWampCalleeOperationCatalog mCalleeCatalog;
         private readonly IWampCalleeInvocationHandler<TMessage> mHandler; 
 
-        public WampRpcServer(IWampRpcOperationCatalog catalog, IWampBinding<TMessage> binding)
+        public WampRpcServer(IWampRpcOperationCatalog catalog, IWampBinding<TMessage> binding, IWampUriValidator uriValidator)
         {
             mInvoker = catalog;
+            mUriValidator = uriValidator;
             mLogger = LogProvider.GetLogger(this.GetType());
             mFormatter = binding.Formatter;
 
@@ -34,6 +37,8 @@ namespace WampSharp.V2.Rpc
             {
                 options.Invoke = options.Invoke ?? WampInvokePolicy.Default;
                 options.Match = options.Match ?? WampMatchPattern.Default;
+
+                ValidateRegisterUri(procedure, options.Match);
 
                 RegisterRequest registerRequest = new RegisterRequest(callee, requestId);
                 mCalleeCatalog.Register(registerRequest, options, procedure);
@@ -108,11 +113,33 @@ namespace WampSharp.V2.Rpc
                 InvocationDetails invocationOptions =
                     GetInvocationOptions(caller, options, procedure);
 
+                ValidateCallUri(procedure);
+
                 invokeAction(mInvoker, callback, invocationOptions);
             }
             catch (WampException ex)
             {
                 caller.CallError(requestId, ex);
+            }
+        }
+
+        private void ValidateCallUri(string procedure)
+        {
+            if (!mUriValidator.IsValid(procedure))
+            {
+                mLogger.ErrorFormat("call with invalid procedure URI '{0}'", procedure);
+
+                throw new WampException(WampErrors.InvalidUri,
+                                        string.Format("call with invalid procedure URI '{0}'", procedure));
+            }
+        }
+
+        private void ValidateRegisterUri(string procedure, string match)
+        {
+            if (!mUriValidator.IsValid(procedure))
+            {
+                throw new WampException(WampErrors.InvalidUri,
+                                        string.Format("register for invalid procedure URI '{0}'", procedure));
             }
         }
 

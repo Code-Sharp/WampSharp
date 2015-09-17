@@ -14,7 +14,7 @@ namespace WampSharp.V2.Fluent
             return state;
         }
 
-        public static ChannelFactorySyntax.ITransportSyntax WebSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, Func<WebSocket> factory)
+        public static ChannelFactorySyntax.ITransportSyntax WebSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, WebSocket4NetFactory factory)
         {
             ChannelState state = realmSyntax.State;
 

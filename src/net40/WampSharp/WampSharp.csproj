@@ -525,6 +525,18 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampMatchPattern.cs">
       <Link>WAMP2\V2\Core\Contracts\WampMatchPattern.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Uri\IWampUriValidator.cs">
+      <Link>WAMP2\V2\Core\Uri\IWampUriValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Uri\LooseUriValidator.cs">
+      <Link>WAMP2\V2\Core\Uri\LooseUriValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Uri\StrictUriValidator.cs">
+      <Link>WAMP2\V2\Core\Uri\StrictUriValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Uri\WampUriValidator.cs">
+      <Link>WAMP2\V2\Core\Uri\WampUriValidator.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\ChannelFactoryExtensions.cs">
       <Link>WAMP2\V2\Fluent\ChannelFactoryExtensions.cs</Link>
     </Compile>

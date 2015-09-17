@@ -4,6 +4,7 @@ using System.Linq;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
+using WampSharp.V2.Core;
 using WampSharp.V2.Realm;
 
 // ReSharper disable once CheckNamespace
@@ -24,10 +25,12 @@ namespace WampSharp.V2
         /// used to accept pending clients.</param>
         /// <param name="realmContainer">The <see cref="IWampRealmContainer"/> associated with this
         /// host.</param>
+        /// <param name="uriValidator">The <see cref="IWampUriValidator"/> used to validate uris.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public WampAuthenticationHost(IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
-                                      IWampRealmContainer realmContainer = null)
-            : base(realmContainer)
+            IWampRealmContainer realmContainer = null,
+            IWampUriValidator uriValidator = null)
+            : base(realmContainer, uriValidator)
         {
             if (sessionAuthenticationFactory == null)
             {
@@ -50,13 +53,13 @@ namespace WampSharp.V2
         private IWampBinding CreateAuthenticationBinding<TMessage>
             (IWampTextBinding<TMessage> binding)
         {
-            return new WampAuthenticationTextBinding<TMessage>(binding, mSessionAuthenticationFactory);
+            return new WampAuthenticationTextBinding<TMessage>(binding, mSessionAuthenticationFactory, this.UriValidator);
         }
 
         private IWampBinding CreateAuthenticationBinding<TMessage>
             (IWampBinaryBinding<TMessage> binding)
         {
-            return new WampAuthenticationBinaryBinding<TMessage>(binding, mSessionAuthenticationFactory);
+            return new WampAuthenticationBinaryBinding<TMessage>(binding, mSessionAuthenticationFactory, this.UriValidator);
         }
 
         /// <summary>

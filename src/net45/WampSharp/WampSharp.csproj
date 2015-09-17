@@ -223,6 +223,10 @@
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampInvokePolicy.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampMatchPattern.cs" />
+    <Compile Include="WAMP2\V2\Core\Uri\IWampUriValidator.cs" />
+    <Compile Include="WAMP2\V2\Core\Uri\LooseUriValidator.cs" />
+    <Compile Include="WAMP2\V2\Core\Uri\StrictUriValidator.cs" />
+    <Compile Include="WAMP2\V2\Core\Uri\WampUriValidator.cs" />
     <Compile Include="WAMP2\V2\Fluent\ChannelFactoryExtensions.cs" />
     <Compile Include="WAMP2\V2\Fluent\ChannelFactorySyntax.cs" />
     <Compile Include="WAMP2\V2\Fluent\ChannelState.cs" />

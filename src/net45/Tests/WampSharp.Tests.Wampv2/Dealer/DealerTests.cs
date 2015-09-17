@@ -41,7 +41,8 @@ namespace WampSharp.Tests.Wampv2.Dealer
             WampRpcServer<MockRaw> server =
                 new WampRpcServer<MockRaw>
                     (catalog.Object,
-                     new MockBinding());
+                     new MockBinding(), 
+                     new LooseUriValidator());
 
             catalog.Setup(x => x.Register
                               (It.IsAny<IWampRpcOperation>(),
@@ -83,7 +84,8 @@ namespace WampSharp.Tests.Wampv2.Dealer
             WampRpcServer<MockRaw> server =
                 new WampRpcServer<MockRaw>
                     (catalog.Object,
-                     new MockBinding());
+                     new MockBinding(),
+                     new LooseUriValidator());
 
             foreach (Registration registration in registrations)
             {
@@ -115,7 +117,8 @@ namespace WampSharp.Tests.Wampv2.Dealer
             WampRpcServer<MockRaw> server =
                 new WampRpcServer<MockRaw>
                     (catalog.Object,
-                     new MockBinding());
+                     new MockBinding(),
+                     new LooseUriValidator());
 
             if (call.Arguments == null)
             {

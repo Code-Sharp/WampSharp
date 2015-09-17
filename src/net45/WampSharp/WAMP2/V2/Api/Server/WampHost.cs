@@ -3,6 +3,7 @@ using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
+using WampSharp.V2.Core;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
@@ -15,20 +16,24 @@ namespace WampSharp.V2
         private readonly InMemoryWampHost mInternalHost;
         private readonly WampHostBase mExternalHost;
         private readonly ServiceHostedRealmContainer mRealmContainer;
+        private readonly IWampUriValidator mUriValidator;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampHost"/> given the
         /// <see cref="IWampRealmContainer"/> associated with this host.
         /// </summary>
         /// <param name="realmContainer"></param>
-        public WampHost(IWampRealmContainer realmContainer = null)
+        /// <param name="uriValidator"></param>
+        public WampHost(IWampRealmContainer realmContainer = null, IWampUriValidator uriValidator = null)
         {
             realmContainer = realmContainer ?? new WampRealmContainer();
 
-            mInternalHost = new InMemoryWampHost(realmContainer);
+            mUriValidator = uriValidator ?? new LooseUriValidator();
+
+            mInternalHost = new InMemoryWampHost(realmContainer, UriValidator);
             mInternalHost.Open();
 
-            mExternalHost = new WampHostBase(realmContainer);
+            mExternalHost = new WampHostBase(realmContainer, UriValidator);
 
             mRealmContainer =
                 new ServiceHostedRealmContainer(mExternalHost.RealmContainer,
@@ -46,6 +51,14 @@ namespace WampSharp.V2
             get
             {
                 return mRealmContainer;
+            }
+        }
+
+        protected IWampUriValidator UriValidator
+        {
+            get
+            {
+                return mUriValidator;
             }
         }
 

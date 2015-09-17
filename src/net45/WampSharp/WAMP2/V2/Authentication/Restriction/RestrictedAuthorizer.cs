@@ -16,7 +16,8 @@ namespace WampSharp.V2.Authentication
         {
             if (procedure.StartsWith("wamp.", StringComparison.Ordinal))
             {
-                return false;
+                throw new WampException(WampErrors.InvalidUri,
+                                        string.Format("register for restricted procedure URI '{0}'", procedure));
             }
             else
             {
@@ -33,7 +34,8 @@ namespace WampSharp.V2.Authentication
         {
             if (topicUri.StartsWith("wamp.", StringComparison.Ordinal))
             {
-                return false;
+                throw new WampException(WampErrors.InvalidUri,
+                                        string.Format("publish with restricted topic URI '{0}'", topicUri));
             }
             else
             {
