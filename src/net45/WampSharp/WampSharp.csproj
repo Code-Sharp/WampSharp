@@ -233,14 +233,15 @@
     <Compile Include="WAMP2\V2\Fluent\ChannelState.cs" />
     <Compile Include="WAMP2\V2\Fluent\IWampConnectionActivator.cs" />
     <Compile Include="WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\WampRealmDescriptorService.cs" />
     <Compile Include="WAMP2\V2\MetaApi\DescriptorServiceBase.cs" />
     <Compile Include="WAMP2\V2\MetaApi\IGroupDetailsExtended.cs" />
     <Compile Include="WAMP2\V2\MetaApi\ManualSubscriber.cs" />
-    <Compile Include="WAMP2\V2\MetaApi\RegistrationDescriptorService.cs" />
-    <Compile Include="WAMP2\V2\MetaApi\RegistrationDetailsExtended.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\Rpc\RegistrationDescriptorService.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\Rpc\RegistrationDetailsExtended.cs" />
     <Compile Include="WAMP2\V2\MetaApi\AvailableGroups.cs" />
     <Compile Include="WAMP2\V2\PubSub\SubscriptionToken.cs" />
-    <Compile Include="WAMP2\V2\MetaApi\SessionDescriptorService.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\Session\SessionDescriptorService.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Rpc\IWampRegistrationDescriptor.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Session\Crossbar\CrossbarHttpHeadersSent.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Session\Crossbar\CrossbarHttpHeadersReceived.cs" />
@@ -283,7 +284,7 @@
     <Compile Include="WAMP2\V2\PubSub\WampTopicAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\ArgumentUnpacker.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Session\Crossbar\CrossbarWebSocketTransportDetails.cs" />
-    <Compile Include="WAMP2\V2\MetaApi\SubscriptionDescriptorService.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\PubSub\SubscriptionDescriptorService.cs" />
     <Compile Include="WAMP2\V2\Core\LocalParameter.cs" />
     <Compile Include="WAMP2\V2\Core\WildCardMatcher.cs" />
     <Compile Include="WAMP2\V2\PubSub\WildCardSubscriptionId.cs" />
@@ -291,7 +292,7 @@
     <Compile Include="WAMP2\V2\Realm\IWampRouterBuilder.cs" />
     <Compile Include="WAMP2\V2\Realm\WampRouterBuilder.cs" />
     <Compile Include="WAMP2\V2\PubSub\TopicContainerExtensions.cs" />
-    <Compile Include="WAMP2\V2\MetaApi\SubscriptionDetailsExtended.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\PubSub\SubscriptionDetailsExtended.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />

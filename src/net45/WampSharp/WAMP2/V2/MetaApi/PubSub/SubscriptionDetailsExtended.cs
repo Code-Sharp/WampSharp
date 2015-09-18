@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace WampSharp.V2.MetaApi
 {
-    public class SubscriptionDetailsExtended : SubscriptionDetails, IGroupDetailsExtended
+    internal class SubscriptionDetailsExtended : SubscriptionDetails, IGroupDetailsExtended
     {
         private ImmutableList<long> mSubscribers = ImmutableList<long>.Empty;
         private readonly object mLock = new object();

@@ -6,7 +6,7 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.MetaApi
 {
-    public class SessionDescriptorService : IWampSessionDescriptor
+    internal class SessionDescriptorService : IWampSessionDescriptor
     {
         private readonly IWampHostedRealm mRealm;
         private readonly IWampSessionMetadataSubscriber mSubscriber;

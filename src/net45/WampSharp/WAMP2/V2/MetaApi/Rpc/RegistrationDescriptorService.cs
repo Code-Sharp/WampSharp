@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using WampSharp.V2.Core.Contracts;
+﻿using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Realm;
 
@@ -10,7 +9,7 @@ namespace WampSharp.V2.MetaApi
         IWampRegistrationDescriptor
     {
         public RegistrationDescriptorService(IWampRealm realm) : 
-            base(new RegistrationMetadataSubscriber(realm.TopicContainer))
+            base(new RegistrationMetadataSubscriber(realm.TopicContainer), WampErrors.NoSuchRegistration)
         {
         }
 
@@ -28,62 +27,27 @@ namespace WampSharp.V2.MetaApi
                 match = options.Match;
             }
 
-            long? registrationId = LookupGroupId(procedureUri, match);
-
-            if (registrationId != null)
-            {
-                return registrationId.Value;
-            }
-
-            throw new WampException(WampErrors.NoSuchRegistration);
+            return base.LookupGroupId(procedureUri, match);
         }
 
         public long[] GetMatchingRegistrationIds(string procedureUri)
         {
-            long[] matchingRegistrations = GetMatchingGroupIds(procedureUri);
-
-            if (matchingRegistrations != null)
-            {
-                return matchingRegistrations;
-            }
-            
-            throw new WampException(WampErrors.NoSuchRegistration);
+            return base.GetMatchingGroupIds(procedureUri);
         }
 
         public RegistrationDetails GetRegistrationDetails(long registrationId)
         {
-            RegistrationDetailsExtended details = GetGroupDetails(registrationId);
-
-            if (details != null)
-            {
-                return details;
-            }
-
-            throw new WampException(WampErrors.NoSuchRegistration);
+            return base.GetGroupDetails(registrationId);
         }
 
         public long[] GetCalleesIds(long registrationId)
         {
-            RegistrationDetailsExtended details = GetGroupDetails(registrationId);
-
-            if (details != null)
-            {
-                return details.Callees.ToArray();
-            }
-
-            throw new WampException(WampErrors.NoSuchRegistration);
+            return base.GetPeersIds(registrationId);
         }
 
         public long CountCallees(long registrationId)
         {
-            RegistrationDetailsExtended details = GetGroupDetails(registrationId);
-
-            if (details != null)
-            {
-                return details.Callees.Count;
-            }
-
-            throw new WampException(WampErrors.NoSuchRegistration);
+            return base.CountPeers(registrationId);
         }
 
         private class RegistrationMetadataSubscriber : 

@@ -6,7 +6,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.MetaApi
 {
-    public class DescriptorServiceBase<TDetails> where TDetails : class, IGroupDetailsExtended
+    internal class DescriptorServiceBase<TDetails> where TDetails : class, IGroupDetailsExtended
     {
         private readonly IDescriptorSubscriber<TDetails> mSubscriber;
 
@@ -17,10 +17,12 @@ namespace WampSharp.V2.MetaApi
             ImmutableDictionary<long, TDetails>.Empty;
 
         private readonly object mLock = new object();
+        private readonly string mMissingErrorUri;
 
-        protected DescriptorServiceBase(IDescriptorSubscriber<TDetails> subscriber)
+        protected DescriptorServiceBase(IDescriptorSubscriber<TDetails> subscriber, string missingErrorUri)
         {
             mSubscriber = subscriber;
+            mMissingErrorUri = missingErrorUri;
         }
 
         protected void AddPeer(long sessionId, long groupId, Func<TDetails> detailsCreator)
@@ -120,22 +122,22 @@ namespace WampSharp.V2.MetaApi
 
         protected AvailableGroups GetAllGroupIds()
         {
-            Dictionary<string, long[]> matchToSubscriptionId = GetMatchToGroupId();
+            Dictionary<string, long[]> matchToGroupId = GetMatchToGroupId();
 
             AvailableGroups result = new AvailableGroups();
 
             long[] groups;
 
             // Yuck!
-            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Exact, out groups))
+            if (matchToGroupId.TryGetValue(WampMatchPattern.Exact, out groups))
             {
                 result.Exact = groups;
             }
-            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Prefix, out groups))
+            if (matchToGroupId.TryGetValue(WampMatchPattern.Prefix, out groups))
             {
                 result.Prefix = groups;
             }
-            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Wildcard, out groups))
+            if (matchToGroupId.TryGetValue(WampMatchPattern.Wildcard, out groups))
             {
                 result.Wildcard = groups;
             }
@@ -143,7 +145,7 @@ namespace WampSharp.V2.MetaApi
             return result;
         }
 
-        protected long? LookupGroupId(string uri, string match)
+        protected long LookupGroupId(string uri, string match)
         {
             match = match ?? WampMatchPattern.Default;
 
@@ -161,7 +163,7 @@ namespace WampSharp.V2.MetaApi
                 return result.GroupId;
             }
 
-            return null;
+            throw new WampException(mMissingErrorUri);
         }
 
         protected long[] GetMatchingGroupIds(string uri)
@@ -175,7 +177,7 @@ namespace WampSharp.V2.MetaApi
                 return result;
             }
 
-            return null;
+            throw new WampException(mMissingErrorUri);
         }
 
         protected TDetails GetGroupDetails(long groupId)
@@ -187,7 +189,31 @@ namespace WampSharp.V2.MetaApi
                 return details;
             }
 
-            return null;
+            throw new WampException(mMissingErrorUri);
+        }
+
+        protected long[] GetPeersIds(long groupId)
+        {
+            TDetails details = GetGroupDetails(groupId);
+
+            if (details != null)
+            {
+                return details.Peers.ToArray();
+            }
+
+            throw new WampException(mMissingErrorUri);
+        }
+
+        public long CountPeers(long groupId)
+        {
+            TDetails details = GetGroupDetails(groupId);
+
+            if (details != null)
+            {
+                return details.Peers.Count;
+            }
+
+            throw new WampException(mMissingErrorUri);
         }
 
         protected interface IDescriptorSubscriber<TDetails>

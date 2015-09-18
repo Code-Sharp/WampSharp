@@ -63,7 +63,7 @@ namespace WampSharp.V2.Rpc
                         mOperations = mOperations.Add(operation);                        
                     }
 
-                    return new WampRegistrationSubscriptionToken(operation, this);
+                    return new WampRegistrationToken(operation, this);
                 }
                 else
                 {
@@ -183,12 +183,12 @@ namespace WampSharp.V2.Rpc
             return result;
         }
 
-        private class WampRegistrationSubscriptionToken : IWampRegistrationSubscriptionToken
+        private class WampRegistrationToken : IWampRegistrationSubscriptionToken
         {
             private readonly IWampRpcOperation mOperation;
             private readonly ProcedureRegistration mRegistration;
 
-            public WampRegistrationSubscriptionToken(IWampRpcOperation operation, ProcedureRegistration registration)
+            public WampRegistrationToken(IWampRpcOperation operation, ProcedureRegistration registration)
             {
                 mOperation = operation;
                 mRegistration = registration;

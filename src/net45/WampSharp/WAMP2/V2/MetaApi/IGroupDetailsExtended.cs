@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace WampSharp.V2.MetaApi
 {
-    public interface IGroupDetailsExtended
+    internal interface IGroupDetailsExtended
     {
         long GroupId { get; }
 

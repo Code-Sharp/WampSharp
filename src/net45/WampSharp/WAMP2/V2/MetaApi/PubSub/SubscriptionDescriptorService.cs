@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Reactive.Linq;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
@@ -7,11 +6,12 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.MetaApi
 {
-    public class SubscriptionDescriptorService : 
+    internal class SubscriptionDescriptorService : 
         DescriptorServiceBase<SubscriptionDetailsExtended>,
         IWampSubscriptionDescriptor
     {
-        public SubscriptionDescriptorService(IWampHostedRealm realm) : base(new SubscriptionMetadataSubscriber(realm.TopicContainer))
+        public SubscriptionDescriptorService(IWampHostedRealm realm) : 
+            base(new SubscriptionMetadataSubscriber(realm.TopicContainer), WampErrors.NoSuchSubscription)
         {
             IWampTopicContainer topicContainer = realm.TopicContainer;
 
@@ -123,26 +123,12 @@ namespace WampSharp.V2.MetaApi
 
         public SubscriptionDetails GetSubscriptionDetails(long subscriptionId)
         {
-            SubscriptionDetailsExtended subscriptionDetails = GetGroupDetails(subscriptionId);
-
-            if (subscriptionDetails != null)
-            {
-                return subscriptionDetails;
-            }
-
-            throw new WampException(WampErrors.NoSuchSubscription);
+            return base.GetGroupDetails(subscriptionId);
         }
 
         public long[] GetSubscribers(long subscriptionId)
         {
-            SubscriptionDetailsExtended details = GetGroupDetails(subscriptionId);
-
-            if (details != null)
-            {
-                return details.Subscribers.ToArray();
-            }
-
-            throw new WampException(WampErrors.NoSuchSubscription);
+            return base.GetPeersIds(subscriptionId);
         }
 
         public AvailableGroups GetAllSubscriptionIds()
@@ -159,38 +145,17 @@ namespace WampSharp.V2.MetaApi
                 match = options.Match;
             }
 
-            long? subscriptionId = LookupGroupId(topicUri, match);
-
-            if (subscriptionId != null)
-            {
-                return subscriptionId.Value;
-            }
-
-            throw new WampException(WampErrors.NoSuchSubscription);
+            return base.LookupGroupId(topicUri, match);
         }
 
         public long[] GetMatchingSubscriptionIds(string topicUri)
         {
-            long[] matchingSubscriptions = GetMatchingGroupIds(topicUri);
-
-            if (matchingSubscriptions != null)
-            {
-                return matchingSubscriptions;
-            }
-
-            throw new WampException(WampErrors.NoSuchSubscription);
+            return base.GetMatchingGroupIds(topicUri);
         }
 
         public long CountSubscribers(long subscriptionId)
         {
-            SubscriptionDetailsExtended details = GetGroupDetails(subscriptionId);
-
-            if (details != null)
-            {
-                return details.Subscribers.Count;
-            }
-
-            throw new WampException(WampErrors.NoSuchSubscription);
+            return base.CountPeers(subscriptionId);
         }
 
         private class SubscriptionMetadataSubscriber : ManualSubscriber<IWampSubscriptionMetadataSubscriber>, IWampSubscriptionMetadataSubscriber, IDescriptorSubscriber<SubscriptionDetailsExtended>

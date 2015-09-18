@@ -555,6 +555,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs">
       <Link>WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\WampRealmDescriptorService.cs">
+      <Link>WAMP2\V2\MetaApi\WampRealmDescriptorService.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\DescriptorServiceBase.cs">
       <Link>WAMP2\V2\MetaApi\DescriptorServiceBase.cs</Link>
     </Compile>
@@ -564,11 +567,11 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\ManualSubscriber.cs">
       <Link>WAMP2\V2\MetaApi\ManualSubscriber.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\RegistrationDescriptorService.cs">
-      <Link>WAMP2\V2\MetaApi\RegistrationDescriptorService.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Rpc\RegistrationDescriptorService.cs">
+      <Link>WAMP2\V2\MetaApi\Rpc\RegistrationDescriptorService.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\RegistrationDetailsExtended.cs">
-      <Link>WAMP2\V2\MetaApi\RegistrationDetailsExtended.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Rpc\RegistrationDetailsExtended.cs">
+      <Link>WAMP2\V2\MetaApi\Rpc\RegistrationDetailsExtended.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\AvailableGroups.cs">
       <Link>WAMP2\V2\MetaApi\AvailableGroups.cs</Link>
@@ -576,8 +579,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\SubscriptionToken.cs">
       <Link>WAMP2\V2\PubSub\SubscriptionToken.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\SessionDescriptorService.cs">
-      <Link>WAMP2\V2\MetaApi\SessionDescriptorService.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Session\SessionDescriptorService.cs">
+      <Link>WAMP2\V2\MetaApi\Session\SessionDescriptorService.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Rpc\IWampRegistrationDescriptor.cs">
       <Link>WAMP2\V2\MetaApi\Rpc\IWampRegistrationDescriptor.cs</Link>
@@ -705,8 +708,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Session\Crossbar\CrossbarWebSocketTransportDetails.cs">
       <Link>WAMP2\V2\MetaApi\Session\Crossbar\CrossbarWebSocketTransportDetails.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\SubscriptionDescriptorService.cs">
-      <Link>WAMP2\V2\MetaApi\SubscriptionDescriptorService.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\PubSub\SubscriptionDescriptorService.cs">
+      <Link>WAMP2\V2\MetaApi\PubSub\SubscriptionDescriptorService.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\LocalParameter.cs">
       <Link>WAMP2\V2\Core\LocalParameter.cs</Link>
@@ -729,8 +732,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\TopicContainerExtensions.cs">
       <Link>WAMP2\V2\PubSub\TopicContainerExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\SubscriptionDetailsExtended.cs">
-      <Link>WAMP2\V2\MetaApi\SubscriptionDetailsExtended.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\PubSub\SubscriptionDetailsExtended.cs">
+      <Link>WAMP2\V2\MetaApi\PubSub\SubscriptionDetailsExtended.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs</Link>

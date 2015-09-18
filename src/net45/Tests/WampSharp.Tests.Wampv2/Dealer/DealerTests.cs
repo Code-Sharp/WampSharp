@@ -20,7 +20,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
     [TestFixture]
     public class DealerTests
     {
-        class RegistrationSubscriptionTokenMock : IWampRegistrationSubscriptionToken
+        class RegistrationTokenMock : IWampRegistrationSubscriptionToken
         {
             public void Dispose()
             {
@@ -47,7 +47,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
             catalog.Setup(x => x.Register
                               (It.IsAny<IWampRpcOperation>(),
                                It.IsAny<RegisterOptions>()))
-                   .Returns(new RegistrationSubscriptionTokenMock());
+                   .Returns(new RegistrationTokenMock());
 
             foreach (Registration registration in registrations)
             {
