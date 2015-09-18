@@ -6,7 +6,7 @@ namespace WampSharp.V2.MetaApi
     public interface IWampRegistrationDescriptor
     {
         [WampProcedure("wamp.registration.list")]
-        AvailableRegistrations GetAllRegistrations();
+        AvailableGroups GetAllRegistrations();
 
         [WampProcedure("wamp.registration.lookup")]
         long LookupRegistrationId(string procedureUri, RegisterOptions options = null);

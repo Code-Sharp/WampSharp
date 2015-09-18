@@ -3,12 +3,11 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.MetaApi
 {
-    [DataContract]
-    public class AvailableSubscriptions
+    public class AvailableGroups
     {
-        private static long[] mEmptyArray = new long[0];
+        private static readonly long[] mEmptyArray = new long[0];
 
-        public AvailableSubscriptions()
+        public AvailableGroups()
         {
             Exact = mEmptyArray;
             Prefix = mEmptyArray;

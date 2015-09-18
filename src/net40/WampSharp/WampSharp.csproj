@@ -567,17 +567,17 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\RegistrationDescriptorService.cs">
       <Link>WAMP2\V2\MetaApi\RegistrationDescriptorService.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\RegistrationDetailsExtended.cs">
+      <Link>WAMP2\V2\MetaApi\RegistrationDetailsExtended.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\AvailableGroups.cs">
+      <Link>WAMP2\V2\MetaApi\AvailableGroups.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\SubscriptionToken.cs">
       <Link>WAMP2\V2\PubSub\SubscriptionToken.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\SessionDescriptorService.cs">
       <Link>WAMP2\V2\MetaApi\SessionDescriptorService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Rpc\AvailableRegistrations.cs">
-      <Link>WAMP2\V2\MetaApi\Rpc\AvailableRegistrations.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\PubSub\AvailableSubscriptions.cs">
-      <Link>WAMP2\V2\MetaApi\PubSub\AvailableSubscriptions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Rpc\IWampRegistrationDescriptor.cs">
       <Link>WAMP2\V2\MetaApi\Rpc\IWampRegistrationDescriptor.cs</Link>

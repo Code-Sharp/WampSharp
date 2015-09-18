@@ -237,10 +237,10 @@
     <Compile Include="WAMP2\V2\MetaApi\IGroupDetailsExtended.cs" />
     <Compile Include="WAMP2\V2\MetaApi\ManualSubscriber.cs" />
     <Compile Include="WAMP2\V2\MetaApi\RegistrationDescriptorService.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\RegistrationDetailsExtended.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\AvailableGroups.cs" />
     <Compile Include="WAMP2\V2\PubSub\SubscriptionToken.cs" />
     <Compile Include="WAMP2\V2\MetaApi\SessionDescriptorService.cs" />
-    <Compile Include="WAMP2\V2\MetaApi\Rpc\AvailableRegistrations.cs" />
-    <Compile Include="WAMP2\V2\MetaApi\PubSub\AvailableSubscriptions.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Rpc\IWampRegistrationDescriptor.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Session\Crossbar\CrossbarHttpHeadersSent.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Session\Crossbar\CrossbarHttpHeadersReceived.cs" />

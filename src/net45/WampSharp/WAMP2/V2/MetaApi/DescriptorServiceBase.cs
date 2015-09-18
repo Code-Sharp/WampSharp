@@ -118,6 +118,31 @@ namespace WampSharp.V2.MetaApi
             return matchToGroupId;
         }
 
+        protected AvailableGroups GetAllGroupIds()
+        {
+            Dictionary<string, long[]> matchToSubscriptionId = GetMatchToGroupId();
+
+            AvailableGroups result = new AvailableGroups();
+
+            long[] groups;
+
+            // Yuck!
+            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Exact, out groups))
+            {
+                result.Exact = groups;
+            }
+            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Prefix, out groups))
+            {
+                result.Prefix = groups;
+            }
+            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Wildcard, out groups))
+            {
+                result.Wildcard = groups;
+            }
+
+            return result;
+        }
+
         protected long? LookupGroupId(string uri, string match)
         {
             match = match ?? WampMatchPattern.Default;

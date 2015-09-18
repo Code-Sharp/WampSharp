@@ -1,41 +1,95 @@
-﻿using WampSharp.V2.Core.Contracts;
+﻿using System.Linq;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
+using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.MetaApi
 {
-    internal class RegistrationDescriptorService : IWampRegistrationDescriptor
+    internal class RegistrationDescriptorService : 
+        DescriptorServiceBase<RegistrationDetailsExtended>,
+        IWampRegistrationDescriptor
     {
-        public AvailableRegistrations GetAllRegistrations()
+        public RegistrationDescriptorService(IWampRealm realm) : 
+            base(new RegistrationMetadataSubscriber(realm.TopicContainer))
         {
-            throw new System.NotImplementedException();
+        }
+
+        public AvailableGroups GetAllRegistrations()
+        {
+            return GetAllGroupIds();
         }
 
         public long LookupRegistrationId(string procedureUri, RegisterOptions options = null)
         {
-            throw new System.NotImplementedException();
+            string match = null;
+
+            if (options != null)
+            {
+                match = options.Match;
+            }
+
+            long? registrationId = LookupGroupId(procedureUri, match);
+
+            if (registrationId != null)
+            {
+                return registrationId.Value;
+            }
+
+            throw new WampException(WampErrors.NoSuchRegistration);
         }
 
         public long[] GetMatchingRegistrationIds(string procedureUri)
         {
-            throw new System.NotImplementedException();
+            long[] matchingRegistrations = GetMatchingGroupIds(procedureUri);
+
+            if (matchingRegistrations != null)
+            {
+                return matchingRegistrations;
+            }
+            
+            throw new WampException(WampErrors.NoSuchRegistration);
         }
 
         public RegistrationDetails GetRegistrationDetails(long registrationId)
         {
-            throw new System.NotImplementedException();
+            RegistrationDetailsExtended details = GetGroupDetails(registrationId);
+
+            if (details != null)
+            {
+                return details;
+            }
+
+            throw new WampException(WampErrors.NoSuchRegistration);
         }
 
         public long[] GetCalleesIds(long registrationId)
         {
-            throw new System.NotImplementedException();
+            RegistrationDetailsExtended details = GetGroupDetails(registrationId);
+
+            if (details != null)
+            {
+                return details.Callees.ToArray();
+            }
+
+            throw new WampException(WampErrors.NoSuchRegistration);
         }
 
         public long CountCallees(long registrationId)
         {
-            throw new System.NotImplementedException();
+            RegistrationDetailsExtended details = GetGroupDetails(registrationId);
+
+            if (details != null)
+            {
+                return details.Callees.Count;
+            }
+
+            throw new WampException(WampErrors.NoSuchRegistration);
         }
 
-        private class RegistrationMetadataSubscriber : ManualSubscriber<IWampRegistrationMetadataSubscriber>, IWampRegistrationMetadataSubscriber
+        private class RegistrationMetadataSubscriber : 
+            ManualSubscriber<IWampRegistrationMetadataSubscriber>, 
+            IWampRegistrationMetadataSubscriber,
+            IDescriptorSubscriber<RegistrationDetailsExtended>
         {
             private readonly IWampTopicContainer mTopicContainer;
             private readonly PublishOptions mPublishOptions = new PublishOptions();
@@ -68,9 +122,29 @@ namespace WampSharp.V2.MetaApi
                 mTopicContainer.Publish(mPublishOptions, mOnUnregisterTopicUri, sessionId, registrationId);
             }
 
-            public void OnDelete(long sessionId, long subscriptionId)
+            public void OnDelete(long sessionId, long registrationId)
             {
-                mTopicContainer.Publish(mPublishOptions, mOnDeleteTopicUri, sessionId, subscriptionId);
+                mTopicContainer.Publish(mPublishOptions, mOnDeleteTopicUri, sessionId, registrationId);
+            }
+
+            void IDescriptorSubscriber<RegistrationDetailsExtended>.OnCreate(long sessionId, RegistrationDetailsExtended details)
+            {
+                OnCreate(sessionId, details);
+            }
+
+            void IDescriptorSubscriber<RegistrationDetailsExtended>.OnJoin(long sessionId, long groupId)
+            {
+                OnRegister(sessionId, groupId);
+            }
+
+            void IDescriptorSubscriber<RegistrationDetailsExtended>.OnLeave(long sessionId, long groupId)
+            {
+                OnUnregister(sessionId, groupId);
+            }
+
+            void IDescriptorSubscriber<RegistrationDetailsExtended>.OnDelete(long sessionId, long groupId)
+            {
+                OnDelete(sessionId, groupId);
             }
         }
     }

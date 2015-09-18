@@ -6,7 +6,7 @@ namespace WampSharp.V2.MetaApi
     public interface IWampSubscriptionDescriptor
     {
         [WampProcedure("wamp.subscription.list")]
-        AvailableSubscriptions GetAllSubscriptionIds();
+        AvailableGroups GetAllSubscriptionIds();
 
         [WampProcedure("wamp.subscription.lookup")]
         long LookupSubscriptionId(string topicUri, SubscribeOptions options = null);

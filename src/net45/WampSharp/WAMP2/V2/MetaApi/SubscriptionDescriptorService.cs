@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using WampSharp.V2.Core.Contracts;
@@ -146,29 +145,9 @@ namespace WampSharp.V2.MetaApi
             throw new WampException(WampErrors.NoSuchSubscription);
         }
 
-        public AvailableSubscriptions GetAllSubscriptionIds()
+        public AvailableGroups GetAllSubscriptionIds()
         {
-            Dictionary<string, long[]> matchToSubscriptionId = GetMatchToGroupId();
-
-            AvailableSubscriptions result = new AvailableSubscriptions();
-
-            long[] groups;
-
-            // Yuck!
-            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Exact, out groups))
-            {
-                result.Exact = groups;
-            }
-            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Prefix, out groups))
-            {
-                result.Prefix = groups;
-            }
-            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Wildcard, out groups))
-            {
-                result.Wildcard = groups;
-            }
-
-            return result;
+            return GetAllGroupIds();
         }
 
         public long LookupSubscriptionId(string topicUri, SubscribeOptions options = null)
