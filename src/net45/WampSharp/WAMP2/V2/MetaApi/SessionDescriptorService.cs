@@ -69,12 +69,12 @@ namespace WampSharp.V2.MetaApi
             throw new WampException(WampErrors.NoSuchSession);
         }
 
-        private class SessionMetadataSubscriber : IWampSessionMetadataSubscriber
+        private class SessionMetadataSubscriber : ManualSubscriber<IWampSessionMetadataSubscriber>, IWampSessionMetadataSubscriber
         {
             private readonly IWampTopicContainer mTopicContainer;
             private readonly PublishOptions mPublishOptions = new PublishOptions();
-            private string mOnJoinUri = "wamp.session.on_join";
-            private string mOnLeaveUri = "wamp.session.on_leave";
+            private static readonly string mOnJoinUri = GetTopicUri(subscriber => subscriber.OnJoin(default(WampSessionDetails)));
+            private static readonly string mOnLeaveUri = GetTopicUri(subscriber => subscriber.OnLeave(default(long)));
 
             public SessionMetadataSubscriber(IWampTopicContainer topicContainer)
             {

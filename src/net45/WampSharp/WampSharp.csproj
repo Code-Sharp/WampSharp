@@ -233,6 +233,8 @@
     <Compile Include="WAMP2\V2\Fluent\ChannelState.cs" />
     <Compile Include="WAMP2\V2\Fluent\IWampConnectionActivator.cs" />
     <Compile Include="WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\ManualSubscriber.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\RegistrationDescriptorService.cs" />
     <Compile Include="WAMP2\V2\PubSub\SubscriptionToken.cs" />
     <Compile Include="WAMP2\V2\MetaApi\SessionDescriptorService.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Rpc\AvailableRegistrations.cs" />

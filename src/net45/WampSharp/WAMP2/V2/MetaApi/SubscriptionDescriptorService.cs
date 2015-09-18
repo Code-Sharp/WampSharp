@@ -311,14 +311,14 @@ namespace WampSharp.V2.MetaApi
             throw new WampException(WampErrors.NoSuchSubscription);
         }
 
-        private class SubscriptionMetadataSubscriber : IWampSubscriptionMetadataSubscriber
+        private class SubscriptionMetadataSubscriber : ManualSubscriber<IWampSubscriptionMetadataSubscriber>, IWampSubscriptionMetadataSubscriber
         {
             private readonly IWampTopicContainer mTopicContainer;
             private readonly PublishOptions mPublishOptions = new PublishOptions();
-            private const string mOnCreateTopicUri = "wamp.subscription.on_create";
-            private const string mOnSubscribeTopicUri = "wamp.subscription.on_subscribe";
-            private const string mOnUnsubscribeTopicUri = "wamp.subscription.on_unsubscribe";
-            private const string mOnDeleteTopicUri = "wamp.subscription.on_delete";
+            private static readonly string mOnCreateTopicUri = GetTopicUri(subscriber => subscriber.OnCreate(default(long), default(SubscriptionDetails)));
+            private static readonly string mOnSubscribeTopicUri = GetTopicUri(subscriber => subscriber.OnSubscribe(default(long), default(long)));
+            private static readonly string mOnUnsubscribeTopicUri = GetTopicUri(subscriber => subscriber.OnUnsubscribe(default(long), default(long)));
+            private static readonly string mOnDeleteTopicUri = GetTopicUri(subscriber => subscriber.OnDelete(default(long), default(long)));
 
             public SubscriptionMetadataSubscriber(IWampTopicContainer topicContainer)
             {
