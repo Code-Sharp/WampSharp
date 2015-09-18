@@ -118,7 +118,7 @@ namespace WampSharp.V2.MetaApi
 
         private void OnSubscriptionRemoved(IWampTopic topic, WampSubscriptionRemoveEventArgs e)
         {
-            RemoveGroup(topic.TopicUri, e.SubscriptionId, e.Session);
+            RemovePeerFromGroup(topic.TopicUri, e.Session, e.SubscriptionId);
         }
 
         public SubscriptionDetails GetSubscriptionDetails(long subscriptionId)

@@ -52,7 +52,7 @@ namespace WampSharp.V2.MetaApi
                 mUriToGroups.SetItem(uri, groups.Add(groupDetails));
         }
 
-        protected void RemoveGroup(string uri, long groupId, long sessionId)
+        protected void RemovePeerFromGroup(string uri, long sessionId, long groupId)
         {
             TDetails details;
 
@@ -60,7 +60,7 @@ namespace WampSharp.V2.MetaApi
             {
                 details.RemovePeer(sessionId);
 
-                mSubscriber.OnDelete(sessionId, groupId);
+                mSubscriber.OnLeave(sessionId, groupId);
 
                 if (details.Peers.Count == 0)
                 {
