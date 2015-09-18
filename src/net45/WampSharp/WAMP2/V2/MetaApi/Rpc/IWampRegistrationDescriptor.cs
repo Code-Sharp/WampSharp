@@ -1,7 +1,7 @@
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
-namespace WampSharp.V2.Reflection
+namespace WampSharp.V2.MetaApi
 {
     public interface IWampRegistrationDescriptor
     {

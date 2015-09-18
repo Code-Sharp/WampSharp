@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace WampSharp.V2.Reflection
+namespace WampSharp.V2.MetaApi
 {
     public class CrossbarHttpHeadersReceived
     {

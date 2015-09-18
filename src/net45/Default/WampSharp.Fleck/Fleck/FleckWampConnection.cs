@@ -2,8 +2,8 @@
 using Fleck;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
-using WampSharp.V2.Reflection;
 using WampSharp.V2.Authentication;
+using WampSharp.V2.MetaApi;
 using WampSharp.V2.Transports;
 
 namespace WampSharp.Fleck

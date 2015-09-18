@@ -7,7 +7,7 @@ using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Proxy;
-using WampSharp.V2.Reflection;
+using WampSharp.V2.MetaApi;
 
 namespace WampSharp.V2.Core.Listener.ClientBuilder
 {

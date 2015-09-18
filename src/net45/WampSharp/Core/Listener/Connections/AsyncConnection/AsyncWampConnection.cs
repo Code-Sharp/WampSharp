@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using SystemEx;
 using WampSharp.Core.Message;
-using WampSharp.V2.Reflection;
 using WampSharp.Logging;
 
 namespace WampSharp.Core.Listener

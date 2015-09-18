@@ -1,5 +1,5 @@
 using vtortola.WebSockets;
-using WampSharp.V2.Reflection;
+using WampSharp.V2.MetaApi;
 
 namespace WampSharp.Vtortola
 {

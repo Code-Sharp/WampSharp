@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Fleck;
-using WampSharp.V2.Reflection;
+using WampSharp.V2.MetaApi;
 
 namespace WampSharp.Fleck
 {

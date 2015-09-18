@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using vtortola.WebSockets;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
-using WampSharp.V2.Reflection;
 using WampSharp.V2.Authentication;
+using WampSharp.V2.MetaApi;
 
 namespace WampSharp.Vtortola
 {

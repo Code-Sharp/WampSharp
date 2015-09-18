@@ -1,18 +1,16 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace WampSharp.V2.Reflection
+namespace WampSharp.V2.MetaApi
 {
-    public class RegistrationDetails
+    [DataContract]
+    public class SubscriptionDetails
     {
         [DataMember(Name = "uri")]
         public string Uri { get; set; }
 
-        [DataMember(Name = "invoke")]
-        public string Invoke { get; set; }
-
         [DataMember(Name = "id")]
-        public int RegistrationId { get; set; }
+        public long SubscriptionId { get; set; }
 
         [DataMember(Name = "match")]
         public string Match { get; set; }

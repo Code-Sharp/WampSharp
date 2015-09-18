@@ -1,6 +1,6 @@
 using System;
 using WampSharp.Core.Message;
-using WampSharp.V2.Reflection;
+using WampSharp.V2.MetaApi;
 
 namespace WampSharp.Core.Listener
 {

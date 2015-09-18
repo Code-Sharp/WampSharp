@@ -1,6 +1,6 @@
 using WampSharp.V2.PubSub;
 
-namespace WampSharp.V2.Reflection
+namespace WampSharp.V2.MetaApi
 {
     public interface IWampSessionMetadataSubscriber
     {
