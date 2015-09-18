@@ -551,6 +551,12 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs">
       <Link>WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\DescriptorServiceBase.cs">
+      <Link>WAMP2\V2\MetaApi\DescriptorServiceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\IGroupDetailsExtended.cs">
+      <Link>WAMP2\V2\MetaApi\IGroupDetailsExtended.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\ManualSubscriber.cs">
       <Link>WAMP2\V2\MetaApi\ManualSubscriber.cs</Link>
     </Compile>

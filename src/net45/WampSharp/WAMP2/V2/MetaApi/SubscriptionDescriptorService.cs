@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Reactive.Linq;
 using WampSharp.V2.Core.Contracts;
@@ -9,26 +8,13 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.MetaApi
 {
-    public class SubscriptionDescriptorService : IWampSubscriptionDescriptor
+    public class SubscriptionDescriptorService : 
+        DescriptorServiceBase<SubscriptionDetailsExtended>,
+        IWampSubscriptionDescriptor
     {
-        private readonly IWampHostedRealm mRealm;
-        private readonly SubscriptionMetadataSubscriber mSubscriber;
-
-        private ImmutableDictionary<string, ImmutableList<SubscriptionDetailsExtended>> mTopicUriToSubscriptions =
-            ImmutableDictionary<string, ImmutableList<SubscriptionDetailsExtended>>.Empty;
-
-        private ImmutableDictionary<long, SubscriptionDetailsExtended> mSubscriptionIdToDetails =
-            ImmutableDictionary<long, SubscriptionDetailsExtended>.Empty;
-
-        private readonly object mLock = new object();
-
-        public SubscriptionDescriptorService(IWampHostedRealm realm)
+        public SubscriptionDescriptorService(IWampHostedRealm realm) : base(new SubscriptionMetadataSubscriber(realm.TopicContainer))
         {
-            mRealm = realm;
-
             IWampTopicContainer topicContainer = realm.TopicContainer;
-
-            mSubscriber = new SubscriptionMetadataSubscriber(topicContainer);
 
             IObservable<IWampTopic> removed = GetTopicRemoved(topicContainer);
 
@@ -37,17 +23,17 @@ namespace WampSharp.V2.MetaApi
                 let topicRemoved = removed.Where(x => x == topic)
                 let subscriptionAdded = GetSubscriptionAdded(topic, topicRemoved)
                 let subscriptionRemoved = GetSubscriptionRemoved(topic, topicRemoved)
-                select new {topic, subscriptionAdded, subscriptionRemoved};
+                select new { topic, subscriptionAdded, subscriptionRemoved };
 
             var addObservable =
                 from item in observable
                 from eventArgs in item.subscriptionAdded
-                select new {Topic = item.topic, EventArgs = eventArgs};
+                select new { Topic = item.topic, EventArgs = eventArgs };
 
             var removeObservable =
                 from item in observable
                 from eventArgs in item.subscriptionRemoved
-                select new {Topic = item.topic, EventArgs = eventArgs};
+                select new { Topic = item.topic, EventArgs = eventArgs };
 
             addObservable.Subscribe(x => OnSubscriptionAdded(x.Topic, x.EventArgs));
             removeObservable.Subscribe(x => OnSubscriptionRemoved(x.Topic, x.EventArgs));
@@ -97,30 +83,18 @@ namespace WampSharp.V2.MetaApi
                              .Select(x => x.EventArgs);
         }
 
-
         private void OnSubscriptionAdded(IWampTopic topic, WampSubscriptionAddEventArgs e)
         {
             IRemoteWampTopicSubscriber subscriber = e.Subscriber;
 
             long sessionId = subscriber.SessionId;
-
             long subscriptionId = subscriber.SubscriptionId;
 
-            lock (mLock)
-            {
-                SubscriptionDetailsExtended detailsExtended =
-                    ImmutableInterlocked.GetOrAdd
-                        (ref mSubscriptionIdToDetails,
-                         subscriptionId,
-                         x => GetSubscriptionDetails(topic,
-                                                     sessionId,
-                                                     subscriptionId,
-                                                     e.Options));
-
-                detailsExtended.AddSubscriber(sessionId);
-            }
-
-            mSubscriber.OnSubscribe(sessionId, subscriptionId);
+            AddPeer(sessionId, subscriptionId,
+                    () => GetSubscriptionDetails(topic,
+                                                 sessionId,
+                                                 subscriptionId,
+                                                 e.Options));
         }
 
         private SubscriptionDetailsExtended GetSubscriptionDetails
@@ -138,150 +112,23 @@ namespace WampSharp.V2.MetaApi
                     Uri = topic.TopicUri
                 };
 
-            mSubscriber.OnCreate(sessionId, result);
-
-            var subscriptions =
-                ImmutableInterlocked.GetOrAdd(ref mTopicUriToSubscriptions,
-                                              topic.TopicUri,
-                                              x => ImmutableList<SubscriptionDetailsExtended>.Empty);
-
-            mTopicUriToSubscriptions =
-                mTopicUriToSubscriptions.SetItem(topic.TopicUri, subscriptions.Add(result));
+            AddGroup(topic.TopicUri, sessionId, result);
 
             return result;
         }
 
         private void OnSubscriptionRemoved(IWampTopic topic, WampSubscriptionRemoveEventArgs e)
         {
-            SubscriptionDetailsExtended details;
-
-            if (mSubscriptionIdToDetails.TryGetValue(e.SubscriptionId, out details))
-            {
-                details.RemoveSubscriber(e.Session);
-
-                mSubscriber.OnUnsubscribe(e.Session, e.SubscriptionId);
-
-                if (details.Subscribers.Count == 0)
-                {
-                    lock (mLock)
-                    {
-                        if (details.Subscribers.Count == 0)
-                        {
-                            DeleteSubscription(topic, e.Session, e.SubscriptionId, details);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void DeleteSubscription(IWampTopic topic,
-                                        long sessionId,
-                                        long subscriptionId,
-                                        SubscriptionDetailsExtended details)
-        {
-            mSubscriptionIdToDetails =
-                mSubscriptionIdToDetails.Remove(subscriptionId);
-
-            mSubscriber.OnDelete(sessionId, subscriptionId);
-
-            DeleteTopicUriToSubscription(topic, details);
-        }
-
-        private void DeleteTopicUriToSubscription(IWampTopic topic, SubscriptionDetailsExtended details)
-        {
-            ImmutableList<SubscriptionDetailsExtended> subscriptions;
-
-            if (mTopicUriToSubscriptions.TryGetValue(topic.TopicUri, out subscriptions))
-            {
-                subscriptions = subscriptions.Remove(details);
-
-                if (subscriptions.Count != 0)
-                {
-                    mTopicUriToSubscriptions =
-                        mTopicUriToSubscriptions.SetItem(topic.TopicUri, subscriptions);
-                }
-                else
-                {
-                    mTopicUriToSubscriptions =
-                        mTopicUriToSubscriptions.Remove(topic.TopicUri);
-                }
-            }
-        }
-
-        public AvailableSubscriptions GetAllSubscriptionIds()
-        {
-            Dictionary<string, long[]> matchToSubscriptionId =
-                mSubscriptionIdToDetails.Values.GroupBy(x => x.Match, x => x.SubscriptionId)
-                                        .ToDictionary(x => x.Key, x => x.ToArray());
-
-            AvailableSubscriptions result = new AvailableSubscriptions();
-
-            long[] subscriptions;
-
-            // Yuck!
-            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Exact, out subscriptions))
-            {
-                result.Exact = subscriptions;
-            }
-            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Prefix, out subscriptions))
-            {
-                result.Prefix = subscriptions;
-            }
-            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Wildcard, out subscriptions))
-            {
-                result.Wildcard = subscriptions;
-            }
-
-            return result;
-        }
-
-        public long LookupSubscriptionId(string topicUri, SubscribeOptions options = null)
-        {
-            string match = WampMatchPattern.Default;
-
-            if (options != null)
-            {
-                match = options.Match ?? match;
-            }
-
-            ImmutableList<SubscriptionDetailsExtended> subscriptions;
-
-            SubscriptionDetailsExtended result = null;
-
-            if (mTopicUriToSubscriptions.TryGetValue(topicUri, out subscriptions))
-            {
-                result = subscriptions.FirstOrDefault(x => x.Match == match);
-            }
-
-            if (result != null)
-            {
-                return result.SubscriptionId;
-            }
-
-            throw new WampException(WampErrors.NoSuchSubscription);
-        }
-
-        public long[] GetMatchingSubscriptionIds(string topicUri)
-        {
-            ImmutableList<SubscriptionDetailsExtended> subscriptions;
-
-            if (mTopicUriToSubscriptions.TryGetValue(topicUri, out subscriptions))
-            {
-                long[] result = subscriptions.Select(x => x.SubscriptionId).ToArray();
-
-                return result;
-            }
-
-            throw new WampException(WampErrors.NoSuchSubscription);
+            RemoveGroup(topic.TopicUri, e.SubscriptionId, e.Session);
         }
 
         public SubscriptionDetails GetSubscriptionDetails(long subscriptionId)
         {
-            SubscriptionDetailsExtended details;
+            SubscriptionDetailsExtended subscriptionDetails = GetGroupDetails(subscriptionId);
 
-            if (mSubscriptionIdToDetails.TryGetValue(subscriptionId, out details))
+            if (subscriptionDetails != null)
             {
-                return details;
+                return subscriptionDetails;
             }
 
             throw new WampException(WampErrors.NoSuchSubscription);
@@ -289,9 +136,9 @@ namespace WampSharp.V2.MetaApi
 
         public long[] GetSubscribers(long subscriptionId)
         {
-            SubscriptionDetailsExtended details;
+            SubscriptionDetailsExtended details = GetGroupDetails(subscriptionId);
 
-            if (mSubscriptionIdToDetails.TryGetValue(subscriptionId, out details))
+            if (details != null)
             {
                 return details.Subscribers.ToArray();
             }
@@ -299,11 +146,67 @@ namespace WampSharp.V2.MetaApi
             throw new WampException(WampErrors.NoSuchSubscription);
         }
 
+        public AvailableSubscriptions GetAllSubscriptionIds()
+        {
+            Dictionary<string, long[]> matchToSubscriptionId = GetMatchToGroupId();
+
+            AvailableSubscriptions result = new AvailableSubscriptions();
+
+            long[] groups;
+
+            // Yuck!
+            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Exact, out groups))
+            {
+                result.Exact = groups;
+            }
+            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Prefix, out groups))
+            {
+                result.Prefix = groups;
+            }
+            if (matchToSubscriptionId.TryGetValue(WampMatchPattern.Wildcard, out groups))
+            {
+                result.Wildcard = groups;
+            }
+
+            return result;
+        }
+
+        public long LookupSubscriptionId(string topicUri, SubscribeOptions options = null)
+        {
+            string match = null;
+
+            if (options != null)
+            {
+                match = options.Match;
+            }
+
+            long? subscriptionId = LookupGroupId(topicUri, match);
+
+            if (subscriptionId != null)
+            {
+                return subscriptionId.Value;
+            }
+
+            throw new WampException(WampErrors.NoSuchSubscription);
+        }
+
+        public long[] GetMatchingSubscriptionIds(string topicUri)
+        {
+            long[] matchingSubscriptions = GetMatchingGroupIds(topicUri);
+
+            if (matchingSubscriptions != null)
+            {
+                return matchingSubscriptions;
+            }
+
+            throw new WampException(WampErrors.NoSuchSubscription);
+        }
+
         public long CountSubscribers(long subscriptionId)
         {
-            SubscriptionDetailsExtended details;
+            SubscriptionDetailsExtended details = GetGroupDetails(subscriptionId);
 
-            if (mSubscriptionIdToDetails.TryGetValue(subscriptionId, out details))
+            if (details != null)
             {
                 return details.Subscribers.Count;
             }
@@ -311,7 +214,7 @@ namespace WampSharp.V2.MetaApi
             throw new WampException(WampErrors.NoSuchSubscription);
         }
 
-        private class SubscriptionMetadataSubscriber : ManualSubscriber<IWampSubscriptionMetadataSubscriber>, IWampSubscriptionMetadataSubscriber
+        private class SubscriptionMetadataSubscriber : ManualSubscriber<IWampSubscriptionMetadataSubscriber>, IWampSubscriptionMetadataSubscriber, IDescriptorSubscriber<SubscriptionDetailsExtended>
         {
             private readonly IWampTopicContainer mTopicContainer;
             private readonly PublishOptions mPublishOptions = new PublishOptions();
@@ -347,6 +250,26 @@ namespace WampSharp.V2.MetaApi
             public void OnDelete(long sessionId, long subscriptionId)
             {
                 mTopicContainer.Publish(mPublishOptions, mOnDeleteTopicUri, sessionId, subscriptionId);
+            }
+
+            void IDescriptorSubscriber<SubscriptionDetailsExtended>.OnCreate(long sessionId, SubscriptionDetailsExtended details)
+            {
+                OnCreate(sessionId, details);
+            }
+
+            void IDescriptorSubscriber<SubscriptionDetailsExtended>.OnJoin(long sessionId, long groupId)
+            {
+                OnSubscribe(sessionId, groupId);
+            }
+
+            void IDescriptorSubscriber<SubscriptionDetailsExtended>.OnLeave(long sessionId, long groupId)
+            {
+                OnUnsubscribe(sessionId, groupId);
+            }
+
+            void IDescriptorSubscriber<SubscriptionDetailsExtended>.OnDelete(long sessionId, long groupId)
+            {
+                OnDelete(sessionId, groupId);
             }
         }
     }
