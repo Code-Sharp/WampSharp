@@ -174,8 +174,7 @@ namespace WampSharp.V2.Rpc
                         UnregisterInvocation(invocation);
 
                         invocation.Callback.Error(mFormatter,
-                                                  mEmptyDetails,
-                                                  "wamp.error.callee_unregistered");
+                                                  mEmptyDetails, WampErrors.CalleeUnregistered);
                     }
                 }
             }

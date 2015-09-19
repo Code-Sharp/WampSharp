@@ -33,7 +33,7 @@ namespace WampSharp.V2.Core
                     return UriPatternAllowEmpty;
             }
 
-            throw new WampException(WampErrors.InvalidUri, "unknown match type " + match);
+            throw new WampException(WampErrors.InvalidOptions, "unknown match type " + match);
         }
     }
 }

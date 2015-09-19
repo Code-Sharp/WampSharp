@@ -41,7 +41,7 @@ namespace WampSharp.V2.Rpc
                     return new RoundrobinOperationSelector();
                 default:
                     throw new WampException
-                        ("wamp.error.invalid_options",
+                        (WampErrors.InvalidOptions,
                          string.Format("invoke = {0} isn't supported", invocationPolicy));
             }
         }

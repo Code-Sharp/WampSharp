@@ -41,7 +41,7 @@ namespace WampSharp.V2.Rpc
 
             if (result == null)
             {
-                throw new WampException("wamp.error.invalid_options",
+                throw new WampException(WampErrors.InvalidOptions,
                                         "unknown match type: " + options.Match);
             }
             

@@ -11,7 +11,6 @@ namespace WampSharp.V2.Rpc
 {
     internal class WampCalleeRpcOperation<TMessage> : RemoteWampCalleeDetails, IWampRpcOperation, IDisposable
     {
-        private const string CalleeDisconnected = "wamp.error.callee_disconnected";
         private readonly ManualResetEvent mResetEvent = new ManualResetEvent(false);
         private readonly IWampCalleeInvocationHandler<TMessage> mHandler;
         private readonly WampCalleeOperationCatalog<TMessage> mCatalog;
@@ -114,7 +113,7 @@ namespace WampSharp.V2.Rpc
             {
                 caller.Error(WampObjectFormatter.Value,
                              new Dictionary<string, string>(),
-                             CalleeDisconnected);
+                             WampErrors.CalleeDisconnected);
             }
         }
 

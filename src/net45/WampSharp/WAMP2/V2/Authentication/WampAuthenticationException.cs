@@ -12,7 +12,6 @@ namespace WampSharp.V2.Authentication
 #endif
     public class WampAuthenticationException : Exception
     {
-        protected const string WampErrorCannotAuthenticate = "wamp.error.cannot_authenticate";
         protected const string DefaultMessage = "sorry, I cannot authenticate (onchallenge handler raised an exception)";
 
         private readonly AbortDetails mDetails;
@@ -25,7 +24,7 @@ namespace WampSharp.V2.Authentication
         /// <param name="reason">The reason to send with the ABORT message.</param>
         public WampAuthenticationException(
             string message = DefaultMessage,
-            string reason = WampErrorCannotAuthenticate)
+            string reason = WampErrors.WampErrorCannotAuthenticate)
             : this(new AbortDetails {Message = message}, reason)
         {
         }
@@ -35,7 +34,7 @@ namespace WampSharp.V2.Authentication
         /// </summary>
         /// <param name="details">The details to send with the ABORT message.</param>
         /// <param name="reason">The reason to send with the ABORT message.</param>
-        public WampAuthenticationException(AbortDetails details, string reason = WampErrorCannotAuthenticate)
+        public WampAuthenticationException(AbortDetails details, string reason = WampErrors.WampErrorCannotAuthenticate)
             : base(details.Message)
         {
             mDetails = details;
