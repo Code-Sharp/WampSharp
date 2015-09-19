@@ -87,7 +87,7 @@ namespace WampSharp.V2.MetaApi
             IRemoteWampTopicSubscriber subscriber = e.Subscriber;
 
             long sessionId = subscriber.SessionId;
-            long subscriptionId = subscriber.SubscriptionId;
+            long subscriptionId = topic.SubscriptionId;
 
             AddPeer(sessionId, subscriptionId,
                     () => GetSubscriptionDetails(topic,
