@@ -1,3 +1,5 @@
+using WampSharp.V2.Client;
+
 namespace WampSharp.V2.Fluent
 {
     public static class ChannelFactoryExtensions
@@ -9,6 +11,16 @@ namespace WampSharp.V2.Fluent
                 ChannelFactory = factory,
                 Realm = realm
             };
+        }
+
+        public static ChannelFactorySyntax.IAuthenticationSyntax Authenticator(this ChannelFactorySyntax.ISerializationSyntax serializationSyntax,
+            IWampClientAuthenticator authenticator)
+        {
+            ChannelState state = serializationSyntax.State;
+
+            state.Authenticator = authenticator;
+
+            return state;
         }
     }
 }
