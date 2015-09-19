@@ -38,6 +38,12 @@ namespace WampSharp.V2.PubSub
                 new PrefixTopicContainer(subscriptionIdToTopic),
                 new WildCardTopicContainer(subscriptionIdToTopic)
             };
+
+            foreach (MatchTopicContainer container in mInnerContainers)
+            {
+                container.TopicCreated += OnTopicCreated;
+                container.TopicRemoved += OnTopicRemoved;
+            }
         }
 
         #endregion
@@ -150,39 +156,37 @@ namespace WampSharp.V2.PubSub
             return mExactTopicContainer.TryRemoveTopicByUri(topicUri, out topic);
         }
 
-        public event EventHandler<WampTopicCreatedEventArgs> TopicCreated
+        public event EventHandler<WampTopicCreatedEventArgs> TopicCreated;
+
+        public event EventHandler<WampTopicRemovedEventArgs> TopicRemoved;
+
+        private void OnTopicCreated(object sender, WampTopicCreatedEventArgs e)
         {
-            add
+            RaiseTopicCreated(e);
+        }
+
+        private void OnTopicRemoved(object sender, WampTopicRemovedEventArgs e)
+        {
+            RaiseTopicRemoved(e);
+        }
+
+        private void RaiseTopicCreated(WampTopicCreatedEventArgs e)
+        {
+            EventHandler<WampTopicCreatedEventArgs> handler = TopicCreated;
+
+            if (handler != null)
             {
-                foreach (MatchTopicContainer container in mInnerContainers)
-                {
-                    container.TopicCreated += value;
-                }
-            }
-            remove
-            {
-                foreach (MatchTopicContainer container in mInnerContainers)
-                {
-                    container.TopicCreated -= value;
-                }
+                handler(this, e);
             }
         }
 
-        public event EventHandler<WampTopicRemovedEventArgs> TopicRemoved
+        private void RaiseTopicRemoved(WampTopicRemovedEventArgs e)
         {
-            add
+            EventHandler<WampTopicRemovedEventArgs> handler = TopicRemoved;
+
+            if (handler != null)
             {
-                foreach (MatchTopicContainer container in mInnerContainers)
-                {
-                    container.TopicRemoved += value;
-                }
-            }
-            remove
-            {
-                foreach (MatchTopicContainer container in mInnerContainers)
-                {
-                    container.TopicRemoved -= value;
-                }
+                handler(this, e);
             }
         }
     }

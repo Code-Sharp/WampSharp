@@ -6,7 +6,7 @@ namespace WampSharp.V2.Rpc
 {
     internal class PrefixRpcOperationCatalog : MatchRpcOperationCatalog
     {
-        public PrefixRpcOperationCatalog(WampIdMapper<ProcedureRegistration> mapper) : 
+        public PrefixRpcOperationCatalog(WampIdMapper<WampProcedureRegistration> mapper) : 
             base(mapper)
         {
         }

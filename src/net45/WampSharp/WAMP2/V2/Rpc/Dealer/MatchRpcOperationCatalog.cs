@@ -10,14 +10,14 @@ namespace WampSharp.V2.Rpc
 {
     internal abstract class MatchRpcOperationCatalog
     {
-        private readonly ConcurrentDictionary<string, ProcedureRegistration> mProcedureToRegistration =
-            new ConcurrentDictionary<string, ProcedureRegistration>();
+        private readonly ConcurrentDictionary<string, WampProcedureRegistration> mProcedureToRegistration =
+            new ConcurrentDictionary<string, WampProcedureRegistration>();
 
-        private readonly WampIdMapper<ProcedureRegistration> mRegistrationIdToRegistration;
+        private readonly WampIdMapper<WampProcedureRegistration> mRegistrationIdToRegistration;
 
         private readonly object mLock = new object();
 
-        protected MatchRpcOperationCatalog(WampIdMapper<ProcedureRegistration> mapper)
+        protected MatchRpcOperationCatalog(WampIdMapper<WampProcedureRegistration> mapper)
         {
             mRegistrationIdToRegistration = mapper;
         }
@@ -26,7 +26,7 @@ namespace WampSharp.V2.Rpc
         {
             lock (mLock)
             {
-                ProcedureRegistration registration =
+                WampProcedureRegistration registration =
                     mProcedureToRegistration
                         .GetOrAdd
                         (operation.Procedure,
@@ -36,9 +36,9 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private ProcedureRegistration CreateRegistration(RegisterOptions registerOptions, string procedureUri)
+        private WampProcedureRegistration CreateRegistration(RegisterOptions registerOptions, string procedureUri)
         {
-            ProcedureRegistration result = new ProcedureRegistration(procedureUri, registerOptions);
+            WampProcedureRegistration result = new WampProcedureRegistration(procedureUri, registerOptions);
 
             result.Empty += OnRegistrationEmpty;
 
@@ -46,23 +46,25 @@ namespace WampSharp.V2.Rpc
 
             result.RegistrationId = registrationId;
 
-            OnRegistrationAdded(procedureUri);
+            OnRegistrationAdded(result);
 
             return result;
         }
 
         // These hooks will be changed in meta-api version
-        protected virtual void OnRegistrationAdded(string procedureUri)
+        protected virtual void OnRegistrationAdded(WampProcedureRegistration procedureUri)
         {
+            RaiseRegistrationAdded(procedureUri);
         }
 
-        protected virtual void OnRegistrationRemoved(string procedureUri)
+        protected virtual void OnRegistrationRemoved(WampProcedureRegistration procedureUri)
         {
+            RaiseRegistrationRemoved(procedureUri);
         }
 
         private void OnRegistrationEmpty(object sender, EventArgs e)
         {
-            ProcedureRegistration registration = sender as ProcedureRegistration;
+            WampProcedureRegistration registration = sender as WampProcedureRegistration;
 
             if (!registration.HasOperations)
             {
@@ -73,7 +75,7 @@ namespace WampSharp.V2.Rpc
                         mRegistrationIdToRegistration.TryRemoveExact(registration.RegistrationId, registration);
                         mProcedureToRegistration.TryRemoveExact(registration.Procedure, registration);
                         registration.Empty -= OnRegistrationEmpty;
-                        OnRegistrationRemoved(registration.Procedure);
+                        OnRegistrationRemoved(registration);
                     }
                 }
             }
@@ -135,7 +137,7 @@ namespace WampSharp.V2.Rpc
 
         protected IWampRpcOperation GetOperationByUri(string procedureUri)
         {
-            ProcedureRegistration result;
+            WampProcedureRegistration result;
             
             if (mProcedureToRegistration.TryGetValue(procedureUri, out result))
             {
@@ -153,8 +155,32 @@ namespace WampSharp.V2.Rpc
             }
         }
 
+        public event EventHandler<WampProcedureRegisterEventArgs> RegistrationAdded;
+
+        public event EventHandler<WampProcedureRegisterEventArgs> RegistrationRemoved;
+
+        private void RaiseRegistrationAdded(IWampProcedureRegistration registration)
+        {
+            EventHandler<WampProcedureRegisterEventArgs> handler = RegistrationAdded;
+
+            if (handler != null)
+            {
+                handler(this, new WampProcedureRegisterEventArgs(registration));
+            }
+        }
+
+        private void RaiseRegistrationRemoved(IWampProcedureRegistration registration)
+        {
+            EventHandler<WampProcedureRegisterEventArgs> handler = RegistrationRemoved;
+
+            if (handler != null)
+            {
+                handler(this, new WampProcedureRegisterEventArgs(registration));
+            }
+        }
+
         #region Abstract methods
-        
+
         public abstract bool Handles(RegisterOptions options);
 
         protected abstract IWampRpcOperation GetMatchingOperation(string criteria);

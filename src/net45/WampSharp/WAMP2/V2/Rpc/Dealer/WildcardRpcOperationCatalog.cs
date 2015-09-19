@@ -10,7 +10,7 @@ namespace WampSharp.V2.Rpc
         private readonly IDictionary<string, WildCardMatcher> mWildCardToEvaluator =
             new SwapDictionary<string, WildCardMatcher>();
 
-        public WildcardRpcOperationCatalog(WampIdMapper<ProcedureRegistration> mapper) : 
+        public WildcardRpcOperationCatalog(WampIdMapper<WampProcedureRegistration> mapper) : 
             base(mapper)
         {
         }
@@ -20,14 +20,16 @@ namespace WampSharp.V2.Rpc
             return options.Match == WampMatchPattern.Wildcard;
         }
 
-        protected override void OnRegistrationAdded(string procedureUri)
+        protected override void OnRegistrationAdded(WampProcedureRegistration procedureUri)
         {
-            mWildCardToEvaluator[procedureUri] = new WildCardMatcher(procedureUri);
+            mWildCardToEvaluator[procedureUri.Procedure] = new WildCardMatcher(procedureUri.Procedure);
+            base.OnRegistrationAdded(procedureUri);
         }
 
-        protected override void OnRegistrationRemoved(string procedureUri)
+        protected override void OnRegistrationRemoved(WampProcedureRegistration procedureUri)
         {
-            mWildCardToEvaluator.Remove(procedureUri);
+            mWildCardToEvaluator.Remove(procedureUri.Procedure);
+            base.OnRegistrationRemoved(procedureUri);
         }
 
         protected override IWampRpcOperation GetMatchingOperation(string criteria)

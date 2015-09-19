@@ -15,8 +15,8 @@ namespace WampSharp.V2.Rpc
         {
             // We're passing the mapper to the inner catalogs so ids
             // will be unique among all patterns.
-            WampIdMapper<ProcedureRegistration> mapper = 
-                new WampIdMapper<ProcedureRegistration>();
+            WampIdMapper<WampProcedureRegistration> mapper = 
+                new WampIdMapper<WampProcedureRegistration>();
  
             mInnerCatalogs = new MatchRpcOperationCatalog[]
             {
@@ -24,6 +24,12 @@ namespace WampSharp.V2.Rpc
                 new PrefixRpcOperationCatalog(mapper),
                 new WildcardRpcOperationCatalog(mapper)
             };
+
+            foreach (MatchRpcOperationCatalog innerCatalog in mInnerCatalogs)
+            {
+                innerCatalog.RegistrationAdded += OnRegistrationAdded;
+                innerCatalog.RegistrationRemoved += OnRegistrationRemoved;
+            }
         }
 
         public IWampRegistrationSubscriptionToken Register(IWampRpcOperation operation, RegisterOptions options)
@@ -32,6 +38,10 @@ namespace WampSharp.V2.Rpc
 
             return catalog.Register(operation, options);
         }
+
+        public event EventHandler<WampProcedureRegisterEventArgs> RegistrationAdded;
+
+        public event EventHandler<WampProcedureRegisterEventArgs> RegistrationRemoved;
 
         private MatchRpcOperationCatalog GetInnerCatalog(RegisterOptions options)
         {
@@ -91,6 +101,36 @@ namespace WampSharp.V2.Rpc
             if (!invoked)
             {
                 WampRpcThrowHelper.NoProcedureRegistered(procedure);
+            }
+        }
+
+        private void OnRegistrationAdded(object sender, WampProcedureRegisterEventArgs e)
+        {
+            RaiseRegistrationAdded(e);
+        }
+
+        private void OnRegistrationRemoved(object sender, WampProcedureRegisterEventArgs e)
+        {
+            RaiseRegistrationRemoved(e);
+        }
+
+        private void RaiseRegistrationAdded(WampProcedureRegisterEventArgs e)
+        {
+            EventHandler<WampProcedureRegisterEventArgs> handler = RegistrationAdded;
+
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        private void RaiseRegistrationRemoved(WampProcedureRegisterEventArgs e)
+        {
+            EventHandler<WampProcedureRegisterEventArgs> handler = RegistrationRemoved;
+
+            if (handler != null)
+            {
+                handler(this, e);
             }
         }
     }

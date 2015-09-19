@@ -761,6 +761,12 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs">
       <Link>WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\IRemoteWampCalleeOperation.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\IRemoteWampCalleeOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\IWampProcedureRegistration.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\IWampProcedureRegistration.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\MatchRpcOperationCatalog.cs">
       <Link>WAMP2\V2\Rpc\Dealer\MatchRpcOperationCatalog.cs</Link>
     </Compile>
@@ -782,8 +788,17 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\PrefixRpcOperationCatalog.cs">
       <Link>WAMP2\V2\Rpc\Dealer\PrefixRpcOperationCatalog.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\ProcedureRegistration.cs">
-      <Link>WAMP2\V2\Rpc\Dealer\ProcedureRegistration.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeAddEventArgs.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeAddEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeChangeEventArgs.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeChangeEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeRemoveEventArgs.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeRemoveEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampProcedureRegistration.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\WampProcedureRegistration.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\RoundrobinOperationSelector.cs">
       <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\RoundrobinOperationSelector.cs</Link>
@@ -799,6 +814,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WildcardRpcOperationCatalog.cs">
       <Link>WAMP2\V2\Rpc\Dealer\WildcardRpcOperationCatalog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\EventArgs\WampProcedureRegisterEventArgs.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\EventArgs\WampProcedureRegisterEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs</Link>

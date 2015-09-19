@@ -9,7 +9,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    internal class WampCalleeRpcOperation<TMessage> : RemoteWampCalleeDetails, IWampRpcOperation, IDisposable
+    internal class WampCalleeRpcOperation<TMessage> : RemoteWampCalleeDetails, IRemoteWampCalleeOperation, IDisposable
     {
         private readonly ManualResetEvent mResetEvent = new ManualResetEvent(false);
         private readonly IWampCalleeInvocationHandler<TMessage> mHandler;

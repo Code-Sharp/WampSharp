@@ -8,7 +8,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    internal class ProcedureRegistration : IWampRpcOperation
+    internal class WampProcedureRegistration : IWampProcedureRegistration
     {
         private readonly string mProcedureUri;
         private readonly RegisterOptions mRegisterOptions;
@@ -19,7 +19,7 @@ namespace WampSharp.V2.Rpc
         private readonly IWampRpcOperationSelector mSelector;
         private readonly object mLock = new object();
 
-        public ProcedureRegistration(string procedureUri, RegisterOptions registerOptions)
+        public WampProcedureRegistration(string procedureUri, RegisterOptions registerOptions)
         {
             mProcedureUri = procedureUri;
             mSelector = GetOperationSelector(registerOptions.Invoke);
@@ -48,6 +48,14 @@ namespace WampSharp.V2.Rpc
 
         public long RegistrationId { get; set; }
 
+        public event EventHandler<WampCalleeAddEventArgs> CalleeRegistering;
+
+        public event EventHandler<WampCalleeAddEventArgs> CalleeRegistered;
+
+        public event EventHandler<WampCalleeRemoveEventArgs> CalleeUnregistering;
+
+        public event EventHandler<WampCalleeRemoveEventArgs> CalleeUnregistered;
+
         public event EventHandler Empty;
 
         public IWampRegistrationSubscriptionToken Register(IWampRpcOperation operation, RegisterOptions registerOptions)
@@ -56,11 +64,15 @@ namespace WampSharp.V2.Rpc
 
             lock (mLock)
             {
-                if (mRegisterOptions.Invoke != WampInvokePolicy.Single || !mOperations.Any())
+                if (RegisterOptions.Invoke != WampInvokePolicy.Single || !mOperations.Any())
                 {
                     if (!mOperations.Contains(operation))
                     {
-                        mOperations = mOperations.Add(operation);                        
+                        RaiseCalleeRegistering(operation);
+
+                        mOperations = mOperations.Add(operation);
+
+                        RaiseCalleeRegistered(operation);
                     }
 
                     return new WampRegistrationToken(operation, this);
@@ -78,13 +90,13 @@ namespace WampSharp.V2.Rpc
 
         private void VerifyInvokePoliciesAreCompatible(RegisterOptions registerOptions)
         {
-            if (mRegisterOptions.Invoke != registerOptions.Invoke)
+            if (RegisterOptions.Invoke != registerOptions.Invoke)
             {
                 string messageDetails =
                     string.Format(
                         "register for already registered procedure '{0}' with conflicting invocation policy (has {1} and {2} was requested)",
                         this.Procedure, 
-                        this.mRegisterOptions.Invoke, 
+                        this.RegisterOptions.Invoke, 
                         registerOptions.Invoke);
 
                 throw new WampException
@@ -97,7 +109,11 @@ namespace WampSharp.V2.Rpc
         {
             lock (mLock)
             {
+                RaiseCalleeUnregistering(operation);
+
                 mOperations = mOperations.Remove(operation);
+
+                RaiseCalleeUnregistered(operation);
 
                 if (!mOperations.Any())
                 {
@@ -129,6 +145,14 @@ namespace WampSharp.V2.Rpc
             get
             {
                 return mOperations.Any();
+            }
+        }
+
+        public RegisterOptions RegisterOptions
+        {
+            get
+            {
+                return mRegisterOptions;
             }
         }
 
@@ -183,12 +207,52 @@ namespace WampSharp.V2.Rpc
             return result;
         }
 
+        private void RaiseCalleeRegistering(IWampRpcOperation operation)
+        {
+            EventHandler<WampCalleeAddEventArgs> handler = CalleeRegistering;
+
+            if (handler != null)
+            {
+                handler(this, new WampCalleeAddEventArgs(operation));
+            }
+        }
+
+        private void RaiseCalleeRegistered(IWampRpcOperation operation)
+        {
+            EventHandler<WampCalleeAddEventArgs> handler = CalleeRegistered;
+
+            if (handler != null)
+            {
+                handler(this, new WampCalleeAddEventArgs(operation));
+            }
+        }
+
+        private void RaiseCalleeUnregistering(IWampRpcOperation operation)
+        {
+            EventHandler<WampCalleeRemoveEventArgs> handler = CalleeUnregistering;
+
+            if (handler != null)
+            {
+                handler(this, new WampCalleeRemoveEventArgs(operation));
+            }
+        }
+
+        private void RaiseCalleeUnregistered(IWampRpcOperation operation)
+        {
+            EventHandler<WampCalleeRemoveEventArgs> handler = CalleeUnregistered;
+
+            if (handler != null)
+            {
+                handler(this, new WampCalleeRemoveEventArgs(operation));
+            }
+        }
+
         private class WampRegistrationToken : IWampRegistrationSubscriptionToken
         {
             private readonly IWampRpcOperation mOperation;
-            private readonly ProcedureRegistration mRegistration;
+            private readonly WampProcedureRegistration mRegistration;
 
-            public WampRegistrationToken(IWampRpcOperation operation, ProcedureRegistration registration)
+            public WampRegistrationToken(IWampRpcOperation operation, WampProcedureRegistration registration)
             {
                 mOperation = operation;
                 mRegistration = registration;
