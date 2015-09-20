@@ -10,61 +10,29 @@ namespace WampSharp.Fleck
     internal class FleckTransportDetails : WampTransportDetails
     {
         private readonly IWebSocketConnectionInfo mConnectionInfo;
+        private string mPeer;
 
         public FleckTransportDetails(IWebSocketConnectionInfo connectionInfo)
         {
-            this.Type = "fleck-websocket";
+            this.Type = "fleck_websocket";
+
             mConnectionInfo = connectionInfo;
+
+            mPeer = string.Format("tcp4://{0}:{1}",
+                                  mConnectionInfo.ClientIpAddress,
+                                  mConnectionInfo.ClientPort);
         }
 
-        public string SubProtocol
+        [DataMember(Name = "peer")]
+        public string Peer
         {
             get
             {
-                return mConnectionInfo.SubProtocol;
+                return mPeer;
             }
         }
 
-        public string Origin
-        {
-            get
-            {
-                return mConnectionInfo.Origin;
-            }
-        }
-
-        public string Host
-        {
-            get
-            {
-                return mConnectionInfo.Host;
-            }
-        }
-
-        public string Path
-        {
-            get
-            {
-                return mConnectionInfo.Path;
-            }
-        }
-
-        public string ClientIpAddress
-        {
-            get
-            {
-                return mConnectionInfo.ClientIpAddress;
-            }
-        }
-
-        public int ClientPort
-        {
-            get
-            {
-                return mConnectionInfo.ClientPort;
-            }
-        }
-
+        [DataMember(Name = "cookies")]
         public IDictionary<string, string> Cookies
         {
             get
@@ -73,6 +41,7 @@ namespace WampSharp.Fleck
             }
         }
 
+        [DataMember(Name = "http_headers")]
         public IDictionary<string, string> Headers
         {
             get
@@ -81,6 +50,7 @@ namespace WampSharp.Fleck
             }
         }
 
+        [DataMember(Name = "fleck_connection_id")]
         public Guid Id
         {
             get
@@ -89,6 +59,7 @@ namespace WampSharp.Fleck
             }
         }
 
+        [DataMember(Name = "protocol")]
         public string NegotiatedSubProtocol
         {
             get
