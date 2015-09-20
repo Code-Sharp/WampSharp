@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Realm;
@@ -102,7 +103,8 @@ namespace WampSharp.V2.MetaApi
             return Observable.FromEventPattern<WampProcedureRegisterEventArgs>
                 (x => rpcCatalog.RegistrationRemoved += x,
                  x => rpcCatalog.RegistrationRemoved -= x)
-                             .Select(x => x.EventArgs.Registration);
+                             .Select(x => x.EventArgs.Registration)
+                             .Where(x => !WampRestrictedUris.IsRestrictedUri(x.Procedure));
         }
 
         private static IObservable<IWampProcedureRegistration> GetRegistrationAdded(IWampRpcOperationCatalog rpcCatalog)
@@ -110,7 +112,8 @@ namespace WampSharp.V2.MetaApi
             return Observable.FromEventPattern<WampProcedureRegisterEventArgs>
                 (x => rpcCatalog.RegistrationAdded += x,
                  x => rpcCatalog.RegistrationAdded -= x)
-                             .Select(x => x.EventArgs.Registration);
+                             .Select(x => x.EventArgs.Registration)
+                             .Where(x => !WampRestrictedUris.IsRestrictedUri(x.Procedure));
         }
 
         public AvailableGroups GetAllRegistrations()

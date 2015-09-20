@@ -351,6 +351,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs">
+      <Link>WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs">
       <Link>WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs</Link>
     </Compile>

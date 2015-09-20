@@ -1,5 +1,6 @@
 using System;
 using System.Reactive.Linq;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Realm;
@@ -55,7 +56,8 @@ namespace WampSharp.V2.MetaApi
             return Observable.FromEventPattern<WampTopicRemovedEventArgs>
                 (x => topicContainer.TopicRemoved += x,
                  x => topicContainer.TopicRemoved -= x)
-                             .Select(x => x.EventArgs.Topic);
+                             .Select(x => x.EventArgs.Topic)
+                             .Where(x => !WampRestrictedUris.IsRestrictedUri(x.TopicUri));
         }
 
         private static IObservable<IWampTopic> GetTopicCreated(IWampTopicContainer topicContainer)
@@ -63,7 +65,8 @@ namespace WampSharp.V2.MetaApi
             return Observable.FromEventPattern<WampTopicCreatedEventArgs>
                 (x => topicContainer.TopicCreated += x,
                  x => topicContainer.TopicCreated -= x)
-                             .Select(x => x.EventArgs.Topic);
+                             .Select(x => x.EventArgs.Topic)
+                             .Where(x => !WampRestrictedUris.IsRestrictedUri(x.TopicUri));
         }
 
         private static IObservable<WampSubscriptionAddEventArgs> GetSubscriptionAdded(IWampTopic topic)
