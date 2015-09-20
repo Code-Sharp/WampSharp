@@ -3,6 +3,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.MetaApi
 {
+    [DataContract]
     public class AvailableGroups
     {
         private static readonly long[] mEmptyArray = new long[0];

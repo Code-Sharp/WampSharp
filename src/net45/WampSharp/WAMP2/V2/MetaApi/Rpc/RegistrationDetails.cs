@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace WampSharp.V2.MetaApi
 {
+    [DataContract]
     public class RegistrationDetails
     {
         [DataMember(Name = "uri")]
