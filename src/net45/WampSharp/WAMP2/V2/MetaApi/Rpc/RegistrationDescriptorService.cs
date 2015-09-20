@@ -1,6 +1,9 @@
-﻿using WampSharp.V2.Core.Contracts;
+﻿using System;
+using System.Reactive.Linq;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Realm;
+using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.MetaApi
 {
@@ -11,6 +14,103 @@ namespace WampSharp.V2.MetaApi
         public RegistrationDescriptorService(IWampRealm realm) : 
             base(new RegistrationMetadataSubscriber(realm.TopicContainer), WampErrors.NoSuchRegistration)
         {
+            IWampRpcOperationCatalog rpcCatalog = realm.RpcCatalog;
+
+            IObservable<IWampProcedureRegistration> removed = 
+                GetRegistrationRemoved(rpcCatalog);
+
+            var observable =
+                from registration in GetRegistrationAdded(rpcCatalog)
+                let registrationRemoved = removed.Where(x => x == registration)
+                let calleeRegistered = GetCalleeRegistered(registration, registrationRemoved)
+                let calleeUnregistered = GetCalleeUnregistered(registration, registrationRemoved)
+                select new { registration, calleeRegistered, calleeUnregistered};
+
+            var addObservable =
+                from item in observable
+                from operation in item.calleeRegistered
+                select new { Registration = item.registration, Operation = operation };
+
+            var removeObservable =
+                from item in observable
+                from operation in item.calleeUnregistered
+                select new { Registration = item.registration, Operation = operation };
+
+            addObservable.Subscribe(x => OnRegistrationAdded(x.Registration, x.Operation));
+            removeObservable.Subscribe(x => OnRegistrationRemoved(x.Registration, x.Operation));
+        }
+
+        private void OnRegistrationAdded(IWampProcedureRegistration registration, IRemoteWampCalleeOperation operation)
+        {
+            AddPeer(operation.SessionId, registration.RegistrationId,
+                    () => GetRegistrationDetails(registration, operation.SessionId));
+        }
+
+        private RegistrationDetailsExtended GetRegistrationDetails(IWampProcedureRegistration registration, long sessionId)
+        {
+            string procedureUri = registration.Procedure;
+
+            RegistrationDetailsExtended result = new RegistrationDetailsExtended()
+            {
+                Created = DateTime.Now,
+                Uri = procedureUri,
+                Match = registration.RegisterOptions.Match,
+                RegistrationId = registration.RegistrationId,
+                Invoke = registration.RegisterOptions.Invoke
+            };
+
+            // TODO: if we can ignore the session id, there is no need for the special
+            // TODO: IRemoteWampCalleeOperation interface
+            AddGroup(procedureUri, sessionId, result);
+
+            return result;
+        }
+
+        private void OnRegistrationRemoved(IWampProcedureRegistration registration, IRemoteWampCalleeOperation operation)
+        {
+            RemovePeerFromGroup(registration.Procedure,
+                                operation.SessionId,
+                                registration.RegistrationId);
+        }
+
+        private IObservable<IRemoteWampCalleeOperation> GetCalleeRegistered
+            (IWampProcedureRegistration registration,
+             IObservable<IWampProcedureRegistration> registrationRemoved)
+        {
+            return Observable.FromEventPattern<WampCalleeAddEventArgs>
+                (x => registration.CalleeRegistered += x,
+                 x => registration.CalleeRegistered -= x)
+                             .Select(x => x.EventArgs.Operation)
+                             .OfType<IRemoteWampCalleeOperation>()
+                             .TakeUntil(registrationRemoved);
+        }
+
+        private IObservable<IRemoteWampCalleeOperation> GetCalleeUnregistered
+            (IWampProcedureRegistration registration,
+             IObservable<IWampProcedureRegistration> registrationRemoved)
+        {
+            return Observable.FromEventPattern<WampCalleeRemoveEventArgs>
+                (x => registration.CalleeUnregistered += x,
+                 x => registration.CalleeUnregistered -= x)
+                             .Select(x => x.EventArgs.Operation)
+                             .OfType<IRemoteWampCalleeOperation>()
+                             .TakeUntil(registrationRemoved);
+        }
+
+        private IObservable<IWampProcedureRegistration> GetRegistrationRemoved(IWampRpcOperationCatalog rpcCatalog)
+        {
+            return Observable.FromEventPattern<WampProcedureRegisterEventArgs>
+                (x => rpcCatalog.RegistrationRemoved += x,
+                 x => rpcCatalog.RegistrationRemoved -= x)
+                             .Select(x => x.EventArgs.Registration);
+        }
+
+        private static IObservable<IWampProcedureRegistration> GetRegistrationAdded(IWampRpcOperationCatalog rpcCatalog)
+        {
+            return Observable.FromEventPattern<WampProcedureRegisterEventArgs>
+                (x => rpcCatalog.RegistrationAdded += x,
+                 x => rpcCatalog.RegistrationAdded -= x)
+                             .Select(x => x.EventArgs.Registration);
         }
 
         public AvailableGroups GetAllRegistrations()

@@ -12,7 +12,7 @@ namespace WampSharp.V2.MetaApi
         public string Invoke { get; set; }
 
         [DataMember(Name = "id")]
-        public int RegistrationId { get; set; }
+        public long RegistrationId { get; set; }
 
         [DataMember(Name = "match")]
         public string Match { get; set; }
