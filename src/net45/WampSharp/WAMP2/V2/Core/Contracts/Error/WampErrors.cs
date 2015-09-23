@@ -111,5 +111,6 @@
         public const string InvalidOptions = "wamp.error.invalid_options";
 
         public const string CalleeUnregistered = "wamp.error.callee_unregistered";
+        public const string DiscloseMeNotAllowed = "wamp.error.disclose_me.not_allowed";
     }
 }

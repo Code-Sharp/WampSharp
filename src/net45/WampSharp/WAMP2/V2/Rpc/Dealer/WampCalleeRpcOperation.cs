@@ -130,6 +130,12 @@ namespace WampSharp.V2.Rpc
 
             CallOptions callerOptions = casted.CallerOptions;
 
+            if (Options.DiscloseCaller == true &&
+                callerOptions.DiscloseMe == false)
+            {
+                throw new WampException(WampErrors.DiscloseMeNotAllowed);
+            }
+
             if (Options.DiscloseCaller == true ||
                 callerOptions.DiscloseMe == true)
             {
