@@ -118,7 +118,7 @@ namespace WampSharp.Samples.WampCra.Router
                 {
                     "peter", new WampCraUser()
                     {
-                        Secret = "secret1",
+                        Secret = "prq7+YkJ1/KlW1X0YczMHw==",
                         AuthenticationRole = "frontend",
                         Salt = "salt123",
                         Iterations = 100,

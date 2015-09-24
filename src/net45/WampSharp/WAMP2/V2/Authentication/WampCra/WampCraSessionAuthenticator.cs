@@ -19,7 +19,7 @@ namespace WampSharp.V2.Authentication
         public override void Authenticate(string signature, AuthenticateExtraData extra)
         {
             string computedSignature =
-                WampCraHelpers.AuthSignature(AuthenticationChallenge, Secret, CraChallengeDetails);
+                WampCraHelpers.Sign(Secret, AuthenticationChallenge);
 
             if (computedSignature == signature)
             {
@@ -44,8 +44,15 @@ namespace WampSharp.V2.Authentication
             }
         }
 
+        /// <summary>
+        /// Gets the authentication challenge - this is the challenge that will be sent upon CHALLENGE
+        /// message
+        /// </summary>
         public abstract string AuthenticationChallenge { get; }
         
+        /// <summary>
+        /// Gets the secret used to compute the signature.
+        /// </summary>
         public abstract string Secret { get; }
 
         protected WampCraChallengeDetails CraChallengeDetails

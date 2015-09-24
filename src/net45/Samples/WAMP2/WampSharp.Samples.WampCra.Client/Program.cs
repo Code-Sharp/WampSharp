@@ -36,7 +36,7 @@ namespace WampSharp.Samples.WampCra.Client
             else
             {
                 authenticator =
-                    new WampCraClientAuthenticator(authenticationId: "peter", secret: "secret1", salt: "salt123", iterations: 100, keyLen: 16);
+                    new WampCraClientAuthenticator(authenticationId: "peter", secret: "secret1");
             }
 
             IWampChannel channel =
