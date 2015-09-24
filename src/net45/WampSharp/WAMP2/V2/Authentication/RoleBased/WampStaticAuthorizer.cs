@@ -5,19 +5,19 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Authentication
 {
-    public class WampCraStaticAuthorizer : IWampAuthorizer
+    public class WampStaticAuthorizer : IWampAuthorizer
     {
-        private readonly Dictionary<string, WampCraUriPermissions> mExactUriToPermissions =
-            new Dictionary<string, WampCraUriPermissions>();
+        private readonly Dictionary<string, WampUriPermissions> mExactUriToPermissions =
+            new Dictionary<string, WampUriPermissions>();
 
-        private readonly SortedDictionary<string, WampCraUriPermissions> mPrefixedUriToPermissions =
-            new SortedDictionary<string, WampCraUriPermissions>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, WampUriPermissions> mPrefixedUriToPermissions =
+            new SortedDictionary<string, WampUriPermissions>(StringComparer.Ordinal);
 
-        public WampCraStaticAuthorizer(ICollection<WampCraUriPermissions> uriPermissions)
+        public WampStaticAuthorizer(ICollection<WampUriPermissions> uriPermissions)
         {
-            foreach (WampCraUriPermissions currentUriPermissions in uriPermissions)
+            foreach (WampUriPermissions currentUriPermissions in uriPermissions)
             {
-                IDictionary<string, WampCraUriPermissions> permissions;
+                IDictionary<string, WampUriPermissions> permissions;
 
                 if (currentUriPermissions.Prefixed)
                 {
@@ -32,7 +32,7 @@ namespace WampSharp.V2.Authentication
             }
         }
 
-        private void MapPermission(IDictionary<string, WampCraUriPermissions> permissionsMap, WampCraUriPermissions uriPermissions)
+        private void MapPermission(IDictionary<string, WampUriPermissions> permissionsMap, WampUriPermissions uriPermissions)
         {
             if (!permissionsMap.ContainsKey(uriPermissions.Uri))
             {
@@ -67,16 +67,16 @@ namespace WampSharp.V2.Authentication
             return CheckAction(topicUri, permissions => permissions.CanSubscribe);
         }
 
-        private bool CheckAction(string procedure, Func<WampCraUriPermissions, bool> permissionChecker)
+        private bool CheckAction(string procedure, Func<WampUriPermissions, bool> permissionChecker)
         {
-            WampCraUriPermissions permissions;
+            WampUriPermissions permissions;
 
             if (mExactUriToPermissions.TryGetValue(procedure, out permissions))
             {
                 return permissionChecker(permissions);
             }
 
-            foreach (WampCraUriPermissions prefixedUriToPermission in 
+            foreach (WampUriPermissions prefixedUriToPermission in 
                 mPrefixedUriToPermissions.Values.Reverse())
             {
                 string currentUri = prefixedUriToPermission.Uri;

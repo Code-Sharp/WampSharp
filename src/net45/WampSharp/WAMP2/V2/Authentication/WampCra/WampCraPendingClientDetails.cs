@@ -1,5 +1,4 @@
 #if !PCL
-
 using System;
 using WampSharp.V2.Core.Contracts;
 

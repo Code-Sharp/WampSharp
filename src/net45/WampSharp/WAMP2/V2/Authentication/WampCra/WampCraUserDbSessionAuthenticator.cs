@@ -1,5 +1,4 @@
 #if !PCL
-using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Authentication
@@ -9,7 +8,7 @@ namespace WampSharp.V2.Authentication
         private readonly WampCraUser mUser;
         private readonly string mAuthenticationChallenge;
 
-        public WampCraUserDbSessionAuthenticator(WampCraUser user, WampCraAuthenticationRole role, long sessionId) :
+        public WampCraUserDbSessionAuthenticator(WampCraUser user, WampAuthenticationRole role, long sessionId) :
             base(user.AuthenticationId)
         {
             mUser = user;

@@ -7,10 +7,10 @@ namespace WampSharp.V2.Authentication
     public class WampCraUserDbAuthenticationFactory : IWampSessionAuthenticatorFactory
     {
         private const string WAMP_CRA = WampAuthenticationMethods.WampCra;
-        private readonly IWampCraAuthenticationProvider mAuthenticationProvider;
+        private readonly IWampAuthenticationProvider mAuthenticationProvider;
         private readonly IWampCraUserDb mUserDb;
 
-        public WampCraUserDbAuthenticationFactory(IWampCraAuthenticationProvider authenticationProvider,
+        public WampCraUserDbAuthenticationFactory(IWampAuthenticationProvider authenticationProvider,
                                                   IWampCraUserDb userDb)
         {
             mAuthenticationProvider = authenticationProvider;
@@ -44,7 +44,7 @@ namespace WampSharp.V2.Authentication
 
             string authenticationRole = user.AuthenticationRole;
 
-            WampCraAuthenticationRole role = 
+            WampAuthenticationRole role = 
                 mAuthenticationProvider.GetRoleByName(details.Realm, authenticationRole);
 
             if (role == null)

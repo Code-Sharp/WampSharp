@@ -1,6 +1,6 @@
 namespace WampSharp.V2.Authentication
 {
-    public class WampCraAuthenticationRole
+    public class WampAuthenticationRole
     {
         public string AuthenticationRole { get; set; }
 

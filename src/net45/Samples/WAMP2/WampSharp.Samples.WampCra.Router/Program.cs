@@ -59,37 +59,37 @@ namespace WampSharp.Samples.WampCra.Router
             int Add2(int a, int b);
         }
 
-        private class MyAuthenticationProvider : WampCraStaticAuthenticationProvider
+        private class MyAuthenticationProvider : WampStaticAuthenticationProvider
         {
             public MyAuthenticationProvider() :
-                base(new Dictionary<string, IDictionary<string, WampCraAuthenticationRole>>()
+                base(new Dictionary<string, IDictionary<string, WampAuthenticationRole>>()
                 {
                     {
-                        "realm1", new Dictionary<string, WampCraAuthenticationRole>()
+                        "realm1", new Dictionary<string, WampAuthenticationRole>()
                         {
                             {
                                 "frontend",
-                                new WampCraAuthenticationRole
+                                new WampAuthenticationRole
                                 {
-                                    Authorizer = new WampCraStaticAuthorizer(new List<WampCraUriPermissions>
+                                    Authorizer = new WampStaticAuthorizer(new List<WampUriPermissions>
                                     {
-                                        new WampCraUriPermissions
+                                        new WampUriPermissions
                                         {
                                             Uri = "com.example.add2",
                                             CanCall = true
                                         },
-                                        new WampCraUriPermissions
+                                        new WampUriPermissions
                                         {
                                             Uri = "com.example.",
                                             Prefixed = true,
                                             CanPublish = true
                                         },
-                                        new WampCraUriPermissions
+                                        new WampUriPermissions
                                         {
                                             Uri = "com.example.topic2",
                                             CanPublish = false
                                         },
-                                        new WampCraUriPermissions
+                                        new WampUriPermissions
                                         {
                                             Uri = "com.foobar.topic1",
                                             CanPublish = true

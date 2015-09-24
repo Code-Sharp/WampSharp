@@ -453,14 +453,14 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Host\WampAuthenticationTextBinding.cs">
       <Link>WAMP2\V2\Authentication\Host\WampAuthenticationTextBinding.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\IWampCraAuthenticationProvider.cs">
-      <Link>WAMP2\V2\Authentication\WampCra\IWampCraAuthenticationProvider.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\RoleBased\IWampAuthenticationProvider.cs">
+      <Link>WAMP2\V2\Authentication\RoleBased\IWampAuthenticationProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\IWampCraUserDb.cs">
       <Link>WAMP2\V2\Authentication\WampCra\IWampCraUserDb.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraAuthenticationRole.cs">
-      <Link>WAMP2\V2\Authentication\WampCra\WampCraAuthenticationRole.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\RoleBased\WampAuthenticationRole.cs">
+      <Link>WAMP2\V2\Authentication\RoleBased\WampAuthenticationRole.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraChallengeDetails.cs">
       <Link>WAMP2\V2\Authentication\WampCra\WampCraChallengeDetails.cs</Link>
@@ -471,17 +471,17 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraPendingClientDetails.cs">
       <Link>WAMP2\V2\Authentication\WampCra\WampCraPendingClientDetails.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraStaticAuthenticationProvider.cs">
-      <Link>WAMP2\V2\Authentication\WampCra\WampCraStaticAuthenticationProvider.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\RoleBased\WampStaticAuthenticationProvider.cs">
+      <Link>WAMP2\V2\Authentication\RoleBased\WampStaticAuthenticationProvider.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraStaticAuthorizer.cs">
-      <Link>WAMP2\V2\Authentication\WampCra\WampCraStaticAuthorizer.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\RoleBased\WampStaticAuthorizer.cs">
+      <Link>WAMP2\V2\Authentication\RoleBased\WampStaticAuthorizer.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraStaticUserDb.cs">
       <Link>WAMP2\V2\Authentication\WampCra\WampCraStaticUserDb.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraUriPermissions.cs">
-      <Link>WAMP2\V2\Authentication\WampCra\WampCraUriPermissions.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\RoleBased\WampUriPermissions.cs">
+      <Link>WAMP2\V2\Authentication\RoleBased\WampUriPermissions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraUser.cs">
       <Link>WAMP2\V2\Authentication\WampCra\WampCraUser.cs</Link>

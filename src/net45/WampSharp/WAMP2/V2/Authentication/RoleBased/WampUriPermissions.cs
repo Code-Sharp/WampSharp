@@ -1,6 +1,6 @@
 namespace WampSharp.V2.Authentication
 {
-    public class WampCraUriPermissions
+    public class WampUriPermissions
     {
         public string Uri { get; set; }
 

@@ -1,7 +1,6 @@
 ﻿#if !PCL
 using System;
 using WampSharp.Core.Cra;
-using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Authentication
