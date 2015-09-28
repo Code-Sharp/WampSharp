@@ -7,6 +7,9 @@ namespace WampSharp.V2.Fluent
     {
         private static readonly JTokenMsgpackBinding mMsgpackBinding = new JTokenMsgpackBinding();
 
+        /// <summary>
+        /// Indicates that the user wants to use Msgpack serialization.
+        /// </summary>
         public static ChannelFactorySyntax.ISerializationSyntax MsgpackSerialization(this ChannelFactorySyntax.ITransportSyntax transportSyntax)
         {
             ChannelState state = transportSyntax.State;
@@ -16,6 +19,10 @@ namespace WampSharp.V2.Fluent
             return state;
         }
 
+        /// <summary>
+        /// Indicates that the user wants to use Msgpack serialization.
+        /// </summary>
+        /// <param name="serializer">The <see cref="JsonSerializer"/> to serialize messages with.</param>
         public static ChannelFactorySyntax.ISerializationSyntax MsgpackSerialization(this ChannelFactorySyntax.ITransportSyntax transportSyntax, JsonSerializer serializer)
         {
             ChannelState state = transportSyntax.State;

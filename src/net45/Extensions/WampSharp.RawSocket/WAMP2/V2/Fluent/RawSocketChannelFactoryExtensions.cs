@@ -7,16 +7,31 @@ namespace WampSharp.V2.Fluent
 {
     public static class RawSocketChannelFactoryExtensions
     {
+        /// <summary>
+        /// Indicates that the user wants to use RawSocket transport.
+        /// </summary>
+        /// <param name="address">The address of the listening router</param>
+        /// <param name="port">The port of the listening router</param>
         public static IRawSocketTransportSyntax RawSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, string address, int port)
         {
             return InnterRawSocket(realmSyntax, client => client.ConnectAsync(address, port));
         }
 
+        /// <summary>
+        /// Indicates that the user wants to use RawSocket transport.
+        /// </summary>
+        /// <param name="addresses">The addresses of the listening router</param>
+        /// <param name="port">The port of the listening router</param>
         public static IRawSocketTransportSyntax RawSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, IPAddress[] addresses, int port)
         {
             return InnterRawSocket(realmSyntax, client => client.ConnectAsync(addresses, port));
         }
 
+        /// <summary>
+        /// Indicates that the user wants to use RawSocket transport.
+        /// </summary>
+        /// <param name="address">The address of the listening router</param>
+        /// <param name="port">The port of the listening router</param>
         public static IRawSocketTransportSyntax RawSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, IPAddress address, int port)
         {
             return InnterRawSocket(realmSyntax, client => client.ConnectAsync(address, port));

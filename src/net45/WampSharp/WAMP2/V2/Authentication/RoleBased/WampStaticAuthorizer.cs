@@ -5,6 +5,9 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Authentication
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampAuthorizer"/> based on static data.
+    /// </summary>
     public class WampStaticAuthorizer : IWampAuthorizer
     {
         private readonly Dictionary<string, WampUriPermissions> mExactUriToPermissions =
@@ -13,6 +16,11 @@ namespace WampSharp.V2.Authentication
         private readonly SortedDictionary<string, WampUriPermissions> mPrefixedUriToPermissions =
             new SortedDictionary<string, WampUriPermissions>(StringComparer.Ordinal);
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="WampStaticAuthorizer"/> given
+        /// the uri permissions data.
+        /// </summary>
+        /// <param name="uriPermissions">A collection of the uri permissions.</param>
         public WampStaticAuthorizer(ICollection<WampUriPermissions> uriPermissions)
         {
             foreach (WampUriPermissions currentUriPermissions in uriPermissions)

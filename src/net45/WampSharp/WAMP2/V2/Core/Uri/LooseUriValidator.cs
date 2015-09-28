@@ -2,7 +2,11 @@
 
 namespace WampSharp.V2.Core
 {
-    public class LooseUriValidator : WampUriValidator
+    /// <summary>
+    /// A <see cref="IWampUriValidator"/> that validates uris 
+    /// via the loose uri definition.
+    /// </summary>
+    public class LooseUriValidator : WampUriRegexValidator
     {
         /// <summary>
         /// Loose URI check allowing empty URI components
@@ -19,6 +23,9 @@ namespace WampSharp.V2.Core
         /// </summary>
         private readonly Regex mUriPatternAllowLastEmpty;
 
+        /// <summary>
+        /// Instantiates a new instance of the <see cref="LooseUriValidator"/> class.
+        /// </summary>
         public LooseUriValidator()
         {
 #if !PCL

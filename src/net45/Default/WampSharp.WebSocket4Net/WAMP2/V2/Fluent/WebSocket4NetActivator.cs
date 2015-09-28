@@ -6,6 +6,10 @@ using WebSocket4Net;
 
 namespace WampSharp.V2.Fluent
 {
+    /// <summary>
+    /// A delegate that creates a new instance of a <see cref="WebSocket"/>, given the subprotocol to be used.
+    /// </summary>
+    /// <param name="subprotocolName">The subprotocol to be used.</param>
     public delegate WebSocket WebSocket4NetFactory(string subprotocolName);
 
     internal class WebSocket4NetActivator : IWampConnectionActivator

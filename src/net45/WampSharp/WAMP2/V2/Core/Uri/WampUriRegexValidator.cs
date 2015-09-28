@@ -3,10 +3,24 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Core
 {
-    public abstract class WampUriValidator : IWampUriValidator
+    /// <summary>
+    /// A base class for regex based <see cref="IWampUriValidator"/>s.
+    /// </summary>
+    public abstract class WampUriRegexValidator : IWampUriValidator
     {
+        /// <summary>
+        /// Gets the regex to verify uris that allow empty components.
+        /// </summary>
         public abstract Regex UriPatternAllowEmpty { get; }
+
+        /// <summary>
+        /// Gets the regex to verify uris that disallow empty components.
+        /// </summary>
         public abstract Regex UriPatternDisallowEmpty { get; }
+
+        /// <summary>
+        /// Gets the regex to verify uris that allow only the last component to be empty.
+        /// </summary>
         public abstract Regex UriPatternAllowLastEmpty { get; }
 
         public bool IsValid(string uri)

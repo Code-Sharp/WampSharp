@@ -8,10 +8,14 @@ using WampSharp.Logging;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Contracts;
 using WampSharp.V2.Binding.Parsers;
+using WampSharp.V2.Binding.Transports;
 using WampSharp.V2.Transports;
 
 namespace WampSharp.RawSocket
 {
+    /// <summary>
+    /// A RawSocket <see cref="IWampTransport"/> implementation.
+    /// </summary>
     public class RawSocketTransport : TextBinaryTransport<RawSocketTcpClient>
     {
         private readonly Handshaker mHandshaker = new Handshaker();

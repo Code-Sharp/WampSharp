@@ -2,7 +2,11 @@ using System.Text.RegularExpressions;
 
 namespace WampSharp.V2.Core
 {
-    public class StrictUriValidator : WampUriValidator
+    /// <summary>
+    /// A <see cref="IWampUriValidator"/> that validates uris 
+    /// via the strict uri definition.
+    /// </summary>
+    public class StrictUriValidator : WampUriRegexValidator
     {
         /// <summary>
         /// Strict URI check allowing empty URI components
@@ -19,6 +23,9 @@ namespace WampSharp.V2.Core
         /// </summary>
         private readonly Regex mUriPatternAllowLastEmpty;
 
+        /// <summary>
+        /// Instantiates a new instance of the <see cref="StrictUriValidator"/> class.
+        /// </summary>
         public StrictUriValidator()
         {
 #if !PCL
