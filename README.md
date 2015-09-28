@@ -16,6 +16,23 @@ Master | Provider
 [![Build Status][MonoImgMaster]][MonoLinkMaster] | Mono CI Provided by [travis-ci][] 
 
 
+## Advanced profile supported features:
+
+The following [Advanced profile features](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced.md) are supported
+
+* [Progressive call results](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/progressive-call-results.md): [[caller tutorial|Caller role#progressive-calls]] | [[callee tutorial|Callee role#progressive-callee]]
+* [Caller identification](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/caller-identification.md): [[caller tutorial|Caller-role#caller-identification]] | [[callee tutorial|Callee-role#caller-identification]]
+* [Session meta api](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/session-meta-api.md), [Registration meta api](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/registration-meta-api.md), [Subscription meta api](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/subscription-meta-api.md)
+* [Shared registrations](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/shared-registration.md), see also [here](http://crossbar.io/docs/Shared-Registrations/)
+* [Subscriber black and whitelisting](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/subscriber-blackwhite-listing.md)
+* [Publisher exclusion](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/publisher-exclusion.md)
+* [Publisher identification](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/publisher-identification.md)
+* [Pattern-based subscriptions](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/pattern-based-subscription.md) - see also [here](http://crossbar.io/docs/Pattern-Based-Subscriptions/)
+* [Pattern-based registrations](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/pattern-based-registration.md) - see also [here](http://crossbar.io/docs/Pattern-Based-Registrations/)
+* [RawSocket transport](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/rawsocket-transport.md)
+* [Authentication](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/authentication.md)
+* [WAMP-CRA](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/challenge-response-authentication.md)
+
 ## WampSharp v1.2.1.6-beta
 
 WampSharp v1.2.1.6-beta released, see version [release notes](https://github.com/Code-Sharp/WampSharp/wiki/WampSharp-v1.2.1.6-beta-release-notes).
