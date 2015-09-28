@@ -14,19 +14,9 @@ namespace WampSharp.V2.Fluent
 
         public ChannelState State { get; set; }
 
-        public IRawSocketTransportConnectFromSyntax ConnectFrom(AddressFamily family)
-        {
-            return InnerConnectFrom(() => new TcpClient(family));
-        }
-
         public IRawSocketTransportConnectFromSyntax ConnectFrom(IPEndPoint localEndPoint)
         {
             return InnerConnectFrom(() => new TcpClient(localEndPoint));
-        }
-
-        public IRawSocketTransportConnectFromSyntax ConnectFrom(string hostname, int port)
-        {
-            return InnerConnectFrom(() => new TcpClient(hostname, port));
         }
 
         private RawSocketTransportSyntax InnerConnectFrom(Func<TcpClient> clientBuilder)
