@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
@@ -6,7 +7,7 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.MetaApi
 {
-    internal class SessionDescriptorService : IWampSessionDescriptor
+    internal class SessionDescriptorService : IWampSessionDescriptor, IDisposable
     {
         private readonly IWampHostedRealm mRealm;
         private readonly IWampSessionMetadataSubscriber mSubscriber;
@@ -67,6 +68,12 @@ namespace WampSharp.V2.MetaApi
             }
 
             throw new WampException(WampErrors.NoSuchSession);
+        }
+
+        public void Dispose()
+        {
+            mRealm.SessionClosed -= OnSessionClosed;
+            mRealm.SessionCreated -= OnSessionCreated;
         }
 
         private class SessionMetadataSubscriber : ManualSubscriber<IWampSessionMetadataSubscriber>, IWampSessionMetadataSubscriber

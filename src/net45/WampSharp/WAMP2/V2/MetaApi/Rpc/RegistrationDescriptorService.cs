@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
@@ -12,6 +15,8 @@ namespace WampSharp.V2.MetaApi
         DescriptorServiceBase<RegistrationDetailsExtended>,
         IWampRegistrationDescriptor
     {
+        private readonly IDisposable mDisposable;
+
         public RegistrationDescriptorService(IWampRealm realm) : 
             base(new RegistrationMetadataSubscriber(realm.TopicContainer), WampErrors.NoSuchRegistration)
         {
@@ -37,8 +42,10 @@ namespace WampSharp.V2.MetaApi
                 from operation in item.calleeUnregistered
                 select new { Registration = item.registration, Operation = operation };
 
-            addObservable.Subscribe(x => OnRegistrationAdded(x.Registration, x.Operation));
-            removeObservable.Subscribe(x => OnRegistrationRemoved(x.Registration, x.Operation));
+            IDisposable addDisposable = addObservable.Subscribe(x => OnRegistrationAdded(x.Registration, x.Operation));
+            IDisposable removeDisposable = removeObservable.Subscribe(x => OnRegistrationRemoved(x.Registration, x.Operation));
+
+            mDisposable = new CompositeDisposable(addDisposable, removeDisposable);
         }
 
         private void OnRegistrationAdded(IWampProcedureRegistration registration, IRemoteWampCalleeOperation operation)
@@ -121,7 +128,7 @@ namespace WampSharp.V2.MetaApi
             return GetAllGroupIds();
         }
 
-        public long LookupRegistrationId(string procedureUri, RegisterOptions options = null)
+        public long? LookupRegistrationId(string procedureUri, RegisterOptions options = null)
         {
             string match = null;
 
@@ -133,9 +140,20 @@ namespace WampSharp.V2.MetaApi
             return base.LookupGroupId(procedureUri, match);
         }
 
-        public long[] GetMatchingRegistrationIds(string procedureUri)
+        public long? GetBestMatchingRegistrationId(string procedureUri)
         {
-            return base.GetMatchingGroupIds(procedureUri);
+            IEnumerable<RegistrationDetailsExtended> matchingGroups = 
+                base.GetMatchingGroups(procedureUri);
+
+            RegistrationDetailsExtended result =
+                matchingGroups.FirstOrDefault(x => x.Match == WampMatchPattern.Exact);
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            return result.RegistrationId;
         }
 
         public RegistrationDetails GetRegistrationDetails(long registrationId)
@@ -151,6 +169,11 @@ namespace WampSharp.V2.MetaApi
         public long CountCallees(long registrationId)
         {
             return base.CountPeers(registrationId);
+        }
+
+        public void Dispose()
+        {
+            mDisposable.Dispose();
         }
 
         private class RegistrationMetadataSubscriber : 

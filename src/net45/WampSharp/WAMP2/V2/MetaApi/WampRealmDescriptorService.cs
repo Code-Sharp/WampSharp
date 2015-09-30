@@ -1,22 +1,31 @@
-﻿using WampSharp.V2.Core.Contracts;
+﻿using System;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.MetaApi
 {
-    public class WampRealmDescriptorService : 
+    internal class WampRealmDescriptorService : 
         IWampSessionDescriptor,
         IWampSubscriptionDescriptor,
-        IWampRegistrationDescriptor
+        IWampRegistrationDescriptor,
+        IDisposable
     {
-        private readonly IWampSessionDescriptor mSessionDescriptor;
-        private readonly IWampSubscriptionDescriptor mSubscriptionDescriptor;
-        private readonly IWampRegistrationDescriptor mRegistrationDescriptor;
+        private readonly SessionDescriptorService mSessionDescriptor;
+        private readonly SubscriptionDescriptorService mSubscriptionDescriptor;
+        private readonly RegistrationDescriptorService mRegistrationDescriptor;
 
         public WampRealmDescriptorService(IWampHostedRealm realm)
         {
             mSessionDescriptor = new SessionDescriptorService(realm);
             mSubscriptionDescriptor = new SubscriptionDescriptorService(realm);
             mRegistrationDescriptor = new RegistrationDescriptorService(realm);
+        }
+
+        public void Dispose()
+        {
+            mSessionDescriptor.Dispose();
+            mSubscriptionDescriptor.Dispose();
+            mRegistrationDescriptor.Dispose();
         }
 
         public long SessionCount()
@@ -39,14 +48,14 @@ namespace WampSharp.V2.MetaApi
             return mRegistrationDescriptor.GetAllRegistrations();
         }
 
-        public long LookupRegistrationId(string procedureUri, RegisterOptions options = null)
+        public long? LookupRegistrationId(string procedureUri, RegisterOptions options = null)
         {
             return mRegistrationDescriptor.LookupRegistrationId(procedureUri, options);
         }
 
-        public long[] GetMatchingRegistrationIds(string procedureUri)
+        public long? GetBestMatchingRegistrationId(string procedureUri)
         {
-            return mRegistrationDescriptor.GetMatchingRegistrationIds(procedureUri);
+            return mRegistrationDescriptor.GetBestMatchingRegistrationId(procedureUri);
         }
 
         public RegistrationDetails GetRegistrationDetails(long registrationId)
@@ -69,7 +78,7 @@ namespace WampSharp.V2.MetaApi
             return mSubscriptionDescriptor.GetAllSubscriptionIds();
         }
 
-        public long LookupSubscriptionId(string topicUri, SubscribeOptions options = null)
+        public long? LookupSubscriptionId(string topicUri, SubscribeOptions options = null)
         {
             return mSubscriptionDescriptor.LookupSubscriptionId(topicUri, options);
         }

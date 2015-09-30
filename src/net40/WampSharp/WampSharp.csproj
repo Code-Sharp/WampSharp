@@ -558,6 +558,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs">
       <Link>WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\WampHostedRealmExtensions.cs">
+      <Link>WAMP2\V2\MetaApi\WampHostedRealmExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\WampRealmDescriptorService.cs">
       <Link>WAMP2\V2\MetaApi\WampRealmDescriptorService.cs</Link>
     </Compile>

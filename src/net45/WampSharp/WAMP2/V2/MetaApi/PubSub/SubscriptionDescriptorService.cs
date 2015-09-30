@@ -1,4 +1,5 @@
 using System;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
@@ -9,8 +10,11 @@ namespace WampSharp.V2.MetaApi
 {
     internal class SubscriptionDescriptorService : 
         DescriptorServiceBase<SubscriptionDetailsExtended>,
-        IWampSubscriptionDescriptor
+        IWampSubscriptionDescriptor,
+        IDisposable
     {
+        private readonly IDisposable mDisposable;
+
         public SubscriptionDescriptorService(IWampHostedRealm realm) : 
             base(new SubscriptionMetadataSubscriber(realm.TopicContainer), WampErrors.NoSuchSubscription)
         {
@@ -35,8 +39,13 @@ namespace WampSharp.V2.MetaApi
                 from eventArgs in item.subscriptionRemoved
                 select new { Topic = item.topic, EventArgs = eventArgs };
 
-            addObservable.Subscribe(x => OnSubscriptionAdded(x.Topic, x.EventArgs));
-            removeObservable.Subscribe(x => OnSubscriptionRemoved(x.Topic, x.EventArgs));
+            IDisposable addDisposable = 
+                addObservable.Subscribe(x => OnSubscriptionAdded(x.Topic, x.EventArgs));
+
+            IDisposable removeDisposable = 
+                removeObservable.Subscribe(x => OnSubscriptionRemoved(x.Topic, x.EventArgs));
+
+            mDisposable = new CompositeDisposable(addDisposable, removeDisposable);
         }
 
         private static IObservable<WampSubscriptionAddEventArgs> GetSubscriptionAdded(IWampTopic topic, IObservable<IWampTopic> removed)
@@ -139,7 +148,7 @@ namespace WampSharp.V2.MetaApi
             return GetAllGroupIds();
         }
 
-        public long LookupSubscriptionId(string topicUri, SubscribeOptions options = null)
+        public long? LookupSubscriptionId(string topicUri, SubscribeOptions options = null)
         {
             string match = null;
 
@@ -159,6 +168,11 @@ namespace WampSharp.V2.MetaApi
         public long CountSubscribers(long subscriptionId)
         {
             return base.CountPeers(subscriptionId);
+        }
+
+        public void Dispose()
+        {
+            mDisposable.Dispose();           
         }
 
         private class SubscriptionMetadataSubscriber : ManualSubscriber<IWampSubscriptionMetadataSubscriber>, IWampSubscriptionMetadataSubscriber, IDescriptorSubscriber<SubscriptionDetailsExtended>

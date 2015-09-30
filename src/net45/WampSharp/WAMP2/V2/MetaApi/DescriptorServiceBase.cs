@@ -145,7 +145,7 @@ namespace WampSharp.V2.MetaApi
             return result;
         }
 
-        protected long LookupGroupId(string uri, string match)
+        protected long? LookupGroupId(string uri, string match)
         {
             match = match ?? WampMatchPattern.Default;
 
@@ -163,18 +163,22 @@ namespace WampSharp.V2.MetaApi
                 return result.GroupId;
             }
 
-            throw new WampException(mMissingErrorUri);
+            return null;
         }
 
         protected long[] GetMatchingGroupIds(string uri)
+        {
+            return GetMatchingGroups(uri)
+                .Select(x => x.GroupId).ToArray();
+        }
+
+        protected IEnumerable<TDetails> GetMatchingGroups(string uri)
         {
             ImmutableList<TDetails> groups;
 
             if (mUriToGroups.TryGetValue(uri, out groups))
             {
-                long[] result = groups.Select(x => x.GroupId).ToArray();
-
-                return result;
+                return groups;
             }
 
             throw new WampException(mMissingErrorUri);
