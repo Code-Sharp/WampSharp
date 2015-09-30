@@ -25,5 +25,12 @@ namespace WampSharp.V2.Rpc
         /// Occurs when a procedure registration is removed.
         /// </summary>
         event EventHandler<WampProcedureRegisterEventArgs> RegistrationRemoved;
+
+        /// <summary>
+        /// Gets the best match for the given criteria.
+        /// </summary>
+        /// <param name="criteria">The given criteria.</param>
+        /// <returns>The best match for the given criteria.</returns>
+        IWampRpcOperation GetMatchingOperation(string criteria);
     }
 }

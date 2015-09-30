@@ -43,6 +43,21 @@ namespace WampSharp.V2.Rpc
 
         public event EventHandler<WampProcedureRegisterEventArgs> RegistrationRemoved;
 
+        public IWampRpcOperation GetMatchingOperation(string criteria)
+        {
+            foreach (MatchRpcOperationCatalog innerCatalog in mInnerCatalogs)
+            {
+                IWampRpcOperation operation = innerCatalog.GetMatchingOperation(criteria);
+
+                if (operation != null)
+                {
+                    return operation;
+                }
+            }
+
+            return null;
+        }
+
         private MatchRpcOperationCatalog GetInnerCatalog(RegisterOptions options)
         {
             MatchRpcOperationCatalog result =

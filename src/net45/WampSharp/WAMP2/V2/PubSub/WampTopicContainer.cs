@@ -71,6 +71,17 @@ namespace WampSharp.V2.PubSub
             return topicContainer.GetSubscriptionId(topicUri, options);
         }
 
+        public IEnumerable<IWampTopic> GetMatchingTopics(string criteria)
+        {
+            foreach (MatchTopicContainer innerContainer in mInnerContainers)
+            {
+                foreach (IWampTopic topic in innerContainer.GetMatchingTopics(criteria))
+                {
+                    yield return topic;
+                }
+            }
+        }
+
         private MatchTopicContainer GetInnerContainer(SubscribeOptions options)
         {
             MatchTopicContainer topicContainer = mInnerContainers.FirstOrDefault(x => x.Handles(options));

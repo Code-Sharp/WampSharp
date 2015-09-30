@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using WampSharp.V2.Authentication;
@@ -14,11 +16,13 @@ namespace WampSharp.V2.MetaApi
         IDisposable
     {
         private readonly IDisposable mDisposable;
+        private readonly IWampTopicContainer mTopicContainer;
 
         public SubscriptionDescriptorService(IWampHostedRealm realm) : 
             base(new SubscriptionMetadataSubscriber(realm.TopicContainer), WampErrors.NoSuchSubscription)
         {
             IWampTopicContainer topicContainer = realm.TopicContainer;
+            mTopicContainer = topicContainer;
 
             IObservable<IWampTopic> removed = GetTopicRemoved(topicContainer);
 
@@ -162,7 +166,17 @@ namespace WampSharp.V2.MetaApi
 
         public long[] GetMatchingSubscriptionIds(string topicUri)
         {
-            return base.GetMatchingGroupIds(topicUri);
+            long[] result =
+                mTopicContainer.GetMatchingTopics(topicUri)
+                               .Select(x => x.SubscriptionId)
+                               .ToArray();
+
+            if (result.Length == 0)
+            {
+                return null;
+            }
+
+            return result
         }
 
         public long CountSubscribers(long subscriptionId)

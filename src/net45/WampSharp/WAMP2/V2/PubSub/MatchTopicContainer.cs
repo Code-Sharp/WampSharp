@@ -249,7 +249,7 @@ namespace WampSharp.V2.PubSub
 
         public abstract IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options);
 
-        protected abstract IEnumerable<IWampTopic> GetMatchingTopics(string criteria);
+        public abstract IEnumerable<IWampTopic> GetMatchingTopics(string criteria);
 
         public abstract bool Handles(SubscribeOptions options);
 

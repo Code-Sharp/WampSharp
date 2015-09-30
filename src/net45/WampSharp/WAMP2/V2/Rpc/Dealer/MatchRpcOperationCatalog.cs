@@ -183,7 +183,7 @@ namespace WampSharp.V2.Rpc
 
         public abstract bool Handles(RegisterOptions options);
 
-        protected abstract IWampRpcOperation GetMatchingOperation(string criteria);
+        public abstract IWampRpcOperation GetMatchingOperation(string criteria);
 
         #endregion
     }

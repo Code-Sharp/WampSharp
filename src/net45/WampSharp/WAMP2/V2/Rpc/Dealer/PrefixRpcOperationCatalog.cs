@@ -16,7 +16,7 @@ namespace WampSharp.V2.Rpc
             return options.Match == WampMatchPattern.Prefix;
         }
 
-        protected override IWampRpcOperation GetMatchingOperation(string criteria)
+        public override IWampRpcOperation GetMatchingOperation(string criteria)
         {
             IWampRpcOperation currentOperation = null;
             int currentLength = 0;

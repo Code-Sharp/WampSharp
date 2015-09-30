@@ -32,7 +32,7 @@ namespace WampSharp.V2.Rpc
             base.OnRegistrationRemoved(procedureUri);
         }
 
-        protected override IWampRpcOperation GetMatchingOperation(string criteria)
+        public override IWampRpcOperation GetMatchingOperation(string criteria)
         {
             string[] uriParts = criteria.Split('.');
 

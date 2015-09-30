@@ -16,7 +16,7 @@ namespace WampSharp.V2.PubSub
             return new ExactTopicSubscriptionId(topicUri);
         }
 
-        protected override IEnumerable<IWampTopic> GetMatchingTopics(string criteria)
+        public override IEnumerable<IWampTopic> GetMatchingTopics(string criteria)
         {
             IWampTopic topic = GetTopicByUri(criteria);
 

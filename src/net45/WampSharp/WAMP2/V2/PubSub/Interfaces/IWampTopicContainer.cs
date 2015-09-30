@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.PubSub
 {
@@ -113,5 +112,13 @@ namespace WampSharp.V2.PubSub
         /// <remarks>If you don't know what to do here, use a simple 
         /// <see cref="ExactTopicSubscriptionId"/>.</remarks>
         IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options);
+
+        /// <summary>
+        /// Gets all topics (subscriptions) that match the given criteria.
+        /// </summary>
+        /// <param name="criteria">The given criteria.</param>
+        /// <returns>An enumerable consisting of all topics (subscriptions) 
+        /// that match the given criteria.</returns>
+        IEnumerable<IWampTopic> GetMatchingTopics(string criteria);
     }
 }

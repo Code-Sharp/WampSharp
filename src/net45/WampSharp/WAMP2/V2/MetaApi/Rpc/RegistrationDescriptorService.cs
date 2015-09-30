@@ -16,6 +16,7 @@ namespace WampSharp.V2.MetaApi
         IWampRegistrationDescriptor
     {
         private readonly IDisposable mDisposable;
+        private readonly IWampRpcOperationCatalog mOperationCatalog;
 
         public RegistrationDescriptorService(IWampRealm realm) : 
             base(new RegistrationMetadataSubscriber(realm.TopicContainer), WampErrors.NoSuchRegistration)
@@ -46,6 +47,8 @@ namespace WampSharp.V2.MetaApi
             IDisposable removeDisposable = removeObservable.Subscribe(x => OnRegistrationRemoved(x.Registration, x.Operation));
 
             mDisposable = new CompositeDisposable(addDisposable, removeDisposable);
+
+            mOperationCatalog = rpcCatalog;
         }
 
         private void OnRegistrationAdded(IWampProcedureRegistration registration, IRemoteWampCalleeOperation operation)
@@ -142,18 +145,16 @@ namespace WampSharp.V2.MetaApi
 
         public long? GetBestMatchingRegistrationId(string procedureUri)
         {
-            IEnumerable<RegistrationDetailsExtended> matchingGroups = 
-                base.GetMatchingGroups(procedureUri);
+            IWampProcedureRegistration registration =
+                mOperationCatalog.GetMatchingOperation(procedureUri)
+                    as IWampProcedureRegistration;
 
-            RegistrationDetailsExtended result =
-                matchingGroups.FirstOrDefault(x => x.Match == WampMatchPattern.Exact);
-
-            if (result == null)
+            if (registration == null)
             {
                 return null;
             }
 
-            return result.RegistrationId;
+            return registration.RegistrationId;
         }
 
         public RegistrationDetails GetRegistrationDetails(long registrationId)

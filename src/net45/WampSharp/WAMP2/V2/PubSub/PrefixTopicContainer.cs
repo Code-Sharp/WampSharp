@@ -17,7 +17,7 @@ namespace WampSharp.V2.PubSub
             return new PrefixSubscriptionId(topicUri);
         }
 
-        protected override IEnumerable<IWampTopic> GetMatchingTopics(string criteria)
+        public override IEnumerable<IWampTopic> GetMatchingTopics(string criteria)
         {
             return this.Topics.Where(x => criteria.StartsWith(x.TopicUri));
         }
