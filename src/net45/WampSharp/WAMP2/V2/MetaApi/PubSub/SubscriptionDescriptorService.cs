@@ -176,7 +176,7 @@ namespace WampSharp.V2.MetaApi
                 return null;
             }
 
-            return result
+            return result;
         }
 
         public long CountSubscribers(long subscriptionId)
