@@ -6,7 +6,7 @@
     <owners />
     <dependencies>
       <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="Newtonsoft.Json" version="[6.0.6]" />
+      <dependency id="Newtonsoft.Json" version="[6.0.5, 7)" />
     </dependencies>
     <id>WampSharp.NewtonsoftJson</id>
     <title>WampSharp Newtonsoft.Json binding</title>

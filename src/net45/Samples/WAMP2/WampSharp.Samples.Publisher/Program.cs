@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using WampSharp.V2;
+using WampSharp.V2.MetaApi;
 
 namespace WampSharp.Samples.Publisher
 {
@@ -13,9 +14,10 @@ namespace WampSharp.Samples.Publisher
 
             WampHost host = new DefaultWampHost(serverAddress);
 
-            host.Open();
+            IDisposable disposable = 
+                host.RealmContainer.GetRealmByName("realm1").HostMetaApiService();
 
-            IDisposable disposable = ClientCode(serverAddress);
+            host.Open();
 
             Console.ReadLine();
 

@@ -12,7 +12,7 @@ namespace WampSharp.Vtortola
         private readonly string mHttpVersion;
         private readonly CookieCollection mCookies;
         private readonly IDictionary<string, string> mHeaders;
-        private readonly ushort mWebSocketVersion;
+        private readonly short mWebSocketVersion;
         private readonly string[] mWebSocketExtensions;
         private readonly IDictionary<string, object> mItems;
 
@@ -56,7 +56,7 @@ namespace WampSharp.Vtortola
             get { return mHeaders; }
         }
 
-        public ushort WebSocketVersion
+        public short WebSocketVersion
         {
             get { return mWebSocketVersion; }
         }

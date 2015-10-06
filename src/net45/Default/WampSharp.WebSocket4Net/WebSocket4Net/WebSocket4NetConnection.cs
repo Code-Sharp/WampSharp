@@ -29,7 +29,7 @@ namespace WampSharp.WebSocket4Net
 
         public WebSocket4NetConnection(string serverAddress,
                                        IWampBinding<TMessage> binding)
-            : this(new WebSocket(serverAddress, binding.Name), binding)
+            : this(new WebSocket(serverAddress, binding.Name, WebSocketVersion.None), binding)
         {
         }
 

@@ -22,7 +22,7 @@ namespace WampSharp.V2.Fluent
         }
 
         public WebSocket4NetActivator(string serverAddress) : 
-            this(subprotocolName => new WebSocket(serverAddress, subprotocolName))
+            this(subprotocolName => new WebSocket(serverAddress, subprotocolName, WebSocketVersion.None))
         {
         }
 

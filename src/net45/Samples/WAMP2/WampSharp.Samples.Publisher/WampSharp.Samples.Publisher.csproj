@@ -38,20 +38,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Castle.Core.3.3.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Fleck, Version=0.13.0.48, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Fleck.0.13.0.48\lib\net40\Fleck.dll</HintPath>
+    <Reference Include="Fleck, Version=0.13.0.57, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Fleck.0.13.0.57\lib\net40\Fleck.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="MsgPack, Version=0.5.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\MsgPack.Cli.0.5.4\lib\net45\MsgPack.dll</HintPath>
+    <Reference Include="MsgPack, Version=0.6.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MsgPack.Cli.0.6.2\lib\net45\MsgPack.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Msgpack, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Msgpack.0.1.5\lib\net45\Newtonsoft.Msgpack.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Msgpack.0.1.6\lib\net45\Newtonsoft.Msgpack.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -76,9 +76,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebSocket4Net, Version=0.12.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\WebSocket4Net.0.12\lib\net45\WebSocket4Net.dll</HintPath>
+    <Reference Include="WebSocket4Net, Version=0.14.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WebSocket4Net.0.14\lib\net45\WebSocket4Net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +86,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
