@@ -49,7 +49,7 @@ namespace WampSharp.V2.Authentication
 
                 if (authenticated)
                 {
-                    OnClientJoin(wampClient, details);
+                    OnClientAuthenticated(wampClient, details);
                 }
                 else
                 {
@@ -75,7 +75,7 @@ namespace WampSharp.V2.Authentication
 
                 if (authenticator.IsAuthenticated)
                 {
-                    OnClientJoin(wampClient, wampClient.HelloDetails);
+                    OnClientAuthenticated(wampClient, wampClient.HelloDetails);
                 }
                 else
                 {
@@ -88,6 +88,16 @@ namespace WampSharp.V2.Authentication
             {
                 SendAbort(client, ex);
             }
+        }
+
+        private void OnClientAuthenticated(IWampClientProxy<TMessage> wampClient, HelloDetails details)
+        {
+            if (wampClient.Authorizer == null)
+            {
+                throw new ArgumentException("Authenticator.Authorizer not set.");
+            }
+
+            OnClientJoin(wampClient, details);
         }
 
         private static void SendAbort(IWampSessionClient client, WampAuthenticationException ex)
