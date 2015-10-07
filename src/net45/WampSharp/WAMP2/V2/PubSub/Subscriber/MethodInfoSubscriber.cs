@@ -20,7 +20,7 @@ namespace WampSharp.V2.PubSub
         private readonly ILog mLogger;
 
         public MethodInfoSubscriber(object instance, MethodInfo method, string topic)
-            : base(topic)
+            : base()
         {
             mLogger = LogProvider.GetLogger(typeof(MethodInfoSubscriber) + "." + topic);
             mInstance = instance;
