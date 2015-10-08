@@ -43,6 +43,11 @@ namespace WampSharp.V2.Client
 
         public Task<IAsyncDisposable> Register(IWampRpcOperation operation, RegisterOptions options)
         {
+            if (!IsConnected)
+            {
+                throw new WampSessionNotEstablishedException();
+            }
+
             RegisterRequest registerRequest =
                 new RegisterRequest(operation, mFormatter);
 
@@ -66,6 +71,11 @@ namespace WampSharp.V2.Client
             }
         }
 
+        private bool IsConnected
+        {
+            get { return mMonitor.IsConnected; }
+        }
+
         private class UnregisterDisposable : IAsyncDisposable
         {
             private readonly WampCallee<TMessage> mCallee;
@@ -79,6 +89,11 @@ namespace WampSharp.V2.Client
 
             public Task DisposeAsync()
             {
+                if (!mCallee.IsConnected)
+                {
+                    throw new WampSessionNotEstablishedException();
+                }
+
                 return mCallee.Unregister(mRegistrationId);
             }
         }

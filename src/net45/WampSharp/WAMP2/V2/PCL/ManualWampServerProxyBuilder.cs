@@ -5,6 +5,7 @@ using WampSharp.Core.Client;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Utilities;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
@@ -48,12 +49,10 @@ namespace WampSharp.V2.Client
             private static readonly MethodInfo mYield2 = Method.Get((IWampServerProxy proxy) => proxy.Yield(default(long), default(YieldOptions)));
             private static readonly MethodInfo mYield3 = Method.Get((IWampServerProxy proxy) => proxy.Yield(default(long), default(YieldOptions), default(object[])));
             private static readonly MethodInfo mYield4 = Method.Get((IWampServerProxy proxy) => proxy.Yield(default(long), default(YieldOptions), default(object[]), default(IDictionary<string, object>)));
-            private static readonly MethodInfo mHello2 = Method.Get((IWampServerProxy proxy) => proxy.Hello(default(string), default(object)));
+            private static readonly MethodInfo mHello2 = Method.Get((IWampServerProxy proxy) => proxy.Hello(default(string), default(HelloDetails)));
             private static readonly MethodInfo mAbort2 = Method.Get((IWampServerProxy proxy) => proxy.Abort(default(AbortDetails), default(string)));
-            private static readonly MethodInfo mAuthenticate2 = Method.Get((IWampServerProxy proxy) => proxy.Authenticate(default(string), default(IDictionary<string, object>)));
-            private static readonly MethodInfo mGoodbye2 = Method.Get((IWampServerProxy proxy) => proxy.Goodbye(default(object), default(string)));
-            private static readonly MethodInfo mHeartbeat2 = Method.Get((IWampServerProxy proxy) => proxy.Heartbeat(default(int), default(int)));
-            private static readonly MethodInfo mHeartbeat3 = Method.Get((IWampServerProxy proxy) => proxy.Heartbeat(default(int), default(int), default(string)));
+            private static readonly MethodInfo mAuthenticate2 = Method.Get((IWampServerProxy proxy) => proxy.Authenticate(default(string), default(AuthenticateExtraData)));
+            private static readonly MethodInfo mGoodbye2 = Method.Get((IWampServerProxy proxy) => proxy.Goodbye(default(GoodbyeDetails), default(string)));
             private static readonly MethodInfo mError4 = Method.Get((IWampServerProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string)));
             private static readonly MethodInfo mError5 = Method.Get((IWampServerProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[])));
             private static readonly MethodInfo mError6 = Method.Get((IWampServerProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[]), default(object)));
@@ -133,7 +132,7 @@ namespace WampSharp.V2.Client
                 Send(mYield4, requestId, options, arguments, argumentsKeywords);
             }
 
-            public void Hello(string realm, object details)
+            public void Hello(string realm, HelloDetails details)
             {
                 Send(mHello2, realm, details);
             }
@@ -143,24 +142,14 @@ namespace WampSharp.V2.Client
                 Send(mAbort2, details, reason);
             }
 
-            public void Authenticate(string signature, IDictionary<string, object> extra)
+            public void Authenticate(string signature, AuthenticateExtraData extra)
             {
                 Send(mAuthenticate2, signature, extra);
             }
 
-            public void Goodbye(object details, string reason)
+            public void Goodbye(GoodbyeDetails details, string reason)
             {
                 Send(mGoodbye2, details, reason);
-            }
-
-            public void Heartbeat(int incomingSeq, int outgoingSeq)
-            {
-                Send(mHeartbeat2, incomingSeq, outgoingSeq);
-            }
-
-            public void Heartbeat(int incomingSeq, int outgoingSeq, string discard)
-            {
-                Send(mHeartbeat3, incomingSeq, outgoingSeq, discard);
             }
 
             public void Error(int requestType, long requestId, object details, string error)

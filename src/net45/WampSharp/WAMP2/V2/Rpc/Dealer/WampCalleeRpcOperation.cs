@@ -9,9 +9,8 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    internal class WampCalleeRpcOperation<TMessage> : RemoteWampCalleeDetails, IWampRpcOperation, IDisposable
+    internal class WampCalleeRpcOperation<TMessage> : RemoteWampCalleeDetails, IRemoteWampCalleeOperation, IDisposable
     {
-        private const string CalleeDisconnected = "wamp.error.callee_disconnected";
         private readonly ManualResetEvent mResetEvent = new ManualResetEvent(false);
         private readonly IWampCalleeInvocationHandler<TMessage> mHandler;
         private readonly WampCalleeOperationCatalog<TMessage> mCatalog;
@@ -114,7 +113,7 @@ namespace WampSharp.V2.Rpc
             {
                 caller.Error(WampObjectFormatter.Value,
                              new Dictionary<string, string>(),
-                             CalleeDisconnected);
+                             WampErrors.CalleeDisconnected);
             }
         }
 
@@ -131,10 +130,20 @@ namespace WampSharp.V2.Rpc
 
             CallOptions callerOptions = casted.CallerOptions;
 
+            if (Options.DiscloseCaller == true &&
+                callerOptions.DiscloseMe == false)
+            {
+                throw new WampException(WampErrors.DiscloseMeNotAllowed);
+            }
+
             if (Options.DiscloseCaller == true ||
                 callerOptions.DiscloseMe == true)
             {
                 result.Caller = casted.CallerSession;
+
+                result.AuthenticationId = casted.AuthenticationId;
+                result.AuthenticationMethod = casted.AuthenticationMethod;
+                result.AuthenticationRole = casted.AuthenticationRole;
             }
 
             if (callerOptions.ReceiveProgress == true)
@@ -142,7 +151,7 @@ namespace WampSharp.V2.Rpc
                 result.ReceiveProgress = true;
             }
 
-            if (Options.Match != "exact")
+            if (Options.Match != WampMatchPattern.Exact)
             {
                 result.Procedure = casted.ProcedureUri;
             }

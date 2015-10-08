@@ -3,8 +3,10 @@ using System;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.MetaApi;
 using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Core.Listener.ClientBuilder
@@ -34,6 +36,22 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         public IWampBindedRealm<TMessage> Realm { get; set; }
         
         public IWampBinding<TMessage> Binding { get; set; }
+
+        public WampTransportDetails TransportDetails { get; set; }
+
+        public IWampSessionAuthenticator Authenticator { get; set; }
+
+        public IWampAuthorizer Authorizer
+        {
+            get
+            {
+                return Authenticator.Authorizer;
+            }
+        }
+
+        public HelloDetails HelloDetails { get; set; }
+
+        public WelcomeDetails WelcomeDetails { get; set; }
 
         IWampBinding IWampClientProperties.Binding
         {

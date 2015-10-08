@@ -10,7 +10,7 @@ namespace WampSharp.V2.Binding.Contracts
     public abstract class JsonBinding<TMessage> : WampTransportBinding<TMessage, string>,
         IWampTextBinding<TMessage>
     {
-        protected JsonBinding(IWampFormatter<TMessage> formatter, IWampTextMessageParser<TMessage> parser, string protocolName = "wamp.2.json")
+        protected JsonBinding(IWampFormatter<TMessage> formatter, IWampTextMessageParser<TMessage> parser, string protocolName = WampSubProtocols.JsonSubProtocol)
             : base(formatter, parser, protocolName)
         {
         }

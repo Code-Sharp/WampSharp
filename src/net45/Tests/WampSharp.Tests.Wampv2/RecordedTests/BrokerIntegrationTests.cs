@@ -9,6 +9,7 @@ using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.Wampv2.Binding;
 using WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
@@ -129,8 +130,9 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                                             });
 
             IWampClientProxy<MockRaw> built =
-                builder.Create(sessionId, nullPlayer,
-                                      recorder);
+                builder.Create(nullPlayer,
+                               recorder,
+                               welcome);
 
             MockClient<IWampClientProxy<MockRaw>> result =
                 new MockClient<IWampClientProxy<MockRaw>>(built, recorder);
@@ -138,14 +140,12 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
             return result;
         }
 
-        private static MockClient<IWampClientProxy<MockRaw>> GetSubscriber(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> handler, IEnumerable<WampMessage<MockRaw>> calls)
+        private MockClient<IWampClientProxy<MockRaw>> GetSubscriber(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> handler, IEnumerable<WampMessage<MockRaw>> calls)
         {
             WampMessage<MockRaw> welcome =
                 GetCalls(scenario, Channel.BrokerToSubscriber,
                          new WampMessageType[] { WampMessageType.v2Welcome })
                     .FirstOrDefault();
-
-            long sessionId = (long)welcome.Arguments[0].Value;
 
             // TODO: After enough events unsubscribe.
             NullPlayer<MockRaw> nullPlayer =
@@ -159,8 +159,9 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                                             });
 
             IWampClientProxy<MockRaw> built =
-                clientBuilder.Create(sessionId, nullPlayer,
-                                      recorder);
+                clientBuilder.Create(nullPlayer,
+                                      recorder,
+                                      welcome);
 
             MockClient<IWampClientProxy<MockRaw>> result =
                 new MockClient<IWampClientProxy<MockRaw>>(built, recorder);

@@ -10,7 +10,7 @@ namespace WampSharp.V2.Realm
         /// <summary>
         /// Occurs when a new session is created.
         /// </summary>
-        event EventHandler<WampSessionEventArgs> SessionCreated;
+        event EventHandler<WampSessionCreatedEventArgs> SessionCreated;
 
         /// <summary>
         /// Occurs when a session is closed.

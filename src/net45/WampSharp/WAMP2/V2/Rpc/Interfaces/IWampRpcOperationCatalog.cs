@@ -1,4 +1,6 @@
-﻿using WampSharp.V2.Core.Contracts;
+﻿using System;
+using WampSharp.V2.Core;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
@@ -12,6 +14,23 @@ namespace WampSharp.V2.Rpc
         /// </summary>
         /// <param name="operation"></param>
         /// <param name="options"></param>
-        IWampRpcOperationRegistrationToken Register(IWampRpcOperation operation, RegisterOptions options);
+        IWampRegistrationSubscriptionToken Register(IWampRpcOperation operation, RegisterOptions options);
+
+        /// <summary>
+        /// Occurs when a procedure registration is added.
+        /// </summary>
+        event EventHandler<WampProcedureRegisterEventArgs> RegistrationAdded;
+
+        /// <summary>
+        /// Occurs when a procedure registration is removed.
+        /// </summary>
+        event EventHandler<WampProcedureRegisterEventArgs> RegistrationRemoved;
+
+        /// <summary>
+        /// Gets the best match for the given criteria.
+        /// </summary>
+        /// <param name="criteria">The given criteria.</param>
+        /// <returns>The best match for the given criteria.</returns>
+        IWampRpcOperation GetMatchingOperation(string criteria);
     }
 }

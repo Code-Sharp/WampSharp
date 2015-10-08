@@ -5,17 +5,17 @@ namespace WampSharp.V2.Rpc
 {
     internal class ExactRpcOperationCatalog : MatchRpcOperationCatalog
     {
-        public ExactRpcOperationCatalog(WampIdMapper<ProcedureRegistration> mapper) :
+        public ExactRpcOperationCatalog(WampIdMapper<WampProcedureRegistration> mapper) :
             base(mapper)
         {
         }
 
         public override bool Handles(RegisterOptions options)
         {
-            return options.Match == "exact";
+            return options.Match == WampMatchPattern.Exact;
         }
 
-        protected override IWampRpcOperation GetMatchingOperation(string criteria)
+        public override IWampRpcOperation GetMatchingOperation(string criteria)
         {
             return GetOperationByUri(criteria);
         }

@@ -103,6 +103,14 @@
         /// </summary>
         public const string ProcedureExistsInvocationPolicyConflict = "wamp.error.procedure_exists_with_different_invocation_policy";
 
+        public const string WampErrorCannotAuthenticate = "wamp.error.cannot_authenticate";
 
+        // TODO: Custom uris that should be part of the WAMP spec.
+        public const string CalleeDisconnected = "wamp.error.callee_disconnected";
+
+        public const string InvalidOptions = "wamp.error.invalid_options";
+
+        public const string CalleeUnregistered = "wamp.error.callee_unregistered";
+        public const string DiscloseMeNotAllowed = "wamp.error.disclose_me.not_allowed";
     }
 }

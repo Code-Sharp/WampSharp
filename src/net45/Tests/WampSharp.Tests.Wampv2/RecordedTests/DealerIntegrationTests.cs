@@ -7,6 +7,7 @@ using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
@@ -96,8 +97,6 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                          new WampMessageType[] { WampMessageType.v2Welcome })
                     .FirstOrDefault();
 
-            long sessionId = (long)welcome.Arguments[0].Value;
-
             NullPlayer<MockRaw> nullPlayer =
                 new NullPlayer<MockRaw>();
 
@@ -105,8 +104,9 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                 new MessageRecorder<MockRaw>();
 
             IWampClientProxy<MockRaw> built =
-                builder.Create(sessionId, nullPlayer,
-                               messageRecorder);
+                builder.Create(nullPlayer,
+                               messageRecorder,
+                               welcome);
 
             MockClient<IWampClientProxy<MockRaw>> result =
                 new MockClient<IWampClientProxy<MockRaw>>(built, messageRecorder);
@@ -114,7 +114,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
             return result;
         }
 
-        private static MockClient<IWampClientProxy<MockRaw>> GetCallee(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> handler)
+        private MockClient<IWampClientProxy<MockRaw>> GetCallee(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> handler)
         {
             WampMessage<MockRaw> welcome =
                 GetCalls(scenario, Channel.DealerToCallee,
@@ -124,8 +124,6 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
             IEnumerable<WampMessage<MockRaw>> calls =
                 GetCalls(scenario, Channel.CalleeToDealer, MessageTypes.Rpc).Concat
                     (GetCalls(scenario, Channel.DealerToCallee, MessageTypes.Rpc)).ToList();
-
-            long sessionId = (long)welcome.Arguments[0].Value;
 
             CalleeMessagePlayer player =
                 new CalleeMessagePlayer(calls,
@@ -140,8 +138,9 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                                             });
 
             IWampClientProxy<MockRaw> built =
-                clientBuilder.Create(sessionId, player,
-                                      recorder);
+                clientBuilder.Create(player,
+                                     recorder,
+                                     welcome);
 
             player.Client = built;
 

@@ -13,12 +13,29 @@ The implementation also supports WAMPv1, both client and server roles.
 Master | Provider
 ------ | --------
 [![Build Status][WinImgMaster]][WinLinkMaster] | Windows CI Provided By [CodeBetter][] and [JetBrains][] 
-[![Build Status][AppVeyorImgMaster]][AppVeyorLinkMaster] | Windows CI Provided By [AppVeyor][]
 [![Build Status][MonoImgMaster]][MonoLinkMaster] | Mono CI Provided by [travis-ci][] 
 
-## WampSharp v1.2.2.8-beta
 
-WampSharp v1.2.2.8-beta released, see version [release notes](https://github.com/Code-Sharp/WampSharp/wiki/WampSharp-v1.2.2.8-beta-release-notes).
+## Advanced profile supported features:
+
+The following [Advanced profile features](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced.md) are supported
+
+* [Progressive call results](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/progressive-call-results.md): [[caller tutorial|Caller role#progressive-calls]] | [[callee tutorial|Callee role#progressive-callee]]
+* [Caller identification](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/caller-identification.md): [[caller tutorial|Caller-role#caller-identification]] | [[callee tutorial|Callee-role#caller-identification]]
+* [Session meta api](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/session-meta-api.md), [Registration meta api](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/registration-meta-api.md), [Subscription meta api](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/subscription-meta-api.md)
+* [Shared registrations](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/shared-registration.md), see also [here](http://crossbar.io/docs/Shared-Registrations/)
+* [Subscriber black and whitelisting](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/subscriber-blackwhite-listing.md)
+* [Publisher exclusion](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/publisher-exclusion.md)
+* [Publisher identification](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/publisher-identification.md)
+* [Pattern-based subscriptions](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/pattern-based-subscription.md) - see also [here](http://crossbar.io/docs/Pattern-Based-Subscriptions/)
+* [Pattern-based registrations](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/pattern-based-registration.md) - see also [here](http://crossbar.io/docs/Pattern-Based-Registrations/)
+* [RawSocket transport](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/rawsocket-transport.md)
+* [Authentication](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/authentication.md)
+* [WAMP-CRA](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/challenge-response-authentication.md)
+
+## WampSharp v1.2.1.6-beta
+
+WampSharp v1.2.1.6-beta released, see version [release notes](https://github.com/Code-Sharp/WampSharp/wiki/WampSharp-v1.2.1.6-beta-release-notes).
 
 ## Get Started
 
@@ -35,8 +52,6 @@ See [Wiki documentation](https://github.com/Code-Sharp/WampSharp/wiki) for more 
 
 WAMPv1 support is still available. You can read about it at the [Wiki](https://github.com/Code-Sharp/WampSharp/wiki).
 
-In order to use it, Install WampSharp.WAMP1.Default from NuGet.
-
 If you're updating from a previous WampSharp version and you're not interested yet in updating your application to WAMPv2, please read the following [notes](https://github.com/Code-Sharp/WampSharp/wiki/Notes-for-WAMPv1-users).
 
 ## Donations
@@ -47,14 +62,10 @@ Your donations help keep this project development alive.
 
 [WampLink]:http://wamp.ws
 
-[NuGetImgMaster]:http://img.shields.io/nuget/v/WampSharp.Default.svg
-[NuGetLinkMaster]:http://www.nuget.org/packages/WampSharp.Default/
-[WinImgMaster]:https://img.shields.io/teamcity/codebetter/WampSharp_Wampv2_Build.svg
-[WinLinkMaster]:http://teamcity.codebetter.com/project.html?projectId=WampSharp_Wampv2&guest=1
-[MonoImgMaster]:https://img.shields.io/travis/Code-Sharp/WampSharp/wampv2.svg
+[WinImgMaster]:http://teamcity.codebetter.com/app/rest/builds/buildType:\(id:WampSharp_Dev_Build\)/statusIcon
+[WinLinkMaster]:http://teamcity.codebetter.com/project.html?projectId=WampSharp_Dev&guest=1
+[MonoImgMaster]:https://travis-ci.org/Code-Sharp/WampSharp.png?branch=develop
 [MonoLinkMaster]:https://travis-ci.org/Code-Sharp/WampSharp
-[AppVeyorLinkMaster]:https://ci.appveyor.com/project/darkl/wampsharp-759
-[AppVeyorImgMaster]:https://ci.appveyor.com/api/projects/status/fgbqbgwqx4j8jain
 
 [JetBrains]:http://www.jetbrains.com/
 [CodeBetter]:http://codebetter.com/

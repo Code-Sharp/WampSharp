@@ -26,14 +26,14 @@ namespace WampSharp.V2.Core.Contracts
 
         /// <summary>
         /// The procedure invocation policy to be used for the registration.
-        /// (Mostly supported: null/"single"/"first"/"last"/"random"/"roundrobin")
+        /// (Mostly supported: <see cref="WampInvokePolicy"/> values: null/"single"/"first"/"last"/"random"/"roundrobin")
         /// </summary>
         [DataMember(Name = "invoke")]
         public string Invoke { get; set; }
 
         /// <summary>
         /// The procedure matching policy to be used for the registration.
-        /// (Mostly supported: null/"exact"/"prefix"/"wildcard")
+        /// (Mostly supported: <see cref="WampMatchPattern"/> values: null/"exact"/"prefix"/"wildcard")
         /// </summary>
         [DataMember(Name = "match")]
         public string Match { get; set; }

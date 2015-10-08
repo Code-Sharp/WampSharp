@@ -219,7 +219,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             private ISerializedValue[] mArguments;
             private IDictionary<string, ISerializedValue> mArgumentsKeywords;
 
-            public MyCustomSubscriber() : base(null)
+            public MyCustomSubscriber() : base()
             {
             }
 

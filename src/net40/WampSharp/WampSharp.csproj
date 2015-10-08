@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -107,6 +108,12 @@
     <Compile Include="..\..\net45\WampSharp\Core\Contracts\WampRawHandlerAttribute.cs">
       <Link>Core\Contracts\WampRawHandlerAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Cra\CraChallenge.cs">
+      <Link>Core\Cra\CraChallenge.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Cra\IWampCraChallenge.cs">
+      <Link>Core\Cra\IWampCraChallenge.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Dispatch\Handler\DelegateCache.cs">
       <Link>Core\Dispatch\Handler\DelegateCache.cs</Link>
     </Compile>
@@ -121,6 +128,12 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Listener\Connections\AsyncConnection\AsyncWampConnection.cs">
       <Link>Core\Listener\Connections\AsyncConnection\AsyncWampConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Listener\Connections\AsyncConnection\AsyncWebSocketWampConnection.cs">
+      <Link>Core\Listener\Connections\AsyncConnection\AsyncWebSocketWampConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Listener\Connections\ReviveClientConnection.cs">
+      <Link>Core\Listener\Connections\ReviveClientConnection.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Logs\LogErrorExtensions.cs">
       <Link>Core\Logs\LogErrorExtensions.cs</Link>
@@ -338,20 +351,170 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs">
+      <Link>WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs">
+      <Link>WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\AuthenticateExtraData.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\AuthenticateExtraData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Cookie\CookieCollectionCookieProvider.cs">
+      <Link>WAMP2\V2\Authentication\Cookie\CookieCollectionCookieProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Cookie\ICookieAuthenticatorFactory.cs">
+      <Link>WAMP2\V2\Authentication\Cookie\ICookieAuthenticatorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Cookie\ICookieProvider.cs">
+      <Link>WAMP2\V2\Authentication\Cookie\ICookieProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\IWampAuthenticatedConnection.cs">
+      <Link>WAMP2\V2\Authentication\IWampAuthenticatedConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\IWampAuthorizer.cs">
+      <Link>WAMP2\V2\Authentication\IWampAuthorizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\IWampSessionAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\IWampSessionAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\IWampSessionAuthenticatorFactory.cs">
+      <Link>WAMP2\V2\Authentication\IWampSessionAuthenticatorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampPendingClientDetails.cs">
+      <Link>WAMP2\V2\Authentication\WampPendingClientDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Restriction\RestrictedAuthorizer.cs">
+      <Link>WAMP2\V2\Authentication\Restriction\RestrictedAuthorizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Restriction\RestrictedSessionAuthenticationFactory.cs">
+      <Link>WAMP2\V2\Authentication\Restriction\RestrictedSessionAuthenticationFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Restriction\RestrictedSessionAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\Restriction\RestrictedSessionAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Host\WampAuthenticationBinaryBinding.cs">
+      <Link>WAMP2\V2\Authentication\Host\WampAuthenticationBinaryBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Host\WampAuthenticationBinding.cs">
+      <Link>WAMP2\V2\Authentication\Host\WampAuthenticationBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Host\WampAuthenticationHost.cs">
+      <Link>WAMP2\V2\Authentication\Host\WampAuthenticationHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Host\WampAuthenticationRouterBuilder.cs">
+      <Link>WAMP2\V2\Authentication\Host\WampAuthenticationRouterBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Server\WampAuthenticationServer.cs">
+      <Link>WAMP2\V2\Authentication\Server\WampAuthenticationServer.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\WampEventContext.cs">
       <Link>WAMP2\V2\Api\WampEventContext.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\AsyncDisposable\IAsyncDisposable.cs">
       <Link>Core\Utilities\AsyncDisposable\IAsyncDisposable.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\Features\BrokerFeatures.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\Features\BrokerFeatures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\Features\CalleeFeatures.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\Features\CalleeFeatures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\Features\CallerFeatures.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\Features\CallerFeatures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\Features\ClientRoles.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\Features\ClientRoles.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\Features\DealerFeatures.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\Features\DealerFeatures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\GoodbyeAbortDetails.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\GoodbyeAbortDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\GoodbyeDetails.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\GoodbyeDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\Features\PublisherFeatures.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\Features\PublisherFeatures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\Features\Role.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\Features\Role.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\Features\RouterRoles.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\Features\RouterRoles.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\Features\SubscriberFeatures.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\Features\SubscriberFeatures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\WelcomeDetails.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\WelcomeDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Host\WampAuthenticationTextBinding.cs">
+      <Link>WAMP2\V2\Authentication\Host\WampAuthenticationTextBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\RoleBased\IWampAuthenticationProvider.cs">
+      <Link>WAMP2\V2\Authentication\RoleBased\IWampAuthenticationProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\IWampCraUserDb.cs">
+      <Link>WAMP2\V2\Authentication\WampCra\IWampCraUserDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\RoleBased\WampAuthenticationRole.cs">
+      <Link>WAMP2\V2\Authentication\RoleBased\WampAuthenticationRole.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraChallengeDetails.cs">
+      <Link>WAMP2\V2\Authentication\WampCra\WampCraChallengeDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraSessionAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\WampCra\WampCraSessionAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraPendingClientDetails.cs">
+      <Link>WAMP2\V2\Authentication\WampCra\WampCraPendingClientDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\RoleBased\WampStaticAuthenticationProvider.cs">
+      <Link>WAMP2\V2\Authentication\RoleBased\WampStaticAuthenticationProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\RoleBased\WampStaticAuthorizer.cs">
+      <Link>WAMP2\V2\Authentication\RoleBased\WampStaticAuthorizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraStaticUserDb.cs">
+      <Link>WAMP2\V2\Authentication\WampCra\WampCraStaticUserDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\RoleBased\WampUriPermissions.cs">
+      <Link>WAMP2\V2\Authentication\RoleBased\WampUriPermissions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraUser.cs">
+      <Link>WAMP2\V2\Authentication\WampCra\WampCraUser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraUserDbAuthenticationFactory.cs">
+      <Link>WAMP2\V2\Authentication\WampCra\WampCraUserDbAuthenticationFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampCra\WampCraUserDbSessionAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\WampCra\WampCraUserDbSessionAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampSessionAuthenticator.cs">
+      <Link>WAMP2\V2\Authentication\WampSessionAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Contracts\WampSubProtocols.cs">
+      <Link>WAMP2\V2\Binding\Contracts\WampSubProtocols.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\IWampRouterBinding.cs">
       <Link>WAMP2\V2\Binding\IWampRouterBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\Parsers\IWampStreamingMessageParser.cs">
+      <Link>WAMP2\V2\Binding\Parsers\IWampStreamingMessageParser.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Binding\WampRouterBindingExtensions.cs">
       <Link>WAMP2\V2\Binding\WampRouterBindingExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\WampSessionNotEstablishedException.cs">
+      <Link>WAMP2\V2\Client\WampSessionNotEstablishedException.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs">
       <Link>WAMP2\V2\Client\Session\WampCraClientAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\ExperimentalWampFeature.cs">
+      <Link>WAMP2\V2\Core\Contracts\ExperimentalWampFeature.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\IWampClient.cs">
       <Link>WAMP2\V2\Core\Contracts\IWampClient.cs</Link>
@@ -361,6 +524,147 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs">
       <Link>WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampInvokePolicy.cs">
+      <Link>WAMP2\V2\Core\Contracts\WampInvokePolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampMatchPattern.cs">
+      <Link>WAMP2\V2\Core\Contracts\WampMatchPattern.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Uri\IWampUriValidator.cs">
+      <Link>WAMP2\V2\Core\Uri\IWampUriValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Uri\LooseUriValidator.cs">
+      <Link>WAMP2\V2\Core\Uri\LooseUriValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Uri\StrictUriValidator.cs">
+      <Link>WAMP2\V2\Core\Uri\StrictUriValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Uri\WampUriRegexValidator.cs">
+      <Link>WAMP2\V2\Core\Uri\WampUriRegexValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\ChannelFactoryExtensions.cs">
+      <Link>WAMP2\V2\Fluent\ChannelFactoryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\ChannelFactorySyntax.cs">
+      <Link>WAMP2\V2\Fluent\ChannelFactorySyntax.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\ChannelState.cs">
+      <Link>WAMP2\V2\Fluent\ChannelState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\IWampConnectionActivator.cs">
+      <Link>WAMP2\V2\Fluent\IWampConnectionActivator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs">
+      <Link>WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Contracts\IWampRegistrationDescriptorProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Contracts\IWampRegistrationDescriptorProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Contracts\IWampSessionDescriptorProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Contracts\IWampSessionDescriptorProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Contracts\IWampSubscriptionDescriptorProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Contracts\IWampSubscriptionDescriptorProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Generated\WampRegistrationDescriptorProxyProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Generated\WampRegistrationDescriptorProxyProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Generated\WampSessionDescriptorProxyProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Generated\WampSessionDescriptorProxyProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Generated\WampSubscriptionDescriptorProxyProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Generated\WampSubscriptionDescriptorProxyProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\MetaApiEventsBase.cs">
+      <Link>WAMP2\V2\MetaApi\Client\MetaApiEventsBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\MetaEvents.cs">
+      <Link>WAMP2\V2\MetaApi\Client\MetaEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\RegistrationEvents.cs">
+      <Link>WAMP2\V2\MetaApi\Client\RegistrationEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\SessionEvents.cs">
+      <Link>WAMP2\V2\MetaApi\Client\SessionEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\SubscriptionEvents.cs">
+      <Link>WAMP2\V2\MetaApi\Client\SubscriptionEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\WampMetaApiServiceProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\WampMetaApiServiceProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\WampRealmProxyExtensions.cs">
+      <Link>WAMP2\V2\MetaApi\Client\WampRealmProxyExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\WampHostedRealmExtensions.cs">
+      <Link>WAMP2\V2\MetaApi\WampHostedRealmExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\WampRealmDescriptorService.cs">
+      <Link>WAMP2\V2\MetaApi\WampRealmDescriptorService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\DescriptorServiceBase.cs">
+      <Link>WAMP2\V2\MetaApi\DescriptorServiceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\IGroupDetailsExtended.cs">
+      <Link>WAMP2\V2\MetaApi\IGroupDetailsExtended.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\ManualSubscriber.cs">
+      <Link>WAMP2\V2\MetaApi\ManualSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Rpc\RegistrationDescriptorService.cs">
+      <Link>WAMP2\V2\MetaApi\Rpc\RegistrationDescriptorService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Rpc\RegistrationDetailsExtended.cs">
+      <Link>WAMP2\V2\MetaApi\Rpc\RegistrationDetailsExtended.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\AvailableGroups.cs">
+      <Link>WAMP2\V2\MetaApi\AvailableGroups.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\SubscriptionToken.cs">
+      <Link>WAMP2\V2\PubSub\SubscriptionToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Session\SessionDescriptorService.cs">
+      <Link>WAMP2\V2\MetaApi\Session\SessionDescriptorService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Rpc\IWampRegistrationDescriptor.cs">
+      <Link>WAMP2\V2\MetaApi\Rpc\IWampRegistrationDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Session\Crossbar\CrossbarHttpHeadersSent.cs">
+      <Link>WAMP2\V2\MetaApi\Session\Crossbar\CrossbarHttpHeadersSent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Session\Crossbar\CrossbarHttpHeadersReceived.cs">
+      <Link>WAMP2\V2\MetaApi\Session\Crossbar\CrossbarHttpHeadersReceived.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\PubSub\IWampSubscriptionMetadataSubscriber.cs">
+      <Link>WAMP2\V2\MetaApi\PubSub\IWampSubscriptionMetadataSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Rpc\IWampRegistrationMetadataSubscriber.cs">
+      <Link>WAMP2\V2\MetaApi\Rpc\IWampRegistrationMetadataSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Session\IWampSessionMetadataSubscriber.cs">
+      <Link>WAMP2\V2\MetaApi\Session\IWampSessionMetadataSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Session\IWampSessionDescriptor.cs">
+      <Link>WAMP2\V2\MetaApi\Session\IWampSessionDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\PubSub\IWampSubscriptionDescriptor.cs">
+      <Link>WAMP2\V2\MetaApi\PubSub\IWampSubscriptionDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Session\WampSessionDetails.cs">
+      <Link>WAMP2\V2\MetaApi\Session\WampSessionDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\PubSub\SubscriptionDetails.cs">
+      <Link>WAMP2\V2\MetaApi\PubSub\SubscriptionDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Rpc\RegistrationDetails.cs">
+      <Link>WAMP2\V2\MetaApi\Rpc\RegistrationDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Session\WampTransportDetails.cs">
+      <Link>WAMP2\V2\MetaApi\Session\WampTransportDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Session\HelloDetails.cs">
+      <Link>WAMP2\V2\Core\Contracts\Session\HelloDetails.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Listener\WampClientContainer.cs">
       <Link>WAMP2\V2\Core\Listener\WampClientContainer.cs</Link>
@@ -446,6 +750,12 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\ArgumentUnpacker.cs">
       <Link>WAMP2\V2\Core\ArgumentUnpacker.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Session\Crossbar\CrossbarWebSocketTransportDetails.cs">
+      <Link>WAMP2\V2\MetaApi\Session\Crossbar\CrossbarWebSocketTransportDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\PubSub\SubscriptionDescriptorService.cs">
+      <Link>WAMP2\V2\MetaApi\PubSub\SubscriptionDescriptorService.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\LocalParameter.cs">
       <Link>WAMP2\V2\Core\LocalParameter.cs</Link>
     </Compile>
@@ -463,6 +773,12 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\WampRouterBuilder.cs">
       <Link>WAMP2\V2\Realm\WampRouterBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\TopicContainerExtensions.cs">
+      <Link>WAMP2\V2\PubSub\TopicContainerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\PubSub\SubscriptionDetailsExtended.cs">
+      <Link>WAMP2\V2\MetaApi\PubSub\SubscriptionDetailsExtended.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs</Link>
@@ -491,14 +807,20 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs">
       <Link>WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\IRemoteWampCalleeOperation.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\IRemoteWampCalleeOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\IWampProcedureRegistration.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\IWampProcedureRegistration.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\MatchRpcOperationCatalog.cs">
       <Link>WAMP2\V2\Rpc\Dealer\MatchRpcOperationCatalog.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs">
       <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\FirstOperationSelector.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\IWampRpcOperationRegistrationToken.cs">
-      <Link>WAMP2\V2\Rpc\Dealer\IWampRpcOperationRegistrationToken.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\IWampRegistrationSubscriptionToken.cs">
+      <Link>WAMP2\V2\Core\IWampRegistrationSubscriptionToken.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\IWampRpcOperationSelector.cs">
       <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\IWampRpcOperationSelector.cs</Link>
@@ -512,8 +834,17 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\PrefixRpcOperationCatalog.cs">
       <Link>WAMP2\V2\Rpc\Dealer\PrefixRpcOperationCatalog.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\ProcedureRegistration.cs">
-      <Link>WAMP2\V2\Rpc\Dealer\ProcedureRegistration.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeAddEventArgs.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeAddEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeChangeEventArgs.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeChangeEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeRemoveEventArgs.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeRemoveEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampProcedureRegistration.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\WampProcedureRegistration.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\OperationSelectors\RoundrobinOperationSelector.cs">
       <Link>WAMP2\V2\Rpc\Dealer\OperationSelectors\RoundrobinOperationSelector.cs</Link>
@@ -529,6 +860,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WildcardRpcOperationCatalog.cs">
       <Link>WAMP2\V2\Rpc\Dealer\WildcardRpcOperationCatalog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\EventArgs\WampProcedureRegisterEventArgs.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\EventArgs\WampProcedureRegisterEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs</Link>
@@ -575,6 +909,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs">
       <Link>WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Server\WampAuthenticationSessionServer.cs">
+      <Link>WAMP2\V2\Authentication\Server\WampAuthenticationSessionServer.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\InMemoryBinding.cs">
       <Link>WAMP2\V2\Transports\InMemory\InMemoryBinding.cs</Link>
     </Compile>
@@ -605,8 +942,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs">
       <Link>WAMP2\V2\Client\Session\IWampClientConnectionMonitor.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationException.cs">
-      <Link>WAMP2\V2\Client\Session\WampAuthenticationException.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\WampAuthenticationException.cs">
+      <Link>WAMP2\V2\Authentication\WampAuthenticationException.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\PubSub\EventDetails.cs">
       <Link>WAMP2\V2\Core\Contracts\PubSub\EventDetails.cs</Link>
@@ -839,8 +1176,8 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\WampSessionCloseEventArgs.cs">
       <Link>WAMP2\V2\Realm\Interfaces\WampSessionCloseEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs">
-      <Link>WAMP2\V2\Realm\Interfaces\WampSessionEventArgs.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\Interfaces\WampSessionCreatedEventArgs.cs">
+      <Link>WAMP2\V2\Realm\Interfaces\WampSessionCreatedEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Realm\WampRealm.cs">
       <Link>WAMP2\V2\Realm\WampRealm.cs</Link>
@@ -1192,6 +1529,15 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\WampFormatterExtensions.cs">
       <Link>WAMP2\V2\Transports\InMemory\WampFormatterExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\IPinger.cs">
+      <Link>WAMP2\V2\Transports\IPinger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\PingPongHandler.cs">
+      <Link>WAMP2\V2\Transports\PingPongHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\TextBinaryTransport.cs">
+      <Link>WAMP2\V2\Transports\TextBinaryTransport.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\WebSocketTransport.cs">
       <Link>WAMP2\V2\Transports\WebSocketTransport.cs</Link>

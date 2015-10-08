@@ -36,9 +36,9 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fleck, Version=0.13.0.48, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Fleck.0.13.0.48\lib\net40\Fleck.dll</HintPath>
+    <Reference Include="Fleck, Version=0.13.0.57, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Fleck.0.13.0.57\lib\net40\Fleck.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,6 +51,7 @@
     <Reference Include="System.Reactive.Linq">
       <HintPath>..\..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,6 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fleck\FleckTransportDetails.cs" />
+    <Compile Include="Fleck\FleckAuthenticatedWebSocketTransport.cs" />
+    <Compile Include="Fleck\FleckCookieProvider.cs" />
+    <Compile Include="Fleck\FleckPinger.cs" />
     <Compile Include="Fleck\FleckWampBinaryConnection.cs" />
     <Compile Include="Fleck\FleckWampConnection.cs" />
     <Compile Include="Fleck\FleckWampConnectionListener.cs" />

@@ -27,14 +27,22 @@ namespace WampSharp.V2.PubSub
         /// </summary>
         public WampTopicContainer()
         {
-            mExactTopicContainer = new ExactTopicContainer();
+            WampIdMapper<IWampTopic> subscriptionIdToTopic = new WampIdMapper<IWampTopic>();
+
+            mExactTopicContainer = new ExactTopicContainer(subscriptionIdToTopic);
 
             mInnerContainers = new MatchTopicContainer[]
             {
                 mExactTopicContainer,
-                new PrefixTopicContainer(),
-                new WildCardTopicContainer()
+                new PrefixTopicContainer(subscriptionIdToTopic),
+                new WildCardTopicContainer(subscriptionIdToTopic)
             };
+
+            foreach (MatchTopicContainer container in mInnerContainers)
+            {
+                container.TopicCreated += OnTopicCreated;
+                container.TopicRemoved += OnTopicRemoved;
+            }
         }
 
         #endregion
@@ -49,7 +57,7 @@ namespace WampSharp.V2.PubSub
             get { return mExactTopicContainer.Topics; }
         }
 
-        public IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
+        public IWampRegistrationSubscriptionToken Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {
             MatchTopicContainer topicContainer = GetInnerContainer(options);
 
@@ -61,6 +69,17 @@ namespace WampSharp.V2.PubSub
             MatchTopicContainer topicContainer = GetInnerContainer(options);
 
             return topicContainer.GetSubscriptionId(topicUri, options);
+        }
+
+        public IEnumerable<IWampTopic> GetMatchingTopics(string criteria)
+        {
+            foreach (MatchTopicContainer innerContainer in mInnerContainers)
+            {
+                foreach (IWampTopic topic in innerContainer.GetMatchingTopics(criteria))
+                {
+                    yield return topic;
+                }
+            }
         }
 
         private MatchTopicContainer GetInnerContainer(SubscribeOptions options)
@@ -147,39 +166,37 @@ namespace WampSharp.V2.PubSub
             return mExactTopicContainer.TryRemoveTopicByUri(topicUri, out topic);
         }
 
-        public event EventHandler<WampTopicCreatedEventArgs> TopicCreated
+        public event EventHandler<WampTopicCreatedEventArgs> TopicCreated;
+
+        public event EventHandler<WampTopicRemovedEventArgs> TopicRemoved;
+
+        private void OnTopicCreated(object sender, WampTopicCreatedEventArgs e)
         {
-            add
+            RaiseTopicCreated(e);
+        }
+
+        private void OnTopicRemoved(object sender, WampTopicRemovedEventArgs e)
+        {
+            RaiseTopicRemoved(e);
+        }
+
+        private void RaiseTopicCreated(WampTopicCreatedEventArgs e)
+        {
+            EventHandler<WampTopicCreatedEventArgs> handler = TopicCreated;
+
+            if (handler != null)
             {
-                foreach (MatchTopicContainer container in mInnerContainers)
-                {
-                    container.TopicCreated += value;
-                }
-            }
-            remove
-            {
-                foreach (MatchTopicContainer container in mInnerContainers)
-                {
-                    container.TopicCreated -= value;
-                }
+                handler(this, e);
             }
         }
 
-        public event EventHandler<WampTopicRemovedEventArgs> TopicRemoved
+        private void RaiseTopicRemoved(WampTopicRemovedEventArgs e)
         {
-            add
+            EventHandler<WampTopicRemovedEventArgs> handler = TopicRemoved;
+
+            if (handler != null)
             {
-                foreach (MatchTopicContainer container in mInnerContainers)
-                {
-                    container.TopicRemoved += value;
-                }
-            }
-            remove
-            {
-                foreach (MatchTopicContainer container in mInnerContainers)
-                {
-                    container.TopicRemoved -= value;
-                }
+                handler(this, e);
             }
         }
     }

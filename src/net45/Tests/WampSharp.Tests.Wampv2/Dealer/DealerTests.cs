@@ -9,7 +9,9 @@ using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.Wampv2.Binding;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
@@ -18,13 +20,13 @@ namespace WampSharp.Tests.Wampv2.Dealer
     [TestFixture]
     public class DealerTests
     {
-        class RegistrationTokenMock : IWampRpcOperationRegistrationToken
+        class RegistrationTokenMock : IWampRegistrationSubscriptionToken
         {
             public void Dispose()
             {
             }
 
-            public long RegistrationId { get; set; }
+            public long TokenId { get; set; }
         }
 
         [Test]
@@ -39,7 +41,8 @@ namespace WampSharp.Tests.Wampv2.Dealer
             WampRpcServer<MockRaw> server =
                 new WampRpcServer<MockRaw>
                     (catalog.Object,
-                     new MockBinding());
+                     new MockBinding(), 
+                     new LooseUriValidator());
 
             catalog.Setup(x => x.Register
                               (It.IsAny<IWampRpcOperation>(),
@@ -81,7 +84,8 @@ namespace WampSharp.Tests.Wampv2.Dealer
             WampRpcServer<MockRaw> server =
                 new WampRpcServer<MockRaw>
                     (catalog.Object,
-                     new MockBinding());
+                     new MockBinding(),
+                     new LooseUriValidator());
 
             foreach (Registration registration in registrations)
             {
@@ -106,11 +110,15 @@ namespace WampSharp.Tests.Wampv2.Dealer
             Mock<IWampCaller> caller = new Mock<IWampCaller>();
             caller.As<IWampConnectionMonitor>();
             caller.As<IWampClientProxy>();
+            caller.As<IWampClientProperties>()
+                  .Setup(x => x.WelcomeDetails)
+                  .Returns(new WelcomeDetails());
 
             WampRpcServer<MockRaw> server =
                 new WampRpcServer<MockRaw>
                     (catalog.Object,
-                     new MockBinding());
+                     new MockBinding(),
+                     new LooseUriValidator());
 
             if (call.Arguments == null)
             {

@@ -6,8 +6,7 @@
     <owners />
     <dependencies>
       <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="SuperSocket" version="[1.6.4]" />
-      <dependency id="log4net" version="[2.0.3]" />
+      <dependency id="Microsoft.IO.RecyclableMemoryStream" version="[1.1.0.0]" />
     </dependencies>
     <id>WampSharp.RawSocket</id>
     <title>WampSharp RawSocket support</title>
@@ -19,7 +18,5 @@
   <files>
     <file src="bin\net45\WampSharp.RawSocket.dll" target="lib\net45\WampSharp.RawSocket.dll" />
     <file src="bin\net45\WampSharp.RawSocket.xml" target="lib\net45\WampSharp.RawSocket.xml" />
-    <file src="bin\net40\WampSharp.RawSocket.dll" target="lib\net40\WampSharp.RawSocket.dll" />
-    <file src="bin\net40\WampSharp.RawSocket.xml" target="lib\net40\WampSharp.RawSocket.xml" />
   </files>
 </package>

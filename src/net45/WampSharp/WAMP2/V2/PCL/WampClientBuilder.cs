@@ -64,6 +64,16 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
 
             result.Session = (long) mContainer.GenerateClientId(result);
             result.Binding = mBinding;
+
+            IDetailedWampConnection<TMessage> detailedConnection = 
+                connection as IDetailedWampConnection<TMessage>;
+
+            if (detailedConnection != null)
+            {
+                result.TransportDetails =
+                    detailedConnection.TransportDetails;
+            }
+
             monitor.Client = result;
 
             return result;

@@ -1,5 +1,7 @@
-﻿using WampSharp.V2.Binding;
+﻿using WampSharp.V2.Authentication;
+using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.MetaApi;
 using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Core.Proxy
@@ -7,11 +9,27 @@ namespace WampSharp.V2.Core.Proxy
     internal class WampClientPropertyBag<TMessage> : IWampClientProperties, IWampClientProperties<TMessage>
     {
         private readonly IWampBinding<TMessage> mBinding;
+        private readonly WampTransportDetails mTransportDetails;
 
-        public WampClientPropertyBag(IWampBinding<TMessage> binding)
+        public WampClientPropertyBag(IWampBinding<TMessage> binding, WampTransportDetails transportDetails)
         {
             mBinding = binding;
+            mTransportDetails = transportDetails;
         }
+
+        public IWampSessionAuthenticator Authenticator { get; set; }
+
+        public IWampAuthorizer Authorizer
+        {
+            get
+            {
+                return Authenticator.Authorizer;
+            }
+        }
+
+        public HelloDetails HelloDetails { get; set; }
+
+        public WelcomeDetails WelcomeDetails { get; set; }
 
         public bool GoodbyeSent { get; set; }
 
@@ -22,6 +40,14 @@ namespace WampSharp.V2.Core.Proxy
             get
             {
                 return this.Binding;
+            }
+        }
+
+        public WampTransportDetails TransportDetails
+        {
+            get
+            {
+                return mTransportDetails;
             }
         }
 

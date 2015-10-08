@@ -10,7 +10,8 @@ namespace WampSharp.V2.PubSub
         private readonly IDictionary<string, WildCardMatcher> mWildCardToEvaluator =
             new SwapDictionary<string, WildCardMatcher>();
 
-        public WildCardTopicContainer()
+        public WildCardTopicContainer(WampIdMapper<IWampTopic> subscriptionIdToTopic) : 
+            base(subscriptionIdToTopic)
         {
             TopicCreated += OnTopicCreated;
             TopicRemoved += OnTopicRemoved;
@@ -35,7 +36,7 @@ namespace WampSharp.V2.PubSub
             return new WildCardSubscriptionId(topicUri);
         }
 
-        protected override IEnumerable<IWampTopic> GetMatchingTopics(string criteria)
+        public override IEnumerable<IWampTopic> GetMatchingTopics(string criteria)
         {
             string[] uriParts = criteria.Split('.');
 
@@ -58,7 +59,7 @@ namespace WampSharp.V2.PubSub
 
         public override bool Handles(SubscribeOptions options)
         {
-            return options.Match == "wildcard";
+            return options.Match == WampMatchPattern.Wildcard;
         }
     }
 }

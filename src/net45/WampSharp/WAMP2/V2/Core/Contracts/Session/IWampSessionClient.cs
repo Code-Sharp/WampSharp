@@ -1,31 +1,21 @@
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
-using WampSharp.V2.Client;
+using WampSharp.V2.Authentication;
 
 namespace WampSharp.V2.Core.Contracts
 {
-    public interface IWampSessionClient : IWampSessionClient<object>
+    public interface IWampSessionClient
     {
-    }
-
-    public interface IWampSessionClient<TMessage>
-    {        
         [WampHandler(WampMessageType.v2Challenge)]
         void Challenge(string authMethod, ChallengeDetails extra);
 
         [WampHandler(WampMessageType.v2Welcome)]
-        void Welcome(long session, TMessage details);
+        void Welcome(long session, WelcomeDetails details);
 
         [WampHandler(WampMessageType.v2Abort)]
-        void Abort(TMessage details, string reason);
+        void Abort(AbortDetails details, string reason);
 
         [WampHandler(WampMessageType.v2Goodbye)]
-        void Goodbye(TMessage details, string reason);
-
-        [WampHandler(WampMessageType.v2Heartbeat)]
-        void Heartbeat(int incomingSeq, int outgoingSeq);
-
-        [WampHandler(WampMessageType.v2Heartbeat)]
-        void Heartbeat(int incomingSeq, int outgoingSeq, string discard);    
+        void Goodbye(GoodbyeDetails details, string reason);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
+using WampSharp.V2.Core;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
@@ -14,38 +16,37 @@ namespace WampSharp.V2
         private readonly InMemoryWampHost mInternalHost;
         private readonly WampHostBase mExternalHost;
         private readonly ServiceHostedRealmContainer mRealmContainer;
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="WampHost"/>.
-        /// </summary>
-        public WampHost() : this(new WampRealmContainer())
-        {
-        }
+        private readonly IWampUriValidator mUriValidator;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampHost"/> given the
         /// <see cref="IWampRealmContainer"/> associated with this host.
         /// </summary>
         /// <param name="realmContainer"></param>
-        public WampHost(IWampRealmContainer realmContainer)
+        /// <param name="uriValidator"></param>
+        public WampHost(IWampRealmContainer realmContainer = null, IWampUriValidator uriValidator = null)
         {
-            mInternalHost = new InMemoryWampHost(realmContainer);
+            realmContainer = realmContainer ?? new WampRealmContainer();
+
+            mUriValidator = uriValidator ?? new LooseUriValidator();
+
+            mInternalHost = new InMemoryWampHost(realmContainer, UriValidator);
             mInternalHost.Open();
 
-            mExternalHost = new WampHostBase(realmContainer);
+            mExternalHost = new WampHostBase(realmContainer, UriValidator);
 
             mRealmContainer =
                 new ServiceHostedRealmContainer(mExternalHost.RealmContainer,
                     mInternalHost);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             mInternalHost.Dispose();
             mExternalHost.Dispose();
         }
 
-        public IWampHostedRealmContainer RealmContainer
+        public virtual IWampHostedRealmContainer RealmContainer
         {
             get
             {
@@ -53,11 +54,21 @@ namespace WampSharp.V2
             }
         }
 
-        public void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings)
+        protected IWampUriValidator UriValidator
         {
-            mExternalHost.RegisterTransport(transport, bindings);
+            get
+            {
+                return mUriValidator;
+            }
+        }
 
-            foreach (IWampBinding currentBinding in bindings)
+        public virtual void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings)
+        {
+            IEnumerable<IWampBinding> bindingArray = bindings.ToArray();
+            
+            mExternalHost.RegisterTransport(transport, bindingArray);
+
+            foreach (IWampBinding currentBinding in bindingArray)
             {
                 AddFormatter((dynamic) currentBinding);
             }
@@ -70,7 +81,7 @@ namespace WampSharp.V2
             mInternalHost.AddFormatter(formatter);
         }
 
-        public void Open()
+        public virtual void Open()
         {
             mExternalHost.Open();
         }

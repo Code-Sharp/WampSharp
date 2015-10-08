@@ -17,6 +17,9 @@ namespace WampSharp.V2.Core.Contracts
             ReceiveProgress = details.ReceiveProgress;
             Caller = details.Caller;
             Procedure = details.Procedure;
+            AuthenticationId = details.AuthenticationId;
+            AuthenticationMethod = details.AuthenticationMethod;
+            AuthenticationRole = details.AuthenticationRole;
             OriginalValue = details.OriginalValue;
         }
 
@@ -40,5 +43,17 @@ namespace WampSharp.V2.Core.Contracts
         /// </summary>
         [DataMember(Name = "procedure")]
         public string Procedure { get; internal set; }
+
+        [ExperimentalWampFeature]
+        [DataMember(Name = "authrole")]
+        public string AuthenticationRole { get; internal set; }
+
+        [ExperimentalWampFeature]
+        [DataMember(Name = "authmethod")]
+        public string AuthenticationMethod { get; internal set; }
+
+        [ExperimentalWampFeature]
+        [DataMember(Name = "authid")]
+        public string AuthenticationId { get; internal set; }
     }
 }

@@ -77,6 +77,12 @@ namespace WampSharp.V2.PubSub
             }
         }
 
+        public long SubscriptionId
+        {
+            get;
+            set;
+        }
+
         public IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber)
         {
             RegisterSubscriberEventsIfNeeded(subscriber);

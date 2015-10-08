@@ -6,7 +6,7 @@
     <owners />
     <dependencies>
       <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="vtortola.WebSocketListener" version="[2.1.7.0]" />
+      <dependency id="vtortola.WebSocketListener" version="[2.1.9.0]" />
     </dependencies>
     <id>WampSharp.Vtortola</id>
     <title>WampSharp Vtortola support</title>

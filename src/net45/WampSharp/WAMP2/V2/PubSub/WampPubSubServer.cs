@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using WampSharp.Logging;
 using WampSharp.V2.Binding;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
@@ -11,12 +12,14 @@ namespace WampSharp.V2.PubSub
         private readonly IWampEventSerializer mEventSerializer;
         private readonly ILog mLogger;
         private readonly IWampBinding<TMessage> mBinding;
+        private readonly IWampUriValidator mUriValidator;
         private readonly IWampRawTopicContainer<TMessage> mRawTopicContainer;
 
-        public WampPubSubServer(IWampTopicContainer topicContainer, IWampEventSerializer eventSerializer, IWampBinding<TMessage> binding)
+        public WampPubSubServer(IWampTopicContainer topicContainer, IWampEventSerializer eventSerializer, IWampBinding<TMessage> binding, IWampUriValidator uriValidator)
         {
             mLogger = LogProvider.GetLogger(this.GetType());
             mBinding = binding;
+            mUriValidator = uriValidator;
             mEventSerializer = eventSerializer;
             mRawTopicContainer = new WampRawTopicContainer<TMessage>(topicContainer, mEventSerializer, mBinding);
         }
@@ -48,7 +51,8 @@ namespace WampSharp.V2.PubSub
             InnerPublish(publisher, topicUri, requestId, options, publishOptions => mRawTopicContainer.Publish(publishOptions, topicUri, arguments, argumentKeywords));
         }
 
-        private void InnerPublish(IWampPublisher publisher, string topicUri, long requestId, PublishOptions options, Func<PublishOptions, long> action)
+        private void InnerPublish(IWampPublisher publisher, string topicUri, long requestId, PublishOptions options,
+                                  Func<PublishOptions, long> action)
         {
             PublishOptions publishOptions = GetPublishOptions(publisher, topicUri, options);
 
@@ -56,14 +60,17 @@ namespace WampSharp.V2.PubSub
 
             try
             {
+                ValidatePublishUri(topicUri);
+
                 long publicationId = action(publishOptions);
+
                 SendPublishAckIfNeeded(publisher, requestId, publicationId, acknowledge);
             }
             catch (WampException ex)
             {
                 mLogger.ErrorFormat(ex,
-                    "Failed publishing to topic '{0}'. Publication request id: {1} ",
-                    topicUri, requestId);
+                                    "Failed publishing to topic '{0}'. Publication request id: {1}",
+                                    topicUri, requestId);
 
                 PublishErrorIfNeeded(publisher, requestId, acknowledge, ex);
             }
@@ -77,6 +84,12 @@ namespace WampSharp.V2.PubSub
 
             result.PublisherId = casted.Session;
 
+            WelcomeDetails welcomeDetails = casted.WelcomeDetails;
+
+            result.AuthenticationId = welcomeDetails.AuthenticationId;
+            result.AuthenticationMethod = welcomeDetails.AuthenticationMethod;
+            result.AuthenticationRole = welcomeDetails.AuthenticationRole;
+
             result.TopicUri = topicUri;
 
             return result;
@@ -86,16 +99,45 @@ namespace WampSharp.V2.PubSub
         {
             try
             {
+                options.Match = options.Match ?? WampMatchPattern.Default;
+
+                ValidateSubscribeUri(topicUri, options.Match);
+
                 SubscribeRequest<TMessage> subscribeRequest = 
                     new SubscribeRequest<TMessage>(subscriber, requestId);
-
-                options.Match = options.Match ?? "exact";
 
                 mRawTopicContainer.Subscribe(subscribeRequest, options, topicUri);
             }
             catch (WampException ex)
             {
+                mLogger.ErrorFormat(ex,
+                                    "Failed subscribing to topic '{0}'. Subscription request id: {1}",
+                                    topicUri, requestId);
+
                 subscriber.SubscribeError(requestId, ex);
+            }
+        }
+
+        private void ValidateSubscribeUri(string topicUri, string match)
+        {
+            if (!mUriValidator.IsValid(topicUri, match))
+            {
+                throw new WampException(WampErrors.InvalidUri,
+                                        string.Format("subscribe for invalid topic URI '{0}'", topicUri));
+            }
+        }
+
+        private void ValidatePublishUri(string topicUri)
+        {
+            if (!mUriValidator.IsValid(topicUri))
+            {
+                WampException exception =
+                    new WampException(WampErrors.InvalidUri,
+                                      string.Format("publish with invalid topic URI '{0}'",
+                                                    //+ " (URI strict checking {1})",
+                                                    topicUri));
+
+                throw exception;
             }
         }
 

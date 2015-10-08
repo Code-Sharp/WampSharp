@@ -27,6 +27,11 @@ namespace WampSharp.V2.Client
             mMonitor.ConnectionError += ConnectionError;
         }
 
+        private bool IsConnected
+        {
+            get { return mMonitor.IsConnected; }
+        }
+
         public Task<long?> Publish(string topicUri, PublishOptions options)
         {
             return InnerPublish(options,
@@ -50,6 +55,11 @@ namespace WampSharp.V2.Client
 
         private Task<long?> InnerPublish(PublishOptions options, Func<Publication> publicationFactory, Action<long> publicationAction)
         {
+            if (!IsConnected)
+            {
+                throw new WampSessionNotEstablishedException();
+            }
+
             Publication publication = publicationFactory();
 
             long requestId = mPendingPublication.Add(publication);

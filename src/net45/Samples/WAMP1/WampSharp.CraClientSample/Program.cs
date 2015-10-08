@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Cra;
 using WampSharp.Core.Serialization;
@@ -23,9 +24,10 @@ namespace WampSharp.CraClientSample
         static void Main(string[] args)
         {
             //Sample modeled and compatible with Autobahn Python https://github.com/tavendo/AutobahnPython [examples/twisted/wamp1/authentication/client.py]
-         
-            JsonFormatter formatter = new JsonFormatter();
-            DefaultWampChannelFactory channelFactory = new DefaultWampChannelFactory(formatter);
+
+            JsonSerializer serializer = new JsonSerializer();
+            JsonFormatter formatter = new JsonFormatter(serializer);
+            DefaultWampChannelFactory channelFactory = new DefaultWampChannelFactory(serializer);
             IWampChannel<JToken> channel = channelFactory.CreateChannel("ws://127.0.0.1:9000/");
 
             channel.Open();

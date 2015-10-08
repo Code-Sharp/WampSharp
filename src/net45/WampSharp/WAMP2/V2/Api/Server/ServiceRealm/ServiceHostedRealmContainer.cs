@@ -27,7 +27,7 @@ namespace WampSharp.V2
 
             long sessionId = 0;
 
-            EventHandler<WampSessionEventArgs> connectionEstablished = 
+            EventHandler<WampSessionCreatedEventArgs> connectionEstablished = 
                 (sender, args) => sessionId = args.SessionId;
             
             channel.RealmProxy.Monitor.ConnectionEstablished += connectionEstablished;

@@ -52,8 +52,6 @@
         v2Authenticate = 5,
         [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.Session, 2)]
         v2Goodbye = 6,
-        [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.Session, 2)]
-        v2Heartbeat = 7,
         [MessageTypeDetails(MessageDirection.AnyToAny, MessageCategory.General, 2)]
         v2Error = 8,
 

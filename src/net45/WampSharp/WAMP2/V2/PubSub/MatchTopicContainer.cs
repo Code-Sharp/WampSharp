@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core;
 using WampSharp.Core.Utilities;
 using WampSharp.V2.Core.Contracts;
 
@@ -13,6 +14,7 @@ namespace WampSharp.V2.PubSub
 
         private readonly ConcurrentDictionary<string, WampTopic> mTopicUriToSubject;
         private readonly object mLock = new object();
+        private readonly WampIdMapper<IWampTopic> mSubscriptionIdToTopic;
 
         #endregion
 
@@ -21,10 +23,13 @@ namespace WampSharp.V2.PubSub
         /// <summary>
         /// Creates a new instance of <see cref="WampTopicContainer"/>.
         /// </summary>
-        public MatchTopicContainer()
+        /// <param name="subscriptionIdToTopic"></param>
+        public MatchTopicContainer(WampIdMapper<IWampTopic> subscriptionIdToTopic)
         {
             mTopicUriToSubject =
                 new ConcurrentDictionary<string, WampTopic>();
+
+            mSubscriptionIdToTopic = subscriptionIdToTopic;
         }
 
         #endregion
@@ -41,13 +46,17 @@ namespace WampSharp.V2.PubSub
             get { return mTopicUriToSubject.Values; }
         }
 
-        public IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
+        public IWampRegistrationSubscriptionToken Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {
             lock (mLock)
             {
                 IWampTopic topic = GetOrCreateTopicByUri(topicUri);
 
-                return topic.Subscribe(subscriber);
+                IDisposable disposable = topic.Subscribe(subscriber);
+
+                var result = new SubscriptionToken(topic.SubscriptionId, disposable);
+
+                return result;
             }
         }
 
@@ -178,6 +187,10 @@ namespace WampSharp.V2.PubSub
                 topic.TopicEmpty += OnTopicEmpty;
             }
 
+            long subscriptionId = mSubscriptionIdToTopic.Add(topic);
+
+            topic.SubscriptionId = subscriptionId;
+
             return topic;
         }
 
@@ -191,6 +204,8 @@ namespace WampSharp.V2.PubSub
                 {
                     topic.TopicEmpty -= OnTopicEmpty;
                     topic.Dispose();
+
+                    mSubscriptionIdToTopic.TryRemoveExact(topic.SubscriptionId, topic);
 
                     if (mTopicUriToSubject.TryRemoveExact(topic.TopicUri, topic))
                     {
@@ -234,7 +249,7 @@ namespace WampSharp.V2.PubSub
 
         public abstract IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options);
 
-        protected abstract IEnumerable<IWampTopic> GetMatchingTopics(string criteria);
+        public abstract IEnumerable<IWampTopic> GetMatchingTopics(string criteria);
 
         public abstract bool Handles(SubscribeOptions options);
 

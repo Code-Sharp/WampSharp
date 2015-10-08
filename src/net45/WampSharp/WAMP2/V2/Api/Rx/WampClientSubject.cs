@@ -95,7 +95,8 @@ namespace WampSharp.V2
 
                 public void Dispose()
                 {
-                    if (mDisposableTask.IsCompleted)
+                    if (mDisposableTask.IsCompleted && 
+                        (mDisposableTask.Exception == null))
                     {
                         IAsyncDisposable result = mDisposableTask.Result;
                         result.DisposeAsync();

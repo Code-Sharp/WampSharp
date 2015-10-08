@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Reactive.Disposables;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
@@ -29,10 +30,10 @@ namespace WampSharp.V2.Rpc
 
             try
             {
-                IWampRpcOperationRegistrationToken token = 
+                IWampRegistrationSubscriptionToken token = 
                     mCatalog.Register(operation, options);
 
-                long registrationId = token.RegistrationId;
+                long registrationId = token.TokenId;
 
                 operation.RegistrationId = registrationId;
 

@@ -6,17 +6,17 @@ namespace WampSharp.V2.Rpc
 {
     internal class PrefixRpcOperationCatalog : MatchRpcOperationCatalog
     {
-        public PrefixRpcOperationCatalog(WampIdMapper<ProcedureRegistration> mapper) : 
+        public PrefixRpcOperationCatalog(WampIdMapper<WampProcedureRegistration> mapper) : 
             base(mapper)
         {
         }
 
         public override bool Handles(RegisterOptions options)
         {
-            return options.Match == "prefix";
+            return options.Match == WampMatchPattern.Prefix;
         }
 
-        protected override IWampRpcOperation GetMatchingOperation(string criteria)
+        public override IWampRpcOperation GetMatchingOperation(string criteria)
         {
             IWampRpcOperation currentOperation = null;
             int currentLength = 0;

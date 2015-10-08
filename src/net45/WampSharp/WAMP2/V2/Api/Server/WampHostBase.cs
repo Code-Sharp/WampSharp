@@ -4,6 +4,7 @@ using System.Linq;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
+using WampSharp.V2.Core;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
@@ -21,10 +22,13 @@ namespace WampSharp.V2
         private readonly ICollection<WampTransportDefinition> mTransportDefinitions =
             new List<WampTransportDefinition>();
 
+        private readonly IWampUriValidator mUriValidator;
+
         /// <summary>
         /// Initializes a new instance of <see cref="WampHostBase"/>.
         /// </summary>
-        public WampHostBase() : this(new WampRealmContainer())
+        public WampHostBase() : 
+            this(new WampRealmContainer(), new LooseUriValidator())
         {
         }
 
@@ -33,8 +37,10 @@ namespace WampSharp.V2
         /// <see cref="IWampRealmContainer"/> associated with this host.
         /// </summary>
         /// <param name="realmContainer"></param>
-        public WampHostBase(IWampRealmContainer realmContainer)
+        /// <param name="uriValidator"></param>
+        public WampHostBase(IWampRealmContainer realmContainer, IWampUriValidator uriValidator)
         {
+            mUriValidator = uriValidator;
             mRealmContainer = new HostedRealmContainer(realmContainer);
         }
 
@@ -98,7 +104,7 @@ namespace WampSharp.V2
                 new CompositeListener<TMessage>(listeners);
 
             IWampBindingHost host = 
-                binding.CreateHost(RealmContainer, compositeListener);
+                binding.CreateHost(RealmContainer, compositeListener, mUriValidator);
             
             return host;
         }

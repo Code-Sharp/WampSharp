@@ -34,12 +34,13 @@
     <DocumentationFile>bin\Release\WampSharp.Default.Router.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fleck">
-      <HintPath>..\packages\Fleck.0.13.0.48\lib\net40\Fleck.dll</HintPath>
+    <Reference Include="Fleck, Version=0.13.0.57, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fleck.0.13.0.57\lib\net40\Fleck.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,6 +53,9 @@
   <ItemGroup>
     <Compile Include="..\..\net45\WampSharp.Default.Router\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default.Router\WAMP2\V2\DefaultWampAuthenticationHost.cs">
+      <Link>WAMP2\V2\DefaultWampAuthenticationHost.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp.Default.Router\WAMP2\V2\DefaultWampHost.cs">
       <Link>WAMP2\V2\DefaultWampHost.cs</Link>

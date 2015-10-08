@@ -37,7 +37,10 @@ namespace WampSharp.V2.Rpc
 
         public RegisterOptions Options
         {
-            get { return mOptions; }
+            get
+            {
+                return mOptions;
+            }
         }
 
         public IWampCallee Callee
@@ -45,6 +48,15 @@ namespace WampSharp.V2.Rpc
             get
             {
                 return mCallee;
+            }
+        }
+
+        public long SessionId
+        {
+            get
+            {
+                IWampClientProperties properties = mCallee as IWampClientProperties;
+                return properties.Session;
             }
         }
 

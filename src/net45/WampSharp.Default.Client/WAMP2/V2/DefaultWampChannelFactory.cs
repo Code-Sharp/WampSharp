@@ -1,10 +1,10 @@
 ﻿#if !PCL
-using Newtonsoft.Json.Linq;
+using System;
 using WampSharp.Binding;
+using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Client;
 using WampSharp.WebSocket4Net;
-using WebSocket4Net;
 
 namespace WampSharp.V2
 {
@@ -28,10 +28,10 @@ namespace WampSharp.V2
                                                     string realm,
                                                     IWampTextBinding<TMessage> binding)
         {
-            var connection = 
-                new WebSocket4NetTextConnection<TMessage>(address, binding);
+            Func<IControlledWampConnection<TMessage>> connectionFactory =
+                () => new WebSocket4NetTextConnection<TMessage>(address, binding);
 
-            return this.CreateChannel(realm, connection, binding);
+            return this.CreateChannel(realm, connectionFactory, binding);
         }
 
         /// <summary>
@@ -48,10 +48,10 @@ namespace WampSharp.V2
                                                     IWampTextBinding<TMessage> binding,
                                                     IWampClientAuthenticator authenticator)
         {
-            var connection =
-                new WebSocket4NetTextConnection<TMessage>(address, binding);
+            Func<IControlledWampConnection<TMessage>> connectionFactory =
+                () => new WebSocket4NetTextConnection<TMessage>(address, binding);
 
-            return this.CreateChannel(realm, connection, binding, authenticator);
+            return this.CreateChannel(realm, connectionFactory, binding, authenticator);
         }
 
         /// <summary>
@@ -66,10 +66,10 @@ namespace WampSharp.V2
                                                     string realm,
                                                     IWampBinaryBinding<TMessage> binding)
         {
-            var connection =
-                new WebSocket4NetBinaryConnection<TMessage>(address, binding);
+            Func<IControlledWampConnection<TMessage>> connectionFactory =
+                () => new WebSocket4NetBinaryConnection<TMessage>(address, binding);
 
-            return this.CreateChannel(realm, connection, binding);
+            return this.CreateChannel(realm, connectionFactory, binding);
         }
 
         /// <summary>
@@ -86,10 +86,10 @@ namespace WampSharp.V2
                                                     IWampBinaryBinding<TMessage> binding,
                                                     IWampClientAuthenticator authenticator)
         {
-            var connection =
-                new WebSocket4NetBinaryConnection<TMessage>(address, binding);
+            Func<IControlledWampConnection<TMessage>> connectionFactory =
+                () => new WebSocket4NetBinaryConnection<TMessage>(address, binding);
 
-            return this.CreateChannel(realm, connection, binding, authenticator);
+            return this.CreateChannel(realm, connectionFactory, binding, authenticator);
         }
 
         /// <summary>

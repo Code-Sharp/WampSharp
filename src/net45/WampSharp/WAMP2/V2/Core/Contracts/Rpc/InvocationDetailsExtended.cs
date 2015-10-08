@@ -23,5 +23,14 @@ namespace WampSharp.V2.Core.Contracts
 
         [IgnoreDataMember]
         public string ProcedureUri { get; set; }
+
+        [IgnoreDataMember]
+        public new string AuthenticationRole { get; set; }
+
+        [IgnoreDataMember]
+        public new string AuthenticationMethod { get; set; }
+
+        [IgnoreDataMember]
+        public new string AuthenticationId { get; set; }
     }
 }

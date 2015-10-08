@@ -6,12 +6,7 @@ namespace WampSharp.V2.Core.Contracts
     /// Represents details of an ABORT message.
     /// </summary>
     [DataContract]
-    public class AbortDetails : WampDetailsOptions
+    public class AbortDetails : GoodbyeAbortDetails
     {
-        /// <summary>
-        /// The message sent upon the ABORT message.
-        /// </summary>
-        [DataMember(Name = "message")]
-        public string Message { get; set; }
     }
 }

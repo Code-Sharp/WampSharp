@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -15,6 +16,23 @@ namespace WampSharp.Tests.Wampv2.Integration
         public async void NoOptionsNoSessionId()
         {
             await RawTest(false, new RegisterOptions(), new CallOptions());
+        }
+
+        [Test]
+        public async void DiscloseOnRegisterOptionsDontDiscloseOnCallOptionsError()
+        {
+            await RawTest(false, new RegisterOptions() {DiscloseCaller = true}, new CallOptions() {DiscloseMe = false});
+        }
+
+        [Test]
+        public async void DontDiscloseOnRegisterOptionsDontDiscloseOnCallOptionsNoSession()
+        {
+            await RawTest(false, new RegisterOptions() { DiscloseCaller = false }, new CallOptions() { DiscloseMe = false });
+        }
+        [Test]
+        public async void DontMentionDiscloseRegisterOptionsDontDiscloseOnCallOptionsNoSession()
+        {
+            await RawTest(false, new RegisterOptions(), new CallOptions() { DiscloseMe = false });
         }
 
         [Test]
@@ -59,6 +77,24 @@ namespace WampSharp.Tests.Wampv2.Integration
             await MethodInfoTest(true, new RegisterOptions() { DiscloseCaller = true }, new CallOptions() { DiscloseMe = true });
         }
 
+        [Test]
+        public async void DontDiscloseMeOnCallOptionsAndDiscloseOnRegisterErrorMethodInfo()
+        {
+            await MethodInfoTest(true, new RegisterOptions() { DiscloseCaller = true }, new CallOptions() { DiscloseMe = false });
+        }
+
+        [Test]
+        public async void DontDiscloseMeOnCallOptionsAndDontDiscloseOnRegisterNoSessionIdMethodInfo()
+        {
+            await MethodInfoTest(false, new RegisterOptions() { DiscloseCaller = false }, new CallOptions() { DiscloseMe = false });
+        }
+
+        [Test]
+        public async void DontDiscloseMeOnCallOptionsAndDontSpecifyDiscloseOnRegisterNoSessionIdMethodInfo()
+        {
+            await MethodInfoTest(false, new RegisterOptions(), new CallOptions() { DiscloseMe = false });
+        }
+
         private static async Task RawTest(bool hasSessionId, RegisterOptions registerOptions, CallOptions callOptions)
         {
             WampPlayground playground = new WampPlayground();
@@ -70,7 +106,8 @@ namespace WampSharp.Tests.Wampv2.Integration
             MyOperation myOperation = new MyOperation();
 
             await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, registerOptions);
-            callerChannel.RealmProxy.RpcCatalog.Invoke(new MyCallback(), callOptions, myOperation.Procedure);
+            MyCallback myCallback = new MyCallback();
+            callerChannel.RealmProxy.RpcCatalog.Invoke(myCallback, callOptions, myOperation.Procedure);
 
             long? expectedCaller = null;
 
@@ -79,7 +116,14 @@ namespace WampSharp.Tests.Wampv2.Integration
                 expectedCaller = dualChannel.CallerSessionId;
             }
 
-            Assert.That(myOperation.Details.Caller, Is.EqualTo(expectedCaller));
+            if (callOptions.DiscloseMe == false && registerOptions.DiscloseCaller == true)
+            {
+                Assert.That(myCallback.ErrorUri, Is.EqualTo(WampErrors.DiscloseMeNotAllowed));
+            }
+            else
+            {
+                Assert.That(myOperation.Details.Caller, Is.EqualTo(expectedCaller));
+            }
         }
 
         private async Task MethodInfoTest(bool hasSessionId, RegisterOptions registerOptions, CallOptions callOptions)
@@ -101,7 +145,16 @@ namespace WampSharp.Tests.Wampv2.Integration
             IAddService calleeProxy =
                 callerChannel.RealmProxy.Services.GetCalleeProxyPortable<IAddService>(new CalleeProxyInterceptor(callOptions));
 
-            int seven = calleeProxy.Add2(3, 4);
+            WampException caughtException = null;
+
+            try
+            {
+                int seven = calleeProxy.Add2(3, 4);
+            }
+            catch (WampException ex)
+            {
+                caughtException = ex;
+            }
 
             InvocationDetails details = service.Details;
 
@@ -112,7 +165,15 @@ namespace WampSharp.Tests.Wampv2.Integration
                 expectedCaller = dualChannel.CallerSessionId;
             }
 
-            Assert.That(details.Caller, Is.EqualTo(expectedCaller));
+            if (registerOptions.DiscloseCaller == true && callOptions.DiscloseMe == false)
+            {
+                Assert.That(caughtException.ErrorUri, Is.EqualTo(WampErrors.DiscloseMeNotAllowed));
+                Assert.That(details, Is.EqualTo(null));
+            }
+            else
+            {
+                Assert.That(details.Caller, Is.EqualTo(expectedCaller));
+            }
         }
 
         public class MyOperation : IWampRpcOperation
@@ -147,6 +208,16 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         class MyCallback : IWampRawRpcOperationClientCallback
         {
+            private string mErrorUri;
+
+            public string ErrorUri
+            {
+                get
+                {
+                    return mErrorUri;
+                }
+            }
+
             public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
             {
             }
@@ -162,15 +233,18 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error)
             {
+                mErrorUri = error;
             }
 
             public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments)
             {
+                mErrorUri = error;
             }
 
             public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments,
                 TMessage argumentsKeywords)
             {
+                mErrorUri = error;
             }
         }
 

@@ -4,8 +4,8 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
 {
-    internal interface IWampSessionClientExtended<TMessage> :
-        IWampSessionClient<TMessage>
+    internal interface IWampSessionClientExtended :
+        IWampSessionClient
     {
         // Maybe not such a good idea.
         long Session { get; }
@@ -14,7 +14,7 @@ namespace WampSharp.V2.Client
 
         Task OpenTask { get; }
 
-        void Close(string reason, object details);
+        void Close(string reason, GoodbyeDetails details);
 
         void OnConnectionOpen();
         void OnConnectionClosed();

@@ -34,16 +34,16 @@
     <DocumentationFile>bin\Release\WampSharp.NewtonsoftMsgpack.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MsgPack, Version=0.5.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MsgPack.Cli.0.5.4\lib\net40-client\MsgPack.dll</HintPath>
+    <Reference Include="MsgPack, Version=0.6.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MsgPack.Cli.0.6.2\lib\net40-client\MsgPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Msgpack, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Msgpack.0.1.5\lib\net40\Newtonsoft.Msgpack.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Msgpack.0.1.6\lib\net40\Newtonsoft.Msgpack.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -64,6 +64,9 @@
     <Compile Include="..\..\..\net45\Default\WampSharp.NewtonsoftMsgpack\WAMP2\Binding\JTokenMsgpackBinding.cs">
       <Link>WAMP2\Binding\JTokenMsgpackBinding.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.NewtonsoftMsgpack\WAMP2\V2\Fluent\NewtonsoftMsgpackChannelFactoryExtensions.cs">
+      <Link>WAMP2\V2\Fluent\NewtonsoftMsgpackChannelFactoryExtensions.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
@@ -78,6 +81,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -6,7 +6,7 @@
     <owners />
     <dependencies>
       <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="Fleck" version="[0.13.0.48]" />
+      <dependency id="Fleck" version="[0.13.0.57]" />
     </dependencies>
     <id>WampSharp.Fleck</id>
     <title>WampSharp Fleck transport</title>

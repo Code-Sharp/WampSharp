@@ -12,7 +12,7 @@ namespace WampSharp.V2.Client
         /// <summary>
         /// Occurs when a connection is established.
         /// </summary>
-        event EventHandler<WampSessionEventArgs> ConnectionEstablished;
+        event EventHandler<WampSessionCreatedEventArgs> ConnectionEstablished;
 
         /// <summary>
         /// Occurs when a connection is broken.
@@ -23,5 +23,10 @@ namespace WampSharp.V2.Client
         /// Occurs when a connection is faulted.
         /// </summary>
         event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
+
+        /// <summary>
+        /// Gets a value indicating whether the channel is currently connected.
+        /// </summary>
+        bool IsConnected { get; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using WampSharp.V2.Binding;
+﻿using WampSharp.V2.Authentication;
+using WampSharp.V2.Binding;
+using WampSharp.V2.MetaApi;
 using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Core.Contracts
@@ -23,6 +25,14 @@ namespace WampSharp.V2.Core.Contracts
         /// Gets the binding associated with the current client.
         /// </summary>
         IWampBinding Binding { get; }
+
+        IWampSessionAuthenticator Authenticator { get; set; }
+
+        IWampAuthorizer Authorizer { get; }
+
+        HelloDetails HelloDetails { get; set; }
+
+        WelcomeDetails WelcomeDetails { get; set; }
     }
 
     /// <summary>
@@ -40,5 +50,10 @@ namespace WampSharp.V2.Core.Contracts
         /// Gets the binding associated with the current client.
         /// </summary>
         new IWampBinding<TMessage> Binding { get; }
+
+        /// <summary>
+        /// Gets the transport details associated with this client.
+        /// </summary>
+        WampTransportDetails TransportDetails { get; }
     }
 }

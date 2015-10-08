@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using WampSharp.V2.Authentication;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
 {
@@ -20,7 +22,7 @@ namespace WampSharp.V2.Client
         /// <summary>
         /// Gets the extra data to send.
         /// </summary>
-        public IDictionary<string, object> Extra
+        public AuthenticateExtraData Extra
         {
             get; 
             set;

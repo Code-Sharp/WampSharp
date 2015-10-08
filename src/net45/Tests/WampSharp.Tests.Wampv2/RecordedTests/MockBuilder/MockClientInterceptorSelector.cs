@@ -29,6 +29,12 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
                     .Cast<IInterceptor>()
                     .ToArray();
             }
+            if (method.Name == "get_WelcomeDetails")
+            {
+                return interceptors.OfType<WelcomeDetailsInterceptor>()
+                    .Cast<IInterceptor>()
+                    .ToArray();
+            }
 
             return new IInterceptor[] { new NullInterceptor() };
         }

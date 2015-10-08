@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
+using WampSharp.V2.Authentication;
 
 namespace WampSharp.V2.Core.Contracts
 {
     /// <summary>
     /// Represents a proxy to a WAMP2 router session handler.
     /// </summary>
-    /// <typeparam name="TMessage"></typeparam>
     /// <remarks>These messages are part of the WAMP2 specification.</remarks>
-    public interface IWampSessionProxy<TMessage>
+    public interface IWampSessionProxy
     {
         /// <summary>
         /// Sends a HELLO message.
@@ -17,7 +17,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="realm">The requested realm to join.</param>
         /// <param name="details">Details about the client.</param>
         [WampHandler(WampMessageType.v2Hello)]
-        void Hello(string realm, TMessage details);
+        void Hello(string realm, HelloDetails details);
 
         /// <summary>
         /// Sends a ABORT message.
@@ -33,7 +33,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="signature">A signature.</param>
         /// <param name="extra">Extra data.</param>
         [WampHandler(WampMessageType.v2Authenticate)]
-        void Authenticate(string signature, IDictionary<string, object> extra);
+        void Authenticate(string signature, AuthenticateExtraData extra);
 
         /// <summary>
         /// Sends a GOODBYE message.
@@ -41,23 +41,6 @@ namespace WampSharp.V2.Core.Contracts
         /// <param name="details">Additional details.</param>
         /// <param name="reason">A uri representing the leave reason.</param>
         [WampHandler(WampMessageType.v2Goodbye)]
-        void Goodbye(TMessage details, string reason);
-
-        /// <summary>
-        /// Sends a HEARTBEAT message.
-        /// </summary>
-        /// <param name="incomingSeq">The incoming count sequence.</param>
-        /// <param name="outgoingSeq">The outgoing count sequence.</param>
-        [WampHandler(WampMessageType.v2Heartbeat)]
-        void Heartbeat(int incomingSeq, int outgoingSeq);
-
-        /// <summary>
-        /// Sends a HEARTBEAT message.
-        /// </summary>
-        /// <param name="incomingSeq">The incoming count sequence.</param>
-        /// <param name="outgoingSeq">The outgoing count sequence.</param>
-        /// <param name="discard">???</param>
-        [WampHandler(WampMessageType.v2Heartbeat)]
-        void Heartbeat(int incomingSeq, int outgoingSeq, string discard);         
+        void Goodbye(GoodbyeDetails details, string reason);
     }
 }

@@ -1,100 +1,44 @@
 ﻿using System;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
-using System.Threading.Tasks;
 using Fleck;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
+using WampSharp.V2.Authentication;
+using WampSharp.V2.MetaApi;
+using WampSharp.V2.Transports;
 
 namespace WampSharp.Fleck
 {
-    internal abstract class FleckWampConnection<TMessage> : AsyncWampConnection<TMessage>
+    internal abstract class FleckWampConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>,
+        IDetailedWampConnection<TMessage>
     {
         protected IWebSocketConnection mWebSocketConnection;
-        private readonly byte[] mPingBuffer = new byte[8];
-        private readonly TimeSpan mAutoSendPingInterval;
-        
-        public FleckWampConnection(IWebSocketConnection webSocketConnection, 
-            TimeSpan? autoSendPingInterval = null)
+        private readonly PingPongHandler mPingPongHandler;
+        private readonly FleckTransportDetails mTransportDetails;
+
+        public FleckWampConnection(IWebSocketConnection webSocketConnection,
+                                   ICookieAuthenticatorFactory cookieAuthenticatorFactory,
+                                   TimeSpan? autoSendPingInterval = null) :
+                                       base(new FleckCookieProvider(webSocketConnection.ConnectionInfo),
+                                            cookieAuthenticatorFactory)
         {
             mWebSocketConnection = webSocketConnection;
-            mAutoSendPingInterval = autoSendPingInterval ?? TimeSpan.FromSeconds(45);
+
+            mPingPongHandler =
+                new PingPongHandler(mLogger,
+                                    new FleckPinger(webSocketConnection),
+                                    autoSendPingInterval ?? TimeSpan.FromSeconds(45));
+
             mWebSocketConnection.OnOpen = OnConnectionOpen;
             mWebSocketConnection.OnError = OnConnectionError;
             mWebSocketConnection.OnClose = OnConnectionClose;
+            mTransportDetails = new FleckTransportDetails(mWebSocketConnection.ConnectionInfo);
         }
 
         private void OnConnectionOpen()
         {
             RaiseConnectionOpen();
 
-            StartPing();
-        }
-
-#if NET40
-        private void StartPing()
-        {
-            Observable.Defer
-                (() => Observable.FromAsync
-                     (() =>
-                     {
-                         byte[] ticks = GetCurrentTicks();
-                         return mWebSocketConnection.SendPing(ticks);
-                     })
-                                 .Concat(Observable.Timer(mAutoSendPingInterval)
-                                                   .Select(y => Unit.Default))
-                )
-                      .Repeat()
-                      .ToTask()
-                      .ContinueWith(x =>
-                      {
-                          if (x.Exception != null)
-                          {
-                              mLogger.WarnException("Failed pinging remote peer", x.Exception);
-                          }
-                      });
-        }
-
-#elif NET45
-        private void StartPing()
-        {
-            Task.Run((Action)Ping);
-        }
-
-        // We currently detect only disconnected clients and not "zombies",
-        // i.e. clients that respond relatively slow.
-        private async void Ping()
-        {
-            while (IsConnected)
-            {
-                try
-                {
-                    byte[] ticks = GetCurrentTicks();
-                    await mWebSocketConnection.SendPing(ticks);
-                    await Task.Delay(mAutoSendPingInterval);
-                }
-                catch (Exception ex)
-                {
-                    mLogger.WarnException("Failed pinging remote peer", ex);
-                }
-            }
-        }
-#endif
-
-        private byte[] GetCurrentTicks()
-        {
-            DateTime now = DateTime.Now;
-            long ticks = now.Ticks;
-            long bytes = ticks;
-
-            for (int i = 0; i < 8; i++)
-            {
-                mPingBuffer[i] = (byte) bytes;
-                bytes = bytes >> 8;
-            }
-
-            return mPingBuffer;
+            mPingPongHandler.Start();
         }
 
         private void OnConnectionError(Exception exception)
@@ -107,7 +51,7 @@ namespace WampSharp.Fleck
             RaiseConnectionClosed();
         }
 
-        public override void Dispose()
+        protected override void Dispose()
         {
             if (IsConnected)
             {
@@ -123,9 +67,12 @@ namespace WampSharp.Fleck
             }
         }
 
-        public event EventHandler ConnectionOpen;
-        public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
-        public event EventHandler ConnectionClosed;
-        public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
+        public WampTransportDetails TransportDetails
+        {
+            get
+            {
+                return mTransportDetails;
+            }
+        }
     }
 }

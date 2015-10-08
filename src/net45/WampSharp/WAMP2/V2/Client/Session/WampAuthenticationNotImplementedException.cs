@@ -1,4 +1,6 @@
 using System;
+using WampSharp.V2.Authentication;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
 {
@@ -14,7 +16,7 @@ namespace WampSharp.V2.Client
         /// <summary>
         /// Initializes an new instance of <see cref="WampAuthenticationNotImplementedException"/>.
         /// </summary>
-        public WampAuthenticationNotImplementedException(string message = DefaultMessage, string reason = WampErrorCannotAuthenticate) : base(message, reason)
+        public WampAuthenticationNotImplementedException(string message = DefaultMessage, string reason = WampErrors.WampErrorCannotAuthenticate) : base(message, reason)
         {
         }
     }

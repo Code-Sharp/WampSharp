@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WAMP2\V2\Fluent\MessageWebSocketActivator.cs" />
+    <Compile Include="WAMP2\V2\Fluent\MessageWebSocketChannelFactoryExtensions.cs" />
     <Compile Include="Windows\MessageWebSocketConnection.cs" />
     <Compile Include="Windows\MessageWebSocketTextConnection.cs" />
   </ItemGroup>

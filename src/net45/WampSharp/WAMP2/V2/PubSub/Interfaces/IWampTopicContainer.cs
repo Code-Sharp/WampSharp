@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
@@ -17,7 +18,7 @@ namespace WampSharp.V2.PubSub
         /// <param name="topicUri">The topic uri of the topic to subscribe to.</param>
         /// <param name="options">The options to subscribe with.</param>
         /// <returns>A disposable, that will cancel subscription to the topic when disposed.</returns>
-        IDisposable Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options);
+        IWampRegistrationSubscriptionToken Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options);
 
         /// <summary>
         /// Publishes to a requestd topic with requested parameters. 
@@ -111,5 +112,13 @@ namespace WampSharp.V2.PubSub
         /// <remarks>If you don't know what to do here, use a simple 
         /// <see cref="ExactTopicSubscriptionId"/>.</remarks>
         IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options);
+
+        /// <summary>
+        /// Gets all topics (subscriptions) that match the given criteria.
+        /// </summary>
+        /// <param name="criteria">The given criteria.</param>
+        /// <returns>An enumerable consisting of all topics (subscriptions) 
+        /// that match the given criteria.</returns>
+        IEnumerable<IWampTopic> GetMatchingTopics(string criteria);
     }
 }
