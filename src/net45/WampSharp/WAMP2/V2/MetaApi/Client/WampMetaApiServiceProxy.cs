@@ -29,14 +29,14 @@ namespace WampSharp.V2.MetaApi
             }
         }
 
-        public Task<long> SessionCountAsync()
+        public Task<long> CountSessionsAsync()
         {
-            return mSessionDescriptorProxy.SessionCountAsync();
+            return mSessionDescriptorProxy.CountSessionsAsync();
         }
 
-        public Task<long[]> GetSessionIdsAsync()
+        public Task<long[]> GetAllSessionIdsAsync()
         {
-            return mSessionDescriptorProxy.GetSessionIdsAsync();
+            return mSessionDescriptorProxy.GetAllSessionIdsAsync();
         }
 
         public Task<WampSessionDetails> GetSessionDetailsAsync(long sessionId)
@@ -44,14 +44,14 @@ namespace WampSharp.V2.MetaApi
             return mSessionDescriptorProxy.GetSessionDetailsAsync(sessionId);
         }
 
-        public long SessionCount()
+        public long CountSessions()
         {
-            return mSessionDescriptorProxy.SessionCount();
+            return mSessionDescriptorProxy.CountSessions();
         }
 
-        public long[] GetSessionIds()
+        public long[] GetAllSessionIds()
         {
-            return mSessionDescriptorProxy.GetSessionIds();
+            return mSessionDescriptorProxy.GetAllSessionIds();
         }
 
         public WampSessionDetails GetSessionDetails(long sessionId)

@@ -15,11 +15,11 @@ namespace WampSharp.V2.MetaApi
     //------------------------------------------------------------------------------
     internal class WampSessionDescriptorProxyProxy : CalleeProxyBase, global::WampSharp.V2.MetaApi.IWampSessionDescriptorProxy
     {
-        private static readonly MethodInfo mMethod0 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampSessionDescriptorProxy instance) => instance.SessionCountAsync());
-        private static readonly MethodInfo mMethod1 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampSessionDescriptorProxy instance) => instance.GetSessionIdsAsync());
+        private static readonly MethodInfo mMethod0 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampSessionDescriptorProxy instance) => instance.CountSessionsAsync());
+        private static readonly MethodInfo mMethod1 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampSessionDescriptorProxy instance) => instance.GetAllSessionIdsAsync());
         private static readonly MethodInfo mMethod2 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampSessionDescriptorProxy instance) => instance.GetSessionDetailsAsync(default(long)));
-        private static readonly MethodInfo mMethod3 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampSessionDescriptorProxy instance) => instance.SessionCount());
-        private static readonly MethodInfo mMethod4 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampSessionDescriptorProxy instance) => instance.GetSessionIds());
+        private static readonly MethodInfo mMethod3 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampSessionDescriptorProxy instance) => instance.CountSessions());
+        private static readonly MethodInfo mMethod4 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampSessionDescriptorProxy instance) => instance.GetAllSessionIds());
         private static readonly MethodInfo mMethod5 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampSessionDescriptorProxy instance) => instance.GetSessionDetails(default(long)));
 
         public WampSessionDescriptorProxyProxy
@@ -29,12 +29,12 @@ namespace WampSharp.V2.MetaApi
         {
         }
 
-        public Task<long> SessionCountAsync()
+        public Task<long> CountSessionsAsync()
         {
             return SingleInvokeAsync<long>(mMethod0);
         }
 
-        public Task<long[]> GetSessionIdsAsync()
+        public Task<long[]> GetAllSessionIdsAsync()
         {
             return SingleInvokeAsync<long[]>(mMethod1);
         }
@@ -44,12 +44,12 @@ namespace WampSharp.V2.MetaApi
             return SingleInvokeAsync<global::WampSharp.V2.MetaApi.WampSessionDetails>(mMethod2, sessionId);
         }
 
-        public long SessionCount()
+        public long CountSessions()
         {
             return SingleInvokeSync<long>(mMethod3);
         }
 
-        public long[] GetSessionIds()
+        public long[] GetAllSessionIds()
         {
             return SingleInvokeSync<long[]>(mMethod4);
         }

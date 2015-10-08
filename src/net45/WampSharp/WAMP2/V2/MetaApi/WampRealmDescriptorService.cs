@@ -28,14 +28,14 @@ namespace WampSharp.V2.MetaApi
             mRegistrationDescriptor.Dispose();
         }
 
-        public long SessionCount()
+        public long CountSessions()
         {
-            return mSessionDescriptor.SessionCount();
+            return mSessionDescriptor.CountSessions();
         }
 
-        public long[] GetSessionIds()
+        public long[] GetAllSessionIds()
         {
-            return mSessionDescriptor.GetSessionIds();
+            return mSessionDescriptor.GetAllSessionIds();
         }
 
         public WampSessionDetails GetSessionDetails(long sessionId)

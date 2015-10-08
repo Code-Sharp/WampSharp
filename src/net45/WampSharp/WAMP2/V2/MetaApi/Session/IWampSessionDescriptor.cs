@@ -9,14 +9,14 @@ namespace WampSharp.V2.MetaApi
         /// </summary>
         /// <returns>The number of sessions currently attached to the realm.</returns>
         [WampProcedure("wamp.session.count")]
-        long SessionCount();
+        long CountSessions();
 
         /// <summary>
         /// Retrieves a list of the session IDs for all sessions currently attached to the realm.
         /// </summary>
         /// <returns>List of WAMP session IDs (order undefined).</returns>
         [WampProcedure("wamp.session.list")]
-        long[] GetSessionIds();
+        long[] GetAllSessionIds();
 
         /// <summary>
         /// Retrieves information on a specific session.

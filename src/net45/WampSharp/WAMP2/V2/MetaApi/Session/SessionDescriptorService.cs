@@ -48,12 +48,12 @@ namespace WampSharp.V2.MetaApi
             mSubscriber.OnLeave(e.SessionId);
         }
 
-        public long SessionCount()
+        public long CountSessions()
         {
             return mSessionIdToDetails.Count;
         }
 
-        public long[] GetSessionIds()
+        public long[] GetAllSessionIds()
         {
             return mSessionIdToDetails.Keys.ToArray();
         }
