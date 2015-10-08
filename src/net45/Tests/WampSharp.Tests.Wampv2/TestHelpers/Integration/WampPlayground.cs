@@ -80,6 +80,15 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
                                                  Binding);
         }
 
+        public IWampChannel CreateNewChannel(string realm,
+                                             IWampClientAuthenticator authenticator)
+        {
+            return mChannelFactory.CreateChannel(realm,
+                                                 CreateClientConnection(),
+                                                 Binding,
+                                                 authenticator);
+        }
+
         public IWampServerProxy CreateRawConnection(IWampClient<TMessage> client)
         {
             IControlledWampConnection<TMessage> connection = CreateClientConnection();
