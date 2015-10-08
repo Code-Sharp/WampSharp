@@ -557,6 +557,45 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs">
       <Link>WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Contracts\IWampRegistrationDescriptorProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Contracts\IWampRegistrationDescriptorProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Contracts\IWampSessionDescriptorProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Contracts\IWampSessionDescriptorProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Contracts\IWampSubscriptionDescriptorProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Contracts\IWampSubscriptionDescriptorProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Generated\WampRegistrationDescriptorProxyProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Generated\WampRegistrationDescriptorProxyProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Generated\WampSessionDescriptorProxyProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Generated\WampSessionDescriptorProxyProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\Generated\WampSubscriptionDescriptorProxyProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\Generated\WampSubscriptionDescriptorProxyProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\MetaApiEventsBase.cs">
+      <Link>WAMP2\V2\MetaApi\Client\MetaApiEventsBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\MetaEvents.cs">
+      <Link>WAMP2\V2\MetaApi\Client\MetaEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\RegistrationEvents.cs">
+      <Link>WAMP2\V2\MetaApi\Client\RegistrationEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\SessionEvents.cs">
+      <Link>WAMP2\V2\MetaApi\Client\SessionEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\SubscriptionEvents.cs">
+      <Link>WAMP2\V2\MetaApi\Client\SubscriptionEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\WampMetaApiServiceProxy.cs">
+      <Link>WAMP2\V2\MetaApi\Client\WampMetaApiServiceProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\WampRealmProxyExtensions.cs">
+      <Link>WAMP2\V2\MetaApi\Client\WampRealmProxyExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\WampHostedRealmExtensions.cs">
       <Link>WAMP2\V2\MetaApi\WampHostedRealmExtensions.cs</Link>
     </Compile>
