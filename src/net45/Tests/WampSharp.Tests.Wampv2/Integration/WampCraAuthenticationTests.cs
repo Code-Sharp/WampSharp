@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !PCL
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -258,3 +260,5 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
     }
 }
+
+#endif
