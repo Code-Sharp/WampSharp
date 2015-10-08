@@ -5,6 +5,9 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Authentication
 {
+    /// <summary>
+    /// An abstract class for an implementation of a WAMP-CRA <see cref="IWampSessionAuthenticator"/>.
+    /// </summary>
     public abstract class WampCraSessionAuthenticator : WampSessionAuthenticator
     {
         private readonly string mAuthenticationId;

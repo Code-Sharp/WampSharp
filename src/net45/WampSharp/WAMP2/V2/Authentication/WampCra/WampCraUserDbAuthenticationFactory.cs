@@ -4,12 +4,23 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Authentication
 {
+    /// <summary>
+    /// An implementation of <see cref="IWampSessionAuthenticatorFactory"/>
+    /// which is based on <see cref="IWampCraUserDb"/> and <see cref="IWampAuthenticationProvider"/>.
+    /// </summary>
     public class WampCraUserDbAuthenticationFactory : IWampSessionAuthenticatorFactory
     {
-        private const string WAMP_CRA = WampAuthenticationMethods.WampCra;
+        private const string WampCra = WampAuthenticationMethods.WampCra;
         private readonly IWampAuthenticationProvider mAuthenticationProvider;
         private readonly IWampCraUserDb mUserDb;
 
+        /// <summary>
+        /// Instantiates a new instance of <see cref="WampCraUserDbAuthenticationFactory"/>
+        /// given the <see cref="IWampAuthenticationProvider"/> and
+        /// the <see cref="IWampCraUserDb"/> to use.
+        /// </summary>
+        /// <param name="authenticationProvider">The <see cref="IWampAuthenticationProvider"/> to get role permissions.</param>
+        /// <param name="userDb">The <see cref="IWampCraUserDb"/> to use to get user WAMP-CRA details.</param>
         public WampCraUserDbAuthenticationFactory(IWampAuthenticationProvider authenticationProvider,
                                                   IWampCraUserDb userDb)
         {
@@ -24,7 +35,7 @@ namespace WampSharp.V2.Authentication
             HelloDetails helloDetails = details.HelloDetails;
 
             if ((helloDetails.AuthenticationMethods == null) || 
-                !helloDetails.AuthenticationMethods.Contains(WAMP_CRA))
+                !helloDetails.AuthenticationMethods.Contains(WampCra))
             {
                 throw new WampAuthenticationException("supports only 'wampcra' authentication");
             }
