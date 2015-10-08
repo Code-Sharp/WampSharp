@@ -50,6 +50,120 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
+        public void ExceptionOnGetSessionAuthenticatorRaisesAbort()
+        {
+            MockSessionAuthenticationFactory mockSessionAuthenticationFactory =
+                new MockSessionAuthenticationFactory();
+
+            WampPendingClientDetails authenticatorFactoryParameters = null;
+
+            mockSessionAuthenticationFactory.SetGetSessionAuthenticator
+                ((clientDetails, transportAuthenticator) =>
+                {
+                    throw new WampAuthenticationException(new MyAbortDetails() { Message = "aborted!", Year = 2015 }, "com.myapp.abortreason");
+                });
+
+            WampAuthenticationPlayground playground =
+                new WampAuthenticationPlayground(mockSessionAuthenticationFactory);
+
+            playground.Host.Open();
+
+            string clientReason = null;
+            AbortDetails clientAbortDetails = null;
+
+            Mock<IWampClient<JToken>> clientMock = new Mock<IWampClient<JToken>>();
+
+            clientMock.Setup(x => x.Abort(It.IsAny<AbortDetails>(), It.IsAny<string>()))
+                      .Callback((AbortDetails details, string reason) =>
+                      {
+                          clientReason = reason;
+                          clientAbortDetails = details;
+                      });
+
+            IWampServerProxy serverProxy =
+                playground.CreateRawConnection(clientMock.Object);
+
+            serverProxy.Hello("realm1", new HelloDetailsHack()
+            {
+                AuthenticationId = "joe",
+                AuthenticationMethods = new string[] { "wampcra", "ticket" }
+            });
+
+            Assert.That(clientReason, Is.EqualTo("com.myapp.abortreason"));
+            Assert.That(clientAbortDetails.Message, Is.EqualTo("aborted!"));
+
+            var deserialized =
+                clientAbortDetails.OriginalValue.Deserialize<MyAbortDetails>();
+
+            Assert.That(deserialized.Year, Is.EqualTo(2015));
+        }
+
+        [Test]
+        public void IsAuthenticatedTrueOnGetSessionAuthenticatorRaisesWelcome()
+        {
+            MockSessionAuthenticationFactory mockSessionAuthenticationFactory =
+                new MockSessionAuthenticationFactory();
+
+            WampPendingClientDetails authenticatorFactoryParameters = null;
+
+            mockSessionAuthenticationFactory.SetGetSessionAuthenticator
+                ((clientDetails, transportAuthenticator) =>
+                {
+                    authenticatorFactoryParameters = clientDetails;
+                    MockSessionAuthenticator mockSessionAuthenticator = new MockSessionAuthenticator();
+                    mockSessionAuthenticator.SetAuthenticationMethod("anonymous");
+                    mockSessionAuthenticator.SetAuthenticationId(clientDetails.HelloDetails.AuthenticationId);
+                    mockSessionAuthenticator.SetAuthorizer(new WampStaticAuthorizer(new List<WampUriPermissions>()));
+                    mockSessionAuthenticator.SetWelcomeDetails(new MyWelcomeDetails()
+                    {
+                        Country = "United States of America",
+                        AuthenticationProvider = "unittest",
+                        AuthenticationRole = "testee"
+                    });
+                    mockSessionAuthenticator.SetIsAuthenticated(true);
+
+                    return mockSessionAuthenticator;
+                });
+
+            WampAuthenticationPlayground playground =
+                new WampAuthenticationPlayground(mockSessionAuthenticationFactory);
+
+            playground.Host.Open();
+
+            long? clientSession = null;
+            WelcomeDetails clientWelcomeDetails = null;
+
+            Mock<IWampClient<JToken>> clientMock = new Mock<IWampClient<JToken>>();
+
+            clientMock.Setup(x => x.Welcome(It.IsAny<long>(), It.IsAny<WelcomeDetails>()))
+                      .Callback((long session, WelcomeDetails details) =>
+                      {
+                          clientWelcomeDetails = details;
+                          clientSession = session;
+                      });
+
+            IWampServerProxy serverProxy =
+                playground.CreateRawConnection(clientMock.Object);
+
+            serverProxy.Hello("realm1", new HelloDetailsHack()
+            {
+                AuthenticationId = "joe",
+                AuthenticationMethods = new string[] { "wampcra", "ticket" }
+            });
+
+            Assert.That(clientWelcomeDetails.AuthenticationMethod, Is.EqualTo("anonymous"));
+            Assert.That(clientWelcomeDetails.AuthenticationId, Is.EqualTo("joe"));
+            Assert.That(clientWelcomeDetails.AuthenticationProvider, Is.EqualTo("unittest"));
+            Assert.That(clientWelcomeDetails.AuthenticationRole, Is.EqualTo("testee"));
+            Assert.That(clientSession, Is.EqualTo(authenticatorFactoryParameters.SessionId));
+
+            MyWelcomeDetails deserializedWelcomeDetails =
+                clientWelcomeDetails.OriginalValue.Deserialize<MyWelcomeDetails>();
+
+            Assert.That(deserializedWelcomeDetails.Country, Is.EqualTo("United States of America"));
+        }
+
+        [Test]
         public void ChallengeParametersArePassedToClient()
         {
             MockSessionAuthenticationFactory mockSessionAuthenticationFactory = 
@@ -153,6 +267,112 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             Assert.That(deserializedExtraData.Wife, Is.EqualTo("Michelle"));
         }
+
+        [Test]
+        public void ExceptionOnAuthenticateRaisesAbort()
+        {
+            MockSessionAuthenticationFactory mockSessionAuthenticationFactory =
+                new MockSessionAuthenticationFactory();
+
+            WampPendingClientDetails authenticatorFactoryParameters = null;
+
+            mockSessionAuthenticationFactory.SetGetSessionAuthenticator
+                ((clientDetails, transportAuthenticator) =>
+                {
+                    authenticatorFactoryParameters = clientDetails;
+                    MockSessionAuthenticator mockSessionAuthenticator = new MockSessionAuthenticator();
+                    mockSessionAuthenticator.SetAuthenticationMethod("ticket");
+
+                    mockSessionAuthenticator.SetAuthenticate((signature, extraData) =>
+                    {
+                        throw new WampAuthenticationException(new MyAbortDetails() {Message = "aborted!", Year = 2015}, "com.myapp.abortreason");
+                    });
+
+                    return mockSessionAuthenticator;
+                });
+
+            WampAuthenticationPlayground playground =
+                new WampAuthenticationPlayground(mockSessionAuthenticationFactory);
+
+            playground.Host.Open();
+
+            string clientReason = null;
+            AbortDetails clientAbortDetails = null;
+
+            Mock<IWampClient<JToken>> clientMock = new Mock<IWampClient<JToken>>();
+
+            clientMock.Setup(x => x.Abort(It.IsAny<AbortDetails>(), It.IsAny<string>()))
+                      .Callback((AbortDetails details, string reason) =>
+                      {
+                          clientReason = reason;
+                          clientAbortDetails = details;
+                      });
+
+            IWampServerProxy serverProxy =
+                playground.CreateRawConnection(clientMock.Object);
+
+            serverProxy.Hello("realm1", new HelloDetailsHack()
+            {
+                AuthenticationId = "joe",
+                AuthenticationMethods = new string[] { "wampcra", "ticket" }
+            });
+
+            serverProxy.Authenticate("Barack Hussein", new AuthenticateExtraData());
+
+            Assert.That(clientReason, Is.EqualTo("com.myapp.abortreason"));
+            Assert.That(clientAbortDetails.Message, Is.EqualTo("aborted!"));
+
+            var deserialized = 
+                clientAbortDetails.OriginalValue.Deserialize<MyAbortDetails>();
+
+            Assert.That(deserialized.Year, Is.EqualTo(2015));
+        }
+
+        [Test]
+        public void NotAuthenticatedRaisesAbort()
+        {
+            MockSessionAuthenticationFactory mockSessionAuthenticationFactory =
+                new MockSessionAuthenticationFactory();
+
+            WampPendingClientDetails authenticatorFactoryParameters = null;
+
+            mockSessionAuthenticationFactory.SetGetSessionAuthenticator
+                ((clientDetails, transportAuthenticator) =>
+                {
+                    authenticatorFactoryParameters = clientDetails;
+                    MockSessionAuthenticator mockSessionAuthenticator = new MockSessionAuthenticator();
+                    mockSessionAuthenticator.SetAuthenticationMethod("ticket");
+
+                    mockSessionAuthenticator.SetAuthenticate((signature, extraData) =>
+                    {
+                        mockSessionAuthenticator.SetAuthenticationId(clientDetails.HelloDetails.AuthenticationId);
+                        mockSessionAuthenticator.SetIsAuthenticated(false);
+                    });
+
+                    return mockSessionAuthenticator;
+                });
+
+            WampAuthenticationPlayground playground =
+                new WampAuthenticationPlayground(mockSessionAuthenticationFactory);
+
+            playground.Host.Open();
+
+            Mock<IWampClient<JToken>> clientMock = new Mock<IWampClient<JToken>>();
+
+            IWampServerProxy serverProxy =
+                playground.CreateRawConnection(clientMock.Object);
+
+            serverProxy.Hello("realm1", new HelloDetailsHack()
+            {
+                AuthenticationId = "joe",
+                AuthenticationMethods = new string[] {"wampcra", "ticket"}
+            });
+
+            serverProxy.Authenticate("Barack Hussein", new AuthenticateExtraData());
+
+            clientMock.Verify(x => x.Abort(It.IsAny<AbortDetails>(), It.IsAny<string>()));
+        }
+
 
         [Test]
         public void WelcomeParametersArePassedToClient()
@@ -341,6 +561,12 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             [JsonProperty("country")]
             public string Country { get; set; }
+        }
+
+        private class MyAbortDetails : AbortDetails
+        {
+            [JsonProperty("year")]
+            public int Year { get; set; }
         }
     }
 }
