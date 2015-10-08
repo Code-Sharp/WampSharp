@@ -54,6 +54,11 @@ namespace WampSharp.V2.Authentication
         {
             get
             {
+                if (mAuthenticator.Authorizer == null)
+                {
+                    return null;
+                }
+                
                 return mAuthorizer;
             }
         }

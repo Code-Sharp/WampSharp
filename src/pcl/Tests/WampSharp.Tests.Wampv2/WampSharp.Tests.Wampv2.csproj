@@ -85,8 +85,11 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\RawTest.cs">
       <Link>Client\RawTest.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\AuthenticationTests.cs">
-      <Link>Integration\AuthenticationTests.cs</Link>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\AuthenticationClientTests.cs">
+      <Link>Integration\AuthenticationClientTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\AuthenticationServerTests.cs">
+      <Link>Integration\AuthenticationServerTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\CallerCallee.cs">
       <Link>Integration\CallerCallee.cs</Link>
@@ -159,6 +162,9 @@
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\MockTransport.cs">
       <Link>TestHelpers\Integration\MockTransport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\WampAuthenticationPlayground.cs">
+      <Link>TestHelpers\Integration\WampAuthenticationPlayground.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\WampClientPlayground.cs">
       <Link>TestHelpers\Integration\WampClientPlayground.cs</Link>

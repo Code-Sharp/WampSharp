@@ -15,7 +15,7 @@ using WampSharp.V2.Core.Contracts;
 namespace WampSharp.Tests.Wampv2.Integration
 {
     [TestFixture]
-    public class AuthenticationTests
+    public class AuthenticationClientTests
     {
         [Test]
         public void AuthenticatorSendsDetailsToHello()

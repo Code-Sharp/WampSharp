@@ -26,7 +26,6 @@ namespace WampSharp.V2
         /// <param name="realmContainer">The <see cref="IWampRealmContainer"/> associated with this
         /// host.</param>
         /// <param name="uriValidator">The <see cref="IWampUriValidator"/> used to validate uris.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public WampAuthenticationHost(IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
             IWampRealmContainer realmContainer = null,
             IWampUriValidator uriValidator = null)

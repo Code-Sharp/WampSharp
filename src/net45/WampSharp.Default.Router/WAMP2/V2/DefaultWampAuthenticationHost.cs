@@ -11,15 +11,20 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
 {
+    /// <summary>
+    /// A default implementation of <see cref="WampAuthenticationHost"/> that uses
+    /// <see cref="FleckWebSocketTransport"/> internally.
+    /// </summary>
     public class DefaultWampAuthenticationHost : WampAuthenticationHost
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="DefaultWampHost"/> listening at
+        /// Initializes a new instance of <see cref="DefaultWampAuthenticationHost"/> listening at
         /// the given location with the given bindings and the given
         /// <see cref="IWampRealmContainer"/>.
         /// </summary>
         /// <param name="location">The given location.</param>
-        /// <param name="sessionAuthenticationFactory"></param>
+        /// <param name="sessionAuthenticationFactory">The <see cref="IWampSessionAuthenticatorFactory"/>
+        /// used to accept pending clients.</param>
         public DefaultWampAuthenticationHost
             (string location,
              IWampSessionAuthenticatorFactory sessionAuthenticationFactory)
@@ -36,9 +41,11 @@ namespace WampSharp.V2
         /// <see cref="IWampRealmContainer"/>.
         /// </summary>
         /// <param name="location">The given location.</param>
-        /// <param name="sessionAuthenticationFactory"></param>
-        /// <param name="cookieAuthenticatorFactory"></param>
-        /// <param name="certificate"></param>
+        /// <param name="sessionAuthenticationFactory">The <see cref="IWampSessionAuthenticatorFactory"/>
+        /// used to accept pending clients.</param>
+        /// <param name="cookieAuthenticatorFactory">The given <see cref="ICookieAuthenticatorFactory"/> used to authenticate
+        /// users given their cookies.</param>
+        /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
         public DefaultWampAuthenticationHost
             (string location,
              IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
@@ -83,12 +90,15 @@ namespace WampSharp.V2
         /// <see cref="IWampRealmContainer"/>.
         /// </summary>
         /// <param name="location">The given location.</param>
-        /// <param name="sessionAuthenticationFactory"></param>
-        /// <param name="realmContainer">The given <see cref="IWampRealmContainer"/>.</param>
-        /// <param name="uriValidator"></param>
+        /// <param name="sessionAuthenticationFactory">The <see cref="IWampSessionAuthenticatorFactory"/>
+        /// used to accept pending clients.</param>
+        /// <param name="realmContainer">The <see cref="IWampRealmContainer"/> associated with this
+        /// host.</param>
+        /// <param name="uriValidator">The <see cref="IWampUriValidator"/> used to validate uris.</param>
         /// <param name="bindings">The given bindings.</param>
-        /// <param name="cookieAuthenticatorFactory"></param>
-        /// <param name="certificate"></param>
+        /// <param name="cookieAuthenticatorFactory">The given <see cref="ICookieAuthenticatorFactory"/> used to authenticate
+        /// users given their cookies.</param>
+        /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
         public DefaultWampAuthenticationHost(string location,
                                              IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
                                              IWampRealmContainer realmContainer = null,

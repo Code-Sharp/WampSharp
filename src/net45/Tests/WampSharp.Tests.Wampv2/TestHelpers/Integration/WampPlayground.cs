@@ -1,29 +1,21 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using WampSharp.Binding;
+using WampSharp.Core.Client;
 using WampSharp.Core.Listener;
-using WampSharp.Tests.TestHelpers;
+using WampSharp.Core.Proxy;
+using WampSharp.Core.Serialization;
 using WampSharp.Tests.TestHelpers.Integration;
-using WampSharp.Tests.Wampv2.Binding;
 using WampSharp.V2;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
 {
     public class WampPlayground : WampPlayground<JToken>
     {
         public WampPlayground() : base(new JTokenJsonBinding())
-        {
-        }
-
-        protected WampPlayground(MockConnectionListener<JToken> listener) :
-            base(new JTokenJsonBinding(), listener, new JTokenEqualityComparer())
-        {
-        }
-
-        protected WampPlayground(MockConnectionListener<JToken> listener, IWampHost host) : 
-            base(new JTokenJsonBinding(), listener, host, new JTokenEqualityComparer())
         {
         }
     }
@@ -36,6 +28,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
 
         private readonly IWampChannelFactory mChannelFactory;
         private readonly IWampBinding<TMessage> mBinding;
+        private readonly WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy> mProxyFactory;
 
         public WampPlayground(IWampBinding<TMessage> binding)
             : this(binding, new MockConnectionListener<TMessage>(binding.Formatter),
@@ -57,13 +50,22 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
             return host;
         }
 
-        protected WampPlayground(IWampBinding<TMessage> binding, MockConnectionListener<TMessage> listener, IWampHost host, IEqualityComparer<TMessage> equalityComparer)
+        protected WampPlayground(IWampBinding<TMessage> binding, MockConnectionListener<TMessage> listener,
+                                 IWampHost host, IEqualityComparer<TMessage> equalityComparer)
         {
             mBinding = binding;
             mListener = listener;
             mHost = host;
-            mChannelFactory = new WampChannelFactory();;
+            mChannelFactory = new WampChannelFactory();
             mEqualityComparer = equalityComparer;
+
+            IWampFormatter<TMessage> formatter = binding.Formatter;
+
+            mProxyFactory =
+                new WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy>(
+                    new WampOutgoingRequestSerializer<TMessage>(formatter),
+                    new WampServerProxyOutgoingMessageHandlerBuilder<TMessage, IWampClient<TMessage>>
+                        (new WampServerProxyIncomingMessageHandlerBuilder<TMessage, IWampClient<TMessage>>(formatter)));
         }
 
         public IControlledWampConnection<TMessage> CreateClientConnection()
@@ -76,6 +78,13 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
             return mChannelFactory.CreateChannel(realm,
                                                  CreateClientConnection(),
                                                  Binding);
+        }
+
+        public IWampServerProxy CreateRawConnection(IWampClient<TMessage> client)
+        {
+            IControlledWampConnection<TMessage> connection = CreateClientConnection();
+            connection.Connect();
+            return mProxyFactory.Create(client, connection);
         }
 
         public IWampChannelFactory ChannelFactory

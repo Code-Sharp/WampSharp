@@ -67,7 +67,8 @@
     <Compile Include="Client\Caller\CallerTest.cs" />
     <Compile Include="Client\Caller\CallerRawTests.cs" />
     <Compile Include="Client\RawTest.cs" />
-    <Compile Include="Integration\AuthenticationTests.cs" />
+    <Compile Include="Integration\AuthenticationClientTests.cs" />
+    <Compile Include="Integration\AuthenticationServerTests.cs" />
     <Compile Include="Integration\CallerCallee.cs" />
     <Compile Include="Integration\CallerDealerTests.cs" />
     <Compile Include="Integration\MockRawCallback.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="RecordedTests\MockBuilder\WelcomeDetailsInterceptor.cs" />
     <Compile Include="RequestMapper.cs" />
     <Compile Include="TestHelpers\Integration\MockTransport.cs" />
+    <Compile Include="TestHelpers\Integration\WampAuthenticationPlayground.cs" />
     <Compile Include="TestHelpers\Integration\WampClientPlayground.cs" />
     <Compile Include="TestHelpers\Integration\WampPlayground.cs" />
     <Compile Include="TestHelpers\Integration\WampPlaygroundRoleExtensions.cs" />
