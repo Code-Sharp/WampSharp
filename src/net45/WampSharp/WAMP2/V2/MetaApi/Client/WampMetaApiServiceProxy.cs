@@ -13,7 +13,7 @@ namespace WampSharp.V2.MetaApi
 
         internal WampMetaApiServiceProxy(IWampRealmProxy proxy)
         {
-            ICalleeProxyInterceptor calleeProxyInterceptor = new CalleeProxyInterceptor();
+            ICalleeProxyInterceptor calleeProxyInterceptor = CalleeProxyInterceptor.Default;
 
             mRegistrationDescriptorProxy = new WampRegistrationDescriptorProxyProxy(proxy, calleeProxyInterceptor);
             mSessionDescriptorProxy = new WampSessionDescriptorProxyProxy(proxy, calleeProxyInterceptor);
