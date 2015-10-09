@@ -4,7 +4,7 @@ WampSharp
 
 A C# implementation of [WAMP (The Web Application Messaging Protocol)][WampLink]
 
-The implementation supports WAMPv2 and includes both Json and MsgPack support, and both Router (Broker and Dealer roles) and Client (Publisher/Subscriber and Callee/Caller) roles. See here list of [implemented advanced profile features](https://github.com/Code-Sharp/WampSharp-docs#advanced-profile-features).
+The implementation supports WAMPv2 and includes both Json and MsgPack support, and both Router (Broker and Dealer roles) and Client (Publisher/Subscriber and Callee/Caller) roles. See here for a list of [implemented advanced profile features](https://github.com/Code-Sharp/WampSharp-docs#advanced-profile-features).
 
 The implementation also supports WAMPv1, both client and server roles.
 
