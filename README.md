@@ -26,11 +26,11 @@ WampSharp v1.2.3.12-beta released, see version [release notes](https://github.co
 
 ## Get Started
 
-See [Get started tutorial](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Getting-Started-with-WAMPv2.md) and
+See [Get started tutorial](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Getting-started-with-WAMPv2.md) and
 * [Getting started with Callee](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Callee/Getting-Started-with-Callee.md)
 * [Getting started with Caller](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Caller/Getting-Started-with-Caller.md)
 * [Getting started with Publisher](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Publisher/Getting-Started-with-Publisher.md)
-* [Getting started with Subscriber](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Publisher/Getting-Started-with-Subscriber.md)
+* [Getting started with Subscriber](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Subscriber/Getting-Started-with-Subscriber.md)
 
 See [documentation](https://github.com/Code-Sharp/WampSharp-docs) for more help.
 
