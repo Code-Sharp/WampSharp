@@ -11,17 +11,17 @@ namespace WampSharp.V2.Rpc
 {
     public class AsyncMethodInfoRpcOperation : AsyncLocalRpcOperation
     {
-        private readonly object mInstance;
+        private readonly Func<object> mInstanceProvider;
         private readonly MethodInfo mMethod;
         private readonly Func<object, object[], Task> mMethodInvoker; 
         private readonly RpcParameter[] mParameters;
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
 
-        public AsyncMethodInfoRpcOperation(object instance, MethodInfo method, string procedureName) :
+        public AsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) :
             base(procedureName)
         {
-            mInstance = instance;
+            mInstanceProvider = instanceProvider;
             mMethod = method;
             mMethodInvoker = MethodInvokeGenerator.CreateTaskInvokeMethod(method);
 
@@ -75,8 +75,10 @@ namespace WampSharp.V2.Rpc
                 object[] unpacked =
                     GetMethodParameters(caller, formatter, arguments, argumentsKeywords);
 
+                object instance = mInstanceProvider();
+
                 Task result =
-                    mMethodInvoker(mInstance, unpacked);
+                    mMethodInvoker(instance, unpacked);
 
                 Task<object> casted = result as Task<object>;
 
@@ -90,7 +92,7 @@ namespace WampSharp.V2.Rpc
 
         protected bool Equals(AsyncMethodInfoRpcOperation other)
         {
-            return Equals(mInstance, other.mInstance) && Equals(mMethod, other.mMethod) && string.Equals(Procedure, other.Procedure);
+            return Equals(mInstanceProvider, other.mInstanceProvider) && Equals(mMethod, other.mMethod) && string.Equals(Procedure, other.Procedure);
         }
 
         public override bool Equals(object obj)
@@ -105,7 +107,7 @@ namespace WampSharp.V2.Rpc
         {
             unchecked
             {
-                var hashCode = (mInstance != null ? mInstance.GetHashCode() : 0);
+                var hashCode = (mInstanceProvider != null ? mInstanceProvider.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (mMethod != null ? mMethod.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (Procedure != null ? Procedure.GetHashCode() : 0);
                 return hashCode;
