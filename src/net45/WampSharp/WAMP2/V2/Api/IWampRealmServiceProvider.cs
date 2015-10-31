@@ -30,7 +30,47 @@ namespace WampSharp.V2
         /// <returns>A task that is completed when all methods are registered - its result is a
         /// <see cref="IAsyncDisposable"/>- disposing it will unregister the instance.</returns>
         Task<IAsyncDisposable> RegisterCallee(object instance, ICalleeRegistrationInterceptor interceptor);
-        
+
+        /// <summary>
+        /// Registers an instance of a type having methods decorated with
+        /// <see cref="WampProcedureAttribute"/> to the realm.
+        /// </summary>
+        /// <param name="serviceType">The type of the service to register.</param>
+        /// <param name="instanceProvider">A delegate that creates an instance of the service type per call.</param>
+        /// <returns>A task that is completed when all methods are registered - its result is a
+        /// <see cref="IAsyncDisposable"/>- disposing it will unregister the instance.</returns>
+        Task<IAsyncDisposable> RegisterCallee(Type serviceType, Func<object> instanceProvider);
+
+        /// <summary>
+        /// Registers an instance of a type having methods decorated with
+        /// <see cref="WampProcedureAttribute"/> to the realm.
+        /// </summary>
+        /// <param name="serviceType">The type of the service to register.</param>
+        /// <param name="instanceProvider">A delegate that creates an instance of the service type per call.</param>
+        /// <param name="interceptor">An object which allows registration customization.</param>
+        /// <returns>A task that is completed when all methods are registered - its result is a
+        /// <see cref="IAsyncDisposable"/>- disposing it will unregister the instance.</returns>
+        Task<IAsyncDisposable> RegisterCallee(Type serviceType, Func<object> instanceProvider, ICalleeRegistrationInterceptor interceptor);
+
+        /// <summary>
+        /// Registers an instance of a type having methods decorated with
+        /// <see cref="WampProcedureAttribute"/> to the realm.
+        /// </summary>
+        /// <param name="instanceProvider">A delegate that creates an instance per call.</param>
+        /// <returns>A task that is completed when all methods are registered - its result is a
+        /// <see cref="IAsyncDisposable"/>- disposing it will unregister the instance.</returns>
+        Task<IAsyncDisposable> RegisterCallee<TService>(Func<TService> instanceProvider) where TService : class;
+
+        /// <summary>
+        /// Registers an instance of a type having methods decorated with
+        /// <see cref="WampProcedureAttribute"/> to the realm.
+        /// </summary>
+        /// <param name="instanceProvider">A delegate that creates an instance per call.</param>
+        /// <param name="interceptor">An object which allows registration customization.</param>
+        /// <returns>A task that is completed when all methods are registered - its result is a
+        /// <see cref="IAsyncDisposable"/>- disposing it will unregister the instance.</returns>
+        Task<IAsyncDisposable> RegisterCallee<TService>(Func<TService> instanceProvider, ICalleeRegistrationInterceptor interceptor) where TService : class;
+
         /// <summary>
         /// Gets a proxy of a callee registered in the realm.
         /// </summary>

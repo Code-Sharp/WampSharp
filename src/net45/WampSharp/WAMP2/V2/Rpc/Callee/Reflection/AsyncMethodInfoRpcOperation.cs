@@ -77,6 +77,8 @@ namespace WampSharp.V2.Rpc
 
                 object instance = mInstanceProvider();
 
+                ValidateInstanceType(instance, mMethod);
+
                 Task result =
                     mMethodInvoker(instance, unpacked);
 
