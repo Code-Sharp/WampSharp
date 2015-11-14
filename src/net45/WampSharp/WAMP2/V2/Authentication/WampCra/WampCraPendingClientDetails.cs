@@ -21,7 +21,7 @@ namespace WampSharp.V2.Authentication
 
         public long SessionId { get; set; }
 
-        public string TimeStamp
+        public string Timestamp
         {
             get
             {
@@ -47,7 +47,7 @@ namespace WampSharp.V2.Authentication
                     Nonce,
                     AuthenticationProvider,
                     AuthenticationId,
-                    TimeStamp,
+                    Timestamp,
                     AuthenticationRole,
                     AuthenticationMethod,
                     SessionId);
