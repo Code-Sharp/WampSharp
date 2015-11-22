@@ -119,6 +119,7 @@
     <Compile Include="Core\Message\MessageType\MessageDirection.cs" />
     <Compile Include="Core\Message\MessageType\MessageTypeDetailsAttribute.cs" />
     <Compile Include="Core\Message\MessageType\WampMessageType.cs" />
+    <Compile Include="Core\Message\MessageType\WampMessageTypeComparer.cs" />
     <Compile Include="Core\Message\WampMessage.cs" />
     <Compile Include="Core\Proxy\IWampOutgoingMessageHandler.cs" />
     <Compile Include="Core\Proxy\IWampOutgoingRequestSerializer.cs" />
