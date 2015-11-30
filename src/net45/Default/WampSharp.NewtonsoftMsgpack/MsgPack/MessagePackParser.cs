@@ -64,7 +64,7 @@ namespace WampSharp.Msgpack
 
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                using (MessagePackWriter writer = new MessagePackWriter(memoryStream))
+                using (MessagePackWriter writer = new MessagePackWriter(memoryStream) {WriteDateTimeAsString = true})
                 {
                     mSerializer.Serialize(writer, array);
                     memoryStream.Position = 0;
@@ -97,7 +97,7 @@ namespace WampSharp.Msgpack
 
         public void Format(WampMessage<object> message, Stream stream)
         {
-            using (MessagePackWriter writer = new MessagePackWriter(stream) {CloseOutput = false})
+            using (MessagePackWriter writer = new MessagePackWriter(stream) {CloseOutput = false, WriteDateTimeAsString = true })
             {
                 writer.Formatting = Formatting.None;
                 object[] array = mMessageFormatter.Format(message);
