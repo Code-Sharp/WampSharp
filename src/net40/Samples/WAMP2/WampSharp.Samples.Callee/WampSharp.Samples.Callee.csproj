@@ -51,7 +51,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Msgpack, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Msgpack.0.1.6\lib\net40\Newtonsoft.Msgpack.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Msgpack.0.1.8\lib\net40\Newtonsoft.Msgpack.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
