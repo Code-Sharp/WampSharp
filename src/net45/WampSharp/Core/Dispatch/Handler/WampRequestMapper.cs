@@ -75,7 +75,8 @@ namespace WampSharp.Core.Dispatch.Handler
                           .Where(x => x.Attribute != null);
 
             var result =
-                new Dictionary<WampMessageType, ICollection<WampMethodInfo>>();
+                new Dictionary<WampMessageType, ICollection<WampMethodInfo>>
+                    (new WampMessageTypeComparer());
 
             foreach (var relevantMethod in relevantMethods)
             {

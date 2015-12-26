@@ -212,6 +212,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Message\MessageType\WampMessageType.cs">
       <Link>Core\Message\MessageType\WampMessageType.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Message\MessageType\WampMessageTypeComparer.cs">
+      <Link>Core\Message\MessageType\WampMessageTypeComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Message\WampMessage.cs">
       <Link>Core\Message\WampMessage.cs</Link>
     </Compile>
