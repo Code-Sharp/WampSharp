@@ -1,9 +1,13 @@
-﻿using System.Runtime.Remoting.Messaging;
+﻿using System;
+using System.Runtime.Remoting.Messaging;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Cra;
 
 namespace WampSharp.V1
 {
+#if !PCL
+    [Serializable]
+#endif
     public class WampRequestContext
     {
         #region Static Members
