@@ -599,6 +599,12 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\WampRealmProxyExtensions.cs">
       <Link>WAMP2\V2\MetaApi\Client\WampRealmProxyExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\EventHistory\IWampEventHistoryProvider.cs">
+      <Link>WAMP2\V2\MetaApi\EventHistory\IWampEventHistoryProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\EventHistory\WampHistoricalEvent.cs">
+      <Link>WAMP2\V2\MetaApi\EventHistory\WampHistoricalEvent.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\WampHostedRealmExtensions.cs">
       <Link>WAMP2\V2\MetaApi\WampHostedRealmExtensions.cs</Link>
     </Compile>
