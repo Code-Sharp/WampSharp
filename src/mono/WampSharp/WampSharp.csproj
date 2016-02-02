@@ -350,6 +350,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Serialization\SerializedValueExtensions.cs">
+      <Link>WAMP2\V2\Api\Serialization\SerializedValueExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs">
       <Link>WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs</Link>
     </Compile>
@@ -596,11 +599,23 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\Client\WampRealmProxyExtensions.cs">
       <Link>WAMP2\V2\MetaApi\Client\WampRealmProxyExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\EventHistory\HistoricalSubscription.cs">
+      <Link>WAMP2\V2\MetaApi\EventHistory\HistoricalSubscription.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\EventHistory\IWampEventHistoryProvider.cs">
       <Link>WAMP2\V2\MetaApi\EventHistory\IWampEventHistoryProvider.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\EventHistory\IWampEventStore.cs">
+      <Link>WAMP2\V2\MetaApi\EventHistory\IWampEventStore.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\EventHistory\WampEventHistoryProvider.cs">
+      <Link>WAMP2\V2\MetaApi\EventHistory\WampEventHistoryProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\EventHistory\WampHistoricalEvent.cs">
       <Link>WAMP2\V2\MetaApi\EventHistory\WampHistoricalEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\EventHistory\WampInMemoryEventStore.cs">
+      <Link>WAMP2\V2\MetaApi\EventHistory\WampInMemoryEventStore.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\WampHostedRealmExtensions.cs">
       <Link>WAMP2\V2\MetaApi\WampHostedRealmExtensions.cs</Link>

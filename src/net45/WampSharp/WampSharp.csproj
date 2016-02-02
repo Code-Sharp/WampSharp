@@ -166,6 +166,7 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\SubscriberRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
+    <Compile Include="WAMP2\V2\Api\Serialization\SerializedValueExtensions.cs" />
     <Compile Include="WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Session\AuthenticateExtraData.cs" />
@@ -248,8 +249,12 @@
     <Compile Include="WAMP2\V2\MetaApi\Client\SubscriptionEvents.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Client\WampMetaApiServiceProxy.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Client\WampRealmProxyExtensions.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\EventHistory\HistoricalSubscription.cs" />
     <Compile Include="WAMP2\V2\MetaApi\EventHistory\IWampEventHistoryProvider.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\EventHistory\IWampEventStore.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\EventHistory\WampEventHistoryProvider.cs" />
     <Compile Include="WAMP2\V2\MetaApi\EventHistory\WampHistoricalEvent.cs" />
+    <Compile Include="WAMP2\V2\MetaApi\EventHistory\WampInMemoryEventStore.cs" />
     <Compile Include="WAMP2\V2\MetaApi\WampHostedRealmExtensions.cs" />
     <Compile Include="WAMP2\V2\MetaApi\WampRealmDescriptorService.cs" />
     <Compile Include="WAMP2\V2\MetaApi\DescriptorServiceBase.cs" />

@@ -78,7 +78,7 @@ namespace WampSharp.V2
                                             publicationId,
                                             details,
                                             arguments,
-                                            GetSerializedDictionary(formatter, argumentsKeywords))
+                                            formatter.ConvertArgumentKeywords(argumentsKeywords))
         {
         }
 
@@ -90,52 +90,9 @@ namespace WampSharp.V2
                                     IDictionary<string, ISerializedValue> argumentsKeywords) :
                                         base(publicationId,
                                              details,
-                                             GetSerializedArguments(formatter, arguments), argumentsKeywords)
+                                             formatter.ConvertArguments(arguments),
+                                             argumentsKeywords)
         {
-        }
-
-        private static IDictionary<string, ISerializedValue> GetSerializedDictionary(IWampFormatter<TMessage> formatter, IDictionary<string, TMessage> argument)
-        {
-            if (argument == null)
-            {
-                return null;
-            }
-            else
-            {
-                Dictionary<string, ISerializedValue> result =
-                    argument.ToDictionary(x => x.Key, 
-                    x => GetSerializedArgument(formatter, x.Value));
-
-                return result;
-            }
-        }
-
-        private static ISerializedValue GetSerializedArgument(IWampFormatter<TMessage> formatter, object argument)
-        {
-            if (argument == null)
-            {
-                return null;
-            }
-            else if (argument is TMessage)
-            {
-                return new SerializedValue<TMessage>(formatter, (TMessage)argument);                
-            }
-            else
-            {
-                return new SerializedValue<object>(WampObjectFormatter.Value, argument);
-            }
-        }
-
-        private static ISerializedValue[] GetSerializedArguments(IWampFormatter<TMessage> formatter, TMessage[] arguments)
-        {
-            if (arguments == null)
-            {
-                return null;
-            }
-            else
-            {
-                return arguments.Select(x => new SerializedValue<TMessage>(formatter, x)).Cast<ISerializedValue>().ToArray();                
-            }
         }
     }
 }
