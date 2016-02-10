@@ -84,6 +84,7 @@
     <Compile Include="Integration\PatternRpcTests.cs" />
     <Compile Include="Integration\PublisherSubscriber.cs" />
     <Compile Include="Integration\PubSubReflectionTests.cs" />
+    <Compile Include="Integration\RpcInterfaceTests.cs" />
     <Compile Include="Integration\RpcOptionsTests.cs" />
     <Compile Include="Integration\RpcProgressTests.cs" />
     <Compile Include="Integration\RpcProxies\IArgumentsService.cs" />

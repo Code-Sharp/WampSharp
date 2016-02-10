@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.Core.Utilities;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.WAMP2.V2.Rpc.Callee;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.V2.Rpc
@@ -53,12 +54,32 @@ namespace WampSharp.V2.Rpc
             }
         }
 
+        private bool HasServiceMethodsInType
+            (Type type,
+                ICalleeRegistrationInterceptor interceptor)
+        {
+            foreach (var method in type.GetPublicInstanceMethods())
+            {
+                if (interceptor.IsCalleeProcedure(method))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         protected IWampRpcOperation CreateRpcMethod(Func<object> instanceProvider, ICalleeRegistrationInterceptor interceptor, MethodInfo method)
         {
             string procedureUri =
                 interceptor.GetProcedureUri(method);
 
-            if (!typeof (Task).IsAssignableFrom(method.ReturnType))
+            //TODO: need better detection of nested
+            if (HasServiceMethodsInType(method.ReturnType, interceptor) && method.GetParameters().Length == 0)
+            {
+                return new LocalRpcInterfaceOperation(method.ReturnType, () => method.Invoke(instanceProvider(), new object[]{}), procedureUri, interceptor);
+            }
+            else if (!typeof (Task).IsAssignableFrom(method.ReturnType))
             {
                 return new SyncMethodInfoRpcOperation(instanceProvider, method, procedureUri);
             }
