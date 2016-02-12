@@ -10,18 +10,19 @@ namespace WampSharp.V2
     public interface ICalleeRegistrationInterceptor
     {
         /// <summary>
-        /// Returns a value indicating whether this method is a callee method.
+        /// Returns a value indicating whether this method is a callee method/member.
         /// </summary>
-        bool IsCalleeProcedure(MethodInfo method);
-
+        bool IsCalleeMember(MemberInfo member);
+        
         /// <summary>
-        /// Gets the options that will be used to register the given method.
+        /// Gets the options that will be used to register given memember
         /// </summary>
-        RegisterOptions GetRegisterOptions(MethodInfo method);
+        RegisterOptions GetRegisterOptions(MemberInfo member);
 
         /// <summary>
         /// Gets the procedure uri that will be used to register the given method.
         /// </summary>
-        string GetProcedureUri(MethodInfo method);
+        string GetProcedureUri(MemberInfo member);
+
     }
 }

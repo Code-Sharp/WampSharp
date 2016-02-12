@@ -15,83 +15,20 @@ using WampSharp.WAMP2.V2.Rpc.Callee;
 
 namespace WampSharp.Tests.Wampv2.Integration
 {
-    public class RpcInterfaceTests
+
+    public interface IRpcCompositeService
     {
-        [Test]
-        public async Task RpcInterfaceTest()
-        {
-            WampPlayground playground = new WampPlayground();
-            playground.Host.Open();
+        [WampProcedure("test")]
+        IRpcTestSubService GetTestSubService();
 
-            IWampChannel calleeChannel = playground.CreateNewChannel("realm1");
-            await calleeChannel.Open();
+        [WampProcedure("switchAppliance")]
+        void SwitchAppliance();
 
-            var instance = new TestCompositeService();
+        [WampMember]
+        IApplianceSubService appliance { get; }
 
-            IWampRealmProxy realm = calleeChannel.RealmProxy;
-
-            //Task<IAsyncDisposable> registrationTask1 = realm.Services.RegisterCallee(instance);
-
-            //await registrationTask1;
-
-            var operation = new LocalRpcInterfaceOperation(new TestCompositeService(), "com.test.instance.124");
-
-
-            Task<IAsyncDisposable> registrationTask2 =
-                calleeChannel.RealmProxy.RpcCatalog.Register(operation,
-                                                   new RegisterOptions()
-                                                   {
-                                                       Match = WampMatchPattern.Prefix
-                                                   });
-
-            await registrationTask2;
-
-            IWampChannel callerChannel = playground.CreateNewChannel("realm1");
-            await callerChannel.Open();
-
-            var callback = new MyCallback();
-
-            callerChannel.RealmProxy.RpcCatalog.Invoke
-                (callback, new CallOptions(), "com.test.instance.124.appliance.isTeapot");
-
-            Assert.That(callback.Called, Is.EqualTo(true));
-        }
-
-        protected class MyCallback : IWampRawRpcOperationClientCallback
-        {
-            public bool Called
-            {
-                get;
-                private set;
-            }
-
-            public virtual void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
-            {
-                Called = true;
-            }
-
-            public virtual void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
-            {
-            }
-
-            public virtual void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments,
-                                                 IDictionary<string, TMessage> argumentsKeywords)
-            {
-            }
-
-            public virtual void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error)
-            {
-            }
-
-            public virtual void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments)
-            {
-            }
-
-            public virtual void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments,
-                                                TMessage argumentsKeywords)
-            {
-            }
-        }
+        [WampProcedure("version")]
+        string version();
     }
 
     public interface IRpcTestSubService
@@ -109,62 +46,213 @@ namespace WampSharp.Tests.Wampv2.Integration
     }
     public interface IApplianceSubService
     {
-        [WampProcedure("isTeapot")]
-        bool isTeapot();
+        [WampMember]
+        int capacity { get; }
 
-        [WampProcedure("boilWater")]
-        string boil(int amount);
-    }
-
-    public interface IRpcCompositeService
-    {
-        [WampProcedure("test")]
-        IRpcTestSubService GetTestSubService();
-
-        [WampProcedure("appliance")]
-        IApplianceSubService GetApplianceSubService();
-
-        [WampProcedure("version")]
-        string version();
+        [WampProcedure("brew")]
+        Task<string> brew(int amount);
     }
 
 
-    public class TestCompositeService: IRpcCompositeService
+    public class RpcInterfaceTests
     {
-        private RpcTestSubService mTestSubService = new RpcTestSubService();
-        private ApplianceSubService mAppliance = new ApplianceSubService();
+        [Test]
+        public async Task RpcInterfaceTest()
+        {
+            WampPlayground playground = new WampPlayground();
+            playground.Host.Open();
+
+            IWampChannel calleeChannel = playground.CreateNewChannel("realm1");
+            await calleeChannel.Open();
+
+            var callback = new TestCallback();
+
+            var instance = new TestCompositeService(callback);
+            IWampRealmProxy realm = calleeChannel.RealmProxy;
+
+
+            var operation = new LocalRpcInterfaceOperation(instance, "com.test.instance.124");
+
+
+            Task<IAsyncDisposable> registrationTask2 =
+                calleeChannel.RealmProxy.RpcCatalog.Register(operation,
+                                                   new RegisterOptions()
+                                                   {
+                                                       Match = WampMatchPattern.Prefix
+                                                   });
+
+            await registrationTask2;
+
+            IWampChannel callerChannel = playground.CreateNewChannel("realm1");
+            await callerChannel.Open();
+
+
+            callerChannel.RealmProxy.RpcCatalog.Invoke
+                (callback, new CallOptions(), "com.test.instance.124.version");
+
+            Assert.That(callback.WhatWasCalled, Is.EqualTo("version"));
+
+            callerChannel.RealmProxy.RpcCatalog.Invoke
+                (callback, new CallOptions(), "com.test.instance.124.appliance.brew", new object[]{5});
+
+            Assert.That(callback.WhatWasCalled, Is.EqualTo("CoffeeMaker.brew"));
+
+            callerChannel.RealmProxy.RpcCatalog.Invoke
+                (callback, new CallOptions(), "com.test.instance.124.switchAppliance");
+
+            Assert.That(callback.WhatWasCalled, Is.EqualTo("switchAppliance"));
+
+            callerChannel.RealmProxy.RpcCatalog.Invoke
+                (callback, new CallOptions(), "com.test.instance.124.appliance.brew", new object[] { 5 });
+
+            Assert.That(callback.WhatWasCalled, Is.EqualTo("Teapot.brew"));
+
+            //Property test
+            callerChannel.RealmProxy.RpcCatalog.Invoke
+                (callback, new CallOptions(), "com.test.instance.124.appliance.capacity", new object[] { 5 });
+
+            Assert.That(callback.WhatWasCalled, Is.EqualTo("Teapot.capacity"));
+
+        }
+
+        internal class TestCallback : IWampRawRpcOperationClientCallback
+        {
+            public string WhatWasCalled { get; private set; }
+            public string ResultContent { get; private set; }
+            public void Called(string what)
+            {
+                WhatWasCalled = what;
+            }
+
+            public virtual void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
+            {
+                ResultContent = details.ToString();
+            }
+
+            public virtual void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
+            {
+                ResultContent = arguments.ToString();
+            }
+
+            public virtual void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments,
+                                                 IDictionary<string, TMessage> argumentsKeywords)
+            {
+                ResultContent = arguments.ToString() + " " + argumentsKeywords.ToString();
+            }
+
+            public virtual void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error)
+            {
+                ResultContent = "Error: " + details.ToString();
+            }
+
+            public virtual void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments)
+            {
+            }
+
+            public virtual void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments,
+                                                TMessage argumentsKeywords)
+            {
+            }
+        }
+    }
+
+
+    internal class TestCompositeService: IRpcCompositeService
+    {
+        private readonly RpcTestSubService mTestSubService;
+        private IApplianceSubService mAppliance;
+        private readonly RpcInterfaceTests.TestCallback mCallback;
+
+        public TestCompositeService(RpcInterfaceTests.TestCallback callback)
+        {
+            mCallback = callback;
+            mAppliance = new CoffeeMaker(callback);
+            mTestSubService = new RpcTestSubService(callback);
+        }
 
         public IRpcTestSubService GetTestSubService()
         {
             return mTestSubService;
         }
 
-        public IApplianceSubService GetApplianceSubService()
+        public void SwitchAppliance()
         {
-            return mAppliance;
+            mCallback.Called("switchAppliance");
+            mAppliance = new Teapot(mCallback);
         }
+
+        public IApplianceSubService appliance => mAppliance;
 
         public string version()
         {
+            mCallback.Called("version");
             return "0.1";
+        }
+        
+    }
+
+    internal class CoffeeMaker : IApplianceSubService
+    {
+        private RpcInterfaceTests.TestCallback mCallback;
+
+        public CoffeeMaker(RpcInterfaceTests.TestCallback callback)
+        {
+            this.mCallback = callback;
+        }
+
+        public int capacity
+        {
+            get
+            {
+                mCallback.Called("CoffeeMaker.capacity");
+                return 3;
+            } 
+        }
+
+        public async Task<string> brew(int amount)
+        {
+            mCallback.Called("CoffeeMaker.brew");
+
+            await Task.Delay(1000);
+            return "Brewed " + amount;
         }
     }
 
-    internal class ApplianceSubService : IApplianceSubService
+    internal class Teapot : IApplianceSubService
     {
-        public bool isTeapot()
+        private RpcInterfaceTests.TestCallback mCallback;
+
+        public Teapot(RpcInterfaceTests.TestCallback mCallback)
         {
-            return true;
+            this.mCallback = mCallback;
         }
 
-        public string boil(int amount)
+        public int capacity
         {
-            return "Boiled " + amount;
+            get
+            {
+                mCallback.Called("Teapot.capacity");
+
+                return 1;
+            } 
+        }
+
+        public async Task<string> brew(int amount)
+        {
+            mCallback.Called("Teapot.brew");
+            return "Error 418 I'm a teapot" ;
         }
     }
 
     internal class RpcTestSubService : IRpcTestSubService
     {
+        private RpcInterfaceTests.TestCallback mCallback;
+
+        public RpcTestSubService(RpcInterfaceTests.TestCallback callback)
+        {
+            this.mCallback = callback;
+        }
+
         public async Task<string> progressiveResultsMethod(string param, IProgress<string> progress)
         {
             Random rand = new Random(Guid.NewGuid().GetHashCode());
@@ -180,6 +268,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                     await Task.Delay(rand.Next(100, 1000));
                 }
             }
+            mCallback.Called("test.progressive");
 
             return value;
         }
@@ -189,6 +278,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             Random rand = new Random(Guid.NewGuid().GetHashCode());
             await Task.Delay(rand.Next(100, 1000));
 
+            mCallback.Called("test.async");
 
             return param + rand.Next();
         }
@@ -196,6 +286,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         public string syncMethod(string param)
         {
             Random rand = new Random(Guid.NewGuid().GetHashCode());
+            mCallback.Called("test.sync");
             return param + rand.Next();
         }
     }

@@ -47,7 +47,7 @@ namespace WampSharp.V2
                 throw new WampIncompatibleCalleeProxyMethodException(method);
             }
 
-            return attribute.Procedure;
+            return string.IsNullOrEmpty(attribute.Procedure) ? method.Name : attribute.Procedure;
         }
     }
 }

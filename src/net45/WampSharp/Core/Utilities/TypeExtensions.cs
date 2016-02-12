@@ -48,6 +48,15 @@ namespace System.Reflection
 #endif
         }
 
+        public static IEnumerable<MemberInfo> GetPublicInstanceMembers(this Type type)
+        {
+#if PCL
+            return type.GetTypeInfo().DeclaredMethods
+                .Where(x => x.IsPublic && !x.IsStatic);
+#else
+            return type.GetMembers(BindingFlags.Public | BindingFlags.Instance);
+#endif
+        }
         public static IEnumerable<MethodInfo> GetInstanceMethods(this Type type)
         {
 #if PCL

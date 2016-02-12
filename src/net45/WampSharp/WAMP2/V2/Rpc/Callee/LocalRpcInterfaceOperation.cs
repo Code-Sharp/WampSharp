@@ -167,17 +167,17 @@ namespace WampSharp.WAMP2.V2.Rpc.Callee
                 mPath = path;
             }
 
-            public bool IsCalleeProcedure(MethodInfo method)
+            public bool IsCalleeMember(MemberInfo member)
             {
-                return mOuterInterceptor.IsCalleeProcedure(method);
+                return mOuterInterceptor.IsCalleeMember(member);
             }
 
-            public RegisterOptions GetRegisterOptions(MethodInfo method)
+            public RegisterOptions GetRegisterOptions(MemberInfo method)
             {
                 return mOuterInterceptor.GetRegisterOptions(method);
             }
 
-            public string GetProcedureUri(MethodInfo method)
+            public string GetProcedureUri(MemberInfo method)
             {
                 return (String.IsNullOrEmpty(mPath) ? "" : mPath + ".") + mOuterInterceptor.GetProcedureUri(method);
             }
