@@ -1,5 +1,7 @@
 using System.Reflection;
+#if !PCL
 using Castle.Core.Internal;
+#endif
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 

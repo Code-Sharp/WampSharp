@@ -55,6 +55,8 @@ namespace WampSharp.V2.Rpc
 
         private IWampRpcOperation CreateRpcMethod(Func<object> instanceProvider, ICalleeRegistrationInterceptor interceptor, MemberInfo member)
         {
+
+#if !PCL
             if (member.MemberType == MemberTypes.Method)
             {
                 return CreateRpcMethod(instanceProvider, interceptor, member as MethodInfo);
@@ -69,9 +71,11 @@ namespace WampSharp.V2.Rpc
                 else
                     throw new Exception(string.Format("Getter not found for {1}", member.MemberType, member));
             }
-
             throw new Exception(string.Format("Unsupported member type {0} found when registering {1}", member.MemberType, member));
+#else
 
+#endif
+            return CreateRpcMethod(instanceProvider, interceptor, member as MethodInfo);
         }
 
         private bool HasServiceMembersInType

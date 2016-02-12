@@ -4,7 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+#if !PCL
 using Castle.Core.Internal;
+#endif
 using WampSharp.Core.Serialization;
 using WampSharp.Logging;
 using WampSharp.V2;

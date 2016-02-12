@@ -779,6 +779,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\PubSub\SubscriptionDetailsExtended.cs">
       <Link>WAMP2\V2\MetaApi\PubSub\SubscriptionDetailsExtended.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\LocalRpcInterfaceOperation.cs">
+      <Link>WAMP2\V2\Rpc\Callee\LocalRpcInterfaceOperation.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs</Link>
     </Compile>
