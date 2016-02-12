@@ -64,8 +64,8 @@ namespace WampSharp.V2.Rpc
                 //Use getter method of a property
                 PropertyInfo propertyInfo = member as PropertyInfo;
 
-                if (propertyInfo.GetMethod != null)
-                    return CreateRpcMethod(instanceProvider, interceptor, propertyInfo.GetMethod, member);
+                if (propertyInfo.GetGetMethod() != null)
+                    return CreateRpcMethod(instanceProvider, interceptor, propertyInfo.GetGetMethod(), member);
                 else
                     throw new Exception(string.Format("Getter not found for {1}", member.MemberType, member));
             }
