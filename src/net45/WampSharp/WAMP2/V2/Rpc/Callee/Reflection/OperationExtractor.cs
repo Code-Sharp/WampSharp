@@ -73,9 +73,8 @@ namespace WampSharp.V2.Rpc
             }
             throw new Exception(string.Format("Unsupported member type {0} found when registering {1}", member.MemberType, member));
 #else
-
-#endif
             return CreateRpcMethod(instanceProvider, interceptor, member as MethodInfo);
+#endif
         }
 
         private bool HasServiceMembersInType
