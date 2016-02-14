@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 #if !PCL
 using Castle.Core.Internal;
@@ -20,7 +21,15 @@ namespace WampSharp.V2
             mRegisterOptions = registerOptions;
         }
 
-        public bool IsCalleeMember(MemberInfo member)
+#if !PCL
+        [Obsolete("Deprecated.  Use IsCalleeMember for readonly property support")]
+#endif
+        public virtual bool IsCalleeProcedure(MethodInfo method)
+        {
+            return this.IsCalleeMember(method);
+        }
+
+        public virtual bool IsCalleeMember(MemberInfo member)
         {
             return member.IsDefined(typeof(WampMemberAttributeBase));
         }

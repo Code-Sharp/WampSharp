@@ -169,6 +169,11 @@ namespace WampSharp.WAMP2.V2.Rpc.Callee
                 mPath = path;
             }
 
+            public bool IsCalleeProcedure(MethodInfo method)
+            {
+                return mOuterInterceptor.IsCalleeMember(method);
+            }
+
             public bool IsCalleeMember(MemberInfo member)
             {
                 return mOuterInterceptor.IsCalleeMember(member);

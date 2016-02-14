@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using WampSharp.V2.Core.Contracts;
 
 // ReSharper disable once CheckNamespace
@@ -9,6 +10,15 @@ namespace WampSharp.V2
     /// </summary>
     public interface ICalleeRegistrationInterceptor
     {
+
+        /// <summary>
+        /// Returns a value indicating whether this method is a callee method. Deprecated. Use <see cref="IsCalleeMember"/>
+        /// </summary>
+#if !PCL
+        [Obsolete("Deprecated.  Use IsCalleeMember for readonly property support")]
+#endif
+        bool IsCalleeProcedure(MethodInfo method);
+        
         /// <summary>
         /// Returns a value indicating whether this method is a callee method/member.
         /// </summary>
