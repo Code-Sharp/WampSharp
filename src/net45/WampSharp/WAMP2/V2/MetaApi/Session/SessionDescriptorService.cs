@@ -26,14 +26,16 @@ namespace WampSharp.V2.MetaApi
 
         private void OnSessionCreated(object sender, WampSessionCreatedEventArgs e)
         {
+            WelcomeDetails welcomeDetails = e.WelcomeDetails;
+
             WampSessionDetails sessionDetails = new WampSessionDetails()
             {
                 Realm = mRealm.Name,
                 Session = e.SessionId,
-                AuthMethod = e.WelcomeDetails.AuthenticationMethod ?? "anonymous",
-                AuthId = e.WelcomeDetails.AuthenticationId,
-                AuthProvider = e.WelcomeDetails.AuthenticationProvider,
-                AuthRole = e.WelcomeDetails.AuthenticationRole,
+                AuthMethod = welcomeDetails.AuthenticationMethod ?? "anonymous",
+                AuthId = welcomeDetails.AuthenticationId,
+                AuthProvider = welcomeDetails.AuthenticationProvider,
+                AuthRole = welcomeDetails.AuthenticationRole,
                 TransportDetails = e.HelloDetails.TransportDetails
             };
 
