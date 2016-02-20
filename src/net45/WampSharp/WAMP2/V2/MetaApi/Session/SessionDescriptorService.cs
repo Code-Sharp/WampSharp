@@ -31,6 +31,9 @@ namespace WampSharp.V2.MetaApi
                 Realm = mRealm.Name,
                 Session = e.SessionId,
                 AuthMethod = e.WelcomeDetails.AuthenticationMethod ?? "anonymous",
+                AuthId = e.WelcomeDetails.AuthenticationId,
+                AuthProvider = e.WelcomeDetails.AuthenticationProvider,
+                AuthRole = e.WelcomeDetails.AuthenticationRole,
                 TransportDetails = e.HelloDetails.TransportDetails
             };
 
