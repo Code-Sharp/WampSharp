@@ -1,8 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
+    [Serializable]
     public class PublishOptionsExtended : PublishOptions
     {
         public PublishOptionsExtended(PublishOptions options) : base(options)

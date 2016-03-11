@@ -5,9 +5,7 @@ using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Core.Contracts
 {
-#if !PCL
     [Serializable]
-#endif
     public class WampException : Exception
     {
         private readonly string mErrorUri;

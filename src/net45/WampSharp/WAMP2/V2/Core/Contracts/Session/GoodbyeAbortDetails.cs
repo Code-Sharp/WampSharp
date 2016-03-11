@@ -1,8 +1,10 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
+    [Serializable]
     public abstract class GoodbyeAbortDetails : WampDetailsOptions
     {
         /// <summary>

@@ -3,9 +3,7 @@ using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Client
 {
-#if !PCL
     [Serializable]
-#endif
     public class WampSessionNotEstablishedException : Exception
     {
         public WampSessionNotEstablishedException() : this("No connection to router is currently available.")
