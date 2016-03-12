@@ -5,9 +5,7 @@ using WampSharp.V1.Cra;
 
 namespace WampSharp.V1
 {
-#if !PCL
     [Serializable]
-#endif
     public class WampRequestContext
     {
         #region Static Members

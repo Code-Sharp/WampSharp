@@ -9,9 +9,7 @@ namespace WampSharp.V2
     /// <summary>
     /// Includes information about the current event.
     /// </summary>
-#if !PCL
     [Serializable]
-#endif
     public class WampEventContext
     {
 

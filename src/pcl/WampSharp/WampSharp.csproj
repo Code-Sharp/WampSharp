@@ -263,6 +263,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\Method.cs">
       <Link>Core\Utilities\Method.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\SerializableAttribute.cs">
+      <Link>Core\Utilities\SerializableAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\ReadOnlyDictionary.cs">
       <Link>Core\Utilities\ReadOnlyDictionary.cs</Link>
     </Compile>
