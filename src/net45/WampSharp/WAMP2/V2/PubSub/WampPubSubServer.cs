@@ -69,7 +69,7 @@ namespace WampSharp.V2.PubSub
             catch (WampException ex)
             {
                 mLogger.ErrorFormat(ex,
-                                    "Failed publishing to topic '{0}'. Publication request id: {1}",
+                                    "Failed publishing to topic '{TopicUri}'. Publication request id: {RequestId}",
                                     topicUri, requestId);
 
                 PublishErrorIfNeeded(publisher, requestId, acknowledge, ex);
@@ -111,7 +111,7 @@ namespace WampSharp.V2.PubSub
             catch (WampException ex)
             {
                 mLogger.ErrorFormat(ex,
-                                    "Failed subscribing to topic '{0}'. Subscription request id: {1}",
+                                    "Failed subscribing to topic '{TopicUri}'. Subscription request id: {RequestId}",
                                     topicUri, requestId);
 
                 subscriber.SubscribeError(requestId, ex);

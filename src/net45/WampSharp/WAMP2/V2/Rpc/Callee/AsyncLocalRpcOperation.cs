@@ -40,7 +40,7 @@ namespace WampSharp.V2.Rpc
             }
             catch (Exception ex)
             {
-                mLogger.ErrorFormat(ex, "An error occured while calling {0}", this.Procedure);
+                mLogger.ErrorFormat(ex, "An error occured while calling {ProcedureUri}", this.Procedure);
 
                 WampException wampException = ex as WampException;
 

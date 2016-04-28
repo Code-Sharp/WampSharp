@@ -49,7 +49,7 @@ namespace WampSharp.V2.Transports
             }
             else
             {
-                mLogger.ErrorFormat("No handler registered for protocol '{0}'",
+                mLogger.ErrorFormat("No handler registered for protocol '{Protocol}'",
                                     protocol);
             }
         }
