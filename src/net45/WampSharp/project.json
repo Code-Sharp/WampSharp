@@ -1,35 +1,45 @@
 {
-    "version": "1.0.0-*",
-    "description": "",
-    "authors": [ "" ],
-    "tags": [ "" ],
-    "projectUrl": "",
-    "licenseUrl": "",
-
-    "dependencies": {
+  "title": "WampSharp",
+  "version": "1.2.3-*",
+  "description": "An implementation of WAMP (The Web Application Messaging Protocol). Supports both WAMPv2 and WAMPv1.",
+  "authors": [ "CodeSharp" ],
+  "requireLicenseAcceptance": false,
+  "tags": [ "websockets", "wampws", "rpc", "pubsub", "wampv2" ],
+  "projectUrl": "https://github.com/Code-Sharp/WampSharp/",
+  "frameworks": {
+    "net40": {
+      "compilationOptions": {
+        "define": [ "NET40", "CASTLE", "LIBLOG_PUBLIC" ]
+      },
+      "frameworkAssemblies": {
+        "System.Runtime.Serialization": "4.0.0.0",
+        "System.Core": "4.0.0.0"
+      },
+      "dependencies": {
         "Rx-Main": "2.2.5",
-        "System.Collections.Concurrent": "4.0.10-beta-22816",
-        "System.Collections.Immutable": "1.1.34-rc",
-        "System.Runtime.Serialization.Primitives": "4.0.10-beta-22816",
-        "System.Runtime.Extensions": "4.0.10-beta-22828",
-        "System.Diagnostics.Debug": "4.0.10-beta-22828",
-        "System.Text.RegularExpressions": "4.0.10-beta-22828",
-        "System.Globalization": "4.0.10-beta-22828",
-        "System.Runtime": "4.0.20-beta-22828",
-        "System.Reflection.Extensions": "4.0.0-beta-22816",
-        "System.ComponentModel": "4.0.0-beta-22816",
-        "System.Reflection.DispatchProxy": "4.0.0-beta-22816"
+        "Castle.Core": "3.3.1",
+        "Ix-Async": "1.2.5",
+        "Rackspace.Collections.Immutable": "1.1.36"
+      }
     },
-
-    "frameworks": {
-        "dnxcore50": {
-            "compilationOptions": { "define": [ "NET45", "PCL", "LIBLOG_PORTABLE", "LIBLOG_PUBLIC", "DNX" ] },
-            "dependencies": {
-                "System.Collections": "4.0.10-beta-22816",
-                "System.Linq": "4.0.0-beta-22816",
-                "System.Threading": "4.0.10-beta-22816",
-                "Microsoft.CSharp": "4.0.0-beta-22816"
-            }
-        }
+    "net45": {
+      "compilationOptions": {
+        "define": [ "NET45", "CASTLE", "LIBLOG_PUBLIC" ]
+      },
+      "frameworkAssemblies": {
+        "Microsoft.CSharp": "4.0.0.0",
+        "System": "4.0.0.0",
+        "System.Core": "4.0.0.0",
+        "System.Collections": "4.0.0.0",
+        "System.Runtime": "4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0"
+      },
+      "dependencies": {
+        "Rx-Main": "2.2.5",
+        "Castle.Core": "3.3.1",
+        "Ix-Async": "1.2.5",
+        "System.Collections.Immutable": "1.1.36"
+      }
     }
+  }
 }
