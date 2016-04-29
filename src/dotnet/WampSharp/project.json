@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "Microsoft.CSharp": "4.0.0",
+    "Microsoft.Tpl.Dataflow": "4.5.24",
     "rx-main": "2.2.5",
     "System.Collections.Concurrent": "4.0.10",
     "System.Collections.Immutable": "1.1.37",
@@ -14,6 +15,7 @@
     "System.Dynamic.Runtime": "4.0.10",
     "System.Globalization": "4.0.10",
     "System.Linq.Expressions": "4.0.10",
+    "System.Net.Primitives": "4.0.10",
     "System.Reflection.DispatchProxy": "4.0.0",
     "System.Reflection.Extensions": "4.0.0",
     "System.Runtime": "4.0.20",
