@@ -1,7 +1,7 @@
 {
   "title": "WampSharp Newtonsoft.Json binding",
   "version": "1.2.3-*",
-  "description": "An implementation of WAMP (The Web Application Messaging Protocol). Supports both WAMPv2 and WAMPv1.",
+  "description": "WampSharp Newtonsoft.Json binding",
   "authors": [ "CodeSharp" ],
   "requireLicenseAcceptance": false,
   "tags": [ "websockets", "wampws", "rpc", "pubsub", "newtonsoft", "json", "wampv1", "wampv2" ],

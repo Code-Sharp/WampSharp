@@ -1,0 +1,23 @@
+{
+  "title": "WampSharp System.Net.WebSockets.WebSocket support",
+  "version": "1.2.3-*",
+  "description": "WampSharp System.Net.WebSockets.WebSocket support",
+  "authors": [ "CodeSharp" ],
+  "requireLicenseAcceptance": false,
+  "tags": [ "websockets", "wampws", "rpc", "pubsub", "wampv1", "wampv2" ],
+  "projectUrl": "https://github.com/Code-Sharp/WampSharp/",
+  "frameworks": {
+    "net45": {
+    },
+    "dotnet5.4": {
+      "compilationOptions": {
+      },
+      "dependencies": {
+        "System.Net.WebSockets.Client": "4.0.0-beta-22816"
+      }
+    }
+  },
+  "dependencies": {
+    "WampSharp": { "target": "project" },
+  }
+}
