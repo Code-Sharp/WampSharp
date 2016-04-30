@@ -41,6 +41,42 @@
         "System.Collections.Immutable": "1.1.36"
       }
     },
+    ".NETPortable,Version=v4.5,Profile=Profile111": {
+      "compilationOptions": {
+        "define": [ "NET45", "PCL", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL" ]
+      },
+      "frameworkAssemblies": {
+        "Microsoft.CSharp": "",
+        "System": "",
+        "System.Core": "",
+        "System.Collections": "",
+        "System.Collections.Concurrent": "",
+        "System.ComponentModel": "",
+        "System.Diagnostics.Debug": "",
+        "System.Dynamic.Runtime": "",
+        "System.Globalization": "",
+        "System.IO": "",
+        "System.Linq": "",
+        "System.Linq.Expressions": "",
+        "System.Net.Primitives": "",
+        "System.ObjectModel": "",
+        "System.Reflection": "4.0.0",
+        "System.Reflection.Extensions": "4.0.0",
+        "System.Runtime": "",
+        "System.Runtime.Extensions": "",
+        "System.Runtime.InteropServices" :  "",
+        "System.Runtime.Serialization": "",
+        "System.Runtime.Serialization.Primitives": "",
+        "System.Text.RegularExpressions": "",
+        "System.Threading": "",
+        "System.Threading.Tasks": ""
+      },
+      "dependencies": {
+        "Rx-Main": "2.2.5",
+        "Microsoft.Tpl.Dataflow": "4.5.24",
+        "System.Collections.Immutable": "1.1.36"
+      }
+    },
     "dotnet5.4": {
       "compilationOptions": {
         "define": [ "NET45", "DNX", "PCL", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL" ]

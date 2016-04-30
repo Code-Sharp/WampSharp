@@ -180,6 +180,82 @@
         }
       }
     },
+    ".NETPortable,Version=v4.5,Profile=Profile111": {
+      "Microsoft.Tpl.Dataflow/4.5.24": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net45+win8+wpa81/System.Threading.Tasks.Dataflow.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wpa81/System.Threading.Tasks.Dataflow.dll": {}
+        }
+      },
+      "Rx-Core/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Core.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Core.dll": {}
+        }
+      },
+      "Rx-Interfaces/2.2.5": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Interfaces.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Interfaces.dll": {}
+        }
+      },
+      "Rx-Linq/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Linq.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Linq.dll": {}
+        }
+      },
+      "Rx-Main/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5",
+          "Rx-Linq": "2.2.5",
+          "Rx-PlatformServices": "2.2.5"
+        }
+      },
+      "Rx-PlatformServices/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.dll": {}
+        }
+      },
+      "System.Collections.Immutable/1.1.36": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
+        }
+      }
+    },
     ".NETPlatform,Version=v5.4": {
       "Microsoft.CSharp/4.0.0": {
         "type": "package",
@@ -935,6 +1011,158 @@
         },
         "runtime": {
           "lib/net45/System.Reactive.PlatformServices.dll": {}
+        }
+      },
+      "System.Collections.Immutable/1.1.36": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
+        }
+      }
+    },
+    ".NETPortable,Version=v4.5,Profile=Profile111/win7-x86": {
+      "Microsoft.Tpl.Dataflow/4.5.24": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net45+win8+wpa81/System.Threading.Tasks.Dataflow.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wpa81/System.Threading.Tasks.Dataflow.dll": {}
+        }
+      },
+      "Rx-Core/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Core.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Core.dll": {}
+        }
+      },
+      "Rx-Interfaces/2.2.5": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Interfaces.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Interfaces.dll": {}
+        }
+      },
+      "Rx-Linq/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Linq.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Linq.dll": {}
+        }
+      },
+      "Rx-Main/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5",
+          "Rx-Linq": "2.2.5",
+          "Rx-PlatformServices": "2.2.5"
+        }
+      },
+      "Rx-PlatformServices/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.dll": {}
+        }
+      },
+      "System.Collections.Immutable/1.1.36": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
+        }
+      }
+    },
+    ".NETPortable,Version=v4.5,Profile=Profile111/win7-x64": {
+      "Microsoft.Tpl.Dataflow/4.5.24": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net45+win8+wpa81/System.Threading.Tasks.Dataflow.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wpa81/System.Threading.Tasks.Dataflow.dll": {}
+        }
+      },
+      "Rx-Core/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Core.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Core.dll": {}
+        }
+      },
+      "Rx-Interfaces/2.2.5": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Interfaces.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Interfaces.dll": {}
+        }
+      },
+      "Rx-Linq/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Linq.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Linq.dll": {}
+        }
+      },
+      "Rx-Main/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5",
+          "Rx-Linq": "2.2.5",
+          "Rx-PlatformServices": "2.2.5"
+        }
+      },
+      "Rx-PlatformServices/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.dll": {}
         }
       },
       "System.Collections.Immutable/1.1.36": {
@@ -3129,6 +3357,35 @@
       "fx/System.Collections >= 4.0.0",
       "fx/System.Runtime >= 4.0.0",
       "fx/System.Runtime.Serialization >= 4.0.0"
+    ],
+    ".NETPortable,Version=v4.5,Profile=Profile111": [
+      "Rx-Main >= 2.2.5",
+      "Microsoft.Tpl.Dataflow >= 4.5.24",
+      "System.Collections.Immutable >= 1.1.36",
+      "fx/Microsoft.CSharp ",
+      "fx/System ",
+      "fx/System.Core ",
+      "fx/System.Collections ",
+      "fx/System.Collections.Concurrent ",
+      "fx/System.ComponentModel ",
+      "fx/System.Diagnostics.Debug ",
+      "fx/System.Dynamic.Runtime ",
+      "fx/System.Globalization ",
+      "fx/System.IO ",
+      "fx/System.Linq ",
+      "fx/System.Linq.Expressions ",
+      "fx/System.Net.Primitives ",
+      "fx/System.ObjectModel ",
+      "fx/System.Reflection >= 4.0.0",
+      "fx/System.Reflection.Extensions >= 4.0.0",
+      "fx/System.Runtime ",
+      "fx/System.Runtime.Extensions ",
+      "fx/System.Runtime.InteropServices ",
+      "fx/System.Runtime.Serialization ",
+      "fx/System.Runtime.Serialization.Primitives ",
+      "fx/System.Text.RegularExpressions ",
+      "fx/System.Threading ",
+      "fx/System.Threading.Tasks "
     ],
     ".NETPlatform,Version=v5.4": [
       "Microsoft.CSharp >= 4.0.0",
