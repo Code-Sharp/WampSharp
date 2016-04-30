@@ -41,6 +41,25 @@
         "System.Collections.Immutable": "1.1.36"
       }
     },
+    "net46": {
+      "compilationOptions": {
+        "define": [ "NET45", "CASTLE", "LIBLOG_PUBLIC", "ASYNC_LOCAL" ]
+      },
+      "frameworkAssemblies": {
+        "Microsoft.CSharp": "4.0.0.0",
+        "System": "4.0.0.0",
+        "System.Core": "4.0.0.0",
+        "System.Collections": "4.0.0.0",
+        "System.Runtime": "4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0"
+      },
+      "dependencies": {
+        "Rx-Main": "2.2.5",
+        "Castle.Core": "3.3.1",
+        "Ix-Async": "1.2.5",
+        "System.Collections.Immutable": "1.1.36"
+      }
+    },
     ".NETPortable,Version=v4.5,Profile=Profile111": {
       "compilationOptions": {
         "define": [ "NET45", "PCL", "LIBLOG_PUBLIC", "MANUAL_PROXY", "LIBLOG_PORTABLE", "TPL" ]
@@ -79,7 +98,7 @@
     },
     "dotnet5.4": {
       "compilationOptions": {
-        "define": [ "NET45", "DNX", "PCL", "CASTLE", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL" ]
+        "define": [ "NET45", "DNX", "PCL", "CASTLE", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL", "ASYNC_LOCAL" ]
       },
       "dependencies": {
         "Microsoft.CSharp": "4.0.0",
