@@ -117,6 +117,7 @@ namespace WampSharp.WebSocket
                     }
                     else
                     {
+                        memoryStream.Position = 0;
                         OnNewMessage(memoryStream);
                     }
 

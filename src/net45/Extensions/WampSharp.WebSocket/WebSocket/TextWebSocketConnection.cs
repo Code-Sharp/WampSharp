@@ -20,6 +20,7 @@ namespace WampSharp.WebSocket
         protected TextWebSocketConnection(Uri addressUri, IWampTextBinding<TMessage> binding) :
             base(addressUri, binding.Name, binding)
         {
+            mBinding = binding;
         }
 
         protected override ArraySegment<byte> GetMessageInBytes(WampMessage<object> message)
