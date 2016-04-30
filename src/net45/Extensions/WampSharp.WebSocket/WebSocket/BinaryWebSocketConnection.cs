@@ -7,14 +7,19 @@ using Websocket = System.Net.WebSockets.WebSocket;
 
 namespace WampSharp.WebSocket
 {
-    public class BinaryAspNetWebSocketConnection<TMessage> : WebSocketConnection<TMessage>
+    public class BinaryWebSocketConnection<TMessage> : WebSocketConnection<TMessage>
     {
         private readonly IWampBinaryBinding<TMessage> mBinding;
 
-        public BinaryAspNetWebSocketConnection(Websocket webSocket, IWampBinaryBinding<TMessage> binding) :
+        public BinaryWebSocketConnection(Websocket webSocket, IWampBinaryBinding<TMessage> binding) : 
             base(webSocket)
         {
             mBinding = binding;
+        }
+
+        protected BinaryWebSocketConnection(Uri addressUri, IWampBinaryBinding<TMessage> binding) :
+            base(addressUri, binding.Name, binding)
+        {
         }
 
         protected override ArraySegment<byte> GetMessageInBytes(WampMessage<object> message)
@@ -29,12 +34,6 @@ namespace WampSharp.WebSocket
             {
                 return WebSocketMessageType.Binary;
             }
-        }
-
-        protected override void OnNewMessage(MemoryStream payloadData)
-        {
-            WampMessage<TMessage> message = mBinding.Parse(payloadData);
-            RaiseMessageArrived(message);
         }
     }
 }

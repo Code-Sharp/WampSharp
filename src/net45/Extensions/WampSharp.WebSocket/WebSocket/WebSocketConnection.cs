@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.V2.Binding.Parsers;
 using Websocket = System.Net.WebSockets.WebSocket;
 
 namespace WampSharp.WebSocket
@@ -13,13 +14,23 @@ namespace WampSharp.WebSocket
     // https://code.msdn.microsoft.com/vstudio/The-simple-WebSocket-4524921c
     public abstract class WebSocketConnection<TMessage> : AsyncWampConnection<TMessage>
     {
+        private readonly IWampStreamingMessageParser<TMessage> mParser;
         private readonly Websocket mWebSocket;
-        protected readonly CancellationTokenSource mCancellationTokenSource;
+        private readonly CancellationTokenSource mCancellationTokenSource;
+        private readonly Uri mAddressUri;
 
         public WebSocketConnection(Websocket webSocket)
         {
             mWebSocket = webSocket;
             mCancellationTokenSource = new CancellationTokenSource();
+        }
+
+        protected WebSocketConnection(Uri addressUri, string protocolName, IWampStreamingMessageParser<TMessage> parser) :
+            this(new ClientWebSocket())
+        {
+            ClientWebSocket.Options.AddSubProtocol(protocolName);
+            mParser = parser;
+            mAddressUri = addressUri;
         }
 
         protected override Task SendAsync(WampMessage<object> message)
@@ -31,6 +42,32 @@ namespace WampSharp.WebSocket
         protected abstract ArraySegment<byte> GetMessageInBytes(WampMessage<object> message);
 
         protected abstract WebSocketMessageType WebSocketMessageType { get; }
+
+        protected async void Connect()
+        {
+            try
+            {
+                await this.ClientWebSocket.ConnectAsync(mAddressUri, mCancellationTokenSource.Token)
+                          .ConfigureAwait(false);
+
+                RaiseConnectionOpen();
+
+                Task task = Task.Run(this.RunAsync, mCancellationTokenSource.Token);
+            }
+            catch (Exception ex)
+            {
+                RaiseConnectionError(ex);
+                RaiseConnectionClosed();
+            }
+        }
+
+        public ClientWebSocket ClientWebSocket
+        {
+            get
+            {
+                return mWebSocket as ClientWebSocket;
+            }
+        }
 
         protected async Task RunAsync()
         {
@@ -80,12 +117,11 @@ namespace WampSharp.WebSocket
                     }
                     else
                     {
-                        memoryStream.SetLength(length);
                         OnNewMessage(memoryStream);
-
-                        memoryStream.Position = 0;
-                        memoryStream.SetLength(0);
                     }
+
+                    memoryStream.Position = 0;
+                    memoryStream.SetLength(0);
                 }
             }
             catch (Exception ex)
@@ -94,7 +130,11 @@ namespace WampSharp.WebSocket
             }
         }
 
-        protected abstract void OnNewMessage(MemoryStream payloadData);
+        private void OnNewMessage(MemoryStream payloadData)
+        {
+            WampMessage<TMessage> message = mParser.Parse(payloadData);
+            RaiseMessageArrived(message);
+        }
 
         protected override void Dispose()
         {

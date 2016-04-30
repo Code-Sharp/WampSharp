@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Net.WebSockets;
 using System.Text;
 using WampSharp.Core.Message;
@@ -12,9 +11,15 @@ namespace WampSharp.WebSocket
     {
         private readonly IWampTextBinding<TMessage> mBinding;
 
-        public TextWebSocketConnection(Websocket webSocket, IWampTextBinding<TMessage> binding) : base(webSocket)
+        public TextWebSocketConnection(Websocket webSocket, IWampTextBinding<TMessage> binding) : 
+            base(webSocket)
         {
             mBinding = binding;
+        }
+
+        protected TextWebSocketConnection(Uri addressUri, IWampTextBinding<TMessage> binding) :
+            base(addressUri, binding.Name, binding)
+        {
         }
 
         protected override ArraySegment<byte> GetMessageInBytes(WampMessage<object> message)
@@ -32,13 +37,6 @@ namespace WampSharp.WebSocket
             {
                 return WebSocketMessageType.Text;
             }
-        }
-
-        protected override void OnNewMessage(MemoryStream payloadData)
-        {
-            WampMessage<TMessage> parsed = mBinding.Parse(payloadData);
-
-            RaiseMessageArrived(parsed);
         }
     }
 }
