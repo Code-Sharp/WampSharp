@@ -1,4 +1,4 @@
-﻿#if PCL && !DNX
+﻿#if MANUAL_PROXY && !DISPATCH_PROXY
 using System;
 using System.Reflection;
 using WampSharp.CodeGeneration;

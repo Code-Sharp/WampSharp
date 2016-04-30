@@ -43,7 +43,7 @@
     },
     ".NETPortable,Version=v4.5,Profile=Profile111": {
       "compilationOptions": {
-        "define": [ "NET45", "PCL", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL" ]
+        "define": [ "NET45", "PCL", "LIBLOG_PUBLIC", "MANUAL_PROXY", "LIBLOG_PORTABLE", "TPL" ]
       },
       "frameworkAssemblies": {
         "Microsoft.CSharp": "",
@@ -60,8 +60,8 @@
         "System.Linq.Expressions": "",
         "System.Net.Primitives": "",
         "System.ObjectModel": "",
-        "System.Reflection": "4.0.0",
-        "System.Reflection.Extensions": "4.0.0",
+        "System.Reflection": "",
+        "System.Reflection.Extensions": "",
         "System.Runtime": "",
         "System.Runtime.Extensions": "",
         "System.Runtime.InteropServices" :  "",
@@ -79,7 +79,7 @@
     },
     "dotnet5.4": {
       "compilationOptions": {
-        "define": [ "NET45", "DNX", "PCL", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL" ]
+        "define": [ "NET45", "DNX", "PCL", "CASTLE", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL" ]
       },
       "dependencies": {
         "Microsoft.CSharp": "4.0.0",
@@ -89,7 +89,7 @@
         "System.Collections.Immutable": "1.1.37",
         "System.ComponentModel": "4.0.0",
         "System.Net.Primitives": "4.0.10",
-        "System.Reflection.DispatchProxy": "4.0.0",
+        "Castle.Core": "4.0.0-alpha001",
         "System.Runtime": "4.0.20",
         "System.Runtime.Serialization.Primitives": "4.0.10",
         "System.Text.RegularExpressions": "4.0.10"

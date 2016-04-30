@@ -257,6 +257,15 @@
       }
     },
     ".NETPlatform,Version=v5.4": {
+      "Castle.Core/4.0.0-alpha001": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet5.4/Castle.Core.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Castle.Core.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -520,16 +529,6 @@
         },
         "compile": {
           "ref/dotnet/System.Reflection.dll": {}
-        }
-      },
-      "System.Reflection.DispatchProxy/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Reflection": "4.0.0",
-          "System.Runtime": "4.0.0"
-        },
-        "compile": {
-          "ref/dotnet/System.Reflection.DispatchProxy.dll": {}
         }
       },
       "System.Reflection.Extensions/4.0.0": {
@@ -1176,6 +1175,15 @@
       }
     },
     ".NETPlatform,Version=v5.4/win7-x86": {
+      "Castle.Core/4.0.0-alpha001": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet5.4/Castle.Core.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Castle.Core.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -1439,40 +1447,6 @@
         },
         "compile": {
           "ref/dotnet/System.Reflection.dll": {}
-        }
-      },
-      "System.Reflection.DispatchProxy/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Reflection": "4.0.0",
-          "System.Runtime": "4.0.0"
-        },
-        "compile": {
-          "ref/dotnet/System.Reflection.DispatchProxy.dll": {}
-        }
-      },
-      "System.Reflection.Emit/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.IO": "4.0.0",
-          "System.Reflection": "4.0.0",
-          "System.Reflection.Emit.ILGeneration": "4.0.0",
-          "System.Reflection.Primitives": "4.0.0",
-          "System.Runtime": "4.0.0"
-        },
-        "compile": {
-          "ref/dotnet/System.Reflection.Emit.dll": {}
-        }
-      },
-      "System.Reflection.Emit.ILGeneration/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Reflection": "4.0.0",
-          "System.Reflection.Primitives": "4.0.0",
-          "System.Runtime": "4.0.0"
-        },
-        "compile": {
-          "ref/dotnet/System.Reflection.Emit.ILGeneration.dll": {}
         }
       },
       "System.Reflection.Extensions/4.0.0": {
@@ -1611,6 +1585,15 @@
       }
     },
     ".NETPlatform,Version=v5.4/win7-x64": {
+      "Castle.Core/4.0.0-alpha001": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet5.4/Castle.Core.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Castle.Core.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -1874,40 +1857,6 @@
         },
         "compile": {
           "ref/dotnet/System.Reflection.dll": {}
-        }
-      },
-      "System.Reflection.DispatchProxy/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Reflection": "4.0.0",
-          "System.Runtime": "4.0.0"
-        },
-        "compile": {
-          "ref/dotnet/System.Reflection.DispatchProxy.dll": {}
-        }
-      },
-      "System.Reflection.Emit/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.IO": "4.0.0",
-          "System.Reflection": "4.0.0",
-          "System.Reflection.Emit.ILGeneration": "4.0.0",
-          "System.Reflection.Primitives": "4.0.0",
-          "System.Runtime": "4.0.0"
-        },
-        "compile": {
-          "ref/dotnet/System.Reflection.Emit.dll": {}
-        }
-      },
-      "System.Reflection.Emit.ILGeneration/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Reflection": "4.0.0",
-          "System.Reflection.Primitives": "4.0.0",
-          "System.Runtime": "4.0.0"
-        },
-        "compile": {
-          "ref/dotnet/System.Reflection.Emit.ILGeneration.dll": {}
         }
       },
       "System.Reflection.Extensions/4.0.0": {
@@ -2067,6 +2016,28 @@
         "lib/sl4/Castle.Core.xml",
         "lib/sl5/Castle.Core.dll",
         "lib/sl5/Castle.Core.xml",
+        "License.txt",
+        "readme.txt"
+      ]
+    },
+    "Castle.Core/4.0.0-alpha001": {
+      "type": "package",
+      "sha512": "s8QAWAHN/LpahbcKdnlB7JxRQKvguJgeCTjT3VV1AjnvxaDcj/lK6cO6EXn3DvdC+0mJAPyP3d42eWYOjb8s1g==",
+      "files": [
+        "ASL - Apache Software Foundation License.txt",
+        "BreakingChanges.txt",
+        "Castle.Core.4.0.0-alpha001.nupkg",
+        "Castle.Core.4.0.0-alpha001.nupkg.sha512",
+        "Castle.Core.nuspec",
+        "Changes.txt",
+        "lib/dotnet5.4/Castle.Core.dll",
+        "lib/dotnet5.4/Castle.Core.xml",
+        "lib/net35/Castle.Core.dll",
+        "lib/net35/Castle.Core.xml",
+        "lib/net40-client/Castle.Core.dll",
+        "lib/net40-client/Castle.Core.xml",
+        "lib/net45/Castle.Core.dll",
+        "lib/net45/Castle.Core.xml",
         "License.txt",
         "readme.txt"
       ]
@@ -2795,94 +2766,6 @@
         "System.Reflection.nuspec"
       ]
     },
-    "System.Reflection.DispatchProxy/4.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "Kd/4o6DqBfJA4058X8oGEu1KlT8Ej0A+WGeoQgZU2h+3f2vC8NRbHxeOSZvxj9/MPZ1RYmZMGL1ApO9xG/4IVA==",
-      "files": [
-        "lib/DNXCore50/System.Reflection.DispatchProxy.dll",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net46/System.Reflection.DispatchProxy.dll",
-        "lib/netcore50/System.Reflection.DispatchProxy.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "ref/dotnet/de/System.Reflection.DispatchProxy.xml",
-        "ref/dotnet/es/System.Reflection.DispatchProxy.xml",
-        "ref/dotnet/fr/System.Reflection.DispatchProxy.xml",
-        "ref/dotnet/it/System.Reflection.DispatchProxy.xml",
-        "ref/dotnet/ja/System.Reflection.DispatchProxy.xml",
-        "ref/dotnet/ko/System.Reflection.DispatchProxy.xml",
-        "ref/dotnet/ru/System.Reflection.DispatchProxy.xml",
-        "ref/dotnet/System.Reflection.DispatchProxy.dll",
-        "ref/dotnet/System.Reflection.DispatchProxy.xml",
-        "ref/dotnet/zh-hans/System.Reflection.DispatchProxy.xml",
-        "ref/dotnet/zh-hant/System.Reflection.DispatchProxy.xml",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "runtime.json",
-        "runtimes/win8-aot/lib/netcore50/System.Reflection.DispatchProxy.dll",
-        "System.Reflection.DispatchProxy.4.0.0.nupkg",
-        "System.Reflection.DispatchProxy.4.0.0.nupkg.sha512",
-        "System.Reflection.DispatchProxy.nuspec"
-      ]
-    },
-    "System.Reflection.Emit/4.0.0": {
-      "type": "package",
-      "sha512": "CqnQz5LbNbiSxN10cv3Ehnw3j1UZOBCxnE0OO0q/keGQ5ENjyFM6rIG4gm/i0dX6EjdpYkAgKcI/mhZZCaBq4A==",
-      "files": [
-        "lib/DNXCore50/System.Reflection.Emit.dll",
-        "lib/MonoAndroid10/_._",
-        "lib/net45/_._",
-        "lib/netcore50/System.Reflection.Emit.dll",
-        "lib/xamarinmac20/_._",
-        "ref/dotnet/de/System.Reflection.Emit.xml",
-        "ref/dotnet/es/System.Reflection.Emit.xml",
-        "ref/dotnet/fr/System.Reflection.Emit.xml",
-        "ref/dotnet/it/System.Reflection.Emit.xml",
-        "ref/dotnet/ja/System.Reflection.Emit.xml",
-        "ref/dotnet/ko/System.Reflection.Emit.xml",
-        "ref/dotnet/ru/System.Reflection.Emit.xml",
-        "ref/dotnet/System.Reflection.Emit.dll",
-        "ref/dotnet/System.Reflection.Emit.xml",
-        "ref/dotnet/zh-hans/System.Reflection.Emit.xml",
-        "ref/dotnet/zh-hant/System.Reflection.Emit.xml",
-        "ref/MonoAndroid10/_._",
-        "ref/net45/_._",
-        "ref/xamarinmac20/_._",
-        "System.Reflection.Emit.4.0.0.nupkg",
-        "System.Reflection.Emit.4.0.0.nupkg.sha512",
-        "System.Reflection.Emit.nuspec"
-      ]
-    },
-    "System.Reflection.Emit.ILGeneration/4.0.0": {
-      "type": "package",
-      "sha512": "02okuusJ0GZiHZSD2IOLIN41GIn6qOr7i5+86C98BPuhlwWqVABwebiGNvhDiXP1f9a6CxEigC7foQD42klcDg==",
-      "files": [
-        "lib/DNXCore50/System.Reflection.Emit.ILGeneration.dll",
-        "lib/net45/_._",
-        "lib/netcore50/System.Reflection.Emit.ILGeneration.dll",
-        "lib/wp80/_._",
-        "ref/dotnet/de/System.Reflection.Emit.ILGeneration.xml",
-        "ref/dotnet/es/System.Reflection.Emit.ILGeneration.xml",
-        "ref/dotnet/fr/System.Reflection.Emit.ILGeneration.xml",
-        "ref/dotnet/it/System.Reflection.Emit.ILGeneration.xml",
-        "ref/dotnet/ja/System.Reflection.Emit.ILGeneration.xml",
-        "ref/dotnet/ko/System.Reflection.Emit.ILGeneration.xml",
-        "ref/dotnet/ru/System.Reflection.Emit.ILGeneration.xml",
-        "ref/dotnet/System.Reflection.Emit.ILGeneration.dll",
-        "ref/dotnet/System.Reflection.Emit.ILGeneration.xml",
-        "ref/dotnet/zh-hans/System.Reflection.Emit.ILGeneration.xml",
-        "ref/dotnet/zh-hant/System.Reflection.Emit.ILGeneration.xml",
-        "ref/net45/_._",
-        "ref/wp80/_._",
-        "System.Reflection.Emit.ILGeneration.4.0.0.nupkg",
-        "System.Reflection.Emit.ILGeneration.4.0.0.nupkg.sha512",
-        "System.Reflection.Emit.ILGeneration.nuspec"
-      ]
-    },
     "System.Reflection.Extensions/4.0.0": {
       "type": "package",
       "serviceable": true,
@@ -3376,8 +3259,8 @@
       "fx/System.Linq.Expressions ",
       "fx/System.Net.Primitives ",
       "fx/System.ObjectModel ",
-      "fx/System.Reflection >= 4.0.0",
-      "fx/System.Reflection.Extensions >= 4.0.0",
+      "fx/System.Reflection ",
+      "fx/System.Reflection.Extensions ",
       "fx/System.Runtime ",
       "fx/System.Runtime.Extensions ",
       "fx/System.Runtime.InteropServices ",
@@ -3395,7 +3278,7 @@
       "System.Collections.Immutable >= 1.1.37",
       "System.ComponentModel >= 4.0.0",
       "System.Net.Primitives >= 4.0.10",
-      "System.Reflection.DispatchProxy >= 4.0.0",
+      "Castle.Core >= 4.0.0-alpha001",
       "System.Runtime >= 4.0.20",
       "System.Runtime.Serialization.Primitives >= 4.0.10",
       "System.Text.RegularExpressions >= 4.0.10"

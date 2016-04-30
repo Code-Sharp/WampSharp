@@ -1,4 +1,4 @@
-﻿#if DNX
+﻿#if DISPATCH_PROXY
 
 using System.Reflection;
 using WampSharp.V2.Client;
