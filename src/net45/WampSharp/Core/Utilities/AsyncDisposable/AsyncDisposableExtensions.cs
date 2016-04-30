@@ -10,7 +10,7 @@ namespace SystemEx
     internal static class AsyncDisposableExtensions
     {
 
-#if !NET40
+#if ASYNC
         public static async Task<IAsyncDisposable> ToAsyncDisposableTask(
             this IEnumerable<Task<IAsyncDisposable>> disposableTasks)
         {

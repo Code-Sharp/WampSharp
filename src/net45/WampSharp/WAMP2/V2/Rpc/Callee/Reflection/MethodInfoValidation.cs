@@ -15,7 +15,6 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-#if !NET40
         public static void ValidateProgressiveMethod(MethodInfo method)
         {
             ValidateAsyncMethod(method);
@@ -33,7 +32,6 @@ namespace WampSharp.V2.Rpc
                 ThrowHelper.ProgressiveParameterTypeMismatch(method, returnType);
             }
         }
-#endif
 
         private static class ThrowHelper
         {

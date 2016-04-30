@@ -40,14 +40,12 @@ namespace WampSharp.V2.CalleeProxy
             {
                 genericArgument = TaskExtensions.UnwrapReturnType(returnType);
 
-#if !NET40
                 if (method.IsDefined(typeof(WampProgressiveResultProcedureAttribute)))
                 {
                     MethodInfoValidation.ValidateProgressiveMethod(method);
                     interceptorType = typeof(ProgressiveAsyncCalleeProxyInterceptor<>);
                 }
                 else
-#endif
                 {
                     MethodInfoValidation.ValidateAsyncMethod(method);
                     interceptorType = typeof(AsyncCalleeProxyInterceptor<>);

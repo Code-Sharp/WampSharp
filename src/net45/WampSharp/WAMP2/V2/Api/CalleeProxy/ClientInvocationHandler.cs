@@ -83,13 +83,13 @@ namespace WampSharp.V2.CalleeProxy
 
         #region Overridden
 
-#if NET45
+#if ASYNC
         protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
-#elif NET40
+#else
         protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
 #endif
         {
-#if NET45
+#if ASYNC
             Task<T> operationTask = asyncOperationCallback.Task;
 
             Task task = await Task.WhenAny(operationTask,
