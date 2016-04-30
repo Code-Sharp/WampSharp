@@ -1,0 +1,29 @@
+{
+  "title": "WampSharp Newtonsoft.Json binding",
+  "version": "1.2.3-*",
+  "description": "An implementation of WAMP (The Web Application Messaging Protocol). Supports both WAMPv2 and WAMPv1.",
+  "authors": [ "CodeSharp" ],
+  "requireLicenseAcceptance": false,
+  "tags": [ "websockets", "wampws", "rpc", "pubsub", "newtonsoft", "json", "wampv1", "wampv2" ],
+  "projectUrl": "https://github.com/Code-Sharp/WampSharp/",
+  "frameworks": {
+    "net40": {
+    },
+    "net45": {
+    },
+    ".NETPortable,Version=v4.5,Profile=Profile111": {
+      "compilationOptions": {
+        "define": [ "PCL" ]
+      }
+    },
+    "dotnet5.4": {
+      "compilationOptions": {
+        "define": [ "PCL" ]
+      }
+    }
+  },
+  "dependencies": {
+    "WampSharp": { "target": "project" },
+    "Newtonsoft.Json": "6.0.5"
+  }
+}
