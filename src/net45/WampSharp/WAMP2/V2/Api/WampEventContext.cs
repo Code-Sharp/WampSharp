@@ -17,7 +17,7 @@ namespace WampSharp.V2
         #region Static Members
 
 #if ASYNC_LOCAL
-        private static AsyncLocal<WampEventContext> mCurrent = new AsyncLocal<WampEventContext>();
+        private static readonly AsyncLocal<WampEventContext> mCurrent = new AsyncLocal<WampEventContext>();
 
         public static WampEventContext Current
         {

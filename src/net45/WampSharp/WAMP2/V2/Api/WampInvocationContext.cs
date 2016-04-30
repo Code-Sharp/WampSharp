@@ -17,7 +17,7 @@ namespace WampSharp.V2
         #region Static Members
 
 #if ASYNC_LOCAL
-        private static AsyncLocal<WampInvocationContext> mCurrent = new AsyncLocal<WampInvocationContext>();
+        private static readonly AsyncLocal<WampInvocationContext> mCurrent = new AsyncLocal<WampInvocationContext>();
 
         public static WampInvocationContext Current
         {
