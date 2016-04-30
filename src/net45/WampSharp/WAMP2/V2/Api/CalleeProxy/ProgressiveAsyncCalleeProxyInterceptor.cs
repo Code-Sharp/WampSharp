@@ -1,4 +1,4 @@
-#if CASTLE || DNX
+#if CASTLE || DISPATCH_PROXY
 #if !NET40
 using System;
 using System.Linq;

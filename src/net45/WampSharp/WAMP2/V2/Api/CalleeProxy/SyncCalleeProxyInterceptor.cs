@@ -1,4 +1,4 @@
-﻿#if CASTLE || DNX
+﻿#if CASTLE || DISPATCH_PROXY
 using System.Reflection;
 
 namespace WampSharp.V2.CalleeProxy
