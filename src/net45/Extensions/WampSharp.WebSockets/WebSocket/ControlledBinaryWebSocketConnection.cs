@@ -2,7 +2,7 @@
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
 
-namespace WampSharp.WebSocket
+namespace WampSharp.WebSockets
 {
     public class ControlledBinaryWebSocketConnection<TMessage> : BinaryWebSocketConnection<TMessage>, IControlledWampConnection<TMessage>
     {

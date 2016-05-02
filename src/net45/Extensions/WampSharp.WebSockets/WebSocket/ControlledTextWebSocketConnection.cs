@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
 
-namespace WampSharp.WebSocket
+namespace WampSharp.WebSockets
 {
     public class ControlledTextWebSocketConnection<TMessage> : TextWebSocketConnection<TMessage>, IControlledWampConnection<TMessage>
     {

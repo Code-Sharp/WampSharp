@@ -1,7 +1,7 @@
 using System;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
-using WampSharp.WebSocket;
+using WampSharp.WebSockets;
 
 namespace WampSharp.V2.Fluent
 {

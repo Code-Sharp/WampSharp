@@ -3,15 +3,14 @@ using System.Net.WebSockets;
 using System.Text;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
-using Websocket = System.Net.WebSockets.WebSocket;
 
-namespace WampSharp.WebSocket
+namespace WampSharp.WebSockets
 {
     public class TextWebSocketConnection<TMessage> : WebSocketConnection<TMessage>
     {
         private readonly IWampTextBinding<TMessage> mBinding;
 
-        public TextWebSocketConnection(Websocket webSocket, IWampTextBinding<TMessage> binding) : 
+        public TextWebSocketConnection(WebSocket webSocket, IWampTextBinding<TMessage> binding) : 
             base(webSocket)
         {
             mBinding = binding;

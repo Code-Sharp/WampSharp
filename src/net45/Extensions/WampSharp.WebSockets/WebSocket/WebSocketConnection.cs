@@ -6,20 +6,19 @@ using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding.Parsers;
-using Websocket = System.Net.WebSockets.WebSocket;
 
-namespace WampSharp.WebSocket
+namespace WampSharp.WebSockets
 {
     // Based on this sample:
     // https://code.msdn.microsoft.com/vstudio/The-simple-WebSocket-4524921c
-    public abstract class WebSocketConnection<TMessage> : AsyncWampConnection<TMessage>
+    public abstract class WebSocketConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>
     {
         private readonly IWampStreamingMessageParser<TMessage> mParser;
-        private readonly Websocket mWebSocket;
+        private readonly WebSocket mWebSocket;
         private readonly CancellationTokenSource mCancellationTokenSource;
         private readonly Uri mAddressUri;
 
-        public WebSocketConnection(Websocket webSocket)
+        public WebSocketConnection(WebSocket webSocket) : base(new WebSocketCookieProvider(webSocket.))
         {
             mWebSocket = webSocket;
             mCancellationTokenSource = new CancellationTokenSource();
@@ -69,7 +68,7 @@ namespace WampSharp.WebSocket
             }
         }
 
-        protected async Task RunAsync()
+        public async Task RunAsync()
         {
             try
             {

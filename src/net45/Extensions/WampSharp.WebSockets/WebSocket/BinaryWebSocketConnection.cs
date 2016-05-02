@@ -1,17 +1,15 @@
 ﻿using System;
-using System.IO;
 using System.Net.WebSockets;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
-using Websocket = System.Net.WebSockets.WebSocket;
 
-namespace WampSharp.WebSocket
+namespace WampSharp.WebSockets
 {
     public class BinaryWebSocketConnection<TMessage> : WebSocketConnection<TMessage>
     {
         private readonly IWampBinaryBinding<TMessage> mBinding;
 
-        public BinaryWebSocketConnection(Websocket webSocket, IWampBinaryBinding<TMessage> binding) : 
+        public BinaryWebSocketConnection(WebSocket webSocket, IWampBinaryBinding<TMessage> binding) : 
             base(webSocket)
         {
             mBinding = binding;
