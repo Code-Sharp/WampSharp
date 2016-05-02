@@ -11,14 +11,14 @@ namespace WampSharp.WebSockets
 {
     // Based on this sample:
     // https://code.msdn.microsoft.com/vstudio/The-simple-WebSocket-4524921c
-    public abstract class WebSocketConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>
+    public abstract class WebSocketConnection<TMessage> : AsyncWampConnection<TMessage>
     {
         private readonly IWampStreamingMessageParser<TMessage> mParser;
         private readonly WebSocket mWebSocket;
         private readonly CancellationTokenSource mCancellationTokenSource;
         private readonly Uri mAddressUri;
 
-        public WebSocketConnection(WebSocket webSocket) : base(new WebSocketCookieProvider(webSocket.))
+        public WebSocketConnection(WebSocket webSocket)
         {
             mWebSocket = webSocket;
             mCancellationTokenSource = new CancellationTokenSource();
