@@ -3,27 +3,29 @@
   "version": "1.2.3-*",
   "description": "WampSharp Newtonsoft.Json binding",
   "authors": [ "CodeSharp" ],
-  "requireLicenseAcceptance": false,
-  "tags": [ "websockets", "wampws", "rpc", "pubsub", "newtonsoft", "json", "wampv1", "wampv2" ],
-  "projectUrl": "https://github.com/Code-Sharp/WampSharp/",
+  "packOptions": {
+    "requireLicenseAcceptance": false,
+    "tags": [ "websockets", "wampws", "rpc", "pubsub", "newtonsoft", "json", "wampv1", "wampv2" ],
+    "projectUrl": "https://github.com/Code-Sharp/WampSharp/"
+  },
   "frameworks": {
     "net40": {
     },
     "net45": {
     },
     ".NETPortable,Version=v4.5,Profile=Profile111": {
-      "compilationOptions": {
+      "buildOptions": {
         "define": [ "PCL" ]
       }
     },
-    "dotnet5.4": {
-      "compilationOptions": {
+    "netstandard1.3": {
+      "buildOptions": {
         "define": [ "PCL" ]
       }
     }
   },
   "dependencies": {
     "WampSharp": { "target": "project" },
-    "Newtonsoft.Json": "6.0.5"
+    "Newtonsoft.Json": "8.0.4-beta1"
   }
 }
