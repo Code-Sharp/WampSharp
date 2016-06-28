@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "WampSharp": { "target": "project" },
+    "WampSharp.Tests.TestHelpers": { "target": "project" },
+    "WampSharp.NewtonsoftJson": { "target": "project" },
+    "NUnit": "3.4.0"
+  },
+  "testRunner": "nunit",
+  "frameworks": {
+    "net45": {
+    }
+  }
+}

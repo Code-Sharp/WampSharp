@@ -6,8 +6,8 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>faf48097-2a37-40b1-9416-da656f7b13a7</ProjectGuid>
-    <RootNamespace>WampSharp</RootNamespace>
+    <ProjectGuid>e7652f1f-4698-44be-b03b-5dc976c661b5</ProjectGuid>
+    <RootNamespace>WampSharp.Tests.Wampv2</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
   </PropertyGroup>

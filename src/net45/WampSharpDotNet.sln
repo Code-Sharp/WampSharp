@@ -1,24 +1,32 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp", "WampSharp\WampSharp.xproj", "{8C0B2BDF-2536-4BA6-ACE0-D3B1D8661556}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A034FCD9-A025-4F24-9E26-3D438944A526}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.NewtonsoftJson", "Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.xproj", "{B027C87D-8A47-4412-BD83-CBB39EED9BE0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FA951E0E-BA98-4048-A13D-0B17BF6244CE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13B778C9-585D-49E9-B095-CAA9931A7761}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Default", "Default", "{B14F3026-CE14-43B5-BBDC-333D3667EC51}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp", "WampSharp\WampSharp.xproj", "{FAF48097-2A37-40B1-9416-DA656F7B13A7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{2168D4FD-CE7F-44F0-8C4F-A36C9A5C5D29}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Default", "Default", "{EF15CA4F-CCAA-4435-A0B3-0E7FC1B955CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{234FC630-9975-4DD9-8A28-DAA75BB1DD7E}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.NewtonsoftJson", "Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.xproj", "{B027C87D-8A47-4412-BD83-CBB39EED9BE0}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.WebSockets", "Extensions\WampSharp.WebSockets\WampSharp.WebSockets.xproj", "{F3706F43-6A97-4AE1-9225-F995A99756F3}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.WebSockets.AspNet.Server", "Extensions\WampSharp.WebSockets.AspNet.Server\WampSharp.WebSockets.AspNet.Server.xproj", "{C59BD7D0-F5D0-408A-9F86-D7B58CC13348}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.RawSocket", "Extensions\WampSharp.RawSocket\WampSharp.RawSocket.xproj", "{CD65D8A1-6159-4184-8A4C-BB6DC632EB6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C04E134F-D369-4F07-9326-66475308AFA8}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.Tests.TestHelpers", "Tests\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.xproj", "{C1716384-532F-4AD1-B29D-5E3E98A05253}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.Tests.Wampv2", "Tests\WampSharp.Tests.Wampv2\WampSharp.Tests.Wampv2.xproj", "{E7652F1F-4698-44BE-B03B-5DC976C661B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +34,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8C0B2BDF-2536-4BA6-ACE0-D3B1D8661556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C0B2BDF-2536-4BA6-ACE0-D3B1D8661556}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C0B2BDF-2536-4BA6-ACE0-D3B1D8661556}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C0B2BDF-2536-4BA6-ACE0-D3B1D8661556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAF48097-2A37-40B1-9416-DA656F7B13A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAF48097-2A37-40B1-9416-DA656F7B13A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAF48097-2A37-40B1-9416-DA656F7B13A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAF48097-2A37-40B1-9416-DA656F7B13A7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B027C87D-8A47-4412-BD83-CBB39EED9BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B027C87D-8A47-4412-BD83-CBB39EED9BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B027C87D-8A47-4412-BD83-CBB39EED9BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,17 +46,30 @@ Global
 		{F3706F43-6A97-4AE1-9225-F995A99756F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3706F43-6A97-4AE1-9225-F995A99756F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3706F43-6A97-4AE1-9225-F995A99756F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C59BD7D0-F5D0-408A-9F86-D7B58CC13348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C59BD7D0-F5D0-408A-9F86-D7B58CC13348}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C59BD7D0-F5D0-408A-9F86-D7B58CC13348}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C59BD7D0-F5D0-408A-9F86-D7B58CC13348}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD65D8A1-6159-4184-8A4C-BB6DC632EB6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD65D8A1-6159-4184-8A4C-BB6DC632EB6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD65D8A1-6159-4184-8A4C-BB6DC632EB6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD65D8A1-6159-4184-8A4C-BB6DC632EB6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1716384-532F-4AD1-B29D-5E3E98A05253}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1716384-532F-4AD1-B29D-5E3E98A05253}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1716384-532F-4AD1-B29D-5E3E98A05253}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1716384-532F-4AD1-B29D-5E3E98A05253}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7652F1F-4698-44BE-B03B-5DC976C661B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7652F1F-4698-44BE-B03B-5DC976C661B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7652F1F-4698-44BE-B03B-5DC976C661B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7652F1F-4698-44BE-B03B-5DC976C661B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B027C87D-8A47-4412-BD83-CBB39EED9BE0} = {B14F3026-CE14-43B5-BBDC-333D3667EC51}
-		{F3706F43-6A97-4AE1-9225-F995A99756F3} = {2168D4FD-CE7F-44F0-8C4F-A36C9A5C5D29}
-		{C59BD7D0-F5D0-408A-9F86-D7B58CC13348} = {2168D4FD-CE7F-44F0-8C4F-A36C9A5C5D29}
+		{FAF48097-2A37-40B1-9416-DA656F7B13A7} = {A034FCD9-A025-4F24-9E26-3D438944A526}
+		{EF15CA4F-CCAA-4435-A0B3-0E7FC1B955CD} = {A034FCD9-A025-4F24-9E26-3D438944A526}
+		{234FC630-9975-4DD9-8A28-DAA75BB1DD7E} = {A034FCD9-A025-4F24-9E26-3D438944A526}
+		{B027C87D-8A47-4412-BD83-CBB39EED9BE0} = {EF15CA4F-CCAA-4435-A0B3-0E7FC1B955CD}
+		{F3706F43-6A97-4AE1-9225-F995A99756F3} = {234FC630-9975-4DD9-8A28-DAA75BB1DD7E}
+		{CD65D8A1-6159-4184-8A4C-BB6DC632EB6A} = {234FC630-9975-4DD9-8A28-DAA75BB1DD7E}
+		{C1716384-532F-4AD1-B29D-5E3E98A05253} = {C04E134F-D369-4F07-9326-66475308AFA8}
+		{E7652F1F-4698-44BE-B03B-5DC976C661B5} = {C04E134F-D369-4F07-9326-66475308AFA8}
 	EndGlobalSection
 EndGlobal

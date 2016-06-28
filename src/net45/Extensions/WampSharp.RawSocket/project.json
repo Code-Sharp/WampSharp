@@ -1,0 +1,24 @@
+{
+  "title": "WampSharp RawSocket support",
+  "version": "1.2.3-*",
+  "description": "RawSocket transport for WampSharp",
+  "authors": [ "CodeSharp" ],
+  "packOptions": {
+    "requireLicenseAcceptance": false,
+    "tags": [ "websockets", "wampws", "rpc", "pubsub", "wampv2", "rawsocket" ],
+    "projectUrl": "https://github.com/Code-Sharp/WampSharp/"
+  },
+  "frameworks": {
+    "net45": {
+      "dependencies": {
+        "Microsoft.IO.RecyclableMemoryStream": "1.1.0"
+      }
+    }
+  },
+  "dependencies": {
+    "WampSharp": { "target": "project" }
+  },
+  "buildOptions": {
+    "define": []
+  }
+}
