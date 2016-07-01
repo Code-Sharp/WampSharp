@@ -10,7 +10,7 @@ namespace WampSharp.WebSockets
         private readonly IWampBinaryBinding<TMessage> mBinding;
 
         public BinaryWebSocketConnection(WebSocket webSocket, IWampBinaryBinding<TMessage> binding) : 
-            base(webSocket)
+            base(webSocket, binding)
         {
             mBinding = binding;
         }

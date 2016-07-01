@@ -18,17 +18,17 @@ namespace WampSharp.WebSockets
         private readonly CancellationTokenSource mCancellationTokenSource;
         private readonly Uri mAddressUri;
 
-        public WebSocketConnection(WebSocket webSocket)
+        public WebSocketConnection(WebSocket webSocket, IWampStreamingMessageParser<TMessage> parser)
         {
             mWebSocket = webSocket;
+            mParser = parser;
             mCancellationTokenSource = new CancellationTokenSource();
         }
 
         protected WebSocketConnection(Uri addressUri, string protocolName, IWampStreamingMessageParser<TMessage> parser) :
-            this(new ClientWebSocket())
+            this(new ClientWebSocket(), parser)
         {
             ClientWebSocket.Options.AddSubProtocol(protocolName);
-            mParser = parser;
             mAddressUri = addressUri;
         }
 

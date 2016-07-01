@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -63,16 +65,31 @@ namespace WampSharp.AspNetCore.WebSockets.Server
         {
             if (context.WebSockets.IsWebSocketRequest)
             {
-                WebSocket webSocket =
-                    await context.WebSockets.AcceptWebSocketAsync()
-                                 .ConfigureAwait(false);
+                // TODO: Think of a better way to do this.
+                IEnumerable<Task<WebSocket>> tasks =
+                    this.SubProtocols
+                        .Select(x => AcceptWebSocket(context, x));
 
-                OnNewConnection(webSocket);
+                Task<WebSocket> websocketTask =
+                    await Task.WhenAny(tasks).ConfigureAwait(false);
+
+                WebSocket websocket = 
+                    await websocketTask.ConfigureAwait(false);
+
+                OnNewConnection(websocket);
+
+                // TODO: Check how to leave the connection open
+                //await Task.Delay(TimeSpan.FromSeconds(120));
 
                 return;
             }
 
             await next();
+        }
+
+        private static Task<WebSocket> AcceptWebSocket(HttpContext context, string subProtocol)
+        {
+            return context.WebSockets.AcceptWebSocketAsync(subProtocol);
         }
     }
 }

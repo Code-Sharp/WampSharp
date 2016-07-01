@@ -11,7 +11,7 @@ namespace WampSharp.WebSockets
         private readonly IWampTextBinding<TMessage> mBinding;
 
         public TextWebSocketConnection(WebSocket webSocket, IWampTextBinding<TMessage> binding) : 
-            base(webSocket)
+            base(webSocket, binding)
         {
             mBinding = binding;
         }
