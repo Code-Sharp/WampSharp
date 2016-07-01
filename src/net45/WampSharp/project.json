@@ -103,21 +103,18 @@
         "define": [ "NET45", "DNX", "PCL", "DISPATCH_PROXY", "MANUAL_PROXY", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL", "ASYNC_LOCAL", "ASYNC" ]
       },
       "dependencies": {
-        "Microsoft.CSharp": "4.0.1-rc2-24027",
-        "System.Threading.Tasks.Dataflow": "4.6.0-rc2-24027",
-        "System.Collections.Concurrent": "4.0.12-rc2-24027",
-        "System.Collections.Immutable": "1.2.0-rc2-24027",
-        "System.ComponentModel": "4.0.1-rc2-24027",
-        "System.Net.Primitives": "4.0.11-rc2-24027",
-        "System.Reactive.Interfaces": "3.0.0-beta-00365",
-        "System.Reactive.Core": "3.0.0-beta-00365",
-        "System.Reactive.Linq": "3.0.0-beta-00365",
-        "System.Reactive.PlatformServices": "3.0.0-beta-00365",
-        "System.Reflection.DispatchProxy": "4.0.1-rc2-24027",
-        "System.Reflection.TypeExtensions": "4.1.0-rc2-24027",
-        "System.Runtime": "4.1.0-rc2-24027",
-        "System.Runtime.Serialization.Primitives": "4.1.1-rc2-24027",
-        "System.Text.RegularExpressions": "4.1.0-rc2-24027"
+        "Microsoft.CSharp": "4.0.1",
+        "System.Threading.Tasks.Dataflow": "4.6.0",
+        "System.Collections.Concurrent": "4.0.12",
+        "System.Collections.Immutable": "1.2.0",
+        "System.ComponentModel": "4.0.1",
+        "System.Net.Primitives": "4.0.11",
+        "System.Reactive": "3.0.0",
+        "System.Reflection.DispatchProxy": "4.0.1",
+        "System.Reflection.TypeExtensions": "4.1.0",
+        "System.Runtime": "4.1.0",
+        "System.Runtime.Serialization.Primitives": "4.1.1",
+        "System.Text.RegularExpressions": "4.1.0"
       }
     }
   }
