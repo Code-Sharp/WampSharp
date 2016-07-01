@@ -136,7 +136,7 @@ namespace WampSharp.RawSocket
             }
         }
 
-        protected override void OpenConnection<TMessage>(IWampConnection<TMessage> connection)
+        protected override void OpenConnection<TMessage>(RawSocketTcpClient original, IWampConnection<TMessage> connection)
         {
             TcpClientConnection<TMessage> casted = connection as TcpClientConnection<TMessage>;
             Task.Run(new Func<Task>(casted.HandleTcpClientAsync));

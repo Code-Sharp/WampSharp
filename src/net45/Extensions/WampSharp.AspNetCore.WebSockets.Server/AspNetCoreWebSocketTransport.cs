@@ -13,7 +13,7 @@ using WampSharp.WebSockets;
 
 namespace WampSharp.AspNetCore.WebSockets.Server
 {
-    public class AspNetCoreWebSocketTransport : WebSocketTransport<WebSocket>
+    public class AspNetCoreWebSocketTransport : WebSocketTransport<WebSocketData>
     {
         private readonly IApplicationBuilder mApp;
 
@@ -30,30 +30,32 @@ namespace WampSharp.AspNetCore.WebSockets.Server
             throw new NotImplementedException();
         }
 
-        protected override void OpenConnection<TMessage>(IWampConnection<TMessage> connection)
+        protected override void OpenConnection<TMessage>(WebSocketData original, IWampConnection<TMessage> connection)
         {
             WebSocketConnection<TMessage> casted = connection as WebSocketConnection<TMessage>;
 
-            Task.Run(casted.RunAsync);
+            Task task = Task.Run(casted.RunAsync);
+
+            original.ReadTask = task;
         }
 
-        protected override string GetSubProtocol(WebSocket connection)
+        protected override string GetSubProtocol(WebSocketData connection)
         {
-            return connection.SubProtocol;
+            return connection.WebSocket.SubProtocol;
         }
 
         protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>
-            (WebSocket connection,
+            (WebSocketData connection,
              IWampBinaryBinding<TMessage> binding)
         {
-            return new BinaryWebSocketConnection<TMessage>(connection, binding);
+            return new BinaryWebSocketConnection<TMessage>(connection.WebSocket, binding);
         }
 
         protected override IWampConnection<TMessage> CreateTextConnection<TMessage>
-            (WebSocket connection,
+            (WebSocketData connection,
              IWampTextBinding<TMessage> binding)
         {
-            return new TextWebSocketConnection<TMessage>(connection, binding);
+            return new TextWebSocketConnection<TMessage>(connection.WebSocket, binding);
         }
 
         public override void Open()
@@ -65,31 +67,36 @@ namespace WampSharp.AspNetCore.WebSockets.Server
         {
             if (context.WebSockets.IsWebSocketRequest)
             {
-                // TODO: Think of a better way to do this.
-                IEnumerable<Task<WebSocket>> tasks =
-                    this.SubProtocols
-                        .Select(x => AcceptWebSocket(context, x));
+                IEnumerable<string> possibleSubProtocols =
+                    context.WebSockets.WebSocketRequestedProtocols
+                           .Intersect(this.SubProtocols);
 
-                Task<WebSocket> websocketTask =
-                    await Task.WhenAny(tasks).ConfigureAwait(false);
+                string subprotocol =
+                    possibleSubProtocols.FirstOrDefault();
 
-                WebSocket websocket = 
-                    await websocketTask.ConfigureAwait(false);
+                if (subprotocol != null)
+                {
+                    WebSocket websocket =
+                        await context.WebSockets.
+                                      AcceptWebSocketAsync(subprotocol)
+                                     .ConfigureAwait(false);
 
-                OnNewConnection(websocket);
+                    // In an ideal world, OnNewConnection would return the
+                    // connection itself and then we could somehow access its
+                    // task, but for now we wrap the WebSocket with a WebSocketData
+                    // struct, and let OnNewConnection to fill us magically
+                    // the ReadTask
+                    WebSocketData webSocketData = new WebSocketData(websocket);
 
-                // TODO: Check how to leave the connection open
-                //await Task.Delay(TimeSpan.FromSeconds(120));
+                    OnNewConnection(webSocketData);
 
-                return;
+                    await webSocketData.ReadTask.ConfigureAwait(false);
+
+                    return;
+                }
             }
 
             await next();
-        }
-
-        private static Task<WebSocket> AcceptWebSocket(HttpContext context, string subProtocol)
-        {
-            return context.WebSockets.AcceptWebSocketAsync(subProtocol);
         }
     }
 }

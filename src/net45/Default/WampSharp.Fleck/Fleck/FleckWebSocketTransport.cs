@@ -84,7 +84,7 @@ namespace WampSharp.Fleck
             }
         }
 
-        protected override void OpenConnection<TMessage>(IWampConnection<TMessage> connection)
+        protected override void OpenConnection<TMessage>(IWebSocketConnection original, IWampConnection<TMessage> connection)
         {
         }
 
