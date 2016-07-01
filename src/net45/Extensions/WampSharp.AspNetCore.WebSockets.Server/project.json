@@ -1,0 +1,13 @@
+﻿{
+  "frameworks": {
+    "netstandard1.3": {
+      "buildOptions": {
+      },
+      "dependencies": {
+        "Microsoft.AspNetCore.WebSockets.Server": "0.1.0",
+        "WampSharp": { "target": "project" },
+        "WampSharp.WebSockets": { "target": "project" }
+      }
+    }
+  }
+}
