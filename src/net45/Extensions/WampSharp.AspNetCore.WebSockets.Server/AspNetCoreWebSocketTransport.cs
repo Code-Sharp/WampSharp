@@ -19,7 +19,7 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 
         public AspNetCoreWebSocketTransport
             (IApplicationBuilder app,
-             ICookieAuthenticatorFactory authenticatorFactory) :
+             ICookieAuthenticatorFactory authenticatorFactory = null) :
                  base(authenticatorFactory)
         {
             mApp = app;
@@ -48,14 +48,22 @@ namespace WampSharp.AspNetCore.WebSockets.Server
             (WebSocketData connection,
              IWampBinaryBinding<TMessage> binding)
         {
-            return new BinaryWebSocketConnection<TMessage>(connection.WebSocket, binding);
+            return new BinaryWebSocketConnection<TMessage>
+                (connection.WebSocket,
+                 binding,
+                 new AspNetCoreCookieProvider(connection.HttpContext),
+                 AuthenticatorFactory);
         }
 
         protected override IWampConnection<TMessage> CreateTextConnection<TMessage>
             (WebSocketData connection,
              IWampTextBinding<TMessage> binding)
         {
-            return new TextWebSocketConnection<TMessage>(connection.WebSocket, binding);
+            return new TextWebSocketConnection<TMessage>
+                (connection.WebSocket,
+                 binding,
+                 new AspNetCoreCookieProvider(connection.HttpContext),
+                 AuthenticatorFactory);
         }
 
         public override void Open()
@@ -86,7 +94,7 @@ namespace WampSharp.AspNetCore.WebSockets.Server
                     // task, but for now we wrap the WebSocket with a WebSocketData
                     // struct, and let OnNewConnection to fill us magically
                     // the ReadTask
-                    WebSocketData webSocketData = new WebSocketData(websocket);
+                    WebSocketData webSocketData = new WebSocketData(websocket, context);
 
                     OnNewConnection(webSocketData);
 

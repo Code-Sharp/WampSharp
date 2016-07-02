@@ -5,20 +5,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding.Parsers;
 
 namespace WampSharp.WebSockets
 {
     // Based on this sample:
     // https://code.msdn.microsoft.com/vstudio/The-simple-WebSocket-4524921c
-    public abstract class WebSocketConnection<TMessage> : AsyncWampConnection<TMessage>
+    public abstract class WebSocketConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>
     {
         private readonly IWampStreamingMessageParser<TMessage> mParser;
         private readonly WebSocket mWebSocket;
         private readonly CancellationTokenSource mCancellationTokenSource;
         private readonly Uri mAddressUri;
 
-        public WebSocketConnection(WebSocket webSocket, IWampStreamingMessageParser<TMessage> parser)
+        public WebSocketConnection(WebSocket webSocket, IWampStreamingMessageParser<TMessage> parser, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
+            base(cookieProvider, cookieAuthenticatorFactory)
         {
             mWebSocket = webSocket;
             mParser = parser;
@@ -26,7 +28,7 @@ namespace WampSharp.WebSockets
         }
 
         protected WebSocketConnection(Uri addressUri, string protocolName, IWampStreamingMessageParser<TMessage> parser) :
-            this(new ClientWebSocket(), parser)
+            this(new ClientWebSocket(), parser, null, null)
         {
             ClientWebSocket.Options.AddSubProtocol(protocolName);
             mAddressUri = addressUri;

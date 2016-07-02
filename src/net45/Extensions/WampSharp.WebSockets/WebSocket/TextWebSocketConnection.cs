@@ -2,6 +2,7 @@ using System;
 using System.Net.WebSockets;
 using System.Text;
 using WampSharp.Core.Message;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 
 namespace WampSharp.WebSockets
@@ -10,8 +11,8 @@ namespace WampSharp.WebSockets
     {
         private readonly IWampTextBinding<TMessage> mBinding;
 
-        public TextWebSocketConnection(WebSocket webSocket, IWampTextBinding<TMessage> binding) : 
-            base(webSocket, binding)
+        public TextWebSocketConnection(WebSocket webSocket, IWampTextBinding<TMessage> binding, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) : 
+            base(webSocket, binding, cookieProvider, cookieAuthenticatorFactory)
         {
             mBinding = binding;
         }
