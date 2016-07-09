@@ -31,7 +31,7 @@ namespace WampSharp.Vtortola
         private static IDictionary<string, string> ExtractHeaders(HttpHeadersCollection headers)
         {
             Dictionary<string, string> result = 
-                headers.AllKeys.ToDictionary(x => x, x => headers.Get(x));
+                headers.HeaderNames.ToDictionary(x => x, x => headers[x]);
             
             return result;
         }
