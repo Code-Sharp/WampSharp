@@ -1,0 +1,21 @@
+{
+  "title": "WampSharp SignalR support",
+  "version": "1.2.3-*",
+  "description": "SignalR transport for WampSharp",
+  "authors": [ "CodeSharp" ],
+  "packOptions": {
+    "requireLicenseAcceptance": false,
+    "tags": [ "websockets", "wampws", "rpc", "pubsub", "signalr", "wampv2" ],
+    "projectUrl": "https://github.com/Code-Sharp/WampSharp/"
+  },
+  "frameworks": {
+    "net45": {
+    }
+  },
+  "dependencies": {
+    "WampSharp": { "target": "project" },
+    "Microsoft.AspNet.SignalR.SelfHost": "2.2.0",
+    "Microsoft.AspNet.SignalR.Client": "2.2.0",
+    "Microsoft.Owin.Cors": "2.1.0"
+  }
+}

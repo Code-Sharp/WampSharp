@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "WampSharp": { "target": "project" },
+    "WampSharp.WAMP1": { "target": "project" },
     "WampSharp.Tests.TestHelpers": { "target": "project" },
     "WampSharp.NewtonsoftJson": { "target": "project" },
     "NUnit": "2.6.4"

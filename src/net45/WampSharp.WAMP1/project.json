@@ -1,0 +1,20 @@
+{
+  "title": "WampSharp WAMP1 support",
+  "version": "1.2.3-*",
+  "description": "WampSharp WAMP1 support",
+  "authors": [ "CodeSharp" ],
+  "packOptions": {
+    "requireLicenseAcceptance": false,
+    "tags": [ "websockets", "wampws", "rpc", "pubsub", "wampv1" ],
+    "projectUrl": "https://github.com/Code-Sharp/WampSharp/"
+  },
+  "frameworks": {
+    "net40": {
+    },
+    "net45": {
+    }
+  },
+  "dependencies": {
+    "WampSharp": { "target": "project" }
+  }
+}

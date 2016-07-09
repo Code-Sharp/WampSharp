@@ -1,0 +1,21 @@
+{
+  "title": "WampSharp WebSocket4Net connection",
+  "version": "1.2.3-*",
+  "description": "WampSharp WebSocket4Net support",
+  "authors": [ "CodeSharp" ],
+  "packOptions": {
+    "requireLicenseAcceptance": false,
+    "tags": [ "websockets", "wampws", "rpc", "pubsub", "websocket4net", "wampv1", "wampv2" ],
+    "projectUrl": "https://github.com/Code-Sharp/WampSharp/"
+  },
+  "frameworks": {
+    "net40": {
+    },
+    "net45": {
+    }
+  },
+  "dependencies": {
+    "WampSharp": { "target": "project" },
+    "WebSocket4Net": "0.14.1"
+  }
+}
