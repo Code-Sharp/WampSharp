@@ -10,8 +10,14 @@
   },
   "frameworks": {
     "net40": {
-    },
+       "buildOptions": {
+        "define": [ "NET40" ]
+      }
+   },
     "net45": {
+       "buildOptions": {
+        "define": [ "NET45" ]
+      }
     }
   },
   "dependencies": {
