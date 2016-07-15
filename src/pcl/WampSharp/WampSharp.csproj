@@ -23,20 +23,22 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45;PCL LIBLOG_PORTABLE LIBLOG_PUBLIC</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45;PCL;LIBLOG_PORTABLE;LIBLOG_PUBLIC;ASYNC;MANUAL_PROXY</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\WampSharp.XML</DocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NET45;PCL LIBLOG_PORTABLE LIBLOG_PUBLIC</DefineConstants>
+    <DefineConstants>TRACE;NET45;PCL;LIBLOG_PORTABLE;LIBLOG_PUBLIC;LIBLOG_PORTABLE;ASYNC;MANUAL_PROXY</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\WampSharp.XML</DocumentationFile>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -259,6 +261,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\IdMapperBase.cs">
       <Link>Core\Utilities\IdMapperBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\IProgress.cs">
+      <Link>Core\Utilities\IProgress.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\Method.cs">
       <Link>Core\Utilities\Method.cs</Link>
