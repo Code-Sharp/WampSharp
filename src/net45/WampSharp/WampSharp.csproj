@@ -31,7 +31,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NET45;CASTLE;LIBLOG_PUBLIC;LIBLOG_PORTABLE;ASYNC;WAMPCRA</DefineConstants>
+    <DefineConstants>TRACE;NET45;CASTLE;LIBLOG_PUBLIC;ASYNC;WAMPCRA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\WampSharp.XML</DocumentationFile>
