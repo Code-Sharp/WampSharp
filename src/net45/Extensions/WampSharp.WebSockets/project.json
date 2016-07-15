@@ -9,8 +9,6 @@
     "projectUrl": "https://github.com/Code-Sharp/WampSharp/"
   },
   "frameworks": {
-    "net45": {
-    },
     "netstandard1.3": {
       "buildOptions": {
       },

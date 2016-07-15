@@ -9,15 +9,6 @@
     "projectUrl": "https://github.com/Code-Sharp/WampSharp/"
   },
   "frameworks": {
-    "net40": {
-    },
-    "net45": {
-    },
-    ".NETPortable,Version=v4.5,Profile=Profile111": {
-      "buildOptions": {
-        "define": [ "PCL" ]
-      }
-    },
     "netstandard1.3": {
       "buildOptions": {
         "define": [ "PCL" ]

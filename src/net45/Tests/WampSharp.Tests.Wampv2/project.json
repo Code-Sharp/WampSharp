@@ -6,15 +6,9 @@
   },
   "testRunner": "nunit",
   "frameworks": {
-    "net45": {
-      "dependencies": {
-        "NUnit": "2.6.4"
-      }
-    },
     "netcoreapp1.0": {
       "imports": [
         "netcoreapp1.0",
-        "dotnet",
         "dotnet5.4"
       ],
       "dependencies": {
@@ -26,7 +20,7 @@
         }
       },
       "buildOptions": {
-        "define": ["NETCORE"]
+        "define": [ "NETCORE" ]
       }
     }
   }

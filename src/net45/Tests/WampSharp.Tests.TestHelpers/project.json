@@ -1,10 +1,5 @@
 {
   "frameworks": {
-    "net45": {
-      "dependencies": {
-        "Moq": "4.2.1510.2205"
-      }
-    },
     "netcoreapp1.0": {
       "imports": [
         "netcoreapp1.0",
@@ -12,16 +7,16 @@
         "dotnet5.4"
       ],
       "buildOptions": {
-        "define": ["NETCORE"]
+        "define": [ "NETCORE" ]
       },
       "dependencies": {
         "Moq": "4.6.25-alpha",
-        "System.Diagnostics.TraceSource": "4.0.0" 
+        "System.Diagnostics.TraceSource": "4.0.0"
       }
-    } 
+    }
   },
   "dependencies": {
     "WampSharp": { "target": "project" },
-    "Newtonsoft.Json": "9.0.1",
+    "Newtonsoft.Json": "9.0.1"
   }
 }
