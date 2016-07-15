@@ -5,7 +5,7 @@ language: csharp
 solution: src/mono/WampSharpMono.sln
 
 mono:
-  - 4.3.3.148
+  - 4.2.3
 
 install:
   - travis_retry nuget restore src/mono/WampSharpMono.sln
