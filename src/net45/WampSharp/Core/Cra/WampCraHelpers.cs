@@ -1,4 +1,4 @@
-﻿#if !PCL
+﻿#if WAMPCRA
 using System;
 using System.Collections.Generic;
 using System.IO;

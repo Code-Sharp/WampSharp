@@ -19,7 +19,7 @@ namespace WampSharp.Tests.Wampv2.Integration
     public class PubSubReflectionTests
     {
         [Test]
-        public async void PublisherCustomDelegateEventRaisePublishesEventWithKeywordArguments()
+        public async Task PublisherCustomDelegateEventRaisePublishesEventWithKeywordArguments()
         {
             WampPlayground playground = new WampPlayground();
 
@@ -62,7 +62,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
-        public async void PublisherActionDelegateEventRaisePublishesEventWithPositionalArguments()
+        public async Task PublisherActionDelegateEventRaisePublishesEventWithPositionalArguments()
         {
             WampPlayground playground = new WampPlayground();
 
@@ -97,7 +97,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
-        public async void SubscriberGetsEventAsParameters()
+        public async Task SubscriberGetsEventAsParameters()
         {
             WampPlayground playground = new WampPlayground();
 
@@ -143,7 +143,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         [TestCase(null)]
         [TestCase(false)]
         [TestCase(true)]
-        public async void SubscriberGetsEventContextWithPublicationId(bool? acknowledge)
+        public async Task SubscriberGetsEventContextWithPublicationId(bool? acknowledge)
         {
             WampPlayground playground = new WampPlayground();
 
@@ -179,7 +179,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         [TestCase(true)]
         [TestCase(false)]
         [TestCase(null)]
-        public async void SubscriberGetsEventContextWithPublisherId(bool? discloseMe)
+        public async Task SubscriberGetsEventContextWithPublisherId(bool? discloseMe)
         {
             WampPlayground playground = new WampPlayground();
 

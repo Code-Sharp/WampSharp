@@ -5,7 +5,7 @@ using System.Reflection;
 // ReSharper disable once CheckNamespace
 namespace Castle.DynamicProxy
 {
-    public interface IInterceptor
+    internal interface IInterceptor
     {
         object Invoke(MethodInfo method, object[] arguments);
     }

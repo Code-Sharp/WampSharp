@@ -16,7 +16,7 @@ namespace WampSharp.Tests.Wampv2.Integration
     public class SharedRpcTests
     {
         [Test]
-        public async void FirstPolicyCallsFirstCallee()
+        public async Task FirstPolicyCallsFirstCallee()
         {
             WampPlayground playground = new WampPlayground();
 
@@ -50,7 +50,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
-        public async void LastPolicyCallsLastCallee()
+        public async Task LastPolicyCallsLastCallee()
         {
             WampPlayground playground = new WampPlayground();
 
@@ -84,7 +84,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
-        public async void RoundRobinPolicy()
+        public async Task RoundRobinPolicy()
         {
             WampPlayground playground = new WampPlayground();
 

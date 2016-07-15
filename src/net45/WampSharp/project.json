@@ -11,7 +11,7 @@
   "frameworks": {
     "net40": {
       "buildOptions": {
-        "define": [ "NET40", "CASTLE", "LIBLOG_PUBLIC" ]
+        "define": [ "NET40", "CASTLE", "LIBLOG_PUBLIC", "WAMPCRA" ]
       },
       "frameworkAssemblies": {
         "System.Runtime.Serialization": "4.0.0.0",
@@ -26,7 +26,7 @@
     },
     "net45": {
       "buildOptions": {
-        "define": [ "NET45", "CASTLE", "LIBLOG_PUBLIC", "ASYNC" ]
+        "define": [ "NET45", "CASTLE", "LIBLOG_PUBLIC", "ASYNC", "WAMPCRA" ]
       },
       "frameworkAssemblies": {
         "Microsoft.CSharp": "4.0.0.0",
@@ -45,7 +45,7 @@
     },
     "net46": {
       "buildOptions": {
-        "define": [ "NET45", "CASTLE", "LIBLOG_PUBLIC", "ASYNC", "ASYNC_LOCAL" ]
+        "define": [ "NET45", "CASTLE", "LIBLOG_PUBLIC", "ASYNC", "ASYNC_LOCAL", "WAMPCRA" ]
       },
       "frameworkAssemblies": {
         "Microsoft.CSharp": "4.0.0.0",
@@ -100,7 +100,7 @@
     },
     "netstandard1.3": {
       "buildOptions": {
-        "define": [ "NET45", "DNX", "PCL", "DISPATCH_PROXY", "MANUAL_PROXY", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL", "ASYNC_LOCAL", "ASYNC" ]
+        "define": [ "NET45", "NETCORE", "PCL", "DISPATCH_PROXY", "MANUAL_PROXY", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL", "ASYNC_LOCAL", "ASYNC", "WAMPCRA" ]
       },
       "dependencies": {
         "Microsoft.CSharp": "4.0.1",
@@ -115,6 +115,7 @@
         "System.Reflection.TypeExtensions": "4.1.0",
         "System.Runtime": "4.1.0",
         "System.Runtime.Serialization.Primitives": "4.1.1",
+        "System.Security.Cryptography.Algorithms": "4.2.0",
         "System.Text.RegularExpressions": "4.1.0"
       }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace WampSharp.Tests.TestHelpers
@@ -40,11 +41,10 @@ namespace WampSharp.Tests.TestHelpers
                 return null;
             }
 
-            ICloneable cloneable = value as ICloneable;
-
-            if (cloneable != null)
+            object clone;
+            if (TryClone(value, out clone))
             {
-                return cloneable.Clone();
+                return clone;
             }
             else
             {
@@ -63,6 +63,31 @@ namespace WampSharp.Tests.TestHelpers
 
             return value;
         }
+
+#if !NETCORE
+
+        private static bool TryClone(object value, out object result)
+        {
+            result = null;
+            ICloneable cloneable = value as ICloneable;
+
+            if (cloneable != null)
+            {
+                result = cloneable.Clone();
+                return true;
+            }
+
+            return false;
+        }
+
+#else
+        private static bool TryClone(object value, out object result)
+        {
+            result = null;
+            return false;
+        }
+
+#endif
 
         public object Value
         {
