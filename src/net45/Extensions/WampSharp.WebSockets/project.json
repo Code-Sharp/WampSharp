@@ -11,6 +11,7 @@
   "frameworks": {
     "netstandard1.3": {
       "buildOptions": {
+        "xmlDoc": true
       },
       "dependencies": {
         "System.Net.WebSockets.Client": "4.0.0"

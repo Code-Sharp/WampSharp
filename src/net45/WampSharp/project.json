@@ -11,7 +11,8 @@
   "frameworks": {
     "netstandard1.3": {
       "buildOptions": {
-        "define": [ "NET45", "NETCORE", "PCL", "DISPATCH_PROXY", "MANUAL_PROXY", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL", "ASYNC_LOCAL", "ASYNC", "WAMPCRA" ]
+        "define": [ "NET45", "NETCORE", "PCL", "DISPATCH_PROXY", "MANUAL_PROXY", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL", "ASYNC_LOCAL", "ASYNC", "WAMPCRA" ],
+        "xmlDoc": true
       },
       "dependencies": {
         "Microsoft.CSharp": "4.0.1",
