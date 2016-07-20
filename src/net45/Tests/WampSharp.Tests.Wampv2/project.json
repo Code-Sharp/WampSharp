@@ -8,7 +8,8 @@
   "frameworks": {
     "netcoreapp1.0": {
       "imports": [
-        "netcoreapp1.0"
+        "netcoreapp1.0",
+        "dotnet"
       ],
       "dependencies": {
         "NUnit": "3.4.0",
