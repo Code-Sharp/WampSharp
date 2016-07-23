@@ -36,7 +36,7 @@
     <file src="bin\net40\WampSharp.NewtonsoftJson.xml" target="lib\net40\WampSharp.NewtonsoftJson.xml" />
     <file src="bin\pcl\WampSharp.NewtonsoftJson.dll" target="lib\portable-win81+wpa81\WampSharp.NewtonsoftJson.dll" />
     <file src="bin\pcl\WampSharp.NewtonsoftJson.xml" target="lib\portable-win81+wpa81\WampSharp.NewtonsoftJson.xml" />
-    <file src="bin\netstandard1.3\WampSharp.NewtonsoftJson.dll" target="bin\netstandard1.3\WampSharp.NewtonsoftJson.dll" />
-    <file src="bin\netstandard1.3\WampSharp.NewtonsoftJson.xml" target="bin\netstandard1.3\WampSharp.NewtonsoftJson.xml" />
+    <file src="bin\netstandard1.3\WampSharp.NewtonsoftJson.dll" target="lib\netstandard1.3\WampSharp.NewtonsoftJson.dll" />
+    <file src="bin\netstandard1.3\WampSharp.NewtonsoftJson.xml" target="lib\netstandard1.3\WampSharp.NewtonsoftJson.xml" />
   </files>
 </package>
