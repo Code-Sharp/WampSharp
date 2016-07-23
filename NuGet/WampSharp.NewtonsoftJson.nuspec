@@ -5,8 +5,22 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
-      <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="Newtonsoft.Json" version="[6.0.5, )" />
+      <group targetFramework="net45">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Newtonsoft.Json" version="[6.0.5, )" />
+      </group>
+      <group targetFramework="net40">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Newtonsoft.Json" version="[6.0.5, )" />
+      </group>
+      <group targetFramework="portable-win81+wpa81">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Newtonsoft.Json" version="[6.0.5, )" />
+      </group>
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Newtonsoft.Json" version="[9.0.1, )" />
+      </group>
     </dependencies>
     <id>WampSharp.NewtonsoftJson</id>
     <title>WampSharp Newtonsoft.Json binding</title>
