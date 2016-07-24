@@ -68,7 +68,17 @@ namespace WampSharp.RawSocket
                 // Compute the written message length
                 int messageLength = totalMessageLength - FrameHeaderSize;
 
-                byte[] buffer = memoryStream.GetBuffer();
+                byte[] buffer;
+
+#if NETCORE
+                ArraySegment<byte> arraySegment;
+
+                memoryStream.TryGetBuffer(out arraySegment);
+
+                buffer = arraySegment.Array;
+#else
+                buffer = memoryStream.GetBuffer();
+#endif
 
                 // Write a message header
                 mFrameHeaderParser.WriteHeader(FrameType.WampMessage, messageLength, buffer);
@@ -76,7 +86,7 @@ namespace WampSharp.RawSocket
                 // Write the whole message to the wire
                 await TcpClient.GetStream().WriteAsync(buffer, 0, totalMessageLength);
 
-                mByteArrayPool.Return(memoryStream.GetBuffer());
+                mByteArrayPool.Return(buffer);
             }
         }
 
