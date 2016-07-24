@@ -8,17 +8,17 @@
       <group targetFramework="net45">
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
-        <dependency id="Newtonsoft.Msgpack" version="[0.1.8,)" />
+        <dependency id="Newtonsoft.Msgpack" version="[0.1.10,)" />
       </group>
       <group targetFramework="net40">
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
-        <dependency id="Newtonsoft.Msgpack" version="[0.1.8,)" />
+        <dependency id="Newtonsoft.Msgpack" version="[0.1.10,)" />
       </group>
       <group targetFramework=".NETStandard1.3">
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
-        <dependency id="Newtonsoft.Msgpack" version="[0.1.9,)" />
+        <dependency id="Newtonsoft.Msgpack" version="[0.1.10,)" />
       </group>
     </dependencies>
     <id>WampSharp.NewtonsoftMsgpack</id>

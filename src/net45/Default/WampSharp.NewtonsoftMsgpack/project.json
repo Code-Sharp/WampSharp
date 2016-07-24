@@ -13,7 +13,7 @@
     }
   },
   "dependencies": {
-    "Newtonsoft.Msgpack": "0.1.9",
+    "Newtonsoft.Msgpack": "0.1.10",
     "WampSharp.NewtonsoftJson": { "target": "project" }
   }
 }
