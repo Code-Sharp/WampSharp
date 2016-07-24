@@ -15,7 +15,8 @@
         "System.Net.Sockets": "4.1.0" 
       },
       "buildOptions": {
-        "define": ["NETCORE"]
+        "define": ["NETCORE"],
+        "xmlDoc": true
       }
     }
   },
