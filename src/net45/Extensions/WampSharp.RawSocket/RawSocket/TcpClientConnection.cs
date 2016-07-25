@@ -199,7 +199,9 @@ namespace WampSharp.RawSocket
 
             NetworkStream networkStream = mTcpClient.GetStream();
 
-            await networkStream.WriteAsync(buffer, 0, buffer.Length);
+            int frameSize = messageLength + FrameHeaderSize;
+
+            await networkStream.WriteAsync(buffer, 0, frameSize);
 
             mByteArrayPool.Return(buffer);
         }
