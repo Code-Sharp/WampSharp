@@ -7,9 +7,14 @@ solution: src/mono/WampSharpMono.sln
 mono:
   - 4.2.3
 
+before_install:
+  - mkdir -p .nuget
+  - wget -O .nuget/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+  - mono .nuget/nuget.exe # Output NuGet's version number
+
 install:
-  - travis_retry nuget restore src/mono/WampSharpMono.sln
-  - travis_retry nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+  - travis_retry .nuget/nuget.exe restore src/mono/WampSharpMono.sln
+  - travis_retry .nuget/nuget.exe install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 
 script:
   - xbuild /p:Configuration=Release src/mono/WampSharpMono.sln
