@@ -1,10 +1,10 @@
-﻿#if !PCL && !NETCORE
+﻿#if NETCORE
 using System;
 using WampSharp.Binding;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Client;
-using WampSharp.WebSocket4Net;
+using WampSharp.WebSockets;
 
 namespace WampSharp.V2
 {
@@ -29,7 +29,7 @@ namespace WampSharp.V2
                                                     IWampTextBinding<TMessage> binding)
         {
             Func<IControlledWampConnection<TMessage>> connectionFactory =
-                () => new WebSocket4NetTextConnection<TMessage>(address, binding);
+                () => new ControlledTextWebSocketConnection<TMessage>(new Uri(address), binding);
 
             return this.CreateChannel(realm, connectionFactory, binding);
         }
@@ -49,7 +49,7 @@ namespace WampSharp.V2
                                                     IWampClientAuthenticator authenticator)
         {
             Func<IControlledWampConnection<TMessage>> connectionFactory =
-                () => new WebSocket4NetTextConnection<TMessage>(address, binding);
+                () => new ControlledTextWebSocketConnection<TMessage>(new Uri(address), binding);
 
             return this.CreateChannel(realm, connectionFactory, binding, authenticator);
         }
@@ -67,7 +67,7 @@ namespace WampSharp.V2
                                                     IWampBinaryBinding<TMessage> binding)
         {
             Func<IControlledWampConnection<TMessage>> connectionFactory =
-                () => new WebSocket4NetBinaryConnection<TMessage>(address, binding);
+                () => new ControlledBinaryWebSocketConnection<TMessage>(new Uri(address), binding);
 
             return this.CreateChannel(realm, connectionFactory, binding);
         }
@@ -87,7 +87,7 @@ namespace WampSharp.V2
                                                     IWampClientAuthenticator authenticator)
         {
             Func<IControlledWampConnection<TMessage>> connectionFactory =
-                () => new WebSocket4NetBinaryConnection<TMessage>(address, binding);
+                () => new ControlledBinaryWebSocketConnection<TMessage>(new Uri(address), binding);
 
             return this.CreateChannel(realm, connectionFactory, binding, authenticator);
         }
