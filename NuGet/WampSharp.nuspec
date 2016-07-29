@@ -18,9 +18,9 @@
         <dependency id="Rackspace.Collections.Immutable" version="[1.1.36]" />
       </group>
       <group targetFramework="portable-win81+wpa81">
-        <dependency id="rx-main" version="[2.2.5]" />
-        <dependency id="Ix-Async" version="[1.2.5]" />
-        <dependency id="System.Collections.Immutable" version="[1.1.36]" />
+        <dependency id="System.Reactive" version="[3.0.0,)" />
+        <dependency id="System.Collections.Immutable" version="[1.2.0,)" />
+        <dependency id="System.Threading.Tasks.Dataflow" version="[4.6.0, )" />
       </group>
       <group targetFramework=".NETStandard1.3">
         <dependency id="Microsoft.CSharp" version="[4.0.1, )" />
