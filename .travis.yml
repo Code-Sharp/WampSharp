@@ -13,8 +13,8 @@ before_install:
   - mono .nuget/nuget.exe # Output NuGet's version number
 
 install:
-  - mono .nuget/nuget.exe restore src/mono/WampSharpMono.sln
-  - mono .nuget/nuget.exe install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+  - mono .nuget/nuget.exe restore src/mono/WampSharpMono.sln -Verbosity detailed
+  - mono .nuget/nuget.exe install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner -Verbosity detailed
 
 script:
   - xbuild /p:Configuration=Release src/mono/WampSharpMono.sln
