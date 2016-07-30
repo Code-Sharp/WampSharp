@@ -15,19 +15,20 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 {
     public class AspNetCoreWebSocketTransport : WebSocketTransport<WebSocketData>
     {
-        private readonly IApplicationBuilder mApp;
+        private Func<HttpContext, Func<Task>, Task> mHandler;
 
         public AspNetCoreWebSocketTransport
             (IApplicationBuilder app,
              ICookieAuthenticatorFactory authenticatorFactory = null) :
                  base(authenticatorFactory)
         {
-            mApp = app;
+            mHandler = this.EmptyHandler;
+            app.Use(HttpHandler);
         }
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            mHandler = this.EmptyHandler;
         }
 
         protected override void OpenConnection<TMessage>(WebSocketData original, IWampConnection<TMessage> connection)
@@ -68,10 +69,20 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 
         public override void Open()
         {
-            mApp.Use(HttpHandler);
+            mHandler = this.WebSocketHandler;
         }
 
-        private async Task HttpHandler(HttpContext context, Func<Task> next)
+        private Task HttpHandler(HttpContext context, Func<Task> next)
+        {
+            return mHandler(context, next);
+        }
+
+        private async Task EmptyHandler(HttpContext context, Func<Task> next)
+        {
+            await next();
+        }
+
+        private async Task WebSocketHandler(HttpContext context, Func<Task> next)
         {
             if (context.WebSockets.IsWebSocketRequest)
             {
