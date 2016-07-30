@@ -38,6 +38,22 @@
         <dependency id="System.Security.Cryptography.Algorithms" version="[4.2.0, )" />
         <dependency id="System.Text.RegularExpressions" version="[4.1.0, )" />
       </group>
+      <group targetFramework="UAP10.0">
+        <dependency id="Microsoft.CSharp" version="[4.0.1, )" />
+        <dependency id="System.Threading.Tasks.Dataflow" version="[4.6.0, )" />
+        <dependency id="System.Collections.Concurrent" version="[4.0.12, )" />
+        <dependency id="System.Collections.Immutable" version="[1.2.0, )" />
+        <dependency id="System.ComponentModel" version="[4.0.1, )" />
+        <dependency id="System.Net.Primitives" version="[4.0.11, )" />
+        <dependency id="System.Reactive" version="[3.0.0, )" />
+        <dependency id="System.Reflection.Extensions" version="[4.0.1, )" />
+        <dependency id="System.Reflection.DispatchProxy" version="[4.0.1, )" />
+        <dependency id="System.Reflection.TypeExtensions" version="[4.1.0, )" />
+        <dependency id="System.Runtime" version="[4.1.0, )" />
+        <dependency id="System.Runtime.Serialization.Primitives" version="[4.1.1, )" />
+        <dependency id="System.Security.Cryptography.Algorithms" version="[4.2.0, )" />
+        <dependency id="System.Text.RegularExpressions" version="[4.1.0, )" />
+      </group>
     </dependencies>
     <id>WampSharp</id>
     <title>WampSharp</title>
@@ -55,5 +71,7 @@
     <file src="bin\pcl\WampSharp.xml" target="lib\portable-win81+wpa81\WampSharp.xml" />
     <file src="bin\netstandard1.3\WampSharp.dll" target="lib\netstandard1.3\WampSharp.dll" />
     <file src="bin\netstandard1.3\WampSharp.xml" target="lib\netstandard1.3\WampSharp.xml" />
+    <file src="bin\uap10.0\WampSharp.dll" target="lib\uap10.0\WampSharp.dll" />
+    <file src="bin\uap10.0\WampSharp.xml" target="lib\uap10.0\WampSharp.xml" />
   </files>
 </package>
