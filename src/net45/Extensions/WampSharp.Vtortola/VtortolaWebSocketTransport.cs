@@ -116,7 +116,7 @@ namespace WampSharp.Vtortola
             return connection.HttpResponse.WebSocketProtocol;
         }
 
-        protected override void OpenConnection<TMessage>(IWampConnection<TMessage> connection)
+        protected override void OpenConnection<TMessage>(WebSocket original, IWampConnection<TMessage> connection)
         {
             VtortolaWampConnection<TMessage> casted = connection as VtortolaWampConnection<TMessage>;
             Task.Run(new Func<Task>(casted.HandleWebSocketAsync));

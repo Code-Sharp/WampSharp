@@ -1,4 +1,4 @@
-﻿#if PCL
+﻿#if !CASTLE && !DISPATCH_PROXY
 using System.Reflection;
 
 namespace WampSharp.CodeGeneration

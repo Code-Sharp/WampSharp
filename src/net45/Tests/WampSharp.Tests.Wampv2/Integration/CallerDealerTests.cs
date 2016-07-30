@@ -16,7 +16,7 @@ namespace WampSharp.Tests.Wampv2.Integration
     public class CallerDealerTests
     {
         [Test]
-        public async void ArgumentsAdd2()
+        public async Task ArgumentsAdd2()
         {
             WampPlayground playground = new WampPlayground();
 
@@ -31,7 +31,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
-        public async void ArgumentsAdd2Async()
+        public async Task ArgumentsAdd2Async()
         {
             WampPlayground playground = new WampPlayground();
 
@@ -50,7 +50,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         [TestCase("Homer", null, "Homer starred 0x")]
         [TestCase(null, 5, "somebody starred 5x")]
         [TestCase("Homer", 5, "Homer starred 5x")]
-        public async void ArgumentsStarsDefaultValues(string nick, int? stars, string result)
+        public async Task ArgumentsStarsDefaultValues(string nick, int? stars, string result)
         {
             WampPlayground playground = new WampPlayground();
 
@@ -84,7 +84,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         [TestCase(-2, new[] { "The square root of a negative number is non real", "x" }, "wamp.error.runtime_error")]
         [TestCase(0, new[] { "don't ask folly questions;)" }, "wamp.error.runtime_error")]
         [TestCase(2, null, null)]
-        public async void ErrorsService(int number, object[] arguments, string errorUri)
+        public async Task ErrorsService(int number, object[] arguments, string errorUri)
         {
             WampPlayground playground = new WampPlayground();
 
@@ -116,7 +116,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
-        public async void ArgumentsOrders()
+        public async Task ArgumentsOrders()
         {
             WampPlayground playground = new WampPlayground();
 
@@ -132,7 +132,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
-        public async void ComplexServiceAddComplex()
+        public async Task ComplexServiceAddComplex()
         {
             WampPlayground playground = new WampPlayground();
 
@@ -150,7 +150,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
-        public async void ComplexServiceSplitName()
+        public async Task ComplexServiceSplitName()
         {
             WampPlayground playground = new WampPlayground();
 

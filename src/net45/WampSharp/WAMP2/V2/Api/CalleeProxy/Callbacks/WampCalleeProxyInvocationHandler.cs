@@ -52,7 +52,6 @@ namespace WampSharp.V2.CalleeProxy
             return task;
         }
 
-#if !NET40
         public Task<T> InvokeProgressiveAsync<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, IOperationResultExtractor<T> extractor, object[] arguments, IProgress<T> progress)
         {
             ProgressiveAsyncOperationCallback<T> asyncOperationCallback =
@@ -62,7 +61,6 @@ namespace WampSharp.V2.CalleeProxy
 
             return task;
         }
-#endif
 
         private Task<T> InnerInvokeAsync<T>(AsyncOperationCallback<T> callback, ICalleeProxyInterceptor interceptor, MethodInfo method, object[] arguments)
         {

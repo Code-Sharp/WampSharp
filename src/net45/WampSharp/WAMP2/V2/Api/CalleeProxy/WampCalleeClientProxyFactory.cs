@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using WampSharp.V2.Client;
 
-#if !PCL
+#if CASTLE
 namespace WampSharp.V2.CalleeProxy
 {
     internal class WampCalleeClientProxyFactory : WampCalleeProxyFactory

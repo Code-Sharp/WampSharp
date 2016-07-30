@@ -24,7 +24,7 @@ namespace WampSharp.Core.Listener
             mSendBlock.Post(message);
         }
 
-#if !NET40
+#if ASYNC
 
         protected async Task InnerSend(WampMessage<object> message)
         {
@@ -132,7 +132,7 @@ namespace WampSharp.Core.Listener
 
         protected abstract void Dispose();
 
-#if NET45
+#if ASYNC
 
         async Task IAsyncDisposable.DisposeAsync()
         {
@@ -141,7 +141,7 @@ namespace WampSharp.Core.Listener
             this.Dispose();
         }
 
-#elif NET40
+#else
 
         Task IAsyncDisposable.DisposeAsync()
         {

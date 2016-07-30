@@ -1,0 +1,22 @@
+{
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "netcoreapp1.0",
+        "dotnet",
+        "dotnet5.4"
+      ],
+      "buildOptions": {
+        "define": [ "NETCORE" ]
+      },
+      "dependencies": {
+        "Moq": "4.6.25-alpha",
+        "System.Diagnostics.TraceSource": "4.0.0"
+      }
+    }
+  },
+  "dependencies": {
+    "WampSharp": { "target": "project" },
+    "Newtonsoft.Json": "9.0.1"
+  }
+}

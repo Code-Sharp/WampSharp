@@ -14,6 +14,11 @@
         <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
         <dependency id="WampSharp.Windows" version="[$version$]" />
       </group>
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
+        <dependency id="WampSharp.NewtonsoftMsgpack" version="[$version$]" />
+        <dependency id="WampSharp.WebSockets" version="[$version$]" />
+      </group>
     </dependencies>
     <id>WampSharp.Default.Client</id>
     <title>WampSharp default client binding</title>
@@ -29,5 +34,7 @@
     <file src="bin\net40\WampSharp.Default.Client.xml" target="lib\net40\WampSharp.Default.Client.xml" />
     <file src="bin\pcl\WampSharp.Default.Client.dll" target="lib\portable-win81+wpa81\WampSharp.Default.Client.dll" />
     <file src="bin\pcl\WampSharp.Default.Client.xml" target="lib\portable-win81+wpa81\WampSharp.Default.Client.xml" />
+    <file src="bin\netstandard1.3\WampSharp.Default.Client.dll" target="lib\netstandard1.3\WampSharp.Default.Client.dll" />
+    <file src="bin\netstandard1.3\WampSharp.Default.Client.xml" target="lib\netstandard1.3\WampSharp.Default.Client.xml" />
   </files>
 </package>

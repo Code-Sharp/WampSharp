@@ -76,7 +76,7 @@ namespace WampSharp.V2.Transports
         /// </summary>
         /// <remarks>Override this in order to open your connection.</remarks>
         protected abstract void OpenConnection<TMessage>
-            (IWampConnection<TMessage> connection);
+            (TConnection original, IWampConnection<TMessage> connection);
 
         /// <summary>
         /// Gets the sub-protocol associated with the given connection.
@@ -186,10 +186,10 @@ namespace WampSharp.V2.Transports
                 get { return mParent; }
             }
 
-            protected void OnNewConnection(IWampConnection<TMessage> connection)
+            protected void OnNewConnection(IWampConnection<TMessage> connection, TConnection original)
             {
                 mSubject.OnNext(connection);
-                mParent.OpenConnection(connection);
+                mParent.OpenConnection(original, connection);
             }
 
             public IDisposable Subscribe(IObserver<IWampConnection<TMessage>> observer)
@@ -223,7 +223,7 @@ namespace WampSharp.V2.Transports
 
             public override void OnNewConnection(TConnection connection)
             {
-                OnNewConnection(Parent.CreateBinaryConnection(connection, Binding));
+                OnNewConnection(Parent.CreateBinaryConnection(connection, Binding), connection);
             }
         }
 
@@ -246,7 +246,7 @@ namespace WampSharp.V2.Transports
 
             public override void OnNewConnection(TConnection connection)
             {
-                OnNewConnection(Parent.CreateTextConnection(connection, Binding));
+                OnNewConnection(Parent.CreateTextConnection(connection, Binding), connection);
             }
         }
 

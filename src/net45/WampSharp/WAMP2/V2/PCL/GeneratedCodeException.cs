@@ -1,4 +1,4 @@
-﻿#if PCL
+﻿#if !CASTLE && !DISPATCH_PROXY
 using System;
 
 namespace WampSharp.V2.CalleeProxy

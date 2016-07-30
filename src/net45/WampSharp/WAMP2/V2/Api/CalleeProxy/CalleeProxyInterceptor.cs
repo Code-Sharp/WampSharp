@@ -27,12 +27,10 @@ namespace WampSharp.V2
         {
             CallOptions result = new CallOptions(mCallOptions);
 
-#if !NET40
             if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
             {
                 result.ReceiveProgress = true;
             }
-#endif
 
             return result;
         }

@@ -15,7 +15,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
             test.Assert();
         }
 
-        public IEnumerable<TestCaseData> TestCases
+        public static IEnumerable<TestCaseData> TestCases
         {
             get
             {
@@ -28,7 +28,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
             }
         }
 
-        public IEnumerable<CallerTest> CallerTests
+        public static IEnumerable<CallerTest> CallerTests
         {
             get
             {

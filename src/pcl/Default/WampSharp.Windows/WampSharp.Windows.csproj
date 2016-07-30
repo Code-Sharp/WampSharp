@@ -65,6 +65,9 @@
     <Compile Include="..\..\..\net45\Default\WampSharp.Windows\Windows\MessageWebSocketTextConnection.cs">
       <Link>Windows\MessageWebSocketTextConnection.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.Windows\Windows\MessageWebSocketBinaryConnection.cs">
+      <Link>Windows\MessageWebSocketBinaryConnection.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

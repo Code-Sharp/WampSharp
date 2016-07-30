@@ -65,14 +65,12 @@ namespace WampSharp.V2.Rpc
             }
             else
             {
-#if !NET40
                 if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
                 {
                     MethodInfoValidation.ValidateProgressiveMethod(method);
                     return CreateProgressiveOperation(instance, method, procedureUri);
                 }
                 else
-#endif
                 {
                     MethodInfoValidation.ValidateAsyncMethod(method);
                     return new AsyncMethodInfoRpcOperation(instance, method, procedureUri);
@@ -80,7 +78,6 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-#if !NET40
         private static IWampRpcOperation CreateProgressiveOperation(object instance, MethodInfo method, string procedureUri)
         {
             //return new ProgressiveAsyncMethodInfoRpcOperation<returnType>
@@ -101,8 +98,5 @@ namespace WampSharp.V2.Rpc
 
             return operation;
         }
-
-#endif
-
     }
 }

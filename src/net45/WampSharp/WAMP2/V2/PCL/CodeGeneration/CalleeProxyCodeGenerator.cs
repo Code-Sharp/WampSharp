@@ -1,4 +1,4 @@
-﻿#if PCL
+﻿#if !CASTLE && !DISPATCH_PROXY
 using System;
 using System.Collections.Generic;
 using System.Linq;
