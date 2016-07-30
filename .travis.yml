@@ -20,7 +20,3 @@ script:
   - xbuild /p:Configuration=Release src/mono/WampSharpMono.sln
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/mono/Tests/WampSharp.Tests/bin/Release/WampSharp.Tests.dll
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/mono/Tests/WampSharp.Tests.Wampv2/bin/Release/WampSharp.Tests.Wampv2.dll
-
-branches:
- only:
-  - dotnetcore-build
