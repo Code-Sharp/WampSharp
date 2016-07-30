@@ -1,0 +1,30 @@
+{
+  "title": "WampSharp Windows support",
+  "version": "1.2.3-*",
+  "description": "Windows websocket connection for WampSharp",
+  "authors": [ "CodeSharp" ],
+  "packOptions": {
+    "requireLicenseAcceptance": false,
+    "tags": [ "websockets", "wampws", "rpc", "pubsub", "windows", "wampv2" ],
+    "projectUrl": "https://github.com/Code-Sharp/WampSharp/"
+  },
+  "frameworks": {
+    "uap10.0": {
+      "buildOptions": {
+        "xmlDoc": true,
+        "define": ["PCL"]
+      },
+      "dependencies": {
+        "WampSharp": { "target": "project" },
+        "Microsoft.TargetingPack.Private.WinRT": {
+          "version": "1.0.1",
+          "type": "build"
+        },
+        "Microsoft.NETCore.UniversalWindowsPlatform": {
+          "version": "5.2.2",
+          "type": "build"
+        }
+      }
+    }
+  }
+}

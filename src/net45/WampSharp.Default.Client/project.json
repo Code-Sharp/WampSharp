@@ -19,6 +19,17 @@
         "WampSharp.NewtonsoftMsgpack": { "target": "project" },
         "WampSharp.WebSockets": { "target": "project" }
       }
+    },
+    "uap10.0": {
+      "buildOptions": {
+        "xmlDoc": true,
+        "define": ["PCL"]
+      },
+      "dependencies": {
+        "WampSharp.NewtonsoftJson": { "target": "project" },
+        "WampSharp.NewtonsoftMsgpack": { "target": "project" },
+        "WampSharp.Windows": { "target": "project" }
+      }
     }
   }
 }
