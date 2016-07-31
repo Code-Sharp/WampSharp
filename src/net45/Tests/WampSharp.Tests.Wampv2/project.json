@@ -22,6 +22,23 @@
       "buildOptions": {
         "define": [ "NETCORE" ]
       }
+    },
+    "uap10.0": {
+      "imports": [
+        "netcoreapp1.0",
+        "dotnet"
+      ],
+      "dependencies": {
+        "NUnit": "3.4.0",
+        "dotnet-test-nunit": "3.4.0-beta-1",
+        "Microsoft.NETCore.App": {
+          "version": "1.0.0-*",
+          "type": "platform"
+        }
+      },
+      "buildOptions": {
+        "define": [ "NETCORE" ]
+      }
     }
   }
 }
