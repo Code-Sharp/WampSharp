@@ -48,6 +48,25 @@ namespace WampSharp.V2.Rpc
             }
         }
 
+        protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs, YieldOptions yieldOptions = null)
+        {
+            yieldOptions = yieldOptions ?? new YieldOptions();
+            object[] resultArguments = GetResultArguments(result);
+
+            IDictionary<string, object> argumentKeywords = 
+                GetResultArgumentKeywords(result, outputs);
+
+            CallResult(caller,
+                       yieldOptions,
+                       resultArguments,
+                       argumentKeywords);
+        }
+
+        protected virtual IDictionary<string, object> GetResultArgumentKeywords(object result, IDictionary<string, object> outputs)
+        {
+            return outputs;
+        }
+
         protected abstract object InvokeSync<TMessage>
             (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, out IDictionary<string, object> outputs);
     }

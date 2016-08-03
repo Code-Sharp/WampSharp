@@ -5,7 +5,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
+using WampSharp.Core.Utilities.ValueTuple;
 using WampSharp.V2.Core.Contracts;
+using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.V2.Rpc
 {
@@ -17,6 +19,7 @@ namespace WampSharp.V2.Rpc
         private readonly RpcParameter[] mParameters;
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
+        private IWampResultExtractor mResultExtractor;
 
         public AsyncMethodInfoRpcOperation(object instance, MethodInfo method, string procedureName) :
             base(procedureName)
@@ -41,8 +44,17 @@ namespace WampSharp.V2.Rpc
                 method.GetParameters()
                       .Select(parameter => new RpcParameter(parameter))
                       .ToArray();
-        }
 
+            mResultExtractor = WampResultExtractor.GetResultExtractor(this);
+
+            Type returnType =
+                TaskExtensions.UnwrapReturnType(method.ReturnType);
+
+            if (returnType.IsValueTuple())
+            {
+                mResultExtractor = WampResultExtractor.GetValueTupleResultExtractor(method);
+            }
+        }
 
         public override RpcParameter[] Parameters
         {
@@ -86,6 +98,16 @@ namespace WampSharp.V2.Rpc
             {
                 WampInvocationContext.Current = null;
             }
+        }
+
+        protected override object[] GetResultArguments(object result)
+        {
+            return mResultExtractor.GetArguments(result);
+        }
+
+        protected override IDictionary<string, object> GetResultArgumentKeywords(object result)
+        {
+            return mResultExtractor.GetArgumentKeywords(result);
         }
 
         protected bool Equals(AsyncMethodInfoRpcOperation other)

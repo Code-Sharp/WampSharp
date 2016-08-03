@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Logging;
-
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -12,8 +11,6 @@ namespace WampSharp.V2.Rpc
 {
     public abstract class LocalRpcOperation : IWampRpcOperation
     {
-        private static readonly object[] mEmptyResult = new object[0];
-
         private readonly string mProcedure;
 
         protected readonly ILog mLogger;
@@ -70,27 +67,18 @@ namespace WampSharp.V2.Rpc
             InnerInvoke(caller, formatter, details, arguments, argumentsKeywords);
         }
 
-        protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs)
+        protected virtual object[] GetResultArguments(object result)
         {
-            YieldOptions options = new YieldOptions();
+            IWampResultExtractor extractor = WampResultExtractor.GetResultExtractor(this);
 
-            object[] resultArguments = mEmptyResult;
+            return extractor.GetArguments(result);
+        }
 
-            if (this.HasResult)
+        protected void CallResult(IWampRawRpcOperationRouterCallback caller, YieldOptions options, object[] arguments, IDictionary<string, object> argumentKeywords)
+        {
+            if (argumentKeywords != null)
             {
-                if (this.CollectionResultTreatment == CollectionResultTreatment.Multivalued)
-                {
-                    resultArguments = GetFlattenResult((dynamic) result);
-                }
-                else
-                {
-                    resultArguments = new object[] {result};
-                }
-            }
-
-            if (outputs != null)
-            {
-                caller.Result(ObjectFormatter, options, resultArguments, outputs);
+                caller.Result(ObjectFormatter, options, arguments, argumentKeywords);
             }
             else if (!this.HasResult)
             {
@@ -98,18 +86,8 @@ namespace WampSharp.V2.Rpc
             }
             else
             {
-                caller.Result(ObjectFormatter, options, resultArguments);
+                caller.Result(ObjectFormatter, options, arguments);
             }
-        }
-
-        private object[] GetFlattenResult<T>(ICollection<T> result)
-        {
-            return result.Cast<object>().ToArray();
-        }
-
-        private object[] GetFlattenResult(object result)
-        {
-            return new object[] {result};
         }
 
         protected object[] UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,

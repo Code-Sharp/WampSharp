@@ -36,7 +36,7 @@ namespace WampSharp.V2.Rpc
 
                 object result = await task;
 
-                CallResult(caller, result, null);
+                CallResult(caller, result);
             }
             catch (Exception ex)
             {
@@ -53,6 +53,26 @@ namespace WampSharp.V2.Rpc
 
                 callback.Error(wampException);
             }
+        }
+
+        protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, YieldOptions yieldOptions = null)
+        {
+            yieldOptions = yieldOptions ?? new YieldOptions();
+
+            object[] resultArguments = GetResultArguments(result);
+
+            IDictionary<string, object> resultArgumentKeywords =
+                GetResultArgumentKeywords(result);
+
+            CallResult(caller,
+                       yieldOptions,
+                       resultArguments,
+                       resultArgumentKeywords);
+        }
+
+        protected virtual IDictionary<string, object> GetResultArgumentKeywords(object result)
+        {
+            return null;
         }
 
 #else
@@ -83,7 +103,7 @@ namespace WampSharp.V2.Rpc
             if (task.Exception == null)
             {
                 object result = task.Result;
-                CallResult(caller, result, null);
+                CallResult(caller, result);
             }
             else
             {

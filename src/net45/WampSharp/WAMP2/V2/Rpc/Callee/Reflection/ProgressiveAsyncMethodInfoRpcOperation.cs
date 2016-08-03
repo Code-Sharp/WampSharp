@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
@@ -34,7 +36,7 @@ namespace WampSharp.V2.Rpc
                 result,
                 argumentsWithoutProgress.Length);
 
-            result[length - 1] = new CallerProgress<T>(caller);
+            result[length - 1] = new CallerProgress(caller, this);
 
             return result;
         }
@@ -44,6 +46,24 @@ namespace WampSharp.V2.Rpc
             get
             {
                 return mRpcParameters;
+            }
+        }
+
+        private class CallerProgress : IProgress<T>
+        {
+            private readonly IWampRawRpcOperationRouterCallback mCaller;
+            private readonly ProgressiveAsyncMethodInfoRpcOperation<T> mParent;
+
+            public CallerProgress(IWampRawRpcOperationRouterCallback caller,
+                                  ProgressiveAsyncMethodInfoRpcOperation<T> parent)
+            {
+                mCaller = caller;
+                mParent = parent;
+            }
+
+            public void Report(T value)
+            {
+                mParent.CallResult(mCaller, value, new YieldOptions() {Progress = true});
             }
         }
     }

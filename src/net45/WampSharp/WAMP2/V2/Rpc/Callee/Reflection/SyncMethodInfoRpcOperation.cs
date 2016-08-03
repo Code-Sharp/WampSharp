@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
+using WampSharp.Core.Utilities.ValueTuple;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
@@ -17,6 +18,7 @@ namespace WampSharp.V2.Rpc
         private readonly RpcParameter[] mParameters;
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
+        private IWampResultExtractor mResultExtractor;
 
         public SyncMethodInfoRpcOperation(object instance, MethodInfo method, string procedureName) :
             base(procedureName)
@@ -44,6 +46,13 @@ namespace WampSharp.V2.Rpc
                     .Where(x => !x.IsOut)
                     .Select(parameter => new RpcParameter(parameter))
                     .ToArray();
+
+            mResultExtractor = WampResultExtractor.GetResultExtractor(this);
+
+            if (method.ReturnType.IsValueTuple())
+            {
+                mResultExtractor = WampResultExtractor.GetValueTupleResultExtractor(method);
+            }
         }
 
         public override RpcParameter[] Parameters
@@ -87,6 +96,23 @@ namespace WampSharp.V2.Rpc
             {
                 WampInvocationContext.Current = null;
             }
+        }
+
+        protected override object[] GetResultArguments(object result)
+        {
+            return mResultExtractor.GetArguments(result);
+        }
+
+        protected override IDictionary<string, object> GetResultArgumentKeywords(object result, IDictionary<string, object> outputs)
+        {
+            IDictionary<string, object> argumentKeywords = mResultExtractor.GetArgumentKeywords(result);
+
+            foreach (KeyValuePair<string, object> keyValuePair in outputs)
+            {
+                argumentKeywords[keyValuePair.Key] = keyValuePair.Value;
+            }
+
+            return argumentKeywords;
         }
 
         protected bool Equals(SyncMethodInfoRpcOperation other)
