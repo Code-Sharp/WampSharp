@@ -150,6 +150,53 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
+        public async Task ComplexNamedTupleServiceAddComplex()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            var channel = await SetupService<NamedTupleComplexResultService>(playground);
+
+            IComplexResultService proxy =
+                channel.RealmProxy.Services.GetCalleeProxyPortable<IComplexResultService>();
+
+            int c;
+            int ci;
+            proxy.AddComplex(2, 3, 4, 5, out c, out ci);
+
+            Assert.That(c, Is.EqualTo(6));
+            Assert.That(ci, Is.EqualTo(8));
+        }
+
+        [Test]
+        public async Task ComplexPositionalTupleServiceAddComplex()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            var channel = await SetupService<PositionalTupleComplexResultService>(playground);
+
+            MockRawCallback callback = new MockRawCallback();
+
+            Dictionary<string, object> argumentsKeywords =
+                new Dictionary<string, object>()
+                {
+                    {"a", 2},
+                    {"ai", 3},
+                    {"b", 4},
+                    {"bi", 5}
+                };
+
+            channel.RealmProxy.RpcCatalog.Invoke
+                (callback,
+                 new CallOptions(),
+                 "com.myapp.add_complex",
+                 new object[0],
+                 argumentsKeywords);
+
+            Assert.That(callback.Arguments.Select(x => x.Deserialize<int>()),
+                        Is.EquivalentTo(new[] {6, 8}));
+        }
+
+        [Test]
         public async Task ComplexServiceSplitName()
         {
             WampPlayground playground = new WampPlayground();

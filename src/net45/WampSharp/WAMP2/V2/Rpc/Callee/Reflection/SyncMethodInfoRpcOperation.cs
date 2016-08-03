@@ -103,13 +103,22 @@ namespace WampSharp.V2.Rpc
             return mResultExtractor.GetArguments(result);
         }
 
-        protected override IDictionary<string, object> GetResultArgumentKeywords(object result, IDictionary<string, object> outputs)
+        protected override IDictionary<string, object> GetResultArgumentKeywords
+            (object result, IDictionary<string, object> outputs)
         {
             IDictionary<string, object> argumentKeywords = mResultExtractor.GetArgumentKeywords(result);
 
-            foreach (KeyValuePair<string, object> keyValuePair in outputs)
+            if (argumentKeywords == null)
             {
-                argumentKeywords[keyValuePair.Key] = keyValuePair.Value;
+                return outputs;
+            }
+
+            if (outputs != null)
+            {
+                foreach (KeyValuePair<string, object> keyValuePair in outputs)
+                {
+                    argumentKeywords[keyValuePair.Key] = keyValuePair.Value;
+                }
             }
 
             return argumentKeywords;
