@@ -5,6 +5,11 @@ using System.Linq.Expressions;
 
 namespace WampSharp.Core.Utilities.ValueTuple
 {
+    internal static class ValueTupleArrayConverter<TValueTuple>
+    {
+        public static readonly ValueTupleArrayConverter Value = new ValueTupleArrayConverter(typeof(TValueTuple));
+    }
+
     internal class ValueTupleArrayConverter : ValueTupleConverter
     {
         private readonly Type mTupleType;

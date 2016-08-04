@@ -166,7 +166,7 @@ namespace WampSharp.V2.CalleeProxy
         public ValueTupleValueExtractor(ArgumentUnpacker unpacker)
         {
             mUnpacker = unpacker;
-            mConverter = new ValueTupleArrayConverter(typeof(T));
+            mConverter = ValueTupleArrayConverter<T>.Value;
         }
 
         public T GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
