@@ -47,10 +47,7 @@ namespace WampSharp.V2.Rpc
 
             mResultExtractor = WampResultExtractor.GetResultExtractor(this);
 
-            Type returnType =
-                TaskExtensions.UnwrapReturnType(method.ReturnType);
-
-            if (returnType.IsValueTuple())
+            if (method.ReturnsTuple())
             {
                 mResultExtractor = WampResultExtractor.GetValueTupleResultExtractor(method);
             }

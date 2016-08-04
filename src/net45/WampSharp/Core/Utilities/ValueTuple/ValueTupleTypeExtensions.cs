@@ -83,5 +83,12 @@ namespace WampSharp.Core.Utilities.ValueTuple
 
             return 0;
         }
+
+        public static bool ReturnsTuple(this MethodInfo method)
+        {
+            Type unwrappedReturnType = TaskExtensions.UnwrapReturnType(method.ReturnType);
+
+            return unwrappedReturnType.IsValueTuple();
+        }
     }
 }

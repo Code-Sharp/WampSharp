@@ -150,6 +150,28 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
+        public async Task ComplexServiceAddComplex_TupleCalleeProxy()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            var channel = await SetupService<ComplexResultService>(playground);
+
+            INamedTupleComplexResultService proxy =
+                channel.RealmProxy.Services.GetCalleeProxyPortable<INamedTupleComplexResultService>();
+
+            int c;
+            int ci;
+            ValueTuple<int, int> result = proxy.AddComplex(2, 3, 4, 5);
+            c = result.Item1;
+            ci = result.Item2;
+            //var (c, ci) = proxy.AddComplex(2, 3, 4, 5);
+
+            Assert.That(c, Is.EqualTo(6));
+            Assert.That(ci, Is.EqualTo(8));
+        }
+
+
+        [Test]
         public async Task ComplexNamedTupleServiceAddComplex()
         {
             WampPlayground playground = new WampPlayground();

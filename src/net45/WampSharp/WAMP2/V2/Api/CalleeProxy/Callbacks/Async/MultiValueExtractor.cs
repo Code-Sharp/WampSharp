@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using WampSharp.Core.Serialization;
 
@@ -9,7 +10,7 @@ namespace WampSharp.V2.CalleeProxy
         private readonly Type mReturnType = typeof(TResult[]);
         private readonly Type mElementType = typeof(TResult);
 
-        public TResult[] GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
+        public TResult[] GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             if (!arguments.Any())
             {

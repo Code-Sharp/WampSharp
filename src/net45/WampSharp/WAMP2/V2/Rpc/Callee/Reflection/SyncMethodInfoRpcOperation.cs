@@ -49,7 +49,7 @@ namespace WampSharp.V2.Rpc
 
             mResultExtractor = WampResultExtractor.GetResultExtractor(this);
 
-            if (method.ReturnType.IsValueTuple())
+            if (method.ReturnsTuple())
             {
                 mResultExtractor = WampResultExtractor.GetValueTupleResultExtractor(method);
             }
