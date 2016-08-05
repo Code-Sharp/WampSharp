@@ -8,6 +8,7 @@ namespace WampSharp.Core.Utilities.ValueTuple
 {
     internal abstract class ValueTupleConverter
     {
+        private const int MaxTupleSize = 7;
         private readonly Type mTupleType;
 
         protected ValueTupleConverter(Type tupleType)
@@ -18,13 +19,8 @@ namespace WampSharp.Core.Utilities.ValueTuple
 
         protected Func<TSource, object> BuildToTuple<TSource>(ParameterExpression sourceParameter, IEnumerable<Expression> tupleItemValuesExpressions)
         {
-            NewExpression tupleCreation =
-                Expression.New(mTupleType.GetConstructors().FirstOrDefault(),
-                               tupleItemValuesExpressions.Zip
-                                   (mTupleType.GetGenericArguments(),
-                                    (expression, type) =>
-                                        Expression.Convert(expression,
-                                                           type)));
+            NewExpression tupleCreation = 
+                GetTupleNewExpression(tupleItemValuesExpressions, mTupleType);
 
             // new ValueTuple<T1, T2, ..>((T1)dictionary["$argument1Name"],(T2)dictionary["$argument2Name"], ...)
 
@@ -37,6 +33,38 @@ namespace WampSharp.Core.Utilities.ValueTuple
             var compiled = lambda.Compile();
 
             return compiled;
+        }
+
+        private NewExpression GetTupleNewExpression(IEnumerable<Expression> tupleItemValuesExpressions, Type tupleType)
+        {
+            Type[] genericArguments = tupleType.GetGenericArguments();
+
+            IEnumerable<Expression> tupleSimpleArguments = tupleItemValuesExpressions.Zip
+                (genericArguments.Take(MaxTupleSize),
+                 (expression, type) =>
+                     Expression.Convert(expression,
+                                        type));
+
+            IEnumerable<Expression> tupleConstructorArguments = tupleSimpleArguments;
+
+            if (genericArguments.Length > MaxTupleSize)
+            {
+                IEnumerable<Expression> nestedItemValueExpressions = 
+                    tupleItemValuesExpressions.Skip(MaxTupleSize);
+
+                Type nestedTupleType = genericArguments.Last();
+
+                NewExpression newExpression = 
+                    GetTupleNewExpression(nestedItemValueExpressions, nestedTupleType);
+
+                tupleConstructorArguments = tupleConstructorArguments.Concat(new[] {newExpression});
+            }
+
+            NewExpression tupleCreation =
+                Expression.New(tupleType.GetConstructors().FirstOrDefault(),
+                               tupleConstructorArguments);
+
+            return tupleCreation;
         }
 
         protected static IEnumerable<Expression> GetTupleItemsExpressions
@@ -53,10 +81,32 @@ namespace WampSharp.Core.Utilities.ValueTuple
             (Expression tupleInstance,
              Type tupleType)
         {
-            return tupleType.GetFields()
-                            .Where(x => x.Name.StartsWith("Item"))
-                            .OrderBy(x => x.Name)
-                            .Select(field => Expression.Field(tupleInstance, field));
+            IEnumerable<Expression> simpleFields =
+                tupleType.GetFields()
+                         .Where(x => x.Name.StartsWith("Item"))
+                         .OrderBy(x => x.Name)
+                         .Select(field => Expression.Field(tupleInstance, field));
+
+            IEnumerable<Expression> result = simpleFields;
+
+            Type[] genericArguments = tupleType.GetGenericArguments();
+
+            if (genericArguments.Length > MaxTupleSize)
+            {
+                FieldInfo restField = tupleType.GetField("Rest");
+
+                MemberExpression nestedTupleInstance = 
+                    Expression.Field(tupleInstance, restField);
+
+                Type nestedTupleType = genericArguments.Last();
+
+                IEnumerable<Expression> nestedFields = 
+                    InnerGetTupleItemsExpressions(nestedTupleInstance, nestedTupleType);
+
+                result = result.Concat(nestedFields);
+            }
+
+            return result;
         }
 
         protected static class ThrowHelper
@@ -66,16 +116,6 @@ namespace WampSharp.Core.Utilities.ValueTuple
                 if (!tupleType.IsValueTuple())
                 {
                     throw new ArgumentException("Expected a ValueTuple type", "tupleType");
-                }
-
-                if (tupleType.GetValueTupleLength() > 7)
-                {
-                    throw new ArgumentException("Expected a simple ValueTuple (of length at most 7)", "tupleType");
-                }
-
-                if (tupleType.GetGenericArguments().Any(x => ValueTupleTypeExtensions.IsValueTuple(x)))
-                {
-                    throw new ArgumentException("Expected a simple ValueTuple (with no nested ValueTuples)", "tupleType");
                 }
             }
         }
