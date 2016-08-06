@@ -17,17 +17,23 @@ namespace WampSharp.Core.Utilities.ValueTuple
         private readonly Func<object, object[]> mToArrayDelegate;
 
         private readonly Func<object[], object> mToTupleDelegate;
+        private readonly int mTupleLegnth;
 
         public ValueTupleArrayConverter(Type tupleType) : base(tupleType)
         {
             mTupleType = tupleType;
-
+            mTupleLegnth = tupleType.GetValueTupleLength();
             mToArrayDelegate = BuildToArray();
             mToTupleDelegate = BuildToTuple();
         }
 
         public object ToTuple(object[] array)
         {
+            if (array.Length != mTupleLegnth)
+            {
+                throw new ArgumentException("Expected an array of size " + mTupleLegnth, "array");
+            }
+
             return mToTupleDelegate(array);
         }
 
