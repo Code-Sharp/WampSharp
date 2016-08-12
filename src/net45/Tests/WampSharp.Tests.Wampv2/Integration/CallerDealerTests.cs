@@ -163,12 +163,12 @@ namespace WampSharp.Tests.Wampv2.Integration
                 channel.RealmProxy.Services.GetCalleeProxyPortable<IPositionalTupleComplexResultService>();
 
             var splitName = proxy.SplitName("Homer Simpson");
-
+            // var (firstName, surName) = proxy.SplitName("Homer Simpson");
             string firstName = splitName.Item1;
-            string surname = splitName.Item2;
+            string surName = splitName.Item2;
 
             Assert.That(firstName, Is.EqualTo("Homer"));
-            Assert.That(surname, Is.EqualTo("Simpson"));
+            Assert.That(surName, Is.EqualTo("Simpson"));
         }
 
         [Test]
