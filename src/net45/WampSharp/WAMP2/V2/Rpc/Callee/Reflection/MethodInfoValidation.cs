@@ -90,32 +90,28 @@ namespace WampSharp.V2.Rpc
 
         private static void ValidateTupleReturnTypeOfProgressiveMethod(MethodInfo method, ParameterInfo lastParameter)
         {
-            bool attributesMatch = true;
+            bool methodHasAttribute = method.ReturnType.IsDefined(typeof(TupleElementNamesAttribute));
+            bool parameterHasAttributte = lastParameter.IsDefined(typeof(TupleElementNamesAttribute));
 
-            if (method.ReturnType.IsDefined(typeof(TupleElementNamesAttribute)))
+            bool attributesMatch = methodHasAttribute == parameterHasAttributte;
+
+            if (methodHasAttribute && parameterHasAttributte)
             {
-                if (!method.ReturnType.IsDefined(typeof(TupleElementNamesAttribute)))
-                {
-                    attributesMatch = false;
-                }
-                else
-                {
-                    TupleElementNamesAttribute methodAttribute =
-                        method.ReturnType.GetCustomAttribute<TupleElementNamesAttribute>();
+                TupleElementNamesAttribute methodAttribute =
+                    method.ReturnType.GetCustomAttribute<TupleElementNamesAttribute>();
 
-                    TupleElementNamesAttribute parameterAttribute =
-                        lastParameter.GetCustomAttribute<TupleElementNamesAttribute>();
+                TupleElementNamesAttribute parameterAttribute =
+                    lastParameter.GetCustomAttribute<TupleElementNamesAttribute>();
 
-                    IList<string> methodTransformNames = methodAttribute.TransformNames;
-                    IList<string> parameterTransformNames = parameterAttribute.TransformNames;
+                IList<string> methodTransformNames = methodAttribute.TransformNames;
+                IList<string> parameterTransformNames = parameterAttribute.TransformNames;
 
-                    attributesMatch = methodTransformNames.SequenceEqual(parameterTransformNames);
-                }
+                attributesMatch = methodTransformNames.SequenceEqual(parameterTransformNames);
+            }
 
-                if (!attributesMatch)
-                {
-                    ThrowHelper.ProgressiveParameterTupleMismatch(method);
-                }
+            if (!attributesMatch)
+            {
+                ThrowHelper.ProgressiveParameterTupleMismatch(method);
             }
         }
 
