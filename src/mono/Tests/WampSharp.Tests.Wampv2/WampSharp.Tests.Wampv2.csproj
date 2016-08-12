@@ -56,7 +56,14 @@
     <Reference Include="System.Reactive.Interfaces">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.0.0-rc3-24212-01\lib\netstandard1.1\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -133,6 +140,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\IErrorsService.cs">
       <Link>Integration\RpcProxies\IErrorsService.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\INamedTupleComplexResultService.cs">
+      <Link>Integration\RpcProxies\INamedTupleComplexResultService.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\ISlowSquareService.cs">
       <Link>Integration\RpcProxies\ISlowSquareService.cs</Link>
     </Compile>
@@ -147,6 +157,12 @@
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\ErrorsService.cs">
       <Link>Integration\RpcServices\ErrorsService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\NamedTupleComplexResultService.cs">
+      <Link>Integration\RpcServices\NamedTupleComplexResultService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\PositionalTupleComplexResultService.cs">
+      <Link>Integration\RpcServices\PositionalTupleComplexResultService.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\SlowSquareService.cs">
       <Link>Integration\RpcServices\SlowSquareService.cs</Link>

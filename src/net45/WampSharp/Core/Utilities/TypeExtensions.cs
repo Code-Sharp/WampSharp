@@ -145,6 +145,21 @@ namespace System.Reflection
         {
             return type.IsAssignableFrom(instance.GetType());
         }
+
+        public static IEnumerable<PropertyInfo> GetProperties(this Type type)
+        {
+            return type.GetTypeInfo().DeclaredProperties;
+        }
+
+        public static IEnumerable<FieldInfo> GetFields(this Type type)
+        {
+            return type.GetTypeInfo().DeclaredFields;
+        }
+
+        public static FieldInfo GetField(this Type type, string name)
+        {
+            return type.GetTypeInfo().GetDeclaredField(name);
+        }
 #endif
     }
 }
