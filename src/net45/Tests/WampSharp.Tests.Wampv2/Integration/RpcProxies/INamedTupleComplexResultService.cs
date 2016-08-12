@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NET40
+using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using WampSharp.V2.Rpc;
@@ -17,3 +18,5 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcProxies
         //(int c, int ci) AddComplex(int a, int ai, int b, int bi);
     }
 }
+
+#endif

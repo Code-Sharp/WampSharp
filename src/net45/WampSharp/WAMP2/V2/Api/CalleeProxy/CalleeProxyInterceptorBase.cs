@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Castle.DynamicProxy;
-using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
 using WampSharp.Core.Utilities.ValueTuple;
 using WampSharp.V2.Core;
@@ -153,28 +152,6 @@ namespace WampSharp.V2.CalleeProxy
             ArgumentUnpacker result = new ArgumentUnpacker(localParameters.ToArray());
 
             result.SkipPositionalArguments = skipPositionalArguments;
-
-            return result;
-        }
-    }
-
-    internal class ValueTupleValueExtractor<T> : IOperationResultExtractor<T>
-    {
-        private readonly ArgumentUnpacker mUnpacker;
-        private readonly ValueTupleArrayConverter mConverter;
-
-        public ValueTupleValueExtractor(ArgumentUnpacker unpacker)
-        {
-            mUnpacker = unpacker;
-            mConverter = ValueTupleArrayConverter<T>.Value;
-        }
-
-        public T GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
-        {
-            object[] array =
-                mUnpacker.UnpackParameters(formatter, arguments, argumentsKeywords);
-
-            T result = (T) mConverter.ToTuple(array);
 
             return result;
         }

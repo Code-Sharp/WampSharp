@@ -55,26 +55,6 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, YieldOptions yieldOptions = null)
-        {
-            yieldOptions = yieldOptions ?? new YieldOptions();
-
-            object[] resultArguments = GetResultArguments(result);
-
-            IDictionary<string, object> resultArgumentKeywords =
-                GetResultArgumentKeywords(result);
-
-            CallResult(caller,
-                       yieldOptions,
-                       resultArguments,
-                       resultArgumentKeywords);
-        }
-
-        protected virtual IDictionary<string, object> GetResultArgumentKeywords(object result)
-        {
-            return null;
-        }
-
 #else
 
         protected override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
@@ -125,5 +105,26 @@ namespace WampSharp.V2.Rpc
         }
 
 #endif
+
+
+        protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, YieldOptions yieldOptions = null)
+        {
+            yieldOptions = yieldOptions ?? new YieldOptions();
+
+            object[] resultArguments = GetResultArguments(result);
+
+            IDictionary<string, object> resultArgumentKeywords =
+                GetResultArgumentKeywords(result);
+
+            CallResult(caller,
+                       yieldOptions,
+                       resultArguments,
+                       resultArgumentKeywords);
+        }
+
+        protected virtual IDictionary<string, object> GetResultArgumentKeywords(object result)
+        {
+            return null;
+        }
     }
 }

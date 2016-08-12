@@ -149,6 +149,9 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(ci, Is.EqualTo(8));
         }
 
+        
+        // TODO: Move these to a separate file
+#if !NET40
         [Test]
         public async Task ComplexServiceAddComplex_TupleCalleeProxy()
         {
@@ -233,6 +236,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(splitName[0], Is.EqualTo("Homer"));
             Assert.That(splitName[1], Is.EqualTo("Simpson"));
         }
+#endif
 
         private static async Task<IWampChannel> SetupService<TService>(WampPlayground playground)
             where TService : new()
