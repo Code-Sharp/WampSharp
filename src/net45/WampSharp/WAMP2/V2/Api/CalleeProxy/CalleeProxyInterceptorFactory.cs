@@ -33,6 +33,8 @@ namespace WampSharp.V2.CalleeProxy
 
             if (!typeof(Task).IsAssignableFrom(returnType))
             {
+                MethodInfoValidation.ValidateTupleReturnType(method);
+
                 genericArgument = returnType == typeof(void) ? typeof(object) : returnType;
                 interceptorType = typeof(SyncCalleeProxyInterceptor<>);
             }

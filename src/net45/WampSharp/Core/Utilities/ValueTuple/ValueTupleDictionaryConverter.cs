@@ -37,14 +37,6 @@ namespace WampSharp.Core.Utilities.ValueTuple
         private void Validate(IList<string> transformNames, Type tupleType)
         {
             ThrowHelper.ValidateSimpleTuple(tupleType);
-
-            int tupleLength = tupleType.GetValueTupleLength();
-
-            if (transformNames == null ||
-                (transformNames.Take(tupleLength).Count(x => x != null) != tupleLength))
-            {
-                throw new ArgumentException("Expected all tuple elements to have names");
-            }
         }
 
         public object ToTuple(IDictionary<string, object> dictionary)
