@@ -135,6 +135,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\IErrorsService.cs">
       <Link>Integration\RpcProxies\IErrorsService.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\INamedTupleComplexResultService.cs">
+      <Link>Integration\RpcProxies\INamedTupleComplexResultService.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\ISlowSquareService.cs">
       <Link>Integration\RpcProxies\ISlowSquareService.cs</Link>
     </Compile>
@@ -149,6 +152,12 @@
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\ErrorsService.cs">
       <Link>Integration\RpcServices\ErrorsService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\NamedTupleComplexResultService.cs">
+      <Link>Integration\RpcServices\NamedTupleComplexResultService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\PositionalTupleComplexResultService.cs">
+      <Link>Integration\RpcServices\PositionalTupleComplexResultService.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\SlowSquareService.cs">
       <Link>Integration\RpcServices\SlowSquareService.cs</Link>
