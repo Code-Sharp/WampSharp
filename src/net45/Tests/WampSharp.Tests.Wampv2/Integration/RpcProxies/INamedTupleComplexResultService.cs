@@ -6,6 +6,12 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.Tests.Wampv2.Integration.RpcProxies
 {
+    public interface IPositionalTupleComplexResultService
+    {
+        [WampProcedure("com.myapp.split_name")]
+        ValueTuple<string, string> SplitName(string fullname);
+    }
+
     public interface INamedTupleComplexResultService
     {
         [WampProcedure("com.myapp.add_complex")]

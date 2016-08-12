@@ -149,9 +149,28 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(ci, Is.EqualTo(8));
         }
 
-        
+
         // TODO: Move these to a separate file
 #if !NET40
+        [Test]
+        public async Task ComplexServiceTupleSplitName()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            var channel = await SetupService<ComplexResultService>(playground);
+
+            IPositionalTupleComplexResultService proxy =
+                channel.RealmProxy.Services.GetCalleeProxyPortable<IPositionalTupleComplexResultService>();
+
+            var splitName = proxy.SplitName("Homer Simpson");
+
+            string firstName = splitName.Item1;
+            string surname = splitName.Item2;
+
+            Assert.That(firstName, Is.EqualTo("Homer"));
+            Assert.That(surname, Is.EqualTo("Simpson"));
+        }
+
         [Test]
         public async Task ComplexServiceAddComplex_TupleCalleeProxy()
         {
@@ -221,6 +240,9 @@ namespace WampSharp.Tests.Wampv2.Integration
                         Is.EquivalentTo(new[] {6, 8}));
         }
 
+
+#endif
+
         [Test]
         public async Task ComplexServiceSplitName()
         {
@@ -236,7 +258,6 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(splitName[0], Is.EqualTo("Homer"));
             Assert.That(splitName[1], Is.EqualTo("Simpson"));
         }
-#endif
 
         private static async Task<IWampChannel> SetupService<TService>(WampPlayground playground)
             where TService : new()
