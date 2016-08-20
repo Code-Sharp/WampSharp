@@ -26,12 +26,12 @@ namespace WampSharp.Newtonsoft
         {
             try
             {
-                mLogger.DebugFormat("Trying to parse message {0}", text);
+                mLogger.DebugFormat("Trying to parse message {JsonMessage}", text);
                 return mMessageFormatter.Parse(JToken.Parse(text));
             }
             catch (Exception ex)
             {
-                mLogger.ErrorFormat(ex, "Failed parsing message {0}", text);
+                mLogger.ErrorFormat(ex, "Failed parsing message {JsonMessage}", text);
                 throw;
             }
         }
@@ -45,7 +45,7 @@ namespace WampSharp.Newtonsoft
             mSerializer.Serialize(jsonWriter, array);
             string result = writer.ToString();
             
-            mLogger.DebugFormat("Formatted message {0}", result);
+            mLogger.DebugFormat("Formatted message {JsonMessage}", result);
             return result;
         }
 
