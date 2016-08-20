@@ -1,6 +1,6 @@
 WampSharp
 =========
-[![NuGet Version][NuGetImgMaster]][NuGetLinkMaster]
+[![NuGet Version][NuGetImgMaster]][NuGetLinkMaster][![Codewake](https://www.codewake.com/badges/ask_question.svg)](https://www.codewake.com/p/wampsharp)
 
 A C# implementation of [WAMP (The Web Application Messaging Protocol)][WampLink]
 
@@ -13,16 +13,14 @@ The implementation also supports WAMPv1, both client and server roles.
 Master | Provider
 ------ | --------
 [![Build Status][WinImgMaster]][WinLinkMaster] | Windows CI Provided By [CodeBetter][] and [JetBrains][]
-[![Build Status][AppVeyorImgMaster]][AppVeyorLinkMaster] | Windows CI Provided By [AppVeyor][]
-[![Build Status][MonoImgMaster]][MonoLinkMaster] | Mono CI Provided by [travis-ci][]
 
 ## Documentation
 
-Documentation has moved to [its own repository](https://github.com/Code-Sharp/WampSharp-docs)!
+Documentation has been moved to [its own repository](https://github.com/Code-Sharp/WampSharp-docs)!
 
-## WampSharp v1.2.3.12-beta
+## WampSharp v1.2.4.18-beta
 
-WampSharp v1.2.3.12-beta released, see version [release notes](https://github.com/Code-Sharp/WampSharp-docs/blob/master/Release-notes/WampSharp-v1.2.3.12-beta-release-notes.md).
+WampSharp v1.2.4.18-beta released, see version [release notes](https://github.com/Code-Sharp/WampSharp-docs/blob/master/Release-notes/WampSharp-v1.2.4.18-beta-release-notes.md).
 
 ## Get Started
 
@@ -52,8 +50,8 @@ Your donations help keep this project development alive.
 
 [NuGetImgMaster]:http://img.shields.io/nuget/v/WampSharp.Default.svg
 [NuGetLinkMaster]:http://www.nuget.org/packages/WampSharp.Default/
-[WinImgMaster]:https://img.shields.io/teamcity/codebetter/WampSharp_Wampv2_Build.svg
-[WinLinkMaster]:http://teamcity.codebetter.com/project.html?projectId=WampSharp_Wampv2&guest=1
+[WinImgMaster]:https://img.shields.io/teamcity/codebetter/WampSharp_NetCore_Wampv2_Build.svg
+[WinLinkMaster]:http://teamcity.codebetter.com/project.html?projectId=WampSharp_NetCore_Wampv2_Build&guest=1
 [MonoImgMaster]:https://img.shields.io/travis/Code-Sharp/WampSharp/wampv2.svg
 [MonoLinkMaster]:https://travis-ci.org/Code-Sharp/WampSharp
 [AppVeyorLinkMaster]:https://ci.appveyor.com/project/darkl/wampsharp-759
