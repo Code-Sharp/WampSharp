@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using WampSharp.Logging;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
@@ -108,6 +109,17 @@ namespace WampSharp.V2.Rpc
              InvocationDetails details,
              TMessage[] arguments,
              IDictionary<string, TMessage> argumentsKeywords);
+
+
+        protected void ValidateInstanceType(object instance, MethodInfo method)
+        {
+            Type declaringType = method.DeclaringType;
+
+            if (!declaringType.IsInstanceOfType(instance))
+            {
+                throw new ArgumentException("Expected an instance of type " + declaringType);
+            }
+        }
 
         protected class WampRpcErrorCallback : IWampErrorCallback
         {
