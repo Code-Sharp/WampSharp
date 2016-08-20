@@ -90,7 +90,7 @@ namespace WampSharp.V2.Rpc
 
         private static void ValidateTupleReturnTypeOfProgressiveMethod(MethodInfo method, ParameterInfo lastParameter)
         {
-            bool methodHasAttribute = method.ReturnType.IsDefined(typeof(TupleElementNamesAttribute));
+            bool methodHasAttribute = method.ReturnParameter.IsDefined(typeof(TupleElementNamesAttribute));
             bool parameterHasAttributte = lastParameter.IsDefined(typeof(TupleElementNamesAttribute));
 
             bool attributesMatch = methodHasAttribute == parameterHasAttributte;
@@ -98,7 +98,7 @@ namespace WampSharp.V2.Rpc
             if (methodHasAttribute && parameterHasAttributte)
             {
                 TupleElementNamesAttribute methodAttribute =
-                    method.ReturnType.GetCustomAttribute<TupleElementNamesAttribute>();
+                    method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
 
                 TupleElementNamesAttribute parameterAttribute =
                     lastParameter.GetCustomAttribute<TupleElementNamesAttribute>();
