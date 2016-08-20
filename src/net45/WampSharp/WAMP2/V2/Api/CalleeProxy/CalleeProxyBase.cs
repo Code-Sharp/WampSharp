@@ -9,6 +9,10 @@ namespace WampSharp.V2.CalleeProxy
 {
     public class CalleeProxyBase
     {
+        protected delegate T InvokeSyncDelegate<T>(CalleeProxyBase proxy, object[] arguments);
+        protected delegate Task<T> InvokeAsyncDelegate<T>(CalleeProxyBase proxy, object[] arguments);
+        protected delegate Task<T> InvokeAsyncProgressiveDelegate<T>(CalleeProxyBase proxy, IProgress<T> progress, object[] arguments);
+
         private readonly WampCalleeProxyInvocationHandler mHandler;
         private readonly ICalleeProxyInterceptor mInterceptor;
 
@@ -17,6 +21,59 @@ namespace WampSharp.V2.CalleeProxy
         {
             mInterceptor = interceptor;
             mHandler = new ClientInvocationHandler(realmProxy);
+        }
+
+        protected static InvokeSyncDelegate<T> GetInvokeSync<T>(MethodInfo method)
+        {
+            IOperationResultExtractor<T> extractor = GetExtractor<T>(method);
+            return GetInvokeSync(method, extractor);
+        }
+
+        protected static InvokeAsyncDelegate<T> GetInvokeAsync<T>(MethodInfo method)
+        {
+            IOperationResultExtractor<T> extractor = GetExtractor<T>(method);
+            return GetInvokeAsync(method, extractor);
+        }
+
+        protected static InvokeAsyncProgressiveDelegate<T> GetInvokeProgressiveAsync<T>(MethodInfo method)
+        {
+            IOperationResultExtractor<T> extractor = GetExtractor<T>(method);
+            return GetInvokeProgressiveAsync(method, extractor);
+        }
+
+        private static IOperationResultExtractor<T> GetExtractor<T>(MethodInfo method)
+        {
+            return OperationResultExtractor.Get<T>(method);
+        }
+
+
+        private static InvokeSyncDelegate<T> GetInvokeSync<T>(MethodBase method, IOperationResultExtractor<T> extractor)
+        {
+            InvokeSyncDelegate<T> result =
+                (proxy, arguments) =>
+                        proxy.InvokeSync(method, extractor, arguments);
+
+            return result;
+        }
+
+        private static InvokeAsyncDelegate<T> GetInvokeAsync<T>(MethodBase method, IOperationResultExtractor<T> extractor)
+        {
+            InvokeAsyncDelegate<T> result =
+                (proxy, arguments) =>
+                        proxy.InvokeAsync(method, extractor, arguments);
+
+            return result;
+        }
+
+        private static InvokeAsyncProgressiveDelegate<T>
+            GetInvokeProgressiveAsync<T>(MethodBase method,
+                                         IOperationResultExtractor<T> extractor)
+        {
+            InvokeAsyncProgressiveDelegate<T> result =
+                (proxy, progress, arguments) =>
+                        proxy.InvokeProgressiveAsync(method, progress, extractor, arguments);
+
+            return result;
         }
 
         protected T SingleInvokeSync<T>(MethodBase method, params object[] arguments)

@@ -70,7 +70,7 @@ namespace WampSharp.V2.CalleeProxy
             ICalleeProxyInterceptor interceptor)
             : base(method, handler, interceptor)
         {
-            mExtractor = GetOperationResultExtractor<TResult>(method);
+            mExtractor = OperationResultExtractor.Get<TResult>(method);
         }
 
         public IOperationResultExtractor<TResult> Extractor
@@ -79,81 +79,6 @@ namespace WampSharp.V2.CalleeProxy
             {
                 return mExtractor;
             }
-        }
-
-        private static IOperationResultExtractor<T> GetOperationResultExtractor<T>(MethodInfo method)
-        {
-            IOperationResultExtractor<T> extractor;
-
-            if (typeof(T).IsValueTuple())
-            {
-                extractor = GetValueTupleOperationResultExtractor<T>(method);
-            }
-            else if (!method.HasMultivaluedResult())
-            {
-                bool hasReturnValue = method.HasReturnValue();
-                extractor = new SingleValueExtractor<T>(hasReturnValue);
-            }
-            else
-            {
-                Type elementType = typeof(T).GetElementType();
-
-                Type extractorType =
-                    typeof(MultiValueExtractor<>).MakeGenericType(elementType);
-
-                extractor =
-                    (IOperationResultExtractor<T>)Activator.CreateInstance(extractorType);
-            }
-
-            return extractor;
-        }
-
-        private static IOperationResultExtractor<T> GetValueTupleOperationResultExtractor<T>(MethodInfo method)
-        {
-            ArgumentUnpacker unpacker = GetTupleArgumentUnpacker<T>(method);
-
-            return new ValueTupleValueExtractor<T>(unpacker);
-        }
-
-        private static ArgumentUnpacker GetTupleArgumentUnpacker<T>(MethodInfo method)
-        {
-            IEnumerable<LocalParameter> localParameters;
-            IEnumerable<string> transformNames;
-
-            bool skipPositionalArguments = false;
-
-            if (!method.ReturnParameter.IsDefined(typeof(TupleElementNamesAttribute)))
-            {
-                transformNames = Enumerable.Repeat(default(string), typeof(T).GetValueTupleLength());
-            }
-            else
-            {
-                TupleElementNamesAttribute attribute =
-                    method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
-
-                transformNames = attribute.TransformNames;
-
-                skipPositionalArguments = true;
-            }
-
-            var argumentTypes =
-                typeof(T).GetGenericArguments()
-                         .Select((type, index) => new { type, index });
-
-            localParameters =
-                transformNames
-                    .Zip
-                    (argumentTypes,
-                     (name, typeToIndex) =>
-                         new LocalParameter(name,
-                                            typeToIndex.type,
-                                            typeToIndex.index));
-
-            ArgumentUnpacker result = new ArgumentUnpacker(localParameters.ToArray());
-
-            result.SkipPositionalArguments = skipPositionalArguments;
-
-            return result;
         }
     }
 }
