@@ -14,10 +14,12 @@ namespace WampSharp.V2.Fluent
 
         public ChannelState State { get; set; }
 
+#if !NETCORE
         public IRawSocketTransportConnectFromSyntax ConnectFrom(IPEndPoint localEndPoint)
         {
             return InnerConnectFrom(() => new TcpClient(localEndPoint));
         }
+#endif
 
         private RawSocketTransportSyntax InnerConnectFrom(Func<TcpClient> clientBuilder)
         {

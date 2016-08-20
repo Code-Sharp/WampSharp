@@ -1,7 +1,7 @@
 ﻿ // ReSharper disable once CheckNamespace
 namespace System.Reflection
 {
-#if !NET45
+#if NET40
     public static class CustomAttributeExtensions
     {
         public static T GetCustomAttribute<T>(this MemberInfo element, bool inherit = true) where T : Attribute

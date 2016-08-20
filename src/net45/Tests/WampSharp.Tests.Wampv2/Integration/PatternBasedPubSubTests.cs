@@ -14,7 +14,7 @@ namespace WampSharp.Tests.Wampv2.Integration
     public class PatternBasedPubSubTests
     {
         [Test]
-        public async void PrefixPubSubTest()
+        public async Task PrefixPubSubTest()
         {
             WampPlayground playground = new WampPlayground();
 
@@ -56,7 +56,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
-        public async void WildCardPubSubTest()
+        public async Task WildCardPubSubTest()
         {
             WampPlayground playground = new WampPlayground();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
@@ -43,7 +44,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
         }
 
         
-        public IEnumerable<TestCaseData> TestCases()
+        public static IEnumerable<TestCaseData> TestCases()
         {
             foreach (Type nestedType in typeof (TestHelpers.Rpc).GetNestedTypes())
             {
@@ -114,7 +115,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
             return result;
         }
 
-        private MockClient<IWampClientProxy<MockRaw>> GetCallee(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> handler)
+        private static MockClient<IWampClientProxy<MockRaw>> GetCallee(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> handler)
         {
             WampMessage<MockRaw> welcome =
                 GetCalls(scenario, Channel.DealerToCallee,

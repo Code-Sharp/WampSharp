@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 using WampSharp.Core.Message;
 
@@ -7,6 +8,7 @@ namespace WampSharp.V2.Core.Contracts
     /// Represents details for EVENT message.
     /// </summary>
     [DataContract]
+    [Serializable]
     [WampDetailsOptions(WampMessageType.v2Event)]
     public class EventDetails : WampDetailsOptions
     {

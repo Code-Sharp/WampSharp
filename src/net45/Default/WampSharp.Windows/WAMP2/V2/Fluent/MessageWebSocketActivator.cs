@@ -35,12 +35,24 @@ namespace WampSharp.V2.Fluent
                 return CreateTextConnection(textBinding);
             }
 
+            IWampBinaryBinding<TMessage> binaryBinding = binding as IWampBinaryBinding<TMessage>;
+
+            if (binaryBinding != null)
+            {
+                return CreateBinaryConnection(binaryBinding);
+            }
+
             throw new Exception();
         }
 
         protected IControlledWampConnection<TMessage> CreateTextConnection<TMessage>(IWampTextBinding<TMessage> textBinding)
         {
             return new MessageWebSocketTextConnection<TMessage>(mServerAddress, textBinding);
+        }
+
+        protected IControlledWampConnection<TMessage> CreateBinaryConnection<TMessage>(IWampBinaryBinding<TMessage> binaryBinding)
+        {
+            return new MessageWebSocketBinaryConnection<TMessage>(mServerAddress, binaryBinding);
         }
     }
 }

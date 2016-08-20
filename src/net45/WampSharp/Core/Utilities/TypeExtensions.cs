@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 
 namespace System.Reflection
 {
@@ -88,7 +89,30 @@ namespace System.Reflection
 #endif
         }
 
-#if PCL
+        public static GenericParameterAttributes GenericParameterAttributes(this Type type)
+        {
+#if !PCL
+            return type.GenericParameterAttributes;
+#else
+            return type.GetTypeInfo().GenericParameterAttributes;
+#endif
+        }
+
+#if NET40
+        public static Type AsType(this Type type)
+        {
+            return type;
+        }
+#endif
+
+#if ILEMIT && PCL
+        public static Type CreateType(this TypeBuilder builder)
+        {
+            return builder.CreateTypeInfo().AsType();
+        }
+#endif
+
+#if PCL && !NETCORE
         public static bool IsAssignableFrom(this Type interfaceType, Type type)
         {
             TypeInfo interfaceTypeInfo = interfaceType.GetTypeInfo();
@@ -110,6 +134,11 @@ namespace System.Reflection
         public static IEnumerable<Type> GetInterfaces(this Type type)
         {
             return type.GetTypeInfo().ImplementedInterfaces;
+        }
+
+        public static IEnumerable<ConstructorInfo> GetConstructors(this Type type)
+        {
+            return type.GetTypeInfo().DeclaredConstructors;
         }
 
         public static bool IsInstanceOfType(this Type type, object instance)

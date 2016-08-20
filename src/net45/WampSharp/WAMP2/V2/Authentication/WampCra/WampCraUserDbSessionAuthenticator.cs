@@ -1,4 +1,4 @@
-#if !PCL
+#if WAMPCRA
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Authentication

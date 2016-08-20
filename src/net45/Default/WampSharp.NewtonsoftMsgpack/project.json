@@ -1,0 +1,19 @@
+{
+  "title": "WampSharp Newtonsoft.Msgpack binding",
+  "version": "1.2.3-*",
+  "description": "WampSharp Newtonsoft.Msgpack support",
+  "authors": [ "CodeSharp" ],
+  "packOptions": {
+    "requireLicenseAcceptance": false,
+    "tags": [ "websockets", "wampws", "rpc", "pubsub", "newtonsoft", "msgpack", "wampv2" ],
+    "projectUrl": "https://github.com/Code-Sharp/WampSharp/"
+  },
+  "frameworks": {
+    "netstandard1.3": {
+    }
+  },
+  "dependencies": {
+    "Newtonsoft.Msgpack": "0.1.10",
+    "WampSharp.NewtonsoftJson": { "target": "project" }
+  }
+}

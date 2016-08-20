@@ -1,4 +1,4 @@
-﻿#if PCL
+﻿#if MANUAL_PROXY
 using System.Collections.Generic;
 using System.Reflection;
 using WampSharp.Core.Message;

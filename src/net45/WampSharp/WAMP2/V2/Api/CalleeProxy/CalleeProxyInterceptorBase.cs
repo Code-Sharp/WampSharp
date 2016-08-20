@@ -1,4 +1,4 @@
-﻿#if CASTLE
+﻿#if CASTLE || DISPATCH_PROXY
 using System;
 using System.Reflection;
 using Castle.DynamicProxy;
@@ -44,7 +44,17 @@ namespace WampSharp.V2.CalleeProxy
             }
         }
 
-        public abstract void Intercept(IInvocation invocation);
+        public abstract object Invoke(MethodInfo method, object[] arguments);
+
+#if CASTLE
+
+        public void Intercept(IInvocation invocation)
+        {
+            object result = Invoke(invocation.Method, invocation.Arguments);
+            invocation.ReturnValue = result;
+        }
+
+#endif
     }
 
     internal abstract class CalleeProxyInterceptorBase<TResult> : CalleeProxyInterceptorBase

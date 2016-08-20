@@ -16,6 +16,9 @@
       <group targetFramework="portable-win81+wpa81">
         <dependency id="WampSharp.Default.Client" version="[$version$]" />
       </group>
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="WampSharp.Default.Client" version="[$version$]" />
+      </group>
     </dependencies>
     <id>WampSharp.Default</id>
     <title>WampSharp default binding</title>
