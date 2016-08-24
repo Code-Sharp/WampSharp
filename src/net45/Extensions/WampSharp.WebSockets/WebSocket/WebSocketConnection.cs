@@ -27,10 +27,10 @@ namespace WampSharp.WebSockets
             mCancellationTokenSource = new CancellationTokenSource();
         }
 
-        protected WebSocketConnection(Uri addressUri, string protocolName, IWampStreamingMessageParser<TMessage> parser) :
-            this(new ClientWebSocket(), parser, null, null)
+        protected WebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri, string protocolName, IWampStreamingMessageParser<TMessage> parser) :
+            this(clientWebSocket, parser, null, null)
         {
-            ClientWebSocket.Options.AddSubProtocol(protocolName);
+            clientWebSocket.Options.AddSubProtocol(protocolName);
             mAddressUri = addressUri;
         }
 

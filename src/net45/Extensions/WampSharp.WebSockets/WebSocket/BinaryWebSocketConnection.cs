@@ -16,8 +16,8 @@ namespace WampSharp.WebSockets
             mBinding = binding;
         }
 
-        protected BinaryWebSocketConnection(Uri addressUri, IWampBinaryBinding<TMessage> binding) :
-            base(addressUri, binding.Name, binding)
+        protected BinaryWebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri, IWampBinaryBinding<TMessage> binding) :
+            base(clientWebSocket, addressUri, binding.Name, binding)
         {
             mBinding = binding;
         }
