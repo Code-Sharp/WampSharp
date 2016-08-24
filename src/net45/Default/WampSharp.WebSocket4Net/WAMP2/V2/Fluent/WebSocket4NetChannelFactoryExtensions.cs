@@ -7,13 +7,11 @@ namespace WampSharp.V2.Fluent
         /// connect to a given address.
         /// </summary>
         /// <param name="address">The server's address.</param>
-        public static ChannelFactorySyntax.ITransportSyntax WebSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, string address)
+        public static IWebSocket4NetTransportSyntax WebSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, string address)
         {
-            ChannelState state = realmSyntax.State;
+            WebSocket4NetActivator activator = new WebSocket4NetActivator(address);
 
-            state.ConnectionActivator = new WebSocket4NetActivator(address);
-
-            return state;
+            return GetWebSocketSyntax(realmSyntax, activator);
         }
 
         /// <summary>
@@ -21,13 +19,22 @@ namespace WampSharp.V2.Fluent
         /// WebSocket4Net factory.
         /// </summary>
         /// <param name="factory">The custom <see cref="WebSocket4NetFactory"/> to use to create the WebSocket.</param>
-        public static ChannelFactorySyntax.ITransportSyntax WebSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, WebSocket4NetFactory factory)
+        public static IWebSocket4NetTransportSyntax WebSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, WebSocket4NetFactory factory)
+        {
+            WebSocket4NetActivator activator = new WebSocket4NetActivator(factory);
+
+            return GetWebSocketSyntax(realmSyntax, activator);
+        }
+
+        private static IWebSocket4NetTransportSyntax GetWebSocketSyntax(ChannelFactorySyntax.IRealmSyntax realmSyntax, WebSocket4NetActivator activator)
         {
             ChannelState state = realmSyntax.State;
 
-            state.ConnectionActivator = new WebSocket4NetActivator(factory);
+            state.ConnectionActivator = activator;
 
-            return state;
+            WebSocket4NetTransportSyntax syntax = new WebSocket4NetTransportSyntax(state);
+
+            return syntax;
         }
     }
 }
