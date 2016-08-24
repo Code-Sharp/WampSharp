@@ -16,7 +16,6 @@ namespace WampSharp.V2.Fluent
     internal class WebSocket4NetActivator : IWampConnectionActivator
     {
         private readonly WebSocket4NetFactory mWebSocketFactory;
-        private readonly Action<SecurityOption> mSetSecurityOptions;
 
         public WebSocket4NetActivator(WebSocket4NetFactory webSocketFactory)
         {
