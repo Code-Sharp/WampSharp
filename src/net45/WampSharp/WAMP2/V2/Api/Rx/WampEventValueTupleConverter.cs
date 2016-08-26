@@ -50,7 +50,7 @@ namespace WampSharp.V2
                 if (transformNames.Take(tupleLength).All(x => x != null))
                 {
                     mDictionaryConverter =
-                        new ValueTupleDictionaryConverter(transformNames, tupleType);
+                        ValueTupleDictionaryConverterBuilder.Build(tupleType, transformNames);
                 }
             }
 

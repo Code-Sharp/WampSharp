@@ -35,7 +35,7 @@ namespace WampSharp.Core.Utilities.ValueTuple
             return compiled;
         }
 
-        private NewExpression GetTupleNewExpression(IEnumerable<Expression> tupleItemValuesExpressions, Type tupleType)
+        public static NewExpression GetTupleNewExpression(IEnumerable<Expression> tupleItemValuesExpressions, Type tupleType)
         {
             Type[] genericArguments = tupleType.GetGenericArguments();
 
@@ -67,7 +67,7 @@ namespace WampSharp.Core.Utilities.ValueTuple
             return tupleCreation;
         }
 
-        protected static IEnumerable<Expression> GetTupleItemsExpressions
+        public static IEnumerable<Expression> GetTupleItemsExpressions
             (Expression tupleInstance,
              Type tupleType)
         {

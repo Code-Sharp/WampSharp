@@ -10,7 +10,8 @@ namespace WampSharp.V2.Rpc
 
         public NamedTupleExtractor(Type tupleType, IList<string> transformNames)
         {
-            mConverter = new ValueTupleDictionaryConverter(transformNames, tupleType);
+            mConverter = 
+                ValueTupleDictionaryConverterBuilder.Build(tupleType, transformNames);
         }
 
         public override IDictionary<string, object> GetArgumentKeywords(object result)

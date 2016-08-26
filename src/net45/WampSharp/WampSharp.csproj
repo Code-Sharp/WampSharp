@@ -150,6 +150,7 @@
     <Compile Include="Core\Utilities\ValueTuple\ValueTupleArrayConverter.cs" />
     <Compile Include="Core\Utilities\ValueTuple\ValueTupleConverter.cs" />
     <Compile Include="Core\Utilities\ValueTuple\ValueTupleDictionaryConverter.cs" />
+    <Compile Include="Core\Utilities\ValueTuple\ValueTupleDictionaryConverterBuilder.cs" />
     <Compile Include="Core\Utilities\ValueTuple\ValueTupleTypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Cra\WampCraHelpers.cs" />
