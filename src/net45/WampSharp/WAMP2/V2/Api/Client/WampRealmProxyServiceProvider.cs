@@ -106,6 +106,15 @@ namespace WampSharp.V2
             return result;
         }
 
+        public ISubject<TTuple> GetSubject<TTuple>(string topicUri, IWampEventValueTupleConverter<TTuple> converter)
+        {
+            IWampSubject subject = GetSubject(topicUri);
+
+            WampTupleTopicSubject<TTuple> result = new WampTupleTopicSubject<TTuple>(subject, converter);
+
+            return result;
+        }
+
         public IDisposable RegisterPublisher(object instance)
         {
             return RegisterPublisher(instance, new PublisherRegistrationInterceptor());

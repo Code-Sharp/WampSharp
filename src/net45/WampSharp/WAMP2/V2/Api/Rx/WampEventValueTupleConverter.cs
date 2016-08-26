@@ -9,7 +9,19 @@ using WampSharp.V2.Core;
 
 namespace WampSharp.V2
 {
-    public abstract class WampEventValueTupleConverter<TTuple>
+    /// <summary>
+    /// A default implementation of <see cref="IWampEventValueTupleConverter{TTuple}"/>.
+    /// </summary>
+    /// <typeparam name="TTuple"></typeparam>
+    /// <remarks>
+    /// Derive from this class and specify your desired tuple type.
+    /// </remarks>
+    /// <example>
+    /// public class MyEventValueTupleConverter : WampEventValueTupleConverter{(int x, int y)}
+    /// {
+    /// }
+    /// </example>
+    public abstract class WampEventValueTupleConverter<TTuple> : IWampEventValueTupleConverter<TTuple>
     {
         private readonly ArgumentUnpacker mArgumentUnpacker;
         private readonly ValueTupleArrayConverter mArrayConverter;
@@ -51,11 +63,11 @@ namespace WampSharp.V2
         {
             if (transformNames != null)
             {
-                IEnumerable<string> relevantNames = 
+                IEnumerable<string> relevantNames =
                     transformNames.Take(tupleLength).ToList();
 
                 if (!(relevantNames.All(x => x == null) ||
-                    relevantNames.All(x => x != null)))
+                      relevantNames.All(x => x != null)))
                 {
                     throw new ArgumentException(
                         "Expected all TTuple elements to have a name or non of them to have a name");
