@@ -104,16 +104,6 @@ namespace WampSharp.V2
         IWampSubject GetSubject(string topicUri);
 
         /// <summary>
-        /// Gets a <see cref="IWampSubject"/> representing a WAMP topic
-        /// in the realm.
-        /// </summary>
-        /// <param name="topicUri">The WAMP topic uri.</param>
-        /// <param name="tupleConverter">An interface responsible for converting <see cref="IWampEvent"/>s into <see cref="TTuple"/>s 
-        /// and vice versa</param>
-        /// <returns>The requested subject.</returns>
-        ISubject<TTuple> GetSubject<TTuple>(string topicUri, IWampEventValueTupleConverter<TTuple> tupleConverter);
-
-        /// <summary>
         /// Registers an instance of a type having events decorated with
         /// <see cref="WampTopicAttribute"/> to the realm.
         /// </summary>
@@ -148,5 +138,20 @@ namespace WampSharp.V2
         /// <returns>A Task that is finished when SUBSCRIBE is complete - its result is a
         /// <see cref="IAsyncDisposable"/>- disposing it will unsubscribe from the topic.</returns>
         Task<IAsyncDisposable> RegisterSubscriber(object instance, ISubscriberRegistrationInterceptor interceptor);
+
+#if !NET40
+
+        /// <summary>
+        /// Gets a <see cref="ISubject{TTuple}"/> representing a
+        /// WAMP topic in the realm.
+        /// </summary>
+        /// <param name="topicUri">The WAMP topic uri.</param>
+        /// <param name="tupleConverter">An interface responsible for converting <see cref="IWampEvent"/>s into <see cref="TTuple"/>s 
+        /// and vice versa</param>
+        /// <returns>The requested subject.</returns>
+        ISubject<TTuple> GetSubject<TTuple>(string topicUri, IWampEventValueTupleConverter<TTuple> tupleConverter);
+
+#endif
+
     }
 }

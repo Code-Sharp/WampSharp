@@ -317,6 +317,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\CachedCalleeProxyInterceptor.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\CachedCalleeProxyInterceptor.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Async\OperationResultExtractor.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Async\OperationResultExtractor.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\CalleeProxyBase.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\CalleeProxyBase.cs</Link>
     </Compile>
@@ -362,6 +365,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampIncompatibleCalleeProxyMethodException.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\WampIncompatibleCalleeProxyMethodException.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampTupleTopicSubject.cs">
+      <Link>WAMP2\V2\Api\Rx\WampTupleTopicSubject.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs</Link>
     </Compile>
@@ -383,8 +389,20 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\IWampEventValueTupleConverter.cs">
+      <Link>WAMP2\V2\Api\Rx\IWampEventValueTupleConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\SerializedValueFormatter.cs">
+      <Link>WAMP2\V2\Api\Rx\SerializedValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampEventValueTupleConverter.cs">
+      <Link>WAMP2\V2\Api\Rx\WampEventValueTupleConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs">
       <Link>WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\ArgumentUnpackerHelper.cs">
+      <Link>WAMP2\V2\Core\ArgumentUnpackerHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs">
       <Link>WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs</Link>

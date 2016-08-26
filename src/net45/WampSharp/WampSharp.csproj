@@ -171,6 +171,7 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\ValueTupleValueExtractor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampIncompatibleCalleeProxyMethodException.cs" />
+    <Compile Include="WAMP2\V2\Api\Rx\WampTupleTopicSubject.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\IPublisherRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\ISubscriberRegistrationInterceptor.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\SubscriberRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
+    <Compile Include="WAMP2\V2\Api\Rx\IWampEventValueTupleConverter.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\SerializedValueFormatter.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampEventValueTupleConverter.cs" />
     <Compile Include="WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs" />
