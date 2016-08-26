@@ -50,9 +50,9 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        private static void ValidateTupleReturnType(MethodInfo method, IEnumerable<string> tupleNames)
+        private static void ValidateTupleReturnType(MethodInfo method, IList<string> tupleNames)
         {
-            if (tupleNames.Any(x => x == null))
+            if (tupleNames.Any(x => x == null) && tupleNames.Any(x => x != null))
             {
                 ThrowHelper.InvalidTupleReturnType(method);
             }

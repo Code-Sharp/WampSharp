@@ -155,6 +155,7 @@
     <Compile Include="Core\Cra\WampCraHelpers.cs" />
     <Compile Include="Core\Utilities\TaskExtensions.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CachedCalleeProxyInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\OperationResultExtractor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyBase.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs" />
@@ -177,7 +178,10 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\SubscriberRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
+    <Compile Include="WAMP2\V2\Api\Rx\SerializedValueFormatter.cs" />
+    <Compile Include="WAMP2\V2\Api\Rx\WampEventValueTupleConverter.cs" />
     <Compile Include="WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs" />
+    <Compile Include="WAMP2\V2\Core\ArgumentUnpackerHelper.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Session\AuthenticateExtraData.cs" />
     <Compile Include="WAMP2\V2\Authentication\Cookie\CookieCollectionCookieProvider.cs" />
