@@ -299,6 +299,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\ValueTuple\ValueTupleDictionaryConverter.cs">
       <Link>Core\Utilities\ValueTuple\ValueTupleDictionaryConverter.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ValueTuple\ValueTupleDictionaryConverterBuilder.cs">
+      <Link>Core\Utilities\ValueTuple\ValueTupleDictionaryConverterBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\ValueTuple\ValueTupleTypeExtensions.cs">
       <Link>Core\Utilities\ValueTuple\ValueTupleTypeExtensions.cs</Link>
     </Compile>
