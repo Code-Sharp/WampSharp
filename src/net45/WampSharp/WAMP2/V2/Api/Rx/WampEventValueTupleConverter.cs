@@ -98,9 +98,9 @@ namespace WampSharp.V2
 
             Type baseType = typeof(WampEventValueTupleConverter<TTuple>);
 
-            while (currentType.BaseType != baseType)
+            while (currentType.BaseType() != baseType)
             {
-                currentType = currentType.BaseType;
+                currentType = currentType.BaseType();
             }
 
             return currentType;

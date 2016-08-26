@@ -98,6 +98,17 @@ namespace System.Reflection
 #endif
         }
 
+        public static bool IsDefined(this Type type, Type attributeType, bool inherit)
+        {
+            return type.GetTypeInfo().IsDefined(attributeType, inherit);
+        }
+
+        public static T GetCustomAttribute<T>(this Type type, bool inherit = true)
+            where T : Attribute
+        {
+            return type.GetTypeInfo().GetCustomAttribute<T>(inherit);
+        }
+
 #if NET40
         public static Type AsType(this Type type)
         {
