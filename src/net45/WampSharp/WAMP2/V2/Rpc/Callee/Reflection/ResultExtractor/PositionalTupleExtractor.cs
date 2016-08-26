@@ -9,7 +9,7 @@ namespace WampSharp.V2.Rpc
 
         public PositionalTupleExtractor(Type tupleType)
         {
-            mConverter = new ValueTupleArrayConverter(tupleType);
+            mConverter = ValueTupleArrayConverter.Get(tupleType);
         }
 
         public override object[] GetArguments(object result)

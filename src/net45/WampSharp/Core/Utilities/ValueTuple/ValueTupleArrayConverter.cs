@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace WampSharp.Core.Utilities.ValueTuple
 {
@@ -13,6 +14,10 @@ namespace WampSharp.Core.Utilities.ValueTuple
     internal class ValueTupleArrayConverter : ValueTupleConverter
     {
         private readonly Type mTupleType;
+
+        private static readonly MethodInfo mGetMethod =
+            Method.Get(() => Get<object>())
+                  .GetGenericMethodDefinition();
 
         private readonly Func<object, object[]> mToArrayDelegate;
 
@@ -93,6 +98,19 @@ namespace WampSharp.Core.Utilities.ValueTuple
             Func<object, object[]> result = lambda.Compile();
 
             return result;
+        }
+
+        public static ValueTupleArrayConverter Get(Type type)
+        {
+            object result =
+                mGetMethod.MakeGenericMethod(type).Invoke(null, new object[]{});
+
+            return (ValueTupleArrayConverter) result;
+        }
+
+        public static ValueTupleArrayConverter Get<T>()
+        {
+            return ValueTupleArrayConverter<T>.Value;
         }
     }
 }
