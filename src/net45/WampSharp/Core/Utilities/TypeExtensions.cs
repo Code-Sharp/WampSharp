@@ -98,6 +98,7 @@ namespace System.Reflection
 #endif
         }
 
+#if PCL
         public static bool IsDefined(this Type type, Type attributeType, bool inherit)
         {
             return type.GetTypeInfo().IsDefined(attributeType, inherit);
@@ -108,6 +109,7 @@ namespace System.Reflection
         {
             return type.GetTypeInfo().GetCustomAttribute<T>(inherit);
         }
+#endif
 
 #if NET40
         public static Type AsType(this Type type)

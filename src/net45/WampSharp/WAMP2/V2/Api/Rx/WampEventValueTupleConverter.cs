@@ -39,7 +39,11 @@ namespace WampSharp.V2
 
             mArrayConverter = ValueTupleArrayConverter<TTuple>.Value;
 
-            IList<string> transformNames = GetTransformNames();
+            Type converterType = GetConverterType();
+
+            ValidateConverterType(converterType);
+
+            IList<string> transformNames = GetTransformNames(converterType);
 
             int tupleLength = tupleType.GetValueTupleLength();
 
@@ -59,6 +63,29 @@ namespace WampSharp.V2
                     (tupleType, transformNames);
         }
 
+        private void ValidateConverterType(Type converterType)
+        {
+            if (converterType.IsGenericType())
+            {
+                Type genericTypeDefinition = 
+                    converterType.GetGenericTypeDefinition();
+
+                Type genericTypeDefinitionBase =
+                    genericTypeDefinition.BaseType();
+
+                Type genericTypeDefinitionBaseTupleType =
+                    genericTypeDefinitionBase.GetGenericArguments()[0];
+
+                if (!genericTypeDefinitionBaseTupleType.IsValueTuple())
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            "Expected a class deriving directly from {0} to specify a ValueTuple as the generic parameter TTuple",
+                            typeof(WampEventValueTupleConverter<>).Name));
+                }
+            }
+        }
+
         private void ValidateTransformNames(IList<string> transformNames, int tupleLength)
         {
             if (transformNames != null)
@@ -75,10 +102,8 @@ namespace WampSharp.V2
             }
         }
 
-        private IList<string> GetTransformNames()
+        private IList<string> GetTransformNames(Type converterType)
         {
-            Type converterType = GetConverterType();
-
             IList<string> transformNames = null;
 
             if (converterType.IsDefined(typeof(TupleElementNamesAttribute), true))
