@@ -48,7 +48,7 @@ namespace WampSharp.V2.CalleeProxy
 
         private static ArgumentUnpacker GetTupleArgumentUnpacker(MethodInfo method)
         {
-            Type tupleType = method.ReturnType;
+            Type tupleType = TaskExtensions.UnwrapReturnType(method.ReturnType);
 
             IEnumerable<string> transformNames = null;
 
