@@ -107,6 +107,7 @@
     <Compile Include="Integration\RpcServices\PositionalTupleComplexResultService.cs" />
     <Compile Include="Integration\RpcServices\SlowSquareService.cs" />
     <Compile Include="Integration\RpcServices\TimeService.cs" />
+    <Compile Include="Integration\PubSubSubjectTupleTests.cs" />
     <Compile Include="Integration\SerializedValue.cs" />
     <Compile Include="Integration\SharedRpcTests.cs" />
     <Compile Include="Integration\WampCraAuthenticationTests.cs" />

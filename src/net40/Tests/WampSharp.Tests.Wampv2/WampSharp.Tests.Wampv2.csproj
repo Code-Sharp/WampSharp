@@ -165,6 +165,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\TimeService.cs">
       <Link>Integration\RpcServices\TimeService.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PubSubSubjectTupleTests.cs">
+      <Link>Integration\PubSubSubjectTupleTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\SerializedValue.cs">
       <Link>Integration\SerializedValue.cs</Link>
     </Compile>

@@ -160,7 +160,7 @@ namespace WampSharp.V2
             }
             else
             {
-                arguments = mArrayConverter.ToArray(arguments);
+                arguments = mArrayConverter.ToArray(tuple);
             }
 
             WampEvent result =
