@@ -172,6 +172,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(mySubscriber.Number1, Is.EqualTo(47));
             Assert.That(mySubscriber.Number2, Is.EqualTo(23));
             Assert.That(mySubscriber.C, Is.EqualTo("Hello"));
+            Assert.That(mySubscriber.D, Is.EqualTo(instance));
         }
 
         public class MyCustomSubscriber : LocalSubscriber
