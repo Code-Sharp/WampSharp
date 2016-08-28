@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -82,6 +83,34 @@ namespace WampSharp.Core.Utilities.ValueTuple
             }
 
             return 0;
+        }
+
+        public static bool IsLongTuple(this Type tupleType)
+        {
+            return tupleType.IsGenericType &&
+                   tupleType.GetGenericTypeDefinition() == typeof(ValueTuple<,,,,,,,>) &&
+                   tupleType.GetGenericArguments().Last().IsValueTuple();
+        }
+
+        public static IEnumerable<Type> GetValueTupleElementTypes(this Type tupleType)
+        {
+            Type[] genericArguments = tupleType.GetGenericArguments();
+
+            if (!tupleType.IsLongTuple())
+            {
+                return genericArguments;
+            }
+            else
+            {
+                IEnumerable<Type> firstElements = 
+                    genericArguments.Take(genericArguments.Length - 1);
+
+                Type nestedTupleType = genericArguments.Last();
+
+                IEnumerable<Type> rest = nestedTupleType.GetValueTupleElementTypes();
+
+                return firstElements.Concat(rest);
+            }
         }
 
         public static bool ReturnsTuple(this MethodInfo method)

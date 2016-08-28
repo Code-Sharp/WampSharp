@@ -23,7 +23,7 @@ namespace WampSharp.V2.Core
             }
 
             var argumentTypes =
-                tupleType.GetGenericArguments()
+                tupleType.GetValueTupleElementTypes()
                          .Select((type, index) => new { type, index });
 
             IEnumerable<LocalParameter> localParameters =
