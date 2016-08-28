@@ -67,7 +67,7 @@ namespace WampSharp.Core.Utilities.ValueTuple
                 {
                     Type rest = tupleType.GetGenericArguments().Last();
 
-                    if (!rest.IsValueTuple())
+                    if (!rest.IsValidTupleType())
                     {
                         return false;
                     }
