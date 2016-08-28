@@ -19,15 +19,16 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45;MONO</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45;MONO WAMPCRA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NET45;MONO</DefineConstants>
+    <DefineConstants>TRACE;NET45;MONO WAMPCRA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -140,6 +141,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\IErrorsService.cs">
       <Link>Integration\RpcProxies\IErrorsService.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\ILongValueTuplesServiceProxy.cs">
+      <Link>Integration\RpcProxies\ILongValueTuplesServiceProxy.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\INamedTupleComplexResultService.cs">
       <Link>Integration\RpcProxies\INamedTupleComplexResultService.cs</Link>
     </Compile>
@@ -157,6 +161,12 @@
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\ErrorsService.cs">
       <Link>Integration\RpcServices\ErrorsService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\LongValueTuplesCalleeService.cs">
+      <Link>Integration\RpcServices\LongValueTuplesCalleeService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\LongValueTuplesService.cs">
+      <Link>Integration\RpcServices\LongValueTuplesService.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\NamedTupleComplexResultService.cs">
       <Link>Integration\RpcServices\NamedTupleComplexResultService.cs</Link>
