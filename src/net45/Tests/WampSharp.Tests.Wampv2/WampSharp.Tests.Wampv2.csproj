@@ -19,15 +19,16 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45 WAMPCRA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NET45</DefineConstants>
+    <DefineConstants>TRACE;NET45 WAMPCRA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -97,12 +98,15 @@
     <Compile Include="Integration\RpcProxies\IArgumentsService.cs" />
     <Compile Include="Integration\RpcProxies\IComplexResultService.cs" />
     <Compile Include="Integration\RpcProxies\IErrorsService.cs" />
+    <Compile Include="Integration\RpcProxies\ILongValueTuplesServiceProxy.cs" />
     <Compile Include="Integration\RpcProxies\INamedTupleComplexResultService.cs" />
     <Compile Include="Integration\RpcProxies\ISlowSquareService.cs" />
     <Compile Include="Integration\RpcProxies\ITimeService.cs" />
     <Compile Include="Integration\RpcServices\ArgumentsService.cs" />
     <Compile Include="Integration\RpcServices\ComplexResultService.cs" />
     <Compile Include="Integration\RpcServices\ErrorsService.cs" />
+    <Compile Include="Integration\RpcServices\LongValueTuplesCalleeService.cs" />
+    <Compile Include="Integration\RpcServices\LongValueTuplesService.cs" />
     <Compile Include="Integration\RpcServices\NamedTupleComplexResultService.cs" />
     <Compile Include="Integration\RpcServices\PositionalTupleComplexResultService.cs" />
     <Compile Include="Integration\RpcServices\SlowSquareService.cs" />
