@@ -40,56 +40,43 @@ namespace WampSharp.Core.Utilities.ValueTuple
 
             Type genericTypeDefinition = type.GetGenericTypeDefinition();
 
-            if (genericTypeDefinition == typeof(ValueTuple<>))
+            if (!genericTypeDefinition.IsLongTuple())
             {
-                return 1;
+                return genericTypeDefinition.GetGenericArguments().Length;
             }
-            if (genericTypeDefinition == typeof(ValueTuple<,>))
-            {
-                return 2;
-            }
-            if (genericTypeDefinition == typeof(ValueTuple<,,>))
-            {
-                return 3;
-            }
-            if (genericTypeDefinition == typeof(ValueTuple<,,,>))
-            {
-                return 4;
-            }
-            if (genericTypeDefinition == typeof(ValueTuple<,,,,>))
-            {
-                return 5;
-            }
-            if (genericTypeDefinition == typeof(ValueTuple<,,,,,>))
-            {
-                return 6;
-            }
-            if (genericTypeDefinition == typeof(ValueTuple<,,,,,,>))
-            {
-                return 7;
-            }
-            if (genericTypeDefinition == typeof(ValueTuple<,,,,,,,>))
+            else
             {
                 Type last = type.GetGenericArguments().Last();
 
-                if (!last.IsValueTuple())
-                {
-                    return 8;
-                }
-                else
-                {
-                    return 7 + last.GetValueTupleLength();
-                }
+                return (genericTypeDefinition.GetGenericArguments().Length - 1) +
+                       last.GetValueTupleLength();
             }
-
-            return 0;
         }
 
         public static bool IsLongTuple(this Type tupleType)
         {
             return tupleType.IsGenericType() &&
-                   tupleType.GetGenericTypeDefinition() == typeof(ValueTuple<,,,,,,,>) &&
-                   tupleType.GetGenericArguments().Last().IsValueTuple();
+                   tupleType.GetGenericTypeDefinition() == typeof(ValueTuple<,,,,,,,>);
+        }
+
+        public static bool IsValidTupleType(this Type tupleType)
+        {
+            if (tupleType.IsValueTuple())
+            {
+                if (tupleType.IsLongTuple())
+                {
+                    Type rest = tupleType.GetGenericArguments().Last();
+
+                    if (!rest.IsValueTuple())
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         public static IEnumerable<Type> GetValueTupleElementTypes(this Type tupleType)

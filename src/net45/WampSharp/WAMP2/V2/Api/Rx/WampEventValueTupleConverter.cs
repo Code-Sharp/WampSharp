@@ -37,6 +37,11 @@ namespace WampSharp.V2
                 throw new ArgumentException("Expected TTuple to be a ValueTuple");
             }
 
+            if (!tupleType.IsValidTupleType())
+            {
+                throw new ArgumentException("TTuple is an invalid ValueTuple. Expected TRest to be a ValueTuple.");
+            }
+
             mArrayConverter = ValueTupleArrayConverter<TTuple>.Value;
 
             Type converterType = GetConverterType();

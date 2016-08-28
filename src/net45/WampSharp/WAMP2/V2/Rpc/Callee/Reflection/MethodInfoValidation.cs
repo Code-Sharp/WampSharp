@@ -14,11 +14,16 @@ namespace WampSharp.V2.Rpc
         {
             if (method.ReturnsTuple())
             {
+                Type returnType = method.ReturnType;
+                Type tupleType = TaskExtensions.UnwrapReturnType(returnType);
+
+                if (!tupleType.IsValidTupleType())
+                {
+                    ThrowHelper.MethodReturnsInvalidValueTuple(method);
+                }
+
                 if (method.ReturnParameter.IsDefined(typeof(TupleElementNamesAttribute)))
                 {
-                    Type returnType = method.ReturnType;
-                    Type tupleType = TaskExtensions.UnwrapReturnType(returnType);
-
                     int tupleLength = tupleType.GetValueTupleLength();
 
                     TupleElementNamesAttribute attribute = 
@@ -156,6 +161,14 @@ namespace WampSharp.V2.Rpc
                         "Method {0} of type {1} is declared as a WAMP procedure that returns a tuple and also has out/ref parameters. There exists some tuple elements with the same names as some of the out/ref parameters. Expected out/ref and element names of returned tuple to be distinct. Details: conflicted names {2}",
                         method.Name, method.DeclaringType.FullName, 
                         string.Join(", ", intersection)));
+            }
+
+            public static void MethodReturnsInvalidValueTuple(MethodInfo method)
+            {
+                throw new ArgumentException
+                    (String.Format(
+                        "Method {0} of type {1} returns an invalid ValueTuple. Expected TRest to be a ValueTuple.",
+                        method.Name, method.DeclaringType.FullName));
             }
         }
     }
