@@ -136,7 +136,14 @@ namespace System.Reflection
 
         public static Type[] GetGenericArguments(this Type type)
         {
-            return type.GenericTypeArguments;
+            TypeInfo typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsGenericTypeDefinition)
+            {
+                return typeInfo.GenericTypeParameters;
+            }
+
+            return typeInfo.GenericTypeArguments;
         }
 
         public static MethodInfo GetMethod(this Type type, string methodName)

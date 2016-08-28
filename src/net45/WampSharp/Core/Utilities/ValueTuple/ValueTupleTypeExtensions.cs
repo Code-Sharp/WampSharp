@@ -40,15 +40,18 @@ namespace WampSharp.Core.Utilities.ValueTuple
 
             Type genericTypeDefinition = type.GetGenericTypeDefinition();
 
+            Type[] genericArguments = genericTypeDefinition.GetGenericArguments();
+
+            int tupleLength = genericArguments.Length;
             if (!genericTypeDefinition.IsLongTuple())
             {
-                return genericTypeDefinition.GetGenericArguments().Length;
+                return tupleLength;
             }
             else
             {
                 Type last = type.GetGenericArguments().Last();
 
-                return (genericTypeDefinition.GetGenericArguments().Length - 1) +
+                return (tupleLength - 1) +
                        last.GetValueTupleLength();
             }
         }

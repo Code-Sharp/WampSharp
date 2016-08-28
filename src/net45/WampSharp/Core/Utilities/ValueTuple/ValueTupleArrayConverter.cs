@@ -52,8 +52,10 @@ namespace WampSharp.Core.Utilities.ValueTuple
             ParameterExpression array =
                 Expression.Parameter(typeof(object[]), "array");
 
+            int tupleLength = mTupleType.GetValueTupleLength();
+
             IEnumerable<BinaryExpression> tupleItemValues =
-                Enumerable.Range(0, mTupleType.GetValueTupleLength())
+                Enumerable.Range(0, tupleLength)
                           .Select(index => Expression.ArrayIndex(array, Expression.Constant(index)));
 
             // new ValueTuple<T1, T2, ..>((T1)array[0],(T2)array[1], ...)
