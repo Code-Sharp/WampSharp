@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2

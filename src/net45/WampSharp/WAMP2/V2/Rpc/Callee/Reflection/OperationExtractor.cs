@@ -10,10 +10,9 @@ namespace WampSharp.V2.Rpc
 {
     internal class OperationExtractor : IOperationExtractor
     {
-        public IEnumerable<OperationToRegister> ExtractOperations(object instance, ICalleeRegistrationInterceptor interceptor)
+        public IEnumerable<OperationToRegister> ExtractOperations(Type serviceType, Func<object> instance, ICalleeRegistrationInterceptor interceptor)
         {
-            Type type = instance.GetType();
-            IEnumerable<Type> typesToExplore = GetTypesToExplore(type);
+            IEnumerable<Type> typesToExplore = GetTypesToExplore(serviceType);
 
             foreach (Type currentType in typesToExplore)
             {
@@ -38,7 +37,7 @@ namespace WampSharp.V2.Rpc
         }
 
         private IEnumerable<OperationToRegister> GetServiceMethodsOfType
-            (object instance,
+            (Func<object> instance,
                 Type type,
                 ICalleeRegistrationInterceptor interceptor)
         {
@@ -54,31 +53,32 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        protected IWampRpcOperation CreateRpcMethod(object instance, ICalleeRegistrationInterceptor interceptor, MethodInfo method)
+        protected IWampRpcOperation CreateRpcMethod(Func<object> instanceProvider, ICalleeRegistrationInterceptor interceptor, MethodInfo method)
         {
             string procedureUri =
                 interceptor.GetProcedureUri(method);
 
             if (!typeof (Task).IsAssignableFrom(method.ReturnType))
             {
-                return new SyncMethodInfoRpcOperation(instance, method, procedureUri);
+                MethodInfoValidation.ValidateTupleReturnType(method);
+                return new SyncMethodInfoRpcOperation(instanceProvider, method, procedureUri);
             }
             else
             {
                 if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
                 {
                     MethodInfoValidation.ValidateProgressiveMethod(method);
-                    return CreateProgressiveOperation(instance, method, procedureUri);
+                    return CreateProgressiveOperation(instanceProvider, method, procedureUri);
                 }
                 else
                 {
                     MethodInfoValidation.ValidateAsyncMethod(method);
-                    return new AsyncMethodInfoRpcOperation(instance, method, procedureUri);
+                    return new AsyncMethodInfoRpcOperation(instanceProvider, method, procedureUri);
                 }
             }
         }
 
-        private static IWampRpcOperation CreateProgressiveOperation(object instance, MethodInfo method, string procedureUri)
+        private static IWampRpcOperation CreateProgressiveOperation(Func<object> instanceProvider, MethodInfo method, string procedureUri)
         {
             //return new ProgressiveAsyncMethodInfoRpcOperation<returnType>
             // (instance, method, procedureUri);
@@ -92,7 +92,7 @@ namespace WampSharp.V2.Rpc
 
             IWampRpcOperation operation =
                 (IWampRpcOperation) Activator.CreateInstance(operationType,
-                    instance,
+                    instanceProvider,
                     method,
                     procedureUri);
 

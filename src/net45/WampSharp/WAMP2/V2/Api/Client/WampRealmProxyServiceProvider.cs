@@ -36,15 +36,40 @@ namespace WampSharp.V2
 
         public Task<IAsyncDisposable> RegisterCallee(object instance, ICalleeRegistrationInterceptor interceptor)
         {
-            IEnumerable<OperationToRegister> operationsToRegister =
-                mExtractor.ExtractOperations(instance, interceptor);
+            return RegisterCallee(instance.GetType(), () => instance, interceptor);
+        }
 
-            List<Task<IAsyncDisposable>> registrations = 
+        public Task<IAsyncDisposable> RegisterCallee(Type type, Func<object> instanceProvider)
+        {
+            return RegisterCallee(type, instanceProvider, CalleeRegistrationInterceptor.Default);
+        }
+
+
+        public Task<IAsyncDisposable> RegisterCallee<TService>(Func<TService> instanceProvider,
+                                                               ICalleeRegistrationInterceptor interceptor)
+            where TService : class
+        {
+            return RegisterCallee(typeof(TService), instanceProvider, interceptor);
+        }
+
+
+        public Task<IAsyncDisposable> RegisterCallee<TService>(Func<TService> instanceProvider)
+            where TService : class
+        {
+            return RegisterCallee(typeof(TService), instanceProvider);
+        }
+
+        public Task<IAsyncDisposable> RegisterCallee(Type type, Func<object> instanceProvider, ICalleeRegistrationInterceptor interceptor)
+        {
+            IEnumerable<OperationToRegister> operationsToRegister =
+                mExtractor.ExtractOperations(type, instanceProvider, interceptor);
+
+            List<Task<IAsyncDisposable>> registrations =
                 new List<Task<IAsyncDisposable>>();
 
             foreach (OperationToRegister operationToRegister in operationsToRegister)
             {
-                Task<IAsyncDisposable> task = 
+                Task<IAsyncDisposable> task =
                     mProxy.RpcCatalog.Register(operationToRegister.Operation, operationToRegister.Options);
 
                 registrations.Add(task);
@@ -77,6 +102,15 @@ namespace WampSharp.V2
             IWampTopicProxy topicProxy = mProxy.TopicContainer.GetTopicByUri(topicUri);
 
             WampClientSubject result = new WampClientSubject(topicProxy, mProxy.Monitor);
+
+            return result;
+        }
+
+        public ISubject<TTuple> GetSubject<TTuple>(string topicUri, IWampEventValueTupleConverter<TTuple> converter)
+        {
+            IWampSubject subject = GetSubject(topicUri);
+
+            WampTupleTopicSubject<TTuple> result = new WampTupleTopicSubject<TTuple>(subject, converter);
 
             return result;
         }

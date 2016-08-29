@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
     internal interface IOperationExtractor
     {
-        IEnumerable<OperationToRegister> ExtractOperations(object instance, ICalleeRegistrationInterceptor interceptor);
+        IEnumerable<OperationToRegister> ExtractOperations(Type serviceType, Func<object> instance, ICalleeRegistrationInterceptor interceptor);
     }
 
     internal class OperationToRegister

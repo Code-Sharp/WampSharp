@@ -32,13 +32,19 @@ namespace WampSharp.Msgpack
                 {
                     try
                     {
-                        mLogger.Debug(() => string.Format("Trying to parse msgpack message: {0}",
-                            Convert.ToBase64String(raw)));
+                        if (mLogger.IsDebugEnabled())
+                        {
+                            mLogger.DebugFormat("Trying to parse msgpack message: {MsgPackMessage}",
+                                                Convert.ToBase64String(raw));
+                        }
 
                         JToken token = JToken.Load(reader);
 
-                        mLogger.Debug(() => string.Format("Parsed msgpack message: {0}",
-                            token.ToString(Formatting.None)));
+                        if (mLogger.IsDebugEnabled())
+                        {
+                            mLogger.DebugFormat("Parsed msgpack message: {Message}",
+                                token.ToString(Formatting.None));
+                        }
 
                         WampMessage<JToken> message = mMessageFormatter.Parse(token);
                         
@@ -46,7 +52,7 @@ namespace WampSharp.Msgpack
                     }
                     catch (Exception ex)
                     {
-                        mLogger.ErrorFormat(ex, "Failed parsing msgpack message: {0}",
+                        mLogger.ErrorFormat(ex, "Failed parsing msgpack message: {MsgPackMessage}",
                             Convert.ToBase64String(raw));
 
                         throw;
@@ -59,8 +65,11 @@ namespace WampSharp.Msgpack
         {
             object[] array = mMessageFormatter.Format(message);
 
-            mLogger.Debug(() => string.Format("Formatting message: {0}",
-                JToken.FromObject(array).ToString(Formatting.None)));
+            if (mLogger.IsDebugEnabled())
+            {
+                mLogger.DebugFormat("Formatting message: {Message}",
+                    JToken.FromObject(array).ToString(Formatting.None));
+            }
 
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -70,9 +79,12 @@ namespace WampSharp.Msgpack
                     memoryStream.Position = 0;
                     byte[] result = memoryStream.ToArray();
 
-                    mLogger.Debug(() => string.Format("Formatted message: {0}",
-                        Convert.ToBase64String(result)));
-                    
+                    if (mLogger.IsDebugEnabled())
+                    {
+                        mLogger.DebugFormat("Formatted message: {MsgPackMessage}",
+                            Convert.ToBase64String(result));
+                    }
+
                     return result;
                 }
             }

@@ -59,8 +59,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.24.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Tpl.Dataflow.4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.6.0\lib\netstandard1.1\System.Threading.Tasks.Dataflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.0.0-rc3-24212-01\lib\netstandard1.1\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -283,6 +287,24 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\ThreadSafeRandom.cs">
       <Link>Core\Utilities\ThreadSafeRandom.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ValueTuple\ValueTuple.cs">
+      <Link>Core\Utilities\ValueTuple\ValueTuple.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ValueTuple\ValueTupleArrayConverter.cs">
+      <Link>Core\Utilities\ValueTuple\ValueTupleArrayConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ValueTuple\ValueTupleConverter.cs">
+      <Link>Core\Utilities\ValueTuple\ValueTupleConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ValueTuple\ValueTupleDictionaryConverter.cs">
+      <Link>Core\Utilities\ValueTuple\ValueTupleDictionaryConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ValueTuple\ValueTupleDictionaryConverterBuilder.cs">
+      <Link>Core\Utilities\ValueTuple\ValueTupleDictionaryConverterBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\ValueTuple\ValueTupleTypeExtensions.cs">
+      <Link>Core\Utilities\ValueTuple\ValueTupleTypeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
@@ -294,6 +316,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\CachedCalleeProxyInterceptor.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\CachedCalleeProxyInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Async\OperationResultExtractor.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Async\OperationResultExtractor.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\CalleeProxyBase.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\CalleeProxyBase.cs</Link>
@@ -334,8 +359,14 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Async\ValueTupleValueExtractor.cs">
+      <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Async\ValueTupleValueExtractor.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\WampIncompatibleCalleeProxyMethodException.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\WampIncompatibleCalleeProxyMethodException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampTupleTopicSubject.cs">
+      <Link>WAMP2\V2\Api\Rx\WampTupleTopicSubject.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs</Link>
@@ -358,8 +389,20 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs">
       <Link>WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\IWampEventValueTupleConverter.cs">
+      <Link>WAMP2\V2\Api\Rx\IWampEventValueTupleConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\SerializedValueFormatter.cs">
+      <Link>WAMP2\V2\Api\Rx\SerializedValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\Rx\WampEventValueTupleConverter.cs">
+      <Link>WAMP2\V2\Api\Rx\WampEventValueTupleConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs">
       <Link>WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\ArgumentUnpackerHelper.cs">
+      <Link>WAMP2\V2\Core\ArgumentUnpackerHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs">
       <Link>WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs</Link>
@@ -531,6 +574,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs">
       <Link>WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampInvalidArgumentException.cs">
+      <Link>WAMP2\V2\Core\Contracts\WampInvalidArgumentException.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampInvokePolicy.cs">
       <Link>WAMP2\V2\Core\Contracts\WampInvokePolicy.cs</Link>
@@ -799,9 +845,6 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ICalleeRegistrationInterceptor.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\ICalleeRegistrationInterceptor.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\CallerProgress.cs">
-      <Link>WAMP2\V2\Rpc\Callee\Reflection\CallerProgress.cs</Link>
-    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\MethodInfoValidation.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\MethodInfoValidation.cs</Link>
     </Compile>
@@ -810,6 +853,27 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\EmptyResultExtractor.cs">
+      <Link>WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\EmptyResultExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\IWampResultExtractor.cs">
+      <Link>WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\IWampResultExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\MultiResultExtractor.cs">
+      <Link>WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\MultiResultExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\NamedTupleExtractor.cs">
+      <Link>WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\NamedTupleExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\PositionalTupleExtractor.cs">
+      <Link>WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\PositionalTupleExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\SingleResultExtractor.cs">
+      <Link>WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\SingleResultExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\WampResultExtractor.cs">
+      <Link>WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\WampResultExtractor.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs">
       <Link>WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs</Link>

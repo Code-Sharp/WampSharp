@@ -143,7 +143,7 @@ namespace WampSharp.Core.Dispatch.Handler
             }
             catch (Exception ex)
             {
-                mLogger.ErrorFormat(ex, "Failed deserializing {0}", parameter.Name);
+                mLogger.ErrorFormat(ex, "Failed deserializing {ParameterName}", parameter.Name);
                 throw;
             }
         }

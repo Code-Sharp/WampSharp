@@ -1,4 +1,5 @@
 using System;
+using System.Net.WebSockets;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
 using WampSharp.WebSockets;
@@ -12,7 +13,12 @@ namespace WampSharp.V2.Fluent
         public WebSocketActivator(Uri serverAddress)
         {
             mServerAddress = serverAddress;
+            WebSocketFactory = () => new ClientWebSocket();
         }
+
+        public WebSocketFactory WebSocketFactory { get; set; }
+
+        public Action<ClientWebSocketOptions> ConfigureOptions { get; set; }
 
         public IControlledWampConnection<TMessage> Activate<TMessage>(IWampBinding<TMessage> binding)
         {
@@ -46,12 +52,24 @@ namespace WampSharp.V2.Fluent
 
         protected IControlledWampConnection<TMessage> CreateBinaryConnection<TMessage>(IWampBinaryBinding<TMessage> binaryBinding)
         {
-            return new ControlledBinaryWebSocketConnection<TMessage>(mServerAddress, binaryBinding);
+            return new ControlledBinaryWebSocketConnection<TMessage>(ActivateWebSocket(), mServerAddress, binaryBinding);
         }
 
         protected IControlledWampConnection<TMessage> CreateTextConnection<TMessage>(IWampTextBinding<TMessage> textBinding)
         {
-            return new ControlledTextWebSocketConnection<TMessage>(mServerAddress, textBinding);
+            return new ControlledTextWebSocketConnection<TMessage>(ActivateWebSocket(), mServerAddress, textBinding);
+        }
+
+        private ClientWebSocket ActivateWebSocket()
+        {
+            ClientWebSocket result = WebSocketFactory();
+
+            if (ConfigureOptions != null)
+            {
+                ConfigureOptions(result.Options);
+            }
+
+            return result;
         }
     }
 }

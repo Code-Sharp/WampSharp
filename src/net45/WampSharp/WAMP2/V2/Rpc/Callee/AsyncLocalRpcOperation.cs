@@ -36,11 +36,11 @@ namespace WampSharp.V2.Rpc
 
                 object result = await task;
 
-                CallResult(caller, result, null);
+                CallResult(caller, result);
             }
             catch (Exception ex)
             {
-                mLogger.ErrorFormat(ex, "An error occured while calling {0}", this.Procedure);
+                mLogger.ErrorFormat(ex, "An error occured while calling {ProcedureUri}", this.Procedure);
 
                 WampException wampException = ex as WampException;
 
@@ -83,7 +83,7 @@ namespace WampSharp.V2.Rpc
             if (task.Exception == null)
             {
                 object result = task.Result;
-                CallResult(caller, result, null);
+                CallResult(caller, result);
             }
             else
             {
@@ -105,5 +105,26 @@ namespace WampSharp.V2.Rpc
         }
 
 #endif
+
+
+        protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, YieldOptions yieldOptions = null)
+        {
+            yieldOptions = yieldOptions ?? new YieldOptions();
+
+            object[] resultArguments = GetResultArguments(result);
+
+            IDictionary<string, object> resultArgumentKeywords =
+                GetResultArgumentKeywords(result);
+
+            CallResult(caller,
+                       yieldOptions,
+                       resultArguments,
+                       resultArgumentKeywords);
+        }
+
+        protected virtual IDictionary<string, object> GetResultArgumentKeywords(object result)
+        {
+            return null;
+        }
     }
 }

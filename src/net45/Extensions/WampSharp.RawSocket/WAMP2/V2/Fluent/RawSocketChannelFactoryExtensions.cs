@@ -14,7 +14,7 @@ namespace WampSharp.V2.Fluent
         /// <param name="port">The port of the listening router</param>
         public static IRawSocketTransportSyntax RawSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, string address, int port)
         {
-            return InnterRawSocket(realmSyntax, client => client.ConnectAsync(address, port));
+            return InnerRawSocket(realmSyntax, client => client.ConnectAsync(address, port));
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace WampSharp.V2.Fluent
         /// <param name="port">The port of the listening router</param>
         public static IRawSocketTransportSyntax RawSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, IPAddress[] addresses, int port)
         {
-            return InnterRawSocket(realmSyntax, client => client.ConnectAsync(addresses, port));
+            return InnerRawSocket(realmSyntax, client => client.ConnectAsync(addresses, port));
         }
 
         /// <summary>
@@ -34,10 +34,10 @@ namespace WampSharp.V2.Fluent
         /// <param name="port">The port of the listening router</param>
         public static IRawSocketTransportSyntax RawSocketTransport(this ChannelFactorySyntax.IRealmSyntax realmSyntax, IPAddress address, int port)
         {
-            return InnterRawSocket(realmSyntax, client => client.ConnectAsync(address, port));
+            return InnerRawSocket(realmSyntax, client => client.ConnectAsync(address, port));
         }
 
-        private static IRawSocketTransportSyntax InnterRawSocket(ChannelFactorySyntax.IRealmSyntax realmSyntax, Func<TcpClient, Task> connector)
+        private static IRawSocketTransportSyntax InnerRawSocket(ChannelFactorySyntax.IRealmSyntax realmSyntax, Func<TcpClient, Task> connector)
         {
             ChannelState state = realmSyntax.State;
 

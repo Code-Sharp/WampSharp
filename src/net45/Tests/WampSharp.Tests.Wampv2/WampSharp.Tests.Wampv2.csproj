@@ -19,15 +19,16 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45 WAMPCRA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NET45</DefineConstants>
+    <DefineConstants>TRACE;NET45 WAMPCRA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -63,6 +64,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.0.0-rc3-24212-01\lib\netstandard1.1\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -93,13 +98,20 @@
     <Compile Include="Integration\RpcProxies\IArgumentsService.cs" />
     <Compile Include="Integration\RpcProxies\IComplexResultService.cs" />
     <Compile Include="Integration\RpcProxies\IErrorsService.cs" />
+    <Compile Include="Integration\RpcProxies\ILongValueTuplesServiceProxy.cs" />
+    <Compile Include="Integration\RpcProxies\INamedTupleComplexResultService.cs" />
     <Compile Include="Integration\RpcProxies\ISlowSquareService.cs" />
     <Compile Include="Integration\RpcProxies\ITimeService.cs" />
     <Compile Include="Integration\RpcServices\ArgumentsService.cs" />
     <Compile Include="Integration\RpcServices\ComplexResultService.cs" />
     <Compile Include="Integration\RpcServices\ErrorsService.cs" />
+    <Compile Include="Integration\RpcServices\LongValueTuplesCalleeService.cs" />
+    <Compile Include="Integration\RpcServices\LongValueTuplesService.cs" />
+    <Compile Include="Integration\RpcServices\NamedTupleComplexResultService.cs" />
+    <Compile Include="Integration\RpcServices\PositionalTupleComplexResultService.cs" />
     <Compile Include="Integration\RpcServices\SlowSquareService.cs" />
     <Compile Include="Integration\RpcServices\TimeService.cs" />
+    <Compile Include="Integration\PubSubSubjectTupleTests.cs" />
     <Compile Include="Integration\SerializedValue.cs" />
     <Compile Include="Integration\SharedRpcTests.cs" />
     <Compile Include="Integration\WampCraAuthenticationTests.cs" />

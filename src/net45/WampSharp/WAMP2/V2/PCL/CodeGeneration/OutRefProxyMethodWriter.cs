@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using WampSharp.V2.Rpc;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.CodeGeneration
 {
@@ -11,17 +11,19 @@ namespace WampSharp.CodeGeneration
     {
         private readonly string mFieldDeclaration =
 @"
-private static readonly MethodInfo mMethod{$methodIndex} =
-    GetMethodInfo(() =>
-    {
+private static readonly InvokeSyncDelegate<{$genericType}> mMethodHandler{$methodIndex} =
+    GetInvokeSync<{$genericType}>(
+        GetMethodInfo(() =>
+        {    
 {$variableDefaultAssignments}
 
-        return (Expression<Action<{$interfaceType}>>)
-            (x => x.{$methodName}({$qualifiedVariableList}));
-    });";
+            return (Expression<Action<{$interfaceType}>>)
+                (x => x.{$methodName}({$qualifiedVariableList}));
+        })
+);";
 
         private readonly string mDefaultAssignment =
-"        {$parameterType} {$parameterName} = default({$parameterType});";
+"            {$parameterType} {$parameterName} = default({$parameterType});";
 
         public string WriteField(int methodIndex, MethodInfo method)
         {
@@ -31,6 +33,8 @@ private static readonly MethodInfo mMethod{$methodIndex} =
 
             dictionary["methodIndex"] = methodIndex.ToString();
             dictionary["interfaceType"] = FormatTypeExtensions.FormatType(type);
+            Type returnType = TaskExtensions.UnwrapReturnType(method.ReturnType);
+            dictionary["genericType"] = FormatTypeExtensions.FormatType(returnType);
             dictionary["methodName"] = method.Name;
             dictionary["qualifiedVariableList"] =
                 string.Join(", ",
@@ -80,14 +84,14 @@ private static readonly MethodInfo mMethod{$methodIndex} =
 public {$returnType} {$methodName}({$parametersDeclaration})
 {
     object[] ___array = new object[] { {$array} };
-    {$varResult}{$invokeMethod}{$genericType}({$parameterList});
+    {$varResult}{$methodHandler}({$parameterList});
 {$unpack}
     {$return}
 }";
 
         public string WriteMethod(int methodIndex, MethodInfo method)
         {
-            string methodField = "mMethod" + methodIndex;
+            string methodHandler = "mMethodHandler" + methodIndex;
             
             IDictionary<string, string> dictionary =
                 new Dictionary<string, string>();
@@ -103,39 +107,21 @@ public {$returnType} {$methodName}({$parametersDeclaration})
          
             dictionary["parameterList"] =
                 string.Join(", ",
-                            new[] {methodField, "___array"});
+                            new[] {"this", "___array"});
 
             Type returnType = method.ReturnType;
             dictionary["returnType"] = FormatTypeExtensions.FormatType(returnType);
-
-            string invokeMethod;
-
-            invokeMethod = "InvokeSync";
 
             if (returnType != typeof(void))
             {
                 dictionary["varResult"] = "var ___result = ";
                 dictionary["return"] = "return ___result;";
-                dictionary["genericType"] = CodeGenerationHelper.GetGenericType(returnType);
             }
             else
             {
                 dictionary["varResult"] = string.Empty;
                 dictionary["return"] = "return;";
-                dictionary["genericType"] = string.Empty;
             }
-
-            if (!method.HasMultivaluedResult())
-            {
-                invokeMethod = "Single" + invokeMethod;
-            }
-            else
-            {
-                invokeMethod = "Multi" + invokeMethod;
-                dictionary["genericType"] = CodeGenerationHelper.GetGenericType(returnType.GetElementType());
-            }
-
-            dictionary["invokeMethod"] = invokeMethod;
 
             dictionary["parametersDeclaration"] =
                 string.Join(", ",
@@ -147,6 +133,8 @@ public {$returnType} {$methodName}({$parametersDeclaration})
                 string.Join(Environment.NewLine,
                 parameters.Where(x => x.IsOut || x.ParameterType.IsByRef)
                 .Select(x => GetUnpackStatement(x)));
+
+            dictionary["methodHandler"] = methodHandler;
 
             return CodeGenerationHelper.ProcessTemplate(mMethodTemplate, dictionary);
         }

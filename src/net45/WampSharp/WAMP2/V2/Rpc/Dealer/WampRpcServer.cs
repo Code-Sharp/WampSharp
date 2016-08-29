@@ -46,7 +46,7 @@ namespace WampSharp.V2.Rpc
             catch (WampException exception)
             {
                 mLogger.ErrorFormat(exception,
-                    "Failed registering procedure '{0}'. Registration request id: {1} ",
+                    "Failed registering procedure '{ProcedureUri}'. Registration request id: {RequestId} ",
                     procedure, requestId);
 
                 callee.RegisterError(requestId, exception);
@@ -63,7 +63,7 @@ namespace WampSharp.V2.Rpc
             catch (WampException exception)
             {
                 mLogger.ErrorFormat(exception,
-                    "Failed unregistering procedure with registration id {0}. Unregistration request id: {1} ",
+                    "Failed unregistering procedure with registration id {RegistrationId}. Unregistration request id: {RequestId} ",
                     registrationId,
                     requestId);
 
@@ -127,7 +127,7 @@ namespace WampSharp.V2.Rpc
         {
             if (!mUriValidator.IsValid(procedure))
             {
-                mLogger.ErrorFormat("call with invalid procedure URI '{0}'", procedure);
+                mLogger.ErrorFormat("call with invalid procedure URI '{ProcedureUri}'", procedure);
 
                 throw new WampException(WampErrors.InvalidUri,
                                         string.Format("call with invalid procedure URI '{0}'", procedure));

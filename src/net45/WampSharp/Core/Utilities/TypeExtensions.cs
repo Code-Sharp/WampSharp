@@ -98,6 +98,19 @@ namespace System.Reflection
 #endif
         }
 
+#if PCL
+        public static bool IsDefined(this Type type, Type attributeType, bool inherit)
+        {
+            return type.GetTypeInfo().IsDefined(attributeType, inherit);
+        }
+
+        public static T GetCustomAttribute<T>(this Type type, bool inherit = true)
+            where T : Attribute
+        {
+            return type.GetTypeInfo().GetCustomAttribute<T>(inherit);
+        }
+#endif
+
 #if NET40
         public static Type AsType(this Type type)
         {
@@ -123,7 +136,14 @@ namespace System.Reflection
 
         public static Type[] GetGenericArguments(this Type type)
         {
-            return type.GenericTypeArguments;
+            TypeInfo typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsGenericTypeDefinition)
+            {
+                return typeInfo.GenericTypeParameters;
+            }
+
+            return typeInfo.GenericTypeArguments;
         }
 
         public static MethodInfo GetMethod(this Type type, string methodName)
@@ -144,6 +164,21 @@ namespace System.Reflection
         public static bool IsInstanceOfType(this Type type, object instance)
         {
             return type.IsAssignableFrom(instance.GetType());
+        }
+
+        public static IEnumerable<PropertyInfo> GetProperties(this Type type)
+        {
+            return type.GetTypeInfo().DeclaredProperties;
+        }
+
+        public static IEnumerable<FieldInfo> GetFields(this Type type)
+        {
+            return type.GetTypeInfo().DeclaredFields;
+        }
+
+        public static FieldInfo GetField(this Type type, string name)
+        {
+            return type.GetTypeInfo().GetDeclaredField(name);
         }
 #endif
     }

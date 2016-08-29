@@ -18,6 +18,11 @@ namespace System.Reflection
         {
             return Attribute.IsDefined(element, attributeType, inherit);
         }
+
+        public static bool IsDefined(this ParameterInfo parameter, Type attributeType, bool inherit = true)
+        {
+            return Attribute.IsDefined(parameter, attributeType, inherit);
+        }
     }
 #endif
 }

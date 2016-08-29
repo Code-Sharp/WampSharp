@@ -1,8 +1,13 @@
 ﻿#if CASTLE || DISPATCH_PROXY
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Castle.DynamicProxy;
 using WampSharp.Core.Utilities;
+using WampSharp.Core.Utilities.ValueTuple;
+using WampSharp.V2.Core;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
@@ -65,7 +70,7 @@ namespace WampSharp.V2.CalleeProxy
             ICalleeProxyInterceptor interceptor)
             : base(method, handler, interceptor)
         {
-            mExtractor = GetOperationResultExtractor<TResult>(method);
+            mExtractor = OperationResultExtractor.Get<TResult>(method);
         }
 
         public IOperationResultExtractor<TResult> Extractor
@@ -74,29 +79,6 @@ namespace WampSharp.V2.CalleeProxy
             {
                 return mExtractor;
             }
-        }
-
-        private static IOperationResultExtractor<T> GetOperationResultExtractor<T>(MethodInfo method)
-        {
-            IOperationResultExtractor<T> extractor;
-
-            if (!method.HasMultivaluedResult())
-            {
-                bool hasReturnValue = method.HasReturnValue();
-                extractor = new SingleValueExtractor<T>(hasReturnValue);
-            }
-            else
-            {
-                Type elementType = typeof(T).GetElementType();
-
-                Type extractorType =
-                    typeof(MultiValueExtractor<>).MakeGenericType(elementType);
-
-                extractor =
-                    (IOperationResultExtractor<T>)Activator.CreateInstance(extractorType);
-            }
-
-            return extractor;
         }
     }
 }

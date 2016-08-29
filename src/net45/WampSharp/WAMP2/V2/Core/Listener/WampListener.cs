@@ -44,7 +44,7 @@ namespace WampSharp.V2.Core.Listener
 
             IWampClientProxy<TMessage> client = ClientContainer.GetClient(connection);
 
-            mLogger.DebugFormat("Client connected, session id: " + client.Session);
+            mLogger.DebugFormat("Client connected, session id: {SessionId}", client.Session);
 
             mSessionHandler.OnNewClient(client);
         }
@@ -55,7 +55,7 @@ namespace WampSharp.V2.Core.Listener
 
             if (ClientContainer.TryGetClient(connection, out client))
             {
-                mLogger.DebugFormat("Client disconnected, session id: " + client.Session);
+                mLogger.DebugFormat("Client disconnected, session id: {SessionId}", client.Session);
 
                 mSessionHandler.OnClientDisconnect(client);
             }

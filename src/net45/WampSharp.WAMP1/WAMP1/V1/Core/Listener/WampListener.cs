@@ -50,7 +50,7 @@ namespace WampSharp.V1.Core.Listener
 
             IWampClient client = ClientContainer.GetClient(connection);
 
-            mLogger.DebugFormat("Client connected, session id: {0}", client.SessionId);
+            mLogger.DebugFormat("Client connected, session id: {SessionId}", client.SessionId);
 
             client.Welcome(client.SessionId, 1, "WampSharp");
             
@@ -74,7 +74,7 @@ namespace WampSharp.V1.Core.Listener
             if (mLogger.IsDebugEnabled())
             {
                 IWampClient client = ClientContainer.GetClient(connection);
-                mLogger.DebugFormat("Client disconnected, session id: {0}", client.SessionId);
+                mLogger.DebugFormat("Client disconnected, session id: {SessionId}", client.SessionId);
             }
 
             base.OnCloseConnection(connection);

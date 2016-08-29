@@ -63,7 +63,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WebSocket4Net, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\WebSocket4Net.0.15.0-beta4\lib\net45\WebSocket4Net.dll</HintPath>
+      <HintPath>..\..\..\packages\WebSocket4Net.0.15.0-beta5\lib\net45\WebSocket4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

@@ -91,6 +91,7 @@
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Crpc_005Cbroker/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Crpc_005Ccallee/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Crpc_005Ccallee_005Creflection/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Crpc_005Ccallee_005Creflection_005Cresultextractor/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Crpc_005Cdealer/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Crpc_005Cdealer_005Ceventargs/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=wamp2_005Cv2_005Crpc_005Cdealer_005Coperationselectors/@EntryIndexedValue">True</s:Boolean>

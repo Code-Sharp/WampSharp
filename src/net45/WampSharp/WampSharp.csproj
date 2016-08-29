@@ -66,6 +66,10 @@
       <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.6.0\lib\netstandard1.1\System.Threading.Tasks.Dataflow.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.0.0-rc3-24212-01\lib\netstandard1.1\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -142,10 +146,17 @@
     <Compile Include="Core\Utilities\TaskMethodInvokeGenerator.cs" />
     <Compile Include="Core\Utilities\SwapHashSet.cs" />
     <Compile Include="Core\Utilities\ThreadSafeRandom.cs" />
+    <Compile Include="Core\Utilities\ValueTuple\ValueTuple.cs" />
+    <Compile Include="Core\Utilities\ValueTuple\ValueTupleArrayConverter.cs" />
+    <Compile Include="Core\Utilities\ValueTuple\ValueTupleConverter.cs" />
+    <Compile Include="Core\Utilities\ValueTuple\ValueTupleDictionaryConverter.cs" />
+    <Compile Include="Core\Utilities\ValueTuple\ValueTupleDictionaryConverterBuilder.cs" />
+    <Compile Include="Core\Utilities\ValueTuple\ValueTupleTypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Cra\WampCraHelpers.cs" />
     <Compile Include="Core\Utilities\TaskExtensions.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CachedCalleeProxyInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\OperationResultExtractor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyBase.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\AsyncCalleeProxyInterceptor.cs" />
@@ -159,7 +170,9 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorBase.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\CalleeProxyInterceptorFactory.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ClientInvocationHandler.cs" />
+    <Compile Include="WAMP2\V2\Api\CalleeProxy\Callbacks\Async\ValueTupleValueExtractor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\WampIncompatibleCalleeProxyMethodException.cs" />
+    <Compile Include="WAMP2\V2\Api\Rx\WampTupleTopicSubject.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\EventHandlerGenerator.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\IPublisherRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\ISubscriberRegistrationInterceptor.cs" />
@@ -167,7 +180,11 @@
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\SubscriberRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampPublisherRegistrar.cs" />
     <Compile Include="WAMP2\V2\Api\DelegatePubSub\WampSubscriberRegistrar.cs" />
+    <Compile Include="WAMP2\V2\Api\Rx\IWampEventValueTupleConverter.cs" />
+    <Compile Include="WAMP2\V2\Api\Rx\SerializedValueFormatter.cs" />
+    <Compile Include="WAMP2\V2\Api\Rx\WampEventValueTupleConverter.cs" />
     <Compile Include="WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs" />
+    <Compile Include="WAMP2\V2\Core\ArgumentUnpackerHelper.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Session\AuthenticateExtraData.cs" />
     <Compile Include="WAMP2\V2\Authentication\Cookie\CookieCollectionCookieProvider.cs" />
@@ -225,6 +242,7 @@
     <Compile Include="WAMP2\V2\Core\Contracts\IWampClient.cs" />
     <Compile Include="WAMP2\V2\Api\WampChannelReconnector.cs" />
     <Compile Include="WAMP2\V2\Client\Session\WampAuthenticationNotImplementedException.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\WampInvalidArgumentException.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampInvokePolicy.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampMatchPattern.cs" />
     <Compile Include="WAMP2\V2\Core\Uri\IWampUriValidator.cs" />
@@ -314,10 +332,16 @@
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ICalleeRegistrationInterceptor.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CallerProgress.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoValidation.cs" />
     <Compile Include="Core\Utilities\MethodInvokeGenerator.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ProgressiveAsyncMethodInfoRpcOperation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\EmptyResultExtractor.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\IWampResultExtractor.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\MultiResultExtractor.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\NamedTupleExtractor.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\PositionalTupleExtractor.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\SingleResultExtractor.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ResultExtractor\WampResultExtractor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\ExactRpcOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\IRemoteWampCalleeOperation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\IWampProcedureRegistration.cs" />

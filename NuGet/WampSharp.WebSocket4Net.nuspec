@@ -15,9 +15,7 @@
       </group>
       <group targetFramework=".NETStandard1.3">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="WebSocket4Net" version="[0.15.0-beta4, )" />
-        <!--This line is temporary here, until WebSocket4Net fixes its dependencies-->
-        <dependency id="SuperSocket.ClientEngine.Core" version="[0.8.0.6, )" />
+        <dependency id="WebSocket4Net" version="[0.15.0-beta5, )" />
       </group>
     </dependencies>
     <id>WampSharp.WebSocket4Net</id>

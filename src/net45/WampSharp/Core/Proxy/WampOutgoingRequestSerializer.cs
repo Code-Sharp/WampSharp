@@ -34,7 +34,7 @@ namespace WampSharp.Core.Proxy
 
         public WampMessage<object> SerializeRequest(MethodInfo method, object[] arguments)
         {
-            mLogger.DebugFormat("Calling remote peer proxy method: {0}", method);
+            mLogger.DebugFormat("Calling remote peer proxy method: {Method}", method);
 
             WampMethodInfo wampMethod = GetWampMethod(method);
 

@@ -1,4 +1,5 @@
 using System;
+using SuperSocket.ClientEngine;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
 using WampSharp.WebSocket4Net;
@@ -25,6 +26,8 @@ namespace WampSharp.V2.Fluent
             this(subprotocolName => new WebSocket(serverAddress, subprotocolName, WebSocketVersion.None))
         {
         }
+
+        public Action<SecurityOption> SecurityOptionsConfigureAction { get; set; }
 
         public IControlledWampConnection<TMessage> Activate<TMessage>(IWampBinding<TMessage> binding)
         {
@@ -63,7 +66,19 @@ namespace WampSharp.V2.Fluent
 
         protected IControlledWampConnection<TMessage> CreateTextConnection<TMessage>(IWampTextBinding<TMessage> textBinding)
         {
-            return new WebSocket4NetTextConnection<TMessage>(mWebSocketFactory(textBinding.Name), textBinding);
+            return new WebSocket4NetTextConnection<TMessage>(ActivateWebSocket(textBinding), textBinding);
+        }
+
+        private WebSocket ActivateWebSocket<TMessage>(IWampTextBinding<TMessage> textBinding)
+        {
+            WebSocket webSocket = mWebSocketFactory(textBinding.Name);
+
+            if (SecurityOptionsConfigureAction != null)
+            {
+                SecurityOptionsConfigureAction(webSocket.Security);
+            }
+
+            return webSocket;
         }
     }
 }
