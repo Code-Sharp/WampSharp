@@ -18,9 +18,9 @@ Master | Provider
 
 Documentation has been moved to [its own repository](https://github.com/Code-Sharp/WampSharp-docs)!
 
-## WampSharp v1.2.4.18-beta
+## WampSharp v1.2.5.21-beta
 
-WampSharp v1.2.4.18-beta released, see version [release notes](https://github.com/Code-Sharp/WampSharp-docs/blob/master/Release-notes/WampSharp-v1.2.4.18-beta-release-notes.md).
+WampSharp v1.2.5.21-beta released, see version [release notes](https://github.com/Code-Sharp/WampSharp-docs/blob/master/Release-notes/WampSharp-v1.2.5.21-beta-release-notes.md).
 
 ## Get Started
 
