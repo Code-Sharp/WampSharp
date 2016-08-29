@@ -15,8 +15,7 @@
       },
       "dependencies": {
         "WampSharp": { "target": "project" },
-        "WebSocket4Net": "0.15.0-beta4",
-        "SuperSocket.ClientEngine.Core": "0.8.0.6"
+        "WebSocket4Net": "0.15.0-beta5"
       }
     }
   }
