@@ -102,7 +102,7 @@ namespace WampSharp.WebSockets
                         length += webSocketReceiveResult.Count;
 
                         await memoryStream.WriteAsync(receivedDataBuffer.Array, receivedDataBuffer.Offset,
-                                                      receivedDataBuffer.Count, mCancellationTokenSource.Token)
+                                                      webSocketReceiveResult.Count, mCancellationTokenSource.Token)
                                           .ConfigureAwait(false);
 
                     } while (!webSocketReceiveResult.EndOfMessage);
