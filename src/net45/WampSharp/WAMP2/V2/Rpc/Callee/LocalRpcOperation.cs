@@ -149,7 +149,7 @@ namespace WampSharp.V2.Rpc
         protected static WampRpcRuntimeException ConvertExceptionToRuntimeException(Exception exception)
         {
             // TODO: Maybe try a different implementation.
-            return new WampRpcRuntimeException(exception.Message);
+            return new WampRpcRuntimeException(exception.ToString());
         }
     }
 }
