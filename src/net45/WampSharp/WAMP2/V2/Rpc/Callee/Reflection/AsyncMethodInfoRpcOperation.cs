@@ -21,8 +21,8 @@ namespace WampSharp.V2.Rpc
         private readonly CollectionResultTreatment mCollectionResultTreatment;
         private IWampResultExtractor mResultExtractor;
 
-        public AsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) :
-            base(procedureName)
+        public AsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName, ICalleeSettings settings = null) :
+            base(procedureName, settings)
         {
             mInstanceProvider = instanceProvider;
             mMethod = method;

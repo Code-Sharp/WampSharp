@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Rpc;
 
 // ReSharper disable once CheckNamespace
 namespace WampSharp.V2
@@ -23,5 +24,10 @@ namespace WampSharp.V2
         /// Gets the procedure uri that will be used to register the given method.
         /// </summary>
         string GetProcedureUri(MethodInfo method);
+
+        /// <summary>
+        /// Gets the settings to be used for the given method.
+        /// </summary>
+        ICalleeSettings GetSettings(MethodInfo method);
     }
 }

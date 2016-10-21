@@ -9,8 +9,8 @@ namespace WampSharp.V2.Rpc
 {
     public abstract class SyncLocalRpcOperation: LocalRpcOperation
     {
-        protected SyncLocalRpcOperation(string procedure)
-            : base(procedure)
+        protected SyncLocalRpcOperation(string procedure, ICalleeSettings settings = null)
+            : base(procedure, settings)
         {
         }
 

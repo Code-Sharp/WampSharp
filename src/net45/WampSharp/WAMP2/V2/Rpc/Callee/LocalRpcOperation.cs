@@ -19,9 +19,12 @@ namespace WampSharp.V2.Rpc
         protected readonly static IWampFormatter<object> ObjectFormatter =
             WampObjectFormatter.Value;
 
-        protected LocalRpcOperation(string procedure)
+        private readonly ICalleeSettings mSettings;
+
+        protected LocalRpcOperation(string procedure, ICalleeSettings settings = null)
         {
             mProcedure = procedure;
+            mSettings = settings ?? new CalleeSettings();
             mLogger = LogProvider.GetLogger(typeof (LocalRpcOperation) + "." + procedure);
         }
 
@@ -121,6 +124,11 @@ namespace WampSharp.V2.Rpc
             }
         }
 
+        protected WampRpcRuntimeException ConvertExceptionToRuntimeException(Exception exception)
+        {
+            return mSettings.ConvertExceptionToRuntimeException(exception);
+        }
+
         protected class WampRpcErrorCallback : IWampErrorCallback
         {
             private readonly IWampRawRpcOperationRouterCallback mCallback;
@@ -144,12 +152,6 @@ namespace WampSharp.V2.Rpc
             {
                 mCallback.Error(ObjectFormatter, details, error, arguments, argumentsKeywords);
             }
-        }
-
-        protected static WampRpcRuntimeException ConvertExceptionToRuntimeException(Exception exception)
-        {
-            // TODO: Maybe try a different implementation.
-            return new WampRpcRuntimeException(exception.Message);
         }
     }
 }

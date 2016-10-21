@@ -331,6 +331,7 @@
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeSettings.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\ICalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\MethodInfoValidation.cs" />
     <Compile Include="Core\Utilities\MethodInvokeGenerator.cs" />

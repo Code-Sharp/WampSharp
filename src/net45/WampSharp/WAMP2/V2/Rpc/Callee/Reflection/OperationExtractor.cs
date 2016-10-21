@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using WampSharp.Core.Utilities;
 using WampSharp.V2.Core.Contracts;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
@@ -58,27 +57,29 @@ namespace WampSharp.V2.Rpc
             string procedureUri =
                 interceptor.GetProcedureUri(method);
 
+            ICalleeSettings settings = interceptor.GetSettings(method);
+
             if (!typeof (Task).IsAssignableFrom(method.ReturnType))
             {
                 MethodInfoValidation.ValidateTupleReturnType(method);
-                return new SyncMethodInfoRpcOperation(instanceProvider, method, procedureUri);
+                return new SyncMethodInfoRpcOperation(instanceProvider, method, procedureUri, settings);
             }
             else
             {
                 if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
                 {
                     MethodInfoValidation.ValidateProgressiveMethod(method);
-                    return CreateProgressiveOperation(instanceProvider, method, procedureUri);
+                    return CreateProgressiveOperation(instanceProvider, method, procedureUri, settings);
                 }
                 else
                 {
                     MethodInfoValidation.ValidateAsyncMethod(method);
-                    return new AsyncMethodInfoRpcOperation(instanceProvider, method, procedureUri);
+                    return new AsyncMethodInfoRpcOperation(instanceProvider, method, procedureUri, settings);
                 }
             }
         }
 
-        private static IWampRpcOperation CreateProgressiveOperation(Func<object> instanceProvider, MethodInfo method, string procedureUri)
+        private static IWampRpcOperation CreateProgressiveOperation(Func<object> instanceProvider, MethodInfo method, string procedureUri, ICalleeSettings settings)
         {
             //return new ProgressiveAsyncMethodInfoRpcOperation<returnType>
             // (instance, method, procedureUri);
@@ -94,7 +95,8 @@ namespace WampSharp.V2.Rpc
                 (IWampRpcOperation) Activator.CreateInstance(operationType,
                     instanceProvider,
                     method,
-                    procedureUri);
+                    procedureUri,
+                    settings);
 
             return operation;
         }

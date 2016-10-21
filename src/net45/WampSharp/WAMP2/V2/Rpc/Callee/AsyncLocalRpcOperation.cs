@@ -10,7 +10,8 @@ namespace WampSharp.V2.Rpc
 {
     public abstract class AsyncLocalRpcOperation: LocalRpcOperation
     {
-        protected AsyncLocalRpcOperation(string procedure) : base(procedure)
+        protected AsyncLocalRpcOperation(string procedure, ICalleeSettings settings = null) : 
+            base(procedure, settings)
         {
         }
 

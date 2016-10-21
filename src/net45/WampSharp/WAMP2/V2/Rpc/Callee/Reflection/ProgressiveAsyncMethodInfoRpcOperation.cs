@@ -11,8 +11,8 @@ namespace WampSharp.V2.Rpc
     {
         private readonly RpcParameter[] mRpcParameters;
 
-        public ProgressiveAsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) : 
-            base(instanceProvider, method, procedureName)
+        public ProgressiveAsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName, ICalleeSettings settings = null) : 
+            base(instanceProvider, method, procedureName, settings)
         {
             RpcParameter[] baseParameters = base.Parameters;
 
