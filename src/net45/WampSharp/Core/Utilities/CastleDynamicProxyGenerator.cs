@@ -8,7 +8,7 @@ namespace WampSharp.Core.Utilities
 {
     internal static class CastleDynamicProxyGenerator
     {
-        private static string PREFIX = typeof(CastleDynamicProxyGenerator).Assembly.GetName().Name + ".";
+        private static string PREFIX = "WampSharp.";
 
         public static readonly ProxyGenerator Instance = GetProxyGenerator();
 
