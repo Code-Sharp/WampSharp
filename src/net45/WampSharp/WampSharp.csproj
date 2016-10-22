@@ -133,6 +133,7 @@
     <Compile Include="Core\Serialization\WampMessageSerializerFactory.cs" />
     <Compile Include="Core\Serialization\WampSerializationInterceptor.cs" />
     <Compile Include="Core\Utilities\AsyncDisposable\AsyncDisposableExtensions.cs" />
+    <Compile Include="Core\Utilities\CastleDynamicProxyGenerator.cs" />
     <Compile Include="Core\Utilities\CustomAttributeExtensions.cs" />
     <Compile Include="Core\Utilities\DictionaryExtensions.cs" />
     <Compile Include="Core\Utilities\GenericTypeExtensions.cs" />

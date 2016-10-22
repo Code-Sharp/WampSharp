@@ -1,6 +1,7 @@
 ﻿#if CASTLE
 using Castle.DynamicProxy;
 using WampSharp.Core.Proxy;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.Core.Serialization
 {
@@ -11,7 +12,7 @@ namespace WampSharp.Core.Serialization
     /// <typeparam name="TMessage"></typeparam>
     public class WampMessageSerializerFactory<TMessage> : IWampMessageSerializerFactory
     {
-        private readonly ProxyGenerator mGenerator = new ProxyGenerator();
+        private readonly ProxyGenerator mGenerator = CastleDynamicProxyGenerator.Instance;
         private readonly WampSerializationInterceptor<TMessage> mSerializationInterceptor;
 
         /// <summary>

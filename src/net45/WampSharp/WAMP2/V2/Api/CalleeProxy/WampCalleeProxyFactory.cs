@@ -2,12 +2,13 @@
 using System.Linq;
 using System.Reflection;
 using Castle.DynamicProxy;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.V2.CalleeProxy
 {
     internal class WampCalleeProxyFactory : IWampCalleeProxyFactory
     {
-        private readonly ProxyGenerator mGenerator = new ProxyGenerator();
+        private readonly ProxyGenerator mGenerator = CastleDynamicProxyGenerator.Instance;
         private readonly WampCalleeProxyInvocationHandler mHandler;
 
         public WampCalleeProxyFactory(WampCalleeProxyInvocationHandler handler)

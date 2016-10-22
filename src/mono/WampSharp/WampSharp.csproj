@@ -248,6 +248,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\AsyncDisposable\AsyncDisposableExtensions.cs">
       <Link>Core\Utilities\AsyncDisposable\AsyncDisposableExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\CastleDynamicProxyGenerator.cs">
+      <Link>Core\Utilities\CastleDynamicProxyGenerator.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\CustomAttributeExtensions.cs">
       <Link>Core\Utilities\CustomAttributeExtensions.cs</Link>
     </Compile>
