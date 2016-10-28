@@ -47,7 +47,7 @@ namespace WampSharp.V2.Authentication
             {
                 throw new WampAuthenticationException
                     (string.Format("no user with authid '{0}' in user database",
-                                   user.AuthenticationId));
+                                   helloDetails.AuthenticationId));
             }
 
             user.AuthenticationId = user.AuthenticationId ?? 
