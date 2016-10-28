@@ -85,7 +85,7 @@ namespace WampSharp.V2.CalleeProxy
 
         public void SetException(Exception exception)
         {
-            mTask.SetException(exception);
+            mTask.TrySetException(exception);
         }
     }
 }

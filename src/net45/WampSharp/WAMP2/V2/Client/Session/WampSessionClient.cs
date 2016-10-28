@@ -194,6 +194,7 @@ namespace WampSharp.V2.Client
             }
 
             mConnectionBrokenRaised = false;
+            mOpenTask = new TaskCompletionSource<bool>();
         }
 
         public void OnConnectionError(Exception exception)
@@ -207,13 +208,7 @@ namespace WampSharp.V2.Client
 
         private void SetOpenTaskErrorIfNeeded(Exception exception)
         {
-            TaskCompletionSource<bool> openTask;
-
-            lock (mLock)
-            {
-                openTask = mOpenTask;
-                mOpenTask = new TaskCompletionSource<bool>();
-            }
+            TaskCompletionSource<bool> openTask = mOpenTask;
 
             if (openTask != null)
             {

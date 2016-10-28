@@ -21,7 +21,7 @@ namespace WampSharp.V2.CalleeProxy
         private readonly IWampRpcOperationCatalogProxy mCatalogProxy;
         private readonly IWampClientConnectionMonitor mMonitor;
 
-        private TaskCompletionSource<object> mDisconnectionTaskCompletionSource;
+        private TaskCompletionSource<Exception> mDisconnectionTaskCompletionSource;
 
         private ManualResetEvent mDisconnectionWaitHandle;
 
@@ -37,10 +37,10 @@ namespace WampSharp.V2.CalleeProxy
         {
             mCatalogProxy = catalogProxy;
             mMonitor = monitor;
-            mDisconnectionTaskCompletionSource = new TaskCompletionSource<object>();
+
+            mDisconnectionTaskCompletionSource = new TaskCompletionSource<Exception>();
             mDisconnectionWaitHandle = new ManualResetEvent(false);
 
-            mMonitor.ConnectionEstablished += OnConnectionEstablished;
             mMonitor.ConnectionError += OnConnectionError;
             mMonitor.ConnectionBroken += OnConnectionBroken;
         }
@@ -54,16 +54,14 @@ namespace WampSharp.V2.CalleeProxy
 
         #region Private Methods
 
-        private void OnConnectionEstablished(object sender, WampSessionCreatedEventArgs e)
-        {
-            mDisconnectionTaskCompletionSource = new TaskCompletionSource<object>();
-            mDisconnectionWaitHandle = new ManualResetEvent(false);
-        }
 
         private void OnConnectionBroken(object sender, WampSessionCloseEventArgs e)
         {
             Exception exception = new WampConnectionBrokenException(e);
             SetException(exception);
+
+            mDisconnectionTaskCompletionSource = new TaskCompletionSource<Exception>();
+            mDisconnectionWaitHandle = new ManualResetEvent(false);
         }
 
         private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
@@ -75,7 +73,7 @@ namespace WampSharp.V2.CalleeProxy
         private void SetException(Exception exception)
         {
             mDisconnectionException = exception;
-            mDisconnectionTaskCompletionSource.TrySetException(exception);
+            mDisconnectionTaskCompletionSource.TrySetResult(exception);
             mDisconnectionWaitHandle.Set();
         }
 
@@ -92,17 +90,29 @@ namespace WampSharp.V2.CalleeProxy
 #if ASYNC
             Task<T> operationTask = asyncOperationCallback.Task;
 
+            Task<Exception> disconnectionTask = mDisconnectionTaskCompletionSource.Task;
+
             Task task = await Task.WhenAny(operationTask,
-                                           mDisconnectionTaskCompletionSource.Task)
+                                           disconnectionTask)
                                   .ConfigureAwait(false);
+
+            if (!operationTask.IsCompleted)
+            {
+                Exception exception = await disconnectionTask.ConfigureAwait(false);
+
+                asyncOperationCallback.SetException(exception);
+            }
 
             T result = await operationTask.ConfigureAwait(false);
 
             return result;
+
 #else
             IObservable<T> merged =
-                Observable.Amb(asyncOperationCallback.Task.ToObservable(),
-                                    mDisconnectionTaskCompletionSource.Task.ToObservable().Cast<T>());
+                Observable.Amb
+                (asyncOperationCallback.Task.ToObservable(),
+                 mDisconnectionTaskCompletionSource.Task.ToObservable()
+                                                   .SelectMany(x => Observable.Throw<T>(x)));
                 
             Task<T> task = merged.ToTask();
 
@@ -114,7 +124,7 @@ namespace WampSharp.V2.CalleeProxy
         protected override void WaitForResult<T>(SyncCallback<T> callback)
         {
             int signaledIndex =
-                WaitHandle.WaitAny(new[] {mDisconnectionWaitHandle, callback.WaitHandle},
+                WaitHandle.WaitAny(new[] { mDisconnectionWaitHandle, callback.WaitHandle },
                                    Timeout.Infinite);
 
 
@@ -137,6 +147,6 @@ namespace WampSharp.V2.CalleeProxy
                                  arguments);
         }
 
-        #endregion
+#endregion
     }
 }
