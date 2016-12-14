@@ -38,7 +38,7 @@ namespace WampSharp.V2.Core.Contracts
                              IDictionary<string, object> argumentsKeywords) : base(errorUri)
         {
             mErrorUri = errorUri;
-            mDetails = details;
+            mDetails = details ?? mEmptyDetails;
             mArguments = arguments;
             mArgumentsKeywords = argumentsKeywords;
         }
@@ -48,7 +48,7 @@ namespace WampSharp.V2.Core.Contracts
             : base(message)
         {
             mErrorUri = errorUri;
-            mDetails = details;
+            mDetails = details ?? mEmptyDetails;
             mArguments = new object[] {message};
             mArgumentsKeywords = argumentsKeywords;
         }
@@ -66,7 +66,7 @@ namespace WampSharp.V2.Core.Contracts
             : base(message, inner)
         {
             mErrorUri = errorUri;
-            mDetails = details;
+            mDetails = details ?? mEmptyDetails;
             mArguments = arguments;
             mArgumentsKeywords = argumentsKeywords;
         }
