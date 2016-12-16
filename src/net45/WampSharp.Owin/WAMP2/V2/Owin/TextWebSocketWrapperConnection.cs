@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Text;
 using WampSharp.Core.Message;
 using WampSharp.V2.Authentication;
@@ -7,14 +7,15 @@ using WampSharp.V2.Binding;
 
 namespace WampSharp.Owin
 {
-    public class TextWebSocketConnection<TMessage> : WebSocketConnection<TMessage>
+    public class TextWebSocketWrapperConnection<TMessage> : WebSocketWrapperConnection<TMessage>
     {
         private readonly IWampTextBinding<TMessage> mBinding;
 
-        public TextWebSocketConnection(IDictionary<string, object> webSocketContext, IWampTextBinding<TMessage> binding,
-                                       ICookieProvider cookieProvider,
-                                       ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
-            base(webSocketContext, binding, cookieProvider, cookieAuthenticatorFactory)
+        public TextWebSocketWrapperConnection(IWebSocketWrapper wrapper,
+                                              IWampTextBinding<TMessage> binding,
+                                              ICookieProvider cookieProvider,
+                                              ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
+            base(wrapper, binding, cookieProvider, cookieAuthenticatorFactory)
         {
             mBinding = binding;
         }
@@ -28,7 +29,7 @@ namespace WampSharp.Owin
             return new ArraySegment<byte>(bytes);
         }
 
-        protected override int MessageType
+        protected override WebSocketMessageType WebSocketMessageType
         {
             get
             {

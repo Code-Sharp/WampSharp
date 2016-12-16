@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace WampSharp.Owin
 {
-    internal class WebSocketWrapper
+    internal class OwinWebSocketWrapper : IWebSocketWrapper
     {
         private readonly IDictionary<string, object> mWebsocketContext;
         private readonly Func<ArraySegment<byte>, int, bool, CancellationToken, Task> mSendAsync;
@@ -20,7 +21,7 @@ namespace WampSharp.Owin
         private const string WebSocketClientCloseStatus = "websocket.ClientCloseStatus";
         private const string WebSocketSubProtocol = "websocket.SubProtocol";
 
-        internal WebSocketWrapper(IDictionary<string, object> websocketContext)
+        internal OwinWebSocketWrapper(IDictionary<string, object> websocketContext)
         {
             mWebsocketContext = websocketContext;
 
@@ -49,7 +50,7 @@ namespace WampSharp.Owin
             }
         }
 
-        public int? ClientCloseStatus
+        public WebSocketCloseStatus? ClientCloseStatus
         {
             get
             {
@@ -57,7 +58,7 @@ namespace WampSharp.Owin
 
                 if (mWebsocketContext.TryGetValue(WebSocketClientCloseStatus, out status))
                 {
-                    return (int) status;
+                    return (WebSocketCloseStatus) (int)status;
                 }
 
                 return null;
@@ -85,7 +86,7 @@ namespace WampSharp.Owin
         }
 
 
-        public async Task<WebSocketReceiveResultStruct> ReceiveAsync
+        public async Task<WebSocketReceiveResult> ReceiveAsync
         (ArraySegment<byte> arraySegment,
          CancellationToken callCancelled)
         {
@@ -93,22 +94,57 @@ namespace WampSharp.Owin
                 await mReceiveAsync(arraySegment, callCancelled)
                     .ConfigureAwait(false);
 
-            return new WebSocketReceiveResultStruct
+            return new WebSocketReceiveResult(count: result.Item3, messageType: GetMessageType(result.Item1), endOfMessage: result.Item2);
+        }
+
+        public Task SendAsync(ArraySegment<byte> data, WebSocketMessageType messageType, bool endOfMessage, CancellationToken cancel)
+        {
+            return mSendAsync(data, ConvertMessageTypeToInt(messageType), endOfMessage, cancel);
+        }
+
+        public Task CloseAsync(WebSocketCloseStatus closeStatus, string closeDescription, CancellationToken cancel)
+        {
+            return mCloseAsync((int) closeStatus, closeDescription, cancel);
+        }
+
+        public bool IsConnected
+        {
+            get
             {
-                Count = result.Item3,
-                EndOfMessage = result.Item2,
-                MessageType = result.Item1
-            };
+                WebSocketCloseStatus? closeStatus = ClientCloseStatus;
+
+                return ((closeStatus == null) || (closeStatus == 0));
+            }
         }
 
-        public Task SendAsync(ArraySegment<byte> data, int messageType, bool endOfMessage, CancellationToken cancel)
+        private WebSocketMessageType GetMessageType(int messageType)
         {
-            return mSendAsync(data, messageType, endOfMessage, cancel);
+            switch (messageType)
+            {
+                case WebSocketMessageTypes.Binary:
+                    return WebSocketMessageType.Binary;
+                case WebSocketMessageTypes.Text:
+                    return WebSocketMessageType.Text;
+                case WebSocketMessageTypes.Close:
+                    return WebSocketMessageType.Close;
+            }
+
+            return default(WebSocketMessageType);
         }
 
-        public Task CloseAsync(int closeStatus, string closeDescription, CancellationToken cancel)
+        private int ConvertMessageTypeToInt(WebSocketMessageType messageType)
         {
-            return mCloseAsync(closeStatus, closeDescription, cancel);
+            switch (messageType)
+            {
+                case WebSocketMessageType.Binary:
+                    return WebSocketMessageTypes.Binary;
+                case WebSocketMessageType.Text:
+                    return WebSocketMessageTypes.Text;
+                case WebSocketMessageType.Close:
+                    return WebSocketMessageTypes.Close;
+            }
+
+            return 0;
         }
     }
 }

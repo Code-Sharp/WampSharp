@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Owin;
@@ -39,11 +40,11 @@ namespace WampSharp.Owin
         {
             byte[] buffer = new byte[1024];
 
-            WebSocketWrapper wrapper = new WebSocketWrapper(websocketContext);
+            OwinWebSocketWrapper wrapper = new OwinWebSocketWrapper(websocketContext);
 
             CancellationToken callCancelled = wrapper.CancellationToken;
 
-            WebSocketReceiveResultStruct received = 
+            WebSocketReceiveResult received = 
                 await wrapper.ReceiveAsync(new ArraySegment<byte>(buffer), callCancelled);
 
             while (wrapper.ClientCloseStatus == null || wrapper.ClientCloseStatus == 0)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
@@ -10,33 +11,66 @@ using WampSharp.V2.Binding.Parsers;
 
 namespace WampSharp.Owin
 {
-    // Based on this sample:
-    // http://aspnet.codeplex.com/sourcecontrol/latest#Samples/Katana/WebSocketSample/WebSocketServer/Startup.cs
-    // TODO: abstractize this, in order to avoid code duplication
-    public abstract class WebSocketConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>
+    public abstract class WebSocketWrapperConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>
     {
-        private const int NormalClosure = 1000;
         private readonly IWampStreamingMessageParser<TMessage> mParser;
-        private readonly WebSocketWrapper mWebSocket;
+        private readonly IWebSocketWrapper mWebSocket;
         private readonly CancellationTokenSource mCancellationTokenSource;
+        private readonly Uri mAddressUri;
 
-        public WebSocketConnection(IDictionary<string, object> webSocketContext, IWampStreamingMessageParser<TMessage> parser, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
+        public WebSocketWrapperConnection(IWebSocketWrapper webSocketWrapper, IWampStreamingMessageParser<TMessage> parser, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
             base(cookieProvider, cookieAuthenticatorFactory)
         {
-            mWebSocket = new WebSocketWrapper(webSocketContext);
+            mWebSocket = webSocketWrapper;
             mParser = parser;
             mCancellationTokenSource = new CancellationTokenSource();
+        }
+
+        protected WebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket,
+                                             Uri addressUri,
+                                             string protocolName,
+                                             IWampStreamingMessageParser<TMessage> parser) :
+            this(clientWebSocket, parser, null, null)
+        {
+            clientWebSocket.Options.AddSubProtocol(protocolName);
+            mAddressUri = addressUri;
         }
 
         protected override Task SendAsync(WampMessage<object> message)
         {
             ArraySegment<byte> messageToSend = GetMessageInBytes(message);
-            return mWebSocket.SendAsync(messageToSend, MessageType, true, mCancellationTokenSource.Token);
+            return mWebSocket.SendAsync(messageToSend, WebSocketMessageType, true, mCancellationTokenSource.Token);
         }
 
         protected abstract ArraySegment<byte> GetMessageInBytes(WampMessage<object> message);
 
-        protected abstract int MessageType { get; }
+        protected abstract WebSocketMessageType WebSocketMessageType { get; }
+
+        public IClientWebSocketWrapper ClientWebSocket
+        {
+            get
+            {
+                return mWebSocket as IClientWebSocketWrapper;
+            }
+        }
+
+        protected async void Connect()
+        {
+            try
+            {
+                await this.ClientWebSocket.ConnectAsync(mAddressUri, mCancellationTokenSource.Token)
+                          .ConfigureAwait(false);
+
+                RaiseConnectionOpen();
+
+                Task task = Task.Run(this.RunAsync, mCancellationTokenSource.Token);
+            }
+            catch (Exception ex)
+            {
+                RaiseConnectionError(ex);
+                RaiseConnectionClosed();
+            }
+        }
 
         public async Task RunAsync()
         {
@@ -55,17 +89,17 @@ namespace WampSharp.Owin
                 MemoryStream memoryStream = new MemoryStream();
 
                 // Checks WebSocket state.
-                while (IsConnected)
+                while (mWebSocket.IsConnected)
                 {
                     // Reads data.
-                    WebSocketReceiveResultStruct webSocketReceiveResult;
+                    WebSocketReceiveResult webSocketReceiveResult;
 
                     long length = 0;
                     do
                     {
                         webSocketReceiveResult =
                             await mWebSocket.ReceiveAsync(receivedDataBuffer, mCancellationTokenSource.Token)
-                            .ConfigureAwait(false);
+                                            .ConfigureAwait(false);
 
                         length += webSocketReceiveResult.Count;
 
@@ -76,11 +110,11 @@ namespace WampSharp.Owin
                     } while (!webSocketReceiveResult.EndOfMessage);
 
                     // If input frame is cancelation frame, send close command.
-                    if (webSocketReceiveResult.MessageType == WebSocketMessageType.Close)
+                    if (webSocketReceiveResult.MessageType == System.Net.WebSockets.WebSocketMessageType.Close)
                     {
                         this.RaiseConnectionClosed();
 
-                        await mWebSocket.CloseAsync(NormalClosure,
+                        await mWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
                                                     String.Empty, 
                                                     mCancellationTokenSource.Token)
                                         .ConfigureAwait(false);
@@ -116,8 +150,7 @@ namespace WampSharp.Owin
         {
             get
             {
-                return mWebSocket.ClientCloseStatus == null ||
-                       mWebSocket.ClientCloseStatus == 0;
+                return mWebSocket.IsConnected;
             }
         }
     }

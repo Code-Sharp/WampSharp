@@ -13,6 +13,9 @@ namespace WampSharp.Owin
 {
     public class OwinWebSocketTransport : WebSocketTransport<WebSocketData>
     {
+        private const string WebSocketSubProtocol = "websocket.SubProtocol";
+        private const string SecWebSocketProtocolHeader = "Sec-WebSocket-Protocol";
+
         private Func<IOwinContext, Func<Task>, Task> mHandler;
 
         public OwinWebSocketTransport
@@ -47,8 +50,8 @@ namespace WampSharp.Owin
             (WebSocketData connection,
              IWampBinaryBinding<TMessage> binding)
         {
-            return new BinaryWebSocketConnection<TMessage>
-                (connection.WebSocketContext,
+            return new BinaryWebSocketWrapperConnection<TMessage>
+                (new OwinWebSocketWrapper(connection.WebSocketContext),
                  binding,
                  new OwinCookieProvider(connection.OwinContext),
                  AuthenticatorFactory);
@@ -58,8 +61,8 @@ namespace WampSharp.Owin
             (WebSocketData connection,
              IWampTextBinding<TMessage> binding)
         {
-            return new TextWebSocketConnection<TMessage>
-                (connection.WebSocketContext,
+            return new TextWebSocketWrapperConnection<TMessage>
+                (new OwinWebSocketWrapper(connection.WebSocketContext),
                  binding,
                  new OwinCookieProvider(connection.OwinContext),
                  AuthenticatorFactory);
@@ -88,7 +91,7 @@ namespace WampSharp.Owin
             if (accept != null)
             {
                 IEnumerable<string> possibleSubProtocols =
-                    context.Request.Headers.GetCommaSeparatedValues("Sec-WebSocket-Protocol")
+                    context.Request.Headers.GetCommaSeparatedValues(SecWebSocketProtocolHeader)
                            .Intersect(this.SubProtocols);
 
                 string subprotocol =
@@ -98,7 +101,7 @@ namespace WampSharp.Owin
                 {
                     accept(new Dictionary<string, object>()
                            {
-                               {"websocket.SubProtocol", subprotocol}
+                               {WebSocketSubProtocol, subprotocol}
                            },
                            websocketContext => OnAccept(websocketContext, context, subprotocol));
 
