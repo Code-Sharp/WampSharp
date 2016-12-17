@@ -5,17 +5,20 @@ using WampSharp.Core.Message;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 
-namespace WampSharp.Owin
+namespace WampSharp.WebSockets
 {
     public class TextWebSocketWrapperConnection<TMessage> : WebSocketWrapperConnection<TMessage>
     {
         private readonly IWampTextBinding<TMessage> mBinding;
 
-        public TextWebSocketWrapperConnection(IWebSocketWrapper wrapper,
-                                              IWampTextBinding<TMessage> binding,
-                                              ICookieProvider cookieProvider,
-                                              ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
-            base(wrapper, binding, cookieProvider, cookieAuthenticatorFactory)
+        public TextWebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampTextBinding<TMessage> binding, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) : 
+            base(webSocket, binding, cookieProvider, cookieAuthenticatorFactory)
+        {
+            mBinding = binding;
+        }
+
+        protected TextWebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri, IWampTextBinding<TMessage> binding) :
+            base(clientWebSocket, addressUri, binding.Name, binding)
         {
             mBinding = binding;
         }

@@ -8,6 +8,7 @@ using WampSharp.Core.Listener;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Transports;
+using WampSharp.WebSockets;
 
 namespace WampSharp.Owin
 {

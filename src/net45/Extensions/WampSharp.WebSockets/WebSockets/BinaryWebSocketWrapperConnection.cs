@@ -1,23 +1,22 @@
-using System;
+﻿using System;
 using System.Net.WebSockets;
-using System.Text;
 using WampSharp.Core.Message;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 
 namespace WampSharp.WebSockets
 {
-    public class TextWebSocketConnection<TMessage> : WebSocketConnection<TMessage>
+    public class BinaryWebSocketWrapperConnection<TMessage> : WebSocketWrapperConnection<TMessage>
     {
-        private readonly IWampTextBinding<TMessage> mBinding;
+        private readonly IWampBinaryBinding<TMessage> mBinding;
 
-        public TextWebSocketConnection(WebSocket webSocket, IWampTextBinding<TMessage> binding, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) : 
+        public BinaryWebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampBinaryBinding<TMessage> binding, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) : 
             base(webSocket, binding, cookieProvider, cookieAuthenticatorFactory)
         {
             mBinding = binding;
         }
 
-        protected TextWebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri, IWampTextBinding<TMessage> binding) :
+        protected BinaryWebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri, IWampBinaryBinding<TMessage> binding) :
             base(clientWebSocket, addressUri, binding.Name, binding)
         {
             mBinding = binding;
@@ -25,10 +24,7 @@ namespace WampSharp.WebSockets
 
         protected override ArraySegment<byte> GetMessageInBytes(WampMessage<object> message)
         {
-            string formatted = mBinding.Format(message);
-
-            byte[] bytes = Encoding.UTF8.GetBytes(formatted);
-
+            byte[] bytes = mBinding.Format(message);
             return new ArraySegment<byte>(bytes);
         }
 
@@ -36,7 +32,7 @@ namespace WampSharp.WebSockets
         {
             get
             {
-                return WebSocketMessageType.Text;
+                return WebSocketMessageType.Binary;
             }
         }
     }
