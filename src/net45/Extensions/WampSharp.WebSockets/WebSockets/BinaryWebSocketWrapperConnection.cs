@@ -6,17 +6,17 @@ using WampSharp.V2.Binding;
 
 namespace WampSharp.WebSockets
 {
-    public class BinaryWebSocketConnection<TMessage> : WebSocketConnection<TMessage>
+    public class BinaryWebSocketWrapperConnection<TMessage> : WebSocketWrapperConnection<TMessage>
     {
         private readonly IWampBinaryBinding<TMessage> mBinding;
 
-        public BinaryWebSocketConnection(WebSocket webSocket, IWampBinaryBinding<TMessage> binding, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) : 
+        public BinaryWebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampBinaryBinding<TMessage> binding, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) : 
             base(webSocket, binding, cookieProvider, cookieAuthenticatorFactory)
         {
             mBinding = binding;
         }
 
-        protected BinaryWebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri, IWampBinaryBinding<TMessage> binding) :
+        protected BinaryWebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri, IWampBinaryBinding<TMessage> binding) :
             base(clientWebSocket, addressUri, binding.Name, binding)
         {
             mBinding = binding;

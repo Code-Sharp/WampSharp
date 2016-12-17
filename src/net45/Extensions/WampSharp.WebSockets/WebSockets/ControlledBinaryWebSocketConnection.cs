@@ -7,11 +7,13 @@ namespace WampSharp.WebSockets
 {
     public class ControlledBinaryWebSocketConnection<TMessage> : BinaryWebSocketConnection<TMessage>, IControlledWampConnection<TMessage>
     {
-        public ControlledBinaryWebSocketConnection(Uri addressUri, IWampBinaryBinding<TMessage> binding) : this(new ClientWebSocket(), addressUri, binding)
+        public ControlledBinaryWebSocketConnection(Uri addressUri, IWampBinaryBinding<TMessage> binding) : 
+            this(new ClientWebSocket(), addressUri, binding)
         {
         }
 
-        public ControlledBinaryWebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri, IWampBinaryBinding<TMessage> binding) : base(clientWebSocket, addressUri, binding)
+        public ControlledBinaryWebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri, IWampBinaryBinding<TMessage> binding) :
+            base(clientWebSocket, addressUri, binding)
         {
         }
 

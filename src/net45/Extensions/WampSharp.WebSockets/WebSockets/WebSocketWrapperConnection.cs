@@ -12,14 +12,14 @@ namespace WampSharp.WebSockets
 {
     // Based on this sample:
     // https://code.msdn.microsoft.com/vstudio/The-simple-WebSocket-4524921c
-    public abstract class WebSocketConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>
+    public abstract class WebSocketWrapperConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>
     {
         private readonly IWampStreamingMessageParser<TMessage> mParser;
-        private readonly WebSocket mWebSocket;
+        private readonly IWebSocketWrapper mWebSocket;
         private readonly CancellationTokenSource mCancellationTokenSource;
         private readonly Uri mAddressUri;
 
-        public WebSocketConnection(WebSocket webSocket, IWampStreamingMessageParser<TMessage> parser, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
+        public WebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampStreamingMessageParser<TMessage> parser, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
             base(cookieProvider, cookieAuthenticatorFactory)
         {
             mWebSocket = webSocket;
@@ -27,7 +27,7 @@ namespace WampSharp.WebSockets
             mCancellationTokenSource = new CancellationTokenSource();
         }
 
-        protected WebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri, string protocolName, IWampStreamingMessageParser<TMessage> parser) :
+        protected WebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri, string protocolName, IWampStreamingMessageParser<TMessage> parser) :
             this(clientWebSocket, parser, null, null)
         {
             clientWebSocket.Options.AddSubProtocol(protocolName);
@@ -53,7 +53,7 @@ namespace WampSharp.WebSockets
 
                 RaiseConnectionOpen();
 
-                Task task = Task.Run(this.RunAsync, mCancellationTokenSource.Token);
+                Task task = Task.Run((Func<Task>) this.RunAsync, mCancellationTokenSource.Token);
             }
             catch (Exception ex)
             {
@@ -62,11 +62,11 @@ namespace WampSharp.WebSockets
             }
         }
 
-        public ClientWebSocket ClientWebSocket
+        public IClientWebSocketWrapper ClientWebSocket
         {
             get
             {
-                return mWebSocket as ClientWebSocket;
+                return mWebSocket as IClientWebSocketWrapper;
             }
         }
 
@@ -87,7 +87,7 @@ namespace WampSharp.WebSockets
                 MemoryStream memoryStream = new MemoryStream();
 
                 // Checks WebSocket state.
-                while (mWebSocket.State == WebSocketState.Open)
+                while (mWebSocket.IsConnected)
                 {
                     // Reads data.
                     WebSocketReceiveResult webSocketReceiveResult;
@@ -147,7 +147,7 @@ namespace WampSharp.WebSockets
         {
             get
             {
-                return mWebSocket.State == WebSocketState.Open;
+                return mWebSocket.IsConnected;
             }
         }
     }
