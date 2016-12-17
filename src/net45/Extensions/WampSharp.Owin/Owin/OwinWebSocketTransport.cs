@@ -37,7 +37,7 @@ namespace WampSharp.Owin
         {
             WebSocketWrapperConnection<TMessage> casted = connection as WebSocketWrapperConnection<TMessage>;
 
-            Task task = Task.Run(casted.RunAsync);
+            Task task = Task.Run((Func<Task>) casted.RunAsync);
 
             original.ReadTask = task;
         }
