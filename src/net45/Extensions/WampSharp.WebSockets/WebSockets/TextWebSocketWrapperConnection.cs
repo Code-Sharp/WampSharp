@@ -7,17 +7,17 @@ using WampSharp.V2.Binding;
 
 namespace WampSharp.WebSockets
 {
-    public class TextWebSocketConnection<TMessage> : WebSocketConnection<TMessage>
+    public class TextWebSocketWrapperConnection<TMessage> : WebSocketWrapperConnection<TMessage>
     {
         private readonly IWampTextBinding<TMessage> mBinding;
 
-        public TextWebSocketConnection(WebSocket webSocket, IWampTextBinding<TMessage> binding, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) : 
+        public TextWebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampTextBinding<TMessage> binding, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) : 
             base(webSocket, binding, cookieProvider, cookieAuthenticatorFactory)
         {
             mBinding = binding;
         }
 
-        protected TextWebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri, IWampTextBinding<TMessage> binding) :
+        protected TextWebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri, IWampTextBinding<TMessage> binding) :
             base(clientWebSocket, addressUri, binding.Name, binding)
         {
             mBinding = binding;
