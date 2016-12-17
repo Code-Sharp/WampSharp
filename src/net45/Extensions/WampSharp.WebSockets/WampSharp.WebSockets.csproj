@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\WampSharp.WebSockets.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,13 +43,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebSockets\ControlledTextWebSocketConnection.cs" />
+    <Compile Include="WebSockets\ControlledBinaryWebSocketConnection.cs" />
+    <Compile Include="WebSockets\TextWebSocketConnection.cs" />
     <Compile Include="WAMP2\V2\Fluent\IWebSocketTransportSyntax.cs" />
     <Compile Include="WAMP2\V2\Fluent\WebSocketActivator.cs" />
     <Compile Include="WAMP2\V2\Fluent\WebSocketChannelFactoryExtensions.cs" />
     <Compile Include="WAMP2\V2\Fluent\WebSocketTransportSyntax.cs" />
+    <Compile Include="WebSockets\BinaryWebSocketConnection.cs" />
     <Compile Include="WebSockets\BinaryWebSocketWrapperConnection.cs" />
-    <Compile Include="WebSockets\ControlledBinaryWebSocketWrapperConnection.cs" />
-    <Compile Include="WebSockets\ControlledTextWebSocketWrapperConnection.cs" />
     <Compile Include="WebSockets\TextWebSocketWrapperConnection.cs" />
     <Compile Include="WebSockets\WebSocketWrapperConnection.cs" />
     <Compile Include="WebSockets\WebSocketFactory.cs" />

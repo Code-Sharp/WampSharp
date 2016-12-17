@@ -52,12 +52,12 @@ namespace WampSharp.V2.Fluent
 
         protected IControlledWampConnection<TMessage> CreateBinaryConnection<TMessage>(IWampBinaryBinding<TMessage> binaryBinding)
         {
-            return new ControlledBinaryWebSocketWrapperConnection<TMessage>(ActivateWebSocket(), mServerAddress, binaryBinding);
+            return new ControlledBinaryWebSocketConnection<TMessage>(ActivateWebSocket(), mServerAddress, binaryBinding);
         }
 
         protected IControlledWampConnection<TMessage> CreateTextConnection<TMessage>(IWampTextBinding<TMessage> textBinding)
         {
-            return new ControlledTextWebSocketWrapperConnection<TMessage>(ActivateWebSocket(), mServerAddress, textBinding);
+            return new ControlledTextWebSocketConnection<TMessage>(ActivateWebSocket(), mServerAddress, textBinding);
         }
 
         private ClientWebSocket ActivateWebSocket()
