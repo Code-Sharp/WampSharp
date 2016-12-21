@@ -17,18 +17,14 @@ namespace WampSharp.AspNet.WebSockets.Server
     /// <exclude />
     public sealed class AspNetWebsocketTransform : WebSocketTransport<WebSocketData>
     {
-        private static AspNetWebsocketTransform _aspNetWebsocketTransformInstance;
-
         /// <exclude />
         public AspNetWebsocketTransform(ICookieAuthenticatorFactory authenticatorFactory = null) : base(authenticatorFactory)
         {
-            _aspNetWebsocketTransformInstance = this;
         }
 
         /// <exclude />
         public override void Dispose()
         {
-            _aspNetWebsocketTransformInstance = null;
         }
 
         /// <exclude />
@@ -80,6 +76,14 @@ namespace WampSharp.AspNet.WebSockets.Server
         /// <exclude />
         public class RouterController : ApiController
         {
+            private readonly AspNetWebsocketTransform _aspNetWebsocketTransform;
+
+            /// <exclude />
+            public RouterController(AspNetWebsocketTransform aspNetWebsocketTransform)
+            {
+                _aspNetWebsocketTransform = aspNetWebsocketTransform;
+            }
+
             /// <exclude />
             public virtual HttpResponseMessage Get()
             {
@@ -87,7 +91,7 @@ namespace WampSharp.AspNet.WebSockets.Server
                 {
                     IEnumerable<string> possibleSubProtocols =
                         HttpContext.Current.WebSocketRequestedProtocols
-                            .Intersect(_aspNetWebsocketTransformInstance.SubProtocols);
+                            .Intersect(_aspNetWebsocketTransform.SubProtocols);
 
                     string subprotocol =
                         possibleSubProtocols.FirstOrDefault();
@@ -97,7 +101,7 @@ namespace WampSharp.AspNet.WebSockets.Server
                         HttpContext.Current.AcceptWebSocketRequest(async (webSocketContext) =>
                         {
                             var webSocketData = new WebSocketData(webSocketContext.WebSocket, HttpContext.Current);
-                            await _aspNetWebsocketTransformInstance.NewConnection(webSocketData);
+                            await _aspNetWebsocketTransform.NewConnection(webSocketData);
                         },
                             new AspNetWebSocketOptions()
                             {
