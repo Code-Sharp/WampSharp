@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Web;
 using WampSharp.V2.Authentication;
 
@@ -16,13 +15,9 @@ namespace WampSharp.AspNet.WebSockets.Server
         {
             CookieCollection result = new CookieCollection();
 
-            foreach (var cookie in httpContext.Request.Cookies)
+            foreach (HttpCookie cookie in httpContext.Request.Cookies)
             {
-                if (cookie is KeyValuePair<string, string>)
-                {
-                    var castedCookie = (KeyValuePair<string, string>) cookie;
-                    result.Add(new Cookie(castedCookie.Key, castedCookie.Value));
-                }
+                result.Add(new Cookie(cookie.Name, cookie.Value));
             }
 
             return result;
