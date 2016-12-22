@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -13,13 +14,14 @@ using WampSharp.WebSockets;
 namespace WampSharp.AspNet.WebSockets.Server
 {
     /// <exclude />
-    public sealed class AspNetWebsocketTransport : WebSocketTransport<WebSocketData>
+    public sealed class AspNetWebSocketTransport : WebSocketTransport<WebSocketData>
     {
         private readonly string mUrl;
+        private readonly object mLock = new object();
         private Route mRoute;
 
         /// <exclude />
-        public AspNetWebsocketTransport(string url,
+        public AspNetWebSocketTransport(string url,
                                         ICookieAuthenticatorFactory authenticatorFactory = null)
             : base(authenticatorFactory)
         {
@@ -29,9 +31,13 @@ namespace WampSharp.AspNet.WebSockets.Server
         /// <exclude />
         public override void Dispose()
         {
-            if (mRoute != null)
+            lock (mLock)
             {
-                RouteTable.Routes.Remove(mRoute);
+                if (mRoute != null)
+                {
+                    RouteTable.Routes.Remove(mRoute);
+                    mRoute = null;
+                }
             }
         }
 
@@ -67,9 +73,12 @@ namespace WampSharp.AspNet.WebSockets.Server
         /// <exclude />
         public override void Open()
         {
-            // Side effects, here we come :)
-            mRoute = new Route(mUrl, new RouteHandler(this));
-            RouteTable.Routes.Add(mUrl, mRoute);
+            lock (mLock)
+            {
+                // Side effects, here we come :)
+                mRoute = new Route(mUrl, new RouteHandler(this));
+                RouteTable.Routes.Add(mUrl, mRoute);
+            }
         }
 
         private void ProcessRequest(HttpContext context)
@@ -109,16 +118,16 @@ namespace WampSharp.AspNet.WebSockets.Server
         {
             WebSocketWrapperConnection<TMessage> casted = connection as WebSocketWrapperConnection<TMessage>;
 
-            Task task = Task.Run(casted.RunAsync);
+            Task task = Task.Run((Func<Task>) casted.RunAsync);
 
             original.ReadTask = task;
         }
 
-        public class RouteHandler : IRouteHandler, IHttpHandler
+        private class RouteHandler : IRouteHandler, IHttpHandler
         {
-            private readonly AspNetWebsocketTransport mParent;
+            private readonly AspNetWebSocketTransport mParent;
 
-            public RouteHandler(AspNetWebsocketTransport parent)
+            public RouteHandler(AspNetWebSocketTransport parent)
             {
                 mParent = parent;
             }
