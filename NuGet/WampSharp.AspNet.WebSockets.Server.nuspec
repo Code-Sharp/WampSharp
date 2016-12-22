@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>WampSharp.AspNet.WebSockets.Server</id>
+    <version>$version$</version>
+    <title>WampSharp ASP.NET WebSockets support</title>
+    <authors>CodeSharp</authors>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp ASP.NET WebSockets support</description>
+    <tags>websockets,wampws,rpc,pubsub,wampv1,wampv2,aspnet</tags>
+    <dependencies>
+      <group targetFramework="net45">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="WampSharp.WebSockets" version="[$version$]" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Web" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="bin\net45\WampSharp.AspNet.WebSockets.Server.dll" target="lib\net45\WampSharp.AspNet.WebSockets.Server.dll" />
+  </files>
+</package>
