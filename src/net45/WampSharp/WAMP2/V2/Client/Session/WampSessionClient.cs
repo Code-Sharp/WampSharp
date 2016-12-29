@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
@@ -125,6 +124,10 @@ namespace WampSharp.V2.Client
 
             Interlocked.CompareExchange(ref mIsConnected, 0, 1);
 
+            mOpenTask = new TaskCompletionSource<bool>();
+
+            mConnectionBrokenRaised = false;
+
             OnConnectionBroken(closeEventArgs);
         }
 
@@ -192,9 +195,6 @@ namespace WampSharp.V2.Client
                                       null,
                                       null);
             }
-
-            mConnectionBrokenRaised = false;
-            mOpenTask = new TaskCompletionSource<bool>();
         }
 
         public void OnConnectionError(Exception exception)
