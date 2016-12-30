@@ -15,9 +15,16 @@ namespace WampSharp.AspNet.WebSockets.Server
         {
             CookieCollection result = new CookieCollection();
 
-            foreach (HttpCookie cookie in httpContext.Request.Cookies)
+            HttpCookieCollection cookies = httpContext.Request.Cookies;
+
+            for (int i = 0; i < cookies.Count; i++)
             {
-                result.Add(new Cookie(cookie.Name, cookie.Value));
+                HttpCookie cookie = cookies.Get(i);
+
+                if (cookie != null)
+                {
+                    result.Add(new Cookie(cookie.Name, cookie.Value));
+                }
             }
 
             return result;
