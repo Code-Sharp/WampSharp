@@ -113,6 +113,8 @@ namespace WampSharp.V2.Client
 
         private void RaiseConnectionBroken(SessionCloseType sessionCloseType, GoodbyeAbortDetails details, string reason)
         {
+            bool connectionBrokenRaised = mConnectionBrokenRaised;
+
             mConnectionBrokenRaised = true;
 
             WampSessionCloseEventArgs closeEventArgs = new WampSessionCloseEventArgs
@@ -122,13 +124,19 @@ namespace WampSharp.V2.Client
 
             SetOpenTaskErrorIfNeeded(new WampConnectionBrokenException(closeEventArgs));
 
-            Interlocked.CompareExchange(ref mIsConnected, 0, 1);
+            if (sessionCloseType == SessionCloseType.Disconnection)
+            {
+                Interlocked.CompareExchange(ref mIsConnected, 0, 1);
 
-            mOpenTask = new TaskCompletionSource<bool>();
+                mOpenTask = new TaskCompletionSource<bool>();
 
-            mConnectionBrokenRaised = false;
+                mConnectionBrokenRaised = false;
+            }
 
-            OnConnectionBroken(closeEventArgs);
+            if (!connectionBrokenRaised)
+            {
+                OnConnectionBroken(closeEventArgs);
+            }
         }
 
         public long Session
@@ -189,12 +197,9 @@ namespace WampSharp.V2.Client
         {
             SetOpenTaskErrorIfNeeded(new Exception("Connection closed before connection established."));
 
-            if (!mConnectionBrokenRaised)
-            {
-                RaiseConnectionBroken(SessionCloseType.Disconnection,
-                                      null,
-                                      null);
-            }
+            RaiseConnectionBroken(SessionCloseType.Disconnection,
+                                  null,
+                                  null);
         }
 
         public void OnConnectionError(Exception exception)
