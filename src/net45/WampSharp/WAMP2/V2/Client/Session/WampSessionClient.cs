@@ -27,6 +27,7 @@ namespace WampSharp.V2.Client
         private HelloDetails mSentDetails;
 
         private int mIsConnected = 0;
+        private WampSessionCloseEventArgs mCloseEventArgs;
 
         private static HelloDetails GetDetails()
         {
@@ -98,7 +99,7 @@ namespace WampSharp.V2.Client
 
         public void Abort(AbortDetails details, string reason)
         {
-            RaiseConnectionBroken(SessionCloseType.Abort, details, reason);
+            TrySetCloseEventArgs(SessionCloseType.Abort, details, reason);
         }
 
         public void Goodbye(GoodbyeDetails details, string reason)
@@ -108,34 +109,34 @@ namespace WampSharp.V2.Client
                 mServerProxy.Goodbye(new GoodbyeDetails(), WampErrors.GoodbyeAndOut);
             }
 
-            RaiseConnectionBroken(SessionCloseType.Goodbye, details, reason);
+            TrySetCloseEventArgs(SessionCloseType.Goodbye, details, reason);
         }
 
-        private void RaiseConnectionBroken(SessionCloseType sessionCloseType, GoodbyeAbortDetails details, string reason)
+        private void RaiseConnectionBroken()
         {
-            bool connectionBrokenRaised = mConnectionBrokenRaised;
+            TrySetCloseEventArgs(SessionCloseType.Disconnection);
 
-            mConnectionBrokenRaised = true;
+            WampSessionCloseEventArgs closeEventArgs = mCloseEventArgs;
 
-            WampSessionCloseEventArgs closeEventArgs = new WampSessionCloseEventArgs
+            SetOpenTaskErrorIfNeeded(new WampConnectionBrokenException(mCloseEventArgs));
+
+            Interlocked.CompareExchange(ref mIsConnected, 0, 1);
+            mOpenTask = new TaskCompletionSource<bool>();
+            mCloseEventArgs = null;
+
+            OnConnectionBroken(closeEventArgs);
+        }
+
+        private void TrySetCloseEventArgs(SessionCloseType sessionCloseType,
+                                          GoodbyeAbortDetails details = null,
+                                          string reason = null)
+        {
+            if (mCloseEventArgs == null)
+            {
+                mCloseEventArgs = new WampSessionCloseEventArgs
                 (sessionCloseType, mSession,
-                    details,
-                    reason);
-
-            SetOpenTaskErrorIfNeeded(new WampConnectionBrokenException(closeEventArgs));
-
-            if (sessionCloseType == SessionCloseType.Disconnection)
-            {
-                Interlocked.CompareExchange(ref mIsConnected, 0, 1);
-
-                mOpenTask = new TaskCompletionSource<bool>();
-
-                mConnectionBrokenRaised = false;
-            }
-
-            if (!connectionBrokenRaised)
-            {
-                OnConnectionBroken(closeEventArgs);
+                 details,
+                 reason);
             }
         }
 
@@ -195,11 +196,7 @@ namespace WampSharp.V2.Client
 
         public void OnConnectionClosed()
         {
-            SetOpenTaskErrorIfNeeded(new Exception("Connection closed before connection established."));
-
-            RaiseConnectionBroken(SessionCloseType.Disconnection,
-                                  null,
-                                  null);
+            RaiseConnectionBroken();
         }
 
         public void OnConnectionError(Exception exception)
