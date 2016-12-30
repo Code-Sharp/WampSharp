@@ -15,7 +15,6 @@ namespace WampSharp.V2.Client
         private static GoodbyeDetails EmptyGoodbyeDetails = new GoodbyeDetails();
         private static AuthenticateExtraData EmptyAuthenticateDetails = new AuthenticateExtraData();
 
-        private bool mConnectionBrokenRaised = false;
         private readonly IWampRealmProxy mRealm;
         private readonly IWampServerProxy mServerProxy;
         private long mSession;
@@ -204,8 +203,6 @@ namespace WampSharp.V2.Client
             SetOpenTaskErrorIfNeeded(exception);
 
             OnConnectionError(new WampConnectionErrorEventArgs(exception));
-
-            mConnectionBrokenRaised = false;
         }
 
         private void SetOpenTaskErrorIfNeeded(Exception exception)
