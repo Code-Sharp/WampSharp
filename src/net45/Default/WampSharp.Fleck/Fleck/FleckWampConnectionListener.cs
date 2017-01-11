@@ -76,7 +76,7 @@ namespace WampSharp.Fleck
                 server.Certificate = mCertificate;
             }
 
-            if(mGetEnabledSslProtocols != null)
+            if (mGetEnabledSslProtocols != null)
             {
                 server.EnabledSslProtocols = mGetEnabledSslProtocols();
             }
