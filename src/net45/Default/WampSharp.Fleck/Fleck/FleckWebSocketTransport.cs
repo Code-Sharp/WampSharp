@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using Fleck;
 using WampSharp.Core.Listener;
@@ -22,9 +23,21 @@ namespace WampSharp.Fleck
         /// given the server address to run at.
         /// </summary>
         /// <param name="location">The given server address.</param>
-        /// <param name="certificate"></param>
+        /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
         public FleckWebSocketTransport(string location, X509Certificate2 certificate = null)
-            : this(location, null, certificate)
+            : this(location: location, cookieAuthenticatorFactory: null, certificate: certificate, getEnabledSslProtocols: null)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="FleckWebSocketTransport"/>
+        /// given the server address to run at.
+        /// </summary>
+        /// <param name="location">The given server address.</param>
+        /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
+        /// <param name="getEnabledSslProtocols"> If non-null, used to set Fleck's EnabledSslProtocols. </param>
+        public FleckWebSocketTransport(string location, X509Certificate2 certificate, Func<SslProtocols> getEnabledSslProtocols)
+            : this(location: location, cookieAuthenticatorFactory: null, certificate: certificate, getEnabledSslProtocols: getEnabledSslProtocols)
         {
         }
 
@@ -34,15 +47,36 @@ namespace WampSharp.Fleck
         /// </summary>
         /// <param name="location">The given server address.</param>
         /// <param name="cookieAuthenticatorFactory"></param>
-        /// <param name="certificate"></param>
+        /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
         protected FleckWebSocketTransport(string location,
                                           ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
                                           X509Certificate2 certificate = null)
+            : this(location: location, cookieAuthenticatorFactory: null, certificate: certificate, getEnabledSslProtocols: null)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="FleckWebSocketTransport"/>
+        /// given the server address to run at.
+        /// </summary>
+        /// <param name="location">The given server address.</param>
+        /// <param name="cookieAuthenticatorFactory"></param>
+        /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
+        /// <param name="getEnabledSslProtocols"> If non-null, used to set Fleck's EnabledSslProtocols. </param>
+        protected FleckWebSocketTransport(string location,
+                                          ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
+                                          X509Certificate2 certificate = null,
+                                          Func<SslProtocols> getEnabledSslProtocols = null)
             : base(cookieAuthenticatorFactory)
         {
             mServer = new WebSocketServer(location);
             mServer.Certificate = certificate;
-            
+
+            if (getEnabledSslProtocols != null)
+            {
+                mServer.EnabledSslProtocols = getEnabledSslProtocols();
+            }
+
             RouteLogs();
         }
 
