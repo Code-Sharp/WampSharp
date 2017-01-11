@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SuperSocket.ClientEngine;
 using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
 using WampSharp.V2.Binding.Parsers;
@@ -12,13 +14,25 @@ namespace WampSharp.V1
     {
         public static IWampChannel<JToken> CreateChannel(this DefaultWampChannelFactory factory, string address)
         {
-            return factory.CreateChannel(address, new JTokenMessageParser(factory.Serializer));
+            return factory.CreateChannel(address, (Action<SecurityOption>)null);
+        }
+
+        public static IWampChannel<JToken> CreateChannel(this DefaultWampChannelFactory factory, string address, 
+            Action<SecurityOption> configureSecurityOptions)
+        {
+            return factory.CreateChannel(address, new JTokenMessageParser(factory.Serializer), configureSecurityOptions);
         }
 
         public static IWampChannel<TMessage> CreateChannel<TMessage>(this IWampChannelFactory<TMessage> factory, string address, IWampTextMessageParser<TMessage> parser)
         {
-            return factory.CreateChannel(new WebSocket4NetTextConnection<TMessage>(address, 
-                new Wamp1Binding<TMessage>(parser, factory.Formatter)));
+            return factory.CreateChannel(address, parser, (Action<SecurityOption>)null);
+        }
+
+        public static IWampChannel<TMessage> CreateChannel<TMessage>(this IWampChannelFactory<TMessage> factory, string address, 
+            IWampTextMessageParser<TMessage> parser, Action<SecurityOption> configureSecurityOptions)
+        {
+            return factory.CreateChannel(new WebSocket4NetTextConnection<TMessage>(address,
+                new Wamp1Binding<TMessage>(parser, factory.Formatter), configureSecurityOptions));
         }
 
         public static IWampChannel<JToken> CreateChannel(this IWampChannelFactory<JToken> factory,

@@ -29,8 +29,19 @@ namespace WampSharp.WebSocket4Net
 
         public WebSocket4NetConnection(string serverAddress,
                                        IWampBinding<TMessage> binding)
+            : this(serverAddress: serverAddress, binding: binding, configureSecurityOptions: null)
+        {
+        }
+
+        public WebSocket4NetConnection(string serverAddress,
+                                       IWampBinding<TMessage> binding, 
+                                       Action<SecurityOption> configureSecurityOptions)
             : this(new WebSocket(serverAddress, binding.Name, WebSocketVersion.None), binding)
         {
+            if (configureSecurityOptions != null)
+            {
+                configureSecurityOptions(WebSocket.Security);
+            }
         }
 
         public IWampBinding<TMessage> Binding
