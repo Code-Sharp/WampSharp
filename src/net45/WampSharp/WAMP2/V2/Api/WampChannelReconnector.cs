@@ -17,6 +17,7 @@ namespace WampSharp.V2
         private IDisposable mDisposable = Disposable.Empty;
         private bool mStarted = false;
         private readonly object mLock = new object();
+        private IDisposable mConnectionBrokenDisposable;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampChannelReconnector"/>.
@@ -29,19 +30,21 @@ namespace WampSharp.V2
 
             var connectionBrokenObservable =
                 Observable.FromEventPattern<WampSessionCloseEventArgs>
-                    (x => monitor.ConnectionBroken += x,
-                        x => monitor.ConnectionBroken -= x)
-                    .Select(x => Unit.Default);
+                          (x => monitor.ConnectionBroken += x,
+                           x => monitor.ConnectionBroken -= x)
+                          .Select(x => Unit.Default)
+                          .Replay(1);
 
             var onceAndConnectionBroken =
-                Observable.Return(Unit.Default).Concat
-                    (connectionBrokenObservable);
+                connectionBrokenObservable.StartWith(Unit.Default);
 
             IObservable<IObservable<Unit>> reconnect =
                 from connectionBroke in onceAndConnectionBroken
                 let tryReconnect = Observable.FromAsync(connector)
                     .Catch<Unit, Exception>(x => Observable.Empty<Unit>())
                 select tryReconnect;
+
+            mConnectionBrokenDisposable = connectionBrokenObservable.Connect();
 
             mMerged = reconnect.Concat();
         }
@@ -78,6 +81,7 @@ namespace WampSharp.V2
             {
                 mMerged = null;
                 mDisposable.Dispose();
+                mConnectionBrokenDisposable.Dispose();
             }
         }
     }

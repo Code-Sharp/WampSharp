@@ -129,6 +129,7 @@ namespace WampSharp.WebSockets
             catch (Exception ex)
             {
                 RaiseConnectionError(ex);
+                RaiseConnectionClosed();
             }
         }
 
