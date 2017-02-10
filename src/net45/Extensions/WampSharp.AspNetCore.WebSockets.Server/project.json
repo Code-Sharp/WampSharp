@@ -14,7 +14,7 @@
         "xmlDoc": true
       },
       "dependencies": {
-        "Microsoft.AspNetCore.WebSockets.Server": "0.1.0",
+        "Microsoft.AspNetCore.WebSockets": "1.0.0",
         "WampSharp": { "target": "project" },
         "WampSharp.WebSockets": { "target": "project" }
       }
