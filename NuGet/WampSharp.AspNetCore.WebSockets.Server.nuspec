@@ -11,7 +11,7 @@
     <tags>websockets,wampws,rpc,pubsub,wampv1,wampv2,aspnetcore</tags>
     <dependencies>
       <group targetFramework=".NETStandard1.3">
-        <dependency id="Microsoft.AspNetCore.WebSockets.Server" version="[0.1.0, )" />
+        <dependency id="Microsoft.AspNetCore.WebSockets" version="[1.0.0, )" />
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WampSharp.WebSockets" version="[$version$]" />
       </group>
