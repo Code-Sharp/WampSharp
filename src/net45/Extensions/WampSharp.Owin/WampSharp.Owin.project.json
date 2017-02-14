@@ -1,8 +1,11 @@
-{
+﻿{
   "frameworks": {
     "net45": {}
   },
   "runtimes": {
     "win": {}
+  },
+  "dependencies": {
+    "Microsoft.Owin": "3.0.1"
   }
 }
