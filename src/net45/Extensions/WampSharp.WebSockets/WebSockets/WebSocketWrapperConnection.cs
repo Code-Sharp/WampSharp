@@ -18,6 +18,7 @@ namespace WampSharp.WebSockets
         private readonly IWebSocketWrapper mWebSocket;
         private readonly CancellationTokenSource mCancellationTokenSource;
         private readonly Uri mAddressUri;
+        private CancellationToken mCancellationToken;
 
         public WebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampStreamingMessageParser<TMessage> parser, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
             base(cookieProvider, cookieAuthenticatorFactory)
@@ -25,6 +26,7 @@ namespace WampSharp.WebSockets
             mWebSocket = webSocket;
             mParser = parser;
             mCancellationTokenSource = new CancellationTokenSource();
+            mCancellationToken = mCancellationTokenSource.Token;
         }
 
         protected WebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri, string protocolName, IWampStreamingMessageParser<TMessage> parser) :
@@ -37,7 +39,7 @@ namespace WampSharp.WebSockets
         protected override Task SendAsync(WampMessage<object> message)
         {
             ArraySegment<byte> messageToSend = GetMessageInBytes(message);
-            return mWebSocket.SendAsync(messageToSend, WebSocketMessageType, true, mCancellationTokenSource.Token);
+            return mWebSocket.SendAsync(messageToSend, WebSocketMessageType, true, mCancellationToken);
         }
 
         protected abstract ArraySegment<byte> GetMessageInBytes(WampMessage<object> message);
@@ -48,12 +50,12 @@ namespace WampSharp.WebSockets
         {
             try
             {
-                await this.ClientWebSocket.ConnectAsync(mAddressUri, mCancellationTokenSource.Token)
+                await this.ClientWebSocket.ConnectAsync(mAddressUri, mCancellationToken)
                           .ConfigureAwait(false);
 
                 RaiseConnectionOpen();
 
-                Task task = Task.Run((Func<Task>) this.RunAsync, mCancellationTokenSource.Token);
+                Task task = Task.Run((Func<Task>) this.RunAsync, mCancellationToken);
             }
             catch (Exception ex)
             {
@@ -96,14 +98,14 @@ namespace WampSharp.WebSockets
                     do
                     {
                         webSocketReceiveResult =
-                            await mWebSocket.ReceiveAsync(receivedDataBuffer, mCancellationTokenSource.Token)
-                            .ConfigureAwait(false);
+                            await mWebSocket.ReceiveAsync(receivedDataBuffer, mCancellationToken)
+                                .ConfigureAwait(false);
 
                         length += webSocketReceiveResult.Count;
 
                         await memoryStream.WriteAsync(receivedDataBuffer.Array, receivedDataBuffer.Offset,
-                                                      webSocketReceiveResult.Count, mCancellationTokenSource.Token)
-                                          .ConfigureAwait(false);
+                                webSocketReceiveResult.Count, mCancellationToken)
+                            .ConfigureAwait(false);
 
                     } while (!webSocketReceiveResult.EndOfMessage);
 
@@ -111,7 +113,7 @@ namespace WampSharp.WebSockets
                     if (webSocketReceiveResult.MessageType == WebSocketMessageType.Close)
                     {
                         await mWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
-                                String.Empty, mCancellationTokenSource.Token)
+                                String.Empty, mCancellationToken)
                             .ConfigureAwait(false);
                         break;
                     }
@@ -129,7 +131,10 @@ namespace WampSharp.WebSockets
             }
             catch (Exception ex)
             {
-                RaiseConnectionError(ex);
+                //cancellation token could be cancelled id Dispose if a GoodBye message has been received.
+                if (!(ex is OperationCanceledException))
+                    RaiseConnectionError(ex);
+
                 RaiseConnectionClosed();
             }
         }
@@ -142,8 +147,15 @@ namespace WampSharp.WebSockets
 
         protected override void Dispose()
         {
-            mCancellationTokenSource.Cancel();
-            mCancellationTokenSource.Dispose();
+            try
+            {
+                mCancellationTokenSource.Cancel();
+                mCancellationTokenSource.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // could be disposed multiple times, safe to swallow this.
+            }
         }
 
         protected override bool IsConnected
