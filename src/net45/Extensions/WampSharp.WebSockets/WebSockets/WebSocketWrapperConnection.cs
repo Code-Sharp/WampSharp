@@ -111,10 +111,9 @@ namespace WampSharp.WebSockets
                     if (webSocketReceiveResult.MessageType == WebSocketMessageType.Close)
                     {
                         await mWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
-                                                    String.Empty, mCancellationTokenSource.Token)
-                                        .ConfigureAwait(false);
-                        //only raise this after underlying connection has been closed.
-                        RaiseConnectionClosed();
+                                String.Empty, mCancellationTokenSource.Token)
+                            .ConfigureAwait(false);
+                        break;
                     }
                     else
                     {
@@ -125,6 +124,8 @@ namespace WampSharp.WebSockets
                     memoryStream.Position = 0;
                     memoryStream.SetLength(0);
                 }
+
+                RaiseConnectionClosed();
             }
             catch (Exception ex)
             {
