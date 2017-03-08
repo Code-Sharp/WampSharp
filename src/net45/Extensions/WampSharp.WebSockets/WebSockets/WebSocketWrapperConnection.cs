@@ -110,11 +110,11 @@ namespace WampSharp.WebSockets
                     // If input frame is cancelation frame, send close command.
                     if (webSocketReceiveResult.MessageType == WebSocketMessageType.Close)
                     {
-                        this.RaiseConnectionClosed();
-
                         await mWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
                                                     String.Empty, mCancellationTokenSource.Token)
                                         .ConfigureAwait(false);
+                        //only raise this after underlying connection has been closed.
+                        RaiseConnectionClosed();
                     }
                     else
                     {
@@ -142,6 +142,7 @@ namespace WampSharp.WebSockets
         protected override void Dispose()
         {
             mCancellationTokenSource.Cancel();
+            mCancellationTokenSource.Dispose();
         }
 
         protected override bool IsConnected
