@@ -12,10 +12,11 @@ namespace WampSharp.Core.Listener
     {
         private readonly ActionBlock<WampMessage<object>> mSendBlock;
         protected readonly ILog mLogger;
+        private readonly Guid mConnectionId = Guid.NewGuid();
 
         protected AsyncWampConnection()
         {
-            mLogger = LogProvider.GetLogger(this.GetType());
+            mLogger = LogProvider.GetLogger(string.Format(@"{0}(ConnectionId:{1})", this.GetType().FullName, mConnectionId));
             mSendBlock = new ActionBlock<WampMessage<object>>(x => InnerSend(x));
         }
 
