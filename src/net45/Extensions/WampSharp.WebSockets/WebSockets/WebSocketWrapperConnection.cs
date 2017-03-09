@@ -89,6 +89,7 @@ namespace WampSharp.WebSockets
                 ArraySegment<byte> receivedDataBuffer = new ArraySegment<byte>(new byte[maxMessageSize]);
 
                 MemoryStream memoryStream = new MemoryStream();
+
                 // Checks WebSocket state.
                 while (mWebSocket.IsConnected)
                 {
@@ -113,6 +114,15 @@ namespace WampSharp.WebSockets
                     // If input frame is cancelation frame, send close command.
                     if (webSocketReceiveResult.MessageType == WebSocketMessageType.Close)
                     {
+                        try
+                        {
+                            await mWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,
+                                String.Empty, mCancellationToken)
+                            .ConfigureAwait(false);
+                        }
+                        catch (Exception)
+                        {
+                        }
                         break;
                     }
                     else
@@ -124,32 +134,16 @@ namespace WampSharp.WebSockets
                     memoryStream.Position = 0;
                     memoryStream.SetLength(0);
                 }
+
+                RaiseConnectionClosed();
             }
             catch (Exception ex)
             {
-                try
-                {
-                    //cancellation token could be cancelled id Dispose if a GoodBye message has been received.
-                    if (!(ex is OperationCanceledException))
-                        RaiseConnectionError(ex);
+                //cancellation token could be cancelled id Dispose if a GoodBye message has been received.
+                if (!(ex is OperationCanceledException))
+                    RaiseConnectionError(ex);
 
-                    try
-                    {
-                        await mWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, //nocommit doesn't matter, as this is the server connection, we only close it when error happens.
-                            String.Empty, mCancellationToken)
-                        .ConfigureAwait(false);
-                    }
-                    catch (Exception)
-                    {
-                    }
-
-                    RaiseConnectionClosed();
-                }
-                catch (Exception e)
-                {
-                    mLogger.Error(ex.Message, ex);
-                    throw;
-                }
+                RaiseConnectionClosed();
             }
         }
 
