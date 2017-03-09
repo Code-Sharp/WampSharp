@@ -113,6 +113,7 @@ namespace WampSharp.Core.Listener
 
         protected virtual void RaiseConnectionClosed()
         {
+            mLogger.Debug("RaiseConnectionClosed is triggered");
             var handler = ConnectionClosed;
             if (handler != null) handler(this, EventArgs.Empty);
         }
