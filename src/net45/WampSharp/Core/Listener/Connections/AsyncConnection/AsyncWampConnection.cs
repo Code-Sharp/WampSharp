@@ -12,11 +12,11 @@ namespace WampSharp.Core.Listener
     {
         private readonly ActionBlock<WampMessage<object>> mSendBlock;
         protected readonly ILog mLogger;
-        private readonly Guid mConnectionId = Guid.NewGuid();
+        private int mDisposeCalled = 0;
 
         protected AsyncWampConnection()
         {
-            mLogger = LogProvider.GetLogger(string.Format(@"{0}(ConnectionId:{1})", this.GetType().FullName, mConnectionId));
+            mLogger = new LoggerWithConnectionId(LogProvider.GetLogger(this.GetType()));
             mSendBlock = new ActionBlock<WampMessage<object>>(x => InnerSend(x));
         }
 
@@ -113,7 +113,7 @@ namespace WampSharp.Core.Listener
 
         protected virtual void RaiseConnectionClosed()
         {
-            mLogger.Debug("RaiseConnectionClosed is triggered");
+            mLogger.Debug("Connection has been closed");
             var handler = ConnectionClosed;
             if (handler != null) handler(this, EventArgs.Empty);
         }
@@ -127,9 +127,12 @@ namespace WampSharp.Core.Listener
         
         void IDisposable.Dispose()
         {
-            mSendBlock.Complete();
-            mSendBlock.Completion.Wait();
-            this.Dispose();
+            if (Interlocked.CompareExchange(ref mDisposeCalled, 1, 0) == 0)
+            {
+                mSendBlock.Complete();
+                mSendBlock.Completion.Wait();
+                this.Dispose();
+            }
         }
 
         protected abstract void Dispose();
@@ -138,9 +141,12 @@ namespace WampSharp.Core.Listener
 
         async Task IAsyncDisposable.DisposeAsync()
         {
-            mSendBlock.Complete();
-            await mSendBlock.Completion;
-            this.Dispose();
+            if (Interlocked.CompareExchange(ref mDisposeCalled, 1, 0) == 0)
+            {
+                mSendBlock.Complete();
+                await mSendBlock.Completion;
+                this.Dispose();
+            }
         }
 
 #else
@@ -153,5 +159,26 @@ namespace WampSharp.Core.Listener
 
 #endif
 
+        // TODO: move this to another file (after making it more generic)
+        // TODO: or get rid of this.
+        private class LoggerWithConnectionId : ILog
+        {
+            private readonly ILog mLogger;
+            private readonly string mConnectionId;
+
+            public LoggerWithConnectionId(ILog logger)
+            {
+                mConnectionId = Guid.NewGuid().ToString();
+                mLogger = logger;
+            }
+
+            public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters)
+            {
+                using (LogProvider.OpenMappedContext("ConncetionId", mConnectionId))
+                {
+                    return mLogger.Log(logLevel, messageFunc, exception, formatParameters);
+                }
+            }
+        }
     }
 }
