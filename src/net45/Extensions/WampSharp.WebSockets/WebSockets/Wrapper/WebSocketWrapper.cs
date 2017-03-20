@@ -14,14 +14,6 @@ namespace WampSharp.WebSockets
             mWebSocket = webSocket;
         }
 
-        public bool IsConnected
-        {
-            get
-            {
-                return mWebSocket.State == WebSocketState.Open;
-            }
-        }
-
         public Task<WebSocketReceiveResult> ReceiveAsync(ArraySegment<byte> arraySegment, CancellationToken callCancelled)
         {
             return mWebSocket.ReceiveAsync(arraySegment, callCancelled);
@@ -35,6 +27,11 @@ namespace WampSharp.WebSockets
         public Task CloseAsync(WebSocketCloseStatus closeStatus, string closeDescription, CancellationToken cancel)
         {
             return mWebSocket.CloseAsync(closeStatus, closeDescription, cancel);
+        }
+
+        public WebSocketState State
+        {
+            get { return mWebSocket.State; }
         }
     }
 }
