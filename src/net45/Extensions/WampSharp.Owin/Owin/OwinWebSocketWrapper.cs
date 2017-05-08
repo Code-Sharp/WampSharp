@@ -13,6 +13,7 @@ namespace WampSharp.Owin
         private readonly Func<ArraySegment<byte>, int, bool, CancellationToken, Task> mSendAsync;
         private readonly Func<ArraySegment<byte>, CancellationToken, Task<Tuple<int, bool, int>>> mReceiveAsync;
         private readonly Func<int, string, CancellationToken, Task> mCloseAsync;
+        private WebSocketState mState = WebSocketState.Open;
 
         private const string WebSocketSendAsync = "websocket.SendAsync";
         private const string WebSocketReceiveAsync = "websocket.ReceiveAsync";
@@ -95,7 +96,29 @@ namespace WampSharp.Owin
                 await mReceiveAsync(arraySegment, callCancelled)
                     .ConfigureAwait(false);
 
-            return new WebSocketReceiveResult(count: result.Item3, messageType: GetMessageType(result.Item1), endOfMessage: result.Item2);
+            WebSocketMessageType webSocketMessageType = GetMessageType(result.Item1);
+
+            if (webSocketMessageType == WebSocketMessageType.Close)
+            {
+                ChangeState(actionDone: WebSocketState.CloseReceived,
+                            dualAction: WebSocketState.CloseSent);
+
+                return new WebSocketReceiveResult(count: result.Item3,
+                                                  messageType: webSocketMessageType,
+                                                  endOfMessage: result.Item2,
+                                                  closeStatus: this.ClientCloseStatus,
+                                                  closeStatusDescription: WebSocketClientCloseDescription);
+            }
+
+            return new WebSocketReceiveResult(count: result.Item3, messageType: webSocketMessageType, endOfMessage: result.Item2);
+        }
+
+        public WebSocketState State
+        {
+            get
+            {
+                return mState;
+            }
         }
 
         public Task SendAsync(ArraySegment<byte> data, WebSocketMessageType messageType, bool endOfMessage, CancellationToken cancel)
@@ -105,16 +128,21 @@ namespace WampSharp.Owin
 
         public Task CloseAsync(WebSocketCloseStatus closeStatus, string closeDescription, CancellationToken cancel)
         {
+            ChangeState(actionDone: WebSocketState.CloseSent,
+                        dualAction: WebSocketState.CloseReceived);
+
             return mCloseAsync((int) closeStatus, closeDescription, cancel);
         }
 
-        public bool IsConnected
+        private void ChangeState(WebSocketState actionDone, WebSocketState dualAction)
         {
-            get
+            if (State == WebSocketState.Open)
             {
-                WebSocketCloseStatus? closeStatus = ClientCloseStatus;
-
-                return ((closeStatus == null) || (closeStatus == 0));
+                mState = actionDone;
+            }
+            else if (mState == dualAction)
+            {
+                mState = WebSocketState.Closed;
             }
         }
 
