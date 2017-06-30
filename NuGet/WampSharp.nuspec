@@ -43,6 +43,7 @@
       </group>
       <group targetFramework="UAP10.0">
         <dependency id="Microsoft.CSharp" version="[4.0.1, )" />
+        <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="[5.2.2 , )" />
         <dependency id="System.Threading.Tasks.Dataflow" version="[4.6.0, )" />
         <dependency id="System.Collections.Concurrent" version="[4.0.12, )" />
         <dependency id="System.Collections.Immutable" version="[1.2.0, )" />
