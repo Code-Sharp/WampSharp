@@ -22,6 +22,7 @@ namespace WampSharp.V2.Rpc
 
         private void OnDisconnected(object sender, EventArgs e)
         {
+            mNotifier.Disconnected -= OnDisconnected;
             RaiseDisconnected();
         }
 

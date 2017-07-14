@@ -61,6 +61,7 @@ namespace WampSharp.V2.Rpc
 
         private void OnConnectionClosed(object sender, EventArgs e)
         {
+            mMonitor.ConnectionClosed -= OnConnectionClosed;
             RaiseDisconnected();
         }
 
