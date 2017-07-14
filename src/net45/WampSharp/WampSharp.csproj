@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Description>An implementation of WAMP (The Web Application Messaging Protocol). Supports both WAMPv2 and WAMPv1.</Description>
     <AssemblyTitle>WampSharp</AssemblyTitle>
-    <VersionPrefix>1.2.3</VersionPrefix>
     <Authors>CodeSharp</Authors>
     <TargetFrameworks>netstandard1.3</TargetFrameworks>
     <AssemblyName>WampSharp</AssemblyName>
@@ -18,6 +17,7 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">

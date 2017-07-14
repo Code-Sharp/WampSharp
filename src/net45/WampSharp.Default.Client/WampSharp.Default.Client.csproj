@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Description>WampSharp above Newtonsoft.Json, Newtonsoft.Msgpack and WebSocket4Net</Description>
     <AssemblyTitle>WampSharp default client binding</AssemblyTitle>
-    <VersionPrefix>1.2.3</VersionPrefix>
     <Authors>CodeSharp</Authors>
     <TargetFrameworks>netstandard1.3</TargetFrameworks>
     <AssemblyName>WampSharp.Default.Client</AssemblyName>
@@ -18,6 +17,7 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">

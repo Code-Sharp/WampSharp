@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Description>WampSharp Microsoft.AspNetCore.WebSockets.Server support</Description>
     <AssemblyTitle>WampSharp AspNetCore WebSockets Server support</AssemblyTitle>
-    <VersionPrefix>1.2.3</VersionPrefix>
     <Authors>CodeSharp</Authors>
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>WampSharp.AspNetCore.WebSockets.Server</AssemblyName>
@@ -13,6 +12,7 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">

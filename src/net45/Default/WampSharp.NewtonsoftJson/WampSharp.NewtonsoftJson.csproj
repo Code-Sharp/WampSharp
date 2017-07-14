@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Description>WampSharp Newtonsoft.Json support</Description>
     <AssemblyTitle>WampSharp Newtonsoft.Json binding</AssemblyTitle>
-    <VersionPrefix>1.2.3</VersionPrefix>
     <Authors>CodeSharp</Authors>
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>WampSharp.NewtonsoftJson</AssemblyName>
@@ -18,6 +17,7 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

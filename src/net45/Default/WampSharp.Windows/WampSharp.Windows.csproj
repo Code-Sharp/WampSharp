@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Description>Windows websocket connection for WampSharp</Description>
     <AssemblyTitle>WampSharp Windows support</AssemblyTitle>
-    <VersionPrefix>1.2.3</VersionPrefix>
     <Authors>CodeSharp</Authors>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <AssemblyName>WampSharp.Windows</AssemblyName>
@@ -19,6 +18,7 @@
     <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
