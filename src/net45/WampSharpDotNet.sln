@@ -1,42 +1,39 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A034FCD9-A025-4F24-9E26-3D438944A526}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13B778C9-585D-49E9-B095-CAA9931A7761}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp", "WampSharp\WampSharp.xproj", "{FAF48097-2A37-40B1-9416-DA656F7B13A7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Default", "Default", "{EF15CA4F-CCAA-4435-A0B3-0E7FC1B955CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{234FC630-9975-4DD9-8A28-DAA75BB1DD7E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.NewtonsoftJson", "Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.xproj", "{B027C87D-8A47-4412-BD83-CBB39EED9BE0}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.WebSockets", "Extensions\WampSharp.WebSockets\WampSharp.WebSockets.xproj", "{F3706F43-6A97-4AE1-9225-F995A99756F3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C04E134F-D369-4F07-9326-66475308AFA8}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.Tests.TestHelpers", "Tests\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.xproj", "{C1716384-532F-4AD1-B29D-5E3E98A05253}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp", "WampSharp\WampSharp.csproj", "{FAF48097-2A37-40B1-9416-DA656F7B13A7}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.Tests.Wampv2", "Tests\WampSharp.Tests.Wampv2\WampSharp.Tests.Wampv2.xproj", "{E7652F1F-4698-44BE-B03B-5DC976C661B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.NewtonsoftJson", "Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj", "{B027C87D-8A47-4412-BD83-CBB39EED9BE0}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.NewtonsoftMsgpack", "Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.xproj", "{500B79FA-CAD0-4692-85BD-9682124DA872}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WebSockets", "Extensions\WampSharp.WebSockets\WampSharp.WebSockets.csproj", "{F3706F43-6A97-4AE1-9225-F995A99756F3}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.RawSocket", "Extensions\WampSharp.RawSocket\WampSharp.RawSocket.xproj", "{F3EAF470-1D65-45F5-BD49-EE4BB1D42A3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Tests.TestHelpers", "Tests\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj", "{C1716384-532F-4AD1-B29D-5E3E98A05253}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.Default.Client", "WampSharp.Default.Client\WampSharp.Default.Client.xproj", "{1485A2E0-E225-47D8-A26B-077C44094C07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Tests.Wampv2", "Tests\WampSharp.Tests.Wampv2\WampSharp.Tests.Wampv2.csproj", "{E7652F1F-4698-44BE-B03B-5DC976C661B5}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.AspNetCore.WebSockets.Server", "Extensions\WampSharp.AspNetCore.WebSockets.Server\WampSharp.AspNetCore.WebSockets.Server.xproj", "{841605EB-80CE-48C7-8CAE-0366FECFAED1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.NewtonsoftMsgpack", "Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj", "{500B79FA-CAD0-4692-85BD-9682124DA872}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.WebSocket4Net", "Default\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.xproj", "{F9CEF7A6-FCD5-4AAA-A1B0-B1FBBDD1EFBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.RawSocket", "Extensions\WampSharp.RawSocket\WampSharp.RawSocket.csproj", "{F3EAF470-1D65-45F5-BD49-EE4BB1D42A3A}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WampSharp.Windows", "Default\WampSharp.Windows\WampSharp.Windows.xproj", "{4A966847-5F52-4AFA-8CB7-2AAF93D7D2C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Default.Client", "WampSharp.Default.Client\WampSharp.Default.Client.csproj", "{1485A2E0-E225-47D8-A26B-077C44094C07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.AspNetCore.WebSockets.Server", "Extensions\WampSharp.AspNetCore.WebSockets.Server\WampSharp.AspNetCore.WebSockets.Server.csproj", "{841605EB-80CE-48C7-8CAE-0366FECFAED1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WebSocket4Net", "Default\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.csproj", "{F9CEF7A6-FCD5-4AAA-A1B0-B1FBBDD1EFBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Windows", "Default\WampSharp.Windows\WampSharp.Windows.csproj", "{4A966847-5F52-4AFA-8CB7-2AAF93D7D2C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,9 +90,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FAF48097-2A37-40B1-9416-DA656F7B13A7} = {A034FCD9-A025-4F24-9E26-3D438944A526}
 		{EF15CA4F-CCAA-4435-A0B3-0E7FC1B955CD} = {A034FCD9-A025-4F24-9E26-3D438944A526}
 		{234FC630-9975-4DD9-8A28-DAA75BB1DD7E} = {A034FCD9-A025-4F24-9E26-3D438944A526}
+		{FAF48097-2A37-40B1-9416-DA656F7B13A7} = {A034FCD9-A025-4F24-9E26-3D438944A526}
 		{B027C87D-8A47-4412-BD83-CBB39EED9BE0} = {EF15CA4F-CCAA-4435-A0B3-0E7FC1B955CD}
 		{F3706F43-6A97-4AE1-9225-F995A99756F3} = {234FC630-9975-4DD9-8A28-DAA75BB1DD7E}
 		{C1716384-532F-4AD1-B29D-5E3E98A05253} = {C04E134F-D369-4F07-9326-66475308AFA8}

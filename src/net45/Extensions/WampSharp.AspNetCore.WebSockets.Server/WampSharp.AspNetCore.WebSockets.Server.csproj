@@ -1,28 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>WampSharp WebSocket4Net support</Description>
-    <AssemblyTitle>WampSharp WebSocket4Net connection</AssemblyTitle>
+    <Description>WampSharp Microsoft.AspNetCore.WebSockets.Server support</Description>
+    <AssemblyTitle>WampSharp AspNetCore WebSockets Server support</AssemblyTitle>
     <VersionPrefix>1.2.3</VersionPrefix>
     <Authors>CodeSharp</Authors>
     <TargetFramework>netstandard1.3</TargetFramework>
-    <AssemblyName>WampSharp.WebSocket4Net</AssemblyName>
-    <PackageId>WampSharp.WebSocket4Net</PackageId>
-    <PackageTags>websockets;wampws;rpc;pubsub;websocket4net;wampv1;wampv2</PackageTags>
+    <AssemblyName>WampSharp.AspNetCore.WebSockets.Server</AssemblyName>
+    <PackageId>WampSharp.AspNetCore.WebSockets.Server</PackageId>
+    <PackageTags>websockets;wampws;rpc;pubsub;wampv1;wampv2;aspnetcore</PackageTags>
     <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
-    <PackageReference Include="WebSocket4Net" Version="0.15.0-beta5" />
+    <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WampSharp.WebSockets\WampSharp.WebSockets.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
