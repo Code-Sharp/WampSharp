@@ -95,23 +95,22 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 
                 if (subprotocol != null)
                 {
-                    WebSocket websocket =
-                        await context.WebSockets.
-                                      AcceptWebSocketAsync(subprotocol)
-                                     .ConfigureAwait(false);
+                    using (var websocket = await context.WebSockets.AcceptWebSocketAsync(subprotocol).ConfigureAwait(false))
+                    {
 
-                    // In an ideal world, OnNewConnection would return the
-                    // connection itself and then we could somehow access its
-                    // task, but for now we wrap the WebSocket with a WebSocketData
-                    // struct, and let OnNewConnection to fill us magically
-                    // the ReadTask
-                    WebSocketData webSocketData = new WebSocketData(websocket, context);
+                        // In an ideal world, OnNewConnection would return the
+                        // connection itself and then we could somehow access its
+                        // task, but for now we wrap the WebSocket with a WebSocketData
+                        // struct, and let OnNewConnection to fill us magically
+                        // the ReadTask
+                        WebSocketData webSocketData = new WebSocketData(websocket, context);
 
-                    OnNewConnection(webSocketData);
+                        OnNewConnection(webSocketData);
 
-                    await webSocketData.ReadTask.ConfigureAwait(false);
+                        await webSocketData.ReadTask.ConfigureAwait(false);
 
-                    return;
+                        return;
+                    }
                 }
             }
 
