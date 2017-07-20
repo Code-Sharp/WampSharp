@@ -5,7 +5,7 @@ namespace WampSharp.V2.PubSub
 {
     internal static class PublishOptionsExtensions
     {
-        public static EventDetails GetEventDetails(this PublishOptions options, string match)
+        public static EventDetails GetEventDetails(this PublishOptions options, string match = WampMatchPattern.Exact)
         {
             EventDetails result = new EventDetails();
 

@@ -18,7 +18,7 @@ namespace WampSharp.V2.PubSub
         
         private readonly string mTopicUri;
 
-        private readonly bool mPersistent;
+        private bool mPersistent;
 
         private readonly SwapCollection<IWampRawTopicRouterSubscriber> mWeakSubscribers =
             new SwapCollection<IWampRawTopicRouterSubscriber>();
@@ -79,6 +79,10 @@ namespace WampSharp.V2.PubSub
             {
                 return mPersistent;
             }
+            internal set
+            {
+                mPersistent = value;
+            }
         }
 
         public long SubscriptionId
@@ -97,7 +101,10 @@ namespace WampSharp.V2.PubSub
             {
                 mWeakSubscribers.Add(subscriber);
 
-                result = Disposable.Empty;
+                result = Disposable.Create(() =>
+                {
+                    mWeakSubscribers.Remove(subscriber);
+                });
             }
             else
             {

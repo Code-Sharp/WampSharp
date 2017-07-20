@@ -16,9 +16,21 @@ namespace WampSharp.V2.PubSub
             return new ExactTopicSubscriptionId(topicUri);
         }
 
-        public override IEnumerable<IWampTopic> GetMatchingTopics(string criteria)
+        public override IEnumerable<IWampTopic> GetMatchingTopics(string criteria, PublishOptions publishOptions)
         {
-            IWampTopic topic = GetTopicByUri(criteria);
+            bool retainEvent = publishOptions?.Retain == true;
+
+            IWampTopic topic;
+
+            if (!retainEvent)
+            {
+                topic = GetTopicByUri(criteria);
+            }
+            else
+            {
+                topic = GetOrCreateTopicByUri(criteria, true);
+                topic.Subscribe(new RetentionSubscriber(topic));
+            }
 
             if (topic == null)
             {

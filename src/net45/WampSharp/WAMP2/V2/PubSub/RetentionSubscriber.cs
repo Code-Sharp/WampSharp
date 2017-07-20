@@ -7,15 +7,13 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
 {
-    public class RetentionSubscriber : IWampRawTopicWeakRouterSubscriber
+    internal class RetentionSubscriber : IWampRawTopicWeakRouterSubscriber
     {
-        private readonly SubscribeOptions mOptions;
-
         private IImmutableStack<RetainedEvent> mRetainedEvents = ImmutableStack<RetainedEvent>.Empty;
+        private readonly object mLock = new object();
 
-        public RetentionSubscriber(SubscribeOptions options, IWampTopic topic)
+        public RetentionSubscriber(IWampTopic topic)
         {
-            mOptions = options;
             topic.SubscriptionAdded += OnSubscriptionAdded;
         }
 
@@ -65,14 +63,6 @@ namespace WampSharp.V2.PubSub
                                                                             x => (object) x.Value)));
         }
 
-        private string Match
-        {
-            get
-            {
-                return this.mOptions.Match;
-            }
-        }
-
         private void RetainEvent(PublishOptions options,
                                  Action<IRemoteWampTopicSubscriber, EventDetails> action)
         {
@@ -85,36 +75,37 @@ namespace WampSharp.V2.PubSub
                 options.Eligible
             };
 
-            RetainedEvent retainedEvent = new RetainedEvent(options, Match, action);
+            RetainedEvent retainedEvent = new RetainedEvent(options, action);
 
             // If the event has no restrictions, then it is the most recent event.
-            if (all.All(x => (x == null) || (x.Length == 0)))
-            {
-                mRetainedEvents = ImmutableStack<RetainedEvent>.Empty;
-            }
+            bool hasRestrictions = all.All(x => (x == null) || (x.Length == 0));
 
-            mRetainedEvents.Push(retainedEvent);
+            lock (mLock)
+            {
+                if (hasRestrictions)
+                {
+                    mRetainedEvents = ImmutableStack<RetainedEvent>.Empty;
+                }
+
+                mRetainedEvents = mRetainedEvents.Push(retainedEvent);
+            }
         }
 
         private class RetainedEvent
         {
             public RetainedEvent(PublishOptions options,
-                                 string match,
                                  Action<IRemoteWampTopicSubscriber, EventDetails> action)
             {
-                EventDetails eventDetails = options.GetEventDetails(Match);
+                EventDetails eventDetails = options.GetEventDetails();
                 eventDetails.Retained = true;
                 Details = eventDetails;
                 Options = options;
-                Match = match;
                 Action = action;
             }
 
-            private EventDetails Details { get; set; }
+            private EventDetails Details { get; }
 
-            public PublishOptions Options { get; private set; }
-
-            private string Match { get; set; }
+            public PublishOptions Options { get; }
 
             private Action<IRemoteWampTopicSubscriber, EventDetails> Action { get; set; }
 
