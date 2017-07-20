@@ -16,6 +16,9 @@ namespace WampSharp.V2.Core.Contracts
         [DataMember(Name = "match")]
         public string Match { get; set; }
 
+        [DataMember(Name = "get_retained")]
+        public bool? GetRetained { get; set; }
+
         protected bool Equals(SubscribeOptions other)
         {
             return string.Equals(Match, other.Match);

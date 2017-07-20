@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Disposables;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
@@ -18,6 +19,9 @@ namespace WampSharp.V2.PubSub
         private readonly string mTopicUri;
 
         private readonly bool mPersistent;
+
+        private readonly SwapCollection<IWampRawTopicRouterSubscriber> mWeakSubscribers =
+            new SwapCollection<IWampRawTopicRouterSubscriber>();
 
         public WampTopic(string topicUri, bool persistent)
         {
@@ -87,13 +91,25 @@ namespace WampSharp.V2.PubSub
         {
             RegisterSubscriberEventsIfNeeded(subscriber);
 
-            mSubscribers.Add(subscriber);
+            IDisposable result;
 
-            IDisposable result = Disposable.Create(() =>
+            if (subscriber is IWampRawTopicWeakRouterSubscriber)
             {
-                mSubscribers.Remove(subscriber);
-                OnSubscriberLeave(subscriber);
-            });
+                mWeakSubscribers.Add(subscriber);
+
+                result = Disposable.Empty;
+            }
+            else
+            {
+                mSubscribers.Add(subscriber);
+
+                result = Disposable.Create(() =>
+                {
+                    mSubscribers.Remove(subscriber);
+                    OnSubscriberLeave(subscriber);
+                });
+            }
+
 
             return result;
         }
@@ -110,6 +126,7 @@ namespace WampSharp.V2.PubSub
 
         public void Dispose()
         {
+            mWeakSubscribers.Clear();
             mSubscribers.Clear();
         }
 
@@ -193,7 +210,8 @@ namespace WampSharp.V2.PubSub
 
         private void InnerPublish(Action<IWampRawTopicRouterSubscriber> publishAction)
         {
-            foreach (IWampRawTopicRouterSubscriber subscriber in mSubscribers)
+            foreach (IWampRawTopicRouterSubscriber subscriber in 
+                mSubscribers.Concat(mWeakSubscribers))
             {
                 publishAction(subscriber);
             }

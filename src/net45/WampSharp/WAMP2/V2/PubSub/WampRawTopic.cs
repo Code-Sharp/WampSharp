@@ -176,9 +176,9 @@ namespace WampSharp.V2.PubSub
 
             if (!observer.IsOpen)
             {
-                observer.Open();
+                this.RaiseSubscriptionAdded(remoteSubscriber, options);
 
-                this.RaiseSubscriptionAdded(remoteSubscriber, options);                
+                observer.Open();
             }
         }
 

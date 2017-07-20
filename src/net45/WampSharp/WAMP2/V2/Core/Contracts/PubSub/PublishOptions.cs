@@ -20,6 +20,7 @@ namespace WampSharp.V2.Core.Contracts
             this.Exclude = options.Exclude;
             this.Eligible = options.Eligible;
             this.DiscloseMe = options.DiscloseMe;
+            this.Retain = options.Retain;
             this.OriginalValue = options.OriginalValue;
         }
 
@@ -52,5 +53,8 @@ namespace WampSharp.V2.Core.Contracts
         /// </summary>
         [DataMember(Name = "disclose_me")]
         public bool? DiscloseMe { get; set; }
+
+        [DataMember(Name = "retain")]
+        public bool? Retain { get; set; }
     }
 }
