@@ -88,7 +88,6 @@ namespace WampSharp.V2.PubSub
                     result.Publisher = extendedOptions.PublisherId;
 
                     result.AuthenticationId = extendedOptions.AuthenticationId;
-                    result.AuthenticationMethod = extendedOptions.AuthenticationMethod;
                     result.AuthenticationRole = extendedOptions.AuthenticationRole;
                 }
 
