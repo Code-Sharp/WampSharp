@@ -276,7 +276,8 @@
     <Compile Include="WAMP2\V2\MetaApi\Rpc\RegistrationDetailsExtended.cs" />
     <Compile Include="WAMP2\V2\MetaApi\AvailableGroups.cs" />
     <Compile Include="WAMP2\V2\PubSub\IWampRawTopicWeakRouterSubscriber.cs" />
-    <Compile Include="WAMP2\V2\PubSub\RetainSubscriber.cs" />
+    <Compile Include="WAMP2\V2\PubSub\PublishOptionsExtensions.cs" />
+    <Compile Include="WAMP2\V2\PubSub\RetentionSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\SubscriptionToken.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Session\SessionDescriptorService.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Rpc\IWampRegistrationDescriptor.cs" />

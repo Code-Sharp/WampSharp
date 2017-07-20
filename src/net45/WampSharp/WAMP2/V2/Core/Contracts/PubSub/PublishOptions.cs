@@ -58,6 +58,9 @@ namespace WampSharp.V2.Core.Contracts
         [DataMember(Name = "disclose_me")]
         public bool? DiscloseMe { get; set; }
 
+        /// <summary>
+        /// If <see cref="bool.True"/>, request the broker retain this event.
+        /// </summary>
         [DataMember(Name = "retain")]
         public bool? Retain { get; set; }
 

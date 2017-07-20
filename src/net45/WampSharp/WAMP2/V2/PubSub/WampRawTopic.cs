@@ -72,36 +72,6 @@ namespace WampSharp.V2.PubSub
             InnerEvent(options, action);
         }
 
-        private EventDetails GetDetails(PublishOptions options)
-        {
-            EventDetails result = new EventDetails();
-
-            PublishOptionsExtended extendedOptions = 
-                options as PublishOptionsExtended;
-
-            bool disclosePublisher = options.DiscloseMe ?? false;
-
-            if (extendedOptions != null)
-            {
-                if (disclosePublisher)
-                {
-                    result.Publisher = extendedOptions.PublisherId;
-
-                    result.AuthenticationId = extendedOptions.AuthenticationId;
-                    result.AuthenticationRole = extendedOptions.AuthenticationRole;
-                }
-
-                string match = mSubscribeOptions.Match;
-
-                if (match != WampMatchPattern.Exact)
-                {
-                    result.Topic = extendedOptions.TopicUri;
-                }
-            }
-
-            return result;
-        }
-
         private void Publish(WampMessage<object> message, PublishOptions options)
         {
             WampMessage<object> raw = mBinding.GetRawMessage(message);
@@ -117,7 +87,7 @@ namespace WampSharp.V2.PubSub
 
         private void InnerEvent(PublishOptions options, Func<EventDetails, WampMessage<object>> action)
         {
-            EventDetails details = GetDetails(options);
+            EventDetails details = options.GetEventDetails(mSubscribeOptions.Match);
 
             WampMessage<object> message = action(details);
 

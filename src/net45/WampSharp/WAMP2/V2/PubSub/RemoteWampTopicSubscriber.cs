@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
@@ -8,7 +7,6 @@ namespace WampSharp.V2.PubSub
     {
         private readonly IWampClientProxy mSubscriber;
         private readonly long mSubscriptionId;
-        private readonly WampIdGenerator mIdGenerator = new WampIdGenerator();
 
         public RemoteWampTopicSubscriber(long subscriptionId, IWampSubscriber subscriber)
         {
@@ -24,6 +22,30 @@ namespace WampSharp.V2.PubSub
             }
         }
 
+        public string AuthenticationId
+        {
+            get
+            {
+                return WelcomeDetails?.AuthenticationId;
+            }
+        }
+
+        public string AuthenticationRole
+        {
+            get
+            {
+                return WelcomeDetails?.AuthenticationRole;
+            }
+        }
+
+        private WelcomeDetails WelcomeDetails
+        {
+            get
+            {
+                return mSubscriber.WelcomeDetails;
+            }
+        }
+
         public long SubscriptionId
         {
             get
@@ -32,26 +54,18 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        private long GeneratePublicationId()
+        public void Event(long publicationId, EventDetails details)
         {
-            return mIdGenerator.Generate();
-        }
-
-        public void Event(EventDetails details)
-        {
-            long publicationId = GeneratePublicationId();
             mSubscriber.Event(this.SubscriptionId, publicationId, details);
         }
 
-        public void Event(EventDetails details, object[] arguments)
+        public void Event(long publicationId, EventDetails details, object[] arguments)
         {
-            long publicationId = GeneratePublicationId();
             mSubscriber.Event(this.SubscriptionId, publicationId, details, arguments);
         }
 
-        public void Event(EventDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        public void Event(long publicationId, EventDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
-            long publicationId = GeneratePublicationId();
             mSubscriber.Event(this.SubscriptionId, publicationId, details, arguments, argumentsKeywords);
         }
     }

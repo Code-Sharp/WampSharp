@@ -47,5 +47,11 @@ namespace WampSharp.V2.Core.Contracts
         /// </summary>
         [DataMember(Name = "authid")]
         public string AuthenticationId { get; internal set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the message was retained by the broker on the topic, rather than just published.
+        /// </summary>
+        [DataMember(Name = "retained")]
+        public bool? Retained { get; internal set; }
     }
 }
