@@ -275,7 +275,6 @@
     <Compile Include="WAMP2\V2\MetaApi\Rpc\RegistrationDescriptorService.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Rpc\RegistrationDetailsExtended.cs" />
     <Compile Include="WAMP2\V2\MetaApi\AvailableGroups.cs" />
-    <Compile Include="WAMP2\V2\PubSub\IWampRawTopicWeakRouterSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\PublishOptionsExtensions.cs" />
     <Compile Include="WAMP2\V2\PubSub\RetentionSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\SubscriptionToken.cs" />
