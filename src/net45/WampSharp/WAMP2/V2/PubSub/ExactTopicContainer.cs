@@ -28,8 +28,7 @@ namespace WampSharp.V2.PubSub
             }
             else
             {
-                topic = GetOrCreateTopicByUri(criteria, true);
-                topic.Subscribe(new RetentionSubscriber(topic));
+                topic = GetOrCreateRetainingTopicByUri(criteria);
             }
 
             if (topic == null)

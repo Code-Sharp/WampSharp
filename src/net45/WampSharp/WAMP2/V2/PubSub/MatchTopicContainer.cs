@@ -12,7 +12,7 @@ namespace WampSharp.V2.PubSub
     {
         #region Fields
 
-        private readonly ConcurrentDictionary<string, WampTopic> mTopicUriToSubject;
+        private readonly ConcurrentDictionary<string, IWampTopic> mTopicUriToSubject;
         private readonly object mLock = new object();
         private readonly WampIdMapper<IWampTopic> mSubscriptionIdToTopic;
 
@@ -27,7 +27,7 @@ namespace WampSharp.V2.PubSub
         public MatchTopicContainer(WampIdMapper<IWampTopic> subscriptionIdToTopic)
         {
             mTopicUriToSubject =
-                new ConcurrentDictionary<string, WampTopic>();
+                new ConcurrentDictionary<string, IWampTopic>();
 
             mSubscriptionIdToTopic = subscriptionIdToTopic;
         }
@@ -118,7 +118,7 @@ namespace WampSharp.V2.PubSub
         {
             WampTopic wampTopic = CreateWampTopic(topicUri, persistent);
 
-            IDictionary<string, WampTopic> casted = mTopicUriToSubject;
+            IDictionary<string, IWampTopic> casted = mTopicUriToSubject;
 
             casted.Add(topicUri, wampTopic);
 
@@ -127,14 +127,19 @@ namespace WampSharp.V2.PubSub
             return wampTopic;
         }
 
-        public IWampTopic GetOrCreateTopicByUri(string topicUri, bool? persistent = null)
+        public IWampTopic GetOrCreateTopicByUri(string topicUri)
+        {
+            return GetOrCreateTopicByUri(topicUri, null);
+        }
+
+        private IWampTopic GetOrCreateTopicByUri(string topicUri, bool? persistent = null)
         {
             // Pretty ugly.
             bool created = false;
 
             bool createPersistentTopic = persistent ?? false;
 
-            WampTopic result;
+            IWampTopic result;
 
             lock (mLock)
             {
@@ -142,14 +147,19 @@ namespace WampSharp.V2.PubSub
                     mTopicUriToSubject.GetOrAdd(topicUri,
                                                 key =>
                                                 {
-                                                    WampTopic topic = CreateWampTopic(topicUri, createPersistentTopic);
+                                                    IWampTopic topic = CreateWampTopic(topicUri, createPersistentTopic);
                                                     created = true;
                                                     return topic;
                                                 });
 
                 if (persistent != null)
                 {
-                    result.Persistent = persistent.Value;
+                    WampTopic casted = result as WampTopic;
+
+                    if (casted != null)
+                    {
+                        casted.Persistent = persistent.Value;
+                    }
 
                     if (persistent == true)
                     {
@@ -166,9 +176,25 @@ namespace WampSharp.V2.PubSub
             return result;
         }
 
+        protected IWampTopic GetOrCreateRetainingTopicByUri(string topicUri)
+        {
+            lock (mLock)
+            {
+                IWampTopic topic = GetOrCreateTopicByUri(topicUri, true);
+
+                if (!(topic is WampRetainingTopic))
+                {
+                    topic = new WampRetainingTopic(topic);
+                    mTopicUriToSubject[topicUri] = topic;
+                }
+
+                return topic;
+            }
+        }
+
         public IWampTopic GetTopicByUri(string topicUri)
         {
-            WampTopic result;
+            IWampTopic result;
 
             if (mTopicUriToSubject.TryGetValue(topicUri, out result))
             {
@@ -180,7 +206,7 @@ namespace WampSharp.V2.PubSub
 
         public bool TryRemoveTopicByUri(string topicUri, out IWampTopic topic)
         {
-            WampTopic value;
+            IWampTopic value;
             bool result = mTopicUriToSubject.TryRemove(topicUri, out value);
             topic = value;
 

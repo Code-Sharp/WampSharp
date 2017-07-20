@@ -135,15 +135,7 @@ namespace WampSharp.V2.PubSub
                     published | publishAction(container, publicationId);
             }
 
-            if (published)
-            {
-                return publicationId;
-            }
-            else
-            {
-                throw new WampException(WampErrors.InvalidTopic,
-                                 "topicUri: " + topicUri);
-            }
+            return publicationId;
         }
 
         public IWampTopic CreateTopicByUri(string topicUri, bool persistent)
