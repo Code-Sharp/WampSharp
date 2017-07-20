@@ -22,6 +22,7 @@ namespace WampSharp.V2.Core.Contracts
             Topic = other.Topic;
             AuthenticationId = other.AuthenticationId;
             AuthenticationRole = other.AuthenticationRole;
+            Retained = other.Retained;
         }
 
         /// <summary>
