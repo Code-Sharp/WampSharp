@@ -552,25 +552,36 @@ namespace WampSharp.V2.PubSub
                 ImmutableHashSet<RemoteObserver> result =
                     ImmutableHashSet<RemoteObserver>.Empty;
 
-                GatherObservers(mAuthenticationIdToSubscription, authenticationIds);
-                GatherObservers(mAuthenticationRoleToSubscription, authenticationRoles);
+                ImmutableHashSet<RemoteObserver> gatheredAuthIdObservers =
+                    GatherObservers(mAuthenticationIdToSubscription, authenticationIds);
+
+                ImmutableHashSet<RemoteObserver> gatheredAuthRoleObservers =
+                    GatherObservers(mAuthenticationRoleToSubscription, authenticationRoles);
+
+                result = result.Union(gatheredAuthIdObservers)
+                               .Union(gatheredAuthRoleObservers);
 
                 return result;
+            }
 
-                void GatherObservers
-                (IDictionary<string, ImmutableList<Subscription>> dictionary,
-                 string[] ids)
+            private ImmutableHashSet<RemoteObserver> GatherObservers
+            (IDictionary<string, ImmutableList<Subscription>> dictionary,
+             string[] ids)
+            {
+                ImmutableHashSet<RemoteObserver> result =
+                    ImmutableHashSet<RemoteObserver>.Empty;
+
+                if (ids != null)
                 {
-                    if (ids != null)
+                    foreach (string id in ids)
                     {
-                        foreach (string id in ids)
-                        {
-                            ImmutableList<Subscription> subscriptions = dictionary[id];
+                        ImmutableList<Subscription> subscriptions = dictionary[id];
 
-                            result = result.Union(subscriptions.Select(x => x.Observer));
-                        }
+                        result = result.Union(subscriptions.Select(x => x.Observer));
                     }
                 }
+
+                return result;
             }
 
             private RemoteObserver GetRemoteObserverById(long sessionId)
