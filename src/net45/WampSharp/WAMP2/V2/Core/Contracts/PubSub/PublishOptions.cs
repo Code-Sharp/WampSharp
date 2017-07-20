@@ -21,6 +21,10 @@ namespace WampSharp.V2.Core.Contracts
             this.Eligible = options.Eligible;
             this.DiscloseMe = options.DiscloseMe;
             this.Retain = options.Retain;
+            this.EligibleAuthenticationIds = options.EligibleAuthenticationIds;
+            this.EligibleAuthenticationRoles = options.EligibleAuthenticationRoles;
+            this.ExcludeAuthenticationIds = options.ExcludeAuthenticationIds;
+            this.ExcludeAuthenticationRoles= options.ExcludeAuthenticationRoles;
             this.OriginalValue = options.OriginalValue;
         }
 
@@ -56,5 +60,29 @@ namespace WampSharp.V2.Core.Contracts
 
         [DataMember(Name = "retain")]
         public bool? Retain { get; set; }
+
+        /// <summary>
+        /// List of WAMP authids eligible to receive this event.
+        /// </summary>
+        [DataMember(Name = "eligible_authid")]
+        public string[] EligibleAuthenticationIds { get; set; }
+
+        /// <summary>
+        /// List of WAMP authroles eligible to receive this event.
+        /// </summary>
+        [DataMember(Name = "eligible_authrole")]
+        public string[] EligibleAuthenticationRoles { get; set; }
+
+        /// <summary>
+        /// List of WAMP authids to exclude from receiving this event.
+        /// </summary>
+        [DataMember(Name = "exclude_authid")]
+        public string[] ExcludeAuthenticationIds { get; set; }
+
+        /// <summary>
+        /// List of WAMP authroles to exclude from receiving this event.
+        /// </summary>
+        [DataMember(Name = "exclude_authrole")]
+        public string[] ExcludeAuthenticationRoles { get; set; }
     }
 }

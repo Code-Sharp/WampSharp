@@ -142,7 +142,6 @@ namespace WampSharp.V2.Rpc
                 result.Caller = casted.CallerSession;
 
                 result.AuthenticationId = casted.AuthenticationId;
-                result.AuthenticationMethod = casted.AuthenticationMethod;
                 result.AuthenticationRole = casted.AuthenticationRole;
             }
 

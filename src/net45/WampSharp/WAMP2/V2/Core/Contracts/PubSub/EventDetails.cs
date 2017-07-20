@@ -21,7 +21,6 @@ namespace WampSharp.V2.Core.Contracts
             Publisher = other.Publisher;
             Topic = other.Topic;
             AuthenticationId = other.AuthenticationId;
-            AuthenticationMethod = other.AuthenticationMethod;
             AuthenticationRole = other.AuthenticationRole;
         }
 
@@ -37,15 +36,15 @@ namespace WampSharp.V2.Core.Contracts
         [DataMember(Name = "topic")]
         public string Topic { get; internal set; }
 
-        [ExperimentalWampFeature]
+        /// <summary>
+        /// Gets the WAMP authrole of the pubisher. Only filled if pubisher is disclosed.
+        /// </summary>
         [DataMember(Name = "authrole")]
         public string AuthenticationRole { get; internal set; }
 
-        [ExperimentalWampFeature]
-        [DataMember(Name = "authmethod")]
-        public string AuthenticationMethod { get; internal set; }
-
-        [ExperimentalWampFeature]
+        /// <summary>
+        /// Gets the WAMP authid of the pubisher. Only filled if pubisher is disclosed.
+        /// </summary>
         [DataMember(Name = "authid")]
         public string AuthenticationId { get; internal set; }
     }
