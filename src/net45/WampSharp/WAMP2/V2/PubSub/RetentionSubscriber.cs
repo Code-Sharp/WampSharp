@@ -7,7 +7,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
 {
-    internal class RetentionSubscriber : IWampRawTopicWeakRouterSubscriber
+    internal class RetentionSubscriber : IWampRawTopicRouterSubscriber
     {
         private IImmutableStack<RetainedEvent> mRetainedEvents = ImmutableStack<RetainedEvent>.Empty;
         private readonly object mLock = new object();

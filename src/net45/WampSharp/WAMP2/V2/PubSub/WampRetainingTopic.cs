@@ -8,7 +8,7 @@ namespace WampSharp.V2.PubSub
     internal class WampRetainingTopic : IWampTopic
     {
         private readonly IWampTopic mTopic;
-        private IDisposable mDisposable;
+        private readonly IDisposable mDisposable;
 
         public WampRetainingTopic(IWampTopic topic)
         {

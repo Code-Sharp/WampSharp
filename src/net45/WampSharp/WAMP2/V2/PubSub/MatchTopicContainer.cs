@@ -127,46 +127,22 @@ namespace WampSharp.V2.PubSub
             return wampTopic;
         }
 
-        public IWampTopic GetOrCreateTopicByUri(string topicUri)
-        {
-            return GetOrCreateTopicByUri(topicUri, null);
-        }
-
-        private IWampTopic GetOrCreateTopicByUri(string topicUri, bool? persistent = null)
+        private IWampTopic GetOrCreateTopicByUri(string topicUri)
         {
             // Pretty ugly.
             bool created = false;
 
-            bool createPersistentTopic = persistent ?? false;
-
             IWampTopic result;
 
-            lock (mLock)
-            {
-                result =
-                    mTopicUriToSubject.GetOrAdd(topicUri,
-                                                key =>
-                                                {
-                                                    IWampTopic topic = CreateWampTopic(topicUri, createPersistentTopic);
-                                                    created = true;
-                                                    return topic;
-                                                });
 
-                if (persistent != null)
-                {
-                    WampTopic casted = result as WampTopic;
-
-                    if (casted != null)
-                    {
-                        casted.Persistent = persistent.Value;
-                    }
-
-                    if (persistent == true)
-                    {
-                        result.TopicEmpty -= OnTopicEmpty;
-                    }
-                }
-            }
+            result =
+                mTopicUriToSubject.GetOrAdd(topicUri,
+                                            key =>
+                                            {
+                                                IWampTopic topic = CreateWampTopic(topicUri, false);
+                                                created = true;
+                                                return topic;
+                                            });
 
             if (created)
             {
@@ -180,10 +156,11 @@ namespace WampSharp.V2.PubSub
         {
             lock (mLock)
             {
-                IWampTopic topic = GetOrCreateTopicByUri(topicUri, true);
+                IWampTopic topic = GetOrCreateTopicByUri(topicUri);
 
                 if (!(topic is WampRetainingTopic))
                 {
+                    topic.TopicEmpty -= OnTopicEmpty;
                     topic = new WampRetainingTopic(topic);
                     mTopicUriToSubject[topicUri] = topic;
                 }
@@ -243,9 +220,9 @@ namespace WampSharp.V2.PubSub
         {
             lock (mLock)
             {
-                WampTopic topic = sender as WampTopic;
+                IWampTopic topic = sender as IWampTopic;
 
-                if (!topic.Persistent && !topic.HasSubscribers)
+                if (!topic.HasSubscribers)
                 {
                     topic.TopicEmpty -= OnTopicEmpty;
                     topic.Dispose();

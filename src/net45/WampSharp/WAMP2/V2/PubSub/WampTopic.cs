@@ -20,9 +20,6 @@ namespace WampSharp.V2.PubSub
 
         private bool mPersistent;
 
-        private readonly SwapCollection<IWampRawTopicRouterSubscriber> mWeakSubscribers =
-            new SwapCollection<IWampRawTopicRouterSubscriber>();
-
         public WampTopic(string topicUri, bool persistent)
         {
             mTopicUri = topicUri;
@@ -79,10 +76,6 @@ namespace WampSharp.V2.PubSub
             {
                 return mPersistent;
             }
-            internal set
-            {
-                mPersistent = value;
-            }
         }
 
         public long SubscriptionId
@@ -95,28 +88,13 @@ namespace WampSharp.V2.PubSub
         {
             RegisterSubscriberEventsIfNeeded(subscriber);
 
-            IDisposable result;
+            mSubscribers.Add(subscriber);
 
-            if (subscriber is IWampRawTopicWeakRouterSubscriber)
+            IDisposable result = Disposable.Create(() =>
             {
-                mWeakSubscribers.Add(subscriber);
-
-                result = Disposable.Create(() =>
-                {
-                    mWeakSubscribers.Remove(subscriber);
-                });
-            }
-            else
-            {
-                mSubscribers.Add(subscriber);
-
-                result = Disposable.Create(() =>
-                {
-                    mSubscribers.Remove(subscriber);
-                    OnSubscriberLeave(subscriber);
-                });
-            }
-
+                mSubscribers.Remove(subscriber);
+                OnSubscriberLeave(subscriber);
+            });
 
             return result;
         }
@@ -133,7 +111,6 @@ namespace WampSharp.V2.PubSub
 
         public void Dispose()
         {
-            mWeakSubscribers.Clear();
             mSubscribers.Clear();
         }
 
@@ -217,8 +194,7 @@ namespace WampSharp.V2.PubSub
 
         private void InnerPublish(Action<IWampRawTopicRouterSubscriber> publishAction)
         {
-            foreach (IWampRawTopicRouterSubscriber subscriber in 
-                mSubscribers.Concat(mWeakSubscribers))
+            foreach (IWampRawTopicRouterSubscriber subscriber in mSubscribers)
             {
                 publishAction(subscriber);
             }
