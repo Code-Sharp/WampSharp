@@ -2,6 +2,7 @@
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using SystemEx;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Testament;
 
@@ -18,7 +19,7 @@ namespace WampSharp.V2.MetaApi
         {
             WampRealmDescriptorService service = new WampRealmDescriptorService(hostedRealm);
 
-            return HostDisposableService(hostedRealm, service);
+            return HostDisposableService(hostedRealm, service, CalleeRegistrationInterceptor.Default);
         }
 
         /// <summary>
@@ -30,13 +31,15 @@ namespace WampSharp.V2.MetaApi
         {
             WampTestamentService service = new WampTestamentService(hostedRealm);
 
-            return HostDisposableService(hostedRealm, service);
+            RegisterOptions registerOptions = new RegisterOptions { DiscloseCaller = true };
+
+            return HostDisposableService(hostedRealm, service, new CalleeRegistrationInterceptor(registerOptions));
         }
 
-        private static IDisposable HostDisposableService(IWampHostedRealm hostedRealm, IDisposable service)
+        private static IDisposable HostDisposableService(IWampHostedRealm hostedRealm, IDisposable service, ICalleeRegistrationInterceptor registrationInterceptor)
         {
             Task<IAsyncDisposable> registrationDisposable =
-                hostedRealm.Services.RegisterCallee(service);
+                hostedRealm.Services.RegisterCallee(service, registrationInterceptor);
 
             IAsyncDisposable asyncDisposable = registrationDisposable.Result;
 
