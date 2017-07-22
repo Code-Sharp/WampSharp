@@ -78,7 +78,7 @@ namespace WampSharp.V2.PubSub
             RetainedEvent retainedEvent = new RetainedEvent(options, action);
 
             // If the event has no restrictions, then it is the most recent event.
-            bool hasNoRestrictions = all.All(x => (x == null) || (x.Length == 0));
+            bool hasNoRestrictions = all.All(x => x == null);
 
             lock (mLock)
             {
