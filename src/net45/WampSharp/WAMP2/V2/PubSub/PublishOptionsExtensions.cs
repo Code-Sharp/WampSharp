@@ -39,8 +39,8 @@ namespace WampSharp.V2.PubSub
             string authId = subscriber.AuthenticationId;
             string authRole = subscriber.AuthenticationRole;
 
-            return (IsEligible(options.Eligible, sessionId, true) ||
-                    IsEligible(options.EligibleAuthenticationIds, authId, true) ||
+            return (IsEligible(options.Eligible, sessionId, true) &&
+                    IsEligible(options.EligibleAuthenticationIds, authId, true) &&
                     IsEligible(options.EligibleAuthenticationRoles, authRole, true)) &&
                    (IsEligible(options.Exclude, sessionId, false) &&
                     IsEligible(options.ExcludeAuthenticationIds, authId, false) &&
@@ -49,7 +49,7 @@ namespace WampSharp.V2.PubSub
 
         private static bool IsEligible<T>(T[] array, T value, bool returnValue)
         {
-            if (array == null || array.Length == 0)
+            if (array == null)
             {
                 return true;
             }

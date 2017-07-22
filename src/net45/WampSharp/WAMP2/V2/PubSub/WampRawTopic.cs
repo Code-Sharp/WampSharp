@@ -472,20 +472,7 @@ namespace WampSharp.V2.PubSub
             {
                 ImmutableHashSet<RemoteObserver> result = mRemoteObservers;
 
-                if (options.Eligible != null)
-                {
-                    var eligibleObservers = 
-                        GetRemoteObservers(options.Eligible)
-                            .ToArray();
-
-                    result = ImmutableHashSet.Create(eligibleObservers);
-                }
-
-                ImmutableHashSet<RemoteObserver> authenticationEligibleObservers = 
-                    GetRemoteAuthenticationObservers(options.EligibleAuthenticationIds,
-                                                     options.EligibleAuthenticationRoles);
-
-                result = result.Union(authenticationEligibleObservers);
+                result = GetEligibleObservers(result, options);
 
                 bool excludeMe = options.ExcludeMe ?? true;
                 
@@ -496,6 +483,49 @@ namespace WampSharp.V2.PubSub
                     result = result.Remove(new RemoteObserver(casted.PublisherId));
                 }
 
+                result = RemoveExcludedObservers(result, options);
+
+                return result;
+            }
+
+            private ImmutableHashSet<RemoteObserver> GetEligibleObservers(ImmutableHashSet<RemoteObserver> allObservers, PublishOptions options)
+            {
+                ImmutableHashSet<RemoteObserver> result = allObservers;
+
+                if (options.Eligible != null)
+                {
+                    var eligibleObservers =
+                        GetRemoteObservers(options.Eligible)
+                            .ToArray();
+
+                    result = ImmutableHashSet.Create(eligibleObservers);
+                }
+
+                if (options.EligibleAuthenticationIds != null)
+                {
+                    ImmutableHashSet<RemoteObserver> gatheredAuthIdObservers =
+                        GatherObservers(mAuthenticationIdToSubscription,
+                                        options.EligibleAuthenticationIds);
+
+                    result = result.Intersect(gatheredAuthIdObservers);
+                }
+
+                if (options.EligibleAuthenticationRoles != null)
+                {
+                    ImmutableHashSet<RemoteObserver> gatheredAuthIdObservers =
+                        GatherObservers(mAuthenticationRoleToSubscription,
+                                        options.EligibleAuthenticationRoles);
+
+                    result = result.Intersect(gatheredAuthIdObservers);
+                }
+
+                return result;
+            }
+
+            private ImmutableHashSet<RemoteObserver> RemoveExcludedObservers(ImmutableHashSet<RemoteObserver> observers, PublishOptions options)
+            {
+                ImmutableHashSet<RemoteObserver> result = observers;
+
                 if (options.Exclude != null)
                 {
                     var excludedObservers =
@@ -505,43 +535,37 @@ namespace WampSharp.V2.PubSub
                     result = result.Except(excludedObservers);
                 }
 
-                ImmutableHashSet<RemoteObserver> authenticationExcludedObservers =
-                    GetRemoteAuthenticationObservers(options.ExcludeAuthenticationIds,
-                                                     options.ExcludeAuthenticationRoles);
+                if (options.ExcludeAuthenticationIds != null)
+                {
+                    ImmutableHashSet<RemoteObserver> excludedAuthenticationIds =
+                        GatherObservers(mAuthenticationIdToSubscription,
+                                        options.ExcludeAuthenticationIds);
 
-                result = result.Except(authenticationExcludedObservers);
+                    result = result.Except(excludedAuthenticationIds);
+                }
 
-                return result;
-            }
+                if (options.ExcludeAuthenticationRoles != null)
+                {
+                    ImmutableHashSet<RemoteObserver> excludedAuthenticationRoles =
+                        GatherObservers(mAuthenticationRoleToSubscription,
+                                        options.ExcludeAuthenticationRoles);
 
-            private ImmutableHashSet<RemoteObserver> GetRemoteAuthenticationObservers
-            (string[] authenticationIds,
-             string[] authenticationRoles)
-            {
-                ImmutableHashSet<RemoteObserver> result =
-                    ImmutableHashSet<RemoteObserver>.Empty;
-
-                ImmutableHashSet<RemoteObserver> gatheredAuthIdObservers =
-                    GatherObservers(mAuthenticationIdToSubscription, authenticationIds);
-
-                ImmutableHashSet<RemoteObserver> gatheredAuthRoleObservers =
-                    GatherObservers(mAuthenticationRoleToSubscription, authenticationRoles);
-
-                result = result.Union(gatheredAuthIdObservers)
-                               .Union(gatheredAuthRoleObservers);
+                    result = result.Except(excludedAuthenticationRoles);
+                }
 
                 return result;
             }
 
-            private ImmutableHashSet<RemoteObserver> GatherObservers
+            private static ImmutableHashSet<RemoteObserver> GatherObservers
             (IDictionary<string, ImmutableList<Subscription>> dictionary,
              string[] ids)
             {
-                ImmutableHashSet<RemoteObserver> result =
-                    ImmutableHashSet<RemoteObserver>.Empty;
+                ImmutableHashSet<RemoteObserver> result = null;
 
                 if (ids != null)
                 {
+                    result = ImmutableHashSet<RemoteObserver>.Empty;
+
                     foreach (string id in ids)
                     {
                         ImmutableList<Subscription> subscriptions = dictionary[id];
