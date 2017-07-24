@@ -24,7 +24,7 @@ namespace WampSharp.V2.Core
             }
         }
 
-        public object[] UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,
+        public IEnumerable<object> UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,
             TMessage[] arguments,
             IDictionary<string, TMessage> argumentsKeywords)
         {
@@ -45,7 +45,7 @@ namespace WampSharp.V2.Core
             var named = Parameters.Skip(positionalArguments)
                 .Select(parameter => GetNamedParameterValue(formatter, parameter, argumentsKeywords));
 
-            object[] result = positional.Concat(named).ToArray();
+            IEnumerable<object> result = positional.Concat(named);
 
             return result;
         }

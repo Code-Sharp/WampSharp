@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
+using WampSharp.Core.Utilities;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -26,27 +28,18 @@ namespace WampSharp.V2.Rpc
 
         protected override object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, CancellationToken cancellationToken, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            object[] result = UnpackParameters(formatter, arguments, argumentsKeywords);
+            IEnumerable<object> parameters = UnpackParameters(formatter, arguments, argumentsKeywords);
 
-            int length = result.Length + 1;
-            int progressPosition = length - 1;
-            int? cancellationTokenPosition = null;
+            CallerProgress progress = new CallerProgress(caller, this);
+
+            parameters = parameters.Concat(progress);
 
             if (SupportsCancellation)
             {
-                length = length + 1;
-                cancellationTokenPosition = length - 1;
+                parameters = parameters.Concat(cancellationToken);
             }
 
-            object[] resultWithProgress = new object[length];
-            result.CopyTo(resultWithProgress, 0);
-            result = resultWithProgress;
-            result[progressPosition] = new CallerProgress(caller, this);
-
-            if (cancellationTokenPosition != null)
-            {
-                result[cancellationTokenPosition.Value] = cancellationToken;
-            }
+            object[] result = parameters.ToArray();
 
             return result;
         }

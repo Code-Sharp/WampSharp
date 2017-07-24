@@ -96,13 +96,13 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        protected object[] UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,
+        protected IEnumerable<object> UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,
                                                       TMessage[] arguments,
                                                       IDictionary<string, TMessage> argumentsKeywords)
         {
             ArgumentUnpacker unpacker = new ArgumentUnpacker(Parameters);
 
-            object[] result = 
+            IEnumerable<object> result = 
                 unpacker.UnpackParameters(formatter, arguments, argumentsKeywords);
 
             return result;

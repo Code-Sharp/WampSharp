@@ -136,6 +136,7 @@
     <Compile Include="Core\Utilities\CastleDynamicProxyGenerator.cs" />
     <Compile Include="Core\Utilities\CustomAttributeExtensions.cs" />
     <Compile Include="Core\Utilities\DictionaryExtensions.cs" />
+    <Compile Include="Core\Utilities\EnumerableExtensions.cs" />
     <Compile Include="Core\Utilities\GenericTypeExtensions.cs" />
     <Compile Include="Core\Utilities\IdMapperBase.cs" />
     <Compile Include="Core\Utilities\IProgress.cs" />
