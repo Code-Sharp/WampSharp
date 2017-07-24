@@ -43,6 +43,11 @@ namespace WampSharp.V2.Rpc
             get;
         }
 
+        public abstract bool SupportsCancellation
+        {
+            get;
+        }
+
         /// <summary>
         /// Returns a value indicating whether to treat an ICollection{T} result
         /// as the arguments yield argument. (If false, treats an ICollection{T} result

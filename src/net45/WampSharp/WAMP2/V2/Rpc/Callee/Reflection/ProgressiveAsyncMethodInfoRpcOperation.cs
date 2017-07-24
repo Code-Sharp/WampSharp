@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -23,20 +24,29 @@ namespace WampSharp.V2.Rpc
                 mRpcParameters.Length);
         }
 
-        protected override object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, CancellationToken cancellationToken, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            object[] argumentsWithoutProgress = 
-                base.GetMethodParameters(caller, formatter, arguments, argumentsKeywords);
+            object[] result = UnpackParameters(formatter, arguments, argumentsKeywords);
 
-            int length = argumentsWithoutProgress.Length + 1;
+            int length = result.Length + 1;
+            int progressPosition = length - 1;
+            int? cancellationTokenPosition = null;
 
-            object[] result = new object[length];
+            if (SupportsCancellation)
+            {
+                length = length + 1;
+                cancellationTokenPosition = length - 1;
+            }
 
-            Array.Copy(argumentsWithoutProgress,
-                result,
-                argumentsWithoutProgress.Length);
+            object[] resultWithProgress = new object[length];
+            result.CopyTo(resultWithProgress, 0);
+            result = resultWithProgress;
+            result[progressPosition] = new CallerProgress(caller, this);
 
-            result[length - 1] = new CallerProgress(caller, this);
+            if (cancellationTokenPosition != null)
+            {
+                result[cancellationTokenPosition.Value] = cancellationToken;
+            }
 
             return result;
         }

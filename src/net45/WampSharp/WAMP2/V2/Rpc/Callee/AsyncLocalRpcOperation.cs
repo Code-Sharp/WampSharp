@@ -22,7 +22,15 @@ namespace WampSharp.V2.Rpc
 
         protected override IWampCancelableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            CancellationTokenSourceInvocation result = null;
+            CancellationToken token = CancellationToken.None;
+
+            if (SupportsCancellation)
+            {
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                result = new CancellationTokenSourceInvocation(cancellationTokenSource);
+                token = cancellationTokenSource.Token;
+            }
 
             Task task =
                 InnerInvokeAsync(caller,
@@ -30,9 +38,9 @@ namespace WampSharp.V2.Rpc
                                  details,
                                  arguments,
                                  argumentsKeywords,
-                                 cancellationTokenSource.Token);
+                                 token);
 
-            return new CancellationTokenSourceInvocation(cancellationTokenSource);
+            return result;
         }
 
         private async Task InnerInvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller,

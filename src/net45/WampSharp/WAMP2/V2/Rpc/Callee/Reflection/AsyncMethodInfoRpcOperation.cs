@@ -20,6 +20,7 @@ namespace WampSharp.V2.Rpc
         private readonly RpcParameter[] mParameters;
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
+        private readonly bool mSupportsCancellation;
         private IWampResultExtractor mResultExtractor;
 
         public AsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) :
@@ -41,8 +42,16 @@ namespace WampSharp.V2.Rpc
             mCollectionResultTreatment = 
                 method.GetCollectionResultTreatment();
 
+            IEnumerable<ParameterInfo> parameterInfos = method.GetParameters();
+
+            if (parameterInfos.LastOrDefault()?.ParameterType == typeof(CancellationTokenSource))
+            {
+                mSupportsCancellation = true;
+                parameterInfos = parameterInfos.Take(parameterInfos.Count() - 1);
+            }
+
             mParameters =
-                method.GetParameters()
+                parameterInfos
                       .Select(parameter => new RpcParameter(parameter))
                       .ToArray();
 
@@ -64,14 +73,27 @@ namespace WampSharp.V2.Rpc
             get { return mHasResult; }
         }
 
+        public override bool SupportsCancellation
+        {
+            get { return mSupportsCancellation; }
+        }
+
         public override CollectionResultTreatment CollectionResultTreatment
         {
             get { return mCollectionResultTreatment; }
         }
 
-        protected virtual object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected virtual object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, CancellationToken cancellationToken, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             object[] result = UnpackParameters(formatter, arguments, argumentsKeywords);
+
+            if (SupportsCancellation)
+            {
+                object[] resultWithCancellationToken = new object[result.Length + 1];
+                result.CopyTo(resultWithCancellationToken, 0);
+                result = resultWithCancellationToken;
+                result[result.Length - 1] = cancellationToken;
+            }
 
             return result;
         }
@@ -83,8 +105,7 @@ namespace WampSharp.V2.Rpc
             try
             {
                 object[] unpacked =
-                    GetMethodParameters(caller, formatter, arguments, argumentsKeywords);
-                // TODO: Add the cancellationToken as well if needed.
+                    GetMethodParameters(caller, cancellationToken, formatter, arguments, argumentsKeywords);
 
                 object instance = mInstanceProvider();
 
