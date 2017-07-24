@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using WampSharp.Core.Utilities;
 using WampSharp.Core.Utilities.ValueTuple;
 
@@ -80,17 +81,26 @@ namespace WampSharp.V2.Rpc
             Type returnType =
                 TaskExtensions.UnwrapReturnType(method.ReturnType);
 
-            ParameterInfo lastParameter = method.GetParameters().Last();
+            ParameterInfo[] parameters = method.GetParameters();
+            ParameterInfo lastParameter = parameters.LastOrDefault();
+            ParameterInfo progressParameter = lastParameter;
+
+            if ((lastParameter != null) &&
+                (lastParameter.ParameterType == typeof(CancellationToken)))
+            {
+                progressParameter =
+                    parameters.Take(parameters.Length - 1).LastOrDefault();
+            }
 
             Type expectedParameterType =
                 typeof(IProgress<>).MakeGenericType(returnType);
 
-            if (lastParameter.ParameterType != expectedParameterType)
+            if ((progressParameter == null) || (progressParameter.ParameterType != expectedParameterType))
             {
                 ThrowHelper.ProgressiveParameterTypeMismatch(method, returnType);
             }
 
-            ValidateTupleReturnTypeOfProgressiveMethod(method, lastParameter);
+            ValidateTupleReturnTypeOfProgressiveMethod(method, progressParameter);
         }
 
         private static void ValidateTupleReturnTypeOfProgressiveMethod(MethodInfo method, ParameterInfo lastParameter)
@@ -134,7 +144,7 @@ namespace WampSharp.V2.Rpc
             {
                 throw new ArgumentException
                     (String.Format(
-                        "Method {0} of type {1} is declared as a progressive WAMP procedure, but its last parameter is not a IProgress of its return type. Expected: IProgress<{2}>",
+                        "Method {0} of type {1} is declared as a progressive WAMP procedure, but its last (or second to last) parameter is not a IProgress of its return type. Expected: IProgress<{2}>",
                         method.Name, method.DeclaringType.FullName, returnType.FullName));
             }
 
