@@ -4,7 +4,7 @@ namespace WampSharp.V2.Rpc
 {
     public interface IWampCancelableInvocation
     {
-        long RegistrationId { get; set; }
+        long RegistrationId { get; }
         void Cancel(InterruptOptions options);
     }
 }

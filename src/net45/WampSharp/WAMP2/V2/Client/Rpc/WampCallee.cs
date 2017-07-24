@@ -33,8 +33,8 @@ namespace WampSharp.V2.Client
         private readonly WampRequestIdMapper<UnregisterRequest> mPendingUnregistrations =
             new WampRequestIdMapper<UnregisterRequest>();
 
-        private readonly ConcurrentDictionary<long, IWampCancelableInvocation> mInvocations =
-            new ConcurrentDictionary<long, IWampCancelableInvocation>();
+        private readonly ConcurrentDictionary<long, InvocationData> mInvocations =
+            new ConcurrentDictionary<long, InvocationData>();
 
         private SwapDictionary<long, SwapCollection<long>> mRegistrationsToInvocations = 
             new SwapDictionary<long, SwapCollection<long>>();
@@ -141,7 +141,7 @@ namespace WampSharp.V2.Client
 
                         foreach (long invocationId in invocationsToRemove)
                         {
-                            IWampCancelableInvocation invocation;
+                            InvocationData invocation;
                             mInvocations.TryRemove(invocationId, out invocation);
                         }
                     }
@@ -215,7 +215,7 @@ namespace WampSharp.V2.Client
 
                 if (invocation != null)
                 {
-                    mInvocations[requestId] = invocation;
+                    mInvocations[requestId] = new InvocationData(registrationId, invocation);
 
                     lock (mLock)
                     {
@@ -287,11 +287,11 @@ namespace WampSharp.V2.Client
 
         public void Interrupt(long requestId, InterruptOptions options)
         {
-            IWampCancelableInvocation invocation;
+            InvocationData invocation;
 
             if (mInvocations.TryRemove(requestId, out invocation))
             {
-                invocation.Cancel(options);
+                invocation.Cancellation.Cancel(options);
 
                 lock (mLock)
                 {
@@ -402,6 +402,28 @@ namespace WampSharp.V2.Client
             public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments, TResult argumentsKeywords)
             {
                 mProxy.InvocationError(RequestId, details, error, arguments.Cast<object>().ToArray(), argumentsKeywords);
+            }
+        }
+
+        private class InvocationData
+        {
+            private readonly IWampCancelableInvocation mCancellation;
+            private readonly long mRegistrationId;
+
+            public InvocationData(long registrationId, IWampCancelableInvocation cancellation)
+            {
+                mCancellation = cancellation;
+                mRegistrationId = registrationId;
+            }
+
+            public IWampCancelableInvocation Cancellation
+            {
+                get { return mCancellation; }
+            }
+
+            public long RegistrationId
+            {
+                get { return mRegistrationId; }
             }
         }
     }
