@@ -44,34 +44,34 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details)
+        public IWampCancelableInvocation Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details)
         {
-            this.Invoke(caller, details);
+            return this.Invoke(caller, details);
         }
 
-        public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments)
+        public IWampCancelableInvocation Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments)
         {
-            this.Invoke(caller, details, arguments.Cast<object>().ToArray());
+            return this.Invoke(caller, details, arguments.Cast<object>().ToArray());
         }
 
-        public void Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments, IDictionary<string, TOther> argumentsKeywords)
+        public IWampCancelableInvocation Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments, IDictionary<string, TOther> argumentsKeywords)
         {
-            this.Invoke(caller, details, arguments.Cast<object>().ToArray(), argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
+            return this.Invoke(caller, details, arguments.Cast<object>().ToArray(), argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
         }
 
-        public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details)
+        public IWampCancelableInvocation Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details)
         {
-            InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails));
+            return InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails));
         }
 
-        public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments)
+        public IWampCancelableInvocation Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments)
         {
-            InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails, arguments));
+            return InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails, arguments));
         }
 
-        public void Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        public IWampCancelableInvocation Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
-            InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails, arguments, argumentsKeywords));
+            return InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails, arguments, argumentsKeywords));
         }
 
         private void InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options)
@@ -99,7 +99,7 @@ namespace WampSharp.V2.Rpc
             Callee.Invocation(requestId, RegistrationId, options, arguments, argumentsKeywords);
         }
 
-        private void InvokePattern(IWampRawRpcOperationRouterCallback caller, InvocationDetails details,
+        private IWampCancelableInvocation InvokePattern(IWampRawRpcOperationRouterCallback caller, InvocationDetails details,
                                    Action<InvocationDetails> action)
         {
             mResetEvent.WaitOne();
@@ -115,6 +115,8 @@ namespace WampSharp.V2.Rpc
                              new Dictionary<string, string>(),
                              WampErrors.CalleeDisconnected);
             }
+
+            return null;
         }
 
         private InvocationDetails GetInvocationDetails(InvocationDetails details)

@@ -186,6 +186,8 @@
     <Compile Include="WAMP2\V2\Api\Rx\WampEventValueTupleConverter.cs" />
     <Compile Include="WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs" />
     <Compile Include="WAMP2\V2\Core\ArgumentUnpackerHelper.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InterruptOptions.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\WampInterruptMode.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Session\AuthenticateExtraData.cs" />
     <Compile Include="WAMP2\V2\Authentication\Cookie\CookieCollectionCookieProvider.cs" />
@@ -329,6 +331,7 @@
     <Compile Include="WAMP2\V2\Realm\WampRouterBuilder.cs" />
     <Compile Include="WAMP2\V2\PubSub\TopicContainerExtensions.cs" />
     <Compile Include="WAMP2\V2\MetaApi\PubSub\SubscriptionDetailsExtended.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Callee\CancellationTokenSourceInvocation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ProgressiveAsyncCalleeProxyInterceptor.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\ICalleeProxyInterceptor.cs" />
@@ -363,6 +366,7 @@
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampRpcThrowHelper.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WildcardRpcOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\EventArgs\WampProcedureRegisterEventArgs.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCancelableInvocation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs" />

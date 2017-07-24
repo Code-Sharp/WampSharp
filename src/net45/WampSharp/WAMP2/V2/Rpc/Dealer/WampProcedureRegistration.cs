@@ -156,33 +156,33 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                      InvocationDetails details)
         {
-            InvokePattern
+            return InvokePattern
                 (caller,
                  operation => operation.Invoke(caller, formatter, details));
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      TMessage[] arguments)
         {
-            InvokePattern
+            return InvokePattern
                 (caller,
                  operation => operation.Invoke(caller, formatter, details, arguments));
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            InvokePattern
+            return InvokePattern
                 (caller,
                  operation => operation.Invoke(caller, formatter, details, arguments, argumentsKeywords));
         }
 
-        private void InvokePattern(IWampRawRpcOperationRouterCallback caller, Action<IWampRpcOperation> invokeAction)
+        private IWampCancelableInvocation InvokePattern(IWampRawRpcOperationRouterCallback caller, Action<IWampRpcOperation> invokeAction)
         {
             lock (mLock)
             {
@@ -193,6 +193,8 @@ namespace WampSharp.V2.Rpc
                     invokeAction(operation);
                 }
             }
+
+            return null;
         }
 
         private IWampRpcOperation GetOperation()

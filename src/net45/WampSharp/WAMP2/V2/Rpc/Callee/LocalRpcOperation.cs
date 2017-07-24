@@ -53,19 +53,19 @@ namespace WampSharp.V2.Rpc
             get;
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
+        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
         {
-            InnerInvoke(caller, formatter, details, null, null);
+            return InnerInvoke(caller, formatter, details, null, null);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments)
+        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments)
         {
-            InnerInvoke(caller, formatter, details, arguments, null);
+            return InnerInvoke(caller, formatter, details, arguments, null);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            InnerInvoke(caller, formatter, details, arguments, argumentsKeywords);
+            return InnerInvoke(caller, formatter, details, arguments, argumentsKeywords);
         }
 
         protected virtual object[] GetResultArguments(object result)
@@ -103,12 +103,8 @@ namespace WampSharp.V2.Rpc
             return result;
         }
 
-        protected abstract void InnerInvoke<TMessage>
-            (IWampRawRpcOperationRouterCallback caller,
-             IWampFormatter<TMessage> formatter,
-             InvocationDetails details,
-             TMessage[] arguments,
-             IDictionary<string, TMessage> argumentsKeywords);
+        protected abstract IWampCancelableInvocation InnerInvoke<TMessage>
+            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
 
         protected void ValidateInstanceType(object instance, MethodInfo method)

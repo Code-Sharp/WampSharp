@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.Logging;
@@ -15,15 +16,31 @@ namespace WampSharp.V2.Rpc
         }
 
         protected abstract Task<object> InvokeAsync<TMessage>
-            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
+            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, CancellationToken cancellationToken);
 
 #if ASYNC
 
-        protected override async void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
-                                                            IWampFormatter<TMessage> formatter,
-                                                            InvocationDetails details,
-                                                            TMessage[] arguments,
-                                                            IDictionary<string, TMessage> argumentsKeywords)
+        protected override IWampCancelableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            Task task =
+                InnerInvokeAsync(caller,
+                                 formatter,
+                                 details,
+                                 arguments,
+                                 argumentsKeywords,
+                                 cancellationTokenSource.Token);
+
+            return new CancellationTokenSourceInvocation(cancellationTokenSource);
+        }
+
+        private async Task InnerInvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller,
+                                                      IWampFormatter<TMessage> formatter,
+                                                      InvocationDetails details,
+                                                      TMessage[] arguments,
+                                                      IDictionary<string, TMessage> argumentsKeywords,
+                                                      CancellationToken cancellationToken)
         {
             try
             {
@@ -32,7 +49,8 @@ namespace WampSharp.V2.Rpc
                                 formatter,
                                 details,
                                 arguments,
-                                argumentsKeywords);
+                                argumentsKeywords,
+                                cancellationToken);
 
                 object result = await task;
 

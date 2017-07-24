@@ -66,7 +66,7 @@ namespace WampSharp.V2.Client
             mCaller.Invoke(caller, options, procedure, arguments, argumentsKeywords);
         }
 
-        public void Interrupt(long requestId, TMessage options)
+        public void Interrupt(long requestId, InterruptOptions options)
         {
             mCallee.Interrupt(requestId, options);
         }

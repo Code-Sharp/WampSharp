@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
@@ -75,7 +76,7 @@ namespace WampSharp.V2.Rpc
             return result;
         }
 
-        protected override Task<object> InvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override Task<object> InvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, CancellationToken cancellationToken)
         {
             WampInvocationContext.Current = new WampInvocationContext(details);
 
@@ -83,6 +84,7 @@ namespace WampSharp.V2.Rpc
             {
                 object[] unpacked =
                     GetMethodParameters(caller, formatter, arguments, argumentsKeywords);
+                // TODO: Add the cancellationToken as well if needed.
 
                 object instance = mInstanceProvider();
 
