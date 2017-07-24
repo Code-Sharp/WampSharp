@@ -85,9 +85,14 @@ namespace WampSharp.V2.Rpc
 
         protected virtual object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, CancellationToken cancellationToken, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            IEnumerable<object> unpacked = UnpackParameters(formatter, arguments, argumentsKeywords);
+            IEnumerable<object> parameters = UnpackParameters(formatter, arguments, argumentsKeywords);
 
-            object[] result = unpacked.Concat(new object[] {cancellationToken}).ToArray();
+            if (SupportsCancellation)
+            {
+                parameters = parameters.Concat(cancellationToken);
+            }
+
+            object[] result = parameters.ToArray();
 
             return result;
         }
