@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using WampSharp.Core.Serialization;
@@ -40,6 +41,31 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(callback.Task.Result, Is.EqualTo(10));
         }
 
+
+        [Test]
+        public async Task CancelProgressiveCallsCalleeCancellationToken()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            await calleeChannel.RealmProxy.Services.RegisterCallee(new CancelableLongOpService());
+
+            MyCallback callback = new MyCallback();
+
+            callerChannel.RealmProxy.RpcCatalog.Invoke
+            (callback,
+             new CallOptions() { ReceiveProgress = true },
+             "com.myapp.longop",
+             new object[] { 10 });
+
+            callback.Task.Wait(2000);
+
+            CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), callback.ProgressiveResults);
+            Assert.That(callback.Task.Result, Is.EqualTo(10));
+        }
 
         [Test]
         public async Task ProgressiveCallsCalleeProxyProgress()
@@ -188,6 +214,27 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
                 throw new NotImplementedException();
             }
+        }
+    }
+
+    public class CancelableLongOpService
+    {
+        [WampProcedure("com.myapp.longop")]
+        [WampProgressiveResultProcedure]
+        public async Task<int> LongOp(int n, IProgress<int> progress, CancellationToken cancellationToken)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    throw new WampException();
+                }
+
+                progress.Report(i);
+                await Task.Delay(100);
+            }
+
+            return n;
         }
     }
 

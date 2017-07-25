@@ -113,7 +113,8 @@ namespace WampSharp.V2.Rpc
             {
                 caller.Error(WampObjectFormatter.Value,
                              new Dictionary<string, string>(),
-                             WampErrors.CalleeDisconnected);
+                             WampErrors.CalleeDisconnected,
+                             new object[]{ "callee disconnected from in-flight request" });
             }
 
             return null;
