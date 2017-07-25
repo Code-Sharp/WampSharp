@@ -92,6 +92,7 @@
     <Compile Include="Integration\PatternBasedPubSubTests.cs" />
     <Compile Include="Integration\PatternRpcTests.cs" />
     <Compile Include="Integration\PublisherSubscriber.cs" />
+    <Compile Include="Integration\PubSubRetainTests.cs" />
     <Compile Include="Integration\PubSubReflectionTests.cs" />
     <Compile Include="Integration\RpcOptionsTests.cs" />
     <Compile Include="Integration\RpcProgressTests.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Integration\WampCraAuthenticationTests.cs" />
     <Compile Include="RecordedTests\MockBuilder\WelcomeDetailsInterceptor.cs" />
     <Compile Include="RequestMapper.cs" />
+    <Compile Include="TestHelpers\Integration\ChannelWithExtraData.cs" />
     <Compile Include="TestHelpers\Integration\MockTransport.cs" />
     <Compile Include="TestHelpers\Integration\WampAuthenticationPlayground.cs" />
     <Compile Include="TestHelpers\Integration\WampClientPlayground.cs" />

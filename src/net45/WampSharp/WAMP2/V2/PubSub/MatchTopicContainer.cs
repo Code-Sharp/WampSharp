@@ -127,7 +127,7 @@ namespace WampSharp.V2.PubSub
             return wampTopic;
         }
 
-        private IWampTopic GetOrCreateTopicByUri(string topicUri)
+        public IWampTopic GetOrCreateTopicByUri(string topicUri)
         {
             // Pretty ugly.
             bool created = false;
