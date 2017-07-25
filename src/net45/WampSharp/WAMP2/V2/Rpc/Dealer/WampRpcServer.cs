@@ -35,9 +35,7 @@ namespace WampSharp.V2.Rpc
         {
             try
             {
-                options.Invoke = options.Invoke ?? WampInvokePolicy.Default;
-                options.Match = options.Match ?? WampMatchPattern.Default;
-
+                options = options.WithDefaults();
                 ValidateRegisterUri(procedure, options.Match);
 
                 RegisterRequest registerRequest = new RegisterRequest(callee, requestId);
