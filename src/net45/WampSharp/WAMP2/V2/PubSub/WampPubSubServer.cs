@@ -99,7 +99,7 @@ namespace WampSharp.V2.PubSub
         {
             try
             {
-                options.Match = options.Match ?? WampMatchPattern.Default;
+                options = options.WithDefaults();
 
                 ValidateSubscribeUri(topicUri, options.Match);
 

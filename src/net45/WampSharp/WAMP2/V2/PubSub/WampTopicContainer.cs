@@ -59,6 +59,8 @@ namespace WampSharp.V2.PubSub
 
         public IWampRegistrationSubscriptionToken Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {
+            options = options.WithDefaults();
+
             MatchTopicContainer topicContainer = GetInnerContainer(options);
 
             return topicContainer.Subscribe(subscriber, topicUri, options);

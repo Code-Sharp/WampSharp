@@ -187,7 +187,9 @@
     <Compile Include="WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\WampCancellableInvocationProxy.cs" />
     <Compile Include="WAMP2\V2\Core\ArgumentUnpackerHelper.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\PubSub\SubscribeOptionsExtensions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InterruptOptions.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\RegisterOptionsExtensions.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\WampCancelMode.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\WampInterruptMode.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs" />
