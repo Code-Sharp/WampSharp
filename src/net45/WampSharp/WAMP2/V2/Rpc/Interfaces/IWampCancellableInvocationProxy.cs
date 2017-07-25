@@ -2,7 +2,7 @@
 
 namespace WampSharp.V2.Rpc
 {
-    public interface IWampCancelableInvocationProxy
+    public interface IWampCancellableInvocationProxy
     {
         void Cancel(CancelOptions options);
     }

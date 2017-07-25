@@ -198,7 +198,7 @@ namespace WampSharp.V2.Client
                                                    argumentsKeywords));
         }
 
-        private void InvocationPattern(long requestId, long registrationId, InvocationDetails details, Func<IWampRpcOperation, IWampRawRpcOperationRouterCallback, InvocationDetails, IWampCancelableInvocation> invocationAction)
+        private void InvocationPattern(long requestId, long registrationId, InvocationDetails details, Func<IWampRpcOperation, IWampRawRpcOperationRouterCallback, InvocationDetails, IWampCancellableInvocation> invocationAction)
         {
             IWampRpcOperation operation = TryGetOperation(registrationId);
 
@@ -211,7 +211,7 @@ namespace WampSharp.V2.Client
                     Procedure = details.Procedure ?? operation.Procedure
                 };
 
-                IWampCancelableInvocation invocation = invocationAction(operation, callback, modifiedDetails);
+                IWampCancellableInvocation invocation = invocationAction(operation, callback, modifiedDetails);
 
                 if (invocation != null)
                 {
@@ -407,16 +407,16 @@ namespace WampSharp.V2.Client
 
         private class InvocationData
         {
-            private readonly IWampCancelableInvocation mCancellation;
+            private readonly IWampCancellableInvocation mCancellation;
             private readonly long mRegistrationId;
 
-            public InvocationData(long registrationId, IWampCancelableInvocation cancellation)
+            public InvocationData(long registrationId, IWampCancellableInvocation cancellation)
             {
                 mCancellation = cancellation;
                 mRegistrationId = registrationId;
             }
 
-            public IWampCancelableInvocation Cancellation
+            public IWampCancellableInvocation Cancellation
             {
                 get { return mCancellation; }
             }

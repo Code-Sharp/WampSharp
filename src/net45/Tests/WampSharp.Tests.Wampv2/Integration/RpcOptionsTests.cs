@@ -186,20 +186,20 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
             }
 
-            public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
             {
                 this.Details = details;
                 return null;
             }
 
-            public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
                 TMessage[] arguments)
             {
                 this.Details = details;
                 return null;
             }
 
-            public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
                 TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 this.Details = details;

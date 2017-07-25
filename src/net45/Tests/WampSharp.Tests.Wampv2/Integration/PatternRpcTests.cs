@@ -128,7 +128,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 get { return CollectionResultTreatment.SingleValue; }
             }
 
-            protected override IWampCancelableInvocation InnerInvoke<TMessage>
+            protected override IWampCancellableInvocation InnerInvoke<TMessage>
                 (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 mAction(this, details);

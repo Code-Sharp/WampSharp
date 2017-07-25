@@ -20,7 +20,7 @@ namespace WampSharp.V2.Rpc
 
 #if ASYNC
 
-        protected override IWampCancelableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             CancellationTokenSourceInvocation result = null;
             CancellationToken token = CancellationToken.None;

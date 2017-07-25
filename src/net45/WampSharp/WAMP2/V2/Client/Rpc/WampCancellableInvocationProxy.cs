@@ -3,12 +3,12 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.Client
 {
-    internal class WampCancelableInvocationProxy : IWampCancelableInvocationProxy
+    internal class WampCancellableInvocationProxy : IWampCancellableInvocationProxy
     {
         public IWampServerProxy Proxy { get; }
         public long RequestId { get; }
 
-        public WampCancelableInvocationProxy(IWampServerProxy proxy, long requestId)
+        public WampCancellableInvocationProxy(IWampServerProxy proxy, long requestId)
         {
             Proxy = proxy;
             RequestId = requestId;

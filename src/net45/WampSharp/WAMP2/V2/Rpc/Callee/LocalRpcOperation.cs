@@ -58,17 +58,17 @@ namespace WampSharp.V2.Rpc
             get;
         }
 
-        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
         {
             return InnerInvoke(caller, formatter, details, null, null);
         }
 
-        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments)
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments)
         {
             return InnerInvoke(caller, formatter, details, arguments, null);
         }
 
-        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             return InnerInvoke(caller, formatter, details, arguments, argumentsKeywords);
         }
@@ -108,7 +108,7 @@ namespace WampSharp.V2.Rpc
             return result;
         }
 
-        protected abstract IWampCancelableInvocation InnerInvoke<TMessage>
+        protected abstract IWampCancellableInvocation InnerInvoke<TMessage>
             (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
 

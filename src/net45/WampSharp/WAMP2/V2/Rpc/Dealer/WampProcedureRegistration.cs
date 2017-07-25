@@ -156,7 +156,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                      InvocationDetails details)
         {
             return InvokePattern
@@ -164,7 +164,7 @@ namespace WampSharp.V2.Rpc
                  operation => operation.Invoke(caller, formatter, details));
         }
 
-        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      TMessage[] arguments)
         {
@@ -173,7 +173,7 @@ namespace WampSharp.V2.Rpc
                  operation => operation.Invoke(caller, formatter, details, arguments));
         }
 
-        public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
@@ -182,7 +182,7 @@ namespace WampSharp.V2.Rpc
                  operation => operation.Invoke(caller, formatter, details, arguments, argumentsKeywords));
         }
 
-        private IWampCancelableInvocation InvokePattern(IWampRawRpcOperationRouterCallback caller, Action<IWampRpcOperation> invokeAction)
+        private IWampCancellableInvocation InvokePattern(IWampRawRpcOperationRouterCallback caller, Action<IWampRpcOperation> invokeAction)
         {
             lock (mLock)
             {
