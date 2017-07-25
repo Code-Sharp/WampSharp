@@ -227,7 +227,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    throw new WampException();
+                    throw new WampException("wamp.cancel");
                 }
 
                 progress.Report(i);

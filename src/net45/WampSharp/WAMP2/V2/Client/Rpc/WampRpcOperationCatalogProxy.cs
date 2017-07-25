@@ -51,19 +51,19 @@ namespace WampSharp.V2.Client
             mCallee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);
         }
 
-        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure)
+        public IWampCancelableInvocationProxy Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure)
         {
-            mCaller.Invoke(caller, options, procedure);
+            return mCaller.Invoke(caller, options, procedure);
         }
 
-        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments)
+        public IWampCancelableInvocationProxy Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments)
         {
-            mCaller.Invoke(caller, options, procedure, arguments);
+            return mCaller.Invoke(caller, options, procedure, arguments);
         }
 
-        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        public IWampCancelableInvocationProxy Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
-            mCaller.Invoke(caller, options, procedure, arguments, argumentsKeywords);
+            return mCaller.Invoke(caller, options, procedure, arguments, argumentsKeywords);
         }
 
         public void Interrupt(long requestId, InterruptOptions options)

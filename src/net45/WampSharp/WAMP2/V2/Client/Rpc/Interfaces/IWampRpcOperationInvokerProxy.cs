@@ -22,7 +22,7 @@ namespace WampSharp.V2.Client
         /// <param name="caller">The caller that gets operation result callbacks.</param>
         /// <param name="options">The options to invoke the operation with.</param>
         /// <param name="procedure">The procedure to invoke.</param>
-        void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure);
+        IWampCancelableInvocationProxy Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure);
 
         /// <summary>
         /// Invokes a operation remotely.
@@ -31,7 +31,7 @@ namespace WampSharp.V2.Client
         /// <param name="options">The options to invoke the operation with.</param>
         /// <param name="procedure">The procedure to invoke.</param>
         /// <param name="arguments">The arguments to invoke the operation with.</param>
-        void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, TMessage[] arguments);
+        IWampCancelableInvocationProxy Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, TMessage[] arguments);
 
         /// <summary>
         /// Invokes a operation remotely.
@@ -41,6 +41,6 @@ namespace WampSharp.V2.Client
         /// <param name="procedure">The procedure to invoke.</param>
         /// <param name="arguments">The arguments to invoke the operation with.</param>
         /// <param name="argumentsKeywords">The arguments keywords to invoke the operation with.</param>
-        void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);    
+        IWampCancelableInvocationProxy Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);    
     }
 }

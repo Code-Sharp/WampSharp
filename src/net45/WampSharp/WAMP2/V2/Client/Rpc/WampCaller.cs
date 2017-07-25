@@ -26,7 +26,7 @@ namespace WampSharp.V2.Client
             monitor.ConnectionError += OnConnectionError;
         }
 
-        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure)
+        public IWampCancelableInvocationProxy Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure)
         {
             if (!IsConnected)
             {
@@ -38,9 +38,11 @@ namespace WampSharp.V2.Client
             long requestId = RegisterCall(callDetails);
 
             mProxy.Call(requestId, options, procedure);
+
+            return new WampCancelableInvocationProxy(mProxy, requestId);
         }
 
-        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments)
+        public IWampCancelableInvocationProxy Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments)
         {
             if (!IsConnected)
             {
@@ -52,9 +54,11 @@ namespace WampSharp.V2.Client
             long requestId = RegisterCall(callDetails);
 
             mProxy.Call(requestId, options, procedure, arguments);
+
+            return new WampCancelableInvocationProxy(mProxy, requestId);
         }
 
-        public void Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        public IWampCancelableInvocationProxy Invoke(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             if (!IsConnected)
             {
@@ -66,6 +70,8 @@ namespace WampSharp.V2.Client
             long requestId = RegisterCall(callDetails);
 
             mProxy.Call(requestId, options, procedure, arguments, argumentsKeywords);
+
+            return new WampCancelableInvocationProxy(mProxy, requestId);
         }
 
         private bool IsConnected
