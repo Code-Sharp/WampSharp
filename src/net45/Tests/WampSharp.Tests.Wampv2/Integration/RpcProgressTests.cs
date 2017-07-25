@@ -76,11 +76,12 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
             }
 
-            public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
+            public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
             {
+                return null;
             }
 
-            public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+            public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                 InvocationDetails details,
                 TMessage[] arguments)
             {
@@ -97,11 +98,14 @@ namespace WampSharp.Tests.Wampv2.Integration
                 caller.Result(WampObjectFormatter.Value,
                     new YieldOptions(),
                     new object[] {n});
+
+                return null;
             }
 
-            public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+            public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
                 TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
+                return null;
             }
         }
 

@@ -121,6 +121,8 @@ namespace WampSharp.Tests.Wampv2.Integration
                 get { return false; }
             }
 
+            public override bool SupportsCancellation { get { return false; } }
+
             public override CollectionResultTreatment CollectionResultTreatment
             {
                 get { return CollectionResultTreatment.SingleValue; }

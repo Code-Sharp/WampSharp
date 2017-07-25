@@ -193,22 +193,25 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 mInvocationCallback = value;
             }
 
-            public void Invoke<TMessage1>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details)
+            public IWampCancelableInvocation Invoke<TMessage1>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details)
             {
                 ActualInvoke = new object[] {details};
                 mInvocationCallback(caller);
+                return null;
             }
 
-            public void Invoke<TMessage1>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details, TMessage1[] arguments)
+            public IWampCancelableInvocation Invoke<TMessage1>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details, TMessage1[] arguments)
             {
                 ActualInvoke = new object[] { details, arguments };
                 mInvocationCallback(caller);
+                return null;
             }
 
-            public void Invoke<TMessage1>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details, TMessage1[] arguments, IDictionary<string, TMessage1> argumentsKeywords)
+            public IWampCancelableInvocation Invoke<TMessage1>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage1> formatter, InvocationDetails details, TMessage1[] arguments, IDictionary<string, TMessage1> argumentsKeywords)
             {
                 ActualInvoke = new object[] {details, arguments, argumentsKeywords};
                 mInvocationCallback(caller);
+                return null;
             }
         }
     }
