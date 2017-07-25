@@ -44,70 +44,78 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public IWampCancelableInvocation Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details)
+        public IWampCancellableInvocation Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details)
         {
             return this.Invoke(caller, details);
         }
 
-        public IWampCancelableInvocation Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments)
+        public IWampCancellableInvocation Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments)
         {
             return this.Invoke(caller, details, arguments.Cast<object>().ToArray());
         }
 
-        public IWampCancelableInvocation Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments, IDictionary<string, TOther> argumentsKeywords)
+        public IWampCancellableInvocation Invoke<TOther>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TOther> formatter, InvocationDetails details, TOther[] arguments, IDictionary<string, TOther> argumentsKeywords)
         {
             return this.Invoke(caller, details, arguments.Cast<object>().ToArray(), argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
         }
 
-        public IWampCancelableInvocation Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details)
+        public IWampCancellableInvocation Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details)
         {
             return InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails));
         }
 
-        public IWampCancelableInvocation Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments)
+        public IWampCancellableInvocation Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments)
         {
             return InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails, arguments));
         }
 
-        public IWampCancelableInvocation Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
+        public IWampCancellableInvocation Invoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails details, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
             return InvokePattern(caller, details, invocationDetails => InnerInvoke(caller, invocationDetails, arguments, argumentsKeywords));
         }
 
-        private void InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options)
+        private long InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options)
         {
             long requestId =
                 mHandler.RegisterInvocation(this, caller, options);
 
             Callee.Invocation(requestId, RegistrationId, options);
+
+            return requestId;
         }
 
-        private void InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options, object[] arguments)
+        private long InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options, object[] arguments)
         {
             long requestId =
                 mHandler.RegisterInvocation(this, caller, options, arguments);
 
             Callee.Invocation(requestId, RegistrationId, options, arguments);
+
+            return requestId;
         }
 
-        private void InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options, object[] arguments,
+        private long InnerInvoke(IWampRawRpcOperationRouterCallback caller, InvocationDetails options, object[] arguments,
                                  IDictionary<string, object> argumentsKeywords)
         {
             long requestId =
                 mHandler.RegisterInvocation(this, caller, options, arguments, argumentsKeywords);
 
             Callee.Invocation(requestId, RegistrationId, options, arguments, argumentsKeywords);
+
+            return requestId;
         }
 
-        private IWampCancelableInvocation InvokePattern(IWampRawRpcOperationRouterCallback caller, InvocationDetails details,
-                                   Action<InvocationDetails> action)
+        private IWampCancellableInvocation InvokePattern(IWampRawRpcOperationRouterCallback caller, InvocationDetails details,
+                                   Func<InvocationDetails, long> action)
         {
             mResetEvent.WaitOne();
 
             if (Interlocked.Read(ref mClientDisconnected) == 0)
             {
                 var detailsForCallee = GetInvocationDetails(details);
-                action(detailsForCallee);
+                long requestId = action(detailsForCallee);
+
+                return new WampCalleeRpcInvocation(Callee, requestId);
             }
             else
             {

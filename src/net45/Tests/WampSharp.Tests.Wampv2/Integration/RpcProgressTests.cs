@@ -55,11 +55,14 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             MyCallback callback = new MyCallback();
 
-            callerChannel.RealmProxy.RpcCatalog.Invoke
-            (callback,
-             new CallOptions() { ReceiveProgress = true },
-             "com.myapp.longop",
-             new object[] { 10 });
+            IWampCancellableInvocationProxy cancellable =
+                callerChannel.RealmProxy.RpcCatalog.Invoke
+                (callback,
+                 new CallOptions() {ReceiveProgress = true},
+                 "com.myapp.longop",
+                 new object[] {1000});
+
+            cancellable.Cancel(new CancelOptions());
 
             callback.Task.Wait(2000);
 
@@ -102,12 +105,12 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
             }
 
-            public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
             {
                 return null;
             }
 
-            public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                 InvocationDetails details,
                 TMessage[] arguments)
             {
@@ -128,7 +131,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 return null;
             }
 
-            public IWampCancelableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
                 TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 return null;
@@ -227,7 +230,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    throw new WampException("wamp.cancel");
+                    throw new WampException(WampErrors.Canceled);
                 }
 
                 progress.Report(i);

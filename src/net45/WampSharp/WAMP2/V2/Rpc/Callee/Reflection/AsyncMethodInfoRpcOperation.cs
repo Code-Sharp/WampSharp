@@ -44,7 +44,7 @@ namespace WampSharp.V2.Rpc
 
             IEnumerable<ParameterInfo> parameterInfos = method.GetParameters();
 
-            if (parameterInfos.LastOrDefault()?.ParameterType == typeof(CancellationTokenSource))
+            if (parameterInfos.LastOrDefault()?.ParameterType == typeof(CancellationToken))
             {
                 mSupportsCancellation = true;
                 parameterInfos = parameterInfos.Take(parameterInfos.Count() - 1);

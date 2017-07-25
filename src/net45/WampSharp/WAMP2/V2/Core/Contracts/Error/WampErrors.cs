@@ -78,6 +78,11 @@
         public const string NoSuchRegistration = "wamp.error.no_such_registration";
 
         /// <summary>
+        /// A *Dealer* could not perform a cancellation, since the given invocation does not exist.
+        /// </summary>
+        public const string NoSuchInvocation = "wamp.error.no_such_invocation";
+
+        /// <summary>
         /// A router could not perform an operation, since a session ID specified was non-existant.
         /// </summary>
         public const string NoSuchSession = "wamp.error.no_such_session";

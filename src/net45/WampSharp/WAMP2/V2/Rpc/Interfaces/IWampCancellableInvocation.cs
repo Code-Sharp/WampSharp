@@ -2,7 +2,7 @@
 
 namespace WampSharp.V2.Rpc
 {
-    public interface IWampCancelableInvocation
+    public interface IWampCancellableInvocation
     {
         void Cancel(InterruptOptions options);
     }

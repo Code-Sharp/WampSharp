@@ -185,9 +185,10 @@
     <Compile Include="WAMP2\V2\Api\Rx\SerializedValueFormatter.cs" />
     <Compile Include="WAMP2\V2\Api\Rx\WampEventValueTupleConverter.cs" />
     <Compile Include="WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs" />
-    <Compile Include="WAMP2\V2\Client\Rpc\WampCancelableInvocationProxy.cs" />
+    <Compile Include="WAMP2\V2\Client\Rpc\WampCancellableInvocationProxy.cs" />
     <Compile Include="WAMP2\V2\Core\ArgumentUnpackerHelper.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\InterruptOptions.cs" />
+    <Compile Include="WAMP2\V2\Core\Contracts\Rpc\WampCancelMode.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Rpc\WampInterruptMode.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs" />
     <Compile Include="WAMP2\V2\Core\Contracts\Session\AuthenticateExtraData.cs" />
@@ -360,6 +361,7 @@
     <Compile Include="WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeAddEventArgs.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeChangeEventArgs.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeRemoveEventArgs.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Dealer\WampCalleeRpcInvocation.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampProcedureRegistration.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\OperationSelectors\RoundrobinOperationSelector.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampCalleeRpcOperation.cs" />
@@ -367,9 +369,8 @@
     <Compile Include="WAMP2\V2\Rpc\Dealer\WampRpcThrowHelper.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\WildcardRpcOperationCatalog.cs" />
     <Compile Include="WAMP2\V2\Rpc\Dealer\EventArgs\WampProcedureRegisterEventArgs.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCancelableInvocation.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCancelableInvocationProxy.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCancellableInvocation.cs" />
+    <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampCancellableInvocationProxy.cs" />
     <Compile Include="WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyInvocationHandler.cs" />
     <Compile Include="WAMP2\V2\Api\CalleeProxy\IWampCalleeProxyFactory.cs" />
@@ -480,7 +481,6 @@
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\IOperationExtractor.cs" />
     <Compile Include="WAMP2\V2\Rpc\Callee\Reflection\OperationExtractor.cs" />
     <Compile Include="Core\Utilities\TypeExtensions.cs" />
-    <Compile Include="WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs" />
     <Compile Include="WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationClientCallback.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationCatalogProxy.cs" />
     <Compile Include="WAMP2\V2\Client\Rpc\Interfaces\IWampRpcOperationInvokerProxy.cs" />
