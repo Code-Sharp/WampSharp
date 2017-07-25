@@ -216,15 +216,12 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
             }
 
-            protected override void InnerInvoke<TMessage>
-                (IWampRawRpcOperationRouterCallback caller,
-                 IWampFormatter<TMessage> formatter,
-                 InvocationDetails details,
-                 TMessage[] arguments,
-                 IDictionary<string, TMessage> argumentsKeywords)
+            protected override IWampCancelableInvocation InnerInvoke<TMessage>
+                (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 mAction();
                 caller.Result(formatter, new YieldOptions());
+                return null;
             }
         }
 
