@@ -9,6 +9,10 @@ namespace WampSharp.V2.Core.Contracts
     [WampDetailsOptions(WampMessageType.v2Subscribe)]
     public class SubscribeOptions : WampDetailsOptions
     {
+        public SubscribeOptions()
+        {
+        }
+
         public SubscribeOptions(SubscribeOptions options)
         {
             Match = options.Match;

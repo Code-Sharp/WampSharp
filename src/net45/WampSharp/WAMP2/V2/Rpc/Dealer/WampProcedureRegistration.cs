@@ -160,8 +160,7 @@ namespace WampSharp.V2.Rpc
                                      InvocationDetails details)
         {
             return InvokePattern
-                (caller,
-                 operation => operation.Invoke(caller, formatter, details));
+                (operation => operation.Invoke(caller, formatter, details));
         }
 
         public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
@@ -169,8 +168,7 @@ namespace WampSharp.V2.Rpc
                                      TMessage[] arguments)
         {
             return InvokePattern
-                (caller,
-                 operation => operation.Invoke(caller, formatter, details, arguments));
+                (operation => operation.Invoke(caller, formatter, details, arguments));
         }
 
         public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
@@ -178,11 +176,10 @@ namespace WampSharp.V2.Rpc
                                      TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             return InvokePattern
-                (caller,
-                 operation => operation.Invoke(caller, formatter, details, arguments, argumentsKeywords));
+                (operation => operation.Invoke(caller, formatter, details, arguments, argumentsKeywords));
         }
 
-        private IWampCancellableInvocation InvokePattern(IWampRawRpcOperationRouterCallback caller, Action<IWampRpcOperation> invokeAction)
+        private IWampCancellableInvocation InvokePattern(Func<IWampRpcOperation, IWampCancellableInvocation> invokeAction)
         {
             lock (mLock)
             {
@@ -190,7 +187,7 @@ namespace WampSharp.V2.Rpc
 
                 if (operation != null)
                 {
-                    invokeAction(operation);
+                    return invokeAction(operation);
                 }
             }
 

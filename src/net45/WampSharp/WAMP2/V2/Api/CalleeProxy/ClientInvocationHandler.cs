@@ -136,15 +136,15 @@ namespace WampSharp.V2.CalleeProxy
             base.WaitForResult(callback);
         }
 
-        protected override void Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments)
+        protected override IWampCancellableInvocationProxy Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments)
         {
             CallOptions callOptions = interceptor.GetCallOptions(method);
             var procedureUri = interceptor.GetProcedureUri(method);
 
-            mCatalogProxy.Invoke(callback,
-                                 callOptions,
-                                 procedureUri,
-                                 arguments);
+            return mCatalogProxy.Invoke(callback,
+                                        callOptions,
+                                        procedureUri,
+                                        arguments);
         }
 
 #endregion

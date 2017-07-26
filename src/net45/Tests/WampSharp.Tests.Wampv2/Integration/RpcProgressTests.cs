@@ -51,7 +51,8 @@ namespace WampSharp.Tests.Wampv2.Integration
             IWampChannel calleeChannel = dualChannel.CalleeChannel;
             IWampChannel callerChannel = dualChannel.CallerChannel;
 
-            await calleeChannel.RealmProxy.Services.RegisterCallee(new CancelableLongOpService());
+            CancelableLongOpService service = new CancelableLongOpService();
+            await calleeChannel.RealmProxy.Services.RegisterCallee(service);
 
             MyCallback callback = new MyCallback();
 
@@ -60,14 +61,14 @@ namespace WampSharp.Tests.Wampv2.Integration
                 (callback,
                  new CallOptions() {ReceiveProgress = true},
                  "com.myapp.longop",
-                 new object[] {1000});
+                 new object[] {100});
+
+            Assert.That(service.CancellationToken, Is.Not.Null);
+            Assert.That(service.CancellationToken.IsCancellationRequested, Is.False);
 
             cancellable.Cancel(new CancelOptions());
 
-            callback.Task.Wait(2000);
-
-            CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), callback.ProgressiveResults);
-            Assert.That(callback.Task.Result, Is.EqualTo(10));
+            Assert.That(service.CancellationToken.IsCancellationRequested, Is.True);
         }
 
         [Test]
@@ -222,10 +223,13 @@ namespace WampSharp.Tests.Wampv2.Integration
 
     public class CancelableLongOpService
     {
+        public CancellationToken CancellationToken { get; private set; }
+
         [WampProcedure("com.myapp.longop")]
         [WampProgressiveResultProcedure]
         public async Task<int> LongOp(int n, IProgress<int> progress, CancellationToken cancellationToken)
         {
+            CancellationToken = cancellationToken;
             for (int i = 0; i < n; i++)
             {
                 if (cancellationToken.IsCancellationRequested)
