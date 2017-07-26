@@ -82,9 +82,9 @@ namespace WampSharp.V2.CalleeProxy
         #region Overridden
 
 #if ASYNC
-        protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+        protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback, CancellationTokenRegistration registration)
 #else
-        protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+        protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback, CancellationTokenRegistration registration)
 #endif
         {
 #if ASYNC
@@ -95,6 +95,8 @@ namespace WampSharp.V2.CalleeProxy
             Task task = await Task.WhenAny(operationTask,
                                            disconnectionTask)
                                   .ConfigureAwait(false);
+
+            registration.Dispose();
 
             if (!operationTask.IsCompleted)
             {
@@ -114,7 +116,7 @@ namespace WampSharp.V2.CalleeProxy
                  mDisconnectionTaskCompletionSource.Task.ToObservable()
                                                    .SelectMany(x => Observable.Throw<T>(x)));
                 
-            Task<T> task = merged.ToTask();
+            Task<T> task = merged.ToTask().ContinueWith(x => registration.Dispose(););
 
             return task;
 #endif

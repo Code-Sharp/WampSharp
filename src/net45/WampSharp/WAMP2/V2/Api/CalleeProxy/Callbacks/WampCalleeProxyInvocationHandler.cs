@@ -68,9 +68,9 @@ namespace WampSharp.V2.CalleeProxy
             var cancellableInvocation =  Invoke(interceptor, callback, method, arguments);
 
             // TODO: make the CancelOptions come from the ICalleeProxyInterceptor or something.
-            cancellationToken.Register(() => cancellableInvocation.Cancel(new CancelOptions()));
+            CancellationTokenRegistration registration = cancellationToken.Register(() => cancellableInvocation.Cancel(new CancelOptions()));
 
-            return AwaitForResult(callback);
+            return AwaitForResult(callback, registration);
         }
 
         protected abstract IWampCancellableInvocationProxy Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments);
@@ -80,7 +80,7 @@ namespace WampSharp.V2.CalleeProxy
             callback.Wait(Timeout.Infinite);
         }
 
-        protected virtual Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+        protected virtual Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback, CancellationTokenRegistration registration)
         {
             return asyncOperationCallback.Task;
         }
