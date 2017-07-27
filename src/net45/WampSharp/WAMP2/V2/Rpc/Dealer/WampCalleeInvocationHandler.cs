@@ -89,10 +89,6 @@ namespace WampSharp.V2.Rpc
                 {
                     invocation.Operation.Callee.Interrupt(invocation.InvocationId, new InterruptOptions(){Mode = options.Mode});
                 }
-                else
-                {
-                    caller.CancelError(requestId, mEmptyDetails, WampErrors.NoSuchInvocation);
-                }
             }
         }
 

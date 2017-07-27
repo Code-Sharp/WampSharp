@@ -41,36 +41,6 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(callback.Task.Result, Is.EqualTo(10));
         }
 
-
-        [Test]
-        public async Task CancelProgressiveCallsCalleeCancellationToken()
-        {
-            WampPlayground playground = new WampPlayground();
-
-            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
-            IWampChannel calleeChannel = dualChannel.CalleeChannel;
-            IWampChannel callerChannel = dualChannel.CallerChannel;
-
-            CancelableLongOpService service = new CancelableLongOpService();
-            await calleeChannel.RealmProxy.Services.RegisterCallee(service);
-
-            MyCallback callback = new MyCallback();
-
-            IWampCancellableInvocationProxy cancellable =
-                callerChannel.RealmProxy.RpcCatalog.Invoke
-                (callback,
-                 new CallOptions() {ReceiveProgress = true},
-                 "com.myapp.longop",
-                 new object[] {100});
-
-            Assert.That(service.CancellationToken, Is.Not.Null);
-            Assert.That(service.CancellationToken.IsCancellationRequested, Is.False);
-
-            cancellable.Cancel(new CancelOptions());
-
-            Assert.That(service.CancellationToken.IsCancellationRequested, Is.True);
-        }
-
         [Test]
         public async Task ProgressiveCallsCalleeProxyProgress()
         {
@@ -94,63 +64,6 @@ namespace WampSharp.Tests.Wampv2.Integration
             CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), results);
 
             Assert.That(result.Result, Is.EqualTo(10));
-        }
-
-        [Test]
-        public async Task ProgressiveCancellationTokenCancelCallsInterrupt()
-        {
-            WampPlayground playground = new WampPlayground();
-
-            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
-            IWampChannel calleeChannel = dualChannel.CalleeChannel;
-            IWampChannel callerChannel = dualChannel.CallerChannel;
-
-            MyCancellableOperation myOperation = new MyCancellableOperation();
-
-            await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, new RegisterOptions());
-            ICancellableLongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxyPortable<ICancellableLongOpService>();
-
-            CancellationTokenSource tokenSource = new CancellationTokenSource();
-            MyProgress<int> progress = new MyProgress<int>(x => { });
-
-            Task<int> result = proxy.LongOp(10, progress, tokenSource.Token);
-            Assert.That(myOperation.CancellableInvocation.InterruptCalled, Is.False);
-
-            tokenSource.Cancel();
-
-            Assert.That(myOperation.CancellableInvocation.InterruptCalled, Is.True);
-        }
-
-        public class MyCancellableOperation : IWampRpcOperation
-        {
-            public MyCancellableInvocation CancellableInvocation { get; private set; }
-
-            public string Procedure
-            {
-                get
-                {
-                    return "com.myapp.longop";
-                }
-            }
-
-            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
-            {
-                return null;
-            }
-
-            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
-                                                               InvocationDetails details,
-                                                               TMessage[] arguments)
-            {
-                CancellableInvocation = new MyCancellableInvocation();
-                return CancellableInvocation;
-            }
-
-            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
-                                                               TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
-            {
-                return null;
-            }
         }
 
         public class MyOperation : IWampRpcOperation
@@ -202,14 +115,6 @@ namespace WampSharp.Tests.Wampv2.Integration
             [WampProgressiveResultProcedure]
             Task<int> LongOp(int n, IProgress<int> progress);
         }
-
-        public interface ICancellableLongOpService
-        {
-            [WampProcedure("com.myapp.longop")]
-            [WampProgressiveResultProcedure]
-            Task<int> LongOp(int n, IProgress<int> progress, CancellationToken cancellationToken);
-        }
-
 
         public class LongOpService : ILongOpService
         {
@@ -294,30 +199,6 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         public bool InterruptCalled { get; set; }
-    }
-
-    public class CancelableLongOpService
-    {
-        public CancellationToken CancellationToken { get; private set; }
-
-        [WampProcedure("com.myapp.longop")]
-        [WampProgressiveResultProcedure]
-        public async Task<int> LongOp(int n, IProgress<int> progress, CancellationToken cancellationToken)
-        {
-            CancellationToken = cancellationToken;
-            for (int i = 0; i < n; i++)
-            {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    throw new WampException(WampErrors.Canceled);
-                }
-
-                progress.Report(i);
-                await Task.Delay(100);
-            }
-
-            return n;
-        }
     }
 
     internal class MyProgress<T> : IProgress<T>
