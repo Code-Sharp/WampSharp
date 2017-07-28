@@ -155,7 +155,6 @@ namespace WampSharp.V2.Rpc
             WelcomeDetails welcomeDetails = wampCaller.WelcomeDetails;
 
             result.AuthenticationId = welcomeDetails.AuthenticationId;
-            result.AuthenticationMethod = welcomeDetails.AuthenticationMethod;
             result.AuthenticationRole = welcomeDetails.AuthenticationRole;
 
             return result;

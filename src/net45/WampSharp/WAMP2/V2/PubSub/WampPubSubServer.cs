@@ -87,7 +87,6 @@ namespace WampSharp.V2.PubSub
             WelcomeDetails welcomeDetails = casted.WelcomeDetails;
 
             result.AuthenticationId = welcomeDetails.AuthenticationId;
-            result.AuthenticationMethod = welcomeDetails.AuthenticationMethod;
             result.AuthenticationRole = welcomeDetails.AuthenticationRole;
 
             result.TopicUri = topicUri;
