@@ -16,6 +16,7 @@ namespace WampSharp.V2.Core.Contracts
         public SubscribeOptions(SubscribeOptions options)
         {
             Match = options.Match;
+            GetRetained = options.GetRetained;
         }
 
         /// <summary>
