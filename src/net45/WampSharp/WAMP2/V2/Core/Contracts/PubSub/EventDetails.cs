@@ -41,13 +41,13 @@ namespace WampSharp.V2.Core.Contracts
         /// <summary>
         /// Gets the WAMP authrole of the pubisher. Only filled if pubisher is disclosed.
         /// </summary>
-        [DataMember(Name = "authrole")]
+        [DataMember(Name = "publisher_authrole")]
         public string AuthenticationRole { get; internal set; }
 
         /// <summary>
         /// Gets the WAMP authid of the pubisher. Only filled if pubisher is disclosed.
         /// </summary>
-        [DataMember(Name = "authid")]
+        [DataMember(Name = "publisher_authid")]
         public string AuthenticationId { get; internal set; }
 
         /// <summary>

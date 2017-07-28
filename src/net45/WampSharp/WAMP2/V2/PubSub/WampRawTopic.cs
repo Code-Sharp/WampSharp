@@ -568,9 +568,12 @@ namespace WampSharp.V2.PubSub
 
                     foreach (string id in ids)
                     {
-                        ImmutableList<Subscription> subscriptions = dictionary[id];
+                        ImmutableList<Subscription> subscriptions;
 
-                        result = result.Union(subscriptions.Select(x => x.Observer));
+                        if (dictionary.TryGetValue(id, out subscriptions))
+                        {
+                            result = result.Union(subscriptions.Select(x => x.Observer));
+                        }
                     }
                 }
 
