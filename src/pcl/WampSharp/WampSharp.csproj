@@ -699,6 +699,12 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\AvailableGroups.cs">
       <Link>WAMP2\V2\MetaApi\AvailableGroups.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\PublishOptionsExtensions.cs">
+      <Link>WAMP2\V2\PubSub\PublishOptionsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\RetentionSubscriber.cs">
+      <Link>WAMP2\V2\PubSub\RetentionSubscriber.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\SubscriptionToken.cs">
       <Link>WAMP2\V2\PubSub\SubscriptionToken.cs</Link>
     </Compile>
@@ -821,6 +827,9 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs">
       <Link>WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\WampRetainingTopic.cs">
+      <Link>WAMP2\V2\PubSub\WampRetainingTopic.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\PubSub\WampTopicAttribute.cs">
       <Link>WAMP2\V2\PubSub\WampTopicAttribute.cs</Link>
@@ -1016,6 +1025,15 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Server\WampAuthenticationSessionServer.cs">
       <Link>WAMP2\V2\Authentication\Server\WampAuthenticationSessionServer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Testament\IWampTestamentService.cs">
+      <Link>WAMP2\V2\Testament\IWampTestamentService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Testament\WampTestamentScope.cs">
+      <Link>WAMP2\V2\Testament\WampTestamentScope.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Testament\WampTestamentService.cs">
+      <Link>WAMP2\V2\Testament\WampTestamentService.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Transports\InMemory\InMemoryBinding.cs">
       <Link>WAMP2\V2\Transports\InMemory\InMemoryBinding.cs</Link>

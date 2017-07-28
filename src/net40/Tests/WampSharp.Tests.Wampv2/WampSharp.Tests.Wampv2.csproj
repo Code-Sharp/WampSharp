@@ -123,6 +123,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PubSubReflectionTests.cs">
       <Link>Integration\PubSubReflectionTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PubSubRetainTests.cs">
+      <Link>Integration\PubSubRetainTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcOptionsTests.cs">
       <Link>Integration\RpcOptionsTests.cs</Link>
     </Compile>
@@ -194,6 +197,9 @@
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RequestMapper.cs">
       <Link>RequestMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\ChannelWithExtraData.cs">
+      <Link>TestHelpers\Integration\ChannelWithExtraData.cs</Link>
     </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\MockTransport.cs">
       <Link>TestHelpers\Integration\MockTransport.cs</Link>
