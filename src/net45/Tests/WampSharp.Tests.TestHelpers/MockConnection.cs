@@ -91,6 +91,7 @@ namespace WampSharp.Tests.TestHelpers
                 mSubscription.Dispose();
                 mOutgoing.OnCompleted();
                 mSubscription = null;
+                OnConnectionClosed();
             }
 
             public void Send(WampMessage<object> message)

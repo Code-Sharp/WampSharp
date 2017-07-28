@@ -25,6 +25,12 @@ namespace WampSharp.V2.Core.Contracts
         [DataMember(Name = "match")]
         public string Match { get; set; }
 
+        /// <summary>
+        /// Returns a value indicating whether the client wants the retained message we may have along with the subscription.
+        /// </summary>
+        [DataMember(Name = "get_retained")]
+        public bool? GetRetained { get; set; }
+
         protected bool Equals(SubscribeOptions other)
         {
             return string.Equals(Match, other.Match);

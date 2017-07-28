@@ -18,6 +18,7 @@ namespace WampSharp.V2.Core.Contracts
             this.DiscloseCaller = other.DiscloseCaller;
             this.Match = other.Match;
             this.Invoke = other.Invoke;
+            this.OriginalValue = other.OriginalValue;
         }
 
         /// <summary>

@@ -282,6 +282,8 @@
     <Compile Include="WAMP2\V2\MetaApi\Rpc\RegistrationDescriptorService.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Rpc\RegistrationDetailsExtended.cs" />
     <Compile Include="WAMP2\V2\MetaApi\AvailableGroups.cs" />
+    <Compile Include="WAMP2\V2\PubSub\PublishOptionsExtensions.cs" />
+    <Compile Include="WAMP2\V2\PubSub\RetentionSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\SubscriptionToken.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Session\SessionDescriptorService.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Rpc\IWampRegistrationDescriptor.cs" />
@@ -323,6 +325,7 @@
     <Compile Include="WAMP2\V2\PubSub\SimpleSubscriptionId.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\LocalSubscriber.cs" />
     <Compile Include="WAMP2\V2\PubSub\Subscriber\MethodInfoSubscriber.cs" />
+    <Compile Include="WAMP2\V2\PubSub\WampRetainingTopic.cs" />
     <Compile Include="WAMP2\V2\PubSub\WampTopicAttribute.cs" />
     <Compile Include="WAMP2\V2\Core\ArgumentUnpacker.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Session\Crossbar\CrossbarWebSocketTransportDetails.cs" />
