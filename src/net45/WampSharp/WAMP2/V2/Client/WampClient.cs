@@ -169,9 +169,9 @@ namespace WampSharp.V2.Client
             Callee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);
         }
 
-        public void Interrupt(long requestId, InterruptOptions options)
+        public void Interrupt(long requestId, InterruptDetails details)
         {
-            Callee.Interrupt(requestId, options);
+            Callee.Interrupt(requestId, details);
         }
 
         public void Subscribed(long requestId, long subscriptionId)

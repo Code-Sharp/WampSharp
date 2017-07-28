@@ -87,7 +87,7 @@ namespace WampSharp.V2.Rpc
             {
                 if (mCallbackToInvocation.TryGetValue(callback, out invocation))
                 {
-                    invocation.Operation.Callee.Interrupt(invocation.InvocationId, new InterruptOptions(){Mode = options.Mode});
+                    invocation.Operation.Callee.Interrupt(invocation.InvocationId, new InterruptDetails(){Mode = options.Mode});
                 }
             }
         }

@@ -285,13 +285,13 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void Interrupt(long requestId, InterruptOptions options)
+        public void Interrupt(long requestId, InterruptDetails details)
         {
             InvocationData invocation;
 
             if (mInvocations.TryRemove(requestId, out invocation))
             {
-                invocation.Cancellation.Cancel(options);
+                invocation.Cancellation.Cancel(details);
 
                 lock (mLock)
                 {

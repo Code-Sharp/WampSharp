@@ -253,7 +253,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         private class MyCancellableInvocation : IWampCancellableInvocation
         {
-            public void Cancel(InterruptOptions options)
+            public void Cancel(InterruptDetails details)
             {
                 InterruptCalled = true;
             }

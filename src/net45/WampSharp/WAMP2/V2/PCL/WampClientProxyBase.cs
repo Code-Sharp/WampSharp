@@ -22,7 +22,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         private static readonly MethodInfo mInvocation3 = Method.Get((IWampClientProxy proxy) => proxy.Invocation(default(long), default(long), default(InvocationDetails)));
         private static readonly MethodInfo mInvocation4 = Method.Get((IWampClientProxy proxy) => proxy.Invocation(default(long), default(long), default(InvocationDetails), default(object[])));
         private static readonly MethodInfo mInvocation5 = Method.Get((IWampClientProxy proxy) => proxy.Invocation(default(long), default(long), default(InvocationDetails), default(object[]), default(IDictionary<string, object>)));
-        private static readonly MethodInfo mInterrupt2 = Method.Get((IWampClientProxy proxy) => proxy.Interrupt(default(long), default(InterruptOptions)));
+        private static readonly MethodInfo mInterrupt2 = Method.Get((IWampClientProxy proxy) => proxy.Interrupt(default(long), default(InterruptDetails)));
         private static readonly MethodInfo mResult2 = Method.Get((IWampClientProxy proxy) => proxy.Result(default(long), default(ResultDetails)));
         private static readonly MethodInfo mResult3 = Method.Get((IWampClientProxy proxy) => proxy.Result(default(long), default(ResultDetails), default(object[])));
         private static readonly MethodInfo mResult4 = Method.Get((IWampClientProxy proxy) => proxy.Result(default(long), default(ResultDetails), default(object[]), default(IDictionary<string, object>)));
@@ -98,9 +98,9 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
             Send(mInvocation5, requestId, registrationId, details, arguments, argumentsKeywords);
         }
 
-        public void Interrupt(long requestId, InterruptOptions options)
+        public void Interrupt(long requestId, InterruptDetails details)
         {
-            Send(mInterrupt2, requestId, options);
+            Send(mInterrupt2, requestId, details);
         }
 
         public void Result(long requestId, ResultDetails details)

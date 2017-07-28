@@ -418,7 +418,7 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\PubSub\SubscribeOptionsExtensions.cs">
       <Link>WAMP2\V2\Core\Contracts\PubSub\SubscribeOptionsExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\InterruptOptions.cs">
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\InterruptDetails.cs">
       <Link>WAMP2\V2\Core\Contracts\Rpc\InterruptOptions.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\RegisterOptionsExtensions.cs">

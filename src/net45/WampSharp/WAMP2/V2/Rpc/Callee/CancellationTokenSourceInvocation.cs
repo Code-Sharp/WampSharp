@@ -12,7 +12,7 @@ namespace WampSharp.V2.Rpc
             mCancellationTokenSource = cancellationTokenSource;
         }
 
-        public void Cancel(InterruptOptions options)
+        public void Cancel(InterruptDetails details)
         {
             mCancellationTokenSource.Cancel();
         }

@@ -14,9 +14,9 @@ namespace WampSharp.V2.Rpc
             RequestId = requestId;
         }
 
-        public void Cancel(InterruptOptions options)
+        public void Cancel(InterruptDetails details)
         {
-            Callee.Interrupt(RequestId, options);
+            Callee.Interrupt(RequestId, details);
         }
     }
 }
