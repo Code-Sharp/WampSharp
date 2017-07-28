@@ -6,8 +6,8 @@ namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
     [Serializable]
-    [WampDetailsOptions(WampMessageType.v2Cancel)]
-    public class CancelOptions : WampDetailsOptions
+    [WampDetailsOptions(WampMessageType.v2Interrupt)]
+    public class InterruptOptions : WampDetailsOptions
     {
         [DataMember(Name = "mode")]
         public string Mode { get; set; }

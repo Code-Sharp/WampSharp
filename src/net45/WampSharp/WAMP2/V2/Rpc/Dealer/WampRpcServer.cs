@@ -35,9 +35,7 @@ namespace WampSharp.V2.Rpc
         {
             try
             {
-                options.Invoke = options.Invoke ?? WampInvokePolicy.Default;
-                options.Match = options.Match ?? WampMatchPattern.Default;
-
+                options = options.WithDefaults();
                 ValidateRegisterUri(procedure, options.Match);
 
                 RegisterRequest registerRequest = new RegisterRequest(callee, requestId);
@@ -104,11 +102,11 @@ namespace WampSharp.V2.Rpc
                                              argumentsKeywords));
         }
 
-        private void CallPattern(IWampCaller caller, long requestId, CallOptions options, string procedure, Action<IWampRpcOperationInvoker, IWampRawRpcOperationClientCallback, InvocationDetails> invokeAction)
+        private void CallPattern(IWampCaller caller, long requestId, CallOptions options, string procedure, Action<IWampRpcOperationInvoker, IWampRawRpcOperationRouterCallback, InvocationDetails> invokeAction)
         {
             try
             {
-                IWampRawRpcOperationClientCallback callback = GetCallback(caller, requestId);
+                IWampRawRpcOperationRouterCallback callback = GetCallback(caller, requestId);
 
                 InvocationDetails invocationOptions =
                     GetInvocationOptions(caller, options, procedure);
@@ -165,7 +163,7 @@ namespace WampSharp.V2.Rpc
 
         public void Cancel(IWampCaller caller, long requestId, CancelOptions options)
         {
-            throw new NotImplementedException();
+            mHandler.Cancel(caller, requestId, options);
         }
 
         public void Yield(IWampCallee callee, long requestId, YieldOptions options)
@@ -183,7 +181,7 @@ namespace WampSharp.V2.Rpc
             mHandler.Yield(callee, requestId, options, arguments, argumentsKeywords);
         }
 
-        private IWampRawRpcOperationClientCallback GetCallback(IWampCaller caller, long requestId)
+        private IWampRawRpcOperationRouterCallback GetCallback(IWampCaller caller, long requestId)
         {
             return new WampRpcOperationCallback(caller, requestId);
         }

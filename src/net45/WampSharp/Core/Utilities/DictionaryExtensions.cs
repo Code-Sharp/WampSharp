@@ -26,12 +26,14 @@ namespace WampSharp.Core.Utilities
             return result;
         }
 
-        public static bool Remove<TKey, TValue>(this IDictionary<TKey, ICollection<TValue>> dictionary,
+        public static bool Remove<TKey, TValue, TCollection>(this IDictionary<TKey, TCollection> dictionary,
                                                 TKey key,
                                                 TValue value)
+            where TCollection: ICollection<TValue>
         {
             bool result = false;
-            ICollection<TValue> collection;
+
+            TCollection collection;
             
             if (dictionary.TryGetValue(key, out collection))
             {

@@ -81,7 +81,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public bool Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
                                      IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      string procedure)
@@ -91,7 +91,7 @@ namespace WampSharp.V2.Rpc
                                      operation.Invoke(caller, formatter, details));
         }
 
-        public bool Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
                                      IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      string procedure,
@@ -102,7 +102,7 @@ namespace WampSharp.V2.Rpc
                                      operation.Invoke(caller, formatter, details, arguments));
         }
 
-        public bool Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
                                      IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      string procedure,
@@ -114,19 +114,17 @@ namespace WampSharp.V2.Rpc
                                      operation.Invoke(caller, formatter, details, arguments, argumentsKeywords));
         }
 
-        private bool InvokePattern(string procedure, Action<IWampRpcOperation> invokeAction)
+        private IWampCancellableInvocation InvokePattern(string procedure, Func<IWampRpcOperation, IWampCancellableInvocation> invokeAction)
         {
             IWampRpcOperation operation = TryGetOperation(procedure);
 
             if (operation == null)
             {
-                return false;
+                return null;
             }
             else
             {
-                invokeAction(operation);
-
-                return true;                
+                return invokeAction(operation);
             }
         }
 

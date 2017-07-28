@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.Logging;
@@ -15,15 +16,39 @@ namespace WampSharp.V2.Rpc
         }
 
         protected abstract Task<object> InvokeAsync<TMessage>
-            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
+            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, CancellationToken cancellationToken);
 
 #if ASYNC
 
-        protected override async void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
-                                                            IWampFormatter<TMessage> formatter,
-                                                            InvocationDetails details,
-                                                            TMessage[] arguments,
-                                                            IDictionary<string, TMessage> argumentsKeywords)
+        protected override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        {
+            CancellationTokenSourceInvocation result = null;
+            CancellationToken token = CancellationToken.None;
+
+            if (SupportsCancellation)
+            {
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                result = new CancellationTokenSourceInvocation(cancellationTokenSource);
+                token = cancellationTokenSource.Token;
+            }
+
+            Task task =
+                InnerInvokeAsync(caller,
+                                 formatter,
+                                 details,
+                                 arguments,
+                                 argumentsKeywords,
+                                 token);
+
+            return result;
+        }
+
+        private async Task InnerInvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller,
+                                                      IWampFormatter<TMessage> formatter,
+                                                      InvocationDetails details,
+                                                      TMessage[] arguments,
+                                                      IDictionary<string, TMessage> argumentsKeywords,
+                                                      CancellationToken cancellationToken)
         {
             try
             {
@@ -32,7 +57,8 @@ namespace WampSharp.V2.Rpc
                                 formatter,
                                 details,
                                 arguments,
-                                argumentsKeywords);
+                                argumentsKeywords,
+                                cancellationToken);
 
                 object result = await task;
 
@@ -57,16 +83,28 @@ namespace WampSharp.V2.Rpc
 
 #else
 
-        protected override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
+            CancellationTokenSourceInvocation result = null;
+
             try
             {
+                CancellationToken token = CancellationToken.None;
+
+                if (SupportsCancellation)
+                {
+                    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                    result = new CancellationTokenSourceInvocation(cancellationTokenSource);
+                    token = cancellationTokenSource.Token;
+                }
+
                 Task<object> task =
                     InvokeAsync(caller,
                                formatter,
                                options,
                                arguments,
-                               argumentsKeywords);
+                               argumentsKeywords,
+                               token);
 
                 task.ContinueWith(x => TaskCallback(x, caller));
             }
@@ -76,6 +114,8 @@ namespace WampSharp.V2.Rpc
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
                 callback.Error(ex);
             }
+
+            return result;
         }
 
         private void TaskCallback(Task<object> task, IWampRawRpcOperationRouterCallback caller)

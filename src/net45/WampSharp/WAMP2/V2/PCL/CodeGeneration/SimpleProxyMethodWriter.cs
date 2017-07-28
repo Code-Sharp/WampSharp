@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.V2.Rpc;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
@@ -58,21 +59,37 @@ public {$returnType} {$methodName}({$parametersDeclaration})
             IDictionary<string, string> dictionary =
                 new Dictionary<string, string>();
 
-            ParameterInfo[] parameters = method.GetParameters();
+            IEnumerable<ParameterInfo> methodCallParameters = method.GetParameters();
+            IEnumerable<string> specialParameters = Enumerable.Empty<string>();
 
-            dictionary["methodName"] = method.Name;
-            dictionary["parameterList"] =
-                string.Join(", ", new [] {"this"}.Concat(parameters.Select(x => x.Name)));
+            if (typeof(Task).IsAssignableFrom(method.ReturnType))
+            {
+                specialParameters = new[] { FormatTypeExtensions.FormatType(typeof(CancellationToken)) + ".None" };
+            }
 
-            dictionary["returnType"] = FormatTypeExtensions.FormatType(method.ReturnType);
+            if (typeof(Task).IsAssignableFrom(method.ReturnType) &&
+                methodCallParameters.LastOrDefault()?.ParameterType == typeof(CancellationToken))
+            {
+                specialParameters = new[] {methodCallParameters.LastOrDefault().Name};
+                methodCallParameters = methodCallParameters.Take(methodCallParameters.Count() - 1);
+            }
 
             if (method.GetCustomAttribute<WampProgressiveResultProcedureAttribute>() != null)
             {
-                dictionary["parameterList"] =
-                    string.Join(", ",
-                                new [] {"this"}.Concat(new[] { parameters.Last() }.Concat(parameters.Take(parameters.Length - 1))
-                                                         .Select(x => x.Name)));
+                specialParameters = new[] { methodCallParameters.LastOrDefault().Name }.Concat(specialParameters);
+                methodCallParameters = methodCallParameters.Take(methodCallParameters.Count() - 1);
             }
+
+            dictionary["methodName"] = method.Name;
+
+            dictionary["parameterList"] =
+                string.Join(", ",
+                            new[] {"this"}.Concat(specialParameters).Concat(methodCallParameters
+                                                                                .Select(x => x.Name)));
+
+            dictionary["returnType"] = FormatTypeExtensions.FormatType(method.ReturnType);
+
+
 
             if (method.ReturnType != typeof(void))
             {
@@ -87,7 +104,7 @@ public {$returnType} {$methodName}({$parametersDeclaration})
 
             dictionary["parametersDeclaration"] =
                 string.Join(", ",
-                            parameters.Select
+                            method.GetParameters().Select
                                 (x => FormatTypeExtensions.FormatType(x.ParameterType) + " " + x.Name));
 
             return CodeGenerationHelper.ProcessTemplate(mMethodTemplate, dictionary);

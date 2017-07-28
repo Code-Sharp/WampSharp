@@ -12,16 +12,20 @@ using WampSharp.V2.Core.Contracts;
 namespace WampSharp.V2.Rpc
 {
     internal class WampRpcOperationCallback : IWampRawRpcOperationClientCallback,
+        IWampRawRpcOperationRouterCallback,
         ICallbackDisconnectionNotifier
     {
-        private readonly IWampCaller mCaller;
-        private readonly long mRequestId;
+        public IWampCaller Caller { get; }
+        public long Session { get; }
+        public long RequestId { get; }
+
         private readonly IWampConnectionMonitor mMonitor;
 
         public WampRpcOperationCallback(IWampCaller caller, long requestId)
         {
-            mCaller = caller;
-            mRequestId = requestId;
+            Caller = caller;
+            Session = ((IWampClientProperties) caller).Session;
+            RequestId = requestId;
 
             mMonitor = caller as IWampConnectionMonitor;
             mMonitor.ConnectionClosed += OnConnectionClosed;
@@ -29,38 +33,63 @@ namespace WampSharp.V2.Rpc
 
         public void Result<TResult>(IWampFormatter<TResult> formatter, ResultDetails details)
         {
-            mCaller.Result(mRequestId, details);
+            Caller.Result(RequestId, details);
         }
 
         public void Result<TResult>(IWampFormatter<TResult> formatter, ResultDetails details, TResult[] arguments)
         {
-            mCaller.Result(mRequestId, details, arguments.Cast<object>().ToArray());
+            Caller.Result(RequestId, details, arguments.Cast<object>().ToArray());
         }
 
         public void Result<TResult>(IWampFormatter<TResult> formatter, ResultDetails details, TResult[] arguments, IDictionary<string, TResult> argumentsKeywords)
         {
-            mCaller.Result(mRequestId, details, arguments.Cast<object>().ToArray(), argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
+            Caller.Result(RequestId, details, arguments.Cast<object>().ToArray(), argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
+        }
+
+        private ResultDetails GetResultDetails(YieldOptions details)
+        {
+            return new ResultDetails { Progress = details.Progress };
+        }
+
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, YieldOptions details)
+        {
+            ResultDetails resultDetails = GetResultDetails(details);
+            this.Result(formatter, resultDetails);
+        }
+
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, YieldOptions details, TMessage[] arguments)
+        {
+            ResultDetails resultDetails = GetResultDetails(details);
+            this.Result(formatter, resultDetails, arguments);
+        }
+
+        public void Result<TMessage>(IWampFormatter<TMessage> formatter, YieldOptions details, TMessage[] arguments,
+                                     IDictionary<string, TMessage> argumentsKeywords)
+        {
+            ResultDetails resultDetails = GetResultDetails(details);
+            this.Result(formatter, resultDetails, arguments, argumentsKeywords);
         }
 
         public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error)
         {
-            mCaller.CallError(mRequestId, details, error);
+            Caller.CallError(RequestId, details, error);
         }
 
         public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments)
         {
-            mCaller.CallError(mRequestId, details, error, arguments.Cast<object>().ToArray());
+            Caller.CallError(RequestId, details, error, arguments.Cast<object>().ToArray());
         }
 
         public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments, TResult argumentsKeywords)
         {
-            mCaller.CallError(mRequestId, details, error, arguments.Cast<object>().ToArray(), argumentsKeywords);
+            Caller.CallError(RequestId, details, error, arguments.Cast<object>().ToArray(), argumentsKeywords);
         }
 
         public event EventHandler Disconnected;
 
         private void OnConnectionClosed(object sender, EventArgs e)
         {
+            mMonitor.ConnectionClosed -= OnConnectionClosed;
             RaiseDisconnected();
         }
 
@@ -74,40 +103,26 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        #region Equality members
+        #region Equality Members
 
         protected bool Equals(WampRpcOperationCallback other)
         {
-            return Equals(mCaller, other.mCaller);
+            return Session == other.Session && RequestId == other.RequestId;
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-            if (obj.GetType() != this.GetType())
-            {
-                return false;
-            }
-
-            return Equals((WampRpcOperationCallback)obj);
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((WampRpcOperationCallback) obj);
         }
 
         public override int GetHashCode()
         {
-            if (mCaller != null)
+            unchecked
             {
-                return mCaller.GetHashCode();
-            }
-            else
-            {
-                return 0;
+                return (Session.GetHashCode() * 397) ^ RequestId.GetHashCode();
             }
         }
 

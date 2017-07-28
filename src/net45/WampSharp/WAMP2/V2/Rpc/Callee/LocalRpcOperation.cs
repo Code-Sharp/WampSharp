@@ -43,6 +43,11 @@ namespace WampSharp.V2.Rpc
             get;
         }
 
+        public abstract bool SupportsCancellation
+        {
+            get;
+        }
+
         /// <summary>
         /// Returns a value indicating whether to treat an ICollection{T} result
         /// as the arguments yield argument. (If false, treats an ICollection{T} result
@@ -53,19 +58,19 @@ namespace WampSharp.V2.Rpc
             get;
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
         {
-            InnerInvoke(caller, formatter, details, null, null);
+            return InnerInvoke(caller, formatter, details, null, null);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments)
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments)
         {
-            InnerInvoke(caller, formatter, details, arguments, null);
+            return InnerInvoke(caller, formatter, details, arguments, null);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            InnerInvoke(caller, formatter, details, arguments, argumentsKeywords);
+            return InnerInvoke(caller, formatter, details, arguments, argumentsKeywords);
         }
 
         protected virtual object[] GetResultArguments(object result)
@@ -91,24 +96,20 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        protected object[] UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,
+        protected IEnumerable<object> UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,
                                                       TMessage[] arguments,
                                                       IDictionary<string, TMessage> argumentsKeywords)
         {
             ArgumentUnpacker unpacker = new ArgumentUnpacker(Parameters);
 
-            object[] result = 
+            IEnumerable<object> result = 
                 unpacker.UnpackParameters(formatter, arguments, argumentsKeywords);
 
             return result;
         }
 
-        protected abstract void InnerInvoke<TMessage>
-            (IWampRawRpcOperationRouterCallback caller,
-             IWampFormatter<TMessage> formatter,
-             InvocationDetails details,
-             TMessage[] arguments,
-             IDictionary<string, TMessage> argumentsKeywords);
+        protected abstract IWampCancellableInvocation InnerInvoke<TMessage>
+            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
 
         protected void ValidateInstanceType(object instance, MethodInfo method)

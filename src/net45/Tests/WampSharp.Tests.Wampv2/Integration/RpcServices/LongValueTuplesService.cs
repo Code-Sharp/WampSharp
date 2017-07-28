@@ -55,7 +55,8 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
                                                            out IDictionary<string, object> outputs)
             {
                 object[] unpacked =
-                    this.UnpackParameters(formatter, arguments, argumentsKeywords);
+                    this.UnpackParameters(formatter, arguments, argumentsKeywords)
+                    .ToArray();
 
                 string name = (string) unpacked[0];
 

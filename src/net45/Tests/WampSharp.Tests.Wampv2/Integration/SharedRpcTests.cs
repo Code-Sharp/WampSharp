@@ -208,6 +208,14 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
             }
 
+            public override bool SupportsCancellation
+            {
+                get
+                {
+                    return false;
+                }
+            }
+
             public override CollectionResultTreatment CollectionResultTreatment
             {
                 get
@@ -216,15 +224,12 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
             }
 
-            protected override void InnerInvoke<TMessage>
-                (IWampRawRpcOperationRouterCallback caller,
-                 IWampFormatter<TMessage> formatter,
-                 InvocationDetails details,
-                 TMessage[] arguments,
-                 IDictionary<string, TMessage> argumentsKeywords)
+            protected override IWampCancellableInvocation InnerInvoke<TMessage>
+                (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 mAction();
                 caller.Result(formatter, new YieldOptions());
+                return null;
             }
         }
 

@@ -21,6 +21,10 @@
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="Newtonsoft.Json" version="[9.0.1, )" />
       </group>
+      <group targetFramework="uap10.0">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Newtonsoft.Json" version="[9.0.1, )" />
+      </group>
     </dependencies>
     <id>WampSharp.NewtonsoftJson</id>
     <title>WampSharp Newtonsoft.Json binding</title>

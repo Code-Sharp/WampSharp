@@ -80,7 +80,8 @@ namespace WampSharp.V2.Rpc
             try
             {
                 object[] unpacked =
-                    UnpackParameters(formatter, arguments, argumentsKeywords);
+                    UnpackParameters(formatter, arguments, argumentsKeywords)
+                        .ToArray();
 
                 object[] parameters =
                     mHelper.GetArguments(unpacked);

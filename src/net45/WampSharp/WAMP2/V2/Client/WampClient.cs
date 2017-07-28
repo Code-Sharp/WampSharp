@@ -169,7 +169,7 @@ namespace WampSharp.V2.Client
             Callee.Invocation(requestId, registrationId, details, arguments, argumentsKeywords);
         }
 
-        public void Interrupt(long requestId, TMessage options)
+        public void Interrupt(long requestId, InterruptOptions options)
         {
             Callee.Interrupt(requestId, options);
         }

@@ -5,7 +5,12 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
-      <group>
+      <group targetFramework="net45">
+        <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
+        <dependency id="WampSharp.NewtonsoftMsgpack" version="[$version$]" />
+        <dependency id="WampSharp.WebSocket4Net" version="[$version$]" />
+      </group>
+      <group targetFramework="net40">
         <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
         <dependency id="WampSharp.NewtonsoftMsgpack" version="[$version$]" />
         <dependency id="WampSharp.WebSocket4Net" version="[$version$]" />

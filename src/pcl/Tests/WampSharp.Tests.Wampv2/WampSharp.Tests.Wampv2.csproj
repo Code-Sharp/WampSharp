@@ -114,6 +114,9 @@
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\CallerDealerTests.cs">
       <Link>Integration\CallerDealerTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\CancelTests.cs">
+      <Link>Integration\CancelTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\MockRawCallback.cs">
       <Link>Integration\MockRawCallback.cs</Link>
     </Compile>

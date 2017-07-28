@@ -88,6 +88,7 @@
     <Compile Include="Integration\AuthenticationServerTests.cs" />
     <Compile Include="Integration\CallerCallee.cs" />
     <Compile Include="Integration\CallerDealerTests.cs" />
+    <Compile Include="Integration\CancelTests.cs" />
     <Compile Include="Integration\MockRawCallback.cs" />
     <Compile Include="Integration\PatternBasedPubSubTests.cs" />
     <Compile Include="Integration\PatternRpcTests.cs" />
