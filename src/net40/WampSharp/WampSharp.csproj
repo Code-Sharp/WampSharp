@@ -13,7 +13,6 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -260,6 +259,9 @@
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\DictionaryExtensions.cs">
       <Link>Core\Utilities\DictionaryExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\Core\Utilities\EnumerableExtensions.cs">
+      <Link>Core\Utilities\EnumerableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\GenericTypeExtensions.cs">
       <Link>Core\Utilities\GenericTypeExtensions.cs</Link>
     </Compile>
@@ -407,8 +409,26 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs">
       <Link>WAMP2\V2\Authentication\Restriction\WampRestrictedUris.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Client\Rpc\WampCancellableInvocationProxy.cs">
+      <Link>WAMP2\V2\Client\Rpc\WampCancellableInvocationProxy.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\ArgumentUnpackerHelper.cs">
       <Link>WAMP2\V2\Core\ArgumentUnpackerHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\PubSub\SubscribeOptionsExtensions.cs">
+      <Link>WAMP2\V2\Core\Contracts\PubSub\SubscribeOptionsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\InterruptOptions.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\InterruptOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\RegisterOptionsExtensions.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\RegisterOptionsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\WampCancelMode.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\WampCancelMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\Rpc\WampInterruptMode.cs">
+      <Link>WAMP2\V2\Core\Contracts\Rpc\WampInterruptMode.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs">
       <Link>WAMP2\V2\Core\Contracts\WampAuthenticationMethods.cs</Link>
@@ -839,6 +859,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\MetaApi\PubSub\SubscriptionDetailsExtended.cs">
       <Link>WAMP2\V2\MetaApi\PubSub\SubscriptionDetailsExtended.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\CancellationTokenSourceInvocation.cs">
+      <Link>WAMP2\V2\Rpc\Callee\CancellationTokenSourceInvocation.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs">
       <Link>WAMP2\V2\Rpc\Callee\Reflection\CalleeRegistrationInterceptor.cs</Link>
     </Compile>
@@ -920,6 +943,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeRemoveEventArgs.cs">
       <Link>WAMP2\V2\Rpc\Dealer\EventArgs\WampCalleeRemoveEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampCalleeRpcInvocation.cs">
+      <Link>WAMP2\V2\Rpc\Dealer\WampCalleeRpcInvocation.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampProcedureRegistration.cs">
       <Link>WAMP2\V2\Rpc\Dealer\WampProcedureRegistration.cs</Link>
     </Compile>
@@ -941,8 +967,11 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\EventArgs\WampProcedureRegisterEventArgs.cs">
       <Link>WAMP2\V2\Rpc\Dealer\EventArgs\WampProcedureRegisterEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs">
-      <Link>WAMP2\V2\Rpc\Interfaces\WampRpcOperationCatalogExtensions.cs</Link>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampCancellableInvocation.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampCancellableInvocation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampCancellableInvocationProxy.cs">
+      <Link>WAMP2\V2\Rpc\Interfaces\IWampCancellableInvocationProxy.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs">
       <Link>WAMP2\V2\Rpc\WampProgressiveResultProcedureAttribute.cs</Link>
@@ -1273,9 +1302,6 @@
     </Compile>
     <Compile Include="..\..\net45\WampSharp\Core\Utilities\TypeExtensions.cs">
       <Link>Core\Utilities\TypeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs">
-      <Link>WAMP2\V2\Rpc\Dealer\WampClientRouterCallbackAdapter.cs</Link>
     </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationClientCallback.cs">
       <Link>WAMP2\V2\Rpc\Interfaces\IWampRawRpcOperationClientCallback.cs</Link>

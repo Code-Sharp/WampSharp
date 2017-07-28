@@ -116,7 +116,9 @@ namespace WampSharp.V2.CalleeProxy
                  mDisconnectionTaskCompletionSource.Task.ToObservable()
                                                    .SelectMany(x => Observable.Throw<T>(x)));
                 
-            Task<T> task = merged.ToTask().ContinueWith(x => registration.Dispose(););
+            Task<T> task = merged.ToTask();
+
+            task.ContinueWith(x => registration.Dispose());
 
             return task;
 #endif

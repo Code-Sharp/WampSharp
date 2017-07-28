@@ -191,16 +191,6 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
     }
 
-    public class MyCancellableInvocation : IWampCancellableInvocation
-    {
-        public void Cancel(InterruptOptions options)
-        {
-            InterruptCalled = true;
-        }
-
-        public bool InterruptCalled { get; set; }
-    }
-
     internal class MyProgress<T> : IProgress<T>
     {
         private readonly Action<T> mAction;
