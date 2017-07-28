@@ -55,7 +55,7 @@ namespace WampSharp.V2.Testament
                                  object[] arguments,
                                  IDictionary<string, object> argumentsKeywords,
                                  PublishOptions publishOptions,
-                                 string scope = WampTestamentScope.Destroyed)
+                                 string scope)
         {
             if (!WampTestamentScope.Scopes.Contains(scope))
             {
@@ -75,7 +75,7 @@ namespace WampSharp.V2.Testament
                     testaments = ImmutableList<Testament>.Empty;
                 }
 
-                testaments = testaments.Add(new Testament(topic, arguments, argumentsKeywords, publishOptions, scope));
+                testaments = testaments.Add(new Testament(invocationDetails, topic, arguments, argumentsKeywords, publishOptions, scope));
 
                 mSessionIdToTestaments = mSessionIdToTestaments.SetItem(sessionId, testaments);
             }
@@ -113,13 +113,13 @@ namespace WampSharp.V2.Testament
         {
             private static readonly PublishOptions mDefaultPublishOptions = new PublishOptions();
 
-            public Testament(string topic, object[] arguments, IDictionary<string, object> argumentsKeywords, PublishOptions publishOptions, string scope = WampTestamentScope.Destroyed)
+            public Testament(InvocationDetails invocationDetails, string topic, object[] arguments, IDictionary<string, object> argumentsKeywords, PublishOptions publishOptions, string scope = WampTestamentScope.Destroyed)
             {
                 Topic = topic;
                 Arguments = arguments;
                 ArgumentsKeywords = argumentsKeywords;
 
-                PublishOptions = GetPublishOptions(publishOptions);
+                PublishOptions = GetPublishOptions(invocationDetails, publishOptions);
 
                 Scope = scope;
             }
@@ -134,12 +134,22 @@ namespace WampSharp.V2.Testament
 
             public string Scope { get; private set; }
 
-            private static PublishOptions GetPublishOptions(PublishOptions publishOptions)
+            private static PublishOptions GetPublishOptions(InvocationDetails invocationDetails, PublishOptions publishOptions)
             {
                 PublishOptions result = publishOptions ?? mDefaultPublishOptions;
+
+                if (publishOptions.DiscloseMe == true)
+                {
+                    PublishOptionsExtended extended = new PublishOptionsExtended(result);
+                    result = extended;
+                    extended.PublisherId = (long) invocationDetails.Caller;
+                    extended.AuthenticationId = invocationDetails.AuthenticationId;
+                    extended.AuthenticationRole = invocationDetails.AuthenticationRole;
+                }
+
                 result.Acknowledge = null;
-                result.DiscloseMe = null;
                 result.ExcludeMe = null;
+
                 return result;
             }
         }

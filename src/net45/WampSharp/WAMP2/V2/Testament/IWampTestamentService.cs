@@ -18,7 +18,7 @@ namespace WampSharp.V2.Testament
         void AddTestament(string topic,
                           object[] args,
                           IDictionary<string, object> kwargs,
-                          PublishOptions publish_options,
+                          PublishOptions publish_options = null,
                           string scope = WampTestamentScope.Destroyed);
 
         /// <summary>

@@ -23,11 +23,11 @@ namespace WampSharp.V2.MetaApi
         }
 
         /// <summary>
-        /// Hosts a WAMP testaments service for the given realm.
+        /// Hosts a WAMP testament service for the given realm.
         /// </summary>
         /// <param name="hostedRealm">The given realm.</param>
         /// <returns>A disposable: disposing it will unregister the hosted testaments service.</returns>
-        public static IDisposable HostTestamentsService(this IWampHostedRealm hostedRealm)
+        public static IDisposable HostTestamentService(this IWampHostedRealm hostedRealm)
         {
             WampTestamentService service = new WampTestamentService(hostedRealm);
 
