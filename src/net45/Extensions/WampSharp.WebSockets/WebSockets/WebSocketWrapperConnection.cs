@@ -39,7 +39,6 @@ namespace WampSharp.WebSockets
 
         protected override Task SendAsync(WampMessage<object> message)
         {
-            mLogger.Debug("Attempting to send a message");
             ArraySegment<byte> messageToSend = GetMessageInBytes(message);
             return mWebSocket.SendAsync(messageToSend, WebSocketMessageType, true, mCancellationToken);
         }
