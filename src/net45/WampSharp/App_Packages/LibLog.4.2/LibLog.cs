@@ -624,9 +624,16 @@ namespace WampSharp.Logging
         }
 #endif
 
+        internal static ILogProvider ResolveLogProvider()
+        {
+            return mResolvedLogProvider.Value;
+        }
+
+        private static Lazy<ILogProvider> mResolvedLogProvider = new Lazy<ILogProvider>(() => InnerResolveLogProvider());
+
         [SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Console.WriteLine(System.String,System.Object,System.Object)")]
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-        internal static ILogProvider ResolveLogProvider()
+        private static ILogProvider InnerResolveLogProvider()
         {
             try
             {

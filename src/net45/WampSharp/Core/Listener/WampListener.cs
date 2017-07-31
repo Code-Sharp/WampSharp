@@ -116,17 +116,10 @@ namespace WampSharp.Core.Listener
                 sessionIdString = sessionIdValue.ToString();
             }
 
-            if (LogProvider.CurrentLogProvider == null)
-            {
-                return Disposable.Empty;
-            }
-            else
-            {
-                IDisposable disposable =
-                    LogProvider.OpenMappedContext("WampSessionId", sessionIdString);
+            IDisposable disposable =
+                LogProvider.OpenMappedContext("WampSessionId", sessionIdString);
 
-                return disposable;
-            }
+            return disposable;
         }
 
         protected virtual object GetSessionId(TClient client)
