@@ -41,17 +41,21 @@ namespace WampSharp.V2.Client
                     },
                     Callee = new CalleeFeatures()
                     {
-                        ProgressiveCallResults = true
+                        ProgressiveCallResults = true,
+                        CallerIdentification = true,
+                        PatternBasedRegistration = true,
+                        SharedRegistration = true
                     },
                     Publisher = new PublisherFeatures()
                     {
                         SubscriberBlackwhiteListing = true,
                         PublisherExclusion = true,
-                        PublisherIdentification = true,
+                        PublisherIdentification = true
                     },
                     Subscriber = new SubscriberFeatures()
                     {
-                        PublisherIdentification = true
+                        PublisherIdentification = true,
+                        PatternBasedSubscription = true
                     }
                 }
             };
