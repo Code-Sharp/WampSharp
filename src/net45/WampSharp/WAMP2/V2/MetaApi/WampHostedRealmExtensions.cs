@@ -19,7 +19,28 @@ namespace WampSharp.V2.MetaApi
         {
             WampRealmDescriptorService service = new WampRealmDescriptorService(hostedRealm);
 
-            return HostDisposableService(hostedRealm, service, CalleeRegistrationInterceptor.Default);
+            CompositeDisposable disposable = 
+                HostDisposableService(hostedRealm, service, CalleeRegistrationInterceptor.Default);
+
+            BrokerFeatures brokerFeatures = hostedRealm.Roles.Broker.Features;
+            DealerFeatures dealerFeatures = hostedRealm.Roles.Dealer.Features;
+
+            brokerFeatures.SessionMetaApi = true;
+            brokerFeatures.SubscriptionMetaApi = true;
+            dealerFeatures.SessionMetaApi = true;
+            dealerFeatures.RegistrationMetaApi = true;
+
+            IDisposable featureDisposable = Disposable.Create(() =>
+            {
+                brokerFeatures.SessionMetaApi = null;
+                brokerFeatures.SubscriptionMetaApi = null;
+                dealerFeatures.SessionMetaApi = null;
+                dealerFeatures.RegistrationMetaApi = null;
+            });
+
+            disposable.Add(featureDisposable);
+
+            return disposable;
         }
 
         /// <summary>
@@ -33,10 +54,23 @@ namespace WampSharp.V2.MetaApi
 
             RegisterOptions registerOptions = new RegisterOptions { DiscloseCaller = true };
 
-            return HostDisposableService(hostedRealm, service, new CalleeRegistrationInterceptor(registerOptions));
+            CompositeDisposable disposable = HostDisposableService(hostedRealm, service, new CalleeRegistrationInterceptor(registerOptions));
+
+            DealerFeatures dealerFeatures = hostedRealm.Roles.Dealer.Features;
+
+            dealerFeatures.TestamentMetaApi = true;
+
+            IDisposable featureDisposable = Disposable.Create(() =>
+            {
+                dealerFeatures.TestamentMetaApi = null;
+            });
+
+            disposable.Add(featureDisposable);
+
+            return disposable;
         }
 
-        private static IDisposable HostDisposableService(IWampHostedRealm hostedRealm, IDisposable service, ICalleeRegistrationInterceptor registrationInterceptor)
+        private static CompositeDisposable HostDisposableService(IWampHostedRealm hostedRealm, IDisposable service, ICalleeRegistrationInterceptor registrationInterceptor)
         {
             Task<IAsyncDisposable> registrationDisposable =
                 hostedRealm.Services.RegisterCallee(service, registrationInterceptor);

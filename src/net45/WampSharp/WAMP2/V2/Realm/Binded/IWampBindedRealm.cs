@@ -6,6 +6,7 @@ namespace WampSharp.V2.Realm.Binded
     public interface IWampBindedRealm<TMessage>
     {
         IWampServer<TMessage> Server { get; }
+        WelcomeDetails WelcomeDetails { get; }
 
         void Hello(long session, HelloDetails details, WelcomeDetails welcomeDetails);
         void Abort(long session, AbortDetails details, string reason);
