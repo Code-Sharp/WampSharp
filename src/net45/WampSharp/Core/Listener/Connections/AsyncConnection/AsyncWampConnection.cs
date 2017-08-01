@@ -174,7 +174,7 @@ namespace WampSharp.Core.Listener
 
             public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters)
             {
-                using (LogProvider.OpenMappedContext("ConncetionId", mConnectionId))
+                using (LogProvider.OpenMappedContext("ConnectionId", mConnectionId))
                 {
                     return mLogger.Log(logLevel, messageFunc, exception, formatParameters);
                 }
