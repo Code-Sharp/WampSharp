@@ -1,4 +1,5 @@
 using System;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Rpc;
@@ -59,6 +60,14 @@ namespace WampSharp.V2
             get
             {
                 return mInternalChannel.RealmProxy.Services;
+            }
+        }
+
+        public RouterRoles Roles
+        {
+            get
+            {
+                return mUnderlyingRealm.Roles;
             }
         }
 

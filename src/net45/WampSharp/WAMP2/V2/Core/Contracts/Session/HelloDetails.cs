@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 using WampSharp.Core.Message;
 using WampSharp.V2.MetaApi;
@@ -5,6 +6,7 @@ using WampSharp.V2.MetaApi;
 namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
+    [Serializable]
     [WampDetailsOptions(WampMessageType.v2Hello)]
     public class HelloDetails : WampDetailsOptions
     {

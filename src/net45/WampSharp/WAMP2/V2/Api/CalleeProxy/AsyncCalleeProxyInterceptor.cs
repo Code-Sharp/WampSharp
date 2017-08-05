@@ -1,25 +1,38 @@
-#if CASTLE
-﻿using System.Reflection;
+#if CASTLE || DISPATCH_PROXY
+using System.Linq;
+using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
-using Castle.DynamicProxy;
 
 namespace WampSharp.V2.CalleeProxy
 {
     internal class AsyncCalleeProxyInterceptor<TResult> : CalleeProxyInterceptorBase<TResult>
     {
+        public bool SupportsCancellation { get; }
+
         public AsyncCalleeProxyInterceptor(MethodInfo method, IWampCalleeProxyInvocationHandler handler, ICalleeProxyInterceptor interceptor) : 
             base(method, handler, interceptor)
         {
+            SupportsCancellation =
+                method.GetParameters().LastOrDefault()?.ParameterType == typeof(CancellationToken);
         }
 
-        public override void Intercept(IInvocation invocation)
+        public override object Invoke(MethodInfo method, object[] arguments)
         {
-            MethodInfo method = invocation.Method;
+            object[] methodArguments = arguments;
+            CancellationToken cancellationToken = CancellationToken.None;
+
+            if (SupportsCancellation)
+            {
+                cancellationToken = (CancellationToken)arguments.Last();
+                methodArguments = 
+                    arguments.Take(arguments.Length - 1).ToArray();
+            }
 
             Task result =
-                Handler.InvokeAsync<TResult>(Interceptor, method, Extractor, invocation.Arguments);
+                Handler.InvokeAsync<TResult>(Interceptor, method, Extractor, methodArguments, cancellationToken);
 
-            invocation.ReturnValue = result;
+            return result;
         }
     }
 }

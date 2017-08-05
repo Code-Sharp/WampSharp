@@ -1,0 +1,67 @@
+{
+  "title": "WampSharp",
+  "version": "1.2.3-*",
+  "description": "An implementation of WAMP (The Web Application Messaging Protocol). Supports both WAMPv2 and WAMPv1.",
+  "authors": [ "CodeSharp" ],
+  "packOptions": {
+    "requireLicenseAcceptance": false,
+    "tags": [ "websockets", "wampws", "rpc", "pubsub", "wampv2" ],
+    "projectUrl": "https://github.com/Code-Sharp/WampSharp/"
+  },
+  "frameworks": {
+    "netstandard1.3": {
+      "buildOptions": {
+        "define": [ "NET45", "NETCORE", "PCL", "CASTLE", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL", "ASYNC_LOCAL", "ASYNC", "WAMPCRA" ],
+        "xmlDoc": true
+      },
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.1",
+        "Castle.Core": "4.0.0-beta001",
+        "System.Threading.Tasks.Dataflow": "4.6.0",
+        "System.Collections.Concurrent": "4.0.12",
+        "System.Collections.Immutable": "1.2.0",
+        "System.ComponentModel": "4.0.1",
+        "System.Net.Primitives": "4.0.11",
+        "System.Reactive": "3.0.0",
+        "System.Reflection.Extensions": "4.0.1",
+        "System.Reflection.TypeExtensions": "4.1.0",
+        "System.Runtime": "4.1.0",
+        "System.Runtime.Serialization.Primitives": "4.1.1",
+        "System.Security.Cryptography.Algorithms": "4.2.0",
+        "System.Text.RegularExpressions": "4.1.0",
+        "System.ValueTuple": "4.0.0-rc3-24212-01"
+      }
+    },
+    "uap10.0": {
+      "buildOptions": {
+        "define": [ "NET45", "NETCORE", "PCL", "MANUAL_PROXY", "DISPATCH_PROXY", "LIBLOG_PUBLIC", "LIBLOG_PORTABLE", "TPL", "ASYNC_LOCAL", "ASYNC", "WAMPCRA" ],
+        "xmlDoc": true
+      },
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.1",
+        "System.Threading.Tasks.Dataflow": "4.6.0",
+        "System.Collections.Concurrent": "4.0.12",
+        "System.Collections.Immutable": "1.2.0",
+        "System.ComponentModel": "4.0.1",
+        "System.Net.Primitives": "4.0.11",
+        "System.Reactive": "3.0.0",
+        "System.Reflection.DispatchProxy": "4.0.1",
+        "System.Reflection.Extensions": "4.0.1",
+        "System.Reflection.TypeExtensions": "4.1.0",
+        "System.Runtime": "4.1.0",
+        "System.Runtime.Serialization.Primitives": "4.1.1",
+        "System.Security.Cryptography.Algorithms": "4.2.0",
+        "System.Text.RegularExpressions": "4.1.0",
+        "System.ValueTuple": "4.0.0-rc3-24212-01",
+        "Microsoft.TargetingPack.Private.WinRT": {
+          "version": "1.0.1",
+          "type": "build"
+        },
+        "Microsoft.NETCore.UniversalWindowsPlatform": {
+          "version": "5.2.2",
+          "type": "build"
+        }
+      }
+    }
+  }
+}

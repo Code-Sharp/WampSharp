@@ -35,9 +35,7 @@ namespace WampSharp.V2.Rpc
         {
             try
             {
-                options.Invoke = options.Invoke ?? WampInvokePolicy.Default;
-                options.Match = options.Match ?? WampMatchPattern.Default;
-
+                options = options.WithDefaults();
                 ValidateRegisterUri(procedure, options.Match);
 
                 RegisterRequest registerRequest = new RegisterRequest(callee, requestId);
@@ -46,7 +44,7 @@ namespace WampSharp.V2.Rpc
             catch (WampException exception)
             {
                 mLogger.ErrorFormat(exception,
-                    "Failed registering procedure '{0}'. Registration request id: {1} ",
+                    "Failed registering procedure '{ProcedureUri}'. Registration request id: {RequestId} ",
                     procedure, requestId);
 
                 callee.RegisterError(requestId, exception);
@@ -63,7 +61,7 @@ namespace WampSharp.V2.Rpc
             catch (WampException exception)
             {
                 mLogger.ErrorFormat(exception,
-                    "Failed unregistering procedure with registration id {0}. Unregistration request id: {1} ",
+                    "Failed unregistering procedure with registration id {RegistrationId}. Unregistration request id: {RequestId} ",
                     registrationId,
                     requestId);
 
@@ -104,11 +102,11 @@ namespace WampSharp.V2.Rpc
                                              argumentsKeywords));
         }
 
-        private void CallPattern(IWampCaller caller, long requestId, CallOptions options, string procedure, Action<IWampRpcOperationInvoker, IWampRawRpcOperationClientCallback, InvocationDetails> invokeAction)
+        private void CallPattern(IWampCaller caller, long requestId, CallOptions options, string procedure, Action<IWampRpcOperationInvoker, IWampRawRpcOperationRouterCallback, InvocationDetails> invokeAction)
         {
             try
             {
-                IWampRawRpcOperationClientCallback callback = GetCallback(caller, requestId);
+                IWampRawRpcOperationRouterCallback callback = GetCallback(caller, requestId);
 
                 InvocationDetails invocationOptions =
                     GetInvocationOptions(caller, options, procedure);
@@ -127,7 +125,7 @@ namespace WampSharp.V2.Rpc
         {
             if (!mUriValidator.IsValid(procedure))
             {
-                mLogger.ErrorFormat("call with invalid procedure URI '{0}'", procedure);
+                mLogger.ErrorFormat("call with invalid procedure URI '{ProcedureUri}'", procedure);
 
                 throw new WampException(WampErrors.InvalidUri,
                                         string.Format("call with invalid procedure URI '{0}'", procedure));
@@ -157,7 +155,6 @@ namespace WampSharp.V2.Rpc
             WelcomeDetails welcomeDetails = wampCaller.WelcomeDetails;
 
             result.AuthenticationId = welcomeDetails.AuthenticationId;
-            result.AuthenticationMethod = welcomeDetails.AuthenticationMethod;
             result.AuthenticationRole = welcomeDetails.AuthenticationRole;
 
             return result;
@@ -165,7 +162,7 @@ namespace WampSharp.V2.Rpc
 
         public void Cancel(IWampCaller caller, long requestId, CancelOptions options)
         {
-            throw new NotImplementedException();
+            mHandler.Cancel(caller, requestId, options);
         }
 
         public void Yield(IWampCallee callee, long requestId, YieldOptions options)
@@ -183,7 +180,7 @@ namespace WampSharp.V2.Rpc
             mHandler.Yield(callee, requestId, options, arguments, argumentsKeywords);
         }
 
-        private IWampRawRpcOperationClientCallback GetCallback(IWampCaller caller, long requestId)
+        private IWampRawRpcOperationRouterCallback GetCallback(IWampCaller caller, long requestId)
         {
             return new WampRpcOperationCallback(caller, requestId);
         }

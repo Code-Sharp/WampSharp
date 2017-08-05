@@ -69,7 +69,7 @@ namespace WampSharp.V2.PubSub
             catch (WampException ex)
             {
                 mLogger.ErrorFormat(ex,
-                                    "Failed publishing to topic '{0}'. Publication request id: {1}",
+                                    "Failed publishing to topic '{TopicUri}'. Publication request id: {RequestId}",
                                     topicUri, requestId);
 
                 PublishErrorIfNeeded(publisher, requestId, acknowledge, ex);
@@ -87,7 +87,6 @@ namespace WampSharp.V2.PubSub
             WelcomeDetails welcomeDetails = casted.WelcomeDetails;
 
             result.AuthenticationId = welcomeDetails.AuthenticationId;
-            result.AuthenticationMethod = welcomeDetails.AuthenticationMethod;
             result.AuthenticationRole = welcomeDetails.AuthenticationRole;
 
             result.TopicUri = topicUri;
@@ -99,7 +98,7 @@ namespace WampSharp.V2.PubSub
         {
             try
             {
-                options.Match = options.Match ?? WampMatchPattern.Default;
+                options = options.WithDefaults();
 
                 ValidateSubscribeUri(topicUri, options.Match);
 
@@ -111,7 +110,7 @@ namespace WampSharp.V2.PubSub
             catch (WampException ex)
             {
                 mLogger.ErrorFormat(ex,
-                                    "Failed subscribing to topic '{0}'. Subscription request id: {1}",
+                                    "Failed subscribing to topic '{TopicUri}'. Subscription request id: {RequestId}",
                                     topicUri, requestId);
 
                 subscriber.SubscribeError(requestId, ex);

@@ -1,8 +1,9 @@
-#if PCL
+#if !CASTLE && !DISPATCH_PROXY
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.V2.Rpc;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
@@ -15,86 +16,104 @@ namespace WampSharp.CodeGeneration
             @"
 public {$returnType} {$methodName}({$parametersDeclaration})
 {
-    {$return}{$invokeMethod}{$genericType}({$parameterList});
+    {$return}{$methodHandler}({$parameterList});
 }";
+
+        private string GetDelegateType(MethodInfo method)
+        {
+            string prefix = GetDelegateNamePrefix(method);
+
+            Type returnType = TaskExtensions.UnwrapReturnType(method.ReturnType);
+
+            string returnTypeAlias = FormatTypeExtensions.FormatType(returnType);
+
+            string result = string.Format("{0}Delegate<{1}>", prefix, returnTypeAlias);
+
+            return result;
+        }
+
+        private static string GetDelegateNamePrefix(MethodInfo method)
+        {
+            string result;
+
+            if (method.GetCustomAttribute<WampProgressiveResultProcedureAttribute>() != null)
+            {
+                result = "InvokeProgressiveAsync";
+            }
+            else if (typeof(Task).IsAssignableFrom(method.ReturnType))
+            {
+                result = "InvokeAsync";
+            }
+            else
+            {
+                result = "InvokeSync";
+            }
+
+            return result;
+        }
 
         public string WriteMethod(int methodIndex, MethodInfo method)
         {
-            string methodField = "mMethod" + methodIndex;
+            string methodHandler = "mMethodHandler" + methodIndex;
             
             IDictionary<string, string> dictionary =
                 new Dictionary<string, string>();
 
-            ParameterInfo[] parameters = method.GetParameters();
+            IEnumerable<ParameterInfo> methodCallParameters = method.GetParameters();
+            IEnumerable<string> specialParameters = Enumerable.Empty<string>();
 
-            dictionary["methodName"] = method.Name;
-            dictionary["parameterList"] =
-                string.Join(", ",
-                            new[] {methodField}.Concat(parameters.Select(x => x.Name)));
+            if (typeof(Task).IsAssignableFrom(method.ReturnType))
+            {
+                specialParameters = new[] { FormatTypeExtensions.FormatType(typeof(CancellationToken)) + ".None" };
+            }
 
-            dictionary["returnType"] = FormatTypeExtensions.FormatType(method.ReturnType);
-
-            string invokeMethod;
+            if (typeof(Task).IsAssignableFrom(method.ReturnType) &&
+                methodCallParameters.LastOrDefault()?.ParameterType == typeof(CancellationToken))
+            {
+                specialParameters = new[] {methodCallParameters.LastOrDefault().Name};
+                methodCallParameters = methodCallParameters.Take(methodCallParameters.Count() - 1);
+            }
 
             if (method.GetCustomAttribute<WampProgressiveResultProcedureAttribute>() != null)
             {
-                invokeMethod = "InvokeProgressiveAsync";
-
-                dictionary["parameterList"] =
-                    string.Join(", ",
-                                new[] {methodField}.Concat
-                                    (new[] {parameters.Last()}.Concat(parameters.Take(parameters.Length - 1))
-                                                              .Select(x => x.Name)));
-            }
-            else if (typeof (Task).IsAssignableFrom(method.ReturnType))
-            {
-                invokeMethod = "InvokeAsync";
-            }
-            else
-            {
-                invokeMethod = "InvokeSync";
+                specialParameters = new[] { methodCallParameters.LastOrDefault().Name }.Concat(specialParameters);
+                methodCallParameters = methodCallParameters.Take(methodCallParameters.Count() - 1);
             }
 
-            Type returnType = TaskExtensions.UnwrapReturnType(method.ReturnType);
+            dictionary["methodName"] = method.Name;
+
+            dictionary["parameterList"] =
+                string.Join(", ",
+                            new[] {"this"}.Concat(specialParameters).Concat(methodCallParameters
+                                                                                .Select(x => x.Name)));
+
+            dictionary["returnType"] = FormatTypeExtensions.FormatType(method.ReturnType);
+
+
 
             if (method.ReturnType != typeof(void))
             {
                 dictionary["return"] = "return ";
-                dictionary["genericType"] = CodeGenerationHelper.GetGenericType(returnType);
             }
             else
             {
                 dictionary["return"] = string.Empty;
-                dictionary["genericType"] = string.Empty;
             }
 
-            if (method.ReturnType == typeof (Task))
-            {
-                dictionary["genericType"] = string.Empty;                
-            }
-
-            if (!method.HasMultivaluedResult())
-            {
-                invokeMethod = "Single" + invokeMethod;
-            }
-            else
-            {
-                invokeMethod = "Multi" + invokeMethod;
-                dictionary["genericType"] = CodeGenerationHelper.GetGenericType(returnType.GetElementType());
-            }
-
-            dictionary["invokeMethod"] = invokeMethod;
+            dictionary["methodHandler"] = methodHandler;
 
             dictionary["parametersDeclaration"] =
                 string.Join(", ",
-                            parameters.Select
+                            method.GetParameters().Select
                                 (x => FormatTypeExtensions.FormatType(x.ParameterType) + " " + x.Name));
 
             return CodeGenerationHelper.ProcessTemplate(mMethodTemplate, dictionary);
         }
 
         private string mFieldTemplate =
-            @"private static readonly MethodInfo mMethod{$methodIndex} = GetMethodInfo(({$interfaceType} instance) => instance.{$methodName}({$defaults}));";
+            @"private static readonly {$delegateType} mMethodHandler{$methodIndex} = Get{$delegatePrefix}<{$genericType}>(
+    GetMethodInfo(({$interfaceType} instance) => instance.{$methodName}({$defaults}))
+);";
 
         public string WriteField(int methodIndex, MethodInfo method)
         {
@@ -103,7 +122,11 @@ public {$returnType} {$methodName}({$parametersDeclaration})
             Type type = method.DeclaringType;
 
             dictionary["methodIndex"] = methodIndex.ToString();
+            dictionary["delegateType"] = GetDelegateType(method);
+            dictionary["delegatePrefix"] = GetDelegateNamePrefix(method);
             dictionary["interfaceType"] = FormatTypeExtensions.FormatType(type);
+            Type genericType = TaskExtensions.UnwrapReturnType(method.ReturnType);
+            dictionary["genericType"] = FormatTypeExtensions.FormatType(genericType);
             dictionary["methodName"] = method.Name;
             dictionary["defaults"] =
                 string.Join(", ",

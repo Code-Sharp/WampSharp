@@ -70,7 +70,12 @@ namespace WampSharp.Core.Listener
 
         public void Dispose()
         {
-            mConnection.Dispose();
+            IControlledWampConnection<TMessage> connection = mConnection;
+
+            if (connection != null)
+            {
+                connection.Dispose();
+            }
         }
 
         public void Send(WampMessage<object> message)

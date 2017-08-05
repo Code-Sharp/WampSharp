@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
+using WampSharp.Core.Utilities;
 
 namespace WampSharp.V1.Rpc.Client
 {
@@ -10,7 +11,7 @@ namespace WampSharp.V1.Rpc.Client
     /// <typeparam name="TMessage"></typeparam>
     public class WampRpcClientFactory<TMessage> : IWampRpcClientFactory<TMessage>
     {
-        private readonly ProxyGenerator mProxyGenerator = new ProxyGenerator();
+        private readonly ProxyGenerator mProxyGenerator = CastleDynamicProxyGenerator.Instance;
         private readonly IWampRpcSerializer mSerializer;
         private readonly IWampRpcClientHandlerBuilder<TMessage> mClientHandlerBuilder;
 

@@ -1,4 +1,4 @@
-#if !PCL
+#if WAMPCRA
 using WampSharp.V2.Client;
 
 namespace WampSharp.V2.Fluent

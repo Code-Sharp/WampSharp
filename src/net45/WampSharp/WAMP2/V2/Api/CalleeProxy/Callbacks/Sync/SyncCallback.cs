@@ -50,7 +50,7 @@ namespace WampSharp.V2.CalleeProxy
                      mArguments,
                      outOrRefParameters);
 
-                SetResult(formatter, arguments);
+                SetResult(formatter, arguments, argumentsKeywords);
             }
             catch (Exception ex)
             {
@@ -59,10 +59,17 @@ namespace WampSharp.V2.CalleeProxy
             }
         }
 
-        private void SetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
+        private void SetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentKeywords = null)
         {
-            TResult result = mExtractor.GetResult(formatter, arguments);
-            SetResult(result);
+            try
+            {
+                TResult result = mExtractor.GetResult(formatter, arguments, argumentKeywords);
+                SetResult(result);
+            }
+            catch (Exception ex)
+            {
+                SetException(ex);
+            }
         }
 
         protected void SetResult(TResult result)

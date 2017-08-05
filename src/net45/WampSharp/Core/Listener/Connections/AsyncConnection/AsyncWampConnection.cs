@@ -12,10 +12,11 @@ namespace WampSharp.Core.Listener
     {
         private readonly ActionBlock<WampMessage<object>> mSendBlock;
         protected readonly ILog mLogger;
+        private int mDisposeCalled = 0;
 
         protected AsyncWampConnection()
         {
-            mLogger = LogProvider.GetLogger(this.GetType());
+            mLogger = new LoggerWithConnectionId(LogProvider.GetLogger(this.GetType()));
             mSendBlock = new ActionBlock<WampMessage<object>>(x => InnerSend(x));
         }
 
@@ -24,7 +25,7 @@ namespace WampSharp.Core.Listener
             mSendBlock.Post(message);
         }
 
-#if !NET40
+#if ASYNC
 
         protected async Task InnerSend(WampMessage<object> message)
         {
@@ -112,6 +113,7 @@ namespace WampSharp.Core.Listener
 
         protected virtual void RaiseConnectionClosed()
         {
+            mLogger.Debug("Connection has been closed");
             var handler = ConnectionClosed;
             if (handler != null) handler(this, EventArgs.Empty);
         }
@@ -125,23 +127,29 @@ namespace WampSharp.Core.Listener
         
         void IDisposable.Dispose()
         {
-            mSendBlock.Complete();
-            mSendBlock.Completion.Wait();
-            this.Dispose();
+            if (Interlocked.CompareExchange(ref mDisposeCalled, 1, 0) == 0)
+            {
+                mSendBlock.Complete();
+                mSendBlock.Completion.Wait();
+                this.Dispose();
+            }
         }
 
         protected abstract void Dispose();
 
-#if NET45
+#if ASYNC
 
         async Task IAsyncDisposable.DisposeAsync()
         {
-            mSendBlock.Complete();
-            await mSendBlock.Completion;
-            this.Dispose();
+            if (Interlocked.CompareExchange(ref mDisposeCalled, 1, 0) == 0)
+            {
+                mSendBlock.Complete();
+                await mSendBlock.Completion;
+                this.Dispose();
+            }
         }
 
-#elif NET40
+#else
 
         Task IAsyncDisposable.DisposeAsync()
         {
@@ -151,5 +159,26 @@ namespace WampSharp.Core.Listener
 
 #endif
 
+        // TODO: move this to another file (after making it more generic)
+        // TODO: or get rid of this.
+        private class LoggerWithConnectionId : ILog
+        {
+            private readonly ILog mLogger;
+            private readonly string mConnectionId;
+
+            public LoggerWithConnectionId(ILog logger)
+            {
+                mConnectionId = Guid.NewGuid().ToString();
+                mLogger = logger;
+            }
+
+            public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters)
+            {
+                using (LogProvider.OpenMappedContext("ConnectionId", mConnectionId))
+                {
+                    return mLogger.Log(logLevel, messageFunc, exception, formatParameters);
+                }
+            }
+        }
     }
 }

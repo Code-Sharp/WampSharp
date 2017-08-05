@@ -8,9 +8,7 @@ namespace WampSharp.V2.Client
     /// Occurs when an CHALLENGE message has been received, 
     /// but no <see cref="IWampClientAuthenticator"/> has been provided.
     /// </summary>
-#if !PCL
     [Serializable]
-#endif
     public class WampAuthenticationNotImplementedException : WampAuthenticationException
     {
         /// <summary>

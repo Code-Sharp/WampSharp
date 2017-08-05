@@ -1,7 +1,7 @@
 ﻿ // ReSharper disable once CheckNamespace
 namespace System.Reflection
 {
-#if !NET45
+#if NET40
     public static class CustomAttributeExtensions
     {
         public static T GetCustomAttribute<T>(this MemberInfo element, bool inherit = true) where T : Attribute
@@ -17,6 +17,11 @@ namespace System.Reflection
         public static bool IsDefined(this MemberInfo element, Type attributeType, bool inherit = true)
         {
             return Attribute.IsDefined(element, attributeType, inherit);
+        }
+
+        public static bool IsDefined(this ParameterInfo parameter, Type attributeType, bool inherit = true)
+        {
+            return Attribute.IsDefined(parameter, attributeType, inherit);
         }
     }
 #endif

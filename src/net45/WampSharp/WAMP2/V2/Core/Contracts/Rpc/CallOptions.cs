@@ -1,9 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
+    [Serializable]
     [WampDetailsOptions(WampMessageType.v2Call)]
     public class CallOptions : WampDetailsOptions
     {
@@ -16,6 +18,7 @@ namespace WampSharp.V2.Core.Contracts
             TimeoutMili = other.TimeoutMili;
             ReceiveProgress = other.ReceiveProgress;
             DiscloseMe = other.DiscloseMe;
+            OriginalValue = other.OriginalValue;
         }
 
         [IgnoreDataMember]

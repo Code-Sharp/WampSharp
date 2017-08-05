@@ -88,9 +88,13 @@ namespace WampSharp.Tests.TestHelpers
 
             public void Dispose()
             {
-                mSubscription.Dispose();
-                mOutgoing.OnCompleted();
-                mSubscription = null;
+                if (mSubscription != null)
+                {
+                    mSubscription.Dispose();
+                    mOutgoing.OnCompleted();
+                    mSubscription = null;
+                    OnConnectionClosed();
+                }
             }
 
             public void Send(WampMessage<object> message)

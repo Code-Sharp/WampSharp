@@ -23,6 +23,7 @@ namespace WampSharp.Vtortola
         private WebSocketListener mListener;
         private readonly bool mPerMessageDeflate;
         private readonly X509Certificate2 mCertificate;
+        private readonly WebSocketListenerOptions mOptions;
 
         /// <summary>
         /// Creates a new instance of <see cref="VtortolaWebSocketTransport"/>
@@ -31,8 +32,20 @@ namespace WampSharp.Vtortola
         /// <param name="endpoint"></param>
         /// <param name="perMessageDeflate">A value indicating whether to support permessage-deflate
         /// compression extension or not.</param>
-        public VtortolaWebSocketTransport(IPEndPoint endpoint, bool perMessageDeflate, X509Certificate2 certificate = null)
-            : this(endpoint, perMessageDeflate, null, certificate)
+        public VtortolaWebSocketTransport(IPEndPoint endpoint, bool perMessageDeflate, WebSocketListenerOptions options)
+            : this(endpoint, perMessageDeflate, null, options)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="VtortolaWebSocketTransport"/>
+        /// given the endpoint to run at.
+        /// </summary>
+        /// <param name="endpoint"></param>
+        /// <param name="perMessageDeflate">A value indicating whether to support permessage-deflate
+        /// compression extension or not.</param>
+        public VtortolaWebSocketTransport(IPEndPoint endpoint, bool perMessageDeflate, X509Certificate2 certificate = null, WebSocketListenerOptions options = null)
+            : this(endpoint, perMessageDeflate, null, certificate, options)
         {
         }
 
@@ -45,13 +58,15 @@ namespace WampSharp.Vtortola
         ///     compression extension or not.</param>
         /// <param name="authenticatorFactory"></param>
         /// <param name="certificate"></param>
+        /// <param name="options"></param>
         protected VtortolaWebSocketTransport
-            (IPEndPoint endpoint, bool perMessageDeflate, ICookieAuthenticatorFactory authenticatorFactory = null, X509Certificate2 certificate = null)
+            (IPEndPoint endpoint, bool perMessageDeflate, ICookieAuthenticatorFactory authenticatorFactory = null, X509Certificate2 certificate = null, WebSocketListenerOptions options = null)
             : base(authenticatorFactory)
         {
             mEndpoint = endpoint;
             mPerMessageDeflate = perMessageDeflate;
             mCertificate = certificate;
+            mOptions = options;
         }
 
         public override void Dispose()
@@ -64,10 +79,11 @@ namespace WampSharp.Vtortola
         {
             string[] protocols = SubProtocols;
 
-            WebSocketListener listener = new WebSocketListener(mEndpoint, new WebSocketListenerOptions()
-            {
-                SubProtocols = protocols
-            });
+            WebSocketListenerOptions options = mOptions ?? new WebSocketListenerOptions();
+
+            options.SubProtocols = protocols;
+
+            WebSocketListener listener = new WebSocketListener(mEndpoint, options);
 
             WebSocketFactoryRfc6455 factory = new WebSocketFactoryRfc6455(listener);
 
@@ -116,7 +132,7 @@ namespace WampSharp.Vtortola
             return connection.HttpResponse.WebSocketProtocol;
         }
 
-        protected override void OpenConnection<TMessage>(IWampConnection<TMessage> connection)
+        protected override void OpenConnection<TMessage>(WebSocket original, IWampConnection<TMessage> connection)
         {
             VtortolaWampConnection<TMessage> casted = connection as VtortolaWampConnection<TMessage>;
             Task.Run(new Func<Task>(casted.HandleWebSocketAsync));

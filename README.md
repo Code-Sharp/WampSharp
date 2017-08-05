@@ -1,10 +1,10 @@
 WampSharp
 =========
-[![NuGet Version][NuGetImgMaster]][NuGetLinkMaster]
+[![NuGet Version][NuGetImgMaster]][NuGetLinkMaster][![Codewake](https://www.codewake.com/badges/ask_question.svg)](https://www.codewake.com/p/wampsharp)
 
 A C# implementation of [WAMP (The Web Application Messaging Protocol)][WampLink]
 
-The implementation supports WAMPv2 and includes both Json and MsgPack support, and both Router (Broker and Dealer roles) and Client (Publisher/Subscriber and Callee/Caller) roles.
+The implementation supports WAMPv2 and includes both Json and MsgPack support, and both Router (Broker and Dealer roles) and Client (Publisher/Subscriber and Callee/Caller) roles. See here for a list of [implemented advanced profile features](https://github.com/Code-Sharp/WampSharp-docs#advanced-profile-features).
 
 The implementation also supports WAMPv1, both client and server roles.
 
@@ -12,47 +12,33 @@ The implementation also supports WAMPv1, both client and server roles.
 
 Master | Provider
 ------ | --------
-[![Build Status][WinImgMaster]][WinLinkMaster] | Windows CI Provided By [CodeBetter][] and [JetBrains][] 
-[![Build Status][MonoImgMaster]][MonoLinkMaster] | Mono CI Provided by [travis-ci][] 
+[![Build Status][WinImgMaster]][WinLinkMaster] | Windows CI Provided By [CodeBetter][] and [JetBrains][]
 
+## Documentation
 
-## Advanced profile supported features:
+Documentation has been moved to [its own repository](https://github.com/Code-Sharp/WampSharp-docs)!
 
-The following [Advanced profile features](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced.md) are supported
+## WampSharp v1.2.5.21-beta
 
-* [Progressive call results](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/progressive-call-results.md): [[caller tutorial|Caller role#progressive-calls]] | [[callee tutorial|Callee role#progressive-callee]]
-* [Caller identification](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/caller-identification.md): [[caller tutorial|Caller-role#caller-identification]] | [[callee tutorial|Callee-role#caller-identification]]
-* [Session meta api](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/session-meta-api.md), [Registration meta api](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/registration-meta-api.md), [Subscription meta api](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/subscription-meta-api.md)
-* [Shared registrations](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/shared-registration.md), see also [here](http://crossbar.io/docs/Shared-Registrations/)
-* [Subscriber black and whitelisting](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/subscriber-blackwhite-listing.md)
-* [Publisher exclusion](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/publisher-exclusion.md)
-* [Publisher identification](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/publisher-identification.md)
-* [Pattern-based subscriptions](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/pattern-based-subscription.md) - see also [here](http://crossbar.io/docs/Pattern-Based-Subscriptions/)
-* [Pattern-based registrations](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/pattern-based-registration.md) - see also [here](http://crossbar.io/docs/Pattern-Based-Registrations/)
-* [RawSocket transport](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/rawsocket-transport.md)
-* [Authentication](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/authentication.md)
-* [WAMP-CRA](https://github.com/wamp-proto/wamp-proto/blob/master/spec/advanced/challenge-response-authentication.md)
-
-## WampSharp v1.2.1.6-beta
-
-WampSharp v1.2.1.6-beta released, see version [release notes](https://github.com/Code-Sharp/WampSharp/wiki/WampSharp-v1.2.1.6-beta-release-notes).
+WampSharp v1.2.5.21-beta released, see version [release notes](https://github.com/Code-Sharp/WampSharp-docs/blob/master/Release-notes/WampSharp-v1.2.5.21-beta-release-notes.md).
 
 ## Get Started
 
-See [Get started tutorial](https://github.com/Code-Sharp/WampSharp/wiki/Getting-started-with-WAMPv2) and
-* [Getting started with Callee](https://github.com/Code-Sharp/WampSharp/wiki/Getting-Started-with-Callee)
-* [Getting started with Caller](https://github.com/Code-Sharp/WampSharp/wiki/Getting-Started-with-Caller)
-* [Getting started with Subscriber](https://github.com/Code-Sharp/WampSharp/wiki/Getting-Started-with-Subscriber)
-* [Getting started with Publisher](https://github.com/Code-Sharp/WampSharp/wiki/Getting-Started-with-Publisher)
+See [Get started tutorial](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Getting-started-with-WAMPv2.md) and
+* [Getting started with Callee](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Callee/Getting-Started-with-Callee.md)
+* [Getting started with Caller](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Caller/Getting-Started-with-Caller.md)
+* [Getting started with Publisher](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Publisher/Getting-Started-with-Publisher.md)
+* [Getting started with Subscriber](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Subscriber/Getting-Started-with-Subscriber.md)
 
-See [Wiki documentation](https://github.com/Code-Sharp/WampSharp/wiki) for more help.
-
+See [documentation](https://github.com/Code-Sharp/WampSharp-docs) for more help.
 
 ## WAMPv1 support
 
-WAMPv1 support is still available. You can read about it at the [Wiki](https://github.com/Code-Sharp/WampSharp/wiki).
+WAMPv1 support is still available. You can read about it at the [Documentation site](https://github.com/Code-Sharp/WampSharp-docs).
 
-If you're updating from a previous WampSharp version and you're not interested yet in updating your application to WAMPv2, please read the following [notes](https://github.com/Code-Sharp/WampSharp/wiki/Notes-for-WAMPv1-users).
+In order to use it, Install WampSharp.WAMP1.Default from NuGet.
+
+If you're updating from a previous WampSharp version and you're not interested yet in updating your application to WAMPv2, please read the following [notes](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP1/Notes-for-WAMPv1-users.md).
 
 ## Donations
 
@@ -62,10 +48,14 @@ Your donations help keep this project development alive.
 
 [WampLink]:http://wamp.ws
 
-[WinImgMaster]:http://teamcity.codebetter.com/app/rest/builds/buildType:\(id:WampSharp_Dev_Build\)/statusIcon
-[WinLinkMaster]:http://teamcity.codebetter.com/project.html?projectId=WampSharp_Dev&guest=1
-[MonoImgMaster]:https://travis-ci.org/Code-Sharp/WampSharp.png?branch=develop
+[NuGetImgMaster]:http://img.shields.io/nuget/v/WampSharp.Default.svg
+[NuGetLinkMaster]:http://www.nuget.org/packages/WampSharp.Default/
+[WinImgMaster]:https://img.shields.io/teamcity/codebetter/WampSharp_NetCore_Wampv2_Build.svg
+[WinLinkMaster]:http://teamcity.codebetter.com/project.html?projectId=WampSharp_NetCore_Wampv2_Build&guest=1
+[MonoImgMaster]:https://img.shields.io/travis/Code-Sharp/WampSharp/wampv2.svg
 [MonoLinkMaster]:https://travis-ci.org/Code-Sharp/WampSharp
+[AppVeyorLinkMaster]:https://ci.appveyor.com/project/darkl/wampsharp-759
+[AppVeyorImgMaster]:https://ci.appveyor.com/api/projects/status/fgbqbgwqx4j8jain
 
 [JetBrains]:http://www.jetbrains.com/
 [CodeBetter]:http://codebetter.com/

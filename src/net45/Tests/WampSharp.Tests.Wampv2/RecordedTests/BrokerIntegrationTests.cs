@@ -63,7 +63,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
         }
 
 
-        public IEnumerable<TestCaseData> TestCases()
+        public static IEnumerable<TestCaseData> TestCases()
         {
             foreach (Type nestedType in typeof (TestHelpers.PubSub).GetNestedTypes())
             {
@@ -140,7 +140,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
             return result;
         }
 
-        private MockClient<IWampClientProxy<MockRaw>> GetSubscriber(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> handler, IEnumerable<WampMessage<MockRaw>> calls)
+        private static MockClient<IWampClientProxy<MockRaw>> GetSubscriber(Type scenario, WampMockClientBuilder<MockRaw> clientBuilder, IWampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> handler, IEnumerable<WampMessage<MockRaw>> calls)
         {
             WampMessage<MockRaw> welcome =
                 GetCalls(scenario, Channel.BrokerToSubscriber,

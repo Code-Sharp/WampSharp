@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
@@ -43,42 +44,43 @@ namespace WampSharp.V2.CalleeProxy
             return syncCallback;
         }
 
-        public Task<T> InvokeAsync<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, IOperationResultExtractor<T> extractor, object[] arguments)
+        public Task<T> InvokeAsync<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, IOperationResultExtractor<T> extractor, object[] arguments, CancellationToken cancellationToken)
         {
             AsyncOperationCallback<T> callback = new AsyncOperationCallback<T>(extractor);
 
-            Task<T> task = InnerInvokeAsync<T>(callback, interceptor, method, arguments);
+            Task<T> task = InnerInvokeAsync<T>(callback, interceptor, method, arguments, cancellationToken);
 
             return task;
         }
 
-#if !NET40
-        public Task<T> InvokeProgressiveAsync<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, IOperationResultExtractor<T> extractor, object[] arguments, IProgress<T> progress)
+        public Task<T> InvokeProgressiveAsync<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, IOperationResultExtractor<T> extractor, object[] arguments, IProgress<T> progress, CancellationToken cancellationToken)
         {
             ProgressiveAsyncOperationCallback<T> asyncOperationCallback =
                 new ProgressiveAsyncOperationCallback<T>(progress, extractor);
 
-            Task<T> task = InnerInvokeAsync<T>(asyncOperationCallback, interceptor, method, arguments);
+            Task<T> task = InnerInvokeAsync<T>(asyncOperationCallback, interceptor, method, arguments, cancellationToken);
 
             return task;
         }
-#endif
 
-        private Task<T> InnerInvokeAsync<T>(AsyncOperationCallback<T> callback, ICalleeProxyInterceptor interceptor, MethodInfo method, object[] arguments)
+        private Task<T> InnerInvokeAsync<T>(AsyncOperationCallback<T> callback, ICalleeProxyInterceptor interceptor, MethodInfo method, object[] arguments, CancellationToken cancellationToken)
         {
-            Invoke(interceptor, callback, method, arguments);
+            var cancellableInvocation =  Invoke(interceptor, callback, method, arguments);
 
-            return AwaitForResult(callback);
+            // TODO: make the CancelOptions come from the ICalleeProxyInterceptor or something.
+            CancellationTokenRegistration registration = cancellationToken.Register(() => cancellableInvocation.Cancel(new CancelOptions()));
+
+            return AwaitForResult(callback, registration);
         }
 
-        protected abstract void Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments);
+        protected abstract IWampCancellableInvocationProxy Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments);
 
         protected virtual void WaitForResult<T>(SyncCallback<T> callback)
         {
             callback.Wait(Timeout.Infinite);
         }
 
-        protected virtual Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+        protected virtual Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback, CancellationTokenRegistration registration)
         {
             return asyncOperationCallback.Task;
         }

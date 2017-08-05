@@ -1,4 +1,4 @@
-#if !PCL
+#if WAMPCRA
 using WampSharp.Core.Cra;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;

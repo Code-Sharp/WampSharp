@@ -2,26 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
+using WampSharp.Core.Utilities.ValueTuple;
 using WampSharp.V2.Core.Contracts;
+using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.V2.Rpc
 {
     public class AsyncMethodInfoRpcOperation : AsyncLocalRpcOperation
     {
-        private readonly object mInstance;
+        private readonly Func<object> mInstanceProvider;
         private readonly MethodInfo mMethod;
         private readonly Func<object, object[], Task> mMethodInvoker; 
         private readonly RpcParameter[] mParameters;
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
+        private readonly bool mSupportsCancellation;
+        private IWampResultExtractor mResultExtractor;
 
-        public AsyncMethodInfoRpcOperation(object instance, MethodInfo method, string procedureName) :
+        public AsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) :
             base(procedureName)
         {
-            mInstance = instance;
+            mInstanceProvider = instanceProvider;
             mMethod = method;
             mMethodInvoker = MethodInvokeGenerator.CreateTaskInvokeMethod(method);
 
@@ -37,12 +42,26 @@ namespace WampSharp.V2.Rpc
             mCollectionResultTreatment = 
                 method.GetCollectionResultTreatment();
 
+            IEnumerable<ParameterInfo> parameterInfos = method.GetParameters();
+
+            if (parameterInfos.LastOrDefault()?.ParameterType == typeof(CancellationToken))
+            {
+                mSupportsCancellation = true;
+                parameterInfos = parameterInfos.Take(parameterInfos.Count() - 1);
+            }
+
             mParameters =
-                method.GetParameters()
+                parameterInfos
                       .Select(parameter => new RpcParameter(parameter))
                       .ToArray();
-        }
 
+            mResultExtractor = WampResultExtractor.GetResultExtractor(this);
+
+            if (method.ReturnsTuple())
+            {
+                mResultExtractor = WampResultExtractor.GetValueTupleResultExtractor(method);
+            }
+        }
 
         public override RpcParameter[] Parameters
         {
@@ -54,29 +73,45 @@ namespace WampSharp.V2.Rpc
             get { return mHasResult; }
         }
 
+        public override bool SupportsCancellation
+        {
+            get { return mSupportsCancellation; }
+        }
+
         public override CollectionResultTreatment CollectionResultTreatment
         {
             get { return mCollectionResultTreatment; }
         }
 
-        protected virtual object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected virtual object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, CancellationToken cancellationToken, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            object[] result = UnpackParameters(formatter, arguments, argumentsKeywords);
+            IEnumerable<object> parameters = UnpackParameters(formatter, arguments, argumentsKeywords);
+
+            if (SupportsCancellation)
+            {
+                parameters = parameters.Concat(cancellationToken);
+            }
+
+            object[] result = parameters.ToArray();
 
             return result;
         }
 
-        protected override Task<object> InvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override Task<object> InvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, CancellationToken cancellationToken)
         {
             WampInvocationContext.Current = new WampInvocationContext(details);
 
             try
             {
                 object[] unpacked =
-                    GetMethodParameters(caller, formatter, arguments, argumentsKeywords);
+                    GetMethodParameters(caller, cancellationToken, formatter, arguments, argumentsKeywords);
+
+                object instance = mInstanceProvider();
+
+                ValidateInstanceType(instance, mMethod);
 
                 Task result =
-                    mMethodInvoker(mInstance, unpacked);
+                    mMethodInvoker(instance, unpacked);
 
                 Task<object> casted = result as Task<object>;
 
@@ -88,9 +123,19 @@ namespace WampSharp.V2.Rpc
             }
         }
 
+        protected override object[] GetResultArguments(object result)
+        {
+            return mResultExtractor.GetArguments(result);
+        }
+
+        protected override IDictionary<string, object> GetResultArgumentKeywords(object result)
+        {
+            return mResultExtractor.GetArgumentKeywords(result);
+        }
+
         protected bool Equals(AsyncMethodInfoRpcOperation other)
         {
-            return Equals(mInstance, other.mInstance) && Equals(mMethod, other.mMethod) && string.Equals(Procedure, other.Procedure);
+            return Equals(mInstanceProvider, other.mInstanceProvider) && Equals(mMethod, other.mMethod) && string.Equals(Procedure, other.Procedure);
         }
 
         public override bool Equals(object obj)
@@ -105,7 +150,7 @@ namespace WampSharp.V2.Rpc
         {
             unchecked
             {
-                var hashCode = (mInstance != null ? mInstance.GetHashCode() : 0);
+                var hashCode = (mInstanceProvider != null ? mInstanceProvider.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (mMethod != null ? mMethod.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (Procedure != null ? Procedure.GetHashCode() : 0);
                 return hashCode;

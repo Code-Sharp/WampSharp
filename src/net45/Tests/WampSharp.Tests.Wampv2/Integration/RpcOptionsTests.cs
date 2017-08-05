@@ -13,84 +13,84 @@ namespace WampSharp.Tests.Wampv2.Integration
     public class RpcOptionsTests
     {
         [Test]
-        public async void NoOptionsNoSessionId()
+        public async Task NoOptionsNoSessionId()
         {
             await RawTest(false, new RegisterOptions(), new CallOptions());
         }
 
         [Test]
-        public async void DiscloseOnRegisterOptionsDontDiscloseOnCallOptionsError()
+        public async Task DiscloseOnRegisterOptionsDontDiscloseOnCallOptionsError()
         {
             await RawTest(false, new RegisterOptions() {DiscloseCaller = true}, new CallOptions() {DiscloseMe = false});
         }
 
         [Test]
-        public async void DontDiscloseOnRegisterOptionsDontDiscloseOnCallOptionsNoSession()
+        public async Task DontDiscloseOnRegisterOptionsDontDiscloseOnCallOptionsNoSession()
         {
             await RawTest(false, new RegisterOptions() { DiscloseCaller = false }, new CallOptions() { DiscloseMe = false });
         }
         [Test]
-        public async void DontMentionDiscloseRegisterOptionsDontDiscloseOnCallOptionsNoSession()
+        public async Task DontMentionDiscloseRegisterOptionsDontDiscloseOnCallOptionsNoSession()
         {
             await RawTest(false, new RegisterOptions(), new CallOptions() { DiscloseMe = false });
         }
 
         [Test]
-        public async void DiscloseOnRegisterOptionsSessionId()
+        public async Task DiscloseOnRegisterOptionsSessionId()
         {
             await RawTest(true, new RegisterOptions() { DiscloseCaller = true }, new CallOptions());
         }
 
         [Test]
-        public async void DiscloseMeOnCallOptionsSessionId()
+        public async Task DiscloseMeOnCallOptionsSessionId()
         {
             await RawTest(true, new RegisterOptions(), new CallOptions() { DiscloseMe = true });
         }
 
         [Test]
-        public async void DiscloseMeOnCallOptionsAndDiscloseOnRegisterSessionId()
+        public async Task DiscloseMeOnCallOptionsAndDiscloseOnRegisterSessionId()
         {
             await RawTest(true, new RegisterOptions() { DiscloseCaller = true }, new CallOptions() { DiscloseMe = true });
         }
 
         [Test]
-        public async void NoOptionsNoSessionIdMethodInfo()
+        public async Task NoOptionsNoSessionIdMethodInfo()
         {
             await MethodInfoTest(false, new RegisterOptions(), new CallOptions());
         }
 
         [Test]
-        public async void DiscloseOnRegisterOptionsSessionIdMethodInfo()
+        public async Task DiscloseOnRegisterOptionsSessionIdMethodInfo()
         {
             await MethodInfoTest(true, new RegisterOptions() { DiscloseCaller = true }, new CallOptions());
         }
 
         [Test]
-        public async void DiscloseMeOnCallOptionsSessionIdMethodInfoMethodInfo()
+        public async Task DiscloseMeOnCallOptionsSessionIdMethodInfoMethodInfo()
         {
             await MethodInfoTest(true, new RegisterOptions(), new CallOptions() { DiscloseMe = true });
         }
 
         [Test]
-        public async void DiscloseMeOnCallOptionsAndDiscloseOnRegisterSessionIdMethodInfo()
+        public async Task DiscloseMeOnCallOptionsAndDiscloseOnRegisterSessionIdMethodInfo()
         {
             await MethodInfoTest(true, new RegisterOptions() { DiscloseCaller = true }, new CallOptions() { DiscloseMe = true });
         }
 
         [Test]
-        public async void DontDiscloseMeOnCallOptionsAndDiscloseOnRegisterErrorMethodInfo()
+        public async Task DontDiscloseMeOnCallOptionsAndDiscloseOnRegisterErrorMethodInfo()
         {
             await MethodInfoTest(true, new RegisterOptions() { DiscloseCaller = true }, new CallOptions() { DiscloseMe = false });
         }
 
         [Test]
-        public async void DontDiscloseMeOnCallOptionsAndDontDiscloseOnRegisterNoSessionIdMethodInfo()
+        public async Task DontDiscloseMeOnCallOptionsAndDontDiscloseOnRegisterNoSessionIdMethodInfo()
         {
             await MethodInfoTest(false, new RegisterOptions() { DiscloseCaller = false }, new CallOptions() { DiscloseMe = false });
         }
 
         [Test]
-        public async void DontDiscloseMeOnCallOptionsAndDontSpecifyDiscloseOnRegisterNoSessionIdMethodInfo()
+        public async Task DontDiscloseMeOnCallOptionsAndDontSpecifyDiscloseOnRegisterNoSessionIdMethodInfo()
         {
             await MethodInfoTest(false, new RegisterOptions(), new CallOptions() { DiscloseMe = false });
         }
@@ -186,21 +186,24 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
             }
 
-            public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
             {
                 this.Details = details;
+                return null;
             }
 
-            public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
                 TMessage[] arguments)
             {
                 this.Details = details;
+                return null;
             }
 
-            public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
                 TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 this.Details = details;
+                return null;
             }
 
             public InvocationDetails Details { get; set; }

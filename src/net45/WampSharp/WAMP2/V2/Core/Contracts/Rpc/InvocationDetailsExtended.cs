@@ -1,8 +1,10 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
+    [Serializable]
     public class InvocationDetailsExtended : InvocationDetails
     {
         public InvocationDetailsExtended()
@@ -26,9 +28,6 @@ namespace WampSharp.V2.Core.Contracts
 
         [IgnoreDataMember]
         public new string AuthenticationRole { get; set; }
-
-        [IgnoreDataMember]
-        public new string AuthenticationMethod { get; set; }
 
         [IgnoreDataMember]
         public new string AuthenticationId { get; set; }

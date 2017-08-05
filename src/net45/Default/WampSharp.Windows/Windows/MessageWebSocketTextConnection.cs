@@ -18,7 +18,8 @@ namespace WampSharp.Windows
             mTextBinding = binding;
         }
 
-        protected override void OnMessageReceived(MessageWebSocket sender, MessageWebSocketMessageReceivedEventArgs args)
+        // Regarding the async modifier - see https://github.com/Code-Sharp/WampSharp/issues/122 for
+        protected override async void OnMessageReceived(MessageWebSocket sender, MessageWebSocketMessageReceivedEventArgs args)
         {
             try
             {

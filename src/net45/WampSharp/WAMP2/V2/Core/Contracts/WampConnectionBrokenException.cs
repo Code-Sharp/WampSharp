@@ -4,9 +4,7 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Core.Contracts
 {
-#if !PCL
     [Serializable]
-#endif
     public class WampConnectionBrokenException : Exception
     {
         private readonly WampSessionCloseEventArgs mEventArgs;

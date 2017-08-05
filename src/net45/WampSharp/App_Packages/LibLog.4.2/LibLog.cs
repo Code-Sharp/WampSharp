@@ -1,9 +1,9 @@
-//===============================================================================
+﻿//===============================================================================
 // LibLog
 //
 // https://github.com/damianh/LibLog
 //===============================================================================
-// Copyright Â© 2011-2015 Damian Hickey.  All rights reserved.
+// Copyright © 2011-2015 Damian Hickey.  All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,14 +31,19 @@
 // Define LIBLOG_PUBLIC to enable ability to GET a logger (LogProvider.For<>() etc) from outside this library. NOTE:
 // this can have unintended consequences of consumers of your library using your library to resolve a logger. If the
 // reason is because you want to open this functionality to other projects within your solution,
-// consider [InternalVisibleTo] instead.
+// consider [InternalsVisibleTo] instead.
 // 
 // Define LIBLOG_PROVIDERS_ONLY if your library provides its own logging API and you just want to use the
 // LibLog providers internally to provide built in support for popular logging frameworks.
 
 #pragma warning disable 1591
 
-// If you copied this file manually, you need to change all "YourRootNameSpace" so not to clash with other libraries
+using System.Diagnostics.CodeAnalysis;
+
+[assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "WampSharp.Logging")]
+[assembly: SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Scope = "member", Target = "WampSharp.Logging.Logger.#Invoke(WampSharp.Logging.LogLevel,System.Func`1<System.String>,System.Exception,System.Object[])")]
+
+// If you copied this file manually, you need to change all "WampSharp" so not to clash with other libraries
 // that use LibLog
 #if LIBLOG_PROVIDERS_ONLY
 namespace WampSharp.LibLog
@@ -47,6 +52,7 @@ namespace WampSharp.Logging
 #endif
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 #if LIBLOG_PROVIDERS_ONLY
     using WampSharp.LibLog.LogProviders;
 #else
@@ -115,6 +121,9 @@ namespace WampSharp.Logging
     }
 
 #if !LIBLOG_PROVIDERS_ONLY
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
 #if LIBLOG_PUBLIC
     public
 #else
@@ -171,7 +180,17 @@ namespace WampSharp.Logging
                 logger.Log(LogLevel.Debug, message.AsFunc());
             }
         }
-
+        
+        public static void Debug(this ILog logger, string message, params object[] args)
+        {
+            logger.DebugFormat(message, args);
+        }
+        
+        public static void Debug(this ILog logger, Exception exception, string message, params object[] args)
+        {
+            logger.DebugException(message, exception, args);
+        }
+        
         public static void DebugFormat(this ILog logger, string message, params object[] args)
         {
             if (logger.IsDebugEnabled())
@@ -209,6 +228,16 @@ namespace WampSharp.Logging
                 logger.Log(LogLevel.Error, message.AsFunc());
             }
         }
+        
+        public static void Error(this ILog logger, string message, params object[] args)
+        {
+            logger.ErrorFormat(message, args);
+        }
+        
+        public static void Error(this ILog logger, Exception exception, string message, params object[] args)
+        {
+            logger.ErrorException(message, exception, args);
+        }
 
         public static void ErrorFormat(this ILog logger, string message, params object[] args)
         {
@@ -238,7 +267,17 @@ namespace WampSharp.Logging
                 logger.Log(LogLevel.Fatal, message.AsFunc());
             }
         }
-
+        
+        public static void Fatal(this ILog logger, string message, params object[] args)
+        {
+            logger.FatalFormat(message, args);
+        }
+        
+        public static void Fatal(this ILog logger, Exception exception, string message, params object[] args)
+        {
+            logger.FatalException(message, exception, args);
+        }
+        
         public static void FatalFormat(this ILog logger, string message, params object[] args)
         {
             if (logger.IsFatalEnabled())
@@ -268,7 +307,17 @@ namespace WampSharp.Logging
                 logger.Log(LogLevel.Info, message.AsFunc());
             }
         }
+        
+        public static void Info(this ILog logger, string message, params object[] args)
+        {
+            logger.InfoFormat(message, args);
+        }
 
+        public static void Info(this ILog logger, Exception exception, string message, params object[] args)
+        {
+            logger.InfoException(message, exception, args);
+        }
+        
         public static void InfoFormat(this ILog logger, string message, params object[] args)
         {
             if (logger.IsInfoEnabled())
@@ -298,7 +347,17 @@ namespace WampSharp.Logging
                 logger.Log(LogLevel.Trace, message.AsFunc());
             }
         }
-
+        
+        public static void Trace(this ILog logger, string message, params object[] args)
+        {
+            logger.TraceFormat(message, args);
+        }
+        
+        public static void Trace(this ILog logger, Exception exception, string message, params object[] args)
+        {
+            logger.TraceException(message, exception, args);
+        }
+        
         public static void TraceFormat(this ILog logger, string message, params object[] args)
         {
             if (logger.IsTraceEnabled())
@@ -328,7 +387,17 @@ namespace WampSharp.Logging
                 logger.Log(LogLevel.Warn, message.AsFunc());
             }
         }
-
+        
+        public static void Warn(this ILog logger, string message, params object[] args)
+        {
+            logger.WarnFormat(message, args);
+        }
+        
+        public static void Warn(this ILog logger, Exception exception, string message, params object[] args)
+        {
+            logger.WarnException(message, exception, args);
+        }
+        
         public static void WarnFormat(this ILog logger, string message, params object[] args)
         {
             if (logger.IsWarnEnabled())
@@ -408,6 +477,9 @@ namespace WampSharp.Logging
     /// <summary>
     /// Provides a mechanism to create instances of <see cref="ILog" /> objects.
     /// </summary>
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
 #if LIBLOG_PROVIDERS_ONLY
     internal
 #else
@@ -416,16 +488,13 @@ namespace WampSharp.Logging
     static class LogProvider
     {
 #if !LIBLOG_PROVIDERS_ONLY
-        /// <summary>
-        /// The disable logging environment variable. If the environment variable is set to 'true', then logging
-        /// will be disabled.
-        /// </summary>
-        public const string DisableLoggingEnvironmentVariable = "WampSharp_LIBLOG_DISABLE";
         private const string NullLogProvider = "Current Log Provider is not set. Call SetCurrentLogProvider " +
                                                "with a non-null value first.";
         private static dynamic s_currentLogProvider;
         private static Action<ILogProvider> s_onCurrentLogProviderSet;
+        private static Lazy<ILogProvider> s_resolvedLogProvider = new Lazy<ILogProvider>(() => ForceResolveLogProvider());
 
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
         static LogProvider()
         {
             IsDisabled = false;
@@ -510,15 +579,17 @@ namespace WampSharp.Logging
         /// Gets a logger for the specified type.
         /// </summary>
         /// <param name="type">The type whose name will be used for the logger.</param>
+        /// <param name="fallbackTypeName">If the type is null then this name will be used as the log name instead</param>
         /// <returns>An instance of <see cref="ILog"/></returns>
 #if LIBLOG_PUBLIC
         public
 #else
         internal
 #endif
-        static ILog GetLogger(Type type)
+        static ILog GetLogger(Type type, string fallbackTypeName = "System.Object")
         {
-            return GetLogger(type.FullName);
+            // If the type passed in is null then fallback to the type name specified
+            return GetLogger(type != null ? type.FullName : fallbackTypeName);
         }
 
         /// <summary>
@@ -534,7 +605,7 @@ namespace WampSharp.Logging
         static ILog GetLogger(string name)
         {
             ILogProvider logProvider = CurrentLogProvider ?? ResolveLogProvider();
-            return logProvider == null 
+            return logProvider == null
                 ? NoOpLogger.Instance
                 : (ILog)new LoggerExecutionWrapper(logProvider.GetLogger(name), () => IsDisabled);
         }
@@ -544,6 +615,7 @@ namespace WampSharp.Logging
         /// </summary>
         /// <param name="message">A message.</param>
         /// <returns>An <see cref="IDisposable"/> that closes context when disposed.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "SetCurrentLogProvider")]
 #if LIBLOG_PUBLIC
         public
 #else
@@ -551,11 +623,11 @@ namespace WampSharp.Logging
 #endif
         static IDisposable OpenNestedContext(string message)
         {
-            if(CurrentLogProvider == null)
-            {
-                throw new InvalidOperationException(NullLogProvider);
-            }
-            return CurrentLogProvider.OpenNestedContext(message);
+            ILogProvider logProvider = CurrentLogProvider ?? ResolveLogProvider();
+
+            return logProvider == null
+                ? new DisposableAction(() => { })
+                : logProvider.OpenNestedContext(message);
         }
 
         /// <summary>
@@ -564,6 +636,7 @@ namespace WampSharp.Logging
         /// <param name="key">A key.</param>
         /// <param name="value">A value.</param>
         /// <returns>An <see cref="IDisposable"/> that closes context when disposed.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "SetCurrentLogProvider")]
 #if LIBLOG_PUBLIC
         public
 #else
@@ -571,11 +644,11 @@ namespace WampSharp.Logging
 #endif
         static IDisposable OpenMappedContext(string key, string value)
         {
-            if (CurrentLogProvider == null)
-            {
-                throw new InvalidOperationException(NullLogProvider);
-            }
-            return CurrentLogProvider.OpenMappedContext(key, value);
+            ILogProvider logProvider = CurrentLogProvider ?? ResolveLogProvider();
+
+            return logProvider == null
+                ? new DisposableAction(() => { })
+                : logProvider.OpenMappedContext(key, value);
         }
 #endif
 
@@ -620,6 +693,13 @@ namespace WampSharp.Logging
 
         internal static ILogProvider ResolveLogProvider()
         {
+            return s_resolvedLogProvider.Value;
+        }
+
+        [SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Console.WriteLine(System.String,System.Object,System.Object)")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        internal static ILogProvider ForceResolveLogProvider()
+        {
             try
             {
                 foreach (var providerResolver in LogProviderResolvers)
@@ -645,6 +725,9 @@ namespace WampSharp.Logging
         }
 
 #if !LIBLOG_PROVIDERS_ONLY
+#if !LIBLOG_PORTABLE
+        [ExcludeFromCodeCoverage]
+#endif
         internal class NoOpLogger : ILog
         {
             internal static readonly NoOpLogger Instance = new NoOpLogger();
@@ -658,6 +741,9 @@ namespace WampSharp.Logging
     }
 
 #if !LIBLOG_PROVIDERS_ONLY
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
     internal class LoggerExecutionWrapper : ILog
     {
         private readonly Logger _logger;
@@ -675,21 +761,13 @@ namespace WampSharp.Logging
             get { return _logger; }
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters)
         {
             if (_getIsDisabled())
             {
                 return false;
             }
-#if !LIBLOG_PORTABLE
-            var envVar = Environment.GetEnvironmentVariable(LogProvider.DisableLoggingEnvironmentVariable);
-
-            if (envVar != null && envVar.Equals("true", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-#endif
-
             if (messageFunc == null)
             {
                 return _logger(logLevel, null);
@@ -721,6 +799,7 @@ namespace WampSharp.Logging.LogProviders
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 #if !LIBLOG_PORTABLE
     using System.Diagnostics;
 #endif
@@ -733,6 +812,9 @@ namespace WampSharp.Logging.LogProviders
 #endif
     using System.Text.RegularExpressions;
 
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
     internal abstract class LogProviderBase : ILogProvider
     {
         protected delegate IDisposable OpenNdc(string message);
@@ -744,7 +826,7 @@ namespace WampSharp.Logging.LogProviders
 
         protected LogProviderBase()
         {
-            _lazyOpenNdcMethod 
+            _lazyOpenNdcMethod
                 = new Lazy<OpenNdc>(GetOpenNdcMethod);
             _lazyOpenMdcMethod
                = new Lazy<OpenMdc>(GetOpenMdcMethod);
@@ -773,11 +855,16 @@ namespace WampSharp.Logging.LogProviders
         }
     }
 
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
     internal class NLogLogProvider : LogProviderBase
     {
         private readonly Func<string, object> _getLoggerByNameDelegate;
         private static bool s_providerIsAvailableOverride = true;
 
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "LogManager")]
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "NLog")]
         public NLogLogProvider()
         {
             if (!IsLoggerAvailable())
@@ -852,15 +939,68 @@ namespace WampSharp.Logging.LogProviders
             return Expression.Lambda<Func<string, object>>(methodCall, nameParam).Compile();
         }
 
+#if !LIBLOG_PORTABLE
+        [ExcludeFromCodeCoverage]
+#endif
         internal class NLogLogger
         {
             private readonly dynamic _logger;
+
+            private static Func<string, object, string, Exception, object> _logEventInfoFact;
+
+            private static readonly object _levelTrace;
+            private static readonly object _levelDebug;
+            private static readonly object _levelInfo;
+            private static readonly object _levelWarn;
+            private static readonly object _levelError;
+            private static readonly object _levelFatal;
+
+            static NLogLogger()
+            {
+                try
+                {
+                    var logEventLevelType = Type.GetType("NLog.LogLevel, NLog");
+                    if (logEventLevelType == null)
+                    {
+                        throw new InvalidOperationException("Type NLog.LogLevel was not found.");
+                    }
+
+                    var levelFields = logEventLevelType.GetFieldsPortable().ToList();
+                    _levelTrace = levelFields.First(x => x.Name == "Trace").GetValue(null);
+                    _levelDebug = levelFields.First(x => x.Name == "Debug").GetValue(null);
+                    _levelInfo = levelFields.First(x => x.Name == "Info").GetValue(null);
+                    _levelWarn = levelFields.First(x => x.Name == "Warn").GetValue(null);
+                    _levelError = levelFields.First(x => x.Name == "Error").GetValue(null);
+                    _levelFatal = levelFields.First(x => x.Name == "Fatal").GetValue(null);
+
+                    var logEventInfoType = Type.GetType("NLog.LogEventInfo, NLog");
+                    if (logEventInfoType == null)
+                    {
+                        throw new InvalidOperationException("Type NLog.LogEventInfo was not found.");
+                    }
+                    MethodInfo createLogEventInfoMethodInfo = logEventInfoType.GetMethodPortable("Create",
+                        logEventLevelType, typeof(string), typeof(Exception), typeof(IFormatProvider), typeof(string), typeof(object[]));
+                    ParameterExpression loggerNameParam = Expression.Parameter(typeof(string));
+                    ParameterExpression levelParam = Expression.Parameter(typeof(object));
+                    ParameterExpression messageParam = Expression.Parameter(typeof(string));
+                    ParameterExpression exceptionParam = Expression.Parameter(typeof(Exception));
+                    UnaryExpression levelCast = Expression.Convert(levelParam, logEventLevelType);
+                    MethodCallExpression createLogEventInfoMethodCall = Expression.Call(null,
+                        createLogEventInfoMethodInfo,
+                        levelCast, loggerNameParam, exceptionParam,
+                        Expression.Constant(null, typeof(IFormatProvider)), messageParam, Expression.Constant(null, typeof(object[])));
+                    _logEventInfoFact = Expression.Lambda<Func<string, object, string, Exception, object>>(createLogEventInfoMethodCall,
+                        loggerNameParam, levelParam, messageParam, exceptionParam).Compile();
+                }
+                catch { }
+            }
 
             internal NLogLogger(dynamic logger)
             {
                 _logger = logger;
             }
 
+            [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
             public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception, params object[] formatParameters)
             {
                 if (messageFunc == null)
@@ -868,6 +1008,43 @@ namespace WampSharp.Logging.LogProviders
                     return IsLogLevelEnable(logLevel);
                 }
                 messageFunc = LogMessageFormatter.SimulateStructuredLogging(messageFunc, formatParameters);
+
+                if (_logEventInfoFact != null)
+                {
+                    if (IsLogLevelEnable(logLevel))
+                    {
+                        var nlogLevel = this.TranslateLevel(logLevel);
+                        Type s_callerStackBoundaryType;
+#if !LIBLOG_PORTABLE
+                        StackTrace stack = new StackTrace();
+                        Type thisType = GetType();
+                        Type knownType0 = typeof(LoggerExecutionWrapper);
+                        Type knownType1 = typeof(LogExtensions);
+                        //Maybe inline, so we may can't found any LibLog classes in stack
+                        s_callerStackBoundaryType = null;
+                        for (var i = 0; i < stack.FrameCount; i++)
+                        {
+                            var declaringType = stack.GetFrame(i).GetMethod().DeclaringType;
+                            if (!IsInTypeHierarchy(thisType, declaringType) &&
+                                !IsInTypeHierarchy(knownType0, declaringType) &&
+                                !IsInTypeHierarchy(knownType1, declaringType))
+                            {
+                                if (i > 1)
+                                    s_callerStackBoundaryType = stack.GetFrame(i - 1).GetMethod().DeclaringType;
+                                break;
+                            }
+                        }
+#else
+                        s_callerStackBoundaryType = null;
+#endif
+                        if (s_callerStackBoundaryType != null)
+                            _logger.Log(s_callerStackBoundaryType, _logEventInfoFact(_logger.Name, nlogLevel, messageFunc(), exception));
+                        else
+                            _logger.Log(_logEventInfoFact(_logger.Name, nlogLevel, messageFunc(), exception));
+                        return true;
+                    }
+                    return false;
+                }
 
                 if(exception != null)
                 {
@@ -921,6 +1098,20 @@ namespace WampSharp.Logging.LogProviders
                 return false;
             }
 
+            private static bool IsInTypeHierarchy(Type currentType, Type checkType)
+            {
+                while (currentType != null && currentType != typeof(object))
+                {
+                    if (currentType == checkType)
+                    {
+                        return true;
+                    }
+                    currentType = currentType.GetBaseTypePortable();
+                }
+                return false;
+            }
+
+            [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
             private bool LogException(LogLevel logLevel, Func<string> messageFunc, Exception exception)
             {
                 switch (logLevel)
@@ -989,14 +1180,39 @@ namespace WampSharp.Logging.LogProviders
                         return _logger.IsTraceEnabled;
                 }
             }
+
+            private object TranslateLevel(LogLevel logLevel)
+            {
+                switch (logLevel)
+                {
+                    case LogLevel.Trace:
+                        return _levelTrace;
+                    case LogLevel.Debug:
+                        return _levelDebug;
+                    case LogLevel.Info:
+                        return _levelInfo;
+                    case LogLevel.Warn:
+                        return _levelWarn;
+                    case LogLevel.Error:
+                        return _levelError;
+                    case LogLevel.Fatal:
+                        return _levelFatal;
+                    default:
+                        throw new ArgumentOutOfRangeException("logLevel", logLevel, null);
+                }
+            }
         }
     }
 
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
     internal class Log4NetLogProvider : LogProviderBase
     {
-        private readonly Func<string, object> _getLoggerByNameDelegate;
+        private readonly Func<Assembly, string, object> _getLoggerByNameDelegate;
         private static bool s_providerIsAvailableOverride = true;
 
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "LogManager")]
         public Log4NetLogProvider()
         {
             if (!IsLoggerAvailable())
@@ -1014,38 +1230,72 @@ namespace WampSharp.Logging.LogProviders
 
         public override Logger GetLogger(string name)
         {
-            return new Log4NetLogger(_getLoggerByNameDelegate(name)).Log;
-        }
+#if LIBLOG_PORTABLE
+			return new Log4NetLogger(_getLoggerByNameDelegate(
+				typeof(ILog).GetType().GetTypeInfo().Assembly, name)).Log;
+#else
+			return new Log4NetLogger(_getLoggerByNameDelegate(
+				typeof(ILog).GetType().Assembly, name)).Log;
+#endif
+		}
 
-        internal static bool IsLoggerAvailable()
+		internal static bool IsLoggerAvailable()
         {
             return ProviderIsAvailableOverride && GetLogManagerType() != null;
         }
 
         protected override OpenNdc GetOpenNdcMethod()
         {
-            Type ndcContextType = Type.GetType("log4net.NDC, log4net");
-            MethodInfo pushMethod = ndcContextType.GetMethodPortable("Push", typeof(string));
-            ParameterExpression messageParam = Expression.Parameter(typeof(string), "message");
-            MethodCallExpression pushMethodCall = Expression.Call(null, pushMethod, messageParam);
-            return Expression.Lambda<OpenNdc>(pushMethodCall, messageParam).Compile();
+            Type logicalThreadContextType = Type.GetType("log4net.LogicalThreadContext, log4net");
+            PropertyInfo stacksProperty = logicalThreadContextType.GetPropertyPortable("Stacks");
+            Type logicalThreadContextStacksType = stacksProperty.PropertyType;
+            PropertyInfo stacksIndexerProperty = logicalThreadContextStacksType.GetPropertyPortable("Item");
+            Type stackType = stacksIndexerProperty.PropertyType;
+            MethodInfo pushMethod = stackType.GetMethodPortable("Push");
+
+            ParameterExpression messageParameter =
+                Expression.Parameter(typeof(string), "message");
+
+            // message => LogicalThreadContext.Stacks.Item["NDC"].Push(message);
+            MethodCallExpression callPushBody =
+                Expression.Call(
+                    Expression.Property(Expression.Property(null, stacksProperty),
+                                        stacksIndexerProperty,
+                                        Expression.Constant("NDC")),
+                    pushMethod,
+                    messageParameter);
+
+            OpenNdc result =
+                Expression.Lambda<OpenNdc>(callPushBody, messageParameter)
+                          .Compile();
+
+            return result;
         }
 
         protected override OpenMdc GetOpenMdcMethod()
         {
-            Type mdcContextType = Type.GetType("log4net.MDC, log4net");
+            Type logicalThreadContextType = Type.GetType("log4net.LogicalThreadContext, log4net");
+            PropertyInfo propertiesProperty = logicalThreadContextType.GetPropertyPortable("Properties");
+            Type logicalThreadContextPropertiesType = propertiesProperty.PropertyType;
+            PropertyInfo propertiesIndexerProperty = logicalThreadContextPropertiesType.GetPropertyPortable("Item");
 
-            MethodInfo setMethod = mdcContextType.GetMethodPortable("Set", typeof(string), typeof(string));
-            MethodInfo removeMethod = mdcContextType.GetMethodPortable("Remove", typeof(string));
+            MethodInfo removeMethod = logicalThreadContextPropertiesType.GetMethodPortable("Remove");
+
             ParameterExpression keyParam = Expression.Parameter(typeof(string), "key");
             ParameterExpression valueParam = Expression.Parameter(typeof(string), "value");
 
-            MethodCallExpression setMethodCall = Expression.Call(null, setMethod, keyParam, valueParam);
-            MethodCallExpression removeMethodCall = Expression.Call(null, removeMethod, keyParam);
+            MemberExpression propertiesExpression = Expression.Property(null, propertiesProperty);
+
+            // (key, value) => LogicalThreadContext.Properties.Item[key] = value;
+            BinaryExpression setProperties = Expression.Assign(Expression.Property(propertiesExpression, propertiesIndexerProperty, keyParam), valueParam);
+
+            // key => LogicalThreadContext.Properties.Remove(key);
+            MethodCallExpression removeMethodCall = Expression.Call(propertiesExpression, removeMethod, keyParam);
 
             Action<string, string> set = Expression
-                .Lambda<Action<string, string>>(setMethodCall, keyParam, valueParam)
+                .Lambda<Action<string, string>>(setProperties, keyParam, valueParam)
                 .Compile();
+
             Action<string> remove = Expression
                 .Lambda<Action<string>>(removeMethodCall, keyParam)
                 .Compile();
@@ -1062,33 +1312,37 @@ namespace WampSharp.Logging.LogProviders
             return Type.GetType("log4net.LogManager, log4net");
         }
 
-        private static Func<string, object> GetGetLoggerMethodCall()
+        private static Func<Assembly, string, object> GetGetLoggerMethodCall()
         {
             Type logManagerType = GetLogManagerType();
-            MethodInfo method = logManagerType.GetMethodPortable("GetLogger", typeof(string));
-            ParameterExpression nameParam = Expression.Parameter(typeof(string), "name");
-            MethodCallExpression methodCall = Expression.Call(null, method, nameParam);
-            return Expression.Lambda<Func<string, object>>(methodCall, nameParam).Compile();
+            MethodInfo method = logManagerType.GetMethodPortable("GetLogger", typeof(Assembly), typeof(string));
+			ParameterExpression assemblyParam = Expression.Parameter(typeof(Assembly), "repositoryAssembly");
+			ParameterExpression nameParam = Expression.Parameter(typeof(string), "name");
+            MethodCallExpression methodCall = Expression.Call(null, method, assemblyParam, nameParam);
+            return Expression.Lambda<Func<Assembly, string, object>>(methodCall, assemblyParam, nameParam).Compile();
         }
 
+#if !LIBLOG_PORTABLE
+        [ExcludeFromCodeCoverage]
+#endif
         internal class Log4NetLogger
         {
             private readonly dynamic _logger;
             private static Type s_callerStackBoundaryType;
             private static readonly object CallerStackBoundaryTypeSync = new object();
 
-            private readonly object _levelDebug;
-            private readonly object _levelInfo;
-            private readonly object _levelWarn;
-            private readonly object _levelError;
-            private readonly object _levelFatal;
-            private readonly Func<object, object, bool> _isEnabledForDelegate;
-            private readonly Action<object, Type, object, string, Exception> _logDelegate;
+            private static readonly object _levelDebug;
+            private static readonly object _levelInfo;
+            private static readonly object _levelWarn;
+            private static readonly object _levelError;
+            private static readonly object _levelFatal;
+            private static readonly Func<object, object, bool> _isEnabledForDelegate;
+            private static readonly Action<object, object> _logDelegate;
+            private static readonly Func<object, Type, object, string, Exception, object> _createLoggingEvent;
+            private static readonly Action<object, string, object> _loggingEventPropertySetter;
 
-            internal Log4NetLogger(dynamic logger)
+            static Log4NetLogger()
             {
-                _logger = logger.Logger;
-
                 var logEventLevelType = Type.GetType("log4net.Core.Level, log4net");
                 if (logEventLevelType == null)
                 {
@@ -1108,38 +1362,129 @@ namespace WampSharp.Logging.LogProviders
                 {
                     throw new InvalidOperationException("Type log4net.Core.ILogger, was not found.");
                 }
-                MethodInfo isEnabledMethodInfo = loggerType.GetMethodPortable("IsEnabledFor", logEventLevelType);
                 ParameterExpression instanceParam = Expression.Parameter(typeof(object));
                 UnaryExpression instanceCast = Expression.Convert(instanceParam, loggerType);
-                ParameterExpression callerStackBoundaryDeclaringTypeParam = Expression.Parameter(typeof(Type));
                 ParameterExpression levelParam = Expression.Parameter(typeof(object));
-                ParameterExpression messageParam = Expression.Parameter(typeof(string));
                 UnaryExpression levelCast = Expression.Convert(levelParam, logEventLevelType);
-                MethodCallExpression isEnabledMethodCall = Expression.Call(instanceCast, isEnabledMethodInfo, levelCast);
-                _isEnabledForDelegate = Expression.Lambda<Func<object, object, bool>>(isEnabledMethodCall, instanceParam, levelParam).Compile();
+                _isEnabledForDelegate = GetIsEnabledFor(loggerType, logEventLevelType, instanceCast, levelCast, instanceParam, levelParam);
 
-                // Action<object, object, string, Exception> Log =
-                // (logger, callerStackBoundaryDeclaringType, level, message, exception) => { ((ILogger)logger).Write(callerStackBoundaryDeclaringType, level, message, exception); }
+                Type loggingEventType = Type.GetType("log4net.Core.LoggingEvent, log4net");
+
+                _createLoggingEvent = GetCreateLoggingEvent(instanceParam, instanceCast, levelParam, levelCast, loggingEventType);
+
+                _logDelegate = GetLogDelegate(loggerType, loggingEventType, instanceCast, instanceParam);
+
+                _loggingEventPropertySetter = GetLoggingEventPropertySetter(loggingEventType);                
+            }
+
+            [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ILogger")]
+            internal Log4NetLogger(dynamic logger)
+            {
+                _logger = logger.Logger;
+            }
+
+            private static Action<object, object> GetLogDelegate(Type loggerType, Type loggingEventType, UnaryExpression instanceCast,
+                                                 ParameterExpression instanceParam)
+            {
+                //Action<object, object, string, Exception> Log =
+                //(logger, callerStackBoundaryDeclaringType, level, message, exception) => { ((ILogger)logger).Log(new LoggingEvent(callerStackBoundaryDeclaringType, logger.Repository, logger.Name, level, message, exception)); }
                 MethodInfo writeExceptionMethodInfo = loggerType.GetMethodPortable("Log",
-                    typeof(Type),
-                    logEventLevelType,
-                    typeof(string),
-                    typeof(Exception));
-                ParameterExpression exceptionParam = Expression.Parameter(typeof(Exception));
+                                                                                   loggingEventType);
+
+                ParameterExpression loggingEventParameter =
+                    Expression.Parameter(typeof(object), "loggingEvent");
+
+                UnaryExpression loggingEventCasted =
+                    Expression.Convert(loggingEventParameter, loggingEventType);
+
                 var writeMethodExp = Expression.Call(
                     instanceCast,
                     writeExceptionMethodInfo,
-                    callerStackBoundaryDeclaringTypeParam,
-                    levelCast,
-                    messageParam,
-                    exceptionParam);
-                _logDelegate = Expression.Lambda<Action<object, Type, object, string, Exception>>(
-                    writeMethodExp,
-                    instanceParam,
-                    callerStackBoundaryDeclaringTypeParam,
-                    levelParam,
-                    messageParam,
-                    exceptionParam).Compile();
+                    loggingEventCasted);
+
+                var logDelegate = Expression.Lambda<Action<object, object>>(
+                                                writeMethodExp,
+                                                instanceParam,
+                                                loggingEventParameter).Compile();
+
+                return logDelegate;
+            }
+
+            private static Func<object, Type, object, string, Exception, object> GetCreateLoggingEvent(ParameterExpression instanceParam, UnaryExpression instanceCast, ParameterExpression levelParam, UnaryExpression levelCast, Type loggingEventType)
+            {
+                ParameterExpression callerStackBoundaryDeclaringTypeParam = Expression.Parameter(typeof(Type));
+                ParameterExpression messageParam = Expression.Parameter(typeof(string));
+                ParameterExpression exceptionParam = Expression.Parameter(typeof(Exception));
+
+                PropertyInfo repositoryProperty = loggingEventType.GetPropertyPortable("Repository");
+                PropertyInfo levelProperty = loggingEventType.GetPropertyPortable("Level");
+
+                ConstructorInfo loggingEventConstructor =
+                    loggingEventType.GetConstructorPortable(typeof(Type), repositoryProperty.PropertyType, typeof(string), levelProperty.PropertyType, typeof(object), typeof(Exception));
+
+                //Func<object, object, string, Exception, object> Log =
+                //(logger, callerStackBoundaryDeclaringType, level, message, exception) => new LoggingEvent(callerStackBoundaryDeclaringType, ((ILogger)logger).Repository, ((ILogger)logger).Name, (Level)level, message, exception); }
+                NewExpression newLoggingEventExpression =
+                    Expression.New(loggingEventConstructor,
+                                   callerStackBoundaryDeclaringTypeParam,
+                                   Expression.Property(instanceCast, "Repository"),
+                                   Expression.Property(instanceCast, "Name"),
+                                   levelCast,
+                                   messageParam,
+                                   exceptionParam);
+
+                var createLoggingEvent =
+                    Expression.Lambda<Func<object, Type, object, string, Exception, object>>(
+                                  newLoggingEventExpression,
+                                  instanceParam,
+                                  callerStackBoundaryDeclaringTypeParam,
+                                  levelParam,
+                                  messageParam,
+                                  exceptionParam)
+                              .Compile();
+
+                return createLoggingEvent;
+            }
+
+            private static Func<object, object, bool> GetIsEnabledFor(Type loggerType, Type logEventLevelType,
+                                                                      UnaryExpression instanceCast,
+                                                                      UnaryExpression levelCast,
+                                                                      ParameterExpression instanceParam,
+                                                                      ParameterExpression levelParam)
+            {
+                MethodInfo isEnabledMethodInfo = loggerType.GetMethodPortable("IsEnabledFor", logEventLevelType);
+                MethodCallExpression isEnabledMethodCall = Expression.Call(instanceCast, isEnabledMethodInfo, levelCast);
+
+                Func<object, object, bool> result =
+                    Expression.Lambda<Func<object, object, bool>>(isEnabledMethodCall, instanceParam, levelParam)
+                              .Compile();
+
+                return result;
+            }
+
+            private static Action<object, string, object> GetLoggingEventPropertySetter(Type loggingEventType)
+            {
+                ParameterExpression loggingEventParameter = Expression.Parameter(typeof(object), "loggingEvent");
+                ParameterExpression keyParameter = Expression.Parameter(typeof(string), "key");
+                ParameterExpression valueParameter = Expression.Parameter(typeof(object), "value");
+
+                PropertyInfo propertiesProperty = loggingEventType.GetPropertyPortable("Properties");
+                PropertyInfo item = propertiesProperty.PropertyType.GetPropertyPortable("Item");
+
+                // ((LoggingEvent)loggingEvent).Properties[key] = value;
+                var body =
+                    Expression.Assign(
+                        Expression.Property(
+                            Expression.Property(Expression.Convert(loggingEventParameter, loggingEventType),
+                                                propertiesProperty), item, keyParameter), valueParameter);
+
+                Action<object, string, object> result =
+                    Expression.Lambda<Action<object, string, object>>
+                              (body, loggingEventParameter, keyParameter,
+                               valueParameter)
+                              .Compile();
+
+                return result;
             }
 
             public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception, params object[] formatParameters)
@@ -1154,7 +1499,14 @@ namespace WampSharp.Logging.LogProviders
                     return false;
                 }
 
-                messageFunc = LogMessageFormatter.SimulateStructuredLogging(messageFunc, formatParameters);
+                string message = messageFunc();
+
+                IEnumerable<string> patternMatches;
+
+                string formattedMessage =
+                    LogMessageFormatter.FormatStructuredMessage(message,
+                                                                formatParameters,
+                                                                out patternMatches);
 
                 // determine correct caller - this might change due to jit optimizations with method inlining
                 if (s_callerStackBoundaryType == null)
@@ -1180,11 +1532,29 @@ namespace WampSharp.Logging.LogProviders
                 }
 
                 var translatedLevel = TranslateLevel(logLevel);
-                _logDelegate(_logger, s_callerStackBoundaryType, translatedLevel, messageFunc(), exception);
+
+                object loggingEvent = _createLoggingEvent(_logger, s_callerStackBoundaryType, translatedLevel, formattedMessage, exception);
+
+                PopulateProperties(loggingEvent, patternMatches, formatParameters);
+
+                _logDelegate(_logger, loggingEvent);
+
                 return true;
             }
 
-            private bool IsInTypeHierarchy(Type currentType, Type checkType)
+            private void PopulateProperties(object loggingEvent, IEnumerable<string> patternMatches, object[] formatParameters)
+            {
+                IEnumerable<KeyValuePair<string, object>> keyToValue =
+                    patternMatches.Zip(formatParameters,
+                                       (key, value) => new KeyValuePair<string, object>(key, value));
+
+                foreach (KeyValuePair<string, object> keyValuePair in keyToValue)
+                {
+                    _loggingEventPropertySetter(loggingEvent, keyValuePair.Key, keyValuePair.Value);
+                }
+            }
+
+            private static bool IsInTypeHierarchy(Type currentType, Type checkType)
             {
                 while (currentType != null && currentType != typeof(object))
                 {
@@ -1225,6 +1595,9 @@ namespace WampSharp.Logging.LogProviders
         }
     }
 
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
     internal class EntLibLogProvider : LogProviderBase
     {
         private const string TypeTemplate = "Microsoft.Practices.EnterpriseLibrary.Logging.{0}, Microsoft.Practices.EnterpriseLibrary.Logging";
@@ -1235,10 +1608,11 @@ namespace WampSharp.Logging.LogProviders
         private static readonly Action<string, string, int> WriteLogEntry;
         private static readonly Func<string, int, bool> ShouldLogEntry;
 
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
         static EntLibLogProvider()
         {
-            LogEntryType = Type.GetType(string.Format(TypeTemplate, "LogEntry"));
-            LoggerType = Type.GetType(string.Format(TypeTemplate, "Logger"));
+            LogEntryType = Type.GetType(string.Format(CultureInfo.InvariantCulture, TypeTemplate, "LogEntry"));
+            LoggerType = Type.GetType(string.Format(CultureInfo.InvariantCulture, TypeTemplate, "Logger"));
             TraceEventTypeType = TraceEventTypeValues.Type;
             if (LogEntryType == null
                  || TraceEventTypeType == null
@@ -1250,6 +1624,7 @@ namespace WampSharp.Logging.LogProviders
             ShouldLogEntry = GetShouldLogEntry();
         }
 
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "EnterpriseLibrary")]
         public EntLibLogProvider()
         {
             if (!IsLoggerAvailable())
@@ -1324,7 +1699,7 @@ namespace WampSharp.Logging.LogProviders
             Expression severityParameter, ParameterExpression logNameParameter)
         {
             var entryType = LogEntryType;
-            MemberInitExpression memberInit = Expression.MemberInit(Expression.New(entryType), 
+            MemberInitExpression memberInit = Expression.MemberInit(Expression.New(entryType),
                 Expression.Bind(entryType.GetPropertyPortable("Message"), message),
                 Expression.Bind(entryType.GetPropertyPortable("Severity"), severityParameter),
                 Expression.Bind(
@@ -1339,6 +1714,9 @@ namespace WampSharp.Logging.LogProviders
             return memberInit;
         }
 
+#if !LIBLOG_PORTABLE
+        [ExcludeFromCodeCoverage]
+#endif
         internal class EntLibLogger
         {
             private readonly string _loggerName;
@@ -1397,11 +1775,16 @@ namespace WampSharp.Logging.LogProviders
         }
     }
 
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
     internal class SerilogLogProvider : LogProviderBase
     {
         private readonly Func<string, object> _getLoggerByNameDelegate;
         private static bool s_providerIsAvailableOverride = true;
+        private static Func<string, string, IDisposable> _pushProperty;
 
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "Serilog")]
         public SerilogLogProvider()
         {
             if (!IsLoggerAvailable())
@@ -1409,6 +1792,7 @@ namespace WampSharp.Logging.LogProviders
                 throw new InvalidOperationException("Serilog.Log not found");
             }
             _getLoggerByNameDelegate = GetForContextMethodCall();
+            _pushProperty = GetPushProperty();
         }
 
         public static bool ProviderIsAvailableOverride
@@ -1429,22 +1813,25 @@ namespace WampSharp.Logging.LogProviders
 
         protected override OpenNdc GetOpenNdcMethod()
         {
-            return message => GetPushProperty()("NDC", message);
+            return message => _pushProperty("NDC", message);
         }
 
         protected override OpenMdc GetOpenMdcMethod()
         {
-            return (key, value) => GetPushProperty()(key, value);
+            return (key, value) => _pushProperty(key, value);
         }
 
         private static Func<string, string, IDisposable> GetPushProperty()
         {
-            Type ndcContextType = Type.GetType("Serilog.Context.LogContext, Serilog.FullNetFx");
+            Type ndcContextType = Type.GetType("Serilog.Context.LogContext, Serilog") ?? 
+                                  Type.GetType("Serilog.Context.LogContext, Serilog.FullNetFx");
+
             MethodInfo pushPropertyMethod = ndcContextType.GetMethodPortable(
                 "PushProperty", 
                 typeof(string),
                 typeof(object),
                 typeof(bool));
+
             ParameterExpression nameParam = Expression.Parameter(typeof(string), "name");
             ParameterExpression valueParam = Expression.Parameter(typeof(object), "value");
             ParameterExpression destructureObjectParam = Expression.Parameter(typeof(bool), "destructureObjects");
@@ -1485,9 +1872,12 @@ namespace WampSharp.Logging.LogProviders
                 valueParam,
                 destructureObjectsParam)
                 .Compile();
-            return name => func("Name", name, false);
+            return name => func("SourceContext", name, false);
         }
 
+#if !LIBLOG_PORTABLE
+        [ExcludeFromCodeCoverage]
+#endif
         internal class SerilogLogger
         {
             private readonly object _logger;
@@ -1501,6 +1891,11 @@ namespace WampSharp.Logging.LogProviders
             private static readonly Action<object, object, string, object[]> Write;
             private static readonly Action<object, object, Exception, string, object[]> WriteException;
 
+            [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations")]
+            [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
+            [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ILogger")]
+            [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "LogEventLevel")]
+            [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "Serilog")]
             static SerilogLogger()
             {
                 var logEventLevelType = Type.GetType("Serilog.Events.LogEventLevel, Serilog");
@@ -1579,115 +1974,63 @@ namespace WampSharp.Logging.LogProviders
 
             public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception, params object[] formatParameters)
             {
+                var translatedLevel = TranslateLevel(logLevel);
                 if (messageFunc == null)
                 {
-                    return IsEnabled(_logger, logLevel);
+                    return IsEnabled(_logger, translatedLevel);
                 }
+
+                if (!IsEnabled(_logger, translatedLevel))
+                {
+                    return false;
+                }
+
                 if (exception != null)
                 {
-                    return LogException(logLevel, messageFunc, exception, formatParameters);
+                    LogException(translatedLevel, messageFunc, exception, formatParameters);
+                }
+                else
+                {
+                    LogMessage(translatedLevel, messageFunc, formatParameters);
                 }
 
-                switch (logLevel)
-                {
-                    case LogLevel.Debug:
-                        if (IsEnabled(_logger, DebugLevel))
-                        {
-                            Write(_logger, DebugLevel, messageFunc(), formatParameters);
-                            return true;
-                        }
-                        break;
-                    case LogLevel.Info:
-                        if (IsEnabled(_logger, InformationLevel))
-                        {
-                            Write(_logger, InformationLevel, messageFunc(), formatParameters);
-                            return true;
-                        }
-                        break;
-                    case LogLevel.Warn:
-                        if (IsEnabled(_logger, WarningLevel))
-                        {
-                            Write(_logger, WarningLevel, messageFunc(), formatParameters);
-                            return true;
-                        }
-                        break;
-                    case LogLevel.Error:
-                        if (IsEnabled(_logger, ErrorLevel))
-                        {
-                            Write(_logger, ErrorLevel, messageFunc(), formatParameters);
-                            return true;
-                        }
-                        break;
-                    case LogLevel.Fatal:
-                        if (IsEnabled(_logger, FatalLevel))
-                        {
-                            Write(_logger, FatalLevel, messageFunc(), formatParameters);
-                            return true;
-                        }
-                        break;
-                    default:
-                        if (IsEnabled(_logger, VerboseLevel))
-                        {
-                            Write(_logger, VerboseLevel, messageFunc(), formatParameters);
-                            return true;
-                        }
-                        break;
-                }
-                return false;
+                return true;
             }
 
-            private bool LogException(LogLevel logLevel, Func<string> messageFunc, Exception exception, object[] formatParams)
+            private void LogMessage(object translatedLevel, Func<string> messageFunc, object[] formatParameters)
+            {
+                Write(_logger, translatedLevel, messageFunc(), formatParameters);
+            }
+
+            private void LogException(object logLevel, Func<string> messageFunc, Exception exception, object[] formatParams)
+            {
+                WriteException(_logger, logLevel, exception, messageFunc(), formatParams);
+            }
+
+            private static object TranslateLevel(LogLevel logLevel)
             {
                 switch (logLevel)
                 {
-                    case LogLevel.Debug:
-                        if (IsEnabled(_logger, DebugLevel))
-                        {
-                            WriteException(_logger, DebugLevel, exception, messageFunc(), formatParams);
-                            return true;
-                        }
-                        break;
-                    case LogLevel.Info:
-                        if (IsEnabled(_logger, InformationLevel))
-                        {
-                            WriteException(_logger, InformationLevel, exception, messageFunc(), formatParams);
-                            return true;
-                        }
-                        break;
-                    case LogLevel.Warn:
-                        if (IsEnabled(_logger, WarningLevel))
-                        {
-                            WriteException(_logger, WarningLevel, exception, messageFunc(), formatParams);
-                            return true;
-                        }
-                        break;
-                    case LogLevel.Error:
-                        if (IsEnabled(_logger, ErrorLevel))
-                        {
-                            WriteException(_logger, ErrorLevel, exception, messageFunc(), formatParams);
-                            return true;
-                        }
-                        break;
                     case LogLevel.Fatal:
-                        if (IsEnabled(_logger, FatalLevel))
-                        {
-                            WriteException(_logger, FatalLevel, exception, messageFunc(), formatParams);
-                            return true;
-                        }
-                        break;
+                        return FatalLevel;
+                    case LogLevel.Error:
+                        return ErrorLevel;
+                    case LogLevel.Warn:
+                        return WarningLevel;
+                    case LogLevel.Info:
+                        return InformationLevel;
+                    case LogLevel.Trace:
+                        return VerboseLevel;
                     default:
-                        if (IsEnabled(_logger, VerboseLevel))
-                        {
-                            WriteException(_logger, VerboseLevel, exception, messageFunc(), formatParams);
-                            return true;
-                        }
-                        break;
+                        return DebugLevel;
                 }
-                return false;
             }
         }
     }
 
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
     internal class LoupeLogProvider : LogProviderBase
     {
         /// <summary>
@@ -1762,6 +2105,9 @@ namespace WampSharp.Logging.LogProviders
             return callDelegate;
         }
 
+#if !LIBLOG_PORTABLE
+        [ExcludeFromCodeCoverage]
+#endif
         internal class LoupeLogger
         {
             private const string LogSystem = "LibLog";
@@ -1797,7 +2143,7 @@ namespace WampSharp.Logging.LogProviders
                 return true;
             }
 
-            private int ToLogMessageSeverity(LogLevel logLevel)
+            private static int ToLogMessageSeverity(LogLevel logLevel)
             {
                 switch (logLevel)
                 {
@@ -1820,6 +2166,9 @@ namespace WampSharp.Logging.LogProviders
         }
     }
 
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
     internal static class TraceEventTypeValues
     {
         internal static readonly Type Type;
@@ -1829,6 +2178,7 @@ namespace WampSharp.Logging.LogProviders
         internal static readonly int Error;
         internal static readonly int Critical;
 
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
         static TraceEventTypeValues()
         {
             var assembly = typeof(Uri).GetAssemblyPortable(); // This is to get to the System.dll assembly in a PCL compatible way.
@@ -1846,9 +2196,17 @@ namespace WampSharp.Logging.LogProviders
         }
     }
 
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
     internal static class LogMessageFormatter
     {
-        private static readonly Regex Pattern = new Regex(@"\{@?\w{1,}\}");
+        //private static readonly Regex Pattern = new Regex(@"\{@?\w{1,}\}");
+#if LIBLOG_PORTABLE
+        private static readonly Regex Pattern = new Regex(@"(?<!{){@?(?<arg>[^\d{][^ }]*)}");
+#else
+        private static readonly Regex Pattern = new Regex(@"(?<!{){@?(?<arg>[^ :{}]+)(?<format>:[^}]+)?}", RegexOptions.Compiled);
+#endif
 
         /// <summary>
         /// Some logging frameworks support structured logging, such as serilog. This will allow you to add names to structured data in a format string:
@@ -1870,24 +2228,8 @@ namespace WampSharp.Logging.LogProviders
             return () =>
             {
                 string targetMessage = messageBuilder();
-                int argumentIndex = 0;
-                foreach (Match match in Pattern.Matches(targetMessage))
-                {
-                    int notUsed;
-                    if (!int.TryParse(match.Value.Substring(1, match.Value.Length -2), out notUsed))
-                    {
-                        targetMessage = ReplaceFirst(targetMessage, match.Value,
-                            "{" + argumentIndex++ + "}");
-                    }
-                }
-                try
-                {
-                    return string.Format(CultureInfo.InvariantCulture, targetMessage, formatParameters);
-                }
-                catch (FormatException ex)
-                {
-                    throw new FormatException("The input string '" + targetMessage + "' could not be formatted using string.Format", ex);
-                }
+                IEnumerable<string> patternMatches;
+                return FormatStructuredMessage(targetMessage, formatParameters, out patternMatches);
             };
         }
 
@@ -1900,14 +2242,69 @@ namespace WampSharp.Logging.LogProviders
             }
             return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
         }
+
+        public static string FormatStructuredMessage(string targetMessage, object[] formatParameters, out IEnumerable<string> patternMatches)
+        {
+            if (formatParameters.Length == 0)
+            {
+                patternMatches = Enumerable.Empty<string>();
+                return targetMessage;
+            }
+
+            List<string> processedArguments = new List<string>();
+            patternMatches = processedArguments;
+
+            foreach (Match match in Pattern.Matches(targetMessage))
+            {
+                var arg = match.Groups["arg"].Value;
+
+                int notUsed;
+                if (!int.TryParse(arg, out notUsed))
+                {
+                    int argumentIndex = processedArguments.IndexOf(arg);
+                    if (argumentIndex == -1)
+                    {
+                        argumentIndex = processedArguments.Count;
+                        processedArguments.Add(arg);
+                    }
+
+                    targetMessage = ReplaceFirst(targetMessage, match.Value,
+                        "{" + argumentIndex + match.Groups["format"].Value + "}");
+                }
+            }
+            try
+            {
+                return string.Format(CultureInfo.InvariantCulture, targetMessage, formatParameters);
+            }
+            catch (FormatException ex)
+            {
+                throw new FormatException("The input string '" + targetMessage + "' could not be formatted using string.Format", ex);
+            }
+        }
     }
 
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
     internal static class TypeExtensions
     {
+        internal static ConstructorInfo GetConstructorPortable(this Type type, params Type[] types)
+        {
+#if LIBLOG_PORTABLE
+            return type.GetTypeInfo().DeclaredConstructors.FirstOrDefault
+                       (constructor =>
+                            constructor.GetParameters()
+                                       .Select(parameter => parameter.ParameterType)
+                                       .SequenceEqual(types));
+#else
+            return type.GetConstructor(types);
+#endif
+        }
+
         internal static MethodInfo GetMethodPortable(this Type type, string name)
         {
 #if LIBLOG_PORTABLE
-            return type.GetRuntimeMethod(name, new Type[]{});
+            return type.GetRuntimeMethods().SingleOrDefault(m => m.Name == name);
 #else
             return type.GetMethod(name);
 #endif
@@ -1978,6 +2375,9 @@ namespace WampSharp.Logging.LogProviders
         }
     }
 
+#if !LIBLOG_PORTABLE
+    [ExcludeFromCodeCoverage]
+#endif
     internal class DisposableAction : IDisposable
     {
         private readonly Action _onDispose;

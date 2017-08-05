@@ -44,7 +44,7 @@ namespace WampSharp.Core.Dispatch
 
             if (method != null)
             {
-                mLogger.DebugFormat("Mapped message to method: {0}", method.Method);
+                mLogger.DebugFormat("Mapped message to method: {Method}", method.Method);
                 Action<TClient, WampMessage<TMessage>> action = mDelegateCache.Get(method);
                 action(client, message);
             }

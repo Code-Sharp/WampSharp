@@ -59,6 +59,8 @@ namespace WampSharp.V2.PubSub
 
         public IWampRegistrationSubscriptionToken Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {
+            options = options.WithDefaults();
+
             MatchTopicContainer topicContainer = GetInnerContainer(options);
 
             return topicContainer.Subscribe(subscriber, topicUri, options);
@@ -135,15 +137,7 @@ namespace WampSharp.V2.PubSub
                     published | publishAction(container, publicationId);
             }
 
-            if (published)
-            {
-                return publicationId;
-            }
-            else
-            {
-                throw new WampException(WampErrors.InvalidTopic,
-                                 "topicUri: " + topicUri);
-            }
+            return publicationId;
         }
 
         public IWampTopic CreateTopicByUri(string topicUri, bool persistent)

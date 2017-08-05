@@ -28,9 +28,9 @@ namespace WampSharp.V2.CalleeProxy
             mTask.SetResult(result);
         }
 
-        protected virtual TResult GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments)
+        protected virtual TResult GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            return mExtractor.GetResult(formatter, arguments);
+            return mExtractor.GetResult(formatter, arguments, argumentsKeywords);
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
@@ -46,13 +46,20 @@ namespace WampSharp.V2.CalleeProxy
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            SetResult(details, formatter, arguments);
+            SetResult(details, formatter, arguments, argumentsKeywords);
         }
 
-        private void SetResult<TMessage>(ResultDetails details, IWampFormatter<TMessage> formatter, TMessage[] arguments)
+        private void SetResult<TMessage>(ResultDetails details, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords = null)
         {
-            TResult result = GetResult(formatter, arguments);
-            SetResult(details, result);
+            try
+            {
+                TResult result = GetResult(formatter, arguments, argumentsKeywords);
+                SetResult(details, result);
+            }
+            catch (Exception ex)
+            {
+                SetException(ex);
+            }
         }
 
         public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error)
@@ -78,7 +85,7 @@ namespace WampSharp.V2.CalleeProxy
 
         public void SetException(Exception exception)
         {
-            mTask.SetException(exception);
+            mTask.TrySetException(exception);
         }
     }
 }

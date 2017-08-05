@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 
@@ -23,7 +24,7 @@ namespace WampSharp.V2.Core
             }
         }
 
-        public object[] UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,
+        public IEnumerable<object> UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,
             TMessage[] arguments,
             IDictionary<string, TMessage> argumentsKeywords)
         {
@@ -31,7 +32,7 @@ namespace WampSharp.V2.Core
 
             int positionalArguments = 0;
 
-            if (arguments != null)
+            if (!SkipPositionalArguments && (arguments != null))
             {
                 positionalArguments = arguments.Length;
 
@@ -44,10 +45,12 @@ namespace WampSharp.V2.Core
             var named = Parameters.Skip(positionalArguments)
                 .Select(parameter => GetNamedParameterValue(formatter, parameter, argumentsKeywords));
 
-            object[] result = positional.Concat(named).ToArray();
+            IEnumerable<object> result = positional.Concat(named);
 
             return result;
         }
+
+        public bool SkipPositionalArguments { get; set; }
 
         private object ConvertParameter<TMessage>(IWampFormatter<TMessage> formatter, LocalParameter parameter, TMessage value)
         {
@@ -90,7 +93,7 @@ namespace WampSharp.V2.Core
             }
             catch (Exception ex)
             {
-                throw NameError(parameter.Name);
+                throw NameError(parameter.Name, ex);
             }
         }
 
@@ -104,18 +107,18 @@ namespace WampSharp.V2.Core
             }
             catch (Exception ex)
             {
-                throw PositionError(parameter.Position);
+                throw PositionError(parameter.Position, ex);
             }
         }
 
-        protected virtual Exception NameError(string name)
+        protected virtual Exception NameError(string name, Exception exception = null)
         {
-            return new WampException(WampErrors.InvalidArgument, "argument name: " + name);
+            return new WampInvalidArgumentException("argument name: " + name, exception);
         }
 
-        protected virtual Exception PositionError(int position)
+        protected virtual Exception PositionError(int position, Exception exception = null)
         {
-            return new WampException(WampErrors.InvalidArgument, "argument position: " + position);
+            return new WampInvalidArgumentException("argument position: " + position, exception);
         }
     }
 }

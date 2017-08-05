@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 
 namespace System.Reflection
 {
@@ -88,7 +89,43 @@ namespace System.Reflection
 #endif
         }
 
+        public static GenericParameterAttributes GenericParameterAttributes(this Type type)
+        {
+#if !PCL
+            return type.GenericParameterAttributes;
+#else
+            return type.GetTypeInfo().GenericParameterAttributes;
+#endif
+        }
+
 #if PCL
+        public static bool IsDefined(this Type type, Type attributeType, bool inherit)
+        {
+            return type.GetTypeInfo().IsDefined(attributeType, inherit);
+        }
+
+        public static T GetCustomAttribute<T>(this Type type, bool inherit = true)
+            where T : Attribute
+        {
+            return type.GetTypeInfo().GetCustomAttribute<T>(inherit);
+        }
+#endif
+
+#if NET40
+        public static Type AsType(this Type type)
+        {
+            return type;
+        }
+#endif
+
+#if ILEMIT && PCL
+        public static Type CreateType(this TypeBuilder builder)
+        {
+            return builder.CreateTypeInfo().AsType();
+        }
+#endif
+
+#if PCL && !NETCORE
         public static bool IsAssignableFrom(this Type interfaceType, Type type)
         {
             TypeInfo interfaceTypeInfo = interfaceType.GetTypeInfo();
@@ -99,7 +136,14 @@ namespace System.Reflection
 
         public static Type[] GetGenericArguments(this Type type)
         {
-            return type.GenericTypeArguments;
+            TypeInfo typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsGenericTypeDefinition)
+            {
+                return typeInfo.GenericTypeParameters;
+            }
+
+            return typeInfo.GenericTypeArguments;
         }
 
         public static MethodInfo GetMethod(this Type type, string methodName)
@@ -112,9 +156,29 @@ namespace System.Reflection
             return type.GetTypeInfo().ImplementedInterfaces;
         }
 
+        public static IEnumerable<ConstructorInfo> GetConstructors(this Type type)
+        {
+            return type.GetTypeInfo().DeclaredConstructors;
+        }
+
         public static bool IsInstanceOfType(this Type type, object instance)
         {
             return type.IsAssignableFrom(instance.GetType());
+        }
+
+        public static IEnumerable<PropertyInfo> GetProperties(this Type type)
+        {
+            return type.GetTypeInfo().DeclaredProperties;
+        }
+
+        public static IEnumerable<FieldInfo> GetFields(this Type type)
+        {
+            return type.GetTypeInfo().DeclaredFields;
+        }
+
+        public static FieldInfo GetField(this Type type, string name)
+        {
+            return type.GetTypeInfo().GetDeclaredField(name);
         }
 #endif
     }

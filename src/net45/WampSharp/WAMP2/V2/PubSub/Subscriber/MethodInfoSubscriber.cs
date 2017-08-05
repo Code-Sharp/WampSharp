@@ -76,7 +76,7 @@ namespace WampSharp.V2.PubSub
             }
             catch (Exception ex)
             {
-                mLogger.ErrorFormat(ex, "An error occured while calling " + mMethod);
+                mLogger.ErrorFormat(ex, "An error occured while calling {Method}", mMethod);
             }
             finally
             {

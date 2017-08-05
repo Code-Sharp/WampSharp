@@ -14,11 +14,15 @@ namespace WampSharp.V2.Rpc
         {
         }
 
-        protected override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
-                                                      IWampFormatter<TMessage> formatter,
-                                                      InvocationDetails details,
-                                                      TMessage[] arguments,
-                                                      IDictionary<string, TMessage> argumentsKeywords)
+        public override bool SupportsCancellation
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        protected override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
@@ -36,7 +40,7 @@ namespace WampSharp.V2.Rpc
             }
             catch (WampException ex)
             {
-                mLogger.ErrorFormat(ex, "An error occured while calling {0}", this.Procedure);
+                mLogger.ErrorFormat(ex, "An error occured while calling {ProcedureUri}", this.Procedure);
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
                 callback.Error(ex);
             }
@@ -46,6 +50,27 @@ namespace WampSharp.V2.Rpc
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
                 callback.Error(wampException);
             }
+
+            return null;
+        }
+
+        protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs, YieldOptions yieldOptions = null)
+        {
+            yieldOptions = yieldOptions ?? new YieldOptions();
+            object[] resultArguments = GetResultArguments(result);
+
+            IDictionary<string, object> argumentKeywords = 
+                GetResultArgumentKeywords(result, outputs);
+
+            CallResult(caller,
+                       yieldOptions,
+                       resultArguments,
+                       argumentKeywords);
+        }
+
+        protected virtual IDictionary<string, object> GetResultArgumentKeywords(object result, IDictionary<string, object> outputs)
+        {
+            return outputs;
         }
 
         protected abstract object InvokeSync<TMessage>

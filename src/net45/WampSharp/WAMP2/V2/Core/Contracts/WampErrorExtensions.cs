@@ -371,6 +371,61 @@ namespace WampSharp.V2.Core.Contracts
         {
         }
 
+        public static void CancelError<TMessage>
+        (this IWampError<TMessage> client,
+         long requestId,
+         TMessage details,
+         string error)
+        {
+            client.Error(WampMessageType.v2Cancel, requestId, details, error);
+        }
+
+        public static void CancelError<TMessage>
+        (this IWampError<TMessage> client,
+         long requestId,
+         TMessage details,
+         string error,
+         TMessage[] arguments)
+        {
+            client.Error(WampMessageType.v2Cancel, requestId, details, error, arguments);
+        }
+
+        public static void CancelError<TMessage>
+        (this IWampError<TMessage> client,
+         long requestId,
+         TMessage details,
+         string error,
+         TMessage[] arguments,
+         TMessage argumentsKeywords)
+        {
+            client.Error(WampMessageType.v2Cancel, requestId, details, error, arguments, argumentsKeywords);
+        }
+
+        public static void CancelError
+        (this IWampError<object> client,
+         long requestId,
+         WampException exception)
+        {
+            client.Error(WampMessageType.v2Cancel, requestId, exception);
+        }
+
+        public static void CancelError
+        (this IWampError<object> client,
+         long requestId,
+         WampException exception,
+         object[] arguments)
+        {
+        }
+
+        public static void CancelError
+        (this IWampError<object> client,
+         long requestId,
+         WampException exception,
+         object[] arguments,
+         object argumentsKeywords)
+        {
+        }
+
         private class WampErrorCallback : IWampErrorCallback
         {
             private readonly IWampError<object> mCallback;

@@ -1,8 +1,12 @@
-#if !NET40
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Threading;
+using WampSharp.Core.Utilities;
 using WampSharp.Core.Serialization;
+using WampSharp.V2.Core;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
@@ -10,8 +14,8 @@ namespace WampSharp.V2.Rpc
     {
         private readonly RpcParameter[] mRpcParameters;
 
-        public ProgressiveAsyncMethodInfoRpcOperation(object instance, MethodInfo method, string procedureName) : 
-            base(instance, method, procedureName)
+        public ProgressiveAsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) : 
+            base(instanceProvider, method, procedureName)
         {
             RpcParameter[] baseParameters = base.Parameters;
 
@@ -22,20 +26,20 @@ namespace WampSharp.V2.Rpc
                 mRpcParameters.Length);
         }
 
-        protected override object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, CancellationToken cancellationToken, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            object[] argumentsWithoutProgress = 
-                base.GetMethodParameters(caller, formatter, arguments, argumentsKeywords);
+            IEnumerable<object> parameters = UnpackParameters(formatter, arguments, argumentsKeywords);
 
-            int length = argumentsWithoutProgress.Length + 1;
+            CallerProgress progress = new CallerProgress(caller, this);
 
-            object[] result = new object[length];
+            parameters = parameters.Concat(progress);
 
-            Array.Copy(argumentsWithoutProgress,
-                result,
-                argumentsWithoutProgress.Length);
+            if (SupportsCancellation)
+            {
+                parameters = parameters.Concat(cancellationToken);
+            }
 
-            result[length - 1] = new CallerProgress<T>(caller);
+            object[] result = parameters.ToArray();
 
             return result;
         }
@@ -47,6 +51,23 @@ namespace WampSharp.V2.Rpc
                 return mRpcParameters;
             }
         }
+
+        private class CallerProgress : IProgress<T>
+        {
+            private readonly IWampRawRpcOperationRouterCallback mCaller;
+            private readonly ProgressiveAsyncMethodInfoRpcOperation<T> mParent;
+
+            public CallerProgress(IWampRawRpcOperationRouterCallback caller,
+                                  ProgressiveAsyncMethodInfoRpcOperation<T> parent)
+            {
+                mCaller = caller;
+                mParent = parent;
+            }
+
+            public void Report(T value)
+            {
+                mParent.CallResult(mCaller, value, new YieldOptions() {Progress = true});
+            }
+        }
     }
 }
-#endif

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <id>WampSharp.WebSockets</id>
+    <title>WampSharp System.Net.WebSockets.WebSocket support</title>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp System.Net.WebSockets.WebSocket support</description>
+    <tags>websockets,wampws,rpc,pubsub,wampv1,wampv2</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="System.Net.WebSockets.Client" version="[4.0.0, )" />
+        <dependency id="WampSharp" version="[$version$]" />
+      </group>
+      <group targetFramework="net45">
+        <dependency id="WampSharp" version="[$version$]" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\net45\WampSharp.WebSockets.dll" target="lib\net45\WampSharp.WebSockets.dll" />
+    <file src="bin\net45\WampSharp.WebSockets.xml" target="lib\net45\WampSharp.WebSockets.xml" />
+    <file src="bin\netstandard1.3\WampSharp.WebSockets.dll" target="lib\netstandard1.3\WampSharp.WebSockets.dll" />
+    <file src="bin\netstandard1.3\WampSharp.WebSockets.xml" target="lib\netstandard1.3\WampSharp.WebSockets.xml" />
+  </files>
+</package>

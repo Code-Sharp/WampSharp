@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.Logging;
@@ -15,15 +16,39 @@ namespace WampSharp.V2.Rpc
         }
 
         protected abstract Task<object> InvokeAsync<TMessage>
-            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
+            (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords, CancellationToken cancellationToken);
 
-#if NET45
+#if ASYNC
 
-        protected override async void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
-                                                            IWampFormatter<TMessage> formatter,
-                                                            InvocationDetails details,
-                                                            TMessage[] arguments,
-                                                            IDictionary<string, TMessage> argumentsKeywords)
+        protected override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        {
+            CancellationTokenSourceInvocation result = null;
+            CancellationToken token = CancellationToken.None;
+
+            if (SupportsCancellation)
+            {
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                result = new CancellationTokenSourceInvocation(cancellationTokenSource);
+                token = cancellationTokenSource.Token;
+            }
+
+            Task task =
+                InnerInvokeAsync(caller,
+                                 formatter,
+                                 details,
+                                 arguments,
+                                 argumentsKeywords,
+                                 token);
+
+            return result;
+        }
+
+        private async Task InnerInvokeAsync<TMessage>(IWampRawRpcOperationRouterCallback caller,
+                                                      IWampFormatter<TMessage> formatter,
+                                                      InvocationDetails details,
+                                                      TMessage[] arguments,
+                                                      IDictionary<string, TMessage> argumentsKeywords,
+                                                      CancellationToken cancellationToken)
         {
             try
             {
@@ -32,15 +57,16 @@ namespace WampSharp.V2.Rpc
                                 formatter,
                                 details,
                                 arguments,
-                                argumentsKeywords);
+                                argumentsKeywords,
+                                cancellationToken);
 
                 object result = await task;
 
-                CallResult(caller, result, null);
+                CallResult(caller, result);
             }
             catch (Exception ex)
             {
-                mLogger.ErrorFormat(ex, "An error occured while calling {0}", this.Procedure);
+                mLogger.ErrorFormat(ex, "An error occured while calling {ProcedureUri}", this.Procedure);
 
                 WampException wampException = ex as WampException;
 
@@ -55,18 +81,30 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-#elif NET40
+#else
 
-        protected override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
+            CancellationTokenSourceInvocation result = null;
+
             try
             {
+                CancellationToken token = CancellationToken.None;
+
+                if (SupportsCancellation)
+                {
+                    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                    result = new CancellationTokenSourceInvocation(cancellationTokenSource);
+                    token = cancellationTokenSource.Token;
+                }
+
                 Task<object> task =
                     InvokeAsync(caller,
                                formatter,
                                options,
                                arguments,
-                               argumentsKeywords);
+                               argumentsKeywords,
+                               token);
 
                 task.ContinueWith(x => TaskCallback(x, caller));
             }
@@ -76,6 +114,8 @@ namespace WampSharp.V2.Rpc
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
                 callback.Error(ex);
             }
+
+            return result;
         }
 
         private void TaskCallback(Task<object> task, IWampRawRpcOperationRouterCallback caller)
@@ -83,7 +123,7 @@ namespace WampSharp.V2.Rpc
             if (task.Exception == null)
             {
                 object result = task.Result;
-                CallResult(caller, result, null);
+                CallResult(caller, result);
             }
             else
             {
@@ -105,5 +145,26 @@ namespace WampSharp.V2.Rpc
         }
 
 #endif
+
+
+        protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, YieldOptions yieldOptions = null)
+        {
+            yieldOptions = yieldOptions ?? new YieldOptions();
+
+            object[] resultArguments = GetResultArguments(result);
+
+            IDictionary<string, object> resultArgumentKeywords =
+                GetResultArgumentKeywords(result);
+
+            CallResult(caller,
+                       yieldOptions,
+                       resultArguments,
+                       resultArgumentKeywords);
+        }
+
+        protected virtual IDictionary<string, object> GetResultArgumentKeywords(object result)
+        {
+            return null;
+        }
     }
 }

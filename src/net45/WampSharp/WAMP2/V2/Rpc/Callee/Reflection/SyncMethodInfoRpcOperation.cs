@@ -4,24 +4,26 @@ using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
+using WampSharp.Core.Utilities.ValueTuple;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
     public class SyncMethodInfoRpcOperation : SyncLocalRpcOperation
     {
-        private readonly object mInstance;
+        private readonly Func<object> mInstanceProvider;
         private readonly MethodInfo mMethod;
         private readonly Func<object, object[], object> mMethodInvoker;
         private readonly MethodInfoHelper mHelper;
         private readonly RpcParameter[] mParameters;
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
+        private IWampResultExtractor mResultExtractor;
 
-        public SyncMethodInfoRpcOperation(object instance, MethodInfo method, string procedureName) :
+        public SyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) :
             base(procedureName)
         {
-            mInstance = instance;
+            mInstanceProvider = instanceProvider;
             mMethod = method;
             mMethodInvoker = MethodInvokeGenerator.CreateInvokeMethod(method);
 
@@ -44,6 +46,13 @@ namespace WampSharp.V2.Rpc
                     .Where(x => !x.IsOut)
                     .Select(parameter => new RpcParameter(parameter))
                     .ToArray();
+
+            mResultExtractor = WampResultExtractor.GetResultExtractor(this);
+
+            if (method.ReturnsTuple())
+            {
+                mResultExtractor = WampResultExtractor.GetValueTupleResultExtractor(method);
+            }
         }
 
         public override RpcParameter[] Parameters
@@ -71,13 +80,18 @@ namespace WampSharp.V2.Rpc
             try
             {
                 object[] unpacked =
-                    UnpackParameters(formatter, arguments, argumentsKeywords);
+                    UnpackParameters(formatter, arguments, argumentsKeywords)
+                        .ToArray();
 
                 object[] parameters =
                     mHelper.GetArguments(unpacked);
 
+                object instance = mInstanceProvider();
+
+                ValidateInstanceType(instance, mMethod);
+
                 object result =
-                    mMethodInvoker(mInstance, parameters);
+                    mMethodInvoker(instance, parameters);
 
                 outputs = mHelper.GetOutOrRefValues(parameters);
 
@@ -89,9 +103,35 @@ namespace WampSharp.V2.Rpc
             }
         }
 
+        protected override object[] GetResultArguments(object result)
+        {
+            return mResultExtractor.GetArguments(result);
+        }
+
+        protected override IDictionary<string, object> GetResultArgumentKeywords
+            (object result, IDictionary<string, object> outputs)
+        {
+            IDictionary<string, object> argumentKeywords = mResultExtractor.GetArgumentKeywords(result);
+
+            if (argumentKeywords == null)
+            {
+                return outputs;
+            }
+
+            if (outputs != null)
+            {
+                foreach (KeyValuePair<string, object> keyValuePair in outputs)
+                {
+                    argumentKeywords[keyValuePair.Key] = keyValuePair.Value;
+                }
+            }
+
+            return argumentKeywords;
+        }
+
         protected bool Equals(SyncMethodInfoRpcOperation other)
         {
-            return Equals(mInstance, other.mInstance) && Equals(mMethod, other.mMethod) &&
+            return Equals(mInstanceProvider, other.mInstanceProvider) && Equals(mMethod, other.mMethod) &&
                    string.Equals(Procedure, other.Procedure);
         }
 
@@ -107,7 +147,7 @@ namespace WampSharp.V2.Rpc
         {
             unchecked
             {
-                var hashCode = (mInstance != null ? mInstance.GetHashCode() : 0);
+                var hashCode = (mInstanceProvider != null ? mInstanceProvider.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (mMethod != null ? mMethod.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (Procedure != null ? Procedure.GetHashCode() : 0);
                 return hashCode;

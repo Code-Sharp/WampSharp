@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 using WampSharp.Core.Message;
 
@@ -7,6 +8,7 @@ namespace WampSharp.V2.Core.Contracts
     /// Represents details for EVENT message.
     /// </summary>
     [DataContract]
+    [Serializable]
     [WampDetailsOptions(WampMessageType.v2Event)]
     public class EventDetails : WampDetailsOptions
     {
@@ -19,8 +21,9 @@ namespace WampSharp.V2.Core.Contracts
             Publisher = other.Publisher;
             Topic = other.Topic;
             AuthenticationId = other.AuthenticationId;
-            AuthenticationMethod = other.AuthenticationMethod;
             AuthenticationRole = other.AuthenticationRole;
+            Retained = other.Retained;
+            OriginalValue = other.OriginalValue;
         }
 
         /// <summary>
@@ -35,16 +38,22 @@ namespace WampSharp.V2.Core.Contracts
         [DataMember(Name = "topic")]
         public string Topic { get; internal set; }
 
-        [ExperimentalWampFeature]
-        [DataMember(Name = "authrole")]
+        /// <summary>
+        /// Gets the WAMP authrole of the pubisher. Only filled if pubisher is disclosed.
+        /// </summary>
+        [DataMember(Name = "publisher_authrole")]
         public string AuthenticationRole { get; internal set; }
 
-        [ExperimentalWampFeature]
-        [DataMember(Name = "authmethod")]
-        public string AuthenticationMethod { get; internal set; }
-
-        [ExperimentalWampFeature]
-        [DataMember(Name = "authid")]
+        /// <summary>
+        /// Gets the WAMP authid of the pubisher. Only filled if pubisher is disclosed.
+        /// </summary>
+        [DataMember(Name = "publisher_authid")]
         public string AuthenticationId { get; internal set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the message was retained by the broker on the topic, rather than just published.
+        /// </summary>
+        [DataMember(Name = "retained")]
+        public bool? Retained { get; internal set; }
     }
 }

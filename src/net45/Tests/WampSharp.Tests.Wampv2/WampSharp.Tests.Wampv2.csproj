@@ -19,15 +19,16 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45 WAMPCRA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NET45</DefineConstants>
+    <DefineConstants>TRACE;NET45 WAMPCRA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -50,15 +51,23 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+    <Reference Include="System.Reactive.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.Core.3.0.0\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.Interfaces.3.0.0\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.Linq.3.0.0\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.0.0-rc3-24212-01\lib\netstandard1.1\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,28 +88,39 @@
     <Compile Include="Integration\AuthenticationServerTests.cs" />
     <Compile Include="Integration\CallerCallee.cs" />
     <Compile Include="Integration\CallerDealerTests.cs" />
+    <Compile Include="Integration\CancelTests.cs" />
     <Compile Include="Integration\MockRawCallback.cs" />
     <Compile Include="Integration\PatternBasedPubSubTests.cs" />
     <Compile Include="Integration\PatternRpcTests.cs" />
     <Compile Include="Integration\PublisherSubscriber.cs" />
+    <Compile Include="Integration\PubSubRetainTests.cs" />
     <Compile Include="Integration\PubSubReflectionTests.cs" />
     <Compile Include="Integration\RpcOptionsTests.cs" />
     <Compile Include="Integration\RpcProgressTests.cs" />
     <Compile Include="Integration\RpcProxies\IArgumentsService.cs" />
     <Compile Include="Integration\RpcProxies\IComplexResultService.cs" />
     <Compile Include="Integration\RpcProxies\IErrorsService.cs" />
+    <Compile Include="Integration\RpcProxies\ILongValueTuplesServiceProxy.cs" />
+    <Compile Include="Integration\RpcProxies\INamedTupleComplexResultService.cs" />
     <Compile Include="Integration\RpcProxies\ISlowSquareService.cs" />
     <Compile Include="Integration\RpcProxies\ITimeService.cs" />
     <Compile Include="Integration\RpcServices\ArgumentsService.cs" />
     <Compile Include="Integration\RpcServices\ComplexResultService.cs" />
     <Compile Include="Integration\RpcServices\ErrorsService.cs" />
+    <Compile Include="Integration\RpcServices\LongValueTuplesCalleeService.cs" />
+    <Compile Include="Integration\RpcServices\LongValueTuplesService.cs" />
+    <Compile Include="Integration\RpcServices\NamedTupleComplexResultService.cs" />
+    <Compile Include="Integration\RpcServices\PositionalTupleComplexResultService.cs" />
     <Compile Include="Integration\RpcServices\SlowSquareService.cs" />
     <Compile Include="Integration\RpcServices\TimeService.cs" />
+    <Compile Include="Integration\PubSubSubjectTupleTests.cs" />
     <Compile Include="Integration\SerializedValue.cs" />
     <Compile Include="Integration\SharedRpcTests.cs" />
+    <Compile Include="Integration\TestamentServiceTests.cs" />
     <Compile Include="Integration\WampCraAuthenticationTests.cs" />
     <Compile Include="RecordedTests\MockBuilder\WelcomeDetailsInterceptor.cs" />
     <Compile Include="RequestMapper.cs" />
+    <Compile Include="TestHelpers\Integration\ChannelWithExtraData.cs" />
     <Compile Include="TestHelpers\Integration\MockTransport.cs" />
     <Compile Include="TestHelpers\Integration\WampAuthenticationPlayground.cs" />
     <Compile Include="TestHelpers\Integration\WampClientPlayground.cs" />

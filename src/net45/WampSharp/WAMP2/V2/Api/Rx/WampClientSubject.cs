@@ -4,7 +4,6 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using SystemEx;
 using WampSharp.Core.Listener;
-using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
@@ -99,7 +98,16 @@ namespace WampSharp.V2
                         (mDisposableTask.Exception == null))
                     {
                         IAsyncDisposable result = mDisposableTask.Result;
-                        result.DisposeAsync();
+                        result.DisposeAsync().ContinueWith(x =>
+                        {
+                            if (x.Exception != null)
+                            {
+                                // Done in order to avoid .NET 4.0 UnhandledException
+                                // Nobody sees this exception anyway. I hope that we
+                                // soon get a version of Reactive Extensions which is more
+                                // suited for remote pub/sub, and allows to return AsyncDispoables.
+                            }
+                        });
                     }
                 }
             }

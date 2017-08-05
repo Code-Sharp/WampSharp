@@ -1,4 +1,5 @@
 ﻿using System;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Realm
 {
@@ -21,6 +22,11 @@ namespace WampSharp.V2.Realm
         /// Gets the services associated with this realm. 
         /// </summary>
         IWampRealmServiceProvider Services { get; }
+
+        /// <summary>
+        /// Gets the features enabled for this realm.
+        /// </summary>
+        RouterRoles Roles { get; }
 
         /// <summary>
         /// Gets the session associated with this hosted realm internal client.

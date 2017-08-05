@@ -10,31 +10,6 @@ namespace WampSharp.V2.Session
     internal class WampSessionServer<TMessage> : IWampSessionServer<TMessage>
     {
         private IWampBindedRealmContainer<TMessage> mRealmContainer;
-        private readonly WelcomeDetails mWelcomeDetails = GetWelcomeDetails();
-
-        private static WelcomeDetails GetWelcomeDetails()
-        {
-            return new WelcomeDetails()
-            {
-                Roles = new RouterRoles()
-                {
-                    Dealer = new DealerFeatures()
-                    {
-                        PatternBasedRegistration = true,
-                        SharedRegistration = true,
-                        CallerIdentification = true,
-                        ProgressiveCallResults = true
-                    },
-                    Broker = new BrokerFeatures()
-                    {
-                        PublisherIdentification = true,
-                        PatternBasedSubscription = true,
-                        PublisherExclusion = true,
-                        SubscriberBlackwhiteListing = true
-                    }
-                }
-            };
-        }
 
         public WampSessionServer(IWampBinding<TMessage> binding,
                                  IWampHostedRealmContainer realmContainer,
@@ -125,7 +100,7 @@ namespace WampSharp.V2.Session
 
         protected virtual WelcomeDetails GetWelcomeDetails(IWampClientProxy<TMessage> wampClient)
         {
-            return mWelcomeDetails;
+            return wampClient.Realm.WelcomeDetails;
         }
 
         public IWampBindedRealmContainer<TMessage> RealmContainer

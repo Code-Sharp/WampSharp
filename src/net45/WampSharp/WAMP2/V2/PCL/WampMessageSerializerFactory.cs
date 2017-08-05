@@ -1,4 +1,4 @@
-﻿#if PCL
+﻿#if MANUAL_PROXY
 using WampSharp.Core.Proxy;
 using WampSharp.V2;
 

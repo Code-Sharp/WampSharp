@@ -34,6 +34,8 @@ namespace WampSharp.V2.Rpc
 
         public IWampRegistrationSubscriptionToken Register(IWampRpcOperation operation, RegisterOptions options)
         {
+            options = options.WithDefaults();
+
             MatchRpcOperationCatalog catalog = GetInnerCatalog(options);
 
             return catalog.Register(operation, options);
@@ -73,50 +75,48 @@ namespace WampSharp.V2.Rpc
             return result;
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
                                      IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      string procedure)
         {
-            InvokePattern(catalog => catalog.Invoke(caller, formatter, details, procedure), procedure);
+            return InvokePattern(catalog => catalog.Invoke(caller, formatter, details, procedure), procedure);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
                                      IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      string procedure,
                                      TMessage[] arguments)
         {
-            InvokePattern(catalog => catalog.Invoke(caller, formatter, details, procedure, arguments), procedure);
+            return InvokePattern(catalog => catalog.Invoke(caller, formatter, details, procedure, arguments), procedure);
         }
 
-        public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
+        public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
                                      IWampFormatter<TMessage> formatter,
                                      InvocationDetails details,
                                      string procedure,
                                      TMessage[] arguments,
                                      IDictionary<string, TMessage> argumentsKeywords)
         {
-            InvokePattern(catalog => catalog.Invoke(caller, formatter, details, procedure, arguments, argumentsKeywords), procedure);
+            return InvokePattern(catalog => catalog.Invoke(caller, formatter, details, procedure, arguments, argumentsKeywords), procedure);
         }
 
-        private void InvokePattern(Func<MatchRpcOperationCatalog, bool> invokeAction, string procedure)
+        private IWampCancellableInvocation InvokePattern(Func<MatchRpcOperationCatalog, IWampCancellableInvocation> invokeAction, string procedure)
         {
-            bool invoked = false;
-
             foreach (MatchRpcOperationCatalog catalog in mInnerCatalogs)
             {
-                if (invokeAction(catalog))
+                IWampCancellableInvocation result = invokeAction(catalog);
+
+                if (result != null)
                 {
-                    invoked = true;
-                    break;
+                    return result;
                 }
             }
 
-            if (!invoked)
-            {
-                WampRpcThrowHelper.NoProcedureRegistered(procedure);
-            }
+            WampRpcThrowHelper.NoProcedureRegistered(procedure);
+
+            return null;
         }
 
         private void OnRegistrationAdded(object sender, WampProcedureRegisterEventArgs e)

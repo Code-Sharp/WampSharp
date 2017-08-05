@@ -18,8 +18,11 @@ namespace WampSharp.V2.Rpc
         private readonly IDictionary<RemoteWampCalleeDetails, ICollection<WampRpcInvocation>> mOperationToInvocations =
             new Dictionary<RemoteWampCalleeDetails, ICollection<WampRpcInvocation>>();
 
-        private readonly IDictionary<IWampRawRpcOperationRouterCallback, ICollection<WampRpcInvocation>> mCallbackToInvocations =
-            new Dictionary<IWampRawRpcOperationRouterCallback, ICollection<WampRpcInvocation>>();
+        private readonly IDictionary<IWampCaller, ICollection<WampRpcInvocation>> mCallerToInvocations =
+            new Dictionary<IWampCaller, ICollection<WampRpcInvocation>>();
+
+        private readonly IDictionary<IWampRawRpcOperationRouterCallback, WampRpcInvocation> mCallbackToInvocation =
+            new Dictionary<IWampRawRpcOperationRouterCallback, WampRpcInvocation>();
 
         private readonly object mLock = new object();
         private readonly TMessage mEmptyDetails;
@@ -38,19 +41,54 @@ namespace WampSharp.V2.Rpc
                     new WampRpcInvocation
                         (operation, callback, options, arguments, argumentsKeywords);
 
-                if (!mCallbackToInvocations.ContainsKey(callback))
-                {
-                    RegisterDisconnectionNotifier(callback);
-                }
-
                 long invocationId = mRequestIdToInvocation.Add(invocation);
 
                 invocation.InvocationId = invocationId;
 
                 mOperationToInvocations.Add(operation, invocation);
-                mCallbackToInvocations.Add(callback, invocation);
+
+                IWampCaller caller = GetCaller(callback);
+
+                if (caller != null)
+                {
+                    if (!mCallerToInvocations.ContainsKey(caller))
+                    {
+                        RegisterDisconnectionNotifier(callback);
+                    }
+
+                    mCallerToInvocations.Add(caller, invocation);
+                }
+
+                mCallbackToInvocation.Add(callback, invocation);
 
                 return invocationId;                
+            }
+        }
+
+        private static IWampCaller GetCaller(IWampRawRpcOperationRouterCallback callback)
+        {
+            IWampCaller caller = null;
+            WampRpcOperationCallback operationCallback = callback as WampRpcOperationCallback;
+
+            if (operationCallback != null)
+            {
+                caller = operationCallback.Caller;
+            }
+            return caller;
+        }
+
+        public void Cancel(IWampCaller caller, long requestId, CancelOptions options)
+        {
+            WampRpcInvocation invocation;
+
+            WampRpcOperationCallback callback = new WampRpcOperationCallback(caller, requestId);
+
+            lock (mLock)
+            {
+                if (mCallbackToInvocation.TryGetValue(callback, out invocation))
+                {
+                    invocation.Operation.Callee.Interrupt(invocation.InvocationId, new InterruptDetails(){Mode = options.Mode});
+                }
             }
         }
 
@@ -68,14 +106,14 @@ namespace WampSharp.V2.Rpc
         {
             UnregisterDisconnectionNotifier(sender);
 
-            IWampRawRpcOperationRouterCallback callback =
-                sender as IWampRawRpcOperationRouterCallback;
+            WampRpcOperationCallback callback =
+                sender as WampRpcOperationCallback;
 
             ICollection<WampRpcInvocation> invocations;
 
             lock (mLock)
             {
-                if (mCallbackToInvocations.TryGetValue(callback, out invocations))
+                if (mCallerToInvocations.TryGetValue(callback.Caller, out invocations))
                 {
                     foreach (WampRpcInvocation invocation in invocations.ToArray())
                     {
@@ -201,8 +239,16 @@ namespace WampSharp.V2.Rpc
                 WampRpcInvocation removedInvocation;
 
                 mRequestIdToInvocation.TryRemove(invocation.InvocationId, out removedInvocation);
-                mCallbackToInvocations.Remove(invocation.Callback, invocation);
+
+                IWampCaller caller = GetCaller(invocation.Callback);
+
+                if (caller != null)
+                {
+                    mCallerToInvocations.Remove(caller, invocation);
+                }
+
                 mOperationToInvocations.Remove(invocation.Operation, invocation);
+                mCallbackToInvocation.Remove(invocation.Callback);
             }
         }
 

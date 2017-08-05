@@ -1,9 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
+    [Serializable]
     [WampDetailsOptions(WampMessageType.v2Register)]
     public class RegisterOptions : WampDetailsOptions
     {
@@ -16,6 +18,7 @@ namespace WampSharp.V2.Core.Contracts
             this.DiscloseCaller = other.DiscloseCaller;
             this.Match = other.Match;
             this.Invoke = other.Invoke;
+            this.OriginalValue = other.OriginalValue;
         }
 
         /// <summary>

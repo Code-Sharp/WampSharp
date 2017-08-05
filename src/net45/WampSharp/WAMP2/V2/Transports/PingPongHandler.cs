@@ -38,31 +38,8 @@ namespace WampSharp.V2.Transports
             // TODO: If it does, disconnect the client.
         }
 
-#if NET40
-        private void StartPing()
-        {
-            Observable.Defer
-                (() => Observable.FromAsync
-                     (() =>
-                     {
-                         byte[] ticks = GetCurrentTicks();
-                         return mPinger.SendPing(ticks);
-                     })
-                                 .Concat(Observable.Timer(mAutoSendPingInterval.Value)
-                                                   .Select(y => Unit.Default))
-                )
-                      .Repeat()
-                      .ToTask()
-                      .ContinueWith(x =>
-                      {
-                          if (x.Exception != null)
-                          {
-                              mLogger.WarnException("Failed pinging remote peer", x.Exception);
-                          }
-                      });
-        }
 
-#elif NET45
+#if ASYNC
         private void StartPing()
         {
             Task.Run((Action)Ping);
@@ -85,6 +62,29 @@ namespace WampSharp.V2.Transports
                     mLogger.WarnException("Failed pinging remote peer", ex);
                 }
             }
+        }
+#else
+        private void StartPing()
+        {
+            Observable.Defer
+                (() => Observable.FromAsync
+                     (() =>
+                     {
+                         byte[] ticks = GetCurrentTicks();
+                         return mPinger.SendPing(ticks);
+                     })
+                                 .Concat(Observable.Timer(mAutoSendPingInterval.Value)
+                                                   .Select(y => Unit.Default))
+                )
+                      .Repeat()
+                      .ToTask()
+                      .ContinueWith(x =>
+                      {
+                          if (x.Exception != null)
+                          {
+                              mLogger.WarnException("Failed pinging remote peer", x.Exception);
+                          }
+                      });
         }
 #endif
 

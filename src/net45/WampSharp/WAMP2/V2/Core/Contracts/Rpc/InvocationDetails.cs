@@ -1,9 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using WampSharp.Core.Message;
 
 namespace WampSharp.V2.Core.Contracts
 {
     [DataContract]
+    [Serializable]
     [WampDetailsOptions(WampMessageType.v2Invocation)]
     public class InvocationDetails : WampDetailsOptions
     {
@@ -18,7 +20,6 @@ namespace WampSharp.V2.Core.Contracts
             Caller = details.Caller;
             Procedure = details.Procedure;
             AuthenticationId = details.AuthenticationId;
-            AuthenticationMethod = details.AuthenticationMethod;
             AuthenticationRole = details.AuthenticationRole;
             OriginalValue = details.OriginalValue;
         }
@@ -44,16 +45,16 @@ namespace WampSharp.V2.Core.Contracts
         [DataMember(Name = "procedure")]
         public string Procedure { get; internal set; }
 
-        [ExperimentalWampFeature]
-        [DataMember(Name = "authrole")]
+        /// <summary>
+        /// Get the WAMP authrole of the caller. Only filled if caller is disclosed.
+        /// </summary>
+        [DataMember(Name = "caller_authrole")]
         public string AuthenticationRole { get; internal set; }
 
-        [ExperimentalWampFeature]
-        [DataMember(Name = "authmethod")]
-        public string AuthenticationMethod { get; internal set; }
-
-        [ExperimentalWampFeature]
-        [DataMember(Name = "authid")]
+        /// <summary>
+        /// Get the WAMP authid of the caller. Only filled if caller is disclosed.
+        /// </summary>
+        [DataMember(Name = "caller_authid")]
         public string AuthenticationId { get; internal set; }
     }
 }
