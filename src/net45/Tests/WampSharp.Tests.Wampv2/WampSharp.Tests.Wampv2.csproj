@@ -116,6 +116,7 @@
     <Compile Include="Integration\PubSubSubjectTupleTests.cs" />
     <Compile Include="Integration\SerializedValue.cs" />
     <Compile Include="Integration\SharedRpcTests.cs" />
+    <Compile Include="Integration\TestamentServiceTests.cs" />
     <Compile Include="Integration\WampCraAuthenticationTests.cs" />
     <Compile Include="RecordedTests\MockBuilder\WelcomeDetailsInterceptor.cs" />
     <Compile Include="RequestMapper.cs" />

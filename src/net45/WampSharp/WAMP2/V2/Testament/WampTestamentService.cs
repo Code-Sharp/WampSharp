@@ -138,7 +138,7 @@ namespace WampSharp.V2.Testament
             {
                 PublishOptions result = publishOptions ?? mDefaultPublishOptions;
 
-                if (publishOptions.DiscloseMe == true)
+                if (result.DiscloseMe == true)
                 {
                     PublishOptionsExtended extended = new PublishOptionsExtended(result);
                     result = extended;
