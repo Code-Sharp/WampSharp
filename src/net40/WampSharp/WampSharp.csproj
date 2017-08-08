@@ -1027,6 +1027,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Authentication\Server\WampAuthenticationSessionServer.cs">
       <Link>WAMP2\V2\Authentication\Server\WampAuthenticationSessionServer.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampRpcCanceledException.cs">
+      <Link>WAMP2\V2\Rpc\WampRpcCanceledException.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Testament\Client\IWampTestamentServiceProxy.cs">
       <Link>WAMP2\V2\Testament\Client\IWampTestamentServiceProxy.cs</Link>
     </Compile>
