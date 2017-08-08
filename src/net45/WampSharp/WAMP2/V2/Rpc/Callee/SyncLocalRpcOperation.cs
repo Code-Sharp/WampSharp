@@ -46,7 +46,7 @@ namespace WampSharp.V2.Rpc
             }
             catch (Exception ex)
             {
-                WampRpcRuntimeException wampException = ConvertExceptionToRuntimeException(ex);
+                WampException wampException = ConvertExceptionToRuntimeException(ex);
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
                 callback.Error(wampException);
             }

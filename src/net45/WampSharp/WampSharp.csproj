@@ -391,6 +391,7 @@
     <Compile Include="WAMP2\V2\Api\Server\WampHostBase.cs" />
     <Compile Include="WAMP2\V2\Api\Server\ServiceRealm\WampServiceHostedRealm.cs" />
     <Compile Include="WAMP2\V2\Authentication\Server\WampAuthenticationSessionServer.cs" />
+    <Compile Include="WAMP2\V2\Rpc\WampRpcCanceledException.cs" />
     <Compile Include="WAMP2\V2\Testament\Client\WampTestamentServiceProxy.cs" />
     <Compile Include="WAMP2\V2\Testament\Client\IWampTestamentServiceProxy.cs" />
     <Compile Include="WAMP2\V2\Testament\IWampTestamentService.cs" />
