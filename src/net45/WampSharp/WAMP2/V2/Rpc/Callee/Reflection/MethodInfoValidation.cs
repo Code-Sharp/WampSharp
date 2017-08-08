@@ -64,9 +64,27 @@ namespace WampSharp.V2.Rpc
             }
         }
 
+        public static void ValidateSyncMethod(MethodInfo method)
+        {
+            if (method.GetParameters().Any(x => x.ParameterType == typeof(CancellationToken)))
+            {
+                ThrowHelper.SyncMethodDoesNotSupportCancellation(method);
+            }
+
+            ValidateTupleReturnType(method);
+        }
+
         public static void ValidateAsyncMethod(MethodInfo method)
         {
-            if (method.GetParameters().Any(x => x.IsOut || x.ParameterType.IsByRef))
+            ParameterInfo[] parameters = method.GetParameters();
+
+            if (parameters.Any(x => x.ParameterType == typeof(CancellationToken) &&
+                                    x.Position != parameters.Length - 1))
+            {
+                ThrowHelper.CancellationTokenMustBeLastParameter(method);
+            }
+
+            if (parameters.Any(x => x.IsOut || x.ParameterType.IsByRef))
             {
                 ThrowHelper.AsyncOutRefMethod(method);
             }
@@ -179,6 +197,22 @@ namespace WampSharp.V2.Rpc
                     (String.Format(
                         "Method {0} of type {1} returns an invalid ValueTuple. Expected TRest to be a ValueTuple.",
                         method.Name, method.DeclaringType.FullName));
+            }
+
+            public static void SyncMethodDoesNotSupportCancellation(MethodInfo method)
+            {
+                throw new ArgumentException
+                (String.Format(
+                     "Method {0} of type {1} is a synchronous method, but expects to receive a CancellationToken.",
+                     method.Name, method.DeclaringType.FullName));
+            }
+
+            public static void CancellationTokenMustBeLastParameter(MethodInfo method)
+            {
+                throw new ArgumentException
+                (String.Format(
+                     "Method {0} of type {1} receives a CancellationToken not as its last argument. A CancellationToken can be declared only as the last argument of a method.",
+                     method.Name, method.DeclaringType.FullName));
             }
         }
     }
