@@ -15,7 +15,7 @@
       <group targetFramework="net40">
         <dependency id="rx-main" version="[2.2.5]" />
         <dependency id="Ix-Async" version="[1.2.5]" />
-        <dependency id="Castle.Core" version="[3.3.1]" />
+        <dependency id="Castle.Core" version="[4.1.1]" />
         <dependency id="Rackspace.Collections.Immutable" version="[1.1.36]" />
       </group>
       <group targetFramework="portable-win81+wpa81">
