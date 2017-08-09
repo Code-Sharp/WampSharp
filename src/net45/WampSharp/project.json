@@ -29,7 +29,7 @@
         "System.Security.Cryptography.Algorithms": "4.3.0",
         "System.Text.RegularExpressions": "4.3.0",
         "System.Threading.Tasks.Dataflow": "4.7.0",
-        "System.ValueTuple": "4.4.0"
+        "System.ValueTuple": "4.0.0-rc3-24212-01"
       }
     },
     "uap10.0": {
@@ -52,7 +52,7 @@
         "System.Runtime.Serialization.Primitives": "4.1.1",
         "System.Security.Cryptography.Algorithms": "4.2.0",
         "System.Text.RegularExpressions": "4.1.0",
-        "System.ValueTuple": "4.4.0",
+        "System.ValueTuple": "4.0.0-rc3-24212-01",
         "Microsoft.TargetingPack.Private.WinRT": {
           "version": "1.0.1",
           "type": "build"
