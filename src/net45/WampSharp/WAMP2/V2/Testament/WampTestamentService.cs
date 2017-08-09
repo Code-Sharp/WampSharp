@@ -143,8 +143,8 @@ namespace WampSharp.V2.Testament
                     PublishOptionsExtended extended = new PublishOptionsExtended(result);
                     result = extended;
                     extended.PublisherId = (long) invocationDetails.Caller;
-                    extended.AuthenticationId = invocationDetails.AuthenticationId;
-                    extended.AuthenticationRole = invocationDetails.AuthenticationRole;
+                    extended.AuthenticationId = invocationDetails.CallerAuthenticationId;
+                    extended.AuthenticationRole = invocationDetails.CallerAuthenticationRole;
                 }
 
                 result.Acknowledge = null;

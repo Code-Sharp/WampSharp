@@ -20,8 +20,8 @@ namespace WampSharp.V2.PubSub
                 {
                     result.Publisher = extendedOptions.PublisherId;
 
-                    result.AuthenticationId = extendedOptions.AuthenticationId;
-                    result.AuthenticationRole = extendedOptions.AuthenticationRole;
+                    result.PublisherAuthenticationId = extendedOptions.AuthenticationId;
+                    result.PublisherAuthenticationRole = extendedOptions.AuthenticationRole;
                 }
 
                 if (match != WampMatchPattern.Exact)
