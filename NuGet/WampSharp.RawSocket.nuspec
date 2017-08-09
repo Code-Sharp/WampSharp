@@ -7,12 +7,12 @@
     <dependencies>
       <group targetFramework="net45">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="System.Buffers" version="4.0.0" />
+        <dependency id="System.Buffers" version="4.3.0" />
       </group>
       <group targetFramework=".NETStandard1.3">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="System.Buffers" version="4.0.0" />
-        <dependency id="System.Net.Sockets" version="4.1.0" />
+        <dependency id="System.Buffers" version="4.3.0" />
+        <dependency id="System.Net.Sockets" version="4.3.0" />
       </group>
     </dependencies>
     <id>WampSharp.RawSocket</id>

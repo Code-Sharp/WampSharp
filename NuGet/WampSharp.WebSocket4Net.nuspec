@@ -7,15 +7,15 @@
     <dependencies>
       <group targetFramework="net45">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="WebSocket4Net" version="[0.15.0-beta4, )" />
+        <dependency id="WebSocket4Net" version="[0.15.0-beta9, )" />
       </group>
       <group targetFramework="net40">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="WebSocket4Net" version="[0.15.0-beta4, )" />
+        <dependency id="WebSocket4Net" version="[0.15.0-beta9, )" />
       </group>
       <group targetFramework=".NETStandard1.3">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="WebSocket4Net" version="[0.15.0-beta5, )" />
+        <dependency id="WebSocket4Net" version="[0.15.0-beta9, )" />
       </group>
     </dependencies>
     <id>WampSharp.WebSocket4Net</id>
