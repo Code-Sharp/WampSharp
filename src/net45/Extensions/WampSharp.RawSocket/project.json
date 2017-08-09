@@ -11,8 +11,8 @@
   "frameworks": {
     "netstandard1.3": {
       "dependencies": {
-        "System.Buffers": "4.0.0",
-        "System.Net.Sockets": "4.1.0" 
+        "System.Buffers": "4.3.0",
+        "System.Net.Sockets": "4.3.0" 
       },
       "buildOptions": {
         "define": ["NETCORE"],
