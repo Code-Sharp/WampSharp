@@ -1717,6 +1717,9 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Api\CalleeProxy\Callbacks\Async\AsyncOperationCallback.cs">
       <Link>WAMP2\V2\Api\CalleeProxy\Callbacks\Async\AsyncOperationCallback.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Rpc\WampRpcCanceledException.cs">
+      <Link>WAMP2\V2\Rpc\WampRpcCanceledException.cs</Link>
+    </Compile>
     <EmbeddedResource Include="Properties\WampSharp.rd.xml" />
   </ItemGroup>
   <ItemGroup>
