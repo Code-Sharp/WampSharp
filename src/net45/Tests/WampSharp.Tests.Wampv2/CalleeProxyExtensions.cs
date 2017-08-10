@@ -67,7 +67,7 @@ namespace WampSharp.Tests.Wampv2
             compilerParameters.ReferencedAssemblies.AddRange(
                 GetAssemblies(typeof(T).Assembly)
                     .Union(new[] { typeof(Enumerable).Assembly })
-                    .Select(x => Path.GetFileName(x.Location)).ToArray());
+                    .Select(x => x.Location).ToArray());
 
             CompilerResults compilerResults =
                 provider.CompileAssemblyFromSource(compilerParameters, code);
