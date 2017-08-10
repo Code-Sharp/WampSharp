@@ -18,7 +18,7 @@
         "Microsoft.CSharp": "4.3.0",
         "Castle.Core": "4.1.1",
         "System.Collections.Concurrent": "4.3.0",
-        "System.Collections.Immutable": "1.3.1",
+        "System.Collections.Immutable": "1.2.1",
         "System.ComponentModel": "4.3.0",
         "System.Net.Primitives": "4.3.0",
         "System.Reactive": "3.0.0",
