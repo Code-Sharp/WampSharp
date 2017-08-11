@@ -4,7 +4,7 @@ WampSharp
 
 A C# implementation of [WAMP (The Web Application Messaging Protocol)][WampLink]
 
-The implementation supports WAMPv2 and includes both Json and MsgPack support, and both Router (Broker and Dealer roles) and Client (Publisher/Subscriber and Callee/Caller) roles. See here for a list of [implemented advanced profile features](https://github.com/Code-Sharp/WampSharp-docs#advanced-profile-features).
+The implementation supports WAMPv2 and includes both Json and MsgPack support, and both Router (Broker and Dealer roles) and Client (Publisher/Subscriber and Callee/Caller) roles. See here for a list of [implemented advanced profile features](http://wampsharp.net/#advanced-profile-features).
 
 The implementation also supports WAMPv1, both client and server roles.
 
@@ -16,29 +16,29 @@ Master | Provider
 
 ## Documentation
 
-Documentation has been moved to [its own repository](https://github.com/Code-Sharp/WampSharp-docs)!
+Documentation has been moved to [its own site](https://wampsharp.net)!
 
-## WampSharp v1.2.5.21-beta
+## WampSharp v1.2.6.41-beta
 
-WampSharp v1.2.5.21-beta released, see version [release notes](https://github.com/Code-Sharp/WampSharp-docs/blob/master/Release-notes/WampSharp-v1.2.5.21-beta-release-notes.md).
+WampSharp v1.2.6.41-beta released, see version [release notes](http://wampsharp.net/release-notes/wampsharp-v1.2.6.41-beta-release-notes/).
 
 ## Get Started
 
-See [Get started tutorial](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Getting-started-with-WAMPv2.md) and
-* [Getting started with Callee](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Callee/Getting-Started-with-Callee.md)
-* [Getting started with Caller](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Caller/Getting-Started-with-Caller.md)
-* [Getting started with Publisher](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Publisher/Getting-Started-with-Publisher.md)
-* [Getting started with Subscriber](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP2/Roles/Subscriber/Getting-Started-with-Subscriber.md)
+See [Get started tutorial](http://wampsharp.net/wamp2/getting-started-with-wampv2/) and
+* [Getting started with Callee](http://wampsharp.net/wamp2/roles/callee/getting-started-with-callee/)
+* [Getting started with Caller](http://wampsharp.net/wamp2/roles/caller/getting-started-with-caller/)
+* [Getting started with Publisher](http://wampsharp.net/wamp2/roles/publisher/getting-started-with-publisher/)
+* [Getting started with Subscriber](http://wampsharp.net/wamp2/roles/subscriber/getting-started-with-subscriber/)
 
-See [documentation](https://github.com/Code-Sharp/WampSharp-docs) for more help.
+See [documentation](https://wampsharp.net) for more help.
 
 ## WAMPv1 support
 
-WAMPv1 support is still available. You can read about it at the [Documentation site](https://github.com/Code-Sharp/WampSharp-docs).
+WAMPv1 support is still available. You can read about it on the [Documentation site](https://wampsharp.net).
 
 In order to use it, Install WampSharp.WAMP1.Default from NuGet.
 
-If you're updating from a previous WampSharp version and you're not interested yet in updating your application to WAMPv2, please read the following [notes](https://github.com/Code-Sharp/WampSharp-docs/blob/master/WAMP1/Notes-for-WAMPv1-users.md).
+If you're updating from a previous WampSharp version and you're not interested yet in updating your application to WAMPv2, please read the following [notes](http://wampsharp.net/wamp1/notes-for-wampv1-users/).
 
 ## Donations
 
