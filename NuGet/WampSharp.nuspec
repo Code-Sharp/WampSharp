@@ -61,17 +61,17 @@
     <tags>websockets wampws rpc pubsub wampv2</tags>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.dll" target="lib\net45\WampSharp.dll" />
-    <file src="bin\net45\WampSharp.xml" target="lib\net45\WampSharp.xml" />
-    <file src="bin\net40\WampSharp.dll" target="lib\net40\WampSharp.dll" />
-    <file src="bin\net40\WampSharp.xml" target="lib\net40\WampSharp.xml" />
-    <file src="bin\pcl\WampSharp.dll" target="lib\portable-win81+wpa81\WampSharp.dll" />
-    <file src="bin\pcl\WampSharp.xml" target="lib\portable-win81+wpa81\WampSharp.xml" />
-    <file src="bin\pcl\WampSharp.dll" target="lib\Xamarin.iOS10\WampSharp.dll" />
-    <file src="bin\pcl\WampSharp.xml" target="lib\Xamarin.iOS10\WampSharp.xml" />
-    <file src="bin\netstandard1.3\WampSharp.dll" target="lib\netstandard1.3\WampSharp.dll" />
-    <file src="bin\netstandard1.3\WampSharp.xml" target="lib\netstandard1.3\WampSharp.xml" />
-    <file src="bin\uap10.0\WampSharp.dll" target="lib\uap10.0\WampSharp.dll" />
-    <file src="bin\uap10.0\WampSharp.xml" target="lib\uap10.0\WampSharp.xml" />
+    <file src="$bin$\net45\WampSharp.dll" target="lib\net45\WampSharp.dll" />
+    <file src="$bin$\net45\WampSharp.xml" target="lib\net45\WampSharp.xml" />
+    <file src="$bin$\net40\WampSharp.dll" target="lib\net40\WampSharp.dll" />
+    <file src="$bin$\net40\WampSharp.xml" target="lib\net40\WampSharp.xml" />
+    <file src="$bin$\pcl\WampSharp.dll" target="lib\portable-win81+wpa81\WampSharp.dll" />
+    <file src="$bin$\pcl\WampSharp.xml" target="lib\portable-win81+wpa81\WampSharp.xml" />
+    <file src="$bin$\pcl\WampSharp.dll" target="lib\Xamarin.iOS10\WampSharp.dll" />
+    <file src="$bin$\pcl\WampSharp.xml" target="lib\Xamarin.iOS10\WampSharp.xml" />
+    <file src="$bin$\netstandard1.3\WampSharp.dll" target="lib\netstandard1.3\WampSharp.dll" />
+    <file src="$bin$\netstandard1.3\WampSharp.xml" target="lib\netstandard1.3\WampSharp.xml" />
+    <file src="$bin$\uap10.0\WampSharp.dll" target="lib\uap10.0\WampSharp.dll" />
+    <file src="$bin$\uap10.0\WampSharp.xml" target="lib\uap10.0\WampSharp.xml" />
   </files>
 </package>

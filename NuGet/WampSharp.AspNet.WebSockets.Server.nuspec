@@ -20,6 +20,6 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.AspNet.WebSockets.Server.dll" target="lib\net45\WampSharp.AspNet.WebSockets.Server.dll" />
+    <file src="$bin$\net45\WampSharp.AspNet.WebSockets.Server.dll" target="lib\net45\WampSharp.AspNet.WebSockets.Server.dll" />
   </files>
 </package>

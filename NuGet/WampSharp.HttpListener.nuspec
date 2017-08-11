@@ -17,6 +17,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.HttpListener.dll" target="lib\net45\WampSharp.HttpListener.dll" />
+    <file src="$bin$\net45\WampSharp.HttpListener.dll" target="lib\net45\WampSharp.HttpListener.dll" />
   </files>
 </package>

@@ -37,15 +37,15 @@
     <tags>websockets wampws rpc pubsub newtonsoft json msgpack wampv2</tags>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.Default.Client.dll" target="lib\net45\WampSharp.Default.Client.dll" />
-    <file src="bin\net45\WampSharp.Default.Client.xml" target="lib\net45\WampSharp.Default.Client.xml" />
-    <file src="bin\net40\WampSharp.Default.Client.dll" target="lib\net40\WampSharp.Default.Client.dll" />
-    <file src="bin\net40\WampSharp.Default.Client.xml" target="lib\net40\WampSharp.Default.Client.xml" />
-    <file src="bin\pcl\WampSharp.Default.Client.dll" target="lib\portable-win81+wpa81\WampSharp.Default.Client.dll" />
-    <file src="bin\pcl\WampSharp.Default.Client.xml" target="lib\portable-win81+wpa81\WampSharp.Default.Client.xml" />
-    <file src="bin\uap10.0\WampSharp.Default.Client.dll" target="lib\uap10.0\WampSharp.Default.Client.dll" />
-    <file src="bin\uap10.0\WampSharp.Default.Client.xml" target="lib\uap10.0\WampSharp.Default.Client.xml" />
-    <file src="bin\netstandard1.3\WampSharp.Default.Client.dll" target="lib\netstandard1.3\WampSharp.Default.Client.dll" />
-    <file src="bin\netstandard1.3\WampSharp.Default.Client.xml" target="lib\netstandard1.3\WampSharp.Default.Client.xml" />
+    <file src="$bin$\net45\WampSharp.Default.Client.dll" target="lib\net45\WampSharp.Default.Client.dll" />
+    <file src="$bin$\net45\WampSharp.Default.Client.xml" target="lib\net45\WampSharp.Default.Client.xml" />
+    <file src="$bin$\net40\WampSharp.Default.Client.dll" target="lib\net40\WampSharp.Default.Client.dll" />
+    <file src="$bin$\net40\WampSharp.Default.Client.xml" target="lib\net40\WampSharp.Default.Client.xml" />
+    <file src="$bin$\pcl\WampSharp.Default.Client.dll" target="lib\portable-win81+wpa81\WampSharp.Default.Client.dll" />
+    <file src="$bin$\pcl\WampSharp.Default.Client.xml" target="lib\portable-win81+wpa81\WampSharp.Default.Client.xml" />
+    <file src="$bin$\uap10.0\WampSharp.Default.Client.dll" target="lib\uap10.0\WampSharp.Default.Client.dll" />
+    <file src="$bin$\uap10.0\WampSharp.Default.Client.xml" target="lib\uap10.0\WampSharp.Default.Client.xml" />
+    <file src="$bin$\netstandard1.3\WampSharp.Default.Client.dll" target="lib\netstandard1.3\WampSharp.Default.Client.dll" />
+    <file src="$bin$\netstandard1.3\WampSharp.Default.Client.xml" target="lib\netstandard1.3\WampSharp.Default.Client.xml" />
   </files>
 </package>

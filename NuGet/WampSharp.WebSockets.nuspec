@@ -20,9 +20,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.WebSockets.dll" target="lib\net45\WampSharp.WebSockets.dll" />
-    <file src="bin\net45\WampSharp.WebSockets.xml" target="lib\net45\WampSharp.WebSockets.xml" />
-    <file src="bin\netstandard1.3\WampSharp.WebSockets.dll" target="lib\netstandard1.3\WampSharp.WebSockets.dll" />
-    <file src="bin\netstandard1.3\WampSharp.WebSockets.xml" target="lib\netstandard1.3\WampSharp.WebSockets.xml" />
+    <file src="$bin$\net45\WampSharp.WebSockets.dll" target="lib\net45\WampSharp.WebSockets.dll" />
+    <file src="$bin$\net45\WampSharp.WebSockets.xml" target="lib\net45\WampSharp.WebSockets.xml" />
+    <file src="$bin$\netstandard1.3\WampSharp.WebSockets.dll" target="lib\netstandard1.3\WampSharp.WebSockets.dll" />
+    <file src="$bin$\netstandard1.3\WampSharp.WebSockets.xml" target="lib\netstandard1.3\WampSharp.WebSockets.xml" />
   </files>
 </package>

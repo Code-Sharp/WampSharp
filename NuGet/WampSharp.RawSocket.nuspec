@@ -23,9 +23,9 @@
     <tags>websockets wampws rpc pubsub supersocket wampv2 rawsocket</tags>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.RawSocket.dll" target="lib\net45\WampSharp.RawSocket.dll" />
-    <file src="bin\net45\WampSharp.RawSocket.xml" target="lib\net45\WampSharp.RawSocket.xml" />
-    <file src="bin\netstandard1.3\WampSharp.RawSocket.dll" target="lib\netstandard1.3\WampSharp.RawSocket.dll" />
-    <file src="bin\netstandard1.3\WampSharp.RawSocket.xml" target="lib\netstandard1.3\WampSharp.RawSocket.xml" />
+    <file src="$bin$\net45\WampSharp.RawSocket.dll" target="lib\net45\WampSharp.RawSocket.dll" />
+    <file src="$bin$\net45\WampSharp.RawSocket.xml" target="lib\net45\WampSharp.RawSocket.xml" />
+    <file src="$bin$\netstandard1.3\WampSharp.RawSocket.dll" target="lib\netstandard1.3\WampSharp.RawSocket.dll" />
+    <file src="$bin$\netstandard1.3\WampSharp.RawSocket.xml" target="lib\netstandard1.3\WampSharp.RawSocket.xml" />
   </files>
 </package>
