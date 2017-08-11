@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using WampSharp.Tests.Wampv2.Integration;
+using WampSharp.V2.Realm;
 
 namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
 {
@@ -55,6 +56,26 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
             await result.Subscriber.Open();
 
             result.PublisherSessionId = publisherSessionId.Value;
+
+            return result;
+        }
+
+        public static async Task<ChannelWithExtraData> GetChannel(this WampPlayground playground)
+        {
+            const string realmName = "realm1";
+
+            var channel =
+                playground.CreateNewChannel(realmName);
+
+            WampSessionCreatedEventArgs eventArgs = null;
+
+            channel.RealmProxy.Monitor.ConnectionEstablished +=
+                (x, y) => { eventArgs = y; };
+
+            await channel.Open();
+
+            ChannelWithExtraData result = 
+                new ChannelWithExtraData(channel, eventArgs);
 
             return result;
         }

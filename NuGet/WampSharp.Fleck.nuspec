@@ -6,7 +6,7 @@
     <owners />
     <dependencies>
       <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="Fleck" version="[0.13.0.57]" />
+      <dependency id="Fleck" version="[0.14.0.59]" />
     </dependencies>
     <id>WampSharp.Fleck</id>
     <title>WampSharp Fleck transport</title>
@@ -16,9 +16,9 @@
     <tags>websockets wampws rpc pubsub fleck wampv1 wampv2</tags>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.Fleck.dll" target="lib\net45\WampSharp.Fleck.dll" />
-    <file src="bin\net45\WampSharp.Fleck.xml" target="lib\net45\WampSharp.Fleck.xml" />
-    <file src="bin\net40\WampSharp.Fleck.dll" target="lib\net40\WampSharp.Fleck.dll" />
-    <file src="bin\net40\WampSharp.Fleck.xml" target="lib\net40\WampSharp.Fleck.xml" />
+    <file src="$bin$\net45\WampSharp.Fleck.dll" target="lib\net45\WampSharp.Fleck.dll" />
+    <file src="$bin$\net45\WampSharp.Fleck.xml" target="lib\net45\WampSharp.Fleck.xml" />
+    <file src="$bin$\net40\WampSharp.Fleck.dll" target="lib\net40\WampSharp.Fleck.dll" />
+    <file src="$bin$\net40\WampSharp.Fleck.xml" target="lib\net40\WampSharp.Fleck.xml" />
   </files>
 </package>

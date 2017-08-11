@@ -18,6 +18,7 @@ namespace WampSharp.V2.Core.Contracts
             TimeoutMili = other.TimeoutMili;
             ReceiveProgress = other.ReceiveProgress;
             DiscloseMe = other.DiscloseMe;
+            OriginalValue = other.OriginalValue;
         }
 
         [IgnoreDataMember]

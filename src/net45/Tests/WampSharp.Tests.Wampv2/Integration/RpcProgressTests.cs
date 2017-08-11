@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using WampSharp.Core.Serialization;
@@ -40,7 +41,6 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(callback.Task.Result, Is.EqualTo(10));
         }
 
-
         [Test]
         public async Task ProgressiveCallsCalleeProxyProgress()
         {
@@ -76,11 +76,12 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
             }
 
-            public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
             {
+                return null;
             }
 
-            public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                 InvocationDetails details,
                 TMessage[] arguments)
             {
@@ -97,11 +98,14 @@ namespace WampSharp.Tests.Wampv2.Integration
                 caller.Result(WampObjectFormatter.Value,
                     new YieldOptions(),
                     new object[] {n});
+
+                return null;
             }
 
-            public void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
                 TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
+                return null;
             }
         }
 

@@ -21,9 +21,6 @@ namespace WampSharp.V2.Core.Contracts
         public string AuthenticationRole { get; internal set; }
 
         [IgnoreDataMember]
-        public string AuthenticationMethod { get; internal set; }
-
-        [IgnoreDataMember]
         public string AuthenticationId { get; internal set; }
     }
 }

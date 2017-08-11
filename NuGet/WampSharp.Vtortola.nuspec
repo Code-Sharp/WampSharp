@@ -6,7 +6,7 @@
     <owners />
     <dependencies>
       <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="vtortola.WebSocketListener" version="[2.2.0.3]" />
+      <dependency id="vtortola.WebSocketListener" version="[2.2.2]" />
     </dependencies>
     <id>WampSharp.Vtortola</id>
     <title>WampSharp Vtortola support</title>
@@ -16,7 +16,7 @@
     <tags>websockets wampws rpc pubsub vtortola wampv2</tags>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.Vtortola.dll" target="lib\net45\WampSharp.Vtortola.dll" />
-    <file src="bin\net45\WampSharp.Vtortola.xml" target="lib\net45\WampSharp.Vtortola.xml" />
+    <file src="$bin$\net45\WampSharp.Vtortola.dll" target="lib\net45\WampSharp.Vtortola.dll" />
+    <file src="$bin$\net45\WampSharp.Vtortola.xml" target="lib\net45\WampSharp.Vtortola.xml" />
   </files>
 </package>

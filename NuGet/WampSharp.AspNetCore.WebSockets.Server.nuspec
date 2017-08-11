@@ -11,14 +11,14 @@
     <tags>websockets,wampws,rpc,pubsub,wampv1,wampv2,aspnetcore</tags>
     <dependencies>
       <group targetFramework=".NETStandard1.3">
-        <dependency id="Microsoft.AspNetCore.WebSockets" version="[1.0.0, )" />
+        <dependency id="Microsoft.AspNetCore.WebSockets" version="[1.0.2, )" />
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WampSharp.WebSockets" version="[$version$]" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.dll" target="lib\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.dll" />
-    <file src="bin\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.xml" target="lib\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.xml" />
+    <file src="$bin$\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.dll" target="lib\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.dll" />
+    <file src="$bin$\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.xml" target="lib\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.xml" />
   </files>
 </package>

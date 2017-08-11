@@ -148,7 +148,8 @@ namespace WampSharp.V2
             object[] unpacked =
                 mArgumentUnpacker.UnpackParameters(formatter,
                                                    argumentsArray,
-                                                   argumentKeywords);
+                                                   argumentKeywords)
+                                 .ToArray();
 
             return (TTuple) mArrayConverter.ToTuple(unpacked);
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Utilities;
 using WampSharp.V2.Client;
@@ -10,8 +11,8 @@ namespace WampSharp.V2.CalleeProxy
     public class CalleeProxyBase
     {
         protected delegate T InvokeSyncDelegate<T>(CalleeProxyBase proxy, params object[] arguments);
-        protected delegate Task<T> InvokeAsyncDelegate<T>(CalleeProxyBase proxy, params object[] arguments);
-        protected delegate Task<T> InvokeProgressiveAsyncDelegate<T>(CalleeProxyBase proxy, IProgress<T> progress, params object[] arguments);
+        protected delegate Task<T> InvokeAsyncDelegate<T>(CalleeProxyBase proxy, CancellationToken cancellationToken, params object[] arguments);
+        protected delegate Task<T> InvokeProgressiveAsyncDelegate<T>(CalleeProxyBase proxy, IProgress<T> progress, CancellationToken cancellationToken, params object[] arguments);
 
         private readonly WampCalleeProxyInvocationHandler mHandler;
         private readonly ICalleeProxyInterceptor mInterceptor;
@@ -59,8 +60,8 @@ namespace WampSharp.V2.CalleeProxy
         private static InvokeAsyncDelegate<T> GetInvokeAsync<T>(MethodBase method, IOperationResultExtractor<T> extractor)
         {
             InvokeAsyncDelegate<T> result =
-                (proxy, arguments) =>
-                        proxy.InvokeAsync(method, extractor, arguments);
+                (proxy, cancellationToken, arguments) =>
+                        proxy.InvokeAsync(method, extractor, cancellationToken, arguments);
 
             return result;
         }
@@ -70,8 +71,8 @@ namespace WampSharp.V2.CalleeProxy
                                          IOperationResultExtractor<T> extractor)
         {
             InvokeProgressiveAsyncDelegate<T> result =
-                (proxy, progress, arguments) =>
-                        proxy.InvokeProgressiveAsync(method, progress, extractor, arguments);
+                (proxy, progress, cancellationToken, arguments) =>
+                        proxy.InvokeProgressiveAsync(method, progress, cancellationToken, extractor, arguments);
 
             return result;
         }
@@ -135,18 +136,42 @@ namespace WampSharp.V2.CalleeProxy
                                        IOperationResultExtractor<T> valueExtractor,
                                        params object[] arguments)
         {
+            return InvokeAsync<T>(method, valueExtractor, CancellationToken.None, arguments);
+        }
+
+        private Task<T> InvokeAsync<T>(MethodBase method,
+                                       IOperationResultExtractor<T> valueExtractor,
+                                       CancellationToken cancellationToken,
+                                       params object[] arguments)
+        {
             MethodInfo methodInfo = (MethodInfo) method;
 
             return mHandler.InvokeAsync
                 (mInterceptor,
                  methodInfo,
                  valueExtractor,
-                 arguments);
+                 arguments,
+                 cancellationToken);
+        }
+
+        private Task<T> InvokeProgressiveAsync<T>
+        (MethodBase method,
+         IProgress<T> progress,
+         IOperationResultExtractor<T> resultExtractor,
+         params object[] arguments)
+        {
+            return InvokeProgressiveAsync<T>
+            (method,
+             progress,
+             CancellationToken.None,
+             resultExtractor,
+             arguments);
         }
 
         private Task<T> InvokeProgressiveAsync<T>
             (MethodBase method,
              IProgress<T> progress,
+             CancellationToken cancellationToken,
              IOperationResultExtractor<T> resultExtractor,
              params object[] arguments)
         {
@@ -157,7 +182,8 @@ namespace WampSharp.V2.CalleeProxy
                  methodInfo,
                  resultExtractor,
                  arguments,
-                 progress);
+                 progress,
+                 cancellationToken);
         }
 
         protected static MethodInfo GetMethodInfo<T>(Expression<Action<T>> expression)

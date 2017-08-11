@@ -82,9 +82,9 @@ namespace WampSharp.V2.CalleeProxy
         #region Overridden
 
 #if ASYNC
-        protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+        protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback, CancellationTokenRegistration registration)
 #else
-        protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
+        protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback, CancellationTokenRegistration registration)
 #endif
         {
 #if ASYNC
@@ -95,6 +95,8 @@ namespace WampSharp.V2.CalleeProxy
             Task task = await Task.WhenAny(operationTask,
                                            disconnectionTask)
                                   .ConfigureAwait(false);
+
+            registration.Dispose();
 
             if (!operationTask.IsCompleted)
             {
@@ -116,6 +118,8 @@ namespace WampSharp.V2.CalleeProxy
                 
             Task<T> task = merged.ToTask();
 
+            task.ContinueWith(x => registration.Dispose());
+
             return task;
 #endif
         }
@@ -136,15 +140,15 @@ namespace WampSharp.V2.CalleeProxy
             base.WaitForResult(callback);
         }
 
-        protected override void Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments)
+        protected override IWampCancellableInvocationProxy Invoke(ICalleeProxyInterceptor interceptor, IWampRawRpcOperationClientCallback callback, MethodInfo method, object[] arguments)
         {
             CallOptions callOptions = interceptor.GetCallOptions(method);
             var procedureUri = interceptor.GetProcedureUri(method);
 
-            mCatalogProxy.Invoke(callback,
-                                 callOptions,
-                                 procedureUri,
-                                 arguments);
+            return mCatalogProxy.Invoke(callback,
+                                        callOptions,
+                                        procedureUri,
+                                        arguments);
         }
 
 #endregion

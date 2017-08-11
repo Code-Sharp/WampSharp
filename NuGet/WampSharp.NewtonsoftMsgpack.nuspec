@@ -29,11 +29,11 @@
     <tags>websockets wampws rpc pubsub newtonsoft msgpack wampv2</tags>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.NewtonsoftMsgpack.dll" target="lib\net45\WampSharp.NewtonsoftMsgpack.dll" />
-    <file src="bin\net45\WampSharp.NewtonsoftMsgpack.xml" target="lib\net45\WampSharp.NewtonsoftMsgpack.xml" />
-    <file src="bin\net40\WampSharp.NewtonsoftMsgpack.dll" target="lib\net40\WampSharp.NewtonsoftMsgpack.dll" />
-    <file src="bin\net40\WampSharp.NewtonsoftMsgpack.xml" target="lib\net40\WampSharp.NewtonsoftMsgpack.xml" />
-    <file src="bin\net45\WampSharp.NewtonsoftMsgpack.dll" target="lib\netstandard1.3\WampSharp.NewtonsoftMsgpack.dll" />
-    <file src="bin\net45\WampSharp.NewtonsoftMsgpack.xml" target="lib\netstandard1.3\WampSharp.NewtonsoftMsgpack.xml" />
+    <file src="$bin$\net45\WampSharp.NewtonsoftMsgpack.dll" target="lib\net45\WampSharp.NewtonsoftMsgpack.dll" />
+    <file src="$bin$\net45\WampSharp.NewtonsoftMsgpack.xml" target="lib\net45\WampSharp.NewtonsoftMsgpack.xml" />
+    <file src="$bin$\net40\WampSharp.NewtonsoftMsgpack.dll" target="lib\net40\WampSharp.NewtonsoftMsgpack.dll" />
+    <file src="$bin$\net40\WampSharp.NewtonsoftMsgpack.xml" target="lib\net40\WampSharp.NewtonsoftMsgpack.xml" />
+    <file src="$bin$\net45\WampSharp.NewtonsoftMsgpack.dll" target="lib\netstandard1.3\WampSharp.NewtonsoftMsgpack.dll" />
+    <file src="$bin$\net45\WampSharp.NewtonsoftMsgpack.xml" target="lib\netstandard1.3\WampSharp.NewtonsoftMsgpack.xml" />
   </files>
 </package>

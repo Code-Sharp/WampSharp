@@ -21,7 +21,7 @@ namespace WampSharp.V2.Rpc
         /// <param name="formatter">The formatter that can be used to deserialize call arguments.</param>
         /// <param name="details">The details of this invocation.</param>
         /// <typeparam name="TMessage"></typeparam>
-        void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details);
+        IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details);
 
         /// <summary>
         /// Invokes the procedure.
@@ -31,7 +31,7 @@ namespace WampSharp.V2.Rpc
         /// <param name="details">The details of this invocation.</param>
         /// <param name="arguments">The arguments associated with this invocation.</param>
         /// <typeparam name="TMessage"></typeparam>
-        void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments);
+        IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments);
 
         /// <summary>
         /// Invokes the procedure.
@@ -42,6 +42,6 @@ namespace WampSharp.V2.Rpc
         /// <param name="arguments">The arguments associated with this invocation.</param>
         /// <param name="argumentsKeywords">The arguments keywords associated with this invocation.</param>
         /// <typeparam name="TMessage"></typeparam>
-        void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
+        IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
     }
 }

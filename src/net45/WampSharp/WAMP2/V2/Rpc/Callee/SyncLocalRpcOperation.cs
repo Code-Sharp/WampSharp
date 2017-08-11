@@ -14,11 +14,15 @@ namespace WampSharp.V2.Rpc
         {
         }
 
-        protected override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
-                                                      IWampFormatter<TMessage> formatter,
-                                                      InvocationDetails details,
-                                                      TMessage[] arguments,
-                                                      IDictionary<string, TMessage> argumentsKeywords)
+        public override bool SupportsCancellation
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        protected override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
@@ -42,10 +46,12 @@ namespace WampSharp.V2.Rpc
             }
             catch (Exception ex)
             {
-                WampRpcRuntimeException wampException = ConvertExceptionToRuntimeException(ex);
+                WampException wampException = ConvertExceptionToRuntimeException(ex);
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
                 callback.Error(wampException);
             }
+
+            return null;
         }
 
         protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs, YieldOptions yieldOptions = null)

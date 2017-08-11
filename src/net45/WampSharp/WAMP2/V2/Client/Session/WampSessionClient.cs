@@ -37,21 +37,27 @@ namespace WampSharp.V2.Client
                     Caller = new CallerFeatures()
                     {
                         CallerIdentification = true,
-                        ProgressiveCallResults = true
+                        ProgressiveCallResults = true,
+                        CallCanceling = true
                     },
                     Callee = new CalleeFeatures()
                     {
-                        ProgressiveCallResults = true
+                        ProgressiveCallResults = true,
+                        CallerIdentification = true,
+                        PatternBasedRegistration = true,
+                        SharedRegistration = true,
+                        CallCanceling = true
                     },
                     Publisher = new PublisherFeatures()
                     {
                         SubscriberBlackwhiteListing = true,
                         PublisherExclusion = true,
-                        PublisherIdentification = true,
+                        PublisherIdentification = true
                     },
                     Subscriber = new SubscriberFeatures()
                     {
-                        PublisherIdentification = true
+                        PublisherIdentification = true,
+                        PatternBasedSubscription = true
                     }
                 }
             };

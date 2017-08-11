@@ -17,7 +17,7 @@ namespace WampSharp.V2.Rpc
         /// <param name="details">The details associated with this call.</param>
         /// <param name="procedure">The procedure to invoke.</param>
         /// <typeparam name="TMessage"></typeparam>
-        void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure);
+        IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure);
 
         /// <summary>
         /// Invokes the request procedure with the given parameters.
@@ -28,7 +28,7 @@ namespace WampSharp.V2.Rpc
         /// <param name="procedure">The procedure to invoke.</param>
         /// <param name="arguments">The arguments associated with this call.</param>
         /// <typeparam name="TMessage"></typeparam>
-        void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure, TMessage[] arguments);
+        IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure, TMessage[] arguments);
 
         /// <summary>
         /// Invokes the request procedure with the given parameters.
@@ -40,6 +40,6 @@ namespace WampSharp.V2.Rpc
         /// <param name="arguments">The arguments associated with this call.</param>
         /// <param name="argumentsKeywords">The arguments keywords associated with this call.</param>
         /// <typeparam name="TMessage"></typeparam>
-        void Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
+        IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, string procedure, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
     }
 }

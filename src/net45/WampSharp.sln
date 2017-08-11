@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp", "WampSharp\WampSharp.csproj", "{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}"
 EndProject
@@ -78,6 +78,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Owin", "Extensions\WampSharp.Owin\WampSharp.Owin.csproj", "{219F3832-EC76-44CD-B601-EE5850F40FAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.AspNet.WebSockets.Server", "Extensions\WampSharp.AspNet.WebSockets.Server\WampSharp.AspNet.WebSockets.Server.csproj", "{BA110F39-09D9-4D7F-91CF-0604E5715EA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.HttpListener", "Extensions\WampSharp.HttpListener\WampSharp.HttpListener.csproj", "{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -441,6 +443,22 @@ Global
 		{BA110F39-09D9-4D7F-91CF-0604E5715EA2}.Release|x64.Build.0 = Release|Any CPU
 		{BA110F39-09D9-4D7F-91CF-0604E5715EA2}.Release|x86.ActiveCfg = Release|Any CPU
 		{BA110F39-09D9-4D7F-91CF-0604E5715EA2}.Release|x86.Build.0 = Release|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Debug|ARM.Build.0 = Debug|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Debug|x64.Build.0 = Debug|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Debug|x86.Build.0 = Debug|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Release|ARM.ActiveCfg = Release|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Release|ARM.Build.0 = Release|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Release|x64.ActiveCfg = Release|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Release|x64.Build.0 = Release|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Release|x86.ActiveCfg = Release|Any CPU
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -475,5 +493,6 @@ Global
 		{7323D1D6-0ADA-45E8-851D-8141D39FDCAA} = {FA4B348E-3BBD-4F98-B429-891376EBA17E}
 		{219F3832-EC76-44CD-B601-EE5850F40FAF} = {FA4B348E-3BBD-4F98-B429-891376EBA17E}
 		{BA110F39-09D9-4D7F-91CF-0604E5715EA2} = {FA4B348E-3BBD-4F98-B429-891376EBA17E}
+		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB} = {FA4B348E-3BBD-4F98-B429-891376EBA17E}
 	EndGlobalSection
 EndGlobal

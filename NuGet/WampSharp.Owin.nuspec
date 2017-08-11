@@ -17,7 +17,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.Owin.dll" target="lib\net45\WampSharp.Owin.dll" />
-    <file src="bin\net45\WampSharp.Owin.xml" target="lib\net45\WampSharp.Owin.xml" />
+    <file src="$bin$\net45\WampSharp.Owin.dll" target="lib\net45\WampSharp.Owin.dll" />
+    <file src="$bin$\net45\WampSharp.Owin.xml" target="lib\net45\WampSharp.Owin.xml" />
   </files>
 </package>

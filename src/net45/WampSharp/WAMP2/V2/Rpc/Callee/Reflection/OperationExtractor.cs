@@ -60,7 +60,7 @@ namespace WampSharp.V2.Rpc
 
             if (!typeof (Task).IsAssignableFrom(method.ReturnType))
             {
-                MethodInfoValidation.ValidateTupleReturnType(method);
+                MethodInfoValidation.ValidateSyncMethod(method);
                 return new SyncMethodInfoRpcOperation(instanceProvider, method, procedureUri);
             }
             else

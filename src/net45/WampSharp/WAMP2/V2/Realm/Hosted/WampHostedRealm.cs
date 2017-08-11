@@ -51,6 +51,26 @@ namespace WampSharp.V2.Realm
             }
         }
 
+        public RouterRoles Roles { get; } = new RouterRoles()
+        {
+            Dealer = new DealerFeatures()
+            {
+                PatternBasedRegistration = true,
+                SharedRegistration = true,
+                CallerIdentification = true,
+                ProgressiveCallResults = true,
+                CallCanceling = true
+            },
+            Broker = new BrokerFeatures()
+            {
+                PublisherIdentification = true,
+                PatternBasedSubscription = true,
+                PublisherExclusion = true,
+                SubscriberBlackwhiteListing = true,
+                EventRetention = true
+            }
+        };
+
         public long SessionId
         {
             get

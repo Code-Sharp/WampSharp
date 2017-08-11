@@ -36,7 +36,7 @@ namespace WampSharp.V2.PubSub
             return new WildCardSubscriptionId(topicUri);
         }
 
-        public override IEnumerable<IWampTopic> GetMatchingTopics(string criteria)
+        public override IEnumerable<IWampTopic> GetMatchingTopics(string criteria, PublishOptions publishOptions)
         {
             string[] uriParts = criteria.Split('.');
 

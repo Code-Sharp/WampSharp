@@ -62,7 +62,7 @@ namespace WampSharp.Tests.Cra
             string result = channel.GetRpcProxy<ISample>()
                                    .Hello("Foobar");
 
-            Assert.IsNotNullOrEmpty(result);
+            Assert.That(result, Is.Not.Null.Or.Empty);
         }
 
         [Test]

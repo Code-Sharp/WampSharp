@@ -56,8 +56,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
                 catalog.Verify(x => x.Register
                                         (It.Is<IWampRpcOperation>
                                              (operation => operation.Procedure == registration.Procedure),
-                                             It.Is<RegisterOptions>
-                                             (options => options == registration.Options)),
+                                             It.IsAny<RegisterOptions>()),
                                Times.Exactly(1));
 
                 callee.Verify(x => x.Registered(registration.RequestId, It.IsAny<long>()),

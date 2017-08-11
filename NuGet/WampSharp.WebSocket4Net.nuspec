@@ -7,15 +7,15 @@
     <dependencies>
       <group targetFramework="net45">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="WebSocket4Net" version="[0.15.0-beta4, )" />
+        <dependency id="WebSocket4Net" version="[0.15.0-beta9, )" />
       </group>
       <group targetFramework="net40">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="WebSocket4Net" version="[0.15.0-beta4, )" />
+        <dependency id="WebSocket4Net" version="[0.15.0-beta9, )" />
       </group>
       <group targetFramework=".NETStandard1.3">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="WebSocket4Net" version="[0.15.0-beta5, )" />
+        <dependency id="WebSocket4Net" version="[0.15.0-beta9, )" />
       </group>
     </dependencies>
     <id>WampSharp.WebSocket4Net</id>
@@ -26,11 +26,11 @@
     <tags>websockets wampws rpc pubsub websocket4net wampv1 wampv2</tags>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.WebSocket4Net.dll" target="lib\net45\WampSharp.WebSocket4Net.dll" />
-    <file src="bin\net45\WampSharp.WebSocket4Net.xml" target="lib\net45\WampSharp.WebSocket4Net.xml" />
-    <file src="bin\net40\WampSharp.WebSocket4Net.dll" target="lib\net40\WampSharp.WebSocket4Net.dll" />
-    <file src="bin\net40\WampSharp.WebSocket4Net.xml" target="lib\net40\WampSharp.WebSocket4Net.xml" />
-    <file src="bin\netstandard1.3\WampSharp.WebSocket4Net.dll" target="lib\netstandard1.3\WampSharp.WebSocket4Net.dll" />
-    <file src="bin\netstandard1.3\WampSharp.WebSocket4Net.xml" target="lib\netstandard1.3\WampSharp.WebSocket4Net.xml" />
+    <file src="$bin$\net45\WampSharp.WebSocket4Net.dll" target="lib\net45\WampSharp.WebSocket4Net.dll" />
+    <file src="$bin$\net45\WampSharp.WebSocket4Net.xml" target="lib\net45\WampSharp.WebSocket4Net.xml" />
+    <file src="$bin$\net40\WampSharp.WebSocket4Net.dll" target="lib\net40\WampSharp.WebSocket4Net.dll" />
+    <file src="$bin$\net40\WampSharp.WebSocket4Net.xml" target="lib\net40\WampSharp.WebSocket4Net.xml" />
+    <file src="$bin$\netstandard1.3\WampSharp.WebSocket4Net.dll" target="lib\netstandard1.3\WampSharp.WebSocket4Net.dll" />
+    <file src="$bin$\netstandard1.3\WampSharp.WebSocket4Net.xml" target="lib\netstandard1.3\WampSharp.WebSocket4Net.xml" />
   </files>
 </package>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Disposables;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
@@ -17,7 +18,7 @@ namespace WampSharp.V2.PubSub
         
         private readonly string mTopicUri;
 
-        private readonly bool mPersistent;
+        private bool mPersistent;
 
         public WampTopic(string topicUri, bool persistent)
         {

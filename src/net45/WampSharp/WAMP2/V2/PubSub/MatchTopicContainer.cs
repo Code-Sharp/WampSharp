@@ -12,7 +12,7 @@ namespace WampSharp.V2.PubSub
     {
         #region Fields
 
-        private readonly ConcurrentDictionary<string, WampTopic> mTopicUriToSubject;
+        private readonly ConcurrentDictionary<string, IWampTopic> mTopicUriToSubject;
         private readonly object mLock = new object();
         private readonly WampIdMapper<IWampTopic> mSubscriptionIdToTopic;
 
@@ -27,7 +27,7 @@ namespace WampSharp.V2.PubSub
         public MatchTopicContainer(WampIdMapper<IWampTopic> subscriptionIdToTopic)
         {
             mTopicUriToSubject =
-                new ConcurrentDictionary<string, WampTopic>();
+                new ConcurrentDictionary<string, IWampTopic>();
 
             mSubscriptionIdToTopic = subscriptionIdToTopic;
         }
@@ -65,8 +65,7 @@ namespace WampSharp.V2.PubSub
                                       PublishOptions options,
                                       string topicUri)
         {
-            return PublishSafe(topicUri,
-                               topic =>
+            return PublishSafe(topicUri, options, topic =>
                                    topic.Publish(formatter, publicationId, options));
         }
 
@@ -76,8 +75,7 @@ namespace WampSharp.V2.PubSub
                                       string topicUri,
                                       TMessage[] arguments)
         {
-            return PublishSafe(topicUri,
-                               topic =>
+            return PublishSafe(topicUri, options, topic =>
                                    topic.Publish(formatter, publicationId, options, arguments));
         }
 
@@ -88,23 +86,27 @@ namespace WampSharp.V2.PubSub
                                       TMessage[] arguments,
                                       IDictionary<string, TMessage> argumentKeywords)
         {
-            return PublishSafe(topicUri,
-                               topic =>
+            return PublishSafe(topicUri, options, topic =>
                                    topic.Publish(formatter, publicationId, options, arguments, argumentKeywords));
         }
 
         private bool PublishSafe
-            (string topicUri, Action<IWampTopic> invoker)
+            (string topicUri, PublishOptions publishOptions, Action<IWampTopic> invoker)
         {
             lock (mLock)
             {
                 bool anyTopics = false;
 
-                IEnumerable<IWampTopic> topics = GetMatchingTopics(topicUri);
+                IEnumerable<IWampTopic> topics = GetMatchingTopics(topicUri, publishOptions);
 
                 foreach (IWampTopic topic in topics)
                 {
-                    anyTopics = true;
+                    // Some topics are persistent and therefore publishing to them always succeeds.
+                    if (topic.HasSubscribers)
+                    {
+                        anyTopics = true;
+                    }
+
                     invoker(topic);
                 }
 
@@ -116,7 +118,7 @@ namespace WampSharp.V2.PubSub
         {
             WampTopic wampTopic = CreateWampTopic(topicUri, persistent);
 
-            IDictionary<string, WampTopic> casted = mTopicUriToSubject;
+            IDictionary<string, IWampTopic> casted = mTopicUriToSubject;
 
             casted.Add(topicUri, wampTopic);
 
@@ -130,14 +132,17 @@ namespace WampSharp.V2.PubSub
             // Pretty ugly.
             bool created = false;
 
-            WampTopic result =
+            IWampTopic result;
+
+
+            result =
                 mTopicUriToSubject.GetOrAdd(topicUri,
-                    key =>
-                    {
-                        WampTopic topic = CreateWampTopic(topicUri, false);
-                        created = true;
-                        return topic;
-                    });
+                                            key =>
+                                            {
+                                                IWampTopic topic = CreateWampTopic(topicUri, false);
+                                                created = true;
+                                                return topic;
+                                            });
 
             if (created)
             {
@@ -147,9 +152,26 @@ namespace WampSharp.V2.PubSub
             return result;
         }
 
+        protected IWampTopic GetOrCreateRetainingTopicByUri(string topicUri)
+        {
+            lock (mLock)
+            {
+                IWampTopic topic = GetOrCreateTopicByUri(topicUri);
+
+                if (!(topic is WampRetainingTopic))
+                {
+                    topic.TopicEmpty -= OnTopicEmpty;
+                    topic = new WampRetainingTopic(topic);
+                    mTopicUriToSubject[topicUri] = topic;
+                }
+
+                return topic;
+            }
+        }
+
         public IWampTopic GetTopicByUri(string topicUri)
         {
-            WampTopic result;
+            IWampTopic result;
 
             if (mTopicUriToSubject.TryGetValue(topicUri, out result))
             {
@@ -161,7 +183,7 @@ namespace WampSharp.V2.PubSub
 
         public bool TryRemoveTopicByUri(string topicUri, out IWampTopic topic)
         {
-            WampTopic value;
+            IWampTopic value;
             bool result = mTopicUriToSubject.TryRemove(topicUri, out value);
             topic = value;
 
@@ -198,7 +220,7 @@ namespace WampSharp.V2.PubSub
         {
             lock (mLock)
             {
-                WampTopic topic = sender as WampTopic;
+                IWampTopic topic = sender as IWampTopic;
 
                 if (!topic.HasSubscribers)
                 {
@@ -249,7 +271,7 @@ namespace WampSharp.V2.PubSub
 
         public abstract IWampCustomizedSubscriptionId GetSubscriptionId(string topicUri, SubscribeOptions options);
 
-        public abstract IEnumerable<IWampTopic> GetMatchingTopics(string criteria);
+        public abstract IEnumerable<IWampTopic> GetMatchingTopics(string criteria, PublishOptions publishOptions = null);
 
         public abstract bool Handles(SubscribeOptions options);
 

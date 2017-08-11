@@ -38,6 +38,17 @@ namespace WampSharp.V2.Realm.Binded
             }
         }
 
+        public WelcomeDetails WelcomeDetails
+        {
+            get
+            {
+                return new WelcomeDetails()
+                {
+                    Roles = mRealm.Roles
+                };
+            }
+        }
+
         public void Hello(long session, HelloDetails helloDetails, WelcomeDetails welcomeDetails)
         {
             mRealmGate.Hello(session, helloDetails, welcomeDetails);

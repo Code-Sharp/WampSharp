@@ -9,5 +9,7 @@ namespace WampSharp.V2.Core.Contracts
     [WampDetailsOptions(WampMessageType.v2Cancel)]
     public class CancelOptions : WampDetailsOptions
     {
+        [DataMember(Name = "mode")]
+        public string Mode { get; set; }
     }
 }

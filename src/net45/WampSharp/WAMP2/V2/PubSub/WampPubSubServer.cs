@@ -87,7 +87,6 @@ namespace WampSharp.V2.PubSub
             WelcomeDetails welcomeDetails = casted.WelcomeDetails;
 
             result.AuthenticationId = welcomeDetails.AuthenticationId;
-            result.AuthenticationMethod = welcomeDetails.AuthenticationMethod;
             result.AuthenticationRole = welcomeDetails.AuthenticationRole;
 
             result.TopicUri = topicUri;
@@ -99,7 +98,7 @@ namespace WampSharp.V2.PubSub
         {
             try
             {
-                options.Match = options.Match ?? WampMatchPattern.Default;
+                options = options.WithDefaults();
 
                 ValidateSubscribeUri(topicUri, options.Match);
 

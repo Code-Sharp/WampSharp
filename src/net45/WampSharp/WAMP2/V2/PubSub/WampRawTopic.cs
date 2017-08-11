@@ -6,6 +6,7 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
+using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
@@ -71,37 +72,6 @@ namespace WampSharp.V2.PubSub
             InnerEvent(options, action);
         }
 
-        private EventDetails GetDetails(PublishOptions options)
-        {
-            EventDetails result = new EventDetails();
-
-            PublishOptionsExtended extendedOptions = 
-                options as PublishOptionsExtended;
-
-            bool disclosePublisher = options.DiscloseMe ?? false;
-
-            if (extendedOptions != null)
-            {
-                if (disclosePublisher)
-                {
-                    result.Publisher = extendedOptions.PublisherId;
-
-                    result.AuthenticationId = extendedOptions.AuthenticationId;
-                    result.AuthenticationMethod = extendedOptions.AuthenticationMethod;
-                    result.AuthenticationRole = extendedOptions.AuthenticationRole;
-                }
-
-                string match = mSubscribeOptions.Match;
-
-                if (match != WampMatchPattern.Exact)
-                {
-                    result.Topic = extendedOptions.TopicUri;
-                }
-            }
-
-            return result;
-        }
-
         private void Publish(WampMessage<object> message, PublishOptions options)
         {
             WampMessage<object> raw = mBinding.GetRawMessage(message);
@@ -117,7 +87,7 @@ namespace WampSharp.V2.PubSub
 
         private void InnerEvent(PublishOptions options, Func<EventDetails, WampMessage<object>> action)
         {
-            EventDetails details = GetDetails(options);
+            EventDetails details = options.GetEventDetails(mSubscribeOptions.Match);
 
             WampMessage<object> message = action(details);
 
@@ -176,9 +146,9 @@ namespace WampSharp.V2.PubSub
 
             if (!observer.IsOpen)
             {
-                observer.Open();
+                this.RaiseSubscriptionAdded(remoteSubscriber, options);
 
-                this.RaiseSubscriptionAdded(remoteSubscriber, options);                
+                observer.Open();
             }
         }
 
@@ -324,6 +294,24 @@ namespace WampSharp.V2.PubSub
                 monitor.ConnectionClosed -= OnConnectionClosed;
             }
 
+            protected bool Equals(Subscription other)
+            {
+                return Equals(mClient.Session, other.mClient.Session);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != this.GetType()) return false;
+                return Equals((Subscription) obj);
+            }
+
+            public override int GetHashCode()
+            {
+                return mClient.Session.GetHashCode();
+            }
+
             private class DisconnectUnsubscribeRequest : IUnsubscribeRequest<TMessage>
             {
                 private readonly IWampClientProxy<TMessage> mClient;
@@ -423,6 +411,14 @@ namespace WampSharp.V2.PubSub
             private ImmutableDictionary<long, Subscription> mSessionIdToSubscription =
                 ImmutableDictionary<long, Subscription>.Empty;
 
+            private ImmutableDictionary<string, ImmutableList<Subscription>> mAuthenticationIdToSubscription =
+                ImmutableDictionary<string, ImmutableList<Subscription>>.Empty;
+
+            private ImmutableDictionary<string, ImmutableList<Subscription>> mAuthenticationRoleToSubscription =
+                ImmutableDictionary<string, ImmutableList<Subscription>>.Empty;
+
+            private readonly object mLock = new object();
+
             private ImmutableHashSet<RemoteObserver> mRemoteObservers = ImmutableHashSet<RemoteObserver>.Empty;
 
             private readonly WampRawTopic<TMessage> mRawTopic;
@@ -454,6 +450,8 @@ namespace WampSharp.V2.PubSub
 
                     ImmutableInterlocked.TryAdd(ref mSessionIdToSubscription, client.Session, subscription);
 
+                    AddAuthenticationData(client, subscription);
+
                     subscription.Open();
                 }
 
@@ -466,6 +464,7 @@ namespace WampSharp.V2.PubSub
                 ImmutableHashSetInterlocked.Remove(ref mRemoteObservers , new RemoteObserver(client));
                 Subscription subscription;
                 result = ImmutableInterlocked.TryRemove(ref mSessionIdToSubscription, client.Session, out subscription);
+                RemoveAuthenticationData(client);
                 return result;
             }
 
@@ -473,14 +472,7 @@ namespace WampSharp.V2.PubSub
             {
                 ImmutableHashSet<RemoteObserver> result = mRemoteObservers;
 
-                if (options.Eligible != null)
-                {
-                    var eligibleObservers = 
-                        GetRemoteObservers(options.Eligible)
-                            .ToArray();
-
-                    result = ImmutableHashSet.Create(eligibleObservers);
-                }
+                result = GetEligibleObservers(result, options);
 
                 bool excludeMe = options.ExcludeMe ?? true;
                 
@@ -491,6 +483,49 @@ namespace WampSharp.V2.PubSub
                     result = result.Remove(new RemoteObserver(casted.PublisherId));
                 }
 
+                result = RemoveExcludedObservers(result, options);
+
+                return result;
+            }
+
+            private ImmutableHashSet<RemoteObserver> GetEligibleObservers(ImmutableHashSet<RemoteObserver> allObservers, PublishOptions options)
+            {
+                ImmutableHashSet<RemoteObserver> result = allObservers;
+
+                if (options.Eligible != null)
+                {
+                    var eligibleObservers =
+                        GetRemoteObservers(options.Eligible)
+                            .ToArray();
+
+                    result = ImmutableHashSet.Create(eligibleObservers);
+                }
+
+                if (options.EligibleAuthenticationIds != null)
+                {
+                    ImmutableHashSet<RemoteObserver> gatheredAuthIdObservers =
+                        GatherObservers(mAuthenticationIdToSubscription,
+                                        options.EligibleAuthenticationIds);
+
+                    result = result.Intersect(gatheredAuthIdObservers);
+                }
+
+                if (options.EligibleAuthenticationRoles != null)
+                {
+                    ImmutableHashSet<RemoteObserver> gatheredAuthIdObservers =
+                        GatherObservers(mAuthenticationRoleToSubscription,
+                                        options.EligibleAuthenticationRoles);
+
+                    result = result.Intersect(gatheredAuthIdObservers);
+                }
+
+                return result;
+            }
+
+            private ImmutableHashSet<RemoteObserver> RemoveExcludedObservers(ImmutableHashSet<RemoteObserver> observers, PublishOptions options)
+            {
+                ImmutableHashSet<RemoteObserver> result = observers;
+
                 if (options.Exclude != null)
                 {
                     var excludedObservers =
@@ -498,6 +533,48 @@ namespace WampSharp.V2.PubSub
                             (sessionId => new RemoteObserver(sessionId));
 
                     result = result.Except(excludedObservers);
+                }
+
+                if (options.ExcludeAuthenticationIds != null)
+                {
+                    ImmutableHashSet<RemoteObserver> excludedAuthenticationIds =
+                        GatherObservers(mAuthenticationIdToSubscription,
+                                        options.ExcludeAuthenticationIds);
+
+                    result = result.Except(excludedAuthenticationIds);
+                }
+
+                if (options.ExcludeAuthenticationRoles != null)
+                {
+                    ImmutableHashSet<RemoteObserver> excludedAuthenticationRoles =
+                        GatherObservers(mAuthenticationRoleToSubscription,
+                                        options.ExcludeAuthenticationRoles);
+
+                    result = result.Except(excludedAuthenticationRoles);
+                }
+
+                return result;
+            }
+
+            private static ImmutableHashSet<RemoteObserver> GatherObservers
+            (IDictionary<string, ImmutableList<Subscription>> dictionary,
+             string[] ids)
+            {
+                ImmutableHashSet<RemoteObserver> result = null;
+
+                if (ids != null)
+                {
+                    result = ImmutableHashSet<RemoteObserver>.Empty;
+
+                    foreach (string id in ids)
+                    {
+                        ImmutableList<Subscription> subscriptions;
+
+                        if (dictionary.TryGetValue(id, out subscriptions))
+                        {
+                            result = result.Union(subscriptions.Select(x => x.Observer));
+                        }
+                    }
                 }
 
                 return result;
@@ -519,6 +596,99 @@ namespace WampSharp.V2.PubSub
             {
                 return sessionIds.Select(id => GetRemoteObserverById(id))
                                  .Where(x => x != null);
+            }
+
+            private void MapIdToSubscription(ref ImmutableDictionary<string, ImmutableList<Subscription>> dictionary,
+                                             string id,
+                                             Subscription subscription)
+            {
+                lock (mLock)
+                {
+                    ImmutableList<Subscription> subscriptions =
+                        ImmutableInterlocked.GetOrAdd(ref dictionary,
+                                                      id,
+                                                      x => ImmutableList<Subscription>.Empty);
+
+                    dictionary =
+                        dictionary.SetItem(id, subscriptions.Add(subscription));
+                }
+            }
+
+            private void AddAuthenticationData(IWampClientProxy<TMessage> client, Subscription subscription)
+            {
+                WelcomeDetails welcomeDetails = client.Authenticator?.WelcomeDetails;
+
+                if (welcomeDetails != null)
+                {
+                    string authenticationId = welcomeDetails.AuthenticationId;
+                    string authenticationRole = welcomeDetails.AuthenticationRole;
+
+                    if (authenticationId != null)
+                    {
+                        MapIdToSubscription(ref mAuthenticationIdToSubscription,
+                                            authenticationId,
+                                            subscription);
+                    }
+
+                    if (authenticationRole != null)
+                    {
+                        MapIdToSubscription(ref mAuthenticationRoleToSubscription,
+                                            authenticationRole,
+                                            subscription);
+                    }
+                }
+            }
+
+            private void RemoveAuthenticationData(IWampClientProxy<TMessage> client)
+            {
+                WelcomeDetails welcomeDetails = client.Authenticator?.WelcomeDetails;
+
+                if (welcomeDetails != null)
+                {
+                    string authenticationId = welcomeDetails.AuthenticationId;
+                    string authenticationRole = welcomeDetails.AuthenticationRole;
+                    Subscription subscription = new Subscription(mRawTopic, client, null);
+
+                    if (authenticationId != null)
+                    {
+                        RemoveIdToSubscription(ref mAuthenticationIdToSubscription,
+                                               authenticationId,
+                                               subscription);
+                    }
+
+                    if (authenticationRole != null)
+                    {
+                        RemoveIdToSubscription(ref mAuthenticationRoleToSubscription,
+                                               authenticationRole,
+                                               subscription);
+                    }
+                }
+            }
+
+            private void RemoveIdToSubscription(ref ImmutableDictionary<string, ImmutableList<Subscription>> dictionary,
+                                                string id,
+                                                Subscription subscription)
+            {
+                lock (mLock)
+                {
+                    ImmutableList<Subscription> subscriptions;
+
+                    if (dictionary.TryGetValue(id, out subscriptions))
+                    {
+                        subscriptions = subscriptions.Remove(subscription);
+
+                        if (subscriptions.Count != 0)
+                        {
+                            dictionary =
+                                dictionary.SetItem(id, subscriptions);
+                        }
+                        else
+                        {
+                            dictionary =
+                                dictionary.Remove(id);
+                        }
+                    }
+                }
             }
         }
 

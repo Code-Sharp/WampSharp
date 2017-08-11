@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -39,7 +40,8 @@ namespace WampSharp.V2.PubSub
             ArgumentUnpacker unpacker = new ArgumentUnpacker(Parameters);
 
             object[] result =
-                unpacker.UnpackParameters(formatter, arguments, argumentsKeywords);
+                unpacker.UnpackParameters(formatter, arguments, argumentsKeywords)
+                        .ToArray();
 
             return result;
         }
