@@ -26,6 +26,7 @@
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;NET45;NETCORE;PCL;MANUAL_PROXY;DISPATCH_PROXY;LIBLOG_PUBLIC;LIBLOG_PORTABLE;TPL;ASYNC_LOCAL;ASYNC;WAMPCRA;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\WampSharp.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +36,7 @@
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;NET45;NETCORE;PCL;MANUAL_PROXY;DISPATCH_PROXY;LIBLOG_PUBLIC;LIBLOG_PORTABLE;TPL;ASYNC_LOCAL;ASYNC;WAMPCRA;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\WampSharp.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
