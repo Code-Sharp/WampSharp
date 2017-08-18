@@ -18,22 +18,26 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcProxies
     public interface INamedTupleComplexResultService
     {
         //(int c, int ci) AddComplex(int a, int ai, int b, int bi);
+        //[WampProcedure("com.myapp.add_complex")]
+        //[return: TupleElementNames(new string[]
+        //{
+        //	"c",
+        //	"ci"
+        //})]
+        //ValueTuple<int, int> AddComplex(int a, int ai, int b, int bi);
         [WampProcedure("com.myapp.add_complex")]
-		[return: TupleElementNames(new string[]
-		{
-			"c",
-			"ci"
-		})]
-		ValueTuple<int, int> AddComplex(int a, int ai, int b, int bi);
+        (int c, int ci) AddComplex(int a, int ai, int b, int bi);
 
         //Task<(int c, int ci)> AddComplexAsync(int a, int ai, int b, int bi);
+        //[WampProcedure("com.myapp.add_complex")]
+        //[return: TupleElementNames(new string[]
+        //{
+        //    "c",
+        //    "ci"
+        //})]
+        //Task<ValueTuple<int, int>> AddComplexAsync(int a, int ai, int b, int bi);
         [WampProcedure("com.myapp.add_complex")]
-        [return: TupleElementNames(new string[]
-        {
-            "c",
-            "ci"
-        })]
-        Task<ValueTuple<int, int>> AddComplexAsync(int a, int ai, int b, int bi);
+        Task<(int c, int ci)> AddComplexAsync(int a, int ai, int b, int bi);
     }
 }
 

@@ -292,10 +292,12 @@ namespace WampSharp.Tests.Wampv2.Integration
                 channel.RealmProxy.Services.GetCalleeProxyPortable<ILongValueTuplesServiceProxy>();
 
             string name = "Homer Simpson";
-
+            // TODO: check this tuple
             //(string item1, string item2, string item3, string item4, string item5, string item6, string item7, string item8, string item9, string item10, int length) =
             //    proxy.GetLongPositionalTuple(name);
-            ValueTuple<string, string, string, string, string, string, string, ValueTuple<string, string, string, int>> expr_3E = 
+            //ValueTuple<string, string, string, string, string, string, string, ValueTuple<string, string, string, int>> expr_3E = 
+            //    proxy.GetLongPositionalTuple(name);
+            (string, string, string, string, string, string, string, string, string, string, int) expr_3E = 
                 proxy.GetLongPositionalTuple(name);
 
             string item1 = expr_3E.Item1;
@@ -305,10 +307,14 @@ namespace WampSharp.Tests.Wampv2.Integration
             string item5 = expr_3E.Item5;
             string item6 = expr_3E.Item6;
             string item7 = expr_3E.Item7;
-            string item8 = expr_3E.Rest.Item1;
-            string item9 = expr_3E.Rest.Item2;
-            string item10 = expr_3E.Rest.Item3;
-            int length = expr_3E.Rest.Item4;
+            //string item8 = expr_3E.Rest.Item1;
+            //string item9 = expr_3E.Rest.Item2;
+            //string item10 = expr_3E.Rest.Item3;
+            //int length = expr_3E.Rest.Item4;
+            string item8 = expr_3E.Item8;
+            string item9 = expr_3E.Item9;
+            string item10 = expr_3E.Item10;
+            int length = expr_3E.Item11;
 
             Assert.That(item1, Is.EqualTo(name + " " + 0));
             Assert.That(item10, Is.EqualTo(name + " " + 9));
@@ -334,10 +340,12 @@ namespace WampSharp.Tests.Wampv2.Integration
                 callerChannel.RealmProxy.Services.GetCalleeProxyPortable<ILongValueTuplesServiceProxy>();
 
             string name = "Homer Simpson";
-
+            // TODO: check this tuple
             //(string item1, string item2, string item3, string item4, string item5, string item6, string item7, string item8, int count, string item9, string item10) =
             //    proxy.GetLongPositionalTuple(name);
-            ValueTuple < string, string, string, string, string, string, string, ValueTuple<string, int, string, string>> expr_3E = 
+            //ValueTuple< string, string, string, string, string, string, string, ValueTuple<string, int, string, string>> expr_3E = 
+            //    proxy.GetLongKeywordTuple(name);
+            (string, string, string, string, string, string, string, string, int, string, string) expr_3E =
                 proxy.GetLongKeywordTuple(name);
 
             string item1 = expr_3E.Item1;
@@ -347,10 +355,14 @@ namespace WampSharp.Tests.Wampv2.Integration
             string item5 = expr_3E.Item5;
             string item6 = expr_3E.Item6;
             string item7 = expr_3E.Item7;
-            string item8 = expr_3E.Rest.Item1;
-            int length = expr_3E.Rest.Item2;
-            string item9 = expr_3E.Rest.Item3;
-            string item10 = expr_3E.Rest.Item4;
+            //string item8 = expr_3E.Rest.Item1;
+            //int length = expr_3E.Rest.Item2;
+            //string item9 = expr_3E.Rest.Item3;
+            //string item10 = expr_3E.Rest.Item4;
+            string item8 = expr_3E.Item8;
+            int length = expr_3E.Item9;
+            string item9 = expr_3E.Item10;
+            string item10 = expr_3E.Item11;
 
             Assert.That(item1, Is.EqualTo(name + " " + 0));
             Assert.That(item10, Is.EqualTo(name + " " + 9));
