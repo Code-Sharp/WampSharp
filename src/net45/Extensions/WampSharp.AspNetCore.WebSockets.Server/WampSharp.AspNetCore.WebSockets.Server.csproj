@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>WampSharp Microsoft.AspNetCore.WebSockets.Server support</Description>
-    <AssemblyTitle>WampSharp AspNetCore WebSockets Server support</AssemblyTitle>
-    <Authors>CodeSharp</Authors>
+    <Description>Lykke WampSharp Microsoft.AspNetCore.WebSockets.Server support</Description>
+    <AssemblyTitle>Lykke WampSharp AspNetCore WebSockets Server support</AssemblyTitle>
+    <Authors>Lykke</Authors>
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>WampSharp.AspNetCore.WebSockets.Server</AssemblyName>
-    <PackageId>WampSharp.AspNetCore.WebSockets.Server</PackageId>
+    <PackageId>Lykke.WampSharp.AspNetCore.WebSockets.Server</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;wampv1;wampv2;aspnetcore</PackageTags>
     <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
