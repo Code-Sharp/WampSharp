@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <Description>An implementation of WAMP (The Web Application Messaging Protocol). Supports both WAMPv2 and WAMPv1.</Description>
-    <AssemblyTitle>WampSharp</AssemblyTitle>
-    <Authors>CodeSharp</Authors>
+    <AssemblyTitle>Lykke WampSharp</AssemblyTitle>
+    <Authors>Lykke</Authors>
     <TargetFrameworks>netstandard1.3</TargetFrameworks>
     <AssemblyName>WampSharp</AssemblyName>
-    <PackageId>WampSharp</PackageId>
+    <PackageId>Lykke.WampSharp</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;wampv2</PackageTags>
     <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>

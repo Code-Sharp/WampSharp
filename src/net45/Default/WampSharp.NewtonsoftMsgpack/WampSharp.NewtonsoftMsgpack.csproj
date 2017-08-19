@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>WampSharp Newtonsoft.Msgpack support</Description>
-    <AssemblyTitle>WampSharp Newtonsoft.Msgpack binding</AssemblyTitle>
-    <Authors>CodeSharp</Authors>
+    <Description>Lykke WampSharp Newtonsoft.Msgpack support</Description>
+    <AssemblyTitle>Lykke WampSharp Newtonsoft.Msgpack binding</AssemblyTitle>
+    <Authors>Lykke</Authors>
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>WampSharp.NewtonsoftMsgpack</AssemblyName>
-    <PackageId>WampSharp.NewtonsoftMsgpack</PackageId>
+    <PackageId>Lykke.WampSharp.NewtonsoftMsgpack</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;newtonsoft;msgpack;wampv2</PackageTags>
     <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>

@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>RawSocket transport for WampSharp</Description>
-    <AssemblyTitle>WampSharp RawSocket support</AssemblyTitle>
-    <Authors>CodeSharp</Authors>
+    <Description>Lykke RawSocket transport for WampSharp</Description>
+    <AssemblyTitle>Lykke WampSharp RawSocket support</AssemblyTitle>
+    <Authors>Lykke</Authors>
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>WampSharp.RawSocket</AssemblyName>
-    <PackageId>WampSharp.RawSocket</PackageId>
+    <PackageId>Lykke.WampSharp.RawSocket</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;wampv2;rawsocket</PackageTags>
     <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>

@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>WampSharp Newtonsoft.Json support</Description>
-    <AssemblyTitle>WampSharp Newtonsoft.Json binding</AssemblyTitle>
-    <Authors>CodeSharp</Authors>
+    <Description>Lykke WampSharp Newtonsoft.Json support</Description>
+    <AssemblyTitle>Lykke WampSharp Newtonsoft.Json binding</AssemblyTitle>
+    <Authors>Lykke</Authors>
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>WampSharp.NewtonsoftJson</AssemblyName>
-    <PackageId>WampSharp.NewtonsoftJson</PackageId>
+    <PackageId>Lykke.WampSharp.NewtonsoftJson</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;newtonsoft;json;wampv1;wampv2</PackageTags>
     <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>

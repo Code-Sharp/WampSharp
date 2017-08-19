@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>WampSharp above Newtonsoft.Json, Newtonsoft.Msgpack and WebSocket4Net</Description>
-    <AssemblyTitle>WampSharp default client binding</AssemblyTitle>
-    <Authors>CodeSharp</Authors>
+    <Description>Lykke WampSharp above Newtonsoft.Json, Newtonsoft.Msgpack and WebSocket4Net</Description>
+    <AssemblyTitle>Lykke WampSharp default client binding</AssemblyTitle>
+    <Authors>Lykke</Authors>
     <TargetFrameworks>netstandard1.3</TargetFrameworks>
     <AssemblyName>WampSharp.Default.Client</AssemblyName>
-    <PackageId>WampSharp.Default.Client</PackageId>
+    <PackageId>Lykke.WampSharp.Default.Client</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;newtonsoft;json;msgpack;wampv2</PackageTags>
     <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
