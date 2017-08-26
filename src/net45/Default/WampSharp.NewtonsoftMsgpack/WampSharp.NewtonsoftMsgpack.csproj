@@ -4,7 +4,7 @@
     <Description>Lykke WampSharp Newtonsoft.Msgpack support</Description>
     <AssemblyTitle>Lykke WampSharp Newtonsoft.Msgpack binding</AssemblyTitle>
     <Authors>Lykke</Authors>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>WampSharp.NewtonsoftMsgpack</AssemblyName>
     <PackageId>Lykke.WampSharp.NewtonsoftMsgpack</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;newtonsoft;msgpack;wampv2</PackageTags>
@@ -23,7 +23,7 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Msgpack" Version="0.1.10" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
   </ItemGroup>

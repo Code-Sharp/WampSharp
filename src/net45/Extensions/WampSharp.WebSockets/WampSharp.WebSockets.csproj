@@ -4,7 +4,7 @@
     <Description>Lykke WampSharp System.Net.WebSockets.WebSocket support</Description>
     <AssemblyTitle>Lykke WampSharp System.Net.WebSockets.WebSocket support</AssemblyTitle>
     <Authors>Lykke </Authors>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>WampSharp.WebSockets</AssemblyName>
     <PackageId>Lykke.WampSharp.WebSockets</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;wampv1;wampv2</PackageTags>
@@ -24,12 +24,6 @@
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <PackageReference Include="System.Net.WebSockets.Client" Version="4.0.0" />
-  </ItemGroup>
 
 </Project>

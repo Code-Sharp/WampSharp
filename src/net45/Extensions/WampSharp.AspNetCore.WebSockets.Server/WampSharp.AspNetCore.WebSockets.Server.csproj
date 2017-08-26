@@ -4,7 +4,7 @@
     <Description>Lykke WampSharp Microsoft.AspNetCore.WebSockets.Server support</Description>
     <AssemblyTitle>Lykke WampSharp AspNetCore WebSockets Server support</AssemblyTitle>
     <Authors>Lykke</Authors>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>WampSharp.AspNetCore.WebSockets.Server</AssemblyName>
     <PackageId>Lykke.WampSharp.AspNetCore.WebSockets.Server</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;wampv1;wampv2;aspnetcore</PackageTags>
@@ -15,17 +15,15 @@
     <Version>1.0.1</Version>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
-    <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="1.0.1" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
   </ItemGroup>
 
+  
   <ItemGroup>
     <ProjectReference Include="..\WampSharp.WebSockets\WampSharp.WebSockets.csproj" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
+  
 
 </Project>

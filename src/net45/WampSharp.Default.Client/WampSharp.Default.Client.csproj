@@ -4,7 +4,7 @@
     <Description>Lykke WampSharp above Newtonsoft.Json, Newtonsoft.Msgpack and WebSocket4Net</Description>
     <AssemblyTitle>Lykke WampSharp default client binding</AssemblyTitle>
     <Authors>Lykke</Authors>
-    <TargetFrameworks>netstandard1.3</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>WampSharp.Default.Client</AssemblyName>
     <PackageId>Lykke.WampSharp.Default.Client</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;newtonsoft;json;msgpack;wampv2</PackageTags>
@@ -20,25 +20,9 @@
     <Version>1.0.1</Version>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
-    <ProjectReference Include="..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
-    <ProjectReference Include="..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj" />
-    <ProjectReference Include="..\Default\WampSharp.Windows\WampSharp.Windows.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
     <ProjectReference Include="..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj" />
-    <ProjectReference Include="..\Extensions\WampSharp.WebSockets\WampSharp.WebSockets.csproj" />
+    <ProjectReference Include="..\Default\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.csproj" />
   </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
-    <DefineConstants>$(DefineConstants);PCL</DefineConstants>
-  </PropertyGroup>
-
 </Project>

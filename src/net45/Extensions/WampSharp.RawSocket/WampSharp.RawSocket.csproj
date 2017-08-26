@@ -4,7 +4,7 @@
     <Description>Lykke RawSocket transport for WampSharp</Description>
     <AssemblyTitle>Lykke WampSharp RawSocket support</AssemblyTitle>
     <Authors>Lykke</Authors>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>WampSharp.RawSocket</AssemblyName>
     <PackageId>Lykke.WampSharp.RawSocket</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;wampv2;rawsocket</PackageTags>
@@ -23,14 +23,7 @@
   <ItemGroup>
     <PackageReference Include="System.Buffers" Version="4.4.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-
 </Project>

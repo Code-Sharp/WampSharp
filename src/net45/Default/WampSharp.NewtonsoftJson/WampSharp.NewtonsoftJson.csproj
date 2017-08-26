@@ -4,7 +4,7 @@
     <Description>Lykke WampSharp Newtonsoft.Json support</Description>
     <AssemblyTitle>Lykke WampSharp Newtonsoft.Json binding</AssemblyTitle>
     <Authors>Lykke</Authors>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>WampSharp.NewtonsoftJson</AssemblyName>
     <PackageId>Lykke.WampSharp.NewtonsoftJson</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;newtonsoft;json;wampv1;wampv2</PackageTags>
@@ -21,16 +21,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <DefineConstants>$(DefineConstants);PCL</DefineConstants>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-
 </Project>
