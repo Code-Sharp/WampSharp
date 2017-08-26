@@ -31,10 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WebSocket4Net", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Windows", "Default\WampSharp.Windows\WampSharp.Windows.csproj", "{4A966847-5F52-4AFA-8CB7-2AAF93D7D2C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Tests.TestHelpers", "Tests\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj", "{8A1FD76C-9702-4D72-B73F-D8CCEAA0FB98}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Tests.Wampv2", "Tests\WampSharp.Tests.Wampv2\WampSharp.Tests.Wampv2.csproj", "{FD6E05A5-B3DD-4F8D-8CAE-843B5F6DAE47}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,14 +73,6 @@ Global
 		{4A966847-5F52-4AFA-8CB7-2AAF93D7D2C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A966847-5F52-4AFA-8CB7-2AAF93D7D2C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A966847-5F52-4AFA-8CB7-2AAF93D7D2C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A1FD76C-9702-4D72-B73F-D8CCEAA0FB98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A1FD76C-9702-4D72-B73F-D8CCEAA0FB98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A1FD76C-9702-4D72-B73F-D8CCEAA0FB98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A1FD76C-9702-4D72-B73F-D8CCEAA0FB98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD6E05A5-B3DD-4F8D-8CAE-843B5F6DAE47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD6E05A5-B3DD-4F8D-8CAE-843B5F6DAE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD6E05A5-B3DD-4F8D-8CAE-843B5F6DAE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD6E05A5-B3DD-4F8D-8CAE-843B5F6DAE47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,8 +88,6 @@ Global
 		{1485A2E0-E225-47D8-A26B-077C44094C07} = {A034FCD9-A025-4F24-9E26-3D438944A526}
 		{841605EB-80CE-48C7-8CAE-0366FECFAED1} = {234FC630-9975-4DD9-8A28-DAA75BB1DD7E}
 		{F9CEF7A6-FCD5-4AAA-A1B0-B1FBBDD1EFBC} = {EF15CA4F-CCAA-4435-A0B3-0E7FC1B955CD}
-		{8A1FD76C-9702-4D72-B73F-D8CCEAA0FB98} = {C04E134F-D369-4F07-9326-66475308AFA8}
-		{FD6E05A5-B3DD-4F8D-8CAE-843B5F6DAE47} = {C04E134F-D369-4F07-9326-66475308AFA8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3D5FF4C-D9C3-4659-8693-49FDD1C98E4B}
