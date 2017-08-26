@@ -8,7 +8,7 @@
     <AssemblyName>WampSharp.AspNetCore.WebSockets.Server</AssemblyName>
     <PackageId>Lykke.WampSharp.AspNetCore.WebSockets.Server</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;wampv1;wampv2;aspnetcore</PackageTags>
-    <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/LykkeCity/WampSharp</PackageProjectUrl>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>

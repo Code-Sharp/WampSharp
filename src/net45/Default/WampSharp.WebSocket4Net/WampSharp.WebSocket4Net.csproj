@@ -8,7 +8,7 @@
     <AssemblyName>WampSharp.WebSocket4Net</AssemblyName>
     <PackageId>Lykke.WampSharp.WebSocket4Net</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;websocket4net;wampv1;wampv2</PackageTags>
-    <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/LykkeCity/WampSharp</PackageProjectUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

@@ -3,8 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>WampSharp.Tests.TestHelpers</AssemblyName>
-    <PackageId>WampSharp.Tests.TestHelpers</PackageId>
-    <PackageTargetFallback>$(PackageTargetFallback);netcoreapp1.0;dotnet;dotnet5.4</PackageTargetFallback>
+    <PackageId>WampSharp.Tests.TestHelpers</PackageId>    
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -13,6 +12,7 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <PackageProjectUrl>https://github.com/LykkeCity/WampSharp</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

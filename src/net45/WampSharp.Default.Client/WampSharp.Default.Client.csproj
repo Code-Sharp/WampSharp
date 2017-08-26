@@ -8,7 +8,7 @@
     <AssemblyName>WampSharp.Default.Client</AssemblyName>
     <PackageId>Lykke.WampSharp.Default.Client</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;newtonsoft;json;msgpack;wampv2</PackageTags>
-    <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/LykkeCity/WampSharp</PackageProjectUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

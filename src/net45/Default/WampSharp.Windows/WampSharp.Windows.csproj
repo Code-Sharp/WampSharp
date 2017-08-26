@@ -8,7 +8,7 @@
     <AssemblyName>WampSharp.Windows</AssemblyName>
     <PackageId>WampSharp.Windows</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;windows;wampv2</PackageTags>
-    <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/LykkeCity/WampSharp</PackageProjectUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

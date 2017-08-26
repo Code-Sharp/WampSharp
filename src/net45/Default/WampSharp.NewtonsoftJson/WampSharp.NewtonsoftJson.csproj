@@ -8,7 +8,7 @@
     <AssemblyName>WampSharp.NewtonsoftJson</AssemblyName>
     <PackageId>Lykke.WampSharp.NewtonsoftJson</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;newtonsoft;json;wampv1;wampv2</PackageTags>
-    <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/LykkeCity/WampSharp</PackageProjectUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
