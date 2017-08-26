@@ -8,7 +8,7 @@
     <AssemblyName>WampSharp.NewtonsoftMsgpack</AssemblyName>
     <PackageId>Lykke.WampSharp.NewtonsoftMsgpack</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;newtonsoft;msgpack;wampv2</PackageTags>
-    <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/LykkeCity/WampSharp</PackageProjectUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
