@@ -59,14 +59,19 @@ namespace WampSharp.WebSocket4Net
 
             RaiseMessageArrived(message);
         }
-
+        /// <summary>
+        /// Sends message to WebSocket
+        /// </summary>
+        /// <param name="message"></param>
         public override void Send(WampMessage<object> message)
         {
             byte[] bytes = mBinding.Format(message);
 
             WebSocket.Send(bytes, 0, bytes.Length);
         }
-
+        /// <summary>
+        /// Disposes instance
+        /// </summary>
         public override void Dispose()
         {
             WebSocket.DataReceived -= OnDataReceived;
