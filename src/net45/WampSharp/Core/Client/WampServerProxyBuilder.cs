@@ -1,7 +1,6 @@
 ﻿#if CASTLE
 using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
-using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Utilities;
 

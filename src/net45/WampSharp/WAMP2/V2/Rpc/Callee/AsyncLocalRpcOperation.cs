@@ -17,8 +17,6 @@ namespace WampSharp.V2.Rpc
         protected abstract Task<object> InvokeAsync<TMessage>
             (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
-#if ASYNC
-
         protected override async void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller,
                                                             IWampFormatter<TMessage> formatter,
                                                             InvocationDetails details,
@@ -55,56 +53,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-#else
 
-        protected override void InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails options, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
-        {
-            try
-            {
-                Task<object> task =
-                    InvokeAsync(caller,
-                               formatter,
-                               options,
-                               arguments,
-                               argumentsKeywords);
-
-                task.ContinueWith(x => TaskCallback(x, caller));
-            }
-            catch (WampException ex)
-            {
-                mLogger.ErrorFormat(ex, "An error occured while calling {0}", this.Procedure);
-                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
-                callback.Error(ex);
-            }
-        }
-
-        private void TaskCallback(Task<object> task, IWampRawRpcOperationRouterCallback caller)
-        {
-            if (task.Exception == null)
-            {
-                object result = task.Result;
-                CallResult(caller, result);
-            }
-            else
-            {
-                Exception innerException = task.Exception.InnerException;
-
-                mLogger.ErrorFormat(innerException, "An error occured while calling {0}", this.Procedure);
-
-                WampException wampException = innerException as WampException;
-                
-                if (wampException == null)
-                {
-                    wampException = ConvertExceptionToRuntimeException(innerException);
-                }
-
-                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
-                
-                callback.Error(wampException);
-            }
-        }
-
-#endif
 
 
         protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, YieldOptions yieldOptions = null)

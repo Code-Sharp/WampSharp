@@ -8,8 +8,7 @@ namespace WampSharp.V2.Realm
         private readonly string mName;
         private readonly IWampRpcOperationCatalog mCatalog;
         private readonly IWampTopicContainer mTopicContainer;
-        private readonly IWampRealmServiceProvider mServices;
-
+        
         public WampRealm(string name, IWampRpcOperationCatalog catalog, IWampTopicContainer topicContainer)
         {
             mName = name;
@@ -38,14 +37,6 @@ namespace WampSharp.V2.Realm
             get
             {
                 return mTopicContainer;
-            }
-        }
-
-        public IWampRealmServiceProvider Services
-        {
-            get
-            {
-                return mServices;
             }
         }
     }

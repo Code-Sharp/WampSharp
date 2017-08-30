@@ -14,7 +14,7 @@ namespace WampSharp.V2.Client
             this.Complete(true);
         }
 
-        public Task Task
+        public new Task Task
         {
             get { return base.Task; }
         }
@@ -27,12 +27,12 @@ namespace WampSharp.V2.Client
         {
         }
 
-        public void Complete(TResult result)
+        public new void Complete(TResult result)
         {
             base.Complete(result);
         }
 
-        public Task<TResult> Task
+        public new Task<TResult> Task
         {
             get { return base.Task; }
         }

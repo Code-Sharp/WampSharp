@@ -28,8 +28,8 @@
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.8.0" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <DefineConstants>$(DefineConstants);NET45;NETCORE;PCL;CASTLE;LIBLOG_PUBLIC;LIBLOG_PORTABLE;TPL;ASYNC_LOCAL;ASYNC;WAMPCRA</DefineConstants>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DefineConstants>TRACE;DEBUG;CASTLE;LIBLOG_PUBLIC;WAMPCRA</DefineConstants>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 
 </Project>

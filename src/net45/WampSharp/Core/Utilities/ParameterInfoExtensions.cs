@@ -6,12 +6,7 @@ namespace WampSharp.Core.Utilities
     {
         public static bool HasDefaultValue(this ParameterInfo parameter)
         {
-#if NET45
             return parameter.HasDefaultValue;
-#elif NET40
-            return (parameter.Attributes & ParameterAttributes.HasDefault) == 
-                   ParameterAttributes.HasDefault;
-#endif
         }
     }
 }

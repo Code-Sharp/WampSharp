@@ -1,4 +1,4 @@
-﻿#if !PCL && !NETCORE
+﻿
 using System;
 using WampSharp.Binding;
 using WampSharp.Core.Listener;
@@ -149,4 +149,3 @@ namespace WampSharp.V2
         }
     }
 }
-#endif

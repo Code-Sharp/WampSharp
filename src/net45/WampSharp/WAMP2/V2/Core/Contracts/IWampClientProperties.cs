@@ -49,7 +49,7 @@ namespace WampSharp.V2.Core.Contracts
         /// <summary>
         /// Gets the binding associated with the current client.
         /// </summary>
-        new IWampBinding<TMessage> Binding { get; }
+        IWampBinding<TMessage> Binding { get; }
 
         /// <summary>
         /// Gets the transport details associated with this client.

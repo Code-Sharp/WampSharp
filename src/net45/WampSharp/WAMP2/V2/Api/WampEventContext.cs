@@ -1,7 +1,4 @@
-﻿#if !ASYNC_LOCAL && !PCL
-using System.Runtime.Remoting.Messaging;
-#endif
-using System;
+﻿using System;
 using System.Threading;
 using WampSharp.V2.Core.Contracts;
 
@@ -15,8 +12,6 @@ namespace WampSharp.V2
     {
 
         #region Static Members
-
-#if ASYNC_LOCAL
         private static readonly AsyncLocal<WampEventContext> mCurrent = new AsyncLocal<WampEventContext>();
 
         public static WampEventContext Current
@@ -30,35 +25,7 @@ namespace WampSharp.V2
                 mCurrent.Value = value;
             }
         }
-#elif !PCL
-        public static WampEventContext Current
-        {
-            get
-            {
-                return (WampEventContext) CallContext.LogicalGetData(typeof (WampEventContext).Name);
-            }
-            internal set
-            {
-                CallContext.LogicalSetData(typeof (WampEventContext).Name, value);
-            }
-        }
-#else
-        [ThreadStatic]
-        private static WampEventContext mCurrent;
-
-        public static WampEventContext Current
-        {
-            get
-            {
-                return mCurrent;
-            }
-            internal set
-            {
-                mCurrent = value;
-            }
-        }
-#endif
-
+        
         #endregion
 
         #region Members

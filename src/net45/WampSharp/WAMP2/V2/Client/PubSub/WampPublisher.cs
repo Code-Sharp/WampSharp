@@ -73,13 +73,7 @@ namespace WampSharp.V2.Client
             {
                 Publication removed;
                 mPendingPublication.TryRemove(requestId, out removed);
-#if NET45
                 return Task.FromResult(default(long?));
-#elif NET40
-                TaskCompletionSource<long?> result = new TaskCompletionSource<long?>();
-                result.SetResult(default(long?));
-                return result.Task;
-#endif
             }
 
             return publication.Task;

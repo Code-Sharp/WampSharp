@@ -81,13 +81,9 @@ namespace WampSharp.V2.CalleeProxy
 
         #region Overridden
 
-#if ASYNC
+
         protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
-#else
-        protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback)
-#endif
         {
-#if ASYNC
             Task<T> operationTask = asyncOperationCallback.Task;
 
             Task<Exception> disconnectionTask = mDisconnectionTaskCompletionSource.Task;
@@ -106,18 +102,6 @@ namespace WampSharp.V2.CalleeProxy
             T result = await operationTask.ConfigureAwait(false);
 
             return result;
-
-#else
-            IObservable<T> merged =
-                Observable.Amb
-                (asyncOperationCallback.Task.ToObservable(),
-                 mDisconnectionTaskCompletionSource.Task.ToObservable()
-                                                   .SelectMany(x => Observable.Throw<T>(x)));
-                
-            Task<T> task = merged.ToTask();
-
-            return task;
-#endif
         }
 
 

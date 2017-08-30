@@ -15,7 +15,7 @@ namespace WampSharp.WebSockets
         {
         }
 
-        public void Connect()
+        public new void Connect()
         {
             base.Connect();
         }

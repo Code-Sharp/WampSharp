@@ -24,4 +24,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="WAMP2\V2\Fluent\" />
+  </ItemGroup>
 </Project>

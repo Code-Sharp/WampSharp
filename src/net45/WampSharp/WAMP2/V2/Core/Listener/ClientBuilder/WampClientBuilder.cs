@@ -25,7 +25,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         private readonly ProxyGenerator mGenerator = CastleDynamicProxyGenerator.Instance;
         private readonly IWampOutgoingRequestSerializer mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
-        private readonly IWampIdGenerator mSessionIdGenerator;
+        //private readonly IWampIdGenerator mSessionIdGenerator;
         private readonly IWampBinding<TMessage> mBinding;
 
         #endregion

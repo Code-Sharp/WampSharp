@@ -24,7 +24,7 @@ namespace WampSharp.V2
     {
         private WampListener<TMessage> mListener;
         private readonly IWampSessionServer<TMessage> mSession;
-        private readonly WampBindedRealmContainer<TMessage> mRealmContainer;
+        //private readonly WampBindedRealmContainer<TMessage> mRealmContainer;
 
         /// <summary>
         /// Creates a new instance of <see cref="WampBindingHost{TMessage}"/>

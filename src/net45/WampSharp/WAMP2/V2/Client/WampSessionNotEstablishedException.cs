@@ -17,13 +17,11 @@ namespace WampSharp.V2.Client
         public WampSessionNotEstablishedException(string message, Exception inner) : base(message, inner)
         {
         }
-
-#if !PCL
         protected WampSessionNotEstablishedException(
             SerializationInfo info,
             StreamingContext context) : base(info, context)
         {
         }
-#endif
+
     }
 }

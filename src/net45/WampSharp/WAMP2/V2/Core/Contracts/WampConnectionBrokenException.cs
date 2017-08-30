@@ -58,12 +58,12 @@ namespace WampSharp.V2.Core.Contracts
         {
         }
 
-#if !PCL
+
         protected WampConnectionBrokenException(
             SerializationInfo info,
             StreamingContext context) : base(info, context)
         {
         }
-#endif
+
     }
 }

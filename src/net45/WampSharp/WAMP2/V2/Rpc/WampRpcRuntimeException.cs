@@ -8,7 +8,7 @@ namespace WampSharp.V2.Rpc
     [Serializable]
     public class WampRpcRuntimeException : WampException
     {
-        private const string ErrorUri = "wamp.error.runtime_error";
+        private new const string ErrorUri = "wamp.error.runtime_error";
 
         public WampRpcRuntimeException(params object[] arguments)
             : base(ErrorUri, arguments)
@@ -38,11 +38,11 @@ namespace WampSharp.V2.Rpc
         {
         }
 
-#if !PCL
+
         protected WampRpcRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-#endif
+
     }
 }

@@ -71,12 +71,12 @@ namespace WampSharp.V2.Core.Contracts
             mArgumentsKeywords = argumentsKeywords;
         }
 
-#if !PCL
+
         protected WampException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-#endif
+
 
         public string ErrorUri
         {
