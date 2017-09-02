@@ -1,4 +1,6 @@
-﻿namespace WampSharp.V2.Core.Contracts
+﻿using System;
+
+namespace WampSharp.V2.Core.Contracts
 {
     /// <summary>
     /// Represents a proxy to a WAMP2 router.
@@ -14,7 +16,8 @@
         IWampBrokerProxy<TMessage>, 
         IWampDealerProxy<TMessage>, 
         IWampSessionProxy,
-        IWampError<TMessage>
+        IWampError<TMessage>,
+        IDisposable
     {
     }
 }
