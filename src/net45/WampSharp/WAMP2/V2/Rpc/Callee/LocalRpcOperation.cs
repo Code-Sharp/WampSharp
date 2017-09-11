@@ -157,7 +157,7 @@ namespace WampSharp.V2.Rpc
             }
 
             // TODO: Maybe try a different implementation.
-            return new WampRpcRuntimeException(canceledException.Message);
+            return new WampRpcRuntimeException(exception.Message);
         }
     }
 }
