@@ -114,10 +114,8 @@ namespace WampSharp.V2.Client
             {
                 mServerProxy.Goodbye(new GoodbyeDetails(), WampErrors.GoodbyeAndOut);
             }
-            else
-            {
-                mServerProxy.Dispose();
-            }
+
+            mServerProxy.Dispose();
 
             TrySetCloseEventArgs(SessionCloseType.Goodbye, details, reason);
         }
