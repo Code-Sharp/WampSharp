@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <id>WampSharp.Owin</id>
+    <title>WampSharp Owin support</title>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp Owin support</description>
+    <tags>websockets,owin,wampws,rpc,pubsub,wampv1,wampv2</tags>
+  </metadata>
+  <files>
+    <file src="bin\$configuration$\$id$.pdb" target="lib\net45\" />
+  </files>
+</package>

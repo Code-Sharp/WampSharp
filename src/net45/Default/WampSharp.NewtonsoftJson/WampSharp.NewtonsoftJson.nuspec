@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <owners />
+    <id>WampSharp.NewtonsoftJson</id>
+    <title>WampSharp Newtonsoft.Json binding</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp Newtonsoft.Json support</description>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <tags>websockets wampws rpc pubsub newtonsoft json wampv1 wampv2</tags>
+  </metadata>
+  <files>
+    <file src="bin\$configuration$\$id$.pdb" target="lib\net45\" />
+  </files>
+</package>

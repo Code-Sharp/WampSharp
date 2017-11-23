@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <version>$version$</version>
+    <authors>CodeSharp</authors>
+    <owners />
+    <id>WampSharp</id>
+    <title>WampSharp</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>An implementation of WAMP (The Web Application Messaging Protocol). Supports both WAMPv2 and WAMPv1.</description>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <tags>websockets wampws rpc pubsub wampv2</tags>
+  </metadata>
+  <files>
+    <file src="bin\$configuration$\$id$.pdb" target="lib\net45\" />
+  </files>
+</package>
