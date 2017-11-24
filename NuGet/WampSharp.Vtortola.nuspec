@@ -5,8 +5,14 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
-      <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="vtortola.WebSocketListener" version="[2.2.2]" />
+      <group targetFramework="net45">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="vtortola.WebSocketListener" version="[2.2.2]" />
+      </group>
+      <group targetFramework="netstandard2.0">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="vtortola.WebSocketListener" version="[3.0.0-beta]" />
+      </group>
     </dependencies>
     <id>WampSharp.Vtortola</id>
     <title>WampSharp Vtortola support</title>
@@ -18,5 +24,7 @@
   <files>
     <file src="$bin$\net45\WampSharp.Vtortola.dll" target="lib\net45\WampSharp.Vtortola.dll" />
     <file src="$bin$\net45\WampSharp.Vtortola.xml" target="lib\net45\WampSharp.Vtortola.xml" />
+    <file src="$bin$\netstandard2.0\WampSharp.Vtortola.dll" target="lib\netstandard2.0\WampSharp.Vtortola.dll" />
+    <file src="$bin$\netstandard2.0\WampSharp.Vtortola.xml" target="lib\netstandard2.0\WampSharp.Vtortola.xml" />
   </files>
 </package>

@@ -1,5 +1,8 @@
 ﻿using System;
+#if !NETSTANDARD2_0
 using System.Runtime.Remoting.Messaging;
+#endif
+using System.Threading;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Cra;
 
@@ -10,6 +13,7 @@ namespace WampSharp.V1
     {
         #region Static Members
 
+#if !NETSTANDARD2_0
         public static WampRequestContext Current
         {
             get
@@ -21,6 +25,21 @@ namespace WampSharp.V1
                 CallContext.LogicalSetData(typeof (WampRequestContext).Name, value);
             }
         }
+#else
+        private static readonly AsyncLocal<WampRequestContext> mCurrent = new AsyncLocal<WampRequestContext>();
+
+        public static WampRequestContext Current
+        {
+            get
+            {
+                return mCurrent.Value;
+            }
+            internal set
+            {
+                mCurrent.Value = value;
+            }
+        }
+#endif
 
         #endregion
 
