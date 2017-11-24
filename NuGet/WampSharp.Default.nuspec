@@ -19,6 +19,9 @@
       <group targetFramework=".NETStandard1.3">
         <dependency id="WampSharp.Default.Client" version="[$version$]" />
       </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="WampSharp.Default.Client" version="[$version$]" />
+      </group>
     </dependencies>
     <id>WampSharp.Default</id>
     <title>WampSharp default binding</title>
