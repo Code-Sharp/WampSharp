@@ -5,6 +5,16 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
+      <group targetFramework="net45">
+        <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
+        <dependency id="WampSharp.NewtonsoftMsgpack" version="[$version$]" />
+        <dependency id="WampSharp.WebSocket4Net" version="[$version$]" />
+      </group>
+      <group targetFramework="net40">
+        <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
+        <dependency id="WampSharp.NewtonsoftMsgpack" version="[$version$]" />
+        <dependency id="WampSharp.WebSocket4Net" version="[$version$]" />
+      </group>
       <group targetFramework="portable-win81+wpa81">
         <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
         <dependency id="WampSharp.Windows" version="[$version$]" />
@@ -32,6 +42,10 @@
     <tags>websockets wampws rpc pubsub newtonsoft json msgpack wampv2</tags>
   </metadata>
   <files>
+    <file src="$bin$\net45\WampSharp.Default.Client.dll" target="lib\net45\WampSharp.Default.Client.dll" />
+    <file src="$bin$\net45\WampSharp.Default.Client.xml" target="lib\net45\WampSharp.Default.Client.xml" />
+    <file src="$bin$\net40\WampSharp.Default.Client.dll" target="lib\net40\WampSharp.Default.Client.dll" />
+    <file src="$bin$\net40\WampSharp.Default.Client.xml" target="lib\net40\WampSharp.Default.Client.xml" />
     <file src="$bin$\pcl\WampSharp.Default.Client.dll" target="lib\portable-win81+wpa81\WampSharp.Default.Client.dll" />
     <file src="$bin$\pcl\WampSharp.Default.Client.xml" target="lib\portable-win81+wpa81\WampSharp.Default.Client.xml" />
     <file src="$bin$\uap10.0\WampSharp.Default.Client.dll" target="lib\uap10.0\WampSharp.Default.Client.dll" />
