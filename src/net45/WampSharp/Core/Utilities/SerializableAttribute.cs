@@ -1,4 +1,4 @@
-#if PCL
+#if PCL && !NETSTANDARD2_0
 
 namespace System
 {

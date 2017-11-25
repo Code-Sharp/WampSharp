@@ -20,5 +20,7 @@
   <files>
     <file src="$bin$\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.dll" target="lib\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.dll" />
     <file src="$bin$\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.xml" target="lib\netstandard1.3\WampSharp.AspNetCore.WebSockets.Server.xml" />
+    <file src="$bin$\netstandard2.0\WampSharp.AspNetCore.WebSockets.Server.dll" target="lib\netstandard2.0\WampSharp.AspNetCore.WebSockets.Server.dll" />
+    <file src="$bin$\netstandard2.0\WampSharp.AspNetCore.WebSockets.Server.xml" target="lib\netstandard2.0\WampSharp.AspNetCore.WebSockets.Server.xml" />
   </files>
 </package>

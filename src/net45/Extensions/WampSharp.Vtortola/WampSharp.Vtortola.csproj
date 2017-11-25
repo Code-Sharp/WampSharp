@@ -81,6 +81,7 @@
     <Compile Include="VtortolaWebSocketHttpRequest.cs" />
     <Compile Include="VtortolaWebSocketHttpResponse.cs" />
     <Compile Include="VtortolaWebSocketTransport.cs" />
+    <Compile Include="WebSocketData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

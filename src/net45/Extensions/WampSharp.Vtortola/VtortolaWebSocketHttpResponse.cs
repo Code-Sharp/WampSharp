@@ -1,6 +1,9 @@
 using System.Linq;
 using System.Net;
 using vtortola.WebSockets;
+#if NETCORE
+using HttpStatusCode = vtortola.WebSockets.HttpStatusCode;
+#endif
 
 namespace WampSharp.Vtortola
 {

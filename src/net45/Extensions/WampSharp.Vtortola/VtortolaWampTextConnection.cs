@@ -1,4 +1,5 @@
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using vtortola.WebSockets;
 using WampSharp.Core.Message;
@@ -12,9 +13,10 @@ namespace WampSharp.Vtortola
         private readonly IWampTextBinding<TMessage> mBinding;
 
         public VtortolaWampTextConnection(WebSocket connection,
-                                          IWampTextBinding<TMessage> binding,
-                                          ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
-                                              base(connection, cookieAuthenticatorFactory)
+            CancellationToken cancellationToken,
+            IWampTextBinding<TMessage> binding,
+            ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
+            base(connection, cancellationToken, cookieAuthenticatorFactory)
         {
             mBinding = binding;
         }

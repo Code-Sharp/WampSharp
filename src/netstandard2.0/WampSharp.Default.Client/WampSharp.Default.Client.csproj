@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -10,20 +10,19 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>  
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\net45\Extensions\WampSharp.RawSocket\**\*.cs" Exclude="..\..\..\net45\Extensions\WampSharp.RawSocket\**\bin\**;..\..\..\net45\Extensions\WampSharp.RawSocket\**\obj\**;" />
+    <Compile Include="..\..\net45\WampSharp.Default.Client\**\*.cs" Exclude="..\..\net45\WampSharp.Default.Client\**\bin\**;..\..\net45\WampSharp.Default.Client\**\obj\**;" />
   </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <DefineConstants>NETCORE</DefineConstants>
+  
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <DefineConstants>$(DefineConstants);NETCORE;</DefineConstants>
   </PropertyGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
-    <PackageReference Include="System.Buffers" Version="4.3.0" />
-  </ItemGroup>
-
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <ProjectReference Include="..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj" />
+    <ProjectReference Include="..\Extensions\WampSharp.WebSockets\WampSharp.WebSockets.csproj" />
+  </ItemGroup>  
 </Project>
