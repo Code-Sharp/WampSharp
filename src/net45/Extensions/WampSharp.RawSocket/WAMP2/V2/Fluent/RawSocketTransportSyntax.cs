@@ -1,6 +1,9 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Authentication;
+using System.Security.Cryptography.X509Certificates;
+using WampSharp.RawSocket;
 
 namespace WampSharp.V2.Fluent
 {
@@ -30,6 +33,18 @@ namespace WampSharp.V2.Fluent
         public ChannelFactorySyntax.ITransportSyntax AutoPing(TimeSpan autoPingInterval)
         {
             return InnerSetInterval(autoPingInterval);
+        }
+
+        public IRawSocketTransportSyntax SslConfiguration(ClientSslConfiguration sslConfiguration)
+        {
+            ((RawSocketActivator)State.ConnectionActivator).SslConfiguration = sslConfiguration;
+            return this;
+        }
+
+        public IRawSocketTransportSyntax SslConfiguration(string targetHost, X509CertificateCollection clientCertificates, SslProtocols enabledSslProtocols, bool checkCertificateRevocation)
+        {
+            return SslConfiguration(new ClientSslConfiguration(targetHost, clientCertificates, enabledSslProtocols,
+                checkCertificateRevocation));
         }
 
         private ChannelState InnerSetInterval(TimeSpan autoPingInterval)

@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net.Sockets;
 
 namespace WampSharp.RawSocket
@@ -5,12 +6,14 @@ namespace WampSharp.RawSocket
     public class RawSocketTcpClient
     {
         private readonly TcpClient mTcpClient;
+        private readonly Stream mStream;
         private readonly Handshake mHandshakeRequest;
         private readonly Handshake mHandshakeResponse;
 
-        public RawSocketTcpClient(TcpClient tcpClient, Handshake handshakeRequest, Handshake handshakeResponse)
+        public RawSocketTcpClient(TcpClient tcpClient, Stream stream, Handshake handshakeRequest, Handshake handshakeResponse)
         {
             mTcpClient = tcpClient;
+            mStream = stream;
             mHandshakeRequest = handshakeRequest;
             mHandshakeResponse = handshakeResponse;
         }
@@ -37,6 +40,11 @@ namespace WampSharp.RawSocket
             {
                 return mHandshakeResponse;
             }
+        }
+
+        public Stream Stream
+        {
+            get { return mStream; }
         }
     }
 }

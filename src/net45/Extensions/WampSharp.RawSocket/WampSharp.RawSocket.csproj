@@ -76,6 +76,8 @@
     <Compile Include="RawSocket\RawSocketTcpClient.cs" />
     <Compile Include="RawSocket\SerializerType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RawSocket\SslConfiguration.cs" />
+    <Compile Include="RawSocket\SslStreamExtensions.cs" />
     <Compile Include="RawSocket\TcpClientConnection.cs" />
     <Compile Include="RawSocket\RawSocketTransport.cs" />
     <Compile Include="RawSocket\TcpClientExtensions.cs" />

@@ -2,6 +2,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
@@ -18,25 +19,24 @@ namespace WampSharp.RawSocket
         private readonly IWampStreamingMessageParser<TMessage> mBinding;
         private readonly RawSocketFrameHeaderParser mFrameHeaderParser = new RawSocketFrameHeaderParser();
         private readonly TcpClient mTcpClient;
+        private readonly Stream mStream;
         private readonly long mMaxAllowedMessageSize;
         private readonly Handshake mHandshake;
         private readonly ArrayPool<byte> mByteArrayPool;
+        private readonly SslConfiguration mSslConfiguration;
         private readonly PingPongHandler mPingPongHandler;
         private readonly Pinger mPinger;
 
         public TcpClientConnection
-            (TcpClient client,
-             long maxAllowedMessageSize,
-             Handshake handshake,
-             IWampStreamingMessageParser<TMessage> binding,
-             ArrayPool<byte> byteArrayPool, 
-             TimeSpan? autoPingInterval)
+        (TcpClient client, Stream stream, long maxAllowedMessageSize, Handshake handshake, IWampStreamingMessageParser<TMessage> binding, ArrayPool<byte> byteArrayPool, TimeSpan? autoPingInterval, SslConfiguration sslConfiguration = null)
         {
             mTcpClient = client;
+            mStream = stream;
             mMaxAllowedMessageSize = maxAllowedMessageSize;
             mHandshake = handshake;
             mBinding = binding;
             mByteArrayPool = byteArrayPool;
+            mSslConfiguration = sslConfiguration;
 
             mPinger = new Pinger(this);
 
@@ -84,9 +84,17 @@ namespace WampSharp.RawSocket
                 mFrameHeaderParser.WriteHeader(FrameType.WampMessage, messageLength, buffer);
 
                 // Write the whole message to the wire
-                await TcpClient.GetStream().WriteAsync(buffer, 0, totalMessageLength);
+                await Stream.WriteAsync(buffer, 0, totalMessageLength);
 
                 mByteArrayPool.Return(buffer);
+            }
+        }
+
+        private Stream Stream
+        {
+            get
+            {
+                return mStream;
             }
         }
 
@@ -115,9 +123,9 @@ namespace WampSharp.RawSocket
 
                 while (IsConnected)
                 {
-                    await TcpClient.GetStream()
-                                   .ReadExactAsync(frameHeaderBytes)
-                                   .ConfigureAwait(false);
+                    await Stream
+                        .ReadExactAsync(frameHeaderBytes)
+                        .ConfigureAwait(false);
 
                     int messageLength;
                     FrameType frameType;
@@ -174,7 +182,7 @@ namespace WampSharp.RawSocket
 
             byte[] array = mByteArrayPool.Rent(length);
 
-            await TcpClient.GetStream().ReadExactAsync(array, position, messageLength);
+            await Stream.ReadExactAsync(array, position, messageLength);
 
             return array;
         }
@@ -197,7 +205,7 @@ namespace WampSharp.RawSocket
 
             mFrameHeaderParser.WriteHeader(FrameType.Pong, messageLength, buffer);
 
-            NetworkStream networkStream = mTcpClient.GetStream();
+            Stream networkStream = Stream;
 
             int frameSize = messageLength + FrameHeaderSize;
 
@@ -220,7 +228,7 @@ namespace WampSharp.RawSocket
 
                 await memoryStream.WriteAsync(message, 0, message.Length);
 
-                await TcpClient.GetStream().WriteAsync(buffer, 0, frameSize);
+                await Stream.WriteAsync(buffer, 0, frameSize);
             }
 
             mByteArrayPool.Return(buffer);

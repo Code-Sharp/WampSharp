@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Buffers;
-using System.Net;
+using System.IO;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using SystemEx;
@@ -23,12 +24,14 @@ namespace WampSharp.RawSocket
         private readonly ArrayPool<byte> mByteArrayPool = ArrayPool<byte>.Create();
         private TcpClient mClient;
         private readonly TimeSpan? mAutoPingInterval;
+        private readonly ClientSslConfiguration mSslConfiguration;
 
         public RawSocketClientConnection
             (Func<TcpClient> clientBuilder,
              Func<TcpClient, Task> connector,
              IWampStreamingMessageParser<TMessage> parser, 
-             TimeSpan? autoPingInterval)
+             TimeSpan? autoPingInterval,
+             ClientSslConfiguration sslConfiguration = null)
         {
             mClientBuilder = clientBuilder;
             mConnector = connector;
@@ -40,6 +43,7 @@ namespace WampSharp.RawSocket
 
             mParser = parser;
             mAutoPingInterval = autoPingInterval;
+            mSslConfiguration = sslConfiguration;
         }
 
         public void Send(WampMessage<object> message)
@@ -91,13 +95,25 @@ namespace WampSharp.RawSocket
             {
                 mClient = mClientBuilder();
 
-                await mConnector(mClient);
+                await mConnector(mClient).ConfigureAwait(false);
+
+                Stream stream = mClient.GetStream();
+
+                if (mSslConfiguration != null)
+                {
+                    SslStream sslStream = new SslStream(stream);
+
+                    await sslStream.AuthenticateAsClientAsync(mSslConfiguration)
+                        .ConfigureAwait(false);
+
+                    stream = sslStream;
+                }
 
                 Handshake handshakeRequest = GetHandshakeRequest();
 
-                await mHandshaker.SendHandshake(mClient, handshakeRequest);
+                await mHandshaker.SendHandshake(stream, handshakeRequest);
 
-                Handshake handshakeResponse = await mHandshaker.GetHandshakeMessage(mClient);
+                Handshake handshakeResponse = await mHandshaker.GetHandshakeMessage(stream);
 
                 if (handshakeResponse.IsError)
                 {
@@ -107,7 +123,7 @@ namespace WampSharp.RawSocket
                 else
                 {
                     Connection =
-                        CreateInnerConnection(handshakeRequest, handshakeResponse);
+                        CreateInnerConnection(stream, handshakeRequest, handshakeResponse);
 
                     Task.Run((Func<Task>) Connection.HandleTcpClientAsync);
                 }
@@ -181,18 +197,17 @@ namespace WampSharp.RawSocket
         }
 
         private TcpClientConnection<TMessage> CreateInnerConnection
-            (Handshake handshakeRequest,
-            Handshake handshakeResponse)
+            (Stream stream, Handshake handshakeRequest, Handshake handshakeResponse)
         {
             TcpClientConnection<TMessage> connection =
                 new TcpClientConnection<TMessage>
-                    (mClient,
-                     handshakeRequest.MaxMessageSizeInBytes,
-                     handshakeResponse,
-                     mParser,
-                     mByteArrayPool,
-                     mAutoPingInterval);
-
+                   (mClient,
+                    stream,
+                    handshakeRequest.MaxMessageSizeInBytes,
+                    handshakeResponse,
+                    mParser,
+                    mByteArrayPool,
+                    mAutoPingInterval);
 
             connection.ConnectionOpen += OnConnectionOpen;
             connection.MessageArrived += OnMessageArrived;
