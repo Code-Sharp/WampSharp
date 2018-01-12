@@ -256,6 +256,9 @@
     <Compile Include="WAMP2\V2\Fluent\ChannelFactorySyntax.cs" />
     <Compile Include="WAMP2\V2\Fluent\ChannelState.cs" />
     <Compile Include="WAMP2\V2\Fluent\IWampConnectionActivator.cs" />
+    <Compile Include="WAMP2\V2\Fluent\ScheduledWampConnection.cs" />
+    <Compile Include="WAMP2\V2\Fluent\ScheduledWampConnectionActivator.cs" />
+    <Compile Include="WAMP2\V2\Fluent\WampChannelObserveOnSyntaxExtensions.cs" />
     <Compile Include="WAMP2\V2\Fluent\WampCraChannelFactoryExtensions.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Client\Contracts\IWampRegistrationDescriptorProxy.cs" />
     <Compile Include="WAMP2\V2\MetaApi\Client\Contracts\IWampSessionDescriptorProxy.cs" />
