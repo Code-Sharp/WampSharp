@@ -28,6 +28,10 @@ namespace WampSharp.V2.Fluent
         {
         }
 
+        public interface IObserveOnSyntax : ISyntaxState, IBuildableSyntax
+        {  
+        }
+
         public interface IBuildableSyntax
         {
             IWampChannel Build();

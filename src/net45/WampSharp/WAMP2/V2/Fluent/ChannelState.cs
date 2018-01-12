@@ -8,7 +8,8 @@ namespace WampSharp.V2.Fluent
         ChannelFactorySyntax.IBuildableSyntax,
         ChannelFactorySyntax.IRealmSyntax,
         ChannelFactorySyntax.ISerializationSyntax,
-        ChannelFactorySyntax.ITransportSyntax
+        ChannelFactorySyntax.ITransportSyntax,
+        ChannelFactorySyntax.IObserveOnSyntax
     {
         public ChannelState()
         {
