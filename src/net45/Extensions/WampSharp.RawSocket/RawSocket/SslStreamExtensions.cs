@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace WampSharp.RawSocket
 {
-    public static class SslStreamExtensions
+    internal static class SslStreamExtensions
     {
         public static Task AuthenticateAsClientAsync(this SslStream stream, ClientSslConfiguration configuration)
         {
