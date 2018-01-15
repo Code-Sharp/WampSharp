@@ -81,7 +81,7 @@ namespace WampSharp.RawSocket
             {
                 tcpClient = await mListener.AcceptTcpClientAsync().ConfigureAwait(false);
 
-                Handshake handshakeRequest = await mHandshaker.GetHandshakeMessage(tcpClient);
+                Handshake handshakeRequest = await mHandshaker.GetHandshakeMessage(tcpClient).ConfigureAwait(false);
 
                 Handshake handshakeResponse = GetHandshakeResponse(handshakeRequest);
 

@@ -81,7 +81,7 @@ namespace WampSharp.Owin
 
         private async Task EmptyHandler(IOwinContext owinContext, Func<Task> next)
         {
-            await next();
+            await next().ConfigureAwait(false);
         }
 
         private async Task WebSocketHandler(IOwinContext context, Func<Task> next)
@@ -110,7 +110,7 @@ namespace WampSharp.Owin
                 }
             }
 
-            await next();
+            await next().ConfigureAwait(false);
         }
 
         private async Task OnAccept(IDictionary<string, object> webSocketContext, IOwinContext context, string subprotocol)
