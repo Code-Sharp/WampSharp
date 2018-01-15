@@ -60,7 +60,7 @@ namespace WampSharp.V2.Rpc
                                 argumentsKeywords,
                                 cancellationToken);
 
-                object result = await task;
+                object result = await task.ConfigureAwait(false);
 
                 CallResult(caller, result);
             }

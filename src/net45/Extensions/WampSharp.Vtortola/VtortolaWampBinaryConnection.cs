@@ -25,7 +25,7 @@ namespace WampSharp.Vtortola
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                await readStream.CopyToAsync(memoryStream);
+                await readStream.CopyToAsync(memoryStream).ConfigureAwait(false);
                 byte[] bytes = memoryStream.ToArray();
                 WampMessage<TMessage> result = mBinding.Parse(bytes);
                 return result;

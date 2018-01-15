@@ -25,7 +25,7 @@ namespace WampSharp.Vtortola
         {
             using (StreamReader streamReader = new StreamReader(readStream))
             {
-                string raw = await streamReader.ReadToEndAsync();
+                string raw = await streamReader.ReadToEndAsync().ConfigureAwait(false);
                 WampMessage<TMessage> result = mBinding.Parse(raw);
                 return result;
             }

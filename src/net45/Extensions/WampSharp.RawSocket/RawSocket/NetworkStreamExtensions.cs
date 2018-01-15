@@ -18,7 +18,7 @@ namespace WampSharp.RawSocket
 
             while (readBytes != length)
             {
-                int currentlyRead = await networkStream.ReadAsync(buffer, currentPosition, length - readBytes);
+                int currentlyRead = await networkStream.ReadAsync(buffer, currentPosition, length - readBytes).ConfigureAwait(false);
 
                 // If we read 0 bytes, we have reached the end of the stream.
                 if (currentlyRead == 0)

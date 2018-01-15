@@ -46,7 +46,7 @@ namespace WampSharp.Vtortola
                     {
                         using (message)
                         {
-                            WampMessage<TMessage> parsed = await ParseMessage(message);
+                            WampMessage<TMessage> parsed = await ParseMessage(message).ConfigureAwait(false);
                             RaiseMessageArrived(parsed);
                         }
                     }

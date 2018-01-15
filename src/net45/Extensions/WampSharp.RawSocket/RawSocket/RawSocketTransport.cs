@@ -98,7 +98,7 @@ namespace WampSharp.RawSocket
                     stream = sslStream;
                 }
 
-                Handshake handshakeRequest = await mHandshaker.GetHandshakeMessage(stream);
+                Handshake handshakeRequest = await mHandshaker.GetHandshakeMessage(stream).ConfigureAwait(false);
 
                 Handshake handshakeResponse = GetHandshakeResponse(handshakeRequest);
 
