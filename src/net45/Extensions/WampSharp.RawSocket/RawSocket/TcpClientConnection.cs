@@ -84,7 +84,7 @@ namespace WampSharp.RawSocket
                 mFrameHeaderParser.WriteHeader(FrameType.WampMessage, messageLength, buffer);
 
                 // Write the whole message to the wire
-                await TcpClient.GetStream().WriteAsync(buffer, 0, totalMessageLength);
+                await TcpClient.GetStream().WriteAsync(buffer, 0, totalMessageLength).ConfigureAwait(false);
 
                 mByteArrayPool.Return(buffer);
             }
@@ -125,7 +125,7 @@ namespace WampSharp.RawSocket
                     if (mFrameHeaderParser.TryParse(frameHeaderBytes, out frameType, out messageLength) &&
                         (messageLength <= mMaxAllowedMessageSize))
                     {
-                        await HandleFrame(frameType, messageLength);
+                        await HandleFrame(frameType, messageLength).ConfigureAwait(false);
                     }
                     else
                     {
@@ -146,20 +146,20 @@ namespace WampSharp.RawSocket
             switch (frameType)
             {
                 case FrameType.WampMessage:
-                    await HandleWampMessage(messageLength);
+                    await HandleWampMessage(messageLength).ConfigureAwait(false);
                     break;
                 case FrameType.Ping:
-                    await HandlePing(messageLength);
+                    await HandlePing(messageLength).ConfigureAwait(false);
                     break;
                 case FrameType.Pong:
-                    await HandlePong(messageLength);
+                    await HandlePong(messageLength).ConfigureAwait(false);
                     break;
             }
         }
 
         private async Task HandleWampMessage(int messageLength)
         {
-            byte[] buffer = await ReadStream(messageLength);
+            byte[] buffer = await ReadStream(messageLength).ConfigureAwait(false);
 
             WampMessage<TMessage> parsed = mBinding.Parse(new MemoryStream(buffer));
 
@@ -174,14 +174,14 @@ namespace WampSharp.RawSocket
 
             byte[] array = mByteArrayPool.Rent(length);
 
-            await TcpClient.GetStream().ReadExactAsync(array, position, messageLength);
+            await TcpClient.GetStream().ReadExactAsync(array, position, messageLength).ConfigureAwait(false);
 
             return array;
         }
 
         private async Task HandlePong(int messageLength)
         {
-            byte[] buffer = await ReadStream(messageLength);
+            byte[] buffer = await ReadStream(messageLength).ConfigureAwait(false);
 
             ArraySegment<byte> arraySegment =
                 new ArraySegment<byte>(buffer, 0, messageLength);
@@ -193,7 +193,7 @@ namespace WampSharp.RawSocket
 
         private async Task HandlePing(int messageLength)
         {
-            byte[] buffer = await ReadStream(messageLength, FrameHeaderSize);
+            byte[] buffer = await ReadStream(messageLength, FrameHeaderSize).ConfigureAwait(false);
 
             mFrameHeaderParser.WriteHeader(FrameType.Pong, messageLength, buffer);
 
@@ -201,7 +201,7 @@ namespace WampSharp.RawSocket
 
             int frameSize = messageLength + FrameHeaderSize;
 
-            await networkStream.WriteAsync(buffer, 0, frameSize);
+            await networkStream.WriteAsync(buffer, 0, frameSize).ConfigureAwait(false);
 
             mByteArrayPool.Return(buffer);
         }
@@ -218,9 +218,9 @@ namespace WampSharp.RawSocket
                 memoryStream.SetLength(FrameHeaderSize);
                 memoryStream.Position = FrameHeaderSize;
 
-                await memoryStream.WriteAsync(message, 0, message.Length);
+                await memoryStream.WriteAsync(message, 0, message.Length).ConfigureAwait(false);
 
-                await TcpClient.GetStream().WriteAsync(buffer, 0, frameSize);
+                await TcpClient.GetStream().WriteAsync(buffer, 0, frameSize).ConfigureAwait(false);
             }
 
             mByteArrayPool.Return(buffer);

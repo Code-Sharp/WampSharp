@@ -15,7 +15,7 @@ namespace SystemEx
             this IEnumerable<Task<IAsyncDisposable>> disposableTasks)
         {
             IAsyncDisposable[] allDisposables =
-                await Task.WhenAll(disposableTasks);
+                await Task.WhenAll(disposableTasks).ConfigureAwait(false);
 
             IAsyncDisposable result = new CompositeAsyncDisposable(allDisposables);
 

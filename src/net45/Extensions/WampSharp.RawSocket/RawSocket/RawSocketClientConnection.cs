@@ -81,7 +81,7 @@ namespace WampSharp.RawSocket
         {
             if (mConnection == null)
             {
-                await InnerConnect();
+                await InnerConnect().ConfigureAwait(false);
             }
         }
 
@@ -91,13 +91,13 @@ namespace WampSharp.RawSocket
             {
                 mClient = mClientBuilder();
 
-                await mConnector(mClient);
+                await mConnector(mClient).ConfigureAwait(false);
 
                 Handshake handshakeRequest = GetHandshakeRequest();
 
-                await mHandshaker.SendHandshake(mClient, handshakeRequest);
+                await mHandshaker.SendHandshake(mClient, handshakeRequest).ConfigureAwait(false);
 
-                Handshake handshakeResponse = await mHandshaker.GetHandshakeMessage(mClient);
+                Handshake handshakeResponse = await mHandshaker.GetHandshakeMessage(mClient).ConfigureAwait(false);
 
                 if (handshakeResponse.IsError)
                 {

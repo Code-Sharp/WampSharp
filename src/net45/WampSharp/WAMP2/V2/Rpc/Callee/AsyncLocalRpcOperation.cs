@@ -34,7 +34,7 @@ namespace WampSharp.V2.Rpc
                                 arguments,
                                 argumentsKeywords);
 
-                object result = await task;
+                object result = await task.ConfigureAwait(false);
 
                 CallResult(caller, result);
             }
