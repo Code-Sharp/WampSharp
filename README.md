@@ -12,7 +12,7 @@ The implementation also supports WAMPv1, both client and server roles.
 
 If you found WampSharp helpful and want to donate, you are welcome to do so via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UHRAS9KZPNPX4).
 
-Your donations help keep this project development alive.
+Your donations help keep this project's development alive.
 
 ## Documentation
 
