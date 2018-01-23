@@ -22,8 +22,14 @@ namespace WampSharp.V2.Fluent
             mWebSocketFactory = webSocketFactory;
         }
 
-        public WebSocket4NetActivator(string serverAddress) : 
-            this(subprotocolName => new WebSocket(serverAddress, subprotocolName, WebSocketVersion.None))
+        public WebSocket4NetActivator(string serverAddress)
+            :
+            this(subprotocolName => new WebSocket(serverAddress, subprotocolName, WebSocketVersion.None)
+                {
+                    //ZAP: Disable ping/pong to prevent losing messages
+                    //https://github.com/aspnet/AspNetKatana/issues/155
+                    EnableAutoSendPing = false 
+                })
         {
         }
 
@@ -31,10 +37,10 @@ namespace WampSharp.V2.Fluent
 
         public IControlledWampConnection<TMessage> Activate<TMessage>(IWampBinding<TMessage> binding)
         {
-            Func<IControlledWampConnection<TMessage>> factory = 
+            Func<IControlledWampConnection<TMessage>> factory =
                 () => GetConnectionFactory(binding);
 
-            ReviveClientConnection<TMessage> result = 
+            ReviveClientConnection<TMessage> result =
                 new ReviveClientConnection<TMessage>(factory);
 
             return result;

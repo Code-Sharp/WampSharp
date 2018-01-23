@@ -36,7 +36,12 @@ namespace WampSharp.WebSocket4Net
         public WebSocket4NetConnection(string serverAddress,
                                        IWampBinding<TMessage> binding, 
                                        Action<SecurityOption> configureSecurityOptions)
-            : this(new WebSocket(serverAddress, binding.Name, WebSocketVersion.None), binding)
+            : this(new WebSocket(serverAddress, binding.Name, WebSocketVersion.None)
+                {
+                    //ZAP: Disable ping/pong to prevent losing messages
+                    //https://github.com/aspnet/AspNetKatana/issues/155
+                    EnableAutoSendPing = false
+                }, binding)
         {
             if (configureSecurityOptions != null)
             {
