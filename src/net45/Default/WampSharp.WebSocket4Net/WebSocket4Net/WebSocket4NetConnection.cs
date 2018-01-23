@@ -36,7 +36,10 @@ namespace WampSharp.WebSocket4Net
         public WebSocket4NetConnection(string serverAddress,
                                        IWampBinding<TMessage> binding, 
                                        Action<SecurityOption> configureSecurityOptions)
-            : this(new WebSocket(serverAddress, binding.Name, WebSocketVersion.None), binding)
+            : this(new WebSocket(serverAddress, binding.Name, WebSocketVersion.None)
+                {
+                    EnableAutoSendPing = false //Disable ping/pong to prevent losing messages
+                }, binding)
         {
             if (configureSecurityOptions != null)
             {
