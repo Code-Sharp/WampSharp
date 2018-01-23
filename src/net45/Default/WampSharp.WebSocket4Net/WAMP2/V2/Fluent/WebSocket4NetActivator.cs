@@ -26,7 +26,9 @@ namespace WampSharp.V2.Fluent
             :
             this(subprotocolName => new WebSocket(serverAddress, subprotocolName, WebSocketVersion.None)
                 {
-                    EnableAutoSendPing = false //Disable ping/pong to prevent losing messages
+                    //ZAP: Disable ping/pong to prevent losing messages
+                    //https://github.com/aspnet/AspNetKatana/issues/155
+                    EnableAutoSendPing = false 
                 })
         {
         }
