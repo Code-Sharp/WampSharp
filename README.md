@@ -1,6 +1,6 @@
 WampSharp
 =========
-[![NuGet Version][NuGetImgMaster]][NuGetLinkMaster][![Codewake](https://www.codewake.com/badges/ask_question.svg)](https://www.codewake.com/p/wampsharp)
+[![NuGet Version][NuGetImgMaster]][NuGetLinkMaster]
 
 A C# implementation of [WAMP (The Web Application Messaging Protocol)][WampLink]
 
@@ -8,11 +8,11 @@ The implementation supports WAMPv2 and includes both Json and MsgPack support, a
 
 The implementation also supports WAMPv1, both client and server roles.
 
-## Builds
+## Donations
 
-Master | Provider
------- | --------
-[![Build Status][WinImgMaster]][WinLinkMaster] | Windows CI Provided By [CodeBetter][] and [JetBrains][]
+If you found WampSharp helpful and want to donate, you are welcome to do so via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UHRAS9KZPNPX4).
+
+Your donations help keep this project's development alive.
 
 ## Documentation
 
@@ -40,11 +40,9 @@ In order to use it, Install WampSharp.WAMP1.Default from NuGet.
 
 If you're updating from a previous WampSharp version and you're not interested yet in updating your application to WAMPv2, please read the following [notes](http://wampsharp.net/wamp1/notes-for-wampv1-users/).
 
-## Donations
+## Poloniex Api issues
 
-If you found WampSharp helpful and want to donate, you are welcome to do so via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UHRAS9KZPNPX4).
-
-Your donations help keep this project development alive.
+Poloniex no longer uses WAMP for its WebSockets api. Please don't open issues specific to Poloniex api. These will be closed without any comment. If you are still interested in connecting to Poloniex WebSockets api, take a look at [PoloniexWebSocketsApi](https://github.com/Code-Sharp/PoloniexWebSocketsApi).
 
 [WampLink]:http://wamp.ws
 
