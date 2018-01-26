@@ -17,6 +17,10 @@
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WebSocket4Net" version="[0.15.0-beta9, )" />
       </group>
+      <group targetFramework="Xamarin.iOS10">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="WebSocket4Net" version="[0.15.0-beta9, )" />
+      </group>
       <group targetFramework=".NETStandard2.0">
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WebSocket4Net" version="[0.15.0-beta9, )" />
@@ -38,5 +42,7 @@
     <file src="$bin$\netstandard1.3\WampSharp.WebSocket4Net.xml" target="lib\netstandard1.3\WampSharp.WebSocket4Net.xml" />
     <file src="$bin$\netstandard2.0\WampSharp.WebSocket4Net.dll" target="lib\netstandard2.0\WampSharp.WebSocket4Net.dll" />
     <file src="$bin$\netstandard2.0\WampSharp.WebSocket4Net.xml" target="lib\netstandard2.0\WampSharp.WebSocket4Net.xml" />
+    <file src="$bin$\Xamarin.iOS10\WampSharp.WebSocket4Net.dll" target="lib\Xamarin.iOS10\WampSharp.WebSocket4Net.dll" />
+    <file src="$bin$\Xamarin.iOS10\WampSharp.WebSocket4Net.xml" target="lib\Xamarin.iOS10\WampSharp.WebSocket4Net.xml" />
   </files>
 </package>
