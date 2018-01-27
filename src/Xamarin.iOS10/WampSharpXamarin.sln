@@ -1,0 +1,88 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp", "WampSharp\WampSharp.csproj", "{8EB8EF7A-FF96-4BA2-9662-C4882DBD1126}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4CADCB5B-7607-4B2C-A1C4-0550568AAE5D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{E3EAE72D-738A-4179-8A22-50D58A91AD04}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Default", "Default", "{72E8F565-788F-4A29-8919-7F3F001C6FC9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Tests.Wampv2", "Tests\WampSharp.Tests.Wampv2\WampSharp.Tests.Wampv2.csproj", "{ECED5650-A8AF-4B0B-9C6E-BBAD9A147DFE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Tests.TestHelpers", "Tests\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj", "{EA8294AA-4DC7-4CD7-9916-00A590DB06BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WebSockets", "Extensions\WampSharp.WebSockets\WampSharp.WebSockets.csproj", "{75AA7B6A-94E9-4EAA-9956-E88078FCD18E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.NewtonsoftJson", "Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj", "{B9B030B5-2C08-4243-BED9-F8BFB67A7121}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.NewtonsoftMsgpack", "Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj", "{84244F63-AF74-4684-898F-8DAA3866D0DC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WebSocket4Net", "Default\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.csproj", "{78C4FB25-2EEA-4178-9D2E-447215A09A70}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Default.Client", "WampSharp.Default.Client\WampSharp.Default.Client.csproj", "{A68B9369-5EFB-43D4-979D-25DD0AAB540C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.RawSocket", "Extensions\WampSharp.RawSocket\WampSharp.RawSocket.csproj", "{0A538377-4E4D-40B7-91D0-3E57AC40FE47}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EB8EF7A-FF96-4BA2-9662-C4882DBD1126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EB8EF7A-FF96-4BA2-9662-C4882DBD1126}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EB8EF7A-FF96-4BA2-9662-C4882DBD1126}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EB8EF7A-FF96-4BA2-9662-C4882DBD1126}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECED5650-A8AF-4B0B-9C6E-BBAD9A147DFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECED5650-A8AF-4B0B-9C6E-BBAD9A147DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECED5650-A8AF-4B0B-9C6E-BBAD9A147DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECED5650-A8AF-4B0B-9C6E-BBAD9A147DFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA8294AA-4DC7-4CD7-9916-00A590DB06BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA8294AA-4DC7-4CD7-9916-00A590DB06BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA8294AA-4DC7-4CD7-9916-00A590DB06BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA8294AA-4DC7-4CD7-9916-00A590DB06BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75AA7B6A-94E9-4EAA-9956-E88078FCD18E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75AA7B6A-94E9-4EAA-9956-E88078FCD18E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75AA7B6A-94E9-4EAA-9956-E88078FCD18E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75AA7B6A-94E9-4EAA-9956-E88078FCD18E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9B030B5-2C08-4243-BED9-F8BFB67A7121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9B030B5-2C08-4243-BED9-F8BFB67A7121}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9B030B5-2C08-4243-BED9-F8BFB67A7121}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9B030B5-2C08-4243-BED9-F8BFB67A7121}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84244F63-AF74-4684-898F-8DAA3866D0DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84244F63-AF74-4684-898F-8DAA3866D0DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84244F63-AF74-4684-898F-8DAA3866D0DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84244F63-AF74-4684-898F-8DAA3866D0DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78C4FB25-2EEA-4178-9D2E-447215A09A70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78C4FB25-2EEA-4178-9D2E-447215A09A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78C4FB25-2EEA-4178-9D2E-447215A09A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78C4FB25-2EEA-4178-9D2E-447215A09A70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A68B9369-5EFB-43D4-979D-25DD0AAB540C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A68B9369-5EFB-43D4-979D-25DD0AAB540C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A68B9369-5EFB-43D4-979D-25DD0AAB540C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A68B9369-5EFB-43D4-979D-25DD0AAB540C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A538377-4E4D-40B7-91D0-3E57AC40FE47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A538377-4E4D-40B7-91D0-3E57AC40FE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A538377-4E4D-40B7-91D0-3E57AC40FE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A538377-4E4D-40B7-91D0-3E57AC40FE47}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ECED5650-A8AF-4B0B-9C6E-BBAD9A147DFE} = {4CADCB5B-7607-4B2C-A1C4-0550568AAE5D}
+		{EA8294AA-4DC7-4CD7-9916-00A590DB06BA} = {4CADCB5B-7607-4B2C-A1C4-0550568AAE5D}
+		{75AA7B6A-94E9-4EAA-9956-E88078FCD18E} = {E3EAE72D-738A-4179-8A22-50D58A91AD04}
+		{B9B030B5-2C08-4243-BED9-F8BFB67A7121} = {72E8F565-788F-4A29-8919-7F3F001C6FC9}
+		{84244F63-AF74-4684-898F-8DAA3866D0DC} = {72E8F565-788F-4A29-8919-7F3F001C6FC9}
+		{78C4FB25-2EEA-4178-9D2E-447215A09A70} = {72E8F565-788F-4A29-8919-7F3F001C6FC9}
+		{0A538377-4E4D-40B7-91D0-3E57AC40FE47} = {E3EAE72D-738A-4179-8A22-50D58A91AD04}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9C83357C-2ED0-48F8-8468-E6531D94FBA3}
+	EndGlobalSection
+EndGlobal

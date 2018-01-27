@@ -22,6 +22,9 @@
       <group targetFramework=".NETStandard2.0">
         <dependency id="WampSharp.Default.Client" version="[$version$]" />
       </group>
+      <group targetFramework="Xamarin.iOS10">
+        <dependency id="WampSharp.Default.Client" version="[$version$]" />
+      </group>
     </dependencies>
     <id>WampSharp.Default</id>
     <title>WampSharp default binding</title>
