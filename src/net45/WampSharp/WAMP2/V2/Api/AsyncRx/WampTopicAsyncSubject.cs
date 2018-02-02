@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace WampSharp.V2
 {
-    internal class WampAsyncTopicSubject<T> : IAsyncSubject<T>
+    internal class WampTopicAsyncSubject<T> : IAsyncSubject<T>
     {
         private readonly IWampAsyncSubject mSubject;
         private readonly IAsyncObservable<T> mObservable;
 
-        public WampAsyncTopicSubject(IWampAsyncSubject subject)
+        public WampTopicAsyncSubject(IWampAsyncSubject subject)
         {
             mSubject = subject;
 
