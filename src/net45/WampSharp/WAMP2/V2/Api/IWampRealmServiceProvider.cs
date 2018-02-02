@@ -103,6 +103,24 @@ namespace WampSharp.V2
         IWampSubject GetSubject(string topicUri);
 
         /// <summary>
+        /// Gets a <see cref="IAsyncSubject{TResult}"/> representing a
+        /// WAMP topic in the realm.
+        /// </summary>
+        /// <param name="topicUri">The WAMP topic uri.</param>
+        /// <typeparam name="TEvent"></typeparam>
+        /// <returns>The requested subject.</returns>
+        IAsyncSubject<TEvent> GetAsyncSubject<TEvent>(string topicUri);
+
+        /// <summary>
+        /// Gets a <see cref="IWampAsyncSubject"/> representing a WAMP topic
+        /// in the realm.
+        /// </summary>
+        /// <param name="topicUri">The WAMP topic uri.</param>
+        /// <returns>The requested subject.</returns>
+        IWampAsyncSubject GetAsyncSubject(string topicUri);
+
+
+        /// <summary>
         /// Registers an instance of a type having events decorated with
         /// <see cref="WampTopicAttribute"/> to the realm.
         /// </summary>
@@ -150,6 +168,15 @@ namespace WampSharp.V2
         /// <returns>The requested subject.</returns>
         ISubject<TTuple> GetSubject<TTuple>(string topicUri, IWampEventValueTupleConverter<TTuple> tupleConverter);
 
+        /// <summary>
+        /// Gets a <see cref="IAsyncSubject{TTuple}"/> representing a
+        /// WAMP topic in the realm.
+        /// </summary>
+        /// <param name="topicUri">The WAMP topic uri.</param>
+        /// <param name="tupleConverter">An interface responsible for converting <see cref="IWampEvent"/>s into <see cref="TTuple"/>s 
+        /// and vice versa</param>
+        /// <returns>The requested subject.</returns>
+        IAsyncSubject<TTuple> GetAsyncSubject<TTuple>(string topicUri, IWampEventValueTupleConverter<TTuple> tupleConverter);
 #endif
 
     }

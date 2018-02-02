@@ -105,6 +105,24 @@ namespace WampSharp.V2
             return result;
         }
 
+        public IAsyncSubject<TEvent> GetAsyncSubject<TEvent>(string topicUri)
+        {
+            IWampAsyncSubject subject = GetAsyncSubject(topicUri);
+
+            WampTopicAsyncSubject<TEvent> result = new WampTopicAsyncSubject<TEvent>(subject);
+
+            return result;
+        }
+
+        public IWampAsyncSubject GetAsyncSubject(string topicUri)
+        {
+            IWampTopicProxy topicProxy = mProxy.TopicContainer.GetTopicByUri(topicUri);
+
+            WampClientAsyncSubject result = new WampClientAsyncSubject(topicProxy, mProxy.Monitor);
+
+            return result;
+        }
+
         public ISubject<TTuple> GetSubject<TTuple>(string topicUri, IWampEventValueTupleConverter<TTuple> converter)
         {
             IWampSubject subject = GetSubject(topicUri);
@@ -112,6 +130,11 @@ namespace WampSharp.V2
             WampTupleTopicSubject<TTuple> result = new WampTupleTopicSubject<TTuple>(subject, converter);
 
             return result;
+        }
+
+        public IAsyncSubject<TTuple> GetAsyncSubject<TTuple>(string topicUri, IWampEventValueTupleConverter<TTuple> tupleConverter)
+        {
+            throw new NotImplementedException();
         }
 
         public IDisposable RegisterPublisher(object instance)
