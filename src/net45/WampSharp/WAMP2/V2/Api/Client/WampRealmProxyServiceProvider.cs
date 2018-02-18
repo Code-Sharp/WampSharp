@@ -134,7 +134,11 @@ namespace WampSharp.V2
 
         public IAsyncSubject<TTuple> GetAsyncSubject<TTuple>(string topicUri, IWampEventValueTupleConverter<TTuple> tupleConverter)
         {
-            throw new NotImplementedException();
+            IWampAsyncSubject subject = GetAsyncSubject(topicUri);
+
+            WampTupleTopicAsyncSubject<TTuple> result = new WampTupleTopicAsyncSubject<TTuple>(subject, tupleConverter);
+
+            return result;
         }
 
         public IDisposable RegisterPublisher(object instance)
