@@ -28,10 +28,13 @@
   </metadata>
   <files>
     <file src="$bin$\net45\WampSharp.RawSocket.dll" target="lib\net45\WampSharp.RawSocket.dll" />
+    <file src="$bin$\net45\WampSharp.RawSocket.pdb" target="lib\net45\WampSharp.RawSocket.pdb" />
     <file src="$bin$\net45\WampSharp.RawSocket.xml" target="lib\net45\WampSharp.RawSocket.xml" />
     <file src="$bin$\netstandard1.3\WampSharp.RawSocket.dll" target="lib\netstandard1.3\WampSharp.RawSocket.dll" />
+    <file src="$bin$\netstandard1.3\WampSharp.RawSocket.pdb" target="lib\netstandard1.3\WampSharp.RawSocket.pdb" />
     <file src="$bin$\netstandard1.3\WampSharp.RawSocket.xml" target="lib\netstandard1.3\WampSharp.RawSocket.xml" />
     <file src="$bin$\netstandard2.0\WampSharp.RawSocket.dll" target="lib\netstandard2.0\WampSharp.RawSocket.dll" />
+    <file src="$bin$\netstandard2.0\WampSharp.RawSocket.pdb" target="lib\netstandard2.0\WampSharp.RawSocket.pdb" />
     <file src="$bin$\netstandard2.0\WampSharp.RawSocket.xml" target="lib\netstandard2.0\WampSharp.RawSocket.xml" />
   </files>
 </package>
