@@ -28,14 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <Import Project="$(NuGetPackageFolders)\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props')" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(NuGetPackageFolders)\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props'))" />
-  </Target>
   <ItemGroup>
     <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
     <ProjectReference Include="..\..\WampSharp.WAMP1\WampSharp.WAMP1.csproj" />
@@ -45,8 +38,8 @@
   <ItemGroup>
     <PackageReference Include="Moq" Version="4.2.1502.0911" />
     <PackageReference Include="Newtonsoft.Json" Version="6.0.5" />
-    <PackageReference Include="NUnit" Version="3.7.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
     <PackageReference Include="System.Reactive.Core" Version="3.0.0" />
     <PackageReference Include="System.Reactive.Interfaces" Version="3.0.0" />
     <PackageReference Include="System.Reactive.Linq" Version="3.0.0" />
