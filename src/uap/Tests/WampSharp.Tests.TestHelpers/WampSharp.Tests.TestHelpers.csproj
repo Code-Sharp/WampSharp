@@ -106,34 +106,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\ReflectionExtensions.cs">
-      <Link>ReflectionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <EmbeddedResource Include="Properties\WampSharp.Tests.TestHelpers.rd.xml" />
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\IDirectedControlledWampConnection.cs">
-      <Link>IDirectedControlledWampConnection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\Integration\MockConnectionListener.cs">
-      <Link>Integration\MockConnectionListener.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockConnection.cs">
-      <Link>MockConnection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockRaw.cs">
-      <Link>MockRaw.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockRawConverter.cs">
-      <Link>MockRawConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockRawFormatter.cs">
-      <Link>MockRawFormatter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\WampFormatterExtensions.cs">
-      <Link>WampFormatterExtensions.cs</Link>
-    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\**\*.cs" Exclude="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\**\bin\**;..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\**\obj\**;" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
