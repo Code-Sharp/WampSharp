@@ -32,24 +32,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
     <ProjectReference Include="..\..\..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj" />
-    <ProjectReference Include="..\..\..\Extensions\WampSharp.Vtortola\WampSharp.Vtortola.csproj" />
     <ProjectReference Include="..\..\..\WampSharp.Default.Client\WampSharp.Default.Client.csproj" />
     <ProjectReference Include="..\..\..\WampSharp.Default.Router\WampSharp.Default.Router.csproj" />
     <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.2.1" />
-    <PackageReference Include="Fleck" Version="0.14.0.59" />
-    <PackageReference Include="MsgPack.Cli" Version="0.6.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="6.0.5" />
-    <PackageReference Include="Newtonsoft.Msgpack" Version="0.1.10" />
-    <PackageReference Include="Rx-Core" Version="2.2.5" />
-    <PackageReference Include="Rx-Interfaces" Version="2.2.5" />
-    <PackageReference Include="Rx-Linq" Version="2.2.5" />
-    <PackageReference Include="Rx-Main" Version="2.2.5" />
-    <PackageReference Include="Rx-PlatformServices" Version="2.2.5" />
-    <PackageReference Include="SuperSocket.ClientEngine.Core" Version="0.8.0.12" />
-    <PackageReference Include="WebSocket4Net" Version="0.15.0-beta9" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Configuration" />
