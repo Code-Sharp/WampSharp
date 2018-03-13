@@ -44,6 +44,7 @@
     <PackageReference Include="WebSocket4Net" Version="0.15.0-beta9" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
