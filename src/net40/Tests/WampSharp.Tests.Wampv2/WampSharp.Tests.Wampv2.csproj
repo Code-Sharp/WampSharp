@@ -1,6 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{710B61C1-E7E0-4D8F-BF39-F82086D610ED}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WampSharp.Tests.Wampv2</RootNamespace>
+    <AssemblyName>WampSharp.Tests.Wampv2</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,24 +34,334 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
-    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
-    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
-    <ProjectReference Include="..\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.2.1" />
-    <PackageReference Include="Moq" Version="4.2.1502.0911" />
-    <PackageReference Include="Newtonsoft.Json" Version="6.0.5" />
-    <PackageReference Include="NUnit" Version="3.10.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
-  </ItemGroup>
-  <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Rx-Core.2.2.5\lib\net40\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Rx-Interfaces.2.2.5\lib\net40\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Rx-Linq.2.2.5\lib\net40\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Rx-PlatformServices.2.2.5\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\**\*.cs" Exclude="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\**\bin\**;..\..\..\net45\Tests\WampSharp.Tests.Wampv2\**\obj\**;" />
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Binding\MockBinding.cs">
+      <Link>Binding\MockBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Binding\MockWampMessage.cs">
+      <Link>Binding\MockWampMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\CalleeProxyExtensions.cs">
+      <Link>CalleeProxyExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\CalleeTest.cs">
+      <Link>Client\Callee\CalleeTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\InvocationCalleeeTest.cs">
+      <Link>Client\Callee\InvocationCalleeeTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Callee\RawInvocationCalleeTests.cs">
+      <Link>Client\Callee\RawInvocationCalleeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Caller\CallerTest.cs">
+      <Link>Client\Caller\CallerTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\Caller\CallerRawTests.cs">
+      <Link>Client\Caller\CallerRawTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Client\RawTest.cs">
+      <Link>Client\RawTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\AuthenticationClientTests.cs">
+      <Link>Integration\AuthenticationClientTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\AuthenticationServerTests.cs">
+      <Link>Integration\AuthenticationServerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\CallerCallee.cs">
+      <Link>Integration\CallerCallee.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\CallerDealerTests.cs">
+      <Link>Integration\CallerDealerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\CancelTests.cs">
+      <Link>Integration\CancelTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\MockRawCallback.cs">
+      <Link>Integration\MockRawCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PatternBasedPubSubTests.cs">
+      <Link>Integration\PatternBasedPubSubTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PatternRpcTests.cs">
+      <Link>Integration\PatternRpcTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PublisherSubscriber.cs">
+      <Link>Integration\PublisherSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PubSubReflectionTests.cs">
+      <Link>Integration\PubSubReflectionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PubSubRetainTests.cs">
+      <Link>Integration\PubSubRetainTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcOptionsTests.cs">
+      <Link>Integration\RpcOptionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProgressTests.cs">
+      <Link>Integration\RpcProgressTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\IArgumentsService.cs">
+      <Link>Integration\RpcProxies\IArgumentsService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\IComplexResultService.cs">
+      <Link>Integration\RpcProxies\IComplexResultService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\IErrorsService.cs">
+      <Link>Integration\RpcProxies\IErrorsService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\ILongValueTuplesServiceProxy.cs">
+      <Link>Integration\RpcProxies\ILongValueTuplesServiceProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\INamedTupleComplexResultService.cs">
+      <Link>Integration\RpcProxies\INamedTupleComplexResultService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\ISlowSquareService.cs">
+      <Link>Integration\RpcProxies\ISlowSquareService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcProxies\ITimeService.cs">
+      <Link>Integration\RpcProxies\ITimeService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\ArgumentsService.cs">
+      <Link>Integration\RpcServices\ArgumentsService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\ComplexResultService.cs">
+      <Link>Integration\RpcServices\ComplexResultService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\ErrorsService.cs">
+      <Link>Integration\RpcServices\ErrorsService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\LongValueTuplesCalleeService.cs">
+      <Link>Integration\RpcServices\LongValueTuplesCalleeService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\LongValueTuplesService.cs">
+      <Link>Integration\RpcServices\LongValueTuplesService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\NamedTupleComplexResultService.cs">
+      <Link>Integration\RpcServices\NamedTupleComplexResultService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\PositionalTupleComplexResultService.cs">
+      <Link>Integration\RpcServices\PositionalTupleComplexResultService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\SlowSquareService.cs">
+      <Link>Integration\RpcServices\SlowSquareService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\RpcServices\TimeService.cs">
+      <Link>Integration\RpcServices\TimeService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\PubSubSubjectTupleTests.cs">
+      <Link>Integration\PubSubSubjectTupleTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\SerializedValue.cs">
+      <Link>Integration\SerializedValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\SharedRpcTests.cs">
+      <Link>Integration\SharedRpcTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\TestamentServiceTests.cs">
+      <Link>Integration\TestamentServiceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Integration\WampCraAuthenticationTests.cs">
+      <Link>Integration\WampCraAuthenticationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\WelcomeDetailsInterceptor.cs">
+      <Link>RecordedTests\MockBuilder\WelcomeDetailsInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RequestMapper.cs">
+      <Link>RequestMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\ChannelWithExtraData.cs">
+      <Link>TestHelpers\Integration\ChannelWithExtraData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\MockTransport.cs">
+      <Link>TestHelpers\Integration\MockTransport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\WampAuthenticationPlayground.cs">
+      <Link>TestHelpers\Integration\WampAuthenticationPlayground.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\WampClientPlayground.cs">
+      <Link>TestHelpers\Integration\WampClientPlayground.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\WampPlayground.cs">
+      <Link>TestHelpers\Integration\WampPlayground.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Integration\WampPlaygroundRoleExtensions.cs">
+      <Link>TestHelpers\Integration\WampPlaygroundRoleExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\MockRawFormatter.cs">
+      <Link>TestHelpers\MockRawFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\WampMessagePrinter.cs">
+      <Link>WampMessagePrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Dealer\Call.cs">
+      <Link>Dealer\Call.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\BaseScenario.cs">
+      <Link>RecordedTests\BaseScenario.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\BrokerScenario.cs">
+      <Link>RecordedTests\BrokerScenario.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\IntegrationTestsBase.cs">
+      <Link>RecordedTests\IntegrationTestsBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\BrokerIntegrationTests.cs">
+      <Link>RecordedTests\BrokerIntegrationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\DealerCall.cs">
+      <Link>RecordedTests\DealerCall.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\DealerIntegrationTests.cs">
+      <Link>RecordedTests\DealerIntegrationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\Channel.cs">
+      <Link>RecordedTests\Channel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\DealerScenario.cs">
+      <Link>RecordedTests\DealerScenario.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\ResponsiveMessageRecorder.cs">
+      <Link>RecordedTests\MockBuilder\ResponsiveMessageRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\RecordAndPlayRawInterceptor.cs">
+      <Link>RecordedTests\MockBuilder\RecordAndPlayRawInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockClient.cs">
+      <Link>RecordedTests\MockClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\MessageTypes.cs">
+      <Link>MessageTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Dealer\Registration.cs">
+      <Link>Dealer\Registration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Dealer\DealerTests.cs">
+      <Link>Dealer\DealerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\IMessageMapper.cs">
+      <Link>RecordedTests\MockBuilder\IMessageMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\IMessagePlayer.cs">
+      <Link>RecordedTests\MockBuilder\IMessagePlayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\IMessageRecorder.cs">
+      <Link>RecordedTests\MockBuilder\IMessageRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\MessageMapper.cs">
+      <Link>RecordedTests\MockBuilder\MessageMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\MessagePlayer.cs">
+      <Link>RecordedTests\MockBuilder\MessagePlayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\CalleeMessagePlayer.cs">
+      <Link>RecordedTests\MockBuilder\CalleeMessagePlayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\MessageRecorder.cs">
+      <Link>RecordedTests\MockBuilder\MessageRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\NullInterceptor.cs">
+      <Link>RecordedTests\MockBuilder\NullInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\NullPlayer.cs">
+      <Link>RecordedTests\MockBuilder\NullPlayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\RecordAndPlayInterceptor.cs">
+      <Link>RecordedTests\MockBuilder\RecordAndPlayInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\SessionPropertyInterceptor.cs">
+      <Link>RecordedTests\MockBuilder\SessionPropertyInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\WampMockClientBuilder.cs">
+      <Link>RecordedTests\MockBuilder\WampMockClientBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\RecordedTests\MockBuilder\MockClientInterceptorSelector.cs">
+      <Link>RecordedTests\MockBuilder\MockClientInterceptorSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\Rpc.cs">
+      <Link>TestHelpers\Rpc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\TestHelpers\PubSub.cs">
+      <Link>TestHelpers\PubSub.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\WampMessageExtensions.cs">
+      <Link>WampMessageExtensions.cs</Link>
+    </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
+      <Project>{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59}</Project>
+      <Name>WampSharp.NewtonsoftJson</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
+      <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>
+      <Name>WampSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj">
+      <Project>{78AB08FB-F75D-4F93-A25F-164BF90DD408}</Project>
+      <Name>WampSharp.Tests.TestHelpers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>
