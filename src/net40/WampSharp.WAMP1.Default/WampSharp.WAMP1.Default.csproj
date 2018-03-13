@@ -46,23 +46,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="..\..\net45\WampSharp.WAMP1.Default\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Update="..\..\net45\WampSharp.WAMP1.Default\WAMP1\V1\DefaultWampChannelFactory.cs">
-      <Link>WAMP1\V1\DefaultWampChannelFactory.cs</Link>
-    </Compile>
-    <Compile Update="..\..\net45\WampSharp.WAMP1.Default\WAMP1\V1\DefaultWampCraHost.cs">
-      <Link>WAMP1\V1\DefaultWampCraHost.cs</Link>
-    </Compile>
-    <Compile Update="..\..\net45\WampSharp.WAMP1.Default\WAMP1\V1\DefaultWampHost.cs">
-      <Link>WAMP1\V1\DefaultWampHost.cs</Link>
-    </Compile>
-    <Compile Update="..\..\net45\WampSharp.WAMP1.Default\WAMP1\V1\Wamp1Binding.cs">
-      <Link>WAMP1\V1\Wamp1Binding.cs</Link>
-    </Compile>
-    <Compile Update="..\..\net45\WampSharp.WAMP1.Default\WAMP1\V1\WampChannelFactoryExtensions.cs">
-      <Link>WAMP1\V1\WampChannelFactoryExtensions.cs</Link>
-    </Compile>
+    <Compile Include="..\..\net45\WampSharp.WAMP1.Default\**\*.cs" Exclude="..\..\net45\WampSharp.WAMP1.Default\**\bin\**;..\..\net45\WampSharp.WAMP1.Default\**\obj\**;" />
   </ItemGroup>
 </Project>

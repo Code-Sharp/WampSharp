@@ -42,15 +42,11 @@
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Update="..\..\net45\WampSharp.Default.Router\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Update="..\..\net45\WampSharp.Default.Router\WAMP2\V2\DefaultWampAuthenticationHost.cs">
-      <Link>WAMP2\V2\DefaultWampAuthenticationHost.cs</Link>
-    </Compile>
-    <Compile Update="..\..\net45\WampSharp.Default.Router\WAMP2\V2\DefaultWampHost.cs">
-      <Link>WAMP2\V2\DefaultWampHost.cs</Link>
-    </Compile>
+    <Compile Include="..\..\net45\WampSharp.Default.Router\**\*.cs" Exclude="..\..\net45\WampSharp.Default.Router\**\bin\**;..\..\net45\WampSharp.Default.Router\**\obj\**;" />
   </ItemGroup>
+  
+
+
 </Project>

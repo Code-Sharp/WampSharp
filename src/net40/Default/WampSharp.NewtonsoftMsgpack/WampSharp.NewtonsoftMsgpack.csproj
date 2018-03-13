@@ -35,24 +35,12 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MsgPack.Cli" Version="0.6.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="6.0.5" />
     <PackageReference Include="Newtonsoft.Msgpack" Version="0.1.10" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftMsgpack\MsgPack\MessagePackParser.cs">
-      <Link>MsgPack\MessagePackParser.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftMsgpack\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftMsgpack\WAMP2\Binding\JTokenMsgpackBinding.cs">
-      <Link>WAMP2\Binding\JTokenMsgpackBinding.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftMsgpack\WAMP2\V2\Fluent\NewtonsoftMsgpackChannelFactoryExtensions.cs">
-      <Link>WAMP2\V2\Fluent\NewtonsoftMsgpackChannelFactoryExtensions.cs</Link>
-    </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.NewtonsoftMsgpack\**\*.cs" Exclude="..\..\..\net45\Default\WampSharp.NewtonsoftMsgpack\**\bin\**;..\..\..\net45\Default\WampSharp.NewtonsoftMsgpack\**\obj\**;" />
   </ItemGroup>
 </Project>

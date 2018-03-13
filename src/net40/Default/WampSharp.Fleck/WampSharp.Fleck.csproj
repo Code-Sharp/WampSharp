@@ -44,35 +44,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckTransportDetails.cs">
-      <Link>Fleck\FleckTransportDetails.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckAuthenticatedWebSocketTransport.cs">
-      <Link>Fleck\FleckAuthenticatedWebSocketTransport.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckCookieProvider.cs">
-      <Link>Fleck\FleckCookieProvider.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckPinger.cs">
-      <Link>Fleck\FleckPinger.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckWampBinaryConnection.cs">
-      <Link>Fleck\FleckWampBinaryConnection.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckWampConnection.cs">
-      <Link>Fleck\FleckWampConnection.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckWampConnectionListener.cs">
-      <Link>Fleck\FleckWampConnectionListener.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckWampTextConnection.cs">
-      <Link>Fleck\FleckWampTextConnection.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.Fleck\Fleck\FleckWebSocketTransport.cs">
-      <Link>Fleck\FleckWebSocketTransport.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.Fleck\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.Fleck\**\*.cs" Exclude="..\..\..\net45\Default\WampSharp.Fleck\**\bin\**;..\..\..\net45\Default\WampSharp.Fleck\**\obj\**;" />
   </ItemGroup>
 </Project>

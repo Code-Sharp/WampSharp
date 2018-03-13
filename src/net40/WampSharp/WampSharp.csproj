@@ -32,6 +32,7 @@
     <PackageReference Include="Rx-Main" Version="2.2.5" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>

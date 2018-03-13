@@ -42,7 +42,7 @@ namespace WampSharp.Samples.WampCra.Client
 
             IWampChannel channel =
                 channelFactory.ConnectToRealm("realm1")
-                    .RawSocketTransport("127.0.0.1", 8007)
+                    .WebSocketTransport("ws://127.0.0.1:8080/ws")
                     .JsonSerialization()
                     .CraAuthentication("peter", "secret1")
                     .Build();

@@ -47,35 +47,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftJson\Newtonsoft\DetailsOptionsConverter.cs">
-      <Link>Newtonsoft\DetailsOptionsConverter.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftJson\Newtonsoft\IWampMessageFormatter.cs">
-      <Link>Newtonsoft\IWampMessageFormatter.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftJson\Newtonsoft\JsonFormatter.cs">
-      <Link>Newtonsoft\JsonFormatter.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftJson\Newtonsoft\JsonWampMessageFormatter.cs">
-      <Link>Newtonsoft\JsonWampMessageFormatter.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftJson\Newtonsoft\JTokenMessageParser.cs">
-      <Link>Newtonsoft\JTokenMessageParser.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftJson\Newtonsoft\ReflectionExtensions.cs">
-      <Link>Newtonsoft\ReflectionExtensions.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftJson\Newtonsoft\SerializedValueConverter.cs">
-      <Link>Newtonsoft\SerializedValueConverter.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftJson\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftJson\WAMP2\Binding\JTokenJsonBinding.cs">
-      <Link>WAMP2\Binding\JTokenJsonBinding.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Default\WampSharp.NewtonsoftJson\WAMP2\V2\Fluent\NewtonsoftJsonChannelFactoryExtensions.cs">
-      <Link>WAMP2\V2\Fluent\NewtonsoftJsonChannelFactoryExtensions.cs</Link>
-    </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.NewtonsoftJson\**\*.cs" Exclude="..\..\..\net45\Default\WampSharp.NewtonsoftJson\**\bin\**;..\..\..\net45\Default\WampSharp.NewtonsoftJson\**\obj\**;" />
   </ItemGroup>
 </Project>
