@@ -1,18 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{78C5F5EB-DE92-408E-87C7-6287BC8CC399}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>net40</TargetFramework>
     <RootNamespace>WampSharp</RootNamespace>
-    <AssemblyName>WampSharp.WAMP1</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,355 +22,6 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\WampSharp.WAMP1.XML</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.4.2.1\lib\net40\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Reactive.Core">
-      <HintPath>..\packages\Rx-Core.2.2.5\lib\net40\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net40\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq">
-      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net40\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Client\IWampChannel.cs">
-      <Link>WAMP1\V1\Api\Client\IWampChannel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Client\IWampChannelFactory.cs">
-      <Link>WAMP1\V1\Api\Client\IWampChannelFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Client\WampChannel.cs">
-      <Link>WAMP1\V1\Api\Client\WampChannel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Client\WampChannelFactory.cs">
-      <Link>WAMP1\V1\Api\Client\WampChannelFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\DefaultWampServer.cs">
-      <Link>WAMP1\V1\Api\Server\DefaultWampServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\IWampHost.cs">
-      <Link>WAMP1\V1\Api\Server\IWampHost.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\IWampServerBuilder.cs">
-      <Link>WAMP1\V1\Api\Server\IWampServerBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\WampHost.cs">
-      <Link>WAMP1\V1\Api\Server\WampHost.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\WampRequestContext.cs">
-      <Link>WAMP1\V1\Api\Server\WampRequestContext.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\WampServerBuilder.cs">
-      <Link>WAMP1\V1\Api\Server\WampServerBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Client\IWampAuxiliaryClientFactory.cs">
-      <Link>WAMP1\V1\Auxiliary\Client\IWampAuxiliaryClientFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Client\IWampClientConnectionMonitor.cs">
-      <Link>WAMP1\V1\Auxiliary\Client\IWampClientConnectionMonitor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Client\WampAuxiliaryClientFactory.cs">
-      <Link>WAMP1\V1\Auxiliary\Client\WampAuxiliaryClientFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Client\WampClientConnectionMonitor.cs">
-      <Link>WAMP1\V1\Auxiliary\Client\WampClientConnectionMonitor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Client\WampConnectionEstablishedEventArgs.cs">
-      <Link>WAMP1\V1\Auxiliary\Client\WampConnectionEstablishedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Server\WampAuxiliaryServer.cs">
-      <Link>WAMP1\V1\Auxiliary\Server\WampAuxiliaryServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampAuxiliaryClient.cs">
-      <Link>WAMP1\V1\Core\Contracts\IWampAuxiliaryClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampAuxiliaryServer.cs">
-      <Link>WAMP1\V1\Core\Contracts\IWampAuxiliaryServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampClient.cs">
-      <Link>WAMP1\V1\Core\Contracts\IWampClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampCraClient.cs">
-      <Link>WAMP1\V1\Core\Contracts\IWampCraClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampPubSubClient.cs">
-      <Link>WAMP1\V1\Core\Contracts\IWampPubSubClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampPubSubServer.cs">
-      <Link>WAMP1\V1\Core\Contracts\IWampPubSubServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampRpcClient.cs">
-      <Link>WAMP1\V1\Core\Contracts\IWampRpcClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampRpcServer.cs">
-      <Link>WAMP1\V1\Core\Contracts\IWampRpcServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampServer.cs">
-      <Link>WAMP1\V1\Core\Contracts\IWampServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Curie\IWampCurieMapper.cs">
-      <Link>WAMP1\V1\Core\Curie\IWampCurieMapper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Curie\WampCurieMapper.cs">
-      <Link>WAMP1\V1\Core\Curie\WampCurieMapper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilder.cs">
-      <Link>WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs">
-      <Link>WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\IWampSessionIdGenerator.cs">
-      <Link>WAMP1\V1\Core\Listener\IWampSessionIdGenerator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\WampClientContainer.cs">
-      <Link>WAMP1\V1\Core\Listener\WampClientContainer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\WampListener.cs">
-      <Link>WAMP1\V1\Core\Listener\WampListener.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\WampSessionEventArgs.cs">
-      <Link>WAMP1\V1\Core\Listener\WampSessionEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\WampSessionIdGenerator.cs">
-      <Link>WAMP1\V1\Core\Listener\WampSessionIdGenerator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Proxy\SessionIdPropertyInterceptor.cs">
-      <Link>WAMP1\V1\Core\Proxy\SessionIdPropertyInterceptor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Proxy\WampCraAuthenticatorPropertyInterceptor.cs">
-      <Link>WAMP1\V1\Core\Proxy\WampCraAuthenticatorPropertyInterceptor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Proxy\WampInterceptorSelector.cs">
-      <Link>WAMP1\V1\Core\Proxy\WampInterceptorSelector.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\IWampCraAuthenticator.cs">
-      <Link>WAMP1\V1\Cra\IWampCraAuthenticator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\IWampCraProcedures.cs">
-      <Link>WAMP1\V1\Cra\IWampCraProcedures.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\IWampCraServerBuilder.cs">
-      <Link>WAMP1\V1\Cra\IWampCraServerBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\MockWampCraProcedures.cs">
-      <Link>WAMP1\V1\Cra\MockWampCraProcedures.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraAuthenticator.cs">
-      <Link>WAMP1\V1\Cra\WampCraAuthenticator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraAuthenticatorBuilder.cs">
-      <Link>WAMP1\V1\Cra\WampCraAuthenticatorBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraChallenge.cs">
-      <Link>WAMP1\V1\Cra\WampCraChallenge.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraHost.cs">
-      <Link>WAMP1\V1\Cra\WampCraHost.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraPendingAuth.cs">
-      <Link>WAMP1\V1\Cra\WampCraPendingAuth.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraPermissions.cs">
-      <Link>WAMP1\V1\Cra\WampCraPermissions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraPermissionsMapper.cs">
-      <Link>WAMP1\V1\Cra\WampCraPermissionsMapper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraRpcMetadata.cs">
-      <Link>WAMP1\V1\Cra\WampCraRpcMetadata.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraRpcMethod.cs">
-      <Link>WAMP1\V1\Cra\WampCraRpcMethod.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraServer.cs">
-      <Link>WAMP1\V1\Cra\WampCraServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraServerBuilder.cs">
-      <Link>WAMP1\V1\Cra\WampCraServerBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampPubSubPermissions.cs">
-      <Link>WAMP1\V1\Cra\WampPubSubPermissions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampRpcPermissions.cs">
-      <Link>WAMP1\V1\Cra\WampRpcPermissions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Client\IWampPubSubClientFactory.cs">
-      <Link>WAMP1\V1\PubSub\Client\IWampPubSubClientFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Client\IWampServerProxyFactory.cs">
-      <Link>WAMP1\V1\PubSub\Client\IWampServerProxyFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Client\WampPubSubClientFactory.cs">
-      <Link>WAMP1\V1\PubSub\Client\WampPubSubClientFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Client\WampPubSubSubject.cs">
-      <Link>WAMP1\V1\PubSub\Client\WampPubSubSubject.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Client\WampServerProxyFactory.cs">
-      <Link>WAMP1\V1\PubSub\Client\WampServerProxyFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionAddEventArgs.cs">
-      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionAddEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionEventArgs.cs">
-      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionRemoveEventArgs.cs">
-      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionRemoveEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampTopicCreatedEventArgs.cs">
-      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampTopicCreatedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampTopicEventArgs.cs">
-      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampTopicEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampTopicRemovedEventArgs.cs">
-      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampTopicRemovedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\Interfaces\IWampTopic.cs">
-      <Link>WAMP1\V1\PubSub\Server\Interfaces\IWampTopic.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainer.cs">
-      <Link>WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainerExtended.cs">
-      <Link>WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainerExtended.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\WampNotification.cs">
-      <Link>WAMP1\V1\PubSub\Server\WampNotification.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\WampObserver.cs">
-      <Link>WAMP1\V1\PubSub\Server\WampObserver.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\WampPubSubServer.cs">
-      <Link>WAMP1\V1\PubSub\Server\WampPubSubServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\WampTopic.cs">
-      <Link>WAMP1\V1\PubSub\Server\WampTopic.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\WampTopicContainer.cs">
-      <Link>WAMP1\V1\PubSub\Server\WampTopicContainer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\Dynamic\DynamicWampRpcClient.cs">
-      <Link>WAMP1\V1\Rpc\Client\Dynamic\DynamicWampRpcClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\Dynamic\WampRpcMethodInfo.cs">
-      <Link>WAMP1\V1\Rpc\Client\Dynamic\WampRpcMethodInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampProcUriMapper.cs">
-      <Link>WAMP1\V1\Rpc\Client\IWampProcUriMapper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampRpcClientFactory.cs">
-      <Link>WAMP1\V1\Rpc\Client\IWampRpcClientFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampRpcClientHandler.cs">
-      <Link>WAMP1\V1\Rpc\Client\IWampRpcClientHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampRpcClientHandlerBuilder.cs">
-      <Link>WAMP1\V1\Rpc\Client\IWampRpcClientHandlerBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampRpcSerializer.cs">
-      <Link>WAMP1\V1\Rpc\Client\IWampRpcSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampServerProxyFactory.cs">
-      <Link>WAMP1\V1\Rpc\Client\IWampServerProxyFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcCall.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampRpcCall.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientAsyncInterceptor.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampRpcClientAsyncInterceptor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientFactory.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampRpcClientFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientHandler.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampRpcClientHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientHandlerBuilder.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampRpcClientHandlerBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientInterceptor.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampRpcClientInterceptor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientInterceptorSelector.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampRpcClientInterceptorSelector.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientSyncInterceptor.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampRpcClientSyncInterceptor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcMethodAttributeProcUriMapper.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampRpcMethodAttributeProcUriMapper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcRequest.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampRpcRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcSerializer.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampRpcSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampServerProxyFactory.cs">
-      <Link>WAMP1\V1\Rpc\Client\WampServerProxyFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\IWampRpcMetadata.cs">
-      <Link>WAMP1\V1\Rpc\Server\IWampRpcMetadata.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\IWampRpcMetadataCatalog.cs">
-      <Link>WAMP1\V1\Rpc\Server\IWampRpcMetadataCatalog.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\IWampRpcMethod.cs">
-      <Link>WAMP1\V1\Rpc\Server\IWampRpcMethod.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\MethodInfoWampRpcMetadata.cs">
-      <Link>WAMP1\V1\Rpc\Server\MethodInfoWampRpcMetadata.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\MethodInfoWampRpcMethod.cs">
-      <Link>WAMP1\V1\Rpc\Server\MethodInfoWampRpcMethod.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\ProcUriAlreadyMappedException.cs">
-      <Link>WAMP1\V1\Rpc\Server\ProcUriAlreadyMappedException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\WampRpcMetadataCatalog.cs">
-      <Link>WAMP1\V1\Rpc\Server\WampRpcMetadataCatalog.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\WampRpcServer.cs">
-      <Link>WAMP1\V1\Rpc\Server\WampRpcServer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\WampRpcCallException.cs">
-      <Link>WAMP1\V1\Rpc\WampRpcCallException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\WampRpcMethodAttribute.cs">
-      <Link>WAMP1\V1\Rpc\WampRpcMethodAttribute.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WampSharp\WampSharp.csproj">
-      <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>
-      <Name>WampSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -389,11 +29,333 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <ProjectReference Include="..\WampSharp\WampSharp.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.2.1" />
+    <PackageReference Include="Rx-Core" Version="2.2.5" />
+    <PackageReference Include="Rx-Interfaces" Version="2.2.5" />
+    <PackageReference Include="Rx-Linq" Version="2.2.5" />
+    <PackageReference Include="Rx-Main" Version="2.2.5" />
+    <PackageReference Include="Rx-PlatformServices" Version="2.2.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Client\IWampChannel.cs">
+      <Link>WAMP1\V1\Api\Client\IWampChannel.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Client\IWampChannelFactory.cs">
+      <Link>WAMP1\V1\Api\Client\IWampChannelFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Client\WampChannel.cs">
+      <Link>WAMP1\V1\Api\Client\WampChannel.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Client\WampChannelFactory.cs">
+      <Link>WAMP1\V1\Api\Client\WampChannelFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\DefaultWampServer.cs">
+      <Link>WAMP1\V1\Api\Server\DefaultWampServer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\IWampHost.cs">
+      <Link>WAMP1\V1\Api\Server\IWampHost.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\IWampServerBuilder.cs">
+      <Link>WAMP1\V1\Api\Server\IWampServerBuilder.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\WampHost.cs">
+      <Link>WAMP1\V1\Api\Server\WampHost.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\WampRequestContext.cs">
+      <Link>WAMP1\V1\Api\Server\WampRequestContext.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Api\Server\WampServerBuilder.cs">
+      <Link>WAMP1\V1\Api\Server\WampServerBuilder.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Client\IWampAuxiliaryClientFactory.cs">
+      <Link>WAMP1\V1\Auxiliary\Client\IWampAuxiliaryClientFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Client\IWampClientConnectionMonitor.cs">
+      <Link>WAMP1\V1\Auxiliary\Client\IWampClientConnectionMonitor.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Client\WampAuxiliaryClientFactory.cs">
+      <Link>WAMP1\V1\Auxiliary\Client\WampAuxiliaryClientFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Client\WampClientConnectionMonitor.cs">
+      <Link>WAMP1\V1\Auxiliary\Client\WampClientConnectionMonitor.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Client\WampConnectionEstablishedEventArgs.cs">
+      <Link>WAMP1\V1\Auxiliary\Client\WampConnectionEstablishedEventArgs.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Auxiliary\Server\WampAuxiliaryServer.cs">
+      <Link>WAMP1\V1\Auxiliary\Server\WampAuxiliaryServer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampAuxiliaryClient.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampAuxiliaryClient.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampAuxiliaryServer.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampAuxiliaryServer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampClient.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampClient.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampCraClient.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampCraClient.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampPubSubClient.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampPubSubClient.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampPubSubServer.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampPubSubServer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampRpcClient.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampRpcClient.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampRpcServer.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampRpcServer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Contracts\IWampServer.cs">
+      <Link>WAMP1\V1\Core\Contracts\IWampServer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Curie\IWampCurieMapper.cs">
+      <Link>WAMP1\V1\Core\Curie\IWampCurieMapper.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Curie\WampCurieMapper.cs">
+      <Link>WAMP1\V1\Core\Curie\WampCurieMapper.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilder.cs">
+      <Link>WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilder.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs">
+      <Link>WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\IWampSessionIdGenerator.cs">
+      <Link>WAMP1\V1\Core\Listener\IWampSessionIdGenerator.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\WampClientContainer.cs">
+      <Link>WAMP1\V1\Core\Listener\WampClientContainer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\WampListener.cs">
+      <Link>WAMP1\V1\Core\Listener\WampListener.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\WampSessionEventArgs.cs">
+      <Link>WAMP1\V1\Core\Listener\WampSessionEventArgs.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Listener\WampSessionIdGenerator.cs">
+      <Link>WAMP1\V1\Core\Listener\WampSessionIdGenerator.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Proxy\SessionIdPropertyInterceptor.cs">
+      <Link>WAMP1\V1\Core\Proxy\SessionIdPropertyInterceptor.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Proxy\WampCraAuthenticatorPropertyInterceptor.cs">
+      <Link>WAMP1\V1\Core\Proxy\WampCraAuthenticatorPropertyInterceptor.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Core\Proxy\WampInterceptorSelector.cs">
+      <Link>WAMP1\V1\Core\Proxy\WampInterceptorSelector.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\IWampCraAuthenticator.cs">
+      <Link>WAMP1\V1\Cra\IWampCraAuthenticator.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\IWampCraProcedures.cs">
+      <Link>WAMP1\V1\Cra\IWampCraProcedures.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\IWampCraServerBuilder.cs">
+      <Link>WAMP1\V1\Cra\IWampCraServerBuilder.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\MockWampCraProcedures.cs">
+      <Link>WAMP1\V1\Cra\MockWampCraProcedures.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraAuthenticator.cs">
+      <Link>WAMP1\V1\Cra\WampCraAuthenticator.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraAuthenticatorBuilder.cs">
+      <Link>WAMP1\V1\Cra\WampCraAuthenticatorBuilder.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraChallenge.cs">
+      <Link>WAMP1\V1\Cra\WampCraChallenge.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraHost.cs">
+      <Link>WAMP1\V1\Cra\WampCraHost.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraPendingAuth.cs">
+      <Link>WAMP1\V1\Cra\WampCraPendingAuth.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraPermissions.cs">
+      <Link>WAMP1\V1\Cra\WampCraPermissions.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraPermissionsMapper.cs">
+      <Link>WAMP1\V1\Cra\WampCraPermissionsMapper.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraRpcMetadata.cs">
+      <Link>WAMP1\V1\Cra\WampCraRpcMetadata.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraRpcMethod.cs">
+      <Link>WAMP1\V1\Cra\WampCraRpcMethod.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraServer.cs">
+      <Link>WAMP1\V1\Cra\WampCraServer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampCraServerBuilder.cs">
+      <Link>WAMP1\V1\Cra\WampCraServerBuilder.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampPubSubPermissions.cs">
+      <Link>WAMP1\V1\Cra\WampPubSubPermissions.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Cra\WampRpcPermissions.cs">
+      <Link>WAMP1\V1\Cra\WampRpcPermissions.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Client\IWampPubSubClientFactory.cs">
+      <Link>WAMP1\V1\PubSub\Client\IWampPubSubClientFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Client\IWampServerProxyFactory.cs">
+      <Link>WAMP1\V1\PubSub\Client\IWampServerProxyFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Client\WampPubSubClientFactory.cs">
+      <Link>WAMP1\V1\PubSub\Client\WampPubSubClientFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Client\WampPubSubSubject.cs">
+      <Link>WAMP1\V1\PubSub\Client\WampPubSubSubject.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Client\WampServerProxyFactory.cs">
+      <Link>WAMP1\V1\PubSub\Client\WampServerProxyFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionAddEventArgs.cs">
+      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionAddEventArgs.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionEventArgs.cs">
+      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionEventArgs.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionRemoveEventArgs.cs">
+      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionRemoveEventArgs.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampTopicCreatedEventArgs.cs">
+      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampTopicCreatedEventArgs.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampTopicEventArgs.cs">
+      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampTopicEventArgs.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\EventArgs\WampTopicRemovedEventArgs.cs">
+      <Link>WAMP1\V1\PubSub\Server\EventArgs\WampTopicRemovedEventArgs.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\Interfaces\IWampTopic.cs">
+      <Link>WAMP1\V1\PubSub\Server\Interfaces\IWampTopic.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainer.cs">
+      <Link>WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainerExtended.cs">
+      <Link>WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainerExtended.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\WampNotification.cs">
+      <Link>WAMP1\V1\PubSub\Server\WampNotification.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\WampObserver.cs">
+      <Link>WAMP1\V1\PubSub\Server\WampObserver.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\WampPubSubServer.cs">
+      <Link>WAMP1\V1\PubSub\Server\WampPubSubServer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\WampTopic.cs">
+      <Link>WAMP1\V1\PubSub\Server\WampTopic.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\PubSub\Server\WampTopicContainer.cs">
+      <Link>WAMP1\V1\PubSub\Server\WampTopicContainer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\Dynamic\DynamicWampRpcClient.cs">
+      <Link>WAMP1\V1\Rpc\Client\Dynamic\DynamicWampRpcClient.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\Dynamic\WampRpcMethodInfo.cs">
+      <Link>WAMP1\V1\Rpc\Client\Dynamic\WampRpcMethodInfo.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampProcUriMapper.cs">
+      <Link>WAMP1\V1\Rpc\Client\IWampProcUriMapper.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampRpcClientFactory.cs">
+      <Link>WAMP1\V1\Rpc\Client\IWampRpcClientFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampRpcClientHandler.cs">
+      <Link>WAMP1\V1\Rpc\Client\IWampRpcClientHandler.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampRpcClientHandlerBuilder.cs">
+      <Link>WAMP1\V1\Rpc\Client\IWampRpcClientHandlerBuilder.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampRpcSerializer.cs">
+      <Link>WAMP1\V1\Rpc\Client\IWampRpcSerializer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\IWampServerProxyFactory.cs">
+      <Link>WAMP1\V1\Rpc\Client\IWampServerProxyFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcCall.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampRpcCall.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientAsyncInterceptor.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampRpcClientAsyncInterceptor.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientFactory.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampRpcClientFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientHandler.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampRpcClientHandler.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientHandlerBuilder.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampRpcClientHandlerBuilder.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientInterceptor.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampRpcClientInterceptor.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientInterceptorSelector.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampRpcClientInterceptorSelector.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcClientSyncInterceptor.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampRpcClientSyncInterceptor.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcMethodAttributeProcUriMapper.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampRpcMethodAttributeProcUriMapper.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcRequest.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampRpcRequest.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampRpcSerializer.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampRpcSerializer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Client\WampServerProxyFactory.cs">
+      <Link>WAMP1\V1\Rpc\Client\WampServerProxyFactory.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\IWampRpcMetadata.cs">
+      <Link>WAMP1\V1\Rpc\Server\IWampRpcMetadata.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\IWampRpcMetadataCatalog.cs">
+      <Link>WAMP1\V1\Rpc\Server\IWampRpcMetadataCatalog.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\IWampRpcMethod.cs">
+      <Link>WAMP1\V1\Rpc\Server\IWampRpcMethod.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\MethodInfoWampRpcMetadata.cs">
+      <Link>WAMP1\V1\Rpc\Server\MethodInfoWampRpcMetadata.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\MethodInfoWampRpcMethod.cs">
+      <Link>WAMP1\V1\Rpc\Server\MethodInfoWampRpcMethod.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\ProcUriAlreadyMappedException.cs">
+      <Link>WAMP1\V1\Rpc\Server\ProcUriAlreadyMappedException.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\WampRpcMetadataCatalog.cs">
+      <Link>WAMP1\V1\Rpc\Server\WampRpcMetadataCatalog.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\Server\WampRpcServer.cs">
+      <Link>WAMP1\V1\Rpc\Server\WampRpcServer.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\WampRpcCallException.cs">
+      <Link>WAMP1\V1\Rpc\WampRpcCallException.cs</Link>
+    </Compile>
+    <Compile Update="..\..\net45\WampSharp.WAMP1\WAMP1\V1\Rpc\WampRpcMethodAttribute.cs">
+      <Link>WAMP1\V1\Rpc\WampRpcMethodAttribute.cs</Link>
+    </Compile>
+  </ItemGroup>
 </Project>

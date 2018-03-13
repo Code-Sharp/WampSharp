@@ -1,16 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{305C0F3D-1A51-4D8C-8729-481F73A7C7D6}</ProjectGuid>
+    <TargetFramework>net40</TargetFramework>
     <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WampSharp.Samples.Authentication</RootNamespace>
-    <AssemblyName>WampSharp.Samples.Authentication</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,41 +23,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\..\..\WampSharp.Default.Client\WampSharp.Default.Client.csproj" />
+    <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\net45\Samples\WAMP2\WampSharp.Samples.Authentication\Program.cs">
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="..\..\..\..\net45\Samples\WAMP2\WampSharp.Samples.Authentication\Program.cs">
       <Link>Program.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\net45\Samples\WAMP2\WampSharp.Samples.Authentication\Properties\AssemblyInfo.cs">
+    <Compile Update="..\..\..\..\net45\Samples\WAMP2\WampSharp.Samples.Authentication\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\WampSharp.Default.Client\WampSharp.Default.Client.csproj">
-      <Project>{A86753C0-0D7E-442C-A507-CDE7E95BC1DB}</Project>
-      <Name>WampSharp.Default.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj">
-      <Project>{653a76dc-00d7-4eff-a25e-2fa10c5c927d}</Project>
-      <Name>WampSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

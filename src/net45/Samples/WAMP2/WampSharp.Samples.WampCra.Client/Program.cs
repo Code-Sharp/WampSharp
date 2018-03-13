@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using WampSharp.V2;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Fluent;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.WampCra.Client
@@ -40,9 +41,11 @@ namespace WampSharp.Samples.WampCra.Client
             }
 
             IWampChannel channel =
-                channelFactory.CreateJsonChannel("ws://127.0.0.1:8080/ws",
-                    "realm1",
-                    authenticator);
+                channelFactory.ConnectToRealm("realm1")
+                    .RawSocketTransport("127.0.0.1", 8007)
+                    .JsonSerialization()
+                    .CraAuthentication("peter", "secret1")
+                    .Build();
 
             channel.RealmProxy.Monitor.ConnectionEstablished +=
                 (sender, args) =>
