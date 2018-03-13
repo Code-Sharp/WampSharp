@@ -18,8 +18,10 @@
   </metadata>
   <files>
     <file src="$bin$\net45\WampSharp.Default.Router.dll" target="lib\net45\WampSharp.Default.Router.dll" />
+    <file src="$bin$\net45\WampSharp.Default.Router.pdb" target="lib\net45\WampSharp.Default.Router.pdb" />
     <file src="$bin$\net45\WampSharp.Default.Router.xml" target="lib\net45\WampSharp.Default.Router.xml" />
     <file src="$bin$\net40\WampSharp.Default.Router.dll" target="lib\net40\WampSharp.Default.Router.dll" />
+    <file src="$bin$\net40\WampSharp.Default.Router.pdb" target="lib\net40\WampSharp.Default.Router.pdb" />
     <file src="$bin$\net40\WampSharp.Default.Router.xml" target="lib\net40\WampSharp.Default.Router.xml" />
   </files>
 </package>

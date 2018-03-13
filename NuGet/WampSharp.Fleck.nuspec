@@ -17,8 +17,10 @@
   </metadata>
   <files>
     <file src="$bin$\net45\WampSharp.Fleck.dll" target="lib\net45\WampSharp.Fleck.dll" />
+    <file src="$bin$\net45\WampSharp.Fleck.pdb" target="lib\net45\WampSharp.Fleck.pdb" />
     <file src="$bin$\net45\WampSharp.Fleck.xml" target="lib\net45\WampSharp.Fleck.xml" />
     <file src="$bin$\net40\WampSharp.Fleck.dll" target="lib\net40\WampSharp.Fleck.dll" />
+    <file src="$bin$\net40\WampSharp.Fleck.pdb" target="lib\net40\WampSharp.Fleck.pdb" />
     <file src="$bin$\net40\WampSharp.Fleck.xml" target="lib\net40\WampSharp.Fleck.xml" />
   </files>
 </package>

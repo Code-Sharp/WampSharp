@@ -8,15 +8,7 @@
     <PackageId>WampSharp.WAMP1</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;wampv2</PackageTags>
     <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>  </PropertyGroup>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="..\..\net45\WampSharp.WAMP1\**\*.cs" Exclude="..\..\net45\WampSharp.WAMP1\**\bin\**;..\..\net45\WampSharp.WAMP1\**\obj\**;" />
