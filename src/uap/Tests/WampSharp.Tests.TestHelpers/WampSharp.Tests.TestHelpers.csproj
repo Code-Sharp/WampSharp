@@ -1,5 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup />
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F56560F1-6D27-4D6B-A4C8-EAD6A06776C5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WampSharp.Tests.TestHelpers</RootNamespace>
+    <AssemblyName>WampSharp.Tests.TestHelpers</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
@@ -85,41 +102,66 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\ReflectionExtensions.cs">
+      <Link>ReflectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <EmbeddedResource Include="Properties\WampSharp.Tests.TestHelpers.rd.xml" />
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\IDirectedControlledWampConnection.cs">
+      <Link>IDirectedControlledWampConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\Integration\MockConnectionListener.cs">
+      <Link>Integration\MockConnectionListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockConnection.cs">
+      <Link>MockConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockRaw.cs">
+      <Link>MockRaw.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockRawConverter.cs">
+      <Link>MockRawConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockRawFormatter.cs">
+      <Link>MockRawFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\WampFormatterExtensions.cs">
+      <Link>WampFormatterExtensions.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="System.Reflection.Extensions">
+      <Version>4.0.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
+      <Project>{34f749c8-7f99-4e81-95d7-05c66987d5a7}</Project>
+      <Name>WampSharp.NewtonsoftJson</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
+      <Project>{c7791470-b383-4bda-87c9-ac5e0cac251d}</Project>
+      <Name>WampSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
-    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\ReflectionExtensions.cs">
-      <Link>ReflectionExtensions.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\IDirectedControlledWampConnection.cs">
-      <Link>IDirectedControlledWampConnection.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\Integration\MockConnectionListener.cs">
-      <Link>Integration\MockConnectionListener.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockConnection.cs">
-      <Link>MockConnection.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockRaw.cs">
-      <Link>MockRaw.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockRawConverter.cs">
-      <Link>MockRawConverter.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\MockRawFormatter.cs">
-      <Link>MockRawFormatter.cs</Link>
-    </Compile>
-    <Compile Update="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\WampFormatterExtensions.cs">
-      <Link>WampFormatterExtensions.cs</Link>
-    </Compile>
-  </ItemGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>
