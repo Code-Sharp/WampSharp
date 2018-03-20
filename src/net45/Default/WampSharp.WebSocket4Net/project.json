@@ -15,7 +15,7 @@
       },
       "dependencies": {
         "WampSharp": { "target": "project" },
-        "WebSocket4Net": "0.15.0-beta5"
+        "WebSocket4Net": "0.15.2"
       }
     }
   }
