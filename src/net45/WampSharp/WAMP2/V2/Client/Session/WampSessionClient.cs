@@ -105,7 +105,7 @@ namespace WampSharp.V2.Client
         public void Abort(AbortDetails details, string reason)
         {
             TrySetCloseEventArgs(SessionCloseType.Abort, details, reason);
-            mServerProxy.Dispose();
+            ((IDisposable)mServerProxy).Dispose();
         }
 
         public void Goodbye(GoodbyeDetails details, string reason)
@@ -115,7 +115,7 @@ namespace WampSharp.V2.Client
                 mServerProxy.Goodbye(new GoodbyeDetails(), WampErrors.GoodbyeAndOut);
             }
 
-            mServerProxy.Dispose();
+            ((IDisposable)mServerProxy).Dispose();
 
             TrySetCloseEventArgs(SessionCloseType.Goodbye, details, reason);
         }

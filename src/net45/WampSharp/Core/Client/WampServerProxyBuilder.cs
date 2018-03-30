@@ -54,11 +54,12 @@ namespace WampSharp.Core.Client
                 };
 
             proxyOptions.AddMixinInstance(new DisposableForwarder(connection));
-            
+
             TServer result =
-                mProxyGenerator.CreateInterfaceProxyWithoutTarget<TServer>
-                    (proxyOptions,
-                     interceptor);
+                (TServer)mProxyGenerator.CreateInterfaceProxyWithoutTarget
+                (typeof(TServer),
+                    new Type[] {typeof(IDisposable)},
+                    proxyOptions, interceptor);
 
             return result;
         }
