@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Buffers;
-using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using SystemEx;
+using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
@@ -20,7 +19,7 @@ namespace WampSharp.RawSocket
         private readonly IWampStreamingMessageParser<TMessage> mParser;
         private readonly Handshaker mHandshaker = new Handshaker();
         private byte mMaxLength = 15;
-        private readonly ArrayPool<byte> mByteArrayPool = ArrayPool<byte>.Create();
+        private readonly RecyclableMemoryStreamManager mByteArrayPool = new RecyclableMemoryStreamManager();
         private TcpClient mClient;
         private readonly TimeSpan? mAutoPingInterval;
 

@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Buffers;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
 using WampSharp.V2.Binding;
@@ -21,7 +21,7 @@ namespace WampSharp.RawSocket
         private readonly Handshaker mHandshaker = new Handshaker();
         private readonly TcpListener mListener;
         private bool mIsStarted = false;
-        private readonly ArrayPool<byte> mByteArrayPool = ArrayPool<byte>.Create();
+        private readonly RecyclableMemoryStreamManager mByteArrayPool = new RecyclableMemoryStreamManager();
         private readonly byte mMaxSize;
         private readonly TimeSpan? mAutoPingInterval;
 
