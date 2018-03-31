@@ -37,12 +37,6 @@
     <ProjectReference Include="..\WampSharp.Samples.WampCra.Client\WampSharp.Samples.WampCra.Client.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fleck" Version="0.14.0.59" />
-    <PackageReference Include="System.Reactive.Core" Version="3.0.0" />
-    <PackageReference Include="System.Reactive.Interfaces" Version="3.0.0" />
-    <PackageReference Include="System.Reactive.Linq" Version="3.0.0" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>

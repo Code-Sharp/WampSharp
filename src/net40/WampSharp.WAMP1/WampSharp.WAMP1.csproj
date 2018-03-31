@@ -33,14 +33,6 @@
     <ProjectReference Include="..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.2.1" />
-    <PackageReference Include="Rx-Core" Version="2.2.5" />
-    <PackageReference Include="Rx-Interfaces" Version="2.2.5" />
-    <PackageReference Include="Rx-Linq" Version="2.2.5" />
-    <PackageReference Include="Rx-Main" Version="2.2.5" />
-    <PackageReference Include="Rx-PlatformServices" Version="2.2.5" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>

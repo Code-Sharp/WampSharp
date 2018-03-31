@@ -37,12 +37,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Moq" Version="4.2.1502.0911" />
-    <PackageReference Include="Newtonsoft.Json" Version="6.0.5" />
     <PackageReference Include="NUnit" Version="3.10.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
-    <PackageReference Include="System.Reactive.Core" Version="3.0.0" />
-    <PackageReference Include="System.Reactive.Interfaces" Version="3.0.0" />
-    <PackageReference Include="System.Reactive.Linq" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
