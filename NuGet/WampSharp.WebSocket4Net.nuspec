@@ -19,7 +19,7 @@
       </group>
       <group targetFramework="Xamarin.iOS10">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="WebSocket4Net" version="0.15.2, )" />
+        <dependency id="WebSocket4Net" version="[0.15.2, )" />
       </group>
       <group targetFramework=".NETStandard2.0">
         <dependency id="WampSharp" version="[$version$]" />
