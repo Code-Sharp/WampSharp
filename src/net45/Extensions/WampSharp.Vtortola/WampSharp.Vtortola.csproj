@@ -40,11 +40,6 @@
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.2.1" />
-    <PackageReference Include="Microsoft.Tpl.Dataflow" Version="4.5.24" />
-    <PackageReference Include="System.Reactive.Core" Version="3.0.0" />
-    <PackageReference Include="System.Reactive.Interfaces" Version="3.0.0" />
-    <PackageReference Include="System.Reactive.Linq" Version="3.0.0" />
     <PackageReference Include="vtortola.WebSocketListener" Version="2.2.2.0" />
   </ItemGroup>
   <ItemGroup>

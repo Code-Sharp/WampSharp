@@ -34,7 +34,7 @@ namespace WampSharp.V2.Client
             return result;
         }
 
-        private class WampServerProxy : ProxyBase, IWampServerProxy
+        private class WampServerProxy : ProxyBase, IWampServerProxy, IDisposable
         {
             private static readonly MethodInfo mPublish3 = Method.Get((IWampServerProxy proxy) => proxy.Publish(default(long), default(PublishOptions), default(string)));
             private static readonly MethodInfo mPublish4 = Method.Get((IWampServerProxy proxy) => proxy.Publish(default(long), default(PublishOptions), default(string), default(object[])));
