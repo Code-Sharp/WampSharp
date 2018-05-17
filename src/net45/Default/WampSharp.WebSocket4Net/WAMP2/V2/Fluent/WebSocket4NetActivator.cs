@@ -69,21 +69,9 @@ namespace WampSharp.V2.Fluent
             return new WebSocket4NetTextConnection<TMessage>(ActivateWebSocket(textBinding), textBinding);
         }
 
-        private WebSocket ActivateWebSocket<TMessage>(IWampBinaryBinding<TMessage> binaryBinding)
+        private WebSocket ActivateWebSocket(IWampBinding binaryBinding)
         {
             WebSocket webSocket = mWebSocketFactory(binaryBinding.Name);
-
-            if (SecurityOptionsConfigureAction != null)
-            {
-                SecurityOptionsConfigureAction(webSocket.Security);
-            }
-
-            return webSocket;
-        }
-
-        private WebSocket ActivateWebSocket<TMessage>(IWampTextBinding<TMessage> textBinding)
-        {
-            WebSocket webSocket = mWebSocketFactory(textBinding.Name);
 
             if (SecurityOptionsConfigureAction != null)
             {
