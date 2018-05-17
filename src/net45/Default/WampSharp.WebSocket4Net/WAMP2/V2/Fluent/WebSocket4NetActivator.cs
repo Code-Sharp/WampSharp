@@ -61,12 +61,24 @@ namespace WampSharp.V2.Fluent
 
         protected IControlledWampConnection<TMessage> CreateBinaryConnection<TMessage>(IWampBinaryBinding<TMessage> binaryBinding)
         {
-            return new WebSocket4NetBinaryConnection<TMessage>(mWebSocketFactory(binaryBinding.Name), binaryBinding);
+            return new WebSocket4NetBinaryConnection<TMessage>(ActivateWebSocket(binaryBinding), binaryBinding);
         }
 
         protected IControlledWampConnection<TMessage> CreateTextConnection<TMessage>(IWampTextBinding<TMessage> textBinding)
         {
             return new WebSocket4NetTextConnection<TMessage>(ActivateWebSocket(textBinding), textBinding);
+        }
+
+        private WebSocket ActivateWebSocket<TMessage>(IWampBinaryBinding<TMessage> binaryBinding)
+        {
+            WebSocket webSocket = mWebSocketFactory(binaryBinding.Name);
+
+            if (SecurityOptionsConfigureAction != null)
+            {
+                SecurityOptionsConfigureAction(webSocket.Security);
+            }
+
+            return webSocket;
         }
 
         private WebSocket ActivateWebSocket<TMessage>(IWampTextBinding<TMessage> textBinding)
