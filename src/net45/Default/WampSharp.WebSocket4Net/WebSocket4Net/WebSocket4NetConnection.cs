@@ -2,6 +2,7 @@
 using SuperSocket.ClientEngine;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
+using WampSharp.Logging;
 using WampSharp.V2.Binding;
 using WebSocket4Net;
 
@@ -14,7 +15,9 @@ namespace WampSharp.WebSocket4Net
         private readonly IWampBinding<TMessage> mBinding;
 
         private readonly WebSocket mWebSocket;
-        
+
+        private readonly ILog mLogger;
+
         #endregion
 
         public WebSocket4NetConnection(WebSocket webSocket,
@@ -22,6 +25,7 @@ namespace WampSharp.WebSocket4Net
         {
             mBinding = binding;
             mWebSocket = webSocket;
+            mLogger = LogProvider.GetLogger(this.GetType());
             mWebSocket.Opened += WebSocketOnOpened;
             mWebSocket.Closed += WebSocketOnClosed;
             mWebSocket.Error += WebSocketOnError;
@@ -73,6 +77,7 @@ namespace WampSharp.WebSocket4Net
 
         private void WebSocketOnError(object sender, ErrorEventArgs e)
         {
+            mLogger.Error("A connection error occured", e.Exception);
             RaiseConnectionError(e.Exception);
         }
 

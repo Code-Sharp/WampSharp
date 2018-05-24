@@ -7,6 +7,13 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
 {
     public class NamedTupleComplexResultService
     {
+#if VALUETUPLE
+        [WampProcedure("com.myapp.add_complex")]
+        public (int c, int ci) AddComplex(int a, int ai, int b, int bi)
+        {
+            return (a + b, ai + bi);
+        }
+#else
         [WampProcedure("com.myapp.add_complex")]
         [return: TupleElementNames(new string[]
         {
@@ -17,10 +24,7 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
         {
             return new ValueTuple<int, int>(a + b, ai + bi);
         }
-        //public (int c, int ci) AddComplex(int a, int ai, int b, int bi)
-        //{
-        //    return (a + b, ai + bi);
-        //}
+#endif
     }
 }
 #endif

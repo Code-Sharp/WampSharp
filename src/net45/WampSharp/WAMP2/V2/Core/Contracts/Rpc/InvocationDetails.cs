@@ -19,8 +19,8 @@ namespace WampSharp.V2.Core.Contracts
             ReceiveProgress = details.ReceiveProgress;
             Caller = details.Caller;
             Procedure = details.Procedure;
-            AuthenticationId = details.AuthenticationId;
-            AuthenticationRole = details.AuthenticationRole;
+            CallerAuthenticationId = details.CallerAuthenticationId;
+            CallerAuthenticationRole = details.CallerAuthenticationRole;
             OriginalValue = details.OriginalValue;
         }
 
@@ -49,12 +49,24 @@ namespace WampSharp.V2.Core.Contracts
         /// Get the WAMP authrole of the caller. Only filled if caller is disclosed.
         /// </summary>
         [DataMember(Name = "caller_authrole")]
-        public string AuthenticationRole { get; internal set; }
+        public string CallerAuthenticationRole { get; internal set; }
 
         /// <summary>
         /// Get the WAMP authid of the caller. Only filled if caller is disclosed.
         /// </summary>
         [DataMember(Name = "caller_authid")]
+        public string CallerAuthenticationId { get; internal set; }
+
+        [IgnoreDataMember]
+        [Obsolete("Use CallerAuthenticationRole instead.", true)]
+        public string AuthenticationRole { get; internal set; }
+
+        [IgnoreDataMember]
+        [Obsolete("AuthenticationMethod is no longer sent by the router.", true)]
+        public string AuthenticationMethod { get; internal set; }
+
+        [IgnoreDataMember]
+        [Obsolete("Use CallerAuthenticationId instead.", true)]
         public string AuthenticationId { get; internal set; }
     }
 }

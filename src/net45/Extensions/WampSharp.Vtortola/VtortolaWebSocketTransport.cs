@@ -3,10 +3,10 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-using WampSharp.Logging;
 using vtortola.WebSockets;
 using vtortola.WebSockets.Deflate;
 using vtortola.WebSockets.Rfc6455;
+using WampSharp.Logging;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
@@ -17,13 +17,14 @@ namespace WampSharp.Vtortola
     /// <summary>
     /// Represents a WebSocket transport implemented with Vtortola.
     /// </summary>
-    public class VtortolaWebSocketTransport : WebSocketTransport<WebSocket>
+    public class VtortolaWebSocketTransport : WebSocketTransport<WebSocketData>
     {
         private readonly IPEndPoint mEndpoint;
         private WebSocketListener mListener;
         private readonly bool mPerMessageDeflate;
         private readonly X509Certificate2 mCertificate;
         private readonly WebSocketListenerOptions mOptions;
+        private CancellationTokenSource mCancellationToken;
 
         /// <summary>
         /// Creates a new instance of <see cref="VtortolaWebSocketTransport"/>
@@ -71,6 +72,7 @@ namespace WampSharp.Vtortola
 
         public override void Dispose()
         {
+            mCancellationToken.Cancel();
             mListener.Stop();
             mListener.Dispose();
         }
@@ -82,42 +84,56 @@ namespace WampSharp.Vtortola
             WebSocketListenerOptions options = mOptions ?? new WebSocketListenerOptions();
 
             options.SubProtocols = protocols;
-
+            
             WebSocketListener listener = new WebSocketListener(mEndpoint, options);
 
+#if NETCORE
+            WebSocketFactoryRfc6455 factory = new WebSocketFactoryRfc6455();
+#else
             WebSocketFactoryRfc6455 factory = new WebSocketFactoryRfc6455(listener);
 
+#endif
             if (mPerMessageDeflate)
             {
-                factory.MessageExtensions.RegisterExtension(new WebSocketDeflateExtension());                
+#if NETCORE
+                listener.MessageExtensions.RegisterExtension(new WebSocketDeflateExtension());
+#else
+                factory.MessageExtensions.RegisterExtension(new WebSocketDeflateExtension());
+#endif
             }
 
             listener.Standards.RegisterStandard(factory);
-
+            
             if (mCertificate != null)
             {
                 listener.ConnectionExtensions.RegisterExtension(new WebSocketSecureConnectionExtension(mCertificate));
             }
 
+            mCancellationToken = new CancellationTokenSource();
+
+#if NETCORE
+            listener.StartAsync(mCancellationToken.Token);
+#else
             listener.Start();
+#endif
 
             mListener = listener;
 
-            Task.Run(new Func<Task>(ListenAsync));
+            Task.Run(new Func<Task>(() => ListenAsync(mCancellationToken.Token)));
         }
 
-        private async Task ListenAsync()
+        private async Task ListenAsync(CancellationToken cancellationToken)
         {
-            while (mListener.IsStarted)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 try
                 {
-                    WebSocket websocket = await mListener.AcceptWebSocketAsync(CancellationToken.None)
+                    WebSocket websocket = await mListener.AcceptWebSocketAsync(cancellationToken)
                         .ConfigureAwait(false);
 
                     if (websocket != null)
                     {
-                        OnNewConnection(websocket);
+                        OnNewConnection(new WebSocketData(websocket, cancellationToken));
                     }
                 }
                 catch (Exception ex)
@@ -127,27 +143,33 @@ namespace WampSharp.Vtortola
             }
         }
 
-        protected override string GetSubProtocol(WebSocket connection)
+        protected override string GetSubProtocol(WebSocketData connection)
         {
-            return connection.HttpResponse.WebSocketProtocol;
+            return connection.WebSocket.HttpResponse.WebSocketProtocol;
         }
 
-        protected override void OpenConnection<TMessage>(WebSocket original, IWampConnection<TMessage> connection)
+        protected override void OpenConnection<TMessage>(WebSocketData original, IWampConnection<TMessage> connection)
         {
             VtortolaWampConnection<TMessage> casted = connection as VtortolaWampConnection<TMessage>;
             Task.Run(new Func<Task>(casted.HandleWebSocketAsync));
         }
 
         protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>
-            (WebSocket connection, IWampBinaryBinding<TMessage> binding)
+            (WebSocketData connection, IWampBinaryBinding<TMessage> binding)
         {
-            return new VtortolaWampBinaryConnection<TMessage>(connection, binding, AuthenticatorFactory);
+            return new VtortolaWampBinaryConnection<TMessage>(connection.WebSocket,
+                connection.CancellationToken,
+                binding,
+                AuthenticatorFactory);
         }
 
         protected override IWampConnection<TMessage> CreateTextConnection<TMessage>
-            (WebSocket connection, IWampTextBinding<TMessage> binding)
+            (WebSocketData connection, IWampTextBinding<TMessage> binding)
         {
-            return new VtortolaWampTextConnection<TMessage>(connection, binding, AuthenticatorFactory);
+            return new VtortolaWampTextConnection<TMessage>(connection.WebSocket,
+                connection.CancellationToken,
+                binding,
+                AuthenticatorFactory);
         }
     }
 }

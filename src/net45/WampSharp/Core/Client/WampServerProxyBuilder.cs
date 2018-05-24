@@ -1,9 +1,12 @@
 ﻿#if CASTLE
+using System;
 using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Utilities;
+using WampSharp.V2.CalleeProxy;
+using WampSharp.V2.Core.Proxy;
 
 namespace WampSharp.Core.Client
 {
@@ -44,14 +47,36 @@ namespace WampSharp.Core.Client
                 new WampOutgoingInterceptor<TMessage>(mOutgoingSerializer,
                                                       handler);
 
-            var proxyOptions = new ProxyGenerationOptions();
+            ProxyGenerationOptions proxyOptions = 
+                new ProxyGenerationOptions()
+                {
+                    Selector = new WampInterceptorSelector<TMessage>()
+                };
+
+            proxyOptions.AddMixinInstance(new DisposableForwarder(connection));
 
             TServer result =
-                mProxyGenerator.CreateInterfaceProxyWithoutTarget<TServer>
-                    (proxyOptions,
-                     interceptor);
+                (TServer)mProxyGenerator.CreateInterfaceProxyWithoutTarget
+                (typeof(TServer),
+                    new Type[] {typeof(IDisposable)},
+                    proxyOptions, interceptor);
 
             return result;
+        }
+
+        private class DisposableForwarder : IDisposable
+        {
+            private readonly IDisposable mDisposable;
+
+            public DisposableForwarder(IDisposable disposable)
+            {
+                mDisposable = disposable;
+            }
+
+            public void Dispose()
+            {
+                mDisposable.Dispose();
+            }
         }
     }
 }

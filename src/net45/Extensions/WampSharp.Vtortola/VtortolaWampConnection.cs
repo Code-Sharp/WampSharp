@@ -16,14 +16,17 @@ namespace WampSharp.Vtortola
         IDetailedWampConnection<TMessage>
     {
         protected readonly WebSocket mWebsocket;
+        private readonly CancellationToken mCancellationToken;
         private readonly VtortolaTransportDetails mTransportDetails;
 
         protected VtortolaWampConnection(WebSocket websocket,
-                                         ICookieAuthenticatorFactory cookieAuthenticatorFactory)
+            CancellationToken cancellationToken,
+            ICookieAuthenticatorFactory cookieAuthenticatorFactory)
             : base(new CookieCollectionCookieProvider(websocket.HttpRequest.Cookies),
-                   cookieAuthenticatorFactory)
+                cookieAuthenticatorFactory)
         {
             mWebsocket = websocket;
+            mCancellationToken = cancellationToken;
             mTransportDetails = new VtortolaTransportDetails(mWebsocket);
         }
 
@@ -33,7 +36,7 @@ namespace WampSharp.Vtortola
             {
                 RaiseConnectionOpen();
 
-                while (mWebsocket.IsConnected)
+                while (IsConnected)
                 {
                     WebSocketMessageReadStream message =
                         await mWebsocket.ReadMessageAsync(CancellationToken.None)
@@ -43,7 +46,7 @@ namespace WampSharp.Vtortola
                     {
                         using (message)
                         {
-                            WampMessage<TMessage> parsed = await ParseMessage(message);
+                            WampMessage<TMessage> parsed = await ParseMessage(message).ConfigureAwait(false);
                             RaiseMessageArrived(parsed);
                         }
                     }
@@ -63,7 +66,8 @@ namespace WampSharp.Vtortola
         {
             get
             {
-                return mWebsocket.IsConnected;
+                return !mCancellationToken.IsCancellationRequested &&
+                    mWebsocket.IsConnected;
             }
         }
 

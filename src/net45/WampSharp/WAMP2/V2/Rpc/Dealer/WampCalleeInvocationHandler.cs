@@ -59,7 +59,12 @@ namespace WampSharp.V2.Rpc
                     mCallerToInvocations.Add(caller, invocation);
                 }
 
-                mCallbackToInvocation.Add(callback, invocation);
+                IWampClientProperties properties = invocation.Operation.Callee as IWampClientProperties;
+
+                if (properties.HelloDetails?.Roles?.Callee?.Features?.CallCanceling == true)
+                {
+                    mCallbackToInvocation.Add(callback, invocation);
+                }
 
                 return invocationId;                
             }
@@ -87,7 +92,9 @@ namespace WampSharp.V2.Rpc
             {
                 if (mCallbackToInvocation.TryGetValue(callback, out invocation))
                 {
-                    invocation.Operation.Callee.Interrupt(invocation.InvocationId, new InterruptDetails(){Mode = options.Mode});
+                    IWampCallee callee = invocation.Operation.Callee;
+
+                    callee.Interrupt(invocation.InvocationId, new InterruptDetails() { Mode = options.Mode });
                 }
             }
         }

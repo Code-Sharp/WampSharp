@@ -1,4 +1,5 @@
 #if MANUAL_PROXY
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using WampSharp.Core.Client;
@@ -28,12 +29,12 @@ namespace WampSharp.V2.Client
             IWampOutgoingMessageHandler outgoingMessageHandler = mOutgoingHandlerBuilder.Build(client, connection);
 
             WampServerProxy result = 
-                new WampServerProxy(outgoingMessageHandler, mSerializer);
+                new WampServerProxy(outgoingMessageHandler, mSerializer, connection);
 
             return result;
         }
 
-        private class WampServerProxy : ProxyBase, IWampServerProxy
+        private class WampServerProxy : ProxyBase, IWampServerProxy, IDisposable
         {
             private static readonly MethodInfo mPublish3 = Method.Get((IWampServerProxy proxy) => proxy.Publish(default(long), default(PublishOptions), default(string)));
             private static readonly MethodInfo mPublish4 = Method.Get((IWampServerProxy proxy) => proxy.Publish(default(long), default(PublishOptions), default(string), default(object[])));
@@ -56,10 +57,12 @@ namespace WampSharp.V2.Client
             private static readonly MethodInfo mError4 = Method.Get((IWampServerProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string)));
             private static readonly MethodInfo mError5 = Method.Get((IWampServerProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[])));
             private static readonly MethodInfo mError6 = Method.Get((IWampServerProxy proxy) => proxy.Error(default(int), default(long), default(object), default(string), default(object[]), default(object)));
+            private readonly IDisposable mDisposable;
 
-            public WampServerProxy(IWampOutgoingMessageHandler messageHandler, IWampOutgoingRequestSerializer requestSerializer)
+            public WampServerProxy(IWampOutgoingMessageHandler messageHandler, IWampOutgoingRequestSerializer requestSerializer, IDisposable disposable)
                 : base(messageHandler, requestSerializer)
             {
+                mDisposable = disposable;
             }
 
             public void Publish(long requestId, PublishOptions options, string topicUri)
@@ -165,6 +168,11 @@ namespace WampSharp.V2.Client
             public void Error(int requestType, long requestId, object details, string error, object[] arguments, object argumentsKeywords)
             {
                 Send(mError6, requestType, requestId, details, error, arguments, argumentsKeywords);
+            }
+
+            public void Dispose()
+            {
+                mDisposable.Dispose();
             }
         }
     }

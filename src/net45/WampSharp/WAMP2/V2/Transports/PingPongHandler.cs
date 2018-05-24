@@ -54,8 +54,8 @@ namespace WampSharp.V2.Transports
                 try
                 {
                     byte[] ticks = GetCurrentTicks();
-                    await mPinger.SendPing(ticks);
-                    await Task.Delay(mAutoSendPingInterval.Value);
+                    await mPinger.SendPing(ticks).ConfigureAwait(false);
+                    await Task.Delay(mAutoSendPingInterval.Value).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {

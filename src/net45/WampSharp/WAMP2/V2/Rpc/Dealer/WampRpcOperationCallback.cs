@@ -55,12 +55,14 @@ namespace WampSharp.V2.Rpc
         {
             ResultDetails resultDetails = GetResultDetails(details);
             this.Result(formatter, resultDetails);
+            UnregisterConnectionClosedIfNeeded(details);
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, YieldOptions details, TMessage[] arguments)
         {
             ResultDetails resultDetails = GetResultDetails(details);
             this.Result(formatter, resultDetails, arguments);
+            UnregisterConnectionClosedIfNeeded(details);
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, YieldOptions details, TMessage[] arguments,
@@ -68,21 +70,38 @@ namespace WampSharp.V2.Rpc
         {
             ResultDetails resultDetails = GetResultDetails(details);
             this.Result(formatter, resultDetails, arguments, argumentsKeywords);
+            UnregisterConnectionClosedIfNeeded(details);
+        }
+
+        private void UnregisterConnectionClosedIfNeeded(YieldOptions details)
+        {
+            if (details.Progress != true)
+            {
+                mMonitor.ConnectionClosed -= OnConnectionClosed;
+            }
         }
 
         public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error)
         {
             Caller.CallError(RequestId, details, error);
+            UnregisterConnectionClosed();
         }
 
         public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments)
         {
             Caller.CallError(RequestId, details, error, arguments.Cast<object>().ToArray());
+            UnregisterConnectionClosed();
         }
 
         public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments, TResult argumentsKeywords)
         {
             Caller.CallError(RequestId, details, error, arguments.Cast<object>().ToArray(), argumentsKeywords);
+            UnregisterConnectionClosed();
+        }
+
+        private void UnregisterConnectionClosed()
+        {
+            mMonitor.ConnectionClosed -= OnConnectionClosed;
         }
 
         public event EventHandler Disconnected;

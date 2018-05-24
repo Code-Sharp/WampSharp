@@ -144,7 +144,7 @@ namespace WampSharp.Core.Listener
             if (Interlocked.CompareExchange(ref mDisposeCalled, 1, 0) == 0)
             {
                 mSendBlock.Complete();
-                await mSendBlock.Completion;
+                await mSendBlock.Completion.ConfigureAwait(false);
                 this.Dispose();
             }
         }

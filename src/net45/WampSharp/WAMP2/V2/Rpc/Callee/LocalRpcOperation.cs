@@ -147,8 +147,15 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        protected static WampRpcRuntimeException ConvertExceptionToRuntimeException(Exception exception)
+        protected static WampException ConvertExceptionToRuntimeException(Exception exception)
         {
+            OperationCanceledException canceledException = exception as OperationCanceledException;
+
+            if (canceledException != null)
+            {
+                return new WampRpcCanceledException(canceledException.Message);
+            }
+
             // TODO: Maybe try a different implementation.
             return new WampRpcRuntimeException(exception.Message);
         }

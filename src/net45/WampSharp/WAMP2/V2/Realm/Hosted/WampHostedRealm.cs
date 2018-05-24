@@ -58,7 +58,8 @@ namespace WampSharp.V2.Realm
                 PatternBasedRegistration = true,
                 SharedRegistration = true,
                 CallerIdentification = true,
-                ProgressiveCallResults = true
+                ProgressiveCallResults = true,
+                CallCanceling = true
             },
             Broker = new BrokerFeatures()
             {

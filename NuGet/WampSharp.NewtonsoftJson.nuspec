@@ -21,6 +21,14 @@
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="Newtonsoft.Json" version="[9.0.1, )" />
       </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Newtonsoft.Json" version="[9.0.1, )" />
+      </group>
+      <group targetFramework="Xamarin.iOS10">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Newtonsoft.Json" version="[9.0.1, )" />
+      </group>
       <group targetFramework="uap10.0">
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="Newtonsoft.Json" version="[9.0.1, )" />
@@ -34,13 +42,23 @@
     <tags>websockets wampws rpc pubsub newtonsoft json wampv1 wampv2</tags>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.NewtonsoftJson.dll" target="lib\net45\WampSharp.NewtonsoftJson.dll" />
-    <file src="bin\net45\WampSharp.NewtonsoftJson.xml" target="lib\net45\WampSharp.NewtonsoftJson.xml" />
-    <file src="bin\net40\WampSharp.NewtonsoftJson.dll" target="lib\net40\WampSharp.NewtonsoftJson.dll" />
-    <file src="bin\net40\WampSharp.NewtonsoftJson.xml" target="lib\net40\WampSharp.NewtonsoftJson.xml" />
-    <file src="bin\pcl\WampSharp.NewtonsoftJson.dll" target="lib\portable-win81+wpa81\WampSharp.NewtonsoftJson.dll" />
-    <file src="bin\pcl\WampSharp.NewtonsoftJson.xml" target="lib\portable-win81+wpa81\WampSharp.NewtonsoftJson.xml" />
-    <file src="bin\netstandard1.3\WampSharp.NewtonsoftJson.dll" target="lib\netstandard1.3\WampSharp.NewtonsoftJson.dll" />
-    <file src="bin\netstandard1.3\WampSharp.NewtonsoftJson.xml" target="lib\netstandard1.3\WampSharp.NewtonsoftJson.xml" />
+    <file src="$bin$\net45\WampSharp.NewtonsoftJson.dll" target="lib\net45\WampSharp.NewtonsoftJson.dll" />
+    <file src="$bin$\net45\WampSharp.NewtonsoftJson.pdb" target="lib\net45\WampSharp.NewtonsoftJson.pdb" />
+    <file src="$bin$\net45\WampSharp.NewtonsoftJson.xml" target="lib\net45\WampSharp.NewtonsoftJson.xml" />
+    <file src="$bin$\net40\WampSharp.NewtonsoftJson.dll" target="lib\net40\WampSharp.NewtonsoftJson.dll" />
+    <file src="$bin$\net40\WampSharp.NewtonsoftJson.pdb" target="lib\net40\WampSharp.NewtonsoftJson.pdb" />
+    <file src="$bin$\net40\WampSharp.NewtonsoftJson.xml" target="lib\net40\WampSharp.NewtonsoftJson.xml" />
+    <file src="$bin$\pcl\WampSharp.NewtonsoftJson.dll" target="lib\portable-win81+wpa81\WampSharp.NewtonsoftJson.dll" />
+    <file src="$bin$\pcl\WampSharp.NewtonsoftJson.pdb" target="lib\portable-win81+wpa81\WampSharp.NewtonsoftJson.pdb" />
+    <file src="$bin$\pcl\WampSharp.NewtonsoftJson.xml" target="lib\portable-win81+wpa81\WampSharp.NewtonsoftJson.xml" />
+    <file src="$bin$\netstandard1.3\WampSharp.NewtonsoftJson.dll" target="lib\netstandard1.3\WampSharp.NewtonsoftJson.dll" />
+    <file src="$bin$\netstandard1.3\WampSharp.NewtonsoftJson.pdb" target="lib\netstandard1.3\WampSharp.NewtonsoftJson.pdb" />
+    <file src="$bin$\netstandard1.3\WampSharp.NewtonsoftJson.xml" target="lib\netstandard1.3\WampSharp.NewtonsoftJson.xml" />
+    <file src="$bin$\netstandard2.0\WampSharp.NewtonsoftJson.dll" target="lib\netstandard2.0\WampSharp.NewtonsoftJson.dll" />
+    <file src="$bin$\netstandard2.0\WampSharp.NewtonsoftJson.pdb" target="lib\netstandard2.0\WampSharp.NewtonsoftJson.pdb" />
+    <file src="$bin$\netstandard2.0\WampSharp.NewtonsoftJson.xml" target="lib\netstandard2.0\WampSharp.NewtonsoftJson.xml" />
+    <file src="$bin$\Xamarin.iOS10\WampSharp.NewtonsoftJson.dll" target="lib\Xamarin.iOS10\WampSharp.NewtonsoftJson.dll" />
+    <file src="$bin$\Xamarin.iOS10\WampSharp.NewtonsoftJson.pdb" target="lib\Xamarin.iOS10\WampSharp.NewtonsoftJson.pdb" />
+    <file src="$bin$\Xamarin.iOS10\WampSharp.NewtonsoftJson.xml" target="lib\Xamarin.iOS10\WampSharp.NewtonsoftJson.xml" />
   </files>
 </package>

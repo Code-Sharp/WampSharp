@@ -95,7 +95,7 @@ namespace WampSharp.WebSockets
                 {
                     // Reads data.
                     WebSocketReceiveResult webSocketReceiveResult =
-                        await ReadMessage(receivedDataBuffer, memoryStream);
+                        await ReadMessage(receivedDataBuffer, memoryStream).ConfigureAwait(false);
 
                     if (webSocketReceiveResult.MessageType != WebSocketMessageType.Close)
                     {

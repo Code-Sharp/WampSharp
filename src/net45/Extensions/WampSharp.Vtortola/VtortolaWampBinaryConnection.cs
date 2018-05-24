@@ -1,4 +1,5 @@
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using vtortola.WebSockets;
 using WampSharp.Core.Message;
@@ -12,9 +13,10 @@ namespace WampSharp.Vtortola
         private readonly IWampBinaryBinding<TMessage> mBinding;
 
         public VtortolaWampBinaryConnection(WebSocket connection,
-                                            IWampBinaryBinding<TMessage> binding,
-                                            ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
-                                                base(connection, cookieAuthenticatorFactory)
+            CancellationToken cancellationToken,
+            IWampBinaryBinding<TMessage> binding,
+            ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
+            base(connection, cancellationToken, cookieAuthenticatorFactory)
         {
             mBinding = binding;
         }
@@ -23,7 +25,7 @@ namespace WampSharp.Vtortola
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                await readStream.CopyToAsync(memoryStream);
+                await readStream.CopyToAsync(memoryStream).ConfigureAwait(false);
                 byte[] bytes = memoryStream.ToArray();
                 WampMessage<TMessage> result = mBinding.Parse(bytes);
                 return result;

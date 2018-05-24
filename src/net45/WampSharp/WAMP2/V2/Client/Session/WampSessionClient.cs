@@ -37,14 +37,16 @@ namespace WampSharp.V2.Client
                     Caller = new CallerFeatures()
                     {
                         CallerIdentification = true,
-                        ProgressiveCallResults = true
+                        ProgressiveCallResults = true,
+                        CallCanceling = true
                     },
                     Callee = new CalleeFeatures()
                     {
                         ProgressiveCallResults = true,
                         CallerIdentification = true,
                         PatternBasedRegistration = true,
-                        SharedRegistration = true
+                        SharedRegistration = true,
+                        CallCanceling = true
                     },
                     Publisher = new PublisherFeatures()
                     {
@@ -102,14 +104,20 @@ namespace WampSharp.V2.Client
 
         public void Abort(AbortDetails details, string reason)
         {
-            TrySetCloseEventArgs(SessionCloseType.Abort, details, reason);
+            using (IDisposable proxy = mServerProxy as IDisposable)
+            {
+                TrySetCloseEventArgs(SessionCloseType.Abort, details, reason);
+            }
         }
 
         public void Goodbye(GoodbyeDetails details, string reason)
         {
-            if (!mGoodbyeSent)
+            using (IDisposable proxy = mServerProxy as IDisposable)
             {
-                mServerProxy.Goodbye(new GoodbyeDetails(), WampErrors.GoodbyeAndOut);
+                if (!mGoodbyeSent)
+                {
+                    mServerProxy.Goodbye(new GoodbyeDetails(), WampErrors.GoodbyeAndOut);
+                }
             }
 
             TrySetCloseEventArgs(SessionCloseType.Goodbye, details, reason);

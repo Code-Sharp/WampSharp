@@ -68,7 +68,6 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
             }
         }
 
-        [Serializable]
         public class AppException1 : WampException
         {
             private const string ErrorUri = "com.myapp.error1";

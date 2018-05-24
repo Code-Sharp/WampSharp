@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyTitle>WampSharp.WAMP1</AssemblyTitle>
+    <Authors>CodeSharp</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>WampSharp.WAMP1</AssemblyName>
+    <PackageId>WampSharp.WAMP1</PackageId>
+    <PackageTags>websockets;wampws;rpc;pubsub;wampv2</PackageTags>
+    <PackageProjectUrl>https://github.com/Code-Sharp/WampSharp/</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\net45\WampSharp.WAMP1\**\*.cs" Exclude="..\..\net45\WampSharp.WAMP1\**\bin\**;..\..\net45\WampSharp.WAMP1\**\obj\**;" />
+  </ItemGroup>
+  
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <DefineConstants>$(DefineConstants);NET45;</DefineConstants>
+  </PropertyGroup>
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <ProjectReference Include="..\WampSharp\WampSharp.csproj" />
+  </ItemGroup>
+  
+</Project>

@@ -20,6 +20,11 @@
         <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
         <dependency id="Newtonsoft.Msgpack" version="[0.1.10,)" />
       </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
+        <dependency id="Newtonsoft.Msgpack" version="[0.1.10,)" />
+      </group>
     </dependencies>
     <id>WampSharp.NewtonsoftMsgpack</id>
     <title>WampSharp Newtonsoft.Msgpack binding</title>
@@ -29,11 +34,20 @@
     <tags>websockets wampws rpc pubsub newtonsoft msgpack wampv2</tags>
   </metadata>
   <files>
-    <file src="bin\net45\WampSharp.NewtonsoftMsgpack.dll" target="lib\net45\WampSharp.NewtonsoftMsgpack.dll" />
-    <file src="bin\net45\WampSharp.NewtonsoftMsgpack.xml" target="lib\net45\WampSharp.NewtonsoftMsgpack.xml" />
-    <file src="bin\net40\WampSharp.NewtonsoftMsgpack.dll" target="lib\net40\WampSharp.NewtonsoftMsgpack.dll" />
-    <file src="bin\net40\WampSharp.NewtonsoftMsgpack.xml" target="lib\net40\WampSharp.NewtonsoftMsgpack.xml" />
-    <file src="bin\net45\WampSharp.NewtonsoftMsgpack.dll" target="lib\netstandard1.3\WampSharp.NewtonsoftMsgpack.dll" />
-    <file src="bin\net45\WampSharp.NewtonsoftMsgpack.xml" target="lib\netstandard1.3\WampSharp.NewtonsoftMsgpack.xml" />
+    <file src="$bin$\net45\WampSharp.NewtonsoftMsgpack.dll" target="lib\net45\WampSharp.NewtonsoftMsgpack.dll" />
+    <file src="$bin$\net45\WampSharp.NewtonsoftMsgpack.pdb" target="lib\net45\WampSharp.NewtonsoftMsgpack.pdb" />
+    <file src="$bin$\net45\WampSharp.NewtonsoftMsgpack.xml" target="lib\net45\WampSharp.NewtonsoftMsgpack.xml" />
+    <file src="$bin$\net40\WampSharp.NewtonsoftMsgpack.dll" target="lib\net40\WampSharp.NewtonsoftMsgpack.dll" />
+    <file src="$bin$\net40\WampSharp.NewtonsoftMsgpack.pdb" target="lib\net40\WampSharp.NewtonsoftMsgpack.pdb" />
+    <file src="$bin$\net40\WampSharp.NewtonsoftMsgpack.xml" target="lib\net40\WampSharp.NewtonsoftMsgpack.xml" />
+    <file src="$bin$\netstandard1.3\WampSharp.NewtonsoftMsgpack.dll" target="lib\netstandard1.3\WampSharp.NewtonsoftMsgpack.dll" />
+    <file src="$bin$\netstandard1.3\WampSharp.NewtonsoftMsgpack.pdb" target="lib\netstandard1.3\WampSharp.NewtonsoftMsgpack.pdb" />
+    <file src="$bin$\netstandard1.3\WampSharp.NewtonsoftMsgpack.xml" target="lib\netstandard1.3\WampSharp.NewtonsoftMsgpack.xml" />
+    <file src="$bin$\netstandard2.0\WampSharp.NewtonsoftMsgpack.dll" target="lib\netstandard2.0\WampSharp.NewtonsoftMsgpack.dll" />
+    <file src="$bin$\netstandard2.0\WampSharp.NewtonsoftMsgpack.pdb" target="lib\netstandard2.0\WampSharp.NewtonsoftMsgpack.pdb" />
+    <file src="$bin$\netstandard2.0\WampSharp.NewtonsoftMsgpack.xml" target="lib\netstandard2.0\WampSharp.NewtonsoftMsgpack.xml" />
+    <file src="$bin$\Xamarin.iOS10\WampSharp.NewtonsoftMsgpack.dll" target="lib\Xamarin.iOS10\WampSharp.NewtonsoftMsgpack.dll" />
+    <file src="$bin$\Xamarin.iOS10\WampSharp.NewtonsoftMsgpack.pdb" target="lib\Xamarin.iOS10\WampSharp.NewtonsoftMsgpack.pdb" />
+    <file src="$bin$\Xamarin.iOS10\WampSharp.NewtonsoftMsgpack.xml" target="lib\Xamarin.iOS10\WampSharp.NewtonsoftMsgpack.xml" />
   </files>
 </package>

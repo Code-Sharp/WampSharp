@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp", "WampSharp\WampSharp.csproj", "{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp", "WampSharp\WampSharp.csproj", "{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{33E2A6E5-246F-420B-A13C-AA4B617EBFB2}"
 EndProject
@@ -11,75 +11,73 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WAMP1", "WAMP1", "{10B51C05
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WAMP2", "WAMP2", "{AF224856-8194-4CA0-92D9-03926B743987}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.PubSubServerSample", "Samples\WAMP1\WampSharp.PubSubServerSample\WampSharp.PubSubServerSample.csproj", "{AD5C9AA6-6810-488E-9EDD-FCC945AAD627}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.PubSubServerSample", "Samples\WAMP1\WampSharp.PubSubServerSample\WampSharp.PubSubServerSample.csproj", "{AD5C9AA6-6810-488E-9EDD-FCC945AAD627}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RpcClientSample", "Samples\WAMP1\WampSharp.RpcClientSample\WampSharp.RpcClientSample.csproj", "{2128E477-97B6-4224-A8A9-789F79514B41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.RpcClientSample", "Samples\WAMP1\WampSharp.RpcClientSample\WampSharp.RpcClientSample.csproj", "{2128E477-97B6-4224-A8A9-789F79514B41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RpcServerSample", "Samples\WAMP1\WampSharp.RpcServerSample\WampSharp.RpcServerSample.csproj", "{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.RpcServerSample", "Samples\WAMP1\WampSharp.RpcServerSample\WampSharp.RpcServerSample.csproj", "{0A431511-B51D-42A2-AE0F-DEFCDB9FCE77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.Callee", "Samples\WAMP2\WampSharp.Samples.Callee\WampSharp.Samples.Callee.csproj", "{7D74C7E0-3F4E-4C60-BC75-C5086706CF7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Samples.Callee", "Samples\WAMP2\WampSharp.Samples.Callee\WampSharp.Samples.Callee.csproj", "{7D74C7E0-3F4E-4C60-BC75-C5086706CF7F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D07452C1-0C0A-45C3-8A1B-33BD8FF93C5E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{FA4B348E-3BBD-4F98-B429-891376EBA17E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Tests", "Tests\WampSharp.Tests\WampSharp.Tests.csproj", "{D3FB3310-A761-45B5-AC4B-78FE90C2829C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Tests", "Tests\WampSharp.Tests\WampSharp.Tests.csproj", "{D3FB3310-A761-45B5-AC4B-78FE90C2829C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Tests.Wampv2", "Tests\WampSharp.Tests.Wampv2\WampSharp.Tests.Wampv2.csproj", "{710B61C1-E7E0-4D8F-BF39-F82086D610ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Tests.Wampv2", "Tests\WampSharp.Tests.Wampv2\WampSharp.Tests.Wampv2.csproj", "{710B61C1-E7E0-4D8F-BF39-F82086D610ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.SignalR", "Extensions\WampSharp.SignalR\WampSharp.SignalR.csproj", "{F5B01D7B-14C3-419C-9887-C0A24FF2DE59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.SignalR", "Extensions\WampSharp.SignalR\WampSharp.SignalR.csproj", "{F5B01D7B-14C3-419C-9887-C0A24FF2DE59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.CraClientSample", "Samples\WAMP1\WampSharp.CraClientSample\WampSharp.CraClientSample.csproj", "{6AD8C6F1-05AE-4826-BE27-BF54C73D6159}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.CraClientSample", "Samples\WAMP1\WampSharp.CraClientSample\WampSharp.CraClientSample.csproj", "{6AD8C6F1-05AE-4826-BE27-BF54C73D6159}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.CraServerSample", "Samples\WAMP1\WampSharp.CraServerSample\WampSharp.CraServerSample.csproj", "{32A38656-5BAF-4D80-9780-95C3B594DA3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.CraServerSample", "Samples\WAMP1\WampSharp.CraServerSample\WampSharp.CraServerSample.csproj", "{32A38656-5BAF-4D80-9780-95C3B594DA3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.Subscriber", "Samples\WAMP2\WampSharp.Samples.Subscriber\WampSharp.Samples.Subscriber.csproj", "{0EB744B6-235C-4460-B25C-EBC966201C26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Samples.Subscriber", "Samples\WAMP2\WampSharp.Samples.Subscriber\WampSharp.Samples.Subscriber.csproj", "{0EB744B6-235C-4460-B25C-EBC966201C26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.Caller", "Samples\WAMP2\WampSharp.Samples.Caller\WampSharp.Samples.Caller.csproj", "{7434FFFF-F5E5-48DF-9544-19131885FA4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Samples.Caller", "Samples\WAMP2\WampSharp.Samples.Caller\WampSharp.Samples.Caller.csproj", "{7434FFFF-F5E5-48DF-9544-19131885FA4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.Publisher", "Samples\WAMP2\WampSharp.Samples.Publisher\WampSharp.Samples.Publisher.csproj", "{E924BD74-041F-4F3A-8041-FC7F8827728A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Samples.Publisher", "Samples\WAMP2\WampSharp.Samples.Publisher\WampSharp.Samples.Publisher.csproj", "{E924BD74-041F-4F3A-8041-FC7F8827728A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Vtortola", "Extensions\WampSharp.Vtortola\WampSharp.Vtortola.csproj", "{DE13BC69-B822-45EA-846F-DDEF66D34BD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Vtortola", "Extensions\WampSharp.Vtortola\WampSharp.Vtortola.csproj", "{DE13BC69-B822-45EA-846F-DDEF66D34BD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.Authentication", "Samples\WAMP2\WampSharp.Samples.Authentication\WampSharp.Samples.Authentication.csproj", "{305C0F3D-1A51-4D8C-8729-481F73A7C7D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Samples.Authentication", "Samples\WAMP2\WampSharp.Samples.Authentication\WampSharp.Samples.Authentication.csproj", "{305C0F3D-1A51-4D8C-8729-481F73A7C7D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RawSocket", "Extensions\WampSharp.RawSocket\WampSharp.RawSocket.csproj", "{678473BD-87FC-4788-A444-4ABF45FDCFEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.RawSocket", "Extensions\WampSharp.RawSocket\WampSharp.RawSocket.csproj", "{678473BD-87FC-4788-A444-4ABF45FDCFEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.EdgeJs", "Samples\WAMP2\WampSharp.Samples.EdgeJs\WampSharp.Samples.EdgeJs.csproj", "{0BB21BE8-6C6B-4CB2-BD09-6A0A863D529E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Samples.EdgeJs", "Samples\WAMP2\WampSharp.Samples.EdgeJs\WampSharp.Samples.EdgeJs.csproj", "{0BB21BE8-6C6B-4CB2-BD09-6A0A863D529E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Tests.TestHelpers", "Tests\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj", "{78AB08FB-F75D-4F93-A25F-164BF90DD408}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Tests.TestHelpers", "Tests\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj", "{78AB08FB-F75D-4F93-A25F-164BF90DD408}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Default", "Default", "{B0203648-89A2-4875-AD9C-F5485AD3E96F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Fleck", "Default\WampSharp.Fleck\WampSharp.Fleck.csproj", "{1D67478A-1328-41D9-92FB-0BA703332616}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Fleck", "Default\WampSharp.Fleck\WampSharp.Fleck.csproj", "{1D67478A-1328-41D9-92FB-0BA703332616}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Windows", "Default\WampSharp.Windows\WampSharp.Windows.csproj", "{C00C068F-67A2-41FA-8608-8407C1A74526}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WebSocket4Net", "Default\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.csproj", "{48543B7C-D8FF-4AAC-B3BA-F8CC53EF6E01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.WebSocket4Net", "Default\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.csproj", "{48543B7C-D8FF-4AAC-B3BA-F8CC53EF6E01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.NewtonsoftJson", "Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj", "{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.NewtonsoftJson", "Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj", "{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.NewtonsoftMsgpack", "Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj", "{061D1C1C-52A7-4FCB-9DF8-C1E28BFAD378}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.NewtonsoftMsgpack", "Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj", "{061D1C1C-52A7-4FCB-9DF8-C1E28BFAD378}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WAMP1", "WampSharp.WAMP1\WampSharp.WAMP1.csproj", "{78C5F5EB-DE92-408E-87C7-6287BC8CC399}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.WAMP1", "WampSharp.WAMP1\WampSharp.WAMP1.csproj", "{78C5F5EB-DE92-408E-87C7-6287BC8CC399}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Default.Client", "WampSharp.Default.Client\WampSharp.Default.Client.csproj", "{A86753C0-0D7E-442C-A507-CDE7E95BC1DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Default.Client", "WampSharp.Default.Client\WampSharp.Default.Client.csproj", "{A86753C0-0D7E-442C-A507-CDE7E95BC1DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Default.Router", "WampSharp.Default.Router\WampSharp.Default.Router.csproj", "{C48C5249-2253-44A8-9B53-730B48FF2403}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Default.Router", "WampSharp.Default.Router\WampSharp.Default.Router.csproj", "{C48C5249-2253-44A8-9B53-730B48FF2403}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WAMP1.Default", "WampSharp.WAMP1.Default\WampSharp.WAMP1.Default.csproj", "{3B1DC300-4401-4ACF-B215-65E90BA421BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.WAMP1.Default", "WampSharp.WAMP1.Default\WampSharp.WAMP1.Default.csproj", "{3B1DC300-4401-4ACF-B215-65E90BA421BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Samples.WampCra.Client", "Samples\WAMP2\WampSharp.Samples.WampCra.Client\WampSharp.Samples.WampCra.Client.csproj", "{12B643A2-F86D-43F9-A206-54555368424E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.WampCra.Client", "Samples\WAMP2\WampSharp.Samples.WampCra.Client\WampSharp.Samples.WampCra.Client.csproj", "{12B643A2-F86D-43F9-A206-54555368424E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Samples.WampCra.Router", "Samples\WAMP2\WampSharp.Samples.WampCra.Router\WampSharp.Samples.WampCra.Router.csproj", "{A4661436-103A-49F9-9D63-91DF66FB145B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Samples.WampCra.Router", "Samples\WAMP2\WampSharp.Samples.WampCra.Router\WampSharp.Samples.WampCra.Router.csproj", "{A4661436-103A-49F9-9D63-91DF66FB145B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WebSockets", "Extensions\WampSharp.WebSockets\WampSharp.WebSockets.csproj", "{7323D1D6-0ADA-45E8-851D-8141D39FDCAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.WebSockets", "Extensions\WampSharp.WebSockets\WampSharp.WebSockets.csproj", "{7323D1D6-0ADA-45E8-851D-8141D39FDCAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Owin", "Extensions\WampSharp.Owin\WampSharp.Owin.csproj", "{219F3832-EC76-44CD-B601-EE5850F40FAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Owin", "Extensions\WampSharp.Owin\WampSharp.Owin.csproj", "{219F3832-EC76-44CD-B601-EE5850F40FAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.AspNet.WebSockets.Server", "Extensions\WampSharp.AspNet.WebSockets.Server\WampSharp.AspNet.WebSockets.Server.csproj", "{BA110F39-09D9-4D7F-91CF-0604E5715EA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.AspNet.WebSockets.Server", "Extensions\WampSharp.AspNet.WebSockets.Server\WampSharp.AspNet.WebSockets.Server.csproj", "{BA110F39-09D9-4D7F-91CF-0604E5715EA2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.HttpListener", "Extensions\WampSharp.HttpListener\WampSharp.HttpListener.csproj", "{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.HttpListener", "Extensions\WampSharp.HttpListener\WampSharp.HttpListener.csproj", "{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.LiteDB", "WampSharp.LiteDB\WampSharp.LiteDB.csproj", "{CAEE8C29-C306-4A5F-B8E4-DDD2F05FC144}"
 EndProject
@@ -285,16 +283,6 @@ Global
 		{1D67478A-1328-41D9-92FB-0BA703332616}.Release|ARM.ActiveCfg = Release|Any CPU
 		{1D67478A-1328-41D9-92FB-0BA703332616}.Release|x64.ActiveCfg = Release|Any CPU
 		{1D67478A-1328-41D9-92FB-0BA703332616}.Release|x86.ActiveCfg = Release|Any CPU
-		{C00C068F-67A2-41FA-8608-8407C1A74526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C00C068F-67A2-41FA-8608-8407C1A74526}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C00C068F-67A2-41FA-8608-8407C1A74526}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{C00C068F-67A2-41FA-8608-8407C1A74526}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C00C068F-67A2-41FA-8608-8407C1A74526}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C00C068F-67A2-41FA-8608-8407C1A74526}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C00C068F-67A2-41FA-8608-8407C1A74526}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C00C068F-67A2-41FA-8608-8407C1A74526}.Release|ARM.ActiveCfg = Release|Any CPU
-		{C00C068F-67A2-41FA-8608-8407C1A74526}.Release|x64.ActiveCfg = Release|Any CPU
-		{C00C068F-67A2-41FA-8608-8407C1A74526}.Release|x86.ActiveCfg = Release|Any CPU
 		{48543B7C-D8FF-4AAC-B3BA-F8CC53EF6E01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{48543B7C-D8FF-4AAC-B3BA-F8CC53EF6E01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48543B7C-D8FF-4AAC-B3BA-F8CC53EF6E01}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -502,7 +490,6 @@ Global
 		{0BB21BE8-6C6B-4CB2-BD09-6A0A863D529E} = {AF224856-8194-4CA0-92D9-03926B743987}
 		{78AB08FB-F75D-4F93-A25F-164BF90DD408} = {D07452C1-0C0A-45C3-8A1B-33BD8FF93C5E}
 		{1D67478A-1328-41D9-92FB-0BA703332616} = {B0203648-89A2-4875-AD9C-F5485AD3E96F}
-		{C00C068F-67A2-41FA-8608-8407C1A74526} = {B0203648-89A2-4875-AD9C-F5485AD3E96F}
 		{48543B7C-D8FF-4AAC-B3BA-F8CC53EF6E01} = {B0203648-89A2-4875-AD9C-F5485AD3E96F}
 		{2DBD5996-521B-4BD2-9ECF-35C5B9BC1A59} = {B0203648-89A2-4875-AD9C-F5485AD3E96F}
 		{061D1C1C-52A7-4FCB-9DF8-C1E28BFAD378} = {B0203648-89A2-4875-AD9C-F5485AD3E96F}
@@ -513,5 +500,8 @@ Global
 		{BA110F39-09D9-4D7F-91CF-0604E5715EA2} = {FA4B348E-3BBD-4F98-B429-891376EBA17E}
 		{7CAA96BD-6CD3-48FF-B837-C894F7FB56FB} = {FA4B348E-3BBD-4F98-B429-891376EBA17E}
 		{CAEE8C29-C306-4A5F-B8E4-DDD2F05FC144} = {FA4B348E-3BBD-4F98-B429-891376EBA17E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E5D5E1F-E7F0-464C-A4AA-E8D4ABF412F7}
 	EndGlobalSection
 EndGlobal

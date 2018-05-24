@@ -57,7 +57,7 @@ namespace WampSharp.SignalR
 
         public async void Connect()
         {
-            await mConnection.Start(mTransport);
+            await mConnection.Start(mTransport).ConfigureAwait(false);
             RaiseConnectionOpen();
         }
 

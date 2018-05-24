@@ -152,8 +152,8 @@ namespace WampSharp.V2.Rpc
             {
                 result.Caller = casted.CallerSession;
 
-                result.AuthenticationId = casted.AuthenticationId;
-                result.AuthenticationRole = casted.AuthenticationRole;
+                result.CallerAuthenticationId = casted.AuthenticationId;
+                result.CallerAuthenticationRole = casted.AuthenticationRole;
             }
 
             if (callerOptions.ReceiveProgress == true)
