@@ -35,13 +35,10 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
   <ItemGroup>
-    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="6.0.5" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="6.0.5" />
-    <PackageReference Include="System.Reactive.Core" Version="3.0.0" />
-    <PackageReference Include="System.Reactive.Interfaces" Version="3.0.0" />
-    <PackageReference Include="System.Reactive.Linq" Version="3.0.0" />
+    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

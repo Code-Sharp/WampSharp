@@ -36,10 +36,6 @@
     <ProjectReference Include="..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fleck" Version="0.14.0.59" />
-    <PackageReference Include="Newtonsoft.Json" Version="6.0.5" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
 

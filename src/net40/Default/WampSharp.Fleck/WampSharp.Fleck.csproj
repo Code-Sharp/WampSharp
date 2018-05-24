@@ -36,9 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Fleck" Version="0.14.0.59" />
-    <PackageReference Include="Rx-Core" Version="2.2.5" />
-    <PackageReference Include="Rx-Interfaces" Version="2.2.5" />
-    <PackageReference Include="Rx-Linq" Version="2.2.5" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

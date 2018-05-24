@@ -31,11 +31,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="6.0.5" />
-    <PackageReference Include="Rx-Core" Version="2.2.5" />
-    <PackageReference Include="Rx-Interfaces" Version="2.2.5" />
-    <PackageReference Include="Rx-Linq" Version="2.2.5" />
-    <PackageReference Include="Rx-Main" Version="2.2.5" />
-    <PackageReference Include="Rx-PlatformServices" Version="2.2.5" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

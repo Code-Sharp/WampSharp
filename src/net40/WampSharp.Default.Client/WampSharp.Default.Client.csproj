@@ -37,11 +37,6 @@
     <ProjectReference Include="..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="6.0.5" />
-    <PackageReference Include="SuperSocket.ClientEngine.Core" Version="0.8.0.12" />
-    <PackageReference Include="WebSocket4Net" Version="0.15.0-beta9" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
 
