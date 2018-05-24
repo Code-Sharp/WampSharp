@@ -19,8 +19,10 @@
   </metadata>
   <files>
     <file src="$bin$\net45\WampSharp.WAMP1.Default.dll" target="lib\net45\WampSharp.WAMP1.Default.dll" />
+    <file src="$bin$\net45\WampSharp.WAMP1.Default.pdb" target="lib\net45\WampSharp.WAMP1.Default.pdb" />
     <file src="$bin$\net45\WampSharp.WAMP1.Default.xml" target="lib\net45\WampSharp.WAMP1.Default.xml" />
     <file src="$bin$\net40\WampSharp.WAMP1.Default.dll" target="lib\net40\WampSharp.WAMP1.Default.dll" />
+    <file src="$bin$\net40\WampSharp.WAMP1.Default.pdb" target="lib\net40\WampSharp.WAMP1.Default.pdb" />
     <file src="$bin$\net40\WampSharp.WAMP1.Default.xml" target="lib\net40\WampSharp.WAMP1.Default.xml" />
   </files>
 </package>

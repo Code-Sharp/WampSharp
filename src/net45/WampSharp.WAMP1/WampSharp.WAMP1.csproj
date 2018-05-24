@@ -1,18 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{78C5F5EB-DE92-408E-87C7-6287BC8CC399}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>net45</TargetFramework>
     <RootNamespace>WampSharp</RootNamespace>
-    <AssemblyName>WampSharp.WAMP1</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,147 +30,6 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\WampSharp.WAMP1.XML</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Reactive.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Core.3.0.0\lib\net45\System.Reactive.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Interfaces.3.0.0\lib\net45\System.Reactive.Interfaces.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Reactive.Linq, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Linq.3.0.0\lib\net45\System.Reactive.Linq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WAMP1\V1\Api\Client\IWampChannel.cs" />
-    <Compile Include="WAMP1\V1\Api\Client\IWampChannelFactory.cs" />
-    <Compile Include="WAMP1\V1\Api\Client\WampChannel.cs" />
-    <Compile Include="WAMP1\V1\Api\Client\WampChannelFactory.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\DefaultWampServer.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\IWampHost.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\IWampServerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\WampHost.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\WampRequestContext.cs" />
-    <Compile Include="WAMP1\V1\Api\Server\WampServerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Client\IWampAuxiliaryClientFactory.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Client\IWampClientConnectionMonitor.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Client\WampAuxiliaryClientFactory.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Client\WampClientConnectionMonitor.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Client\WampConnectionEstablishedEventArgs.cs" />
-    <Compile Include="WAMP1\V1\Auxiliary\Server\WampAuxiliaryServer.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampAuxiliaryClient.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampAuxiliaryServer.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampClient.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampCraClient.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampPubSubClient.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampPubSubServer.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampRpcClient.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampRpcServer.cs" />
-    <Compile Include="WAMP1\V1\Core\Contracts\IWampServer.cs" />
-    <Compile Include="WAMP1\V1\Core\Curie\IWampCurieMapper.cs" />
-    <Compile Include="WAMP1\V1\Core\Curie\WampCurieMapper.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilder.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\ClientBuilder\WampClientBuilderFactory.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\IWampSessionIdGenerator.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\WampClientContainer.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\WampListener.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\WampSessionEventArgs.cs" />
-    <Compile Include="WAMP1\V1\Core\Listener\WampSessionIdGenerator.cs" />
-    <Compile Include="WAMP1\V1\Core\Proxy\SessionIdPropertyInterceptor.cs" />
-    <Compile Include="WAMP1\V1\Core\Proxy\WampCraAuthenticatorPropertyInterceptor.cs" />
-    <Compile Include="WAMP1\V1\Core\Proxy\WampInterceptorSelector.cs" />
-    <Compile Include="WAMP1\V1\Cra\IWampCraAuthenticator.cs" />
-    <Compile Include="WAMP1\V1\Cra\IWampCraProcedures.cs" />
-    <Compile Include="WAMP1\V1\Cra\IWampCraServerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Cra\MockWampCraProcedures.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraAuthenticator.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraAuthenticatorBuilder.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraChallenge.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraHost.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraPendingAuth.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraPermissions.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraPermissionsMapper.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraRpcMetadata.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraRpcMethod.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraServer.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampCraServerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampPubSubPermissions.cs" />
-    <Compile Include="WAMP1\V1\Cra\WampRpcPermissions.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Client\IWampPubSubClientFactory.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Client\IWampServerProxyFactory.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Client\WampPubSubClientFactory.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Client\WampPubSubSubject.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Client\WampServerProxyFactory.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionAddEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampSubscriptionRemoveEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampTopicCreatedEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampTopicEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\EventArgs\WampTopicRemovedEventArgs.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\Interfaces\IWampTopic.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainer.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\Interfaces\IWampTopicContainerExtended.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\WampNotification.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\WampObserver.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\WampPubSubServer.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\WampTopic.cs" />
-    <Compile Include="WAMP1\V1\PubSub\Server\WampTopicContainer.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\Dynamic\DynamicWampRpcClient.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\Dynamic\WampRpcMethodInfo.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampProcUriMapper.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampRpcClientFactory.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampRpcClientHandler.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampRpcClientHandlerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampRpcSerializer.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\IWampServerProxyFactory.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcCall.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientAsyncInterceptor.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientFactory.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientHandler.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientHandlerBuilder.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientInterceptor.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientInterceptorSelector.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcClientSyncInterceptor.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcMethodAttributeProcUriMapper.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcRequest.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampRpcSerializer.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Client\WampServerProxyFactory.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\IWampRpcMetadata.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\IWampRpcMetadataCatalog.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\IWampRpcMethod.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\MethodInfoWampRpcMetadata.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\MethodInfoWampRpcMethod.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\ProcUriAlreadyMappedException.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\WampRpcMetadataCatalog.cs" />
-    <Compile Include="WAMP1\V1\Rpc\Server\WampRpcServer.cs" />
-    <Compile Include="WAMP1\V1\Rpc\WampRpcCallException.cs" />
-    <Compile Include="WAMP1\V1\Rpc\WampRpcMethodAttribute.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WampSharp\WampSharp.csproj">
-      <Project>{653A76DC-00D7-4EFF-A25E-2FA10C5C927D}</Project>
-      <Name>WampSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -181,11 +37,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <ProjectReference Include="..\WampSharp\WampSharp.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
 </Project>

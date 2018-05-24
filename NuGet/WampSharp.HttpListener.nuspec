@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>WampSharp.HttpListener</id>
@@ -18,5 +18,6 @@
   </metadata>
   <files>
     <file src="$bin$\net45\WampSharp.HttpListener.dll" target="lib\net45\WampSharp.HttpListener.dll" />
+    <file src="$bin$\net45\WampSharp.HttpListener.pdb" target="lib\net45\WampSharp.HttpListener.pdb" />
   </files>
 </package>

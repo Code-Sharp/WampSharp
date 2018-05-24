@@ -104,18 +104,21 @@ namespace WampSharp.V2.Client
 
         public void Abort(AbortDetails details, string reason)
         {
-            TrySetCloseEventArgs(SessionCloseType.Abort, details, reason);
-            mServerProxy.Dispose();
+            using (IDisposable proxy = mServerProxy as IDisposable)
+            {
+                TrySetCloseEventArgs(SessionCloseType.Abort, details, reason);
+            }
         }
 
         public void Goodbye(GoodbyeDetails details, string reason)
         {
-            if (!mGoodbyeSent)
+            using (IDisposable proxy = mServerProxy as IDisposable)
             {
-                mServerProxy.Goodbye(new GoodbyeDetails(), WampErrors.GoodbyeAndOut);
+                if (!mGoodbyeSent)
+                {
+                    mServerProxy.Goodbye(new GoodbyeDetails(), WampErrors.GoodbyeAndOut);
+                }
             }
-
-            mServerProxy.Dispose();
 
             TrySetCloseEventArgs(SessionCloseType.Goodbye, details, reason);
         }

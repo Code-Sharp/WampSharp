@@ -19,6 +19,7 @@
   </metadata>
   <files>
     <file src="$bin$\net45\WampSharp.SignalR.dll" target="lib\net45\WampSharp.SignalR.dll" />
+    <file src="$bin$\net45\WampSharp.SignalR.pdb" target="lib\net45\WampSharp.SignalR.pdb" />
     <file src="$bin$\net45\WampSharp.SignalR.xml" target="lib\net45\WampSharp.SignalR.xml" />
   </files>
 </package>

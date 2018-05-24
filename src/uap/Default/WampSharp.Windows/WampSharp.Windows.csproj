@@ -108,23 +108,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\WampSharp.Windows.rd.xml" />
-    <Compile Include="..\..\..\net45\Default\WampSharp.Windows\WAMP2\V2\Fluent\MessageWebSocketActivator.cs">
-      <Link>WAMP2\V2\Fluent\MessageWebSocketActivator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Default\WampSharp.Windows\WAMP2\V2\Fluent\MessageWebSocketChannelFactoryExtensions.cs">
-      <Link>WAMP2\V2\Fluent\MessageWebSocketChannelFactoryExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Default\WampSharp.Windows\Windows\MessageWebSocketConnection.cs">
-      <Link>Windows\MessageWebSocketConnection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Default\WampSharp.Windows\Windows\MessageWebSocketTextConnection.cs">
-      <Link>Windows\MessageWebSocketTextConnection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\net45\Default\WampSharp.Windows\Windows\MessageWebSocketBinaryConnection.cs">
-      <Link>Windows\MessageWebSocketBinaryConnection.cs</Link>
-    </Compile>
+    <Compile Include="..\..\..\net45\Default\WampSharp.Windows\**\*.cs" Exclude="..\..\..\net45\Default\WampSharp.Windows\**\bin\**;..\..\..\net45\Default\WampSharp.Windows\**\obj\**;" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">

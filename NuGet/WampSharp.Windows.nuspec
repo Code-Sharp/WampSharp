@@ -19,8 +19,10 @@
   </metadata>
   <files>
     <file src="$bin$\pcl\WampSharp.Windows.dll" target="lib\portable-win81+wpa81\WampSharp.Windows.dll" />
+    <file src="$bin$\pcl\WampSharp.Windows.pdb" target="lib\portable-win81+wpa81\WampSharp.Windows.pdb" />
     <file src="$bin$\pcl\WampSharp.Windows.xml" target="lib\portable-win81+wpa81\WampSharp.Windows.xml" />
     <file src="$bin$\uap10.0\WampSharp.Windows.dll" target="lib\uap10.0\WampSharp.Windows.dll" />
+    <file src="$bin$\uap10.0\WampSharp.Windows.pdb" target="lib\uap10.0\WampSharp.Windows.pdb" />
     <file src="$bin$\uap10.0\WampSharp.Windows.xml" target="lib\uap10.0\WampSharp.Windows.xml" />
   </files>
 </package>

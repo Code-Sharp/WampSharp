@@ -16,8 +16,7 @@ namespace WampSharp.V2.Core.Contracts
         IWampBrokerProxy<TMessage>, 
         IWampDealerProxy<TMessage>, 
         IWampSessionProxy,
-        IWampError<TMessage>,
-        IDisposable
+        IWampError<TMessage>
     {
     }
 }
