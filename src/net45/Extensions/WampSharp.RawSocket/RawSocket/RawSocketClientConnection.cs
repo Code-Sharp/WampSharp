@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Buffers;
 using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using SystemEx;
+using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
@@ -13,7 +13,8 @@ using WampSharp.V2.Binding.Parsers;
 
 namespace WampSharp.RawSocket
 {
-    public class RawSocketClientConnection<TMessage> : IControlledWampConnection<TMessage>
+    public class RawSocketClientConnection<TMessage> : IControlledWampConnection<TMessage>,
+        IAsyncDisposable
     {
         private readonly Func<TcpClient> mClientBuilder;
         private TcpClientConnection<TMessage> mConnection;
@@ -21,7 +22,7 @@ namespace WampSharp.RawSocket
         private readonly IWampStreamingMessageParser<TMessage> mParser;
         private readonly Handshaker mHandshaker = new Handshaker();
         private byte mMaxLength = 15;
-        private readonly ArrayPool<byte> mByteArrayPool = ArrayPool<byte>.Create();
+        private readonly RecyclableMemoryStreamManager mByteArrayPool = new RecyclableMemoryStreamManager();
         private TcpClient mClient;
         private readonly TimeSpan? mAutoPingInterval;
         private readonly ClientSslConfiguration mSslConfiguration;
@@ -99,14 +100,10 @@ namespace WampSharp.RawSocket
 
                 Stream stream = mClient.GetStream();
 
-                if (mSslConfiguration != null)
+                if (IsSecure)
                 {
-                    SslStream sslStream = new SslStream(stream);
-
-                    await sslStream.AuthenticateAsClientAsync(mSslConfiguration)
+                    stream = await GetSecureStream(stream)
                         .ConfigureAwait(false);
-
-                    stream = sslStream;
                 }
 
                 Handshake handshakeRequest = GetHandshakeRequest();
@@ -132,6 +129,22 @@ namespace WampSharp.RawSocket
             {
                 OnConnectionError(new WampConnectionErrorEventArgs(ex));
             }
+        }
+
+        private async Task<Stream> GetSecureStream(Stream stream)
+        {
+            SslStream sslStream = new SslStream(stream);
+
+            await sslStream.AuthenticateAsClientAsync(mSslConfiguration)
+                .ConfigureAwait(false);
+
+            stream = sslStream;
+            return stream;
+        }
+
+        private bool IsSecure
+        {
+            get { return mSslConfiguration != null; }
         }
 
         private Handshake GetHandshakeRequest()

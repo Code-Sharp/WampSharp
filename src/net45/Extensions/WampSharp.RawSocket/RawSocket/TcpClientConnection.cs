@@ -1,10 +1,10 @@
 using System;
-using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding.Parsers;
@@ -22,13 +22,18 @@ namespace WampSharp.RawSocket
         private readonly Stream mStream;
         private readonly long mMaxAllowedMessageSize;
         private readonly Handshake mHandshake;
-        private readonly ArrayPool<byte> mByteArrayPool;
-        private readonly SslConfiguration mSslConfiguration;
+        private readonly RecyclableMemoryStreamManager mByteArrayPool;
         private readonly PingPongHandler mPingPongHandler;
         private readonly Pinger mPinger;
 
         public TcpClientConnection
-        (TcpClient client, Stream stream, long maxAllowedMessageSize, Handshake handshake, IWampStreamingMessageParser<TMessage> binding, ArrayPool<byte> byteArrayPool, TimeSpan? autoPingInterval, SslConfiguration sslConfiguration = null)
+        (TcpClient client,
+            Stream stream,
+            long maxAllowedMessageSize,
+            Handshake handshake,
+            IWampStreamingMessageParser<TMessage> binding,
+            RecyclableMemoryStreamManager byteArrayPool,
+            TimeSpan? autoPingInterval)
         {
             mTcpClient = client;
             mStream = stream;
@@ -36,14 +41,13 @@ namespace WampSharp.RawSocket
             mHandshake = handshake;
             mBinding = binding;
             mByteArrayPool = byteArrayPool;
-            mSslConfiguration = sslConfiguration;
 
             mPinger = new Pinger(this);
 
             mPingPongHandler =
                 new PingPongHandler(mLogger,
-                                    mPinger,
-                                    autoPingInterval);
+                    mPinger,
+                    autoPingInterval);
         }
 
         protected override bool IsConnected
@@ -56,7 +60,7 @@ namespace WampSharp.RawSocket
 
         protected async override Task SendAsync(WampMessage<object> message)
         {
-            using (MemoryStream memoryStream = new MemoryStream())
+            using (MemoryStream memoryStream = mByteArrayPool.GetStream(Tag))
             {
                 memoryStream.Position = FrameHeaderSize;
 
@@ -85,8 +89,6 @@ namespace WampSharp.RawSocket
 
                 // Write the whole message to the wire
                 await Stream.WriteAsync(buffer, 0, totalMessageLength).ConfigureAwait(false);
-
-                mByteArrayPool.Return(buffer);
             }
         }
 
@@ -167,61 +169,68 @@ namespace WampSharp.RawSocket
 
         private async Task HandleWampMessage(int messageLength)
         {
-            byte[] buffer = await ReadStream(messageLength).ConfigureAwait(false);
+            using (MemoryStream stream = await ReadStream(messageLength).ConfigureAwait(false))
+            {
+                WampMessage<TMessage> parsed = mBinding.Parse(stream);
 
-            WampMessage<TMessage> parsed = mBinding.Parse(new MemoryStream(buffer));
-
-            mByteArrayPool.Return(buffer);
-
-            RaiseMessageArrived(parsed);
+                RaiseMessageArrived(parsed);
+            }
         }
 
-        private async Task<byte[]> ReadStream(int messageLength, int position = 0)
+        private async Task<MemoryStream> ReadStream(int messageLength, int position = 0)
         {
             int length = position + messageLength;
 
-            byte[] array = mByteArrayPool.Rent(length);
+            MemoryStream stream = mByteArrayPool.GetStream(Tag, length, true);
 
-            await Stream.ReadExactAsync(array, position, messageLength).ConfigureAwait(false);
+            byte[] buffer = stream.GetBuffer();
 
-            return array;
+            await TcpClient.GetStream()
+                .ReadExactAsync(buffer, position, messageLength)
+                .ConfigureAwait(false);
+
+            stream.SetLength(length);
+
+            stream.Position = 0;
+
+            return stream;
         }
 
         private async Task HandlePong(int messageLength)
         {
-            byte[] buffer = await ReadStream(messageLength).ConfigureAwait(false);
+            using (MemoryStream buffer = await ReadStream(messageLength).ConfigureAwait(false))
+            {
+                ArraySegment<byte> arraySegment =
+                    new ArraySegment<byte>(buffer.GetBuffer(), 0, messageLength);
 
-            ArraySegment<byte> arraySegment =
-                new ArraySegment<byte>(buffer, 0, messageLength);
-
-            mPinger.RaiseOnPong(arraySegment);
-
-            mByteArrayPool.Return(buffer);
+                mPinger.RaiseOnPong(arraySegment);
+            }
         }
 
         private async Task HandlePing(int messageLength)
         {
-            byte[] buffer = await ReadStream(messageLength, FrameHeaderSize).ConfigureAwait(false);
+            using (MemoryStream memoryStream = await ReadStream(messageLength, FrameHeaderSize).ConfigureAwait(false))
+            {
+                byte[] buffer = memoryStream.GetBuffer();
 
-            mFrameHeaderParser.WriteHeader(FrameType.Pong, messageLength, buffer);
+                mFrameHeaderParser.WriteHeader(FrameType.Pong, messageLength, buffer);
 
             Stream networkStream = Stream;
 
-            int frameSize = messageLength + FrameHeaderSize;
+                int frameSize = messageLength + FrameHeaderSize;
 
-            await networkStream.WriteAsync(buffer, 0, frameSize).ConfigureAwait(false);
-
-            mByteArrayPool.Return(buffer);
+                await networkStream.WriteAsync(buffer, 0, frameSize).ConfigureAwait(false);
+            }
         }
 
         private async Task SendPing(byte[] message)
         {
             int frameSize = message.Length + FrameHeaderSize;
 
-            byte[] buffer = mByteArrayPool.Rent(frameSize);
-
-            using (MemoryStream memoryStream = new MemoryStream(buffer))
+            using (MemoryStream memoryStream = mByteArrayPool.GetStream(Tag, frameSize, true))
             {
+                byte[] buffer = memoryStream.GetBuffer();
+
                 mFrameHeaderParser.WriteHeader(FrameType.Ping, message.Length, buffer);
                 memoryStream.SetLength(FrameHeaderSize);
                 memoryStream.Position = FrameHeaderSize;
@@ -230,8 +239,6 @@ namespace WampSharp.RawSocket
 
                 await Stream.WriteAsync(buffer, 0, frameSize).ConfigureAwait(false);
             }
-
-            mByteArrayPool.Return(buffer);
         }
 
         internal class Pinger : IPinger
