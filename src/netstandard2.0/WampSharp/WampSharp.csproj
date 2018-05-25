@@ -15,7 +15,7 @@
   </ItemGroup>
   
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <DefineConstants>$(DefineConstants);NET45;NETCORE;PCL;CASTLE;LIBLOG_PUBLIC;LIBLOG_PORTABLE;TPL;ASYNC_LOCAL;ASYNC;WAMPCRA</DefineConstants>
+    <DefineConstants>$(DefineConstants);NET45;CASTLE;LIBLOG_PUBLIC;TPL;ASYNC_LOCAL;ASYNC;WAMPCRA</DefineConstants>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">

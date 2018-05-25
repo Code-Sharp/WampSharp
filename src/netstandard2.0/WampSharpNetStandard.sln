@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Fleck", "Default\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Default.Router", "WampSharp.Default.Router\WampSharp.Default.Router.csproj", "{4A205F41-22AE-4291-BE32-0DE29E27B7A9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WAMP1.Default", "WampSharp.WAMP1.Default\WampSharp.WAMP1.Default.csproj", "{BE4DAF18-756E-41CB-B350-969B3CA5CF25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{4A205F41-22AE-4291-BE32-0DE29E27B7A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A205F41-22AE-4291-BE32-0DE29E27B7A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A205F41-22AE-4291-BE32-0DE29E27B7A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE4DAF18-756E-41CB-B350-969B3CA5CF25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE4DAF18-756E-41CB-B350-969B3CA5CF25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE4DAF18-756E-41CB-B350-969B3CA5CF25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE4DAF18-756E-41CB-B350-969B3CA5CF25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
