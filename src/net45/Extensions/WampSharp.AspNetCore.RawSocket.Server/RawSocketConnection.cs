@@ -45,7 +45,9 @@ namespace WampSharp.AspNetCore.RawSocket
             {
                 while (mIsConnected)
                 {
-                    ReadResult result = await Reader.ReadAsync();
+                    ReadResult result = await Reader.ReadAsync()
+                                                    .ConfigureAwait(false);
+
                     ReadOnlySequence<byte> buffer = result.Buffer;
 
                     try
