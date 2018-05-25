@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard1.4</TargetFramework>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -24,6 +24,7 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="1.2.2" />
+    <PackageReference Include="System.Net.Security" Version="4.3.2" />
   </ItemGroup>
 
 </Project>

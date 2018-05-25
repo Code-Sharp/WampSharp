@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -30,5 +31,17 @@ namespace WampSharp.RawSocket
                 currentPosition += currentlyRead;
             }
         }
+
+#if NETSTANDARD1_4
+
+        // TODO: Move to a different class
+        public static byte[] GetBuffer(this MemoryStream stream)
+        {
+            ArraySegment<byte> result;
+            stream.TryGetBuffer(out result);
+            return result.Array;
+        }
+
+#endif
     }
 }

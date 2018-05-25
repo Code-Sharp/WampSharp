@@ -17,6 +17,7 @@
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="Microsoft.IO.RecyclableMemoryStream" version="1.2.2" />
         <dependency id="System.Net.Sockets" version="4.3.0" />
+        <dependency id="System.Net.Security" version="4.3.2" />
       </group>
       <group targetFramework=".NETStandard2.0">
         <dependency id="WampSharp" version="[$version$]" />
