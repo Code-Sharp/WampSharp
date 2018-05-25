@@ -13,16 +13,20 @@ namespace WampSharp.AspNetCore.RawSocket
 {
     public class RawSocketConnection<TMessage> : AsyncWampConnection<TMessage>
     {
-        private readonly PipeReader mReader;
         private readonly ConnectionContext mConnection;
+
         protected const int FrameHeaderSize = 4;
+
         protected readonly RawSocketFrameHeaderParser mFrameHeaderParser = new RawSocketFrameHeaderParser();
+
         private readonly int mMaxAllowedMessageSize;
+
         private IWampStreamingMessageParser<TMessage> mParser;
 
-        public RawSocketConnection(SocketData connection, PipeReader reader, IWampStreamingMessageParser<TMessage> parser)
+        private bool mIsConnected = true;
+
+        public RawSocketConnection(SocketData connection, IWampStreamingMessageParser<TMessage> parser)
         {
-            mReader = reader;
             mParser = parser;
             mConnection = connection.ConnectionContext;
             mMaxAllowedMessageSize = connection.Handshake.MaxMessageSizeInBytes;
@@ -37,29 +41,59 @@ namespace WampSharp.AspNetCore.RawSocket
 
         public async Task RunAsync()
         {
-            while (true)
+            try
             {
-                ReadResult readResult =
-                    await mReader.ReadAsync().ConfigureAwait(false);
-
-                ReadOnlySequence<byte> headerBytes =
-                    readResult.Buffer.Slice(0, FrameHeaderSize);
-
-                FrameType frameType;
-                int messageLength;
-
-                if (mFrameHeaderParser.TryParse(headerBytes, out frameType, out messageLength) &&
-                    (messageLength <= mMaxAllowedMessageSize))
+                while (mIsConnected)
                 {
-                    ReadOnlySequence<byte> frameContent = 
-                        readResult.Buffer.Slice(FrameHeaderSize, messageLength);
+                    ReadResult result = await Reader.ReadAsync();
+                    ReadOnlySequence<byte> buffer = result.Buffer;
 
-                    HandleFrame(frameType, frameContent);
-                }
-                else
-                {
+                    try
+                    {
+                        if (result.IsCanceled || result.IsCompleted)
+                        {
+                            mIsConnected = false;
+                        }
 
+                        if (!buffer.IsEmpty)
+                        {
+                            ProcessBuffer(buffer);
+                        }
+                    }
+                    finally
+                    {
+                        Reader.AdvanceTo(buffer.End);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                RaiseConnectionError(ex);
+            }
+
+            Reader.Complete();
+            RaiseConnectionClosed();
+        }
+
+        private void ProcessBuffer(in ReadOnlySequence<byte> buffer)
+        {
+            ReadOnlySequence<byte> headerBytes =
+                buffer.Slice(0, FrameHeaderSize);
+
+            FrameType frameType;
+            int messageLength;
+
+            if (mFrameHeaderParser.TryParse(headerBytes, out frameType, out messageLength) &&
+                (messageLength <= mMaxAllowedMessageSize))
+            {
+                ReadOnlySequence<byte> frameContent =
+                    buffer.Slice(FrameHeaderSize, messageLength);
+
+                HandleFrame(frameType, frameContent);
+            }
+            else
+            {
+
             }
         }
 
@@ -79,15 +113,16 @@ namespace WampSharp.AspNetCore.RawSocket
             RaiseMessageArrived(parsed);
         }
 
-
-        protected WampMessage<TMessage> ParseMessage(ReadOnlySequence<byte> messageInBytes)
+        // TODO: improve this.
+        private WampMessage<TMessage> ParseMessage(ReadOnlySequence<byte> messageInBytes)
         {
             byte[] buffer = messageInBytes.ToArray();
             MemoryStream memoryStream = new MemoryStream(buffer);
             return mParser.Parse(memoryStream);
         }
 
-        protected ReadOnlyMemory<byte> GetBytes(WampMessage<object> message)
+        // TODO: improve this.
+        private ReadOnlyMemory<byte> GetBytes(WampMessage<object> message)
         {
             int headerSize = FrameHeaderSize;
 
@@ -106,15 +141,24 @@ namespace WampSharp.AspNetCore.RawSocket
 
         protected override void Dispose()
         {
-            // TODO
+            Reader.CancelPendingRead();
+            Reader.Complete();
+            mConnection.Transport.Output.Complete();
         }
 
         protected override bool IsConnected
         {
             get
             {
-                // TODO
-                return true;
+                return mIsConnected;
+            }
+        }
+
+        private PipeReader Reader
+        {
+            get
+            {
+                return mConnection.Transport.Input;
             }
         }
     }

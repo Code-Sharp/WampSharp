@@ -11,12 +11,17 @@ using WampSharp.V2.Transports;
 
 namespace WampSharp.AspNetCore.RawSocket
 {
-    public class SocketTransport : WebSocketTransport<SocketData>
+    public class AspNetCoreRawSocketTransport : WebSocketTransport<SocketData>
     {
         private Func<ConnectionContext, Func<Task>, Task> mHandler;
         private readonly Handshaker mHandshaker = new Handshaker();
 
-        public SocketTransport
+        public byte MaxSize
+        {
+            get;
+        }
+
+        public AspNetCoreRawSocketTransport
         (IConnectionBuilder app, byte maxSize = 15, ICookieAuthenticatorFactory authenticatorFactory = null) :
             base(authenticatorFactory)
         {
@@ -27,10 +32,10 @@ namespace WampSharp.AspNetCore.RawSocket
 
             MaxSize = maxSize;
             mHandler = this.EmptyHandler;
-            app.Use(HttpHandler);
+            app.Use(ConnectionHandler);
         }
 
-        private Task HttpHandler(ConnectionContext context, Func<Task> next)
+        private Task ConnectionHandler(ConnectionContext context, Func<Task> next)
         {
             return mHandler(context, next);
         }
@@ -70,7 +75,7 @@ namespace WampSharp.AspNetCore.RawSocket
 
         private static IWampConnection<TMessage> CreateConnection<TMessage>(SocketData connection, IWampStreamingMessageParser<TMessage> binding)
         {
-            return new RawSocketConnection<TMessage>(connection, connection.Reader, binding);
+            return new RawSocketConnection<TMessage>(connection, binding);
         }
 
         public override void Open()
@@ -80,47 +85,35 @@ namespace WampSharp.AspNetCore.RawSocket
 
         private async Task EmptyHandler(ConnectionContext connectionContext, Func<Task> next)
         {
-            await next();
+            await next().ConfigureAwait(false);
         }
 
         private async Task RawSocketHandler(ConnectionContext connectionContext, Func<Task> next)
         {
             PipeReader input = connectionContext.Transport.Input;
 
-            try
+            Handshake handshake = await mHandshaker.GetHandshakeMessage(input)
+                                                   .ConfigureAwait(false);
+
+            // If we did not get the magic octet, it is probably an HTTP request.
+            if (handshake == null)
             {
-                Handshake handshake = await mHandshaker.GetHandshakeMessage(input)
-                                                       .ConfigureAwait(false);
-
-                // If we did not get the magic octet, it is probably an HTTP request.
-                if (handshake == null)
-                {
-                    await next();
-                }
-                else
-                {
-                    Handshake response = handshake.GetHandshakeResponse(SubProtocols, MaxSize);
-
-                    await mHandshaker.SendHandshake(connectionContext.Transport.Output,
-                                                    response)
-                                     .ConfigureAwait(false);
-
-                    SocketData socketData = new SocketData(connectionContext, handshake, response, input);
-
-                    OnNewConnection(socketData);
-
-                    await socketData.ReadTask.ConfigureAwait(false);
-                }
+                await next().ConfigureAwait(false);
             }
-            catch
+            else
             {
+                Handshake response = handshake.GetHandshakeResponse(SubProtocols, MaxSize);
 
+                await mHandshaker.SendHandshake(connectionContext.Transport.Output,
+                                                response)
+                                 .ConfigureAwait(false);
+
+                SocketData socketData = new SocketData(connectionContext, handshake, response, input);
+
+                OnNewConnection(socketData);
+
+                await socketData.ReadTask.ConfigureAwait(false);
             }
-        }
-
-        public byte MaxSize
-        {
-            get;
         }
     }
 }
