@@ -185,7 +185,7 @@ namespace WampSharp.RawSocket
 
             byte[] buffer = stream.GetBuffer();
 
-            await TcpClient.GetStream()
+            await Stream
                 .ReadExactAsync(buffer, position, messageLength)
                 .ConfigureAwait(false);
 
