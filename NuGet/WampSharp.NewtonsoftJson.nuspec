@@ -5,6 +5,10 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
+      <group targetFramework="net46">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Newtonsoft.Json" version="[6.0.5, )" />
+      </group>
       <group targetFramework="net45">
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="Newtonsoft.Json" version="[6.0.5, )" />
@@ -42,6 +46,9 @@
     <tags>websockets wampws rpc pubsub newtonsoft json wampv1 wampv2</tags>
   </metadata>
   <files>
+    <file src="$bin$\net46\WampSharp.NewtonsoftJson.dll" target="lib\net46\WampSharp.NewtonsoftJson.dll" />
+    <file src="$bin$\net46\WampSharp.NewtonsoftJson.pdb" target="lib\net46\WampSharp.NewtonsoftJson.pdb" />
+    <file src="$bin$\net46\WampSharp.NewtonsoftJson.xml" target="lib\net46\WampSharp.NewtonsoftJson.xml" />
     <file src="$bin$\net45\WampSharp.NewtonsoftJson.dll" target="lib\net45\WampSharp.NewtonsoftJson.dll" />
     <file src="$bin$\net45\WampSharp.NewtonsoftJson.pdb" target="lib\net45\WampSharp.NewtonsoftJson.pdb" />
     <file src="$bin$\net45\WampSharp.NewtonsoftJson.xml" target="lib\net45\WampSharp.NewtonsoftJson.xml" />

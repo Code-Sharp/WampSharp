@@ -9,9 +9,13 @@
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="vtortola.WebSocketListener" version="[2.2.2]" />
       </group>
+      <group targetFramework="net461">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="vtortola.WebSocketListener" version="[3.0.0]" />
+      </group>
       <group targetFramework="netstandard2.0">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="vtortola.WebSocketListener" version="[3.0.0-beta]" />
+        <dependency id="vtortola.WebSocketListener" version="[3.0.0]" />
       </group>
     </dependencies>
     <id>WampSharp.Vtortola</id>
@@ -22,6 +26,9 @@
     <tags>websockets wampws rpc pubsub vtortola wampv2</tags>
   </metadata>
   <files>
+    <file src="$bin$\net46\WampSharp.Vtortola.dll" target="lib\net461\WampSharp.Vtortola.dll" />
+    <file src="$bin$\net46\WampSharp.Vtortola.pdb" target="lib\net461\WampSharp.Vtortola.pdb" />
+    <file src="$bin$\net46\WampSharp.Vtortola.xml" target="lib\net461\WampSharp.Vtortola.xml" />
     <file src="$bin$\net45\WampSharp.Vtortola.dll" target="lib\net45\WampSharp.Vtortola.dll" />
     <file src="$bin$\net45\WampSharp.Vtortola.pdb" target="lib\net45\WampSharp.Vtortola.pdb" />
     <file src="$bin$\net45\WampSharp.Vtortola.xml" target="lib\net45\WampSharp.Vtortola.xml" />

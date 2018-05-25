@@ -5,13 +5,17 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
+      <group targetFramework="net46">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="1.2.2" />
+      </group>
       <group targetFramework="net45">
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="Microsoft.IO.RecyclableMemoryStream" version="1.2.2" />
       </group>
       <group targetFramework=".NETStandard1.4">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="4.3.0" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="1.2.2" />
         <dependency id="System.Net.Sockets" version="4.3.0" />
       </group>
       <group targetFramework=".NETStandard2.0">
@@ -27,6 +31,9 @@
     <tags>websockets wampws rpc pubsub supersocket wampv2 rawsocket</tags>
   </metadata>
   <files>
+    <file src="$bin$\net46\WampSharp.RawSocket.dll" target="lib\net46\WampSharp.RawSocket.dll" />
+    <file src="$bin$\net46\WampSharp.RawSocket.pdb" target="lib\net46\WampSharp.RawSocket.pdb" />
+    <file src="$bin$\net46\WampSharp.RawSocket.xml" target="lib\net46\WampSharp.RawSocket.xml" />
     <file src="$bin$\net45\WampSharp.RawSocket.dll" target="lib\net45\WampSharp.RawSocket.dll" />
     <file src="$bin$\net45\WampSharp.RawSocket.pdb" target="lib\net45\WampSharp.RawSocket.pdb" />
     <file src="$bin$\net45\WampSharp.RawSocket.xml" target="lib\net45\WampSharp.RawSocket.xml" />

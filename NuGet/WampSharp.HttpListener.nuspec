@@ -10,6 +10,10 @@
     <description>WampSharp ASP.NET WebSockets support</description>
     <tags>websockets,wampws,rpc,pubsub,wampv1,wampv2,httplistener</tags>
     <dependencies>
+      <group targetFramework="net46">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="WampSharp.WebSockets" version="[$version$]" />
+      </group>
       <group targetFramework="net45">
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WampSharp.WebSockets" version="[$version$]" />
@@ -19,5 +23,7 @@
   <files>
     <file src="$bin$\net45\WampSharp.HttpListener.dll" target="lib\net45\WampSharp.HttpListener.dll" />
     <file src="$bin$\net45\WampSharp.HttpListener.pdb" target="lib\net45\WampSharp.HttpListener.pdb" />
+    <file src="$bin$\net46\WampSharp.HttpListener.dll" target="lib\net46\WampSharp.HttpListener.dll" />
+    <file src="$bin$\net46\WampSharp.HttpListener.pdb" target="lib\net46\WampSharp.HttpListener.pdb" />
   </files>
 </package>

@@ -5,6 +5,10 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
+      <group targetFramework="net46">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="WebSocket4Net" version="[0.15.2, )" />
+      </group>
       <group targetFramework="net45">
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WebSocket4Net" version="[0.15.2, )" />
@@ -34,6 +38,9 @@
     <tags>websockets wampws rpc pubsub websocket4net wampv1 wampv2</tags>
   </metadata>
   <files>
+    <file src="$bin$\net46\WampSharp.WebSocket4Net.dll" target="lib\net46\WampSharp.WebSocket4Net.dll" />
+    <file src="$bin$\net46\WampSharp.WebSocket4Net.pdb" target="lib\net46\WampSharp.WebSocket4Net.pdb" />
+    <file src="$bin$\net46\WampSharp.WebSocket4Net.xml" target="lib\net46\WampSharp.WebSocket4Net.xml" />
     <file src="$bin$\net45\WampSharp.WebSocket4Net.dll" target="lib\net45\WampSharp.WebSocket4Net.dll" />
     <file src="$bin$\net45\WampSharp.WebSocket4Net.pdb" target="lib\net45\WampSharp.WebSocket4Net.pdb" />
     <file src="$bin$\net45\WampSharp.WebSocket4Net.xml" target="lib\net45\WampSharp.WebSocket4Net.xml" />

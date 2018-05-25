@@ -5,6 +5,10 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
+      <group targetFramework="net46">
+        <dependency id="WampSharp.Default.Client" version="[$version$]" />
+        <dependency id="WampSharp.Default.Router" version="[$version$]" />
+      </group>
       <group targetFramework="net45">
         <dependency id="WampSharp.Default.Client" version="[$version$]" />
         <dependency id="WampSharp.Default.Router" version="[$version$]" />
@@ -21,6 +25,7 @@
       </group>
       <group targetFramework=".NETStandard2.0">
         <dependency id="WampSharp.Default.Client" version="[$version$]" />
+        <dependency id="WampSharp.Default.Router" version="[$version$]" />
       </group>
       <group targetFramework="Xamarin.iOS10">
         <dependency id="WampSharp.Default.Client" version="[$version$]" />

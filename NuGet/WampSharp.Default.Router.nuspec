@@ -17,6 +17,9 @@
     <tags>websockets wampws rpc pubsub fleck newtonsoft json msgpack wampv2</tags>
   </metadata>
   <files>
+    <file src="$bin$\net46\WampSharp.Default.Router.dll" target="lib\net46\WampSharp.Default.Router.dll" />
+    <file src="$bin$\net46\WampSharp.Default.Router.pdb" target="lib\net46\WampSharp.Default.Router.pdb" />
+    <file src="$bin$\net46\WampSharp.Default.Router.xml" target="lib\net46\WampSharp.Default.Router.xml" />
     <file src="$bin$\net45\WampSharp.Default.Router.dll" target="lib\net45\WampSharp.Default.Router.dll" />
     <file src="$bin$\net45\WampSharp.Default.Router.pdb" target="lib\net45\WampSharp.Default.Router.pdb" />
     <file src="$bin$\net45\WampSharp.Default.Router.xml" target="lib\net45\WampSharp.Default.Router.xml" />

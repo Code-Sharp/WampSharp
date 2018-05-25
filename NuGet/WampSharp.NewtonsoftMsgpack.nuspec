@@ -5,6 +5,11 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
+      <group targetFramework="net46">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
+        <dependency id="Newtonsoft.Msgpack" version="[0.1.10,)" />
+      </group>
       <group targetFramework="net45">
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WampSharp.NewtonsoftJson" version="[$version$]" />
@@ -34,6 +39,9 @@
     <tags>websockets wampws rpc pubsub newtonsoft msgpack wampv2</tags>
   </metadata>
   <files>
+    <file src="$bin$\net46\WampSharp.NewtonsoftMsgpack.dll" target="lib\net46\WampSharp.NewtonsoftMsgpack.dll" />
+    <file src="$bin$\net46\WampSharp.NewtonsoftMsgpack.pdb" target="lib\net46\WampSharp.NewtonsoftMsgpack.pdb" />
+    <file src="$bin$\net46\WampSharp.NewtonsoftMsgpack.xml" target="lib\net46\WampSharp.NewtonsoftMsgpack.xml" />
     <file src="$bin$\net45\WampSharp.NewtonsoftMsgpack.dll" target="lib\net45\WampSharp.NewtonsoftMsgpack.dll" />
     <file src="$bin$\net45\WampSharp.NewtonsoftMsgpack.pdb" target="lib\net45\WampSharp.NewtonsoftMsgpack.pdb" />
     <file src="$bin$\net45\WampSharp.NewtonsoftMsgpack.xml" target="lib\net45\WampSharp.NewtonsoftMsgpack.xml" />
