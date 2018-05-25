@@ -12,7 +12,7 @@ namespace WampSharp.RawSocket
         /// <param name="serializerType">The serializer type.</param>
         public Handshake(byte maxLength, SerializerType serializerType)
         {
-            MagicOctect = 0x7F;
+            MagicOctet = 0x7F;
 
             if (maxLength >= 16)
             {
@@ -25,12 +25,12 @@ namespace WampSharp.RawSocket
                 throw new ArgumentException("Expected a value between 1 to 2", "serializerType");
             }
 
-            SecondOctect = (byte) ((maxLength << 4) + (byte)serializerType);
+            SecondOctet = (byte) ((maxLength << 4) + (byte)serializerType);
         }
 
         public Handshake(HandshakeErrorCode errorCode)
         {
-            MagicOctect = 0x7F;
+            MagicOctet = 0x7F;
 
             if (errorCode == HandshakeErrorCode.Illegal)
             {
@@ -38,7 +38,7 @@ namespace WampSharp.RawSocket
                                             "errorCode");
             }
 
-            SecondOctect = (byte)(((byte)errorCode) << 4);
+            SecondOctet = (byte)(((byte)errorCode) << 4);
         }
 
         public Handshake(byte[] message)
@@ -48,34 +48,34 @@ namespace WampSharp.RawSocket
                 throw new ArgumentException("Expected a 4 length byte array.", "message");
             }
 
-            MagicOctect = message[0];
+            MagicOctet = message[0];
 
-            if (MagicOctect != 0x7F)
+            if (MagicOctet != 0x7F)
             {
-                throw new ArgumentException("First octect must be 0x7F.", "message");
+                throw new ArgumentException("First octet must be 0x7F.", "message");
             }
 
-            SecondOctect = message[1];
+            SecondOctet = message[1];
 
-            ReservedOctects = BitConverter.ToInt16(message, 2);
+            ReservedOctets = BitConverter.ToInt16(message, 2);
         }
 
         // Should be 0x7F
-        public byte MagicOctect { get; set; }
+        public byte MagicOctet { get; set; }
 
-        public byte SecondOctect { get; set; }
+        public byte SecondOctet { get; set; }
 
-        public short ReservedOctects { get; set; }
+        public short ReservedOctets { get; set; }
 
         public int MaxMessageSizeInBytes
         {
             get
             {
-                // 0 - (1 << 9) octects
-                // 1 - (1 << 10) octects
+                // 0 - (1 << 9) octets
+                // 1 - (1 << 10) octets
                 // ...
-                // 15 - (1 << 24) octects
-                int sizeHalfByte = SecondOctect >> 4;
+                // 15 - (1 << 24) octets
+                int sizeHalfByte = SecondOctet >> 4;
                 int size = sizeHalfByte + 9;
                 return 1 << size;
             }
@@ -85,7 +85,7 @@ namespace WampSharp.RawSocket
         {
             get
             {
-                int serializerHalfByte = SecondOctect & 0x0F;
+                int serializerHalfByte = SecondOctet & 0x0F;
                 return (SerializerType) serializerHalfByte;
             }
         }
@@ -99,7 +99,7 @@ namespace WampSharp.RawSocket
                     return null;
                 }
 
-                int errorHalfByte = SecondOctect >> 4;
+                int errorHalfByte = SecondOctet >> 4;
 
                 return (HandshakeErrorCode) errorHalfByte;
             }
@@ -115,10 +115,10 @@ namespace WampSharp.RawSocket
 
         public byte[] ToArray()
         {
-            byte[] firstOctects = {MagicOctect, SecondOctect};
-            byte[] reservedBytes = BitConverter.GetBytes(ReservedOctects);
+            byte[] firstOctets = {MagicOctet, SecondOctet};
+            byte[] reservedBytes = BitConverter.GetBytes(ReservedOctets);
 
-            return firstOctects.Concat(reservedBytes).ToArray();
+            return firstOctets.Concat(reservedBytes).ToArray();
         }
 
         public Handshake GetAcceptedResponse(byte maxLength)
@@ -129,6 +129,26 @@ namespace WampSharp.RawSocket
         public Handshake GetErrorResponse(HandshakeErrorCode errorCode)
         {
             return new Handshake(errorCode);
+        }
+
+        public static bool TryParse(byte[] message, out Handshake result)
+        {
+            result = default(Handshake);
+
+            if (message == null || message.Length != 4)
+            {
+                throw new ArgumentException("Expected a 4 length byte array.", "message");
+            }
+
+            var magicOctet = message[0];
+
+            if (magicOctet != 0x7F)
+            {
+                return false;
+            }
+
+            result = new Handshake(message);
+            return true;
         }
     }
 }

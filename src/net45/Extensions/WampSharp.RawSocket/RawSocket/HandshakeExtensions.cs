@@ -8,7 +8,7 @@ namespace WampSharp.RawSocket
         {
             Handshake handshakeResponse;
 
-            if (handshakeRequest.ReservedOctects != 0)
+            if (handshakeRequest.ReservedOctets != 0)
             {
                 handshakeResponse = new Handshake(HandshakeErrorCode.UseOfReservedBits);
             }

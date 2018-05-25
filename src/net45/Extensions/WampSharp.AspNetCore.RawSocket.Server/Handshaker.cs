@@ -11,10 +11,20 @@ namespace WampSharp.AspNetCore.RawSocket
         {
             ReadResult readAsync = await input.ReadAsync().ConfigureAwait(false);
             ReadOnlySequence<byte> handshakeBytes = readAsync.Buffer.Slice(0, 4);
-            Handshake handshake = new Handshake(handshakeBytes.ToArray());
-            input.AdvanceTo(readAsync.Buffer.GetPosition(4));
 
-            return handshake;
+            Handshake result;
+
+            if (Handshake.TryParse(handshakeBytes.ToArray(), out result))
+            {
+                input.AdvanceTo(readAsync.Buffer.GetPosition(4));
+                return result;
+            }
+            else
+            {
+                input.AdvanceTo(readAsync.Buffer.GetPosition(0));
+            }
+
+            return null;
         }
 
         public async Task SendHandshake(PipeWriter output, Handshake response)

@@ -89,26 +89,28 @@ namespace WampSharp.AspNetCore.RawSocket
 
             try
             {
-                var handshake = await mHandshaker.GetHandshakeMessage(input)
-                    .ConfigureAwait(false);
+                Handshake handshake = await mHandshaker.GetHandshakeMessage(input)
+                                                       .ConfigureAwait(false);
 
-                // TODO: check the magic octect
+                // If we did not get the magic octet, it is probably an HTTP request.
+                if (handshake == null)
+                {
+                    await next();
+                }
+                else
+                {
+                    Handshake response = handshake.GetHandshakeResponse(SubProtocols, MaxSize);
 
-                Handshake response = handshake.GetHandshakeResponse(SubProtocols, MaxSize);
+                    await mHandshaker.SendHandshake(connectionContext.Transport.Output,
+                                                    response)
+                                     .ConfigureAwait(false);
 
-                await mHandshaker.SendHandshake(connectionContext.Transport.Output,
-                                                response)
-                                 .ConfigureAwait(false);
+                    SocketData socketData = new SocketData(connectionContext, handshake, response, input);
 
-                SocketData socketData = new SocketData(connectionContext, handshake, response, input);
+                    OnNewConnection(socketData);
 
-                OnNewConnection(socketData);
-
-                await socketData.ReadTask.ConfigureAwait(false);
-
-                return;
-
-                await next();
+                    await socketData.ReadTask.ConfigureAwait(false);
+                }
             }
             catch
             {
