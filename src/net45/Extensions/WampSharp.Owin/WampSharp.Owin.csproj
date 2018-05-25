@@ -32,17 +32,10 @@
     <DocumentationFile>bin\Release\WampSharp.Owin.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
-    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj" />
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
     <ProjectReference Include="..\WampSharp.WebSockets\WampSharp.WebSockets.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Owin" Version="3.0.1" />
-    <PackageReference Include="Owin" Version="1.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
 </Project>

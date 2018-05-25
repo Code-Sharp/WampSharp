@@ -31,8 +31,4 @@
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
     <ProjectReference Include="..\WampSharp.WebSockets\WampSharp.WebSockets.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
 </Project>

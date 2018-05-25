@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+    <PackageReference Include="Moq" Version="4.8.2" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
+    <ProjectReference Include="..\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj" />
+    <ProjectReference Include="..\..\WampSharp.WAMP1\WampSharp.WAMP1.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests\**\*.cs" Exclude="..\..\..\net45\Tests\WampSharp.Tests\**\bin\**;..\..\..\net45\Tests\WampSharp.Tests\**\obj\**;" />
+  </ItemGroup>
+</Project>

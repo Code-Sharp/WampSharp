@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\**\*.cs" Exclude="..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\**\bin\**;..\..\..\net45\Tests\WampSharp.Tests.TestHelpers\**\obj\**;" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
+    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
+  </ItemGroup>
+
+</Project>
