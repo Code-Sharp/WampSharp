@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WAMP1", "WampShar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Vtortola", "Extensions\WampSharp.Vtortola\WampSharp.Vtortola.csproj", "{5F6B51F6-1DA9-4D16-AEBD-BEC5F0E8E84D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.AspNetCore.RawSocket.Server", "Extensions\WampSharp.AspNetCore.RawSocket.Server\WampSharp.AspNetCore.RawSocket.Server.csproj", "{4ADB721F-9B09-4CA3-93E2-162DEEFD78A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{5F6B51F6-1DA9-4D16-AEBD-BEC5F0E8E84D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F6B51F6-1DA9-4D16-AEBD-BEC5F0E8E84D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F6B51F6-1DA9-4D16-AEBD-BEC5F0E8E84D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ADB721F-9B09-4CA3-93E2-162DEEFD78A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ADB721F-9B09-4CA3-93E2-162DEEFD78A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ADB721F-9B09-4CA3-93E2-162DEEFD78A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ADB721F-9B09-4CA3-93E2-162DEEFD78A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +107,7 @@ Global
 		{78C4FB25-2EEA-4178-9D2E-447215A09A70} = {72E8F565-788F-4A29-8919-7F3F001C6FC9}
 		{0A538377-4E4D-40B7-91D0-3E57AC40FE47} = {E3EAE72D-738A-4179-8A22-50D58A91AD04}
 		{5F6B51F6-1DA9-4D16-AEBD-BEC5F0E8E84D} = {E3EAE72D-738A-4179-8A22-50D58A91AD04}
+		{4ADB721F-9B09-4CA3-93E2-162DEEFD78A9} = {E3EAE72D-738A-4179-8A22-50D58A91AD04}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C83357C-2ED0-48F8-8468-E6531D94FBA3}

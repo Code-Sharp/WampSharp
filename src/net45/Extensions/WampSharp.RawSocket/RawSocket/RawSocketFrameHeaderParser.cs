@@ -2,7 +2,7 @@ using System;
 
 namespace WampSharp.RawSocket
 {
-    internal class RawSocketFrameHeaderParser
+    public class RawSocketFrameHeaderParser
     {
         public void Parse(byte[] headerBytes, out FrameType frameType, out int messageLength)
         {
