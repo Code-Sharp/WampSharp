@@ -36,7 +36,7 @@ namespace WampSharp.AspNetCore.RawSocket
         {
             ReadOnlyMemory<byte> bytes = GetBytes(message);
             
-            await mConnection.Transport.Output.WriteAsync(bytes).ConfigureAwait(false);
+            await Writer.WriteAsync(bytes).ConfigureAwait(false);
         }
 
         public async Task RunAsync()
@@ -71,7 +71,6 @@ namespace WampSharp.AspNetCore.RawSocket
                 RaiseConnectionError(ex);
             }
 
-            Reader.Complete();
             RaiseConnectionClosed();
         }
 
@@ -143,7 +142,7 @@ namespace WampSharp.AspNetCore.RawSocket
         {
             Reader.CancelPendingRead();
             Reader.Complete();
-            mConnection.Transport.Output.Complete();
+            Writer.Complete();
         }
 
         protected override bool IsConnected
@@ -159,6 +158,14 @@ namespace WampSharp.AspNetCore.RawSocket
             get
             {
                 return mConnection.Transport.Input;
+            }
+        }
+
+        private PipeWriter Writer
+        {
+            get
+            {
+                return mConnection.Transport.Output;
             }
         }
     }
