@@ -33,6 +33,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WAMP1", "WampShar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Vtortola", "Extensions\WampSharp.Vtortola\WampSharp.Vtortola.csproj", "{5F6B51F6-1DA9-4D16-AEBD-BEC5F0E8E84D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Fleck", "Default\WampSharp.Fleck\WampSharp.Fleck.csproj", "{A089E5B3-A463-4F28-AB7A-536D76F9AD87}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Default.Router", "WampSharp.Default.Router\WampSharp.Default.Router.csproj", "{4A205F41-22AE-4291-BE32-0DE29E27B7A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +91,14 @@ Global
 		{5F6B51F6-1DA9-4D16-AEBD-BEC5F0E8E84D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F6B51F6-1DA9-4D16-AEBD-BEC5F0E8E84D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F6B51F6-1DA9-4D16-AEBD-BEC5F0E8E84D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A089E5B3-A463-4F28-AB7A-536D76F9AD87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A089E5B3-A463-4F28-AB7A-536D76F9AD87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A089E5B3-A463-4F28-AB7A-536D76F9AD87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A089E5B3-A463-4F28-AB7A-536D76F9AD87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A205F41-22AE-4291-BE32-0DE29E27B7A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A205F41-22AE-4291-BE32-0DE29E27B7A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A205F41-22AE-4291-BE32-0DE29E27B7A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A205F41-22AE-4291-BE32-0DE29E27B7A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +113,7 @@ Global
 		{78C4FB25-2EEA-4178-9D2E-447215A09A70} = {72E8F565-788F-4A29-8919-7F3F001C6FC9}
 		{0A538377-4E4D-40B7-91D0-3E57AC40FE47} = {E3EAE72D-738A-4179-8A22-50D58A91AD04}
 		{5F6B51F6-1DA9-4D16-AEBD-BEC5F0E8E84D} = {E3EAE72D-738A-4179-8A22-50D58A91AD04}
+		{A089E5B3-A463-4F28-AB7A-536D76F9AD87} = {72E8F565-788F-4A29-8919-7F3F001C6FC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C83357C-2ED0-48F8-8468-E6531D94FBA3}
