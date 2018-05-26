@@ -5,6 +5,8 @@ namespace WampSharp.RawSocket
 {
     public class Handshake
     {
+        private const int RawSocketMagicOctet = 0x7F;
+
         /// <summary>
         /// Creates a new instance of a <see cref="Handshake"/>.
         /// </summary>
@@ -12,7 +14,7 @@ namespace WampSharp.RawSocket
         /// <param name="serializerType">The serializer type.</param>
         public Handshake(byte maxLength, SerializerType serializerType)
         {
-            MagicOctet = 0x7F;
+            MagicOctet = RawSocketMagicOctet;
 
             if (maxLength >= 16)
             {
@@ -30,7 +32,7 @@ namespace WampSharp.RawSocket
 
         public Handshake(HandshakeErrorCode errorCode)
         {
-            MagicOctet = 0x7F;
+            MagicOctet = RawSocketMagicOctet;
 
             if (errorCode == HandshakeErrorCode.Illegal)
             {
@@ -50,9 +52,10 @@ namespace WampSharp.RawSocket
 
             MagicOctet = message[0];
 
-            if (MagicOctet != 0x7F)
+            if (MagicOctet != RawSocketMagicOctet)
             {
-                throw new ArgumentException("First octet must be 0x7F.", "message");
+                throw new ArgumentException($"First octet must be 0x{RawSocketMagicOctet:X}.",
+                                            "message");
             }
 
             SecondOctet = message[1];
@@ -140,9 +143,9 @@ namespace WampSharp.RawSocket
                 throw new ArgumentException("Expected a 4 length byte array.", "message");
             }
 
-            var magicOctet = message[0];
+            byte magicOctet = message[0];
 
-            if (magicOctet != 0x7F)
+            if (magicOctet != RawSocketMagicOctet)
             {
                 return false;
             }

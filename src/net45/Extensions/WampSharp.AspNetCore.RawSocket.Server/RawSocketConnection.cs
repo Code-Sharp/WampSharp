@@ -15,9 +15,9 @@ namespace WampSharp.AspNetCore.RawSocket
     {
         private readonly ConnectionContext mConnection;
 
-        protected const int FrameHeaderSize = 4;
+        private const int FrameHeaderSize = 4;
 
-        protected readonly RawSocketFrameHeaderParser mFrameHeaderParser = new RawSocketFrameHeaderParser();
+        private readonly RawSocketFrameHeaderParser mFrameHeaderParser = new RawSocketFrameHeaderParser();
 
         private readonly int mMaxAllowedMessageSize;
 
@@ -71,6 +71,7 @@ namespace WampSharp.AspNetCore.RawSocket
             catch (Exception ex)
             {
                 RaiseConnectionError(ex);
+                mIsConnected = false;
             }
 
             RaiseConnectionClosed();
@@ -94,7 +95,7 @@ namespace WampSharp.AspNetCore.RawSocket
             }
             else
             {
-
+                this.Dispose();
             }
         }
 
