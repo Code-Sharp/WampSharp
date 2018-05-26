@@ -1,4 +1,6 @@
-﻿using System.Buffers;
+﻿using System;
+using System.Buffers;
+using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Threading.Tasks;
 using WampSharp.RawSocket;
@@ -14,14 +16,16 @@ namespace WampSharp.AspNetCore.RawSocket
 
             Handshake result;
 
-            if (Handshake.TryParse(handshakeBytes.ToArray(), out result))
+            ArraySegment<byte> arraySegment = handshakeBytes.ToArraySegment();
+
+            if (!Handshake.TryParse(arraySegment, out result))
             {
-                input.AdvanceTo(readAsync.Buffer.GetPosition(4));
-                return result;
+                input.AdvanceTo(readAsync.Buffer.GetPosition(0));
             }
             else
             {
-                input.AdvanceTo(readAsync.Buffer.GetPosition(0));
+                input.AdvanceTo(readAsync.Buffer.GetPosition(4));
+                return result;
             }
 
             return null;

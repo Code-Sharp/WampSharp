@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Net.Sockets;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace WampSharp.RawSocket
@@ -13,7 +13,9 @@ namespace WampSharp.RawSocket
             await stream.ReadExactAsync(bytes, 0, bytes.Length)
                         .ConfigureAwait(false);
 
-            return new Handshake(bytes);
+            ArraySegment<byte> arraySegment = new ArraySegment<byte>(bytes);
+
+            return new Handshake(arraySegment);
         }
 
         public async Task SendHandshake(Stream stream, Handshake handshake)

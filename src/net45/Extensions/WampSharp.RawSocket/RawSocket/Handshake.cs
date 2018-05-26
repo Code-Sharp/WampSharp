@@ -43,24 +43,24 @@ namespace WampSharp.RawSocket
             SecondOctet = (byte)(((byte)errorCode) << 4);
         }
 
-        public Handshake(byte[] message)
+        public Handshake(ArraySegment<byte> message)
         {
-            if (message == null || message.Length != 4)
+            if (message == null || message.Count != 4)
             {
-                throw new ArgumentException("Expected a 4 length byte array.", "message");
+                throw new ArgumentException("Expected a 4 length byte array.", nameof(message));
             }
 
-            MagicOctet = message[0];
+            MagicOctet = message.ElementAt(0);
 
             if (MagicOctet != RawSocketMagicOctet)
             {
                 throw new ArgumentException($"First octet must be 0x{RawSocketMagicOctet:X}.",
-                                            "message");
+                                            nameof(message));
             }
 
-            SecondOctet = message[1];
+            SecondOctet = message.ElementAt(1);
 
-            ReservedOctets = BitConverter.ToInt16(message, 2);
+            ReservedOctets = BitConverter.ToInt16(message.Array, message.Offset + 2);
         }
 
         // Should be 0x7F
@@ -124,26 +124,16 @@ namespace WampSharp.RawSocket
             return firstOctets.Concat(reservedBytes).ToArray();
         }
 
-        public Handshake GetAcceptedResponse(byte maxLength)
-        {
-            return new Handshake(maxLength, SerializerType);
-        }
-
-        public Handshake GetErrorResponse(HandshakeErrorCode errorCode)
-        {
-            return new Handshake(errorCode);
-        }
-
-        public static bool TryParse(byte[] message, out Handshake result)
+        public static bool TryParse(ArraySegment<byte> message, out Handshake result)
         {
             result = default(Handshake);
 
-            if (message == null || message.Length != 4)
+            if (message == null || message.Count != 4)
             {
                 throw new ArgumentException("Expected a 4 length byte array.", "message");
             }
 
-            byte magicOctet = message[0];
+            byte magicOctet = message.ElementAt(0);
 
             if (magicOctet != RawSocketMagicOctet)
             {
