@@ -118,8 +118,8 @@ namespace WampSharp.AspNetCore.RawSocket
         // TODO: improve this.
         private WampMessage<TMessage> ParseMessage(ReadOnlySequence<byte> messageInBytes)
         {
-            byte[] buffer = messageInBytes.ToArray();
-            MemoryStream memoryStream = new MemoryStream(buffer);
+            ArraySegment<byte> segment = messageInBytes.ToArraySegment();
+            MemoryStream memoryStream = new MemoryStream(segment.Array, segment.Offset, segment.Count);
             return mParser.Parse(memoryStream);
         }
 
