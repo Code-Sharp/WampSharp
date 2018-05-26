@@ -1,4 +1,6 @@
+using System;
 using System.Buffers;
+using WampSharp.AspNetCore.RawSocket;
 
 namespace WampSharp.RawSocket
 {
@@ -6,8 +8,9 @@ namespace WampSharp.RawSocket
     {
         public static bool TryParse(this RawSocketFrameHeaderParser parser, in ReadOnlySequence<byte> headerBytes, out FrameType frameType, out int messageLength)
         {
-            // TODO: implement better
-            return parser.TryParse(headerBytes.ToArray(), out frameType, out messageLength);
+            ArraySegment<byte> arraySegment = headerBytes.ToArraySegment();
+
+            return parser.TryParse(arraySegment, out frameType, out messageLength);
         }
     }
 }
