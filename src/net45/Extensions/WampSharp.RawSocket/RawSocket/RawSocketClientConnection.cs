@@ -39,7 +39,7 @@ namespace WampSharp.RawSocket
 
             if (!(parser is JsonBinding<TMessage> || parser is MsgPackBinding<TMessage>))
             {
-                throw new ArgumentException("Expected Json or MsgPack binding", "parser");
+                throw new ArgumentException("Expected Json or MsgPack binding", nameof(parser));
             }
 
             mParser = parser;
@@ -170,7 +170,7 @@ namespace WampSharp.RawSocket
             {
                 if (value >= 16)
                 {
-                    throw new ArgumentException("Expected a value between 0 to 15", "value");
+                    throw new ArgumentException("Expected a value between 0 to 15", nameof(value));
                 }
 
                 mMaxLength = value;

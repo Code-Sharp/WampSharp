@@ -100,7 +100,7 @@ namespace WampSharp.RawSocket
 
                 Handshake handshakeRequest = await mHandshaker.GetHandshakeMessage(stream).ConfigureAwait(false);
 
-                Handshake handshakeResponse = GetHandshakeResponse(handshakeRequest);
+                Handshake handshakeResponse = handshakeRequest.GetHandshakeResponse(SubProtocols, MaxSize);
 
                 await mHandshaker.SendHandshake(stream, handshakeResponse)
                                  .ConfigureAwait(false);
@@ -116,33 +116,6 @@ namespace WampSharp.RawSocket
 
                 throw;
             }
-        }
-
-        private Handshake GetHandshakeResponse(Handshake handshakeRequest)
-        {
-            Handshake handshakeResponse;
-
-            if (handshakeRequest.ReservedOctects != 0)
-            {
-                handshakeResponse = new Handshake(HandshakeErrorCode.UseOfReservedBits);
-            }
-            else
-            {
-                SerializerType serializerType = handshakeRequest.SerializerType;
-
-                string requestedSubprotocol = GetSubProtocol(serializerType);
-
-                if (!SubProtocols.Contains(requestedSubprotocol))
-                {
-                    handshakeResponse = new Handshake(HandshakeErrorCode.SerializerUnsupported);
-                }
-                else
-                {
-                    handshakeResponse = new Handshake(MaxSize, serializerType);
-                }
-            }
-
-            return handshakeResponse;
         }
 
         public byte MaxSize
@@ -163,20 +136,7 @@ namespace WampSharp.RawSocket
         {
             SerializerType serializerType = connection.HandshakeRequest.SerializerType;
 
-            return GetSubProtocol(serializerType);
-        }
-
-        private static string GetSubProtocol(SerializerType serializerType)
-        {
-            switch (serializerType)
-            {
-                case SerializerType.Json:
-                    return WampSubProtocols.JsonSubProtocol;
-                case SerializerType.MsgPack:
-                    return WampSubProtocols.MsgPackSubProtocol;
-            }
-
-            return serializerType.ToString();
+            return serializerType.GetSubProtocol();
         }
 
         protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>

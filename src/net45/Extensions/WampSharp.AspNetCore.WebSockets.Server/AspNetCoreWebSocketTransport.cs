@@ -79,12 +79,16 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 
         private async Task EmptyHandler(HttpContext context, Func<Task> next)
         {
-            await next();
+            await next().ConfigureAwait(false);
         }
 
         private async Task WebSocketHandler(HttpContext context, Func<Task> next)
         {
-            if (context.WebSockets.IsWebSocketRequest)
+            if (!context.WebSockets.IsWebSocketRequest)
+            {
+                await next().ConfigureAwait(false);
+            }
+            else
             {
                 IEnumerable<string> possibleSubProtocols =
                     context.WebSockets.WebSocketRequestedProtocols
@@ -95,9 +99,9 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 
                 if (subprotocol != null)
                 {
-                    using (var websocket = await context.WebSockets.AcceptWebSocketAsync(subprotocol).ConfigureAwait(false))
+                    using (var websocket =
+                        await context.WebSockets.AcceptWebSocketAsync(subprotocol).ConfigureAwait(false))
                     {
-
                         // In an ideal world, OnNewConnection would return the
                         // connection itself and then we could somehow access its
                         // task, but for now we wrap the WebSocket with a WebSocketData
@@ -108,13 +112,9 @@ namespace WampSharp.AspNetCore.WebSockets.Server
                         OnNewConnection(webSocketData);
 
                         await webSocketData.ReadTask.ConfigureAwait(false);
-
-                        return;
                     }
                 }
             }
-
-            await next();
         }
     }
 }
