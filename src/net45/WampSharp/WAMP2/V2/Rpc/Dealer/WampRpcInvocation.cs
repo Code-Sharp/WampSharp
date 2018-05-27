@@ -6,18 +6,14 @@ namespace WampSharp.V2.Rpc
 {
     internal class WampRpcInvocation
     {
-        private readonly RemoteWampCalleeDetails mOperation;
-        private readonly IWampRawRpcOperationRouterCallback mCallback;
-        private readonly InvocationDetails mOptions;
-        private readonly object[] mArguments;
         private readonly IDictionary<string, object> mArgumentsKeywords;
 
         public WampRpcInvocation(RemoteWampCalleeDetails operation, IWampRawRpcOperationRouterCallback callback, InvocationDetails options, object[] arguments, IDictionary<string, object> argumentsKeywords)
         {
-            mOperation = operation;
-            mCallback = callback;
-            mOptions = options;
-            mArguments = arguments;
+            Operation = operation;
+            Callback = callback;
+            Options = options;
+            Arguments = arguments;
             mArgumentsKeywords = argumentsKeywords;
         }
 
@@ -25,41 +21,17 @@ namespace WampSharp.V2.Rpc
         {
             get
             {
-                return mOperation.Procedure;
+                return Operation.Procedure;
             }
         }
 
-        public RemoteWampCalleeDetails Operation
-        {
-            get
-            {
-                return mOperation;
-            }
-        }
+        public RemoteWampCalleeDetails Operation { get; }
 
-        public IWampRawRpcOperationRouterCallback Callback
-        {
-            get
-            {
-                return mCallback;
-            }
-        }
+        public IWampRawRpcOperationRouterCallback Callback { get; }
 
-        public InvocationDetails Options
-        {
-            get
-            {
-                return mOptions;
-            }
-        }
+        public InvocationDetails Options { get; }
 
-        public object[] Arguments
-        {
-            get
-            {
-                return mArguments;
-            }
-        }
+        public object[] Arguments { get; }
 
         public IDictionary<string, object> ArgumentsKeywords
         {

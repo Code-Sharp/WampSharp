@@ -4,22 +4,15 @@ namespace WampSharp.V2.Rpc
 {
     internal class RegisterRequest : IRegisterRequest
     {
-        private readonly IWampCallee mCallee;
         private readonly long mRequestId;
 
         public RegisterRequest(IWampCallee callee, long requestId)
         {
-            mCallee = callee;
+            Callee = callee;
             mRequestId = requestId;
         }
 
-        public IWampCallee Callee
-        {
-            get
-            {
-                return mCallee;
-            }
-        }
+        public IWampCallee Callee { get; }
 
         public long RequestId
         {

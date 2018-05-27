@@ -8,7 +8,6 @@ namespace WampSharp.V2.PubSub
     [AttributeUsage(AttributeTargets.Event | AttributeTargets.Method)]
     public sealed class WampTopicAttribute : Attribute
     {
-        private readonly string mTopic;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampTopicAttribute"/> given
@@ -17,18 +16,12 @@ namespace WampSharp.V2.PubSub
         /// <param name="topic">The given the topic uri this method/event is mapped to.</param>
         public WampTopicAttribute(string topic)
         {
-            mTopic = topic;
+            Topic = topic;
         }
 
         /// <summary>
         /// Gets the topic uri this method/event is mapped to.
         /// </summary>
-        public string Topic
-        {
-            get
-            {
-                return mTopic;
-            }
-        }
+        public string Topic { get; }
     }
 }

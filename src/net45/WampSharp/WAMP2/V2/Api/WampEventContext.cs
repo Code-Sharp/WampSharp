@@ -42,29 +42,11 @@ namespace WampSharp.V2
                 CallContext.LogicalSetData(typeof (WampEventContext).Name, value);
             }
         }
+
 #else
-        [ThreadStatic]
-        private static WampEventContext mCurrent;
-
-        public static WampEventContext Current
-        {
-            get
-            {
-                return mCurrent;
-            }
-            internal set
-            {
-                mCurrent = value;
-            }
-        }
 #endif
-
         #endregion
-
         #region Members
-
-        private readonly long mPublicationId;
-        private readonly EventDetails mEventDetails;
 
         #endregion
 
@@ -72,29 +54,17 @@ namespace WampSharp.V2
 
         internal WampEventContext(long publicationId, EventDetails eventDetails)
         {
-            mPublicationId = publicationId;
-            mEventDetails = eventDetails;
+            PublicationId = publicationId;
+            EventDetails = eventDetails;
         }
 
         #endregion
 
         #region Properties
 
-        public EventDetails EventDetails
-        {
-            get
-            {
-                return mEventDetails;
-            }
-        }
+        public EventDetails EventDetails { get; }
 
-        public long PublicationId
-        {
-            get
-            {
-                return mPublicationId;
-            }
-        }
+        public long PublicationId { get; }
 
         #endregion
     }

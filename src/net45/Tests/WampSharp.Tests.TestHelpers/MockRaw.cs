@@ -7,8 +7,6 @@ namespace WampSharp.Tests.TestHelpers
 {
     public class MockRaw
     {
-        private readonly object mValue;
-
         public MockRaw(object value)
         {
             MockRaw raw = value as MockRaw;
@@ -16,15 +14,15 @@ namespace WampSharp.Tests.TestHelpers
 
             if (raw != null)
             {
-                mValue = Clone(raw.Value);
+                Value = Clone(raw.Value);
             }
             else if (rawArray != null && rawArray.GetType() == typeof(object[]))
             {
-                mValue = ConvertToMockRawArray(rawArray);
+                Value = ConvertToMockRawArray(rawArray);
             }
             else
             {
-                mValue = Clone(value);
+                Value = Clone(value);
             }
         }
 
@@ -89,12 +87,6 @@ namespace WampSharp.Tests.TestHelpers
 
 #endif
 
-        public object Value
-        {
-            get
-            {
-                return mValue;
-            }
-        }
+        public object Value { get; }
     }
 }

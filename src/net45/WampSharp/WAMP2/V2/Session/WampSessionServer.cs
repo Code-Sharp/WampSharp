@@ -9,14 +9,12 @@ namespace WampSharp.V2.Session
 {
     internal class WampSessionServer<TMessage> : IWampSessionServer<TMessage>
     {
-        private IWampBindedRealmContainer<TMessage> mRealmContainer;
-
         public WampSessionServer(IWampBinding<TMessage> binding,
                                  IWampHostedRealmContainer realmContainer,
                                  IWampRouterBuilder builder,
                                  IWampEventSerializer eventSerializer)
         {
-            mRealmContainer =
+            RealmContainer =
                 new WampBindedRealmContainer<TMessage>(realmContainer,
                                                        this,
                                                        builder,
@@ -47,7 +45,7 @@ namespace WampSharp.V2.Session
         {
             IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
 
-            IWampBindedRealm<TMessage> bindedRealm = mRealmContainer.GetRealmByName(realm);
+            IWampBindedRealm<TMessage> bindedRealm = RealmContainer.GetRealmByName(realm);
 
             wampClient.HelloDetails = details;
 
@@ -103,16 +101,6 @@ namespace WampSharp.V2.Session
             return wampClient.Realm.WelcomeDetails;
         }
 
-        public IWampBindedRealmContainer<TMessage> RealmContainer
-        {
-            get
-            {
-                return mRealmContainer;
-            }
-            set
-            {
-                mRealmContainer = value;
-            }
-        }
+        public IWampBindedRealmContainer<TMessage> RealmContainer { get; set; }
     }
 }

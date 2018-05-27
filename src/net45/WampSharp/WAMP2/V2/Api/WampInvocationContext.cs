@@ -42,28 +42,11 @@ namespace WampSharp.V2
                 CallContext.LogicalSetData(typeof(WampInvocationContext).Name, value);
             }
         }
+
 #else
-        [ThreadStatic]
-        private static WampInvocationContext mCurrent;
-
-        public static WampInvocationContext Current
-        {
-            get
-            {
-                return mCurrent;
-            }
-            internal set
-            {
-                mCurrent = value;
-            }
-        }
 #endif
-
         #endregion
-
         #region Members
-
-        private readonly InvocationDetails mInvocationDetails;
 
         #endregion
 
@@ -71,20 +54,14 @@ namespace WampSharp.V2
 
         internal WampInvocationContext(InvocationDetails invocationDetails)
         {
-            mInvocationDetails = invocationDetails;
+            InvocationDetails = invocationDetails;
         }
 
         #endregion
 
         #region Properties
 
-        public InvocationDetails InvocationDetails
-        {
-            get
-            {
-                return mInvocationDetails;
-            }
-        }
+        public InvocationDetails InvocationDetails { get; }
 
         #endregion
     }

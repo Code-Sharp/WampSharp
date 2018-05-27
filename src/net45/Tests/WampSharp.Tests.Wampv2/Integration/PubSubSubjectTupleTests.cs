@@ -177,8 +177,6 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         public class MyCustomSubscriber : LocalSubscriber
         {
-            private EventDetails mDetails;
-            private ISerializedValue[] mArguments;
             private IDictionary<string, ISerializedValue> mArgumentsKeywords;
 
             public MyCustomSubscriber() : base()
@@ -190,15 +188,9 @@ namespace WampSharp.Tests.Wampv2.Integration
                 get { return new LocalParameter[0]; }
             }
 
-            public EventDetails Details
-            {
-                get { return mDetails; }
-            }
+            public EventDetails Details { get; private set; }
 
-            public ISerializedValue[] Arguments
-            {
-                get { return mArguments; }
-            }
+            public ISerializedValue[] Arguments { get; private set; }
 
             public IDictionary<string, ISerializedValue> ArgumentsKeywords
             {
@@ -210,7 +202,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
                 if (arguments != null)
                 {
-                    mArguments = arguments.Select(x => new SerializedValue<TMessage>(formatter, x)).ToArray();
+                    Arguments = arguments.Select(x => new SerializedValue<TMessage>(formatter, x)).ToArray();
                 }
 
                 if (argumentsKeywords != null)
@@ -220,7 +212,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                             x => (ISerializedValue)new SerializedValue<TMessage>(formatter, x.Value));
                 }
 
-                mDetails = details;
+                Details = details;
             }
         }
 

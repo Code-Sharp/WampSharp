@@ -10,7 +10,6 @@ namespace WampSharp.V2.Rpc
 {
     internal class WampProcedureRegistration : IWampProcedureRegistration
     {
-        private readonly string mProcedureUri;
         private readonly RegisterOptions mRegisterOptions;
 
         private IImmutableList<IWampRpcOperation> mOperations =
@@ -21,7 +20,7 @@ namespace WampSharp.V2.Rpc
 
         public WampProcedureRegistration(string procedureUri, RegisterOptions registerOptions)
         {
-            mProcedureUri = procedureUri;
+            Procedure = procedureUri;
             mSelector = GetOperationSelector(registerOptions.Invoke);
             mRegisterOptions = registerOptions;
         }
@@ -132,13 +131,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public string Procedure
-        {
-            get
-            {
-                return mProcedureUri;
-            }
-        }
+        public string Procedure { get; }
 
         public bool HasOperations
         {

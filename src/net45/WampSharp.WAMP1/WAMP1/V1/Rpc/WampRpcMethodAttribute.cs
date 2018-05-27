@@ -8,7 +8,6 @@ namespace WampSharp.V1.Rpc
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public sealed class WampRpcMethodAttribute : Attribute
     {
-        private readonly string mProcUri;
 
         /// <summary>
         /// Intializes a new instance of <see cref="WampRpcMethodAttribute"/>.
@@ -17,19 +16,13 @@ namespace WampSharp.V1.Rpc
         public WampRpcMethodAttribute(string procUri)
         {
             IsRelative = true;
-            mProcUri = procUri;
+            ProcUri = procUri;
         }
 
         /// <summary>
         /// The proc uri of this method.
         /// </summary>
-        public string ProcUri
-        {
-            get
-            {
-                return mProcUri;
-            }
-        }
+        public string ProcUri { get; }
 
         /// <summary>
         /// Gets/sets a value indicating whether the proc uri is

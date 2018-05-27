@@ -24,8 +24,6 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
     {
         private readonly DealerMock mDealer = new DealerMock();
         private readonly OperationMock mOperation = new OperationMock();
-        private object[] mExpectedYield;
-        private object[] mExpectedError;
         private object[] mExpectedInvocation;
         private Action<IWampCallee> mInvocationAction;
         private readonly long mRegistrationId;
@@ -35,17 +33,9 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
             mRegistrationId = registrationId;
         }
 
-        public object[] ExpectedYield
-        {
-            get { return mExpectedYield; }
-            set { mExpectedYield = value; }
-        }
+        public object[] ExpectedYield { get; set; }
 
-        public object[] ExpectedError
-        {
-            get { return mExpectedError; }
-            set { mExpectedError = value; }
-        }
+        public object[] ExpectedError { get; set; }
 
         public object[] ExpectedInvocation
         {

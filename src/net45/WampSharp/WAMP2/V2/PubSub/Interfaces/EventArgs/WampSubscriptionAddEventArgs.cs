@@ -8,12 +8,11 @@ namespace WampSharp.V2.PubSub
     /// </summary>
     public class WampSubscriptionAddEventArgs : EventArgs
     {
-        private readonly SubscribeOptions mOptions;
         private readonly IRemoteWampTopicSubscriber mSubscriber;
 
         public WampSubscriptionAddEventArgs(IRemoteWampTopicSubscriber subscriber, SubscribeOptions options)
         {
-            mOptions = options;
+            Options = options;
             mSubscriber = subscriber;
         }
 
@@ -31,12 +30,6 @@ namespace WampSharp.V2.PubSub
         /// <summary>
         /// Gets the options the subscriber subscribed with.
         /// </summary>
-        public SubscribeOptions Options
-        {
-            get
-            {
-                return mOptions;
-            }
-        }
+        public SubscribeOptions Options { get; }
     }
 }

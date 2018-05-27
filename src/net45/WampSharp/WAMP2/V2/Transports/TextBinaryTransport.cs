@@ -174,22 +174,17 @@ namespace WampSharp.V2.Transports
             private readonly Subject<IWampConnection<TMessage>> mSubject =
                 new Subject<IWampConnection<TMessage>>();
 
-            private readonly TextBinaryTransport<TConnection> mParent;
-
             protected ConnectionListener(TextBinaryTransport<TConnection> parent)
             {
-                mParent = parent;
+                Parent = parent;
             }
 
-            public TextBinaryTransport<TConnection> Parent
-            {
-                get { return mParent; }
-            }
+            public TextBinaryTransport<TConnection> Parent { get; }
 
             protected void OnNewConnection(IWampConnection<TMessage> connection, TConnection original)
             {
                 mSubject.OnNext(connection);
-                mParent.OpenConnection(original, connection);
+                Parent.OpenConnection(original, connection);
             }
 
             public IDisposable Subscribe(IObserver<IWampConnection<TMessage>> observer)
@@ -206,20 +201,15 @@ namespace WampSharp.V2.Transports
 
         private class BinaryConnectionListener<TMessage> : ConnectionListener<TMessage>
         {
-            private readonly IWampBinaryBinding<TMessage> mBinding;
-
             public BinaryConnectionListener
                 (IWampBinaryBinding<TMessage> binding,
                  TextBinaryTransport<TConnection> parent)
                 : base(parent)
             {
-                mBinding = binding;
+                Binding = binding;
             }
 
-            public IWampBinaryBinding<TMessage> Binding
-            {
-                get { return mBinding; }
-            }
+            public IWampBinaryBinding<TMessage> Binding { get; }
 
             public override void OnNewConnection(TConnection connection)
             {
@@ -229,20 +219,15 @@ namespace WampSharp.V2.Transports
 
         private class TextConnectionListener<TMessage> : ConnectionListener<TMessage>
         {
-            private readonly IWampTextBinding<TMessage> mBinding;
-
             public TextConnectionListener
                 (IWampTextBinding<TMessage> binding,
                  TextBinaryTransport<TConnection> parent) :
                      base(parent)
             {
-                mBinding = binding;
+                Binding = binding;
             }
 
-            public IWampTextBinding<TMessage> Binding
-            {
-                get { return mBinding; }
-            }
+            public IWampTextBinding<TMessage> Binding { get; }
 
             public override void OnNewConnection(TConnection connection)
             {

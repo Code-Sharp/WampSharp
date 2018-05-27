@@ -5,20 +5,12 @@ namespace WampSharp.V2.Fluent
 {
     internal class WebSocket4NetTransportSyntax : IWebSocket4NetTransportSyntax
     {
-        private readonly ChannelState mState;
-
         public WebSocket4NetTransportSyntax(ChannelState state)
         {
-            mState = state;
+            State = state;
         }
 
-        public ChannelState State
-        {
-            get
-            {
-                return mState;
-            }
-        }
+        public ChannelState State { get; }
 
         public ChannelFactorySyntax.ITransportSyntax SetSecurityOptions(Action<SecurityOption> configureSecurityOptions)
         {

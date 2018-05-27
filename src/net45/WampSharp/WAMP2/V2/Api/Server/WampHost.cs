@@ -16,7 +16,6 @@ namespace WampSharp.V2
         private readonly InMemoryWampHost mInternalHost;
         private readonly WampHostBase mExternalHost;
         private readonly ServiceHostedRealmContainer mRealmContainer;
-        private readonly IWampUriValidator mUriValidator;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampHost"/> given the
@@ -28,7 +27,7 @@ namespace WampSharp.V2
         {
             realmContainer = realmContainer ?? new WampRealmContainer();
 
-            mUriValidator = uriValidator ?? new LooseUriValidator();
+            UriValidator = uriValidator ?? new LooseUriValidator();
 
             mInternalHost = new InMemoryWampHost(realmContainer, UriValidator);
             mInternalHost.Open();
@@ -54,13 +53,7 @@ namespace WampSharp.V2
             }
         }
 
-        protected IWampUriValidator UriValidator
-        {
-            get
-            {
-                return mUriValidator;
-            }
-        }
+        protected IWampUriValidator UriValidator { get; }
 
         public virtual void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings)
         {

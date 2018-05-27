@@ -12,7 +12,6 @@ namespace WampSharp.Core.Listener
     /// </remarks>
     public class WampMessageArrivedEventArgs<TMessage> : EventArgs
     {
-        private readonly WampMessage<TMessage> mMessage;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampMessageArrivedEventArgs{TMessage}"/>.
@@ -20,18 +19,12 @@ namespace WampSharp.Core.Listener
         /// <param name="message">The message </param>
         public WampMessageArrivedEventArgs(WampMessage<TMessage> message)
         {
-            mMessage = message;
+            Message = message;
         }
 
         /// <summary>
         /// Gets the arrived message.
         /// </summary>
-        public WampMessage<TMessage> Message
-        {
-            get
-            {
-                return mMessage;
-            }
-        }
+        public WampMessage<TMessage> Message { get; }
     }
 }

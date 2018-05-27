@@ -10,7 +10,6 @@ namespace WampSharp.Tests.Wampv2.Client
     public abstract class RawTest<TMessage>
     {
         protected IWampBinding<TMessage> mBinding;
-        private string mTestName;
         private IEqualityComparer<TMessage> mEqualityComparer;
 
         public RawTest(IWampBinding<TMessage> binding, IEqualityComparer<TMessage> equalityComparer)
@@ -19,11 +18,7 @@ namespace WampSharp.Tests.Wampv2.Client
             mEqualityComparer = equalityComparer;
         }
 
-        public string TestName
-        {
-            get { return mTestName; }
-            set { mTestName = value; }
-        }
+        public string TestName { get; set; }
 
         public abstract void Act();
         public abstract void Assert();

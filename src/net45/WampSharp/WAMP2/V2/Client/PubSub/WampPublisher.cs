@@ -138,9 +138,6 @@ namespace WampSharp.V2.Client
 
         private class Publication : WampPendingRequest<TMessage, long?>
         {
-            private readonly string mTopicUri;
-            private readonly PublishOptions mOptions;
-            private readonly object[] mArguments;
             private readonly IDictionary<string, object> mArgumentKeywords;
 
             public Publication(IWampFormatter<TMessage> formatter, 
@@ -150,35 +147,17 @@ namespace WampSharp.V2.Client
                 IDictionary<string, object> argumentKeywords = null) : 
                 base(formatter)
             {
-                mTopicUri = topicUri;
-                mOptions = options;
-                mArguments = arguments;
+                TopicUri = topicUri;
+                Options = options;
+                Arguments = arguments;
                 mArgumentKeywords = argumentKeywords;
             }
 
-            public string TopicUri
-            {
-                get
-                {
-                    return mTopicUri;
-                }
-            }
+            public string TopicUri { get; }
 
-            public PublishOptions Options
-            {
-                get
-                {
-                    return mOptions;
-                }
-            }
+            public PublishOptions Options { get; }
 
-            public object[] Arguments
-            {
-                get
-                {
-                    return mArguments;
-                }
-            }
+            public object[] Arguments { get; }
 
             public IDictionary<string, object> ArgumentKeywords
             {

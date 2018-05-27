@@ -8,22 +8,16 @@ namespace WampSharp.Vtortola
 {
     internal class VtortolaWebSocketHttpRequest
     {
-        private readonly Uri mRequestUri;
-        private readonly string mHttpVersion;
-        private readonly CookieCollection mCookies;
-        private readonly IDictionary<string, string> mHeaders;
-        private readonly short mWebSocketVersion;
-        private readonly string[] mWebSocketExtensions;
         private readonly IDictionary<string, object> mItems;
 
         public VtortolaWebSocketHttpRequest(WebSocketHttpRequest request)
         {
-            mRequestUri = request.RequestUri;
-            mHttpVersion = request.HttpVersion.ToString();
-            mCookies = request.Cookies;
-            mHeaders = ExtractHeaders(request.Headers);
-            mWebSocketVersion = request.WebSocketVersion;
-            mWebSocketExtensions = 
+            RequestUri = request.RequestUri;
+            HttpVersion = request.HttpVersion.ToString();
+            Cookies = request.Cookies;
+            Headers = ExtractHeaders(request.Headers);
+            WebSocketVersion = request.WebSocketVersion;
+            WebSocketExtensions = 
                 request.WebSocketExtensions.Select(x => x.Name).ToArray();
             mItems = request.Items;
         }
@@ -36,35 +30,17 @@ namespace WampSharp.Vtortola
             return result;
         }
 
-        public Uri RequestUri
-        {
-            get { return mRequestUri; }
-        }
+        public Uri RequestUri { get; }
 
-        public string HttpVersion
-        {
-            get { return mHttpVersion; }
-        }
+        public string HttpVersion { get; }
 
-        public CookieCollection Cookies
-        {
-            get { return mCookies; }
-        }
+        public CookieCollection Cookies { get; }
 
-        public IDictionary<string, string> Headers
-        {
-            get { return mHeaders; }
-        }
+        public IDictionary<string, string> Headers { get; }
 
-        public short WebSocketVersion
-        {
-            get { return mWebSocketVersion; }
-        }
+        public short WebSocketVersion { get; }
 
-        public string[] WebSocketExtensions
-        {
-            get { return mWebSocketExtensions; }
-        }
+        public string[] WebSocketExtensions { get; }
 
         public IDictionary<string, object> Items
         {

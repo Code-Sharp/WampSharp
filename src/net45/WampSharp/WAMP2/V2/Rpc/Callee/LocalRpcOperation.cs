@@ -12,8 +12,6 @@ namespace WampSharp.V2.Rpc
 {
     public abstract class LocalRpcOperation : IWampRpcOperation
     {
-        private readonly string mProcedure;
-
         protected readonly ILog mLogger;
 
         protected readonly static IWampFormatter<object> ObjectFormatter =
@@ -21,17 +19,11 @@ namespace WampSharp.V2.Rpc
 
         protected LocalRpcOperation(string procedure)
         {
-            mProcedure = procedure;
+            Procedure = procedure;
             mLogger = LogProvider.GetLogger(typeof (LocalRpcOperation) + "." + procedure);
         }
 
-        public string Procedure
-        {
-            get
-            {
-                return mProcedure;
-            }
-        }
+        public string Procedure { get; }
 
         public abstract RpcParameter[] Parameters
         {

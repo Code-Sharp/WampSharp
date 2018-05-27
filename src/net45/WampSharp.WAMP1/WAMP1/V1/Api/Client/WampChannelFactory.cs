@@ -11,7 +11,6 @@ namespace WampSharp.V1
 {
     public class WampChannelFactory<TMessage> : IWampChannelFactory<TMessage>
     {
-        private readonly IWampFormatter<TMessage> mFormatter;
         private readonly IWampRpcClientFactory<TMessage> mRpcClientFactory;
         private readonly IWampPubSubClientFactory<TMessage> mPubSubClientFactory;
         private readonly WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServer> mServerProxyBuilder;
@@ -19,7 +18,7 @@ namespace WampSharp.V1
 
         public WampChannelFactory(IWampFormatter<TMessage> formatter)
         {
-            mFormatter = formatter;
+            Formatter = formatter;
 
             mRpcClientFactory =
                 GetRpcClientFactory();
@@ -52,7 +51,7 @@ namespace WampSharp.V1
 
             WampPubSubClientFactory<TMessage> result =
                 new WampPubSubClientFactory<TMessage>(serverProxyFactory,
-                                                      mFormatter);
+                                                      Formatter);
 
             return result;
         }
@@ -69,7 +68,7 @@ namespace WampSharp.V1
                 new Rpc.Client.WampServerProxyFactory<TMessage>(serverProxyBuilder);
             
             WampRpcClientHandlerBuilder<TMessage> clientHandlerBuilder = 
-                new WampRpcClientHandlerBuilder<TMessage>(mFormatter, serverProxyFactory);
+                new WampRpcClientHandlerBuilder<TMessage>(Formatter, serverProxyFactory);
             
             WampRpcClientFactory<TMessage> result = 
                 new WampRpcClientFactory<TMessage>
@@ -82,10 +81,10 @@ namespace WampSharp.V1
         private WampServerProxyBuilder<TMessage, TRawClient, IWampServer> GetServerProxyBuilder<TRawClient>()
         {
             WampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer = 
-                new WampOutgoingRequestSerializer<TMessage>(mFormatter);
+                new WampOutgoingRequestSerializer<TMessage>(Formatter);
 
             WampServerProxyIncomingMessageHandlerBuilder<TMessage, TRawClient> incomingHandlerBuilder = 
-                new WampServerProxyIncomingMessageHandlerBuilder<TMessage, TRawClient>(mFormatter);
+                new WampServerProxyIncomingMessageHandlerBuilder<TMessage, TRawClient>(Formatter);
             
             WampServerProxyOutgoingMessageHandlerBuilder<TMessage, TRawClient> outgoingHandlerBuilder = 
                 new WampServerProxyOutgoingMessageHandlerBuilder<TMessage, TRawClient>(incomingHandlerBuilder);
@@ -103,12 +102,6 @@ namespace WampSharp.V1
                                              mWampAuxiliaryClientFactory);
         }
 
-        public IWampFormatter<TMessage> Formatter
-        {
-            get
-            {
-                return mFormatter;
-            }
-        }
+        public IWampFormatter<TMessage> Formatter { get; }
     }
 }

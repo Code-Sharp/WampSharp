@@ -16,18 +16,12 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
 
         protected class DealerMock : IWampServer<TMessage>
         {
-            private object[] mActualRegistration;
             private object[] mActualUnregistration;
             private Action<IWampCallee, long> mRegisterCallback;
             private Action<IWampCallee, long> mUnregisterCallback;
-            private object[] mActualYield;
             private object[] mActualError;
 
-            public object[] ActualRegistration
-            {
-                get { return mActualRegistration; }
-                private set { mActualRegistration = value; }
-            }
+            public object[] ActualRegistration { get; private set; }
 
             public object[] ActualUnregistration
             {
@@ -35,11 +29,7 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
                 private set { mActualUnregistration = value; }
             }
 
-            public object[] ActualYield
-            {
-                get { return mActualYield; }
-                private set { mActualYield = value; }
-            }
+            public object[] ActualYield { get; private set; }
 
             public object[] ActualError
             {
@@ -178,15 +168,10 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
 
         protected class OperationMock : IWampRpcOperation
         {
-            private object[] mActualInvoke;
             private Action<IWampRawRpcOperationRouterCallback> mInvocationCallback;
             public string Procedure { get; set; }
 
-            public object[] ActualInvoke
-            {
-                get { return mActualInvoke; }
-                private set { mActualInvoke = value; }
-            }
+            public object[] ActualInvoke { get; private set; }
 
             public void SetInvocationCallback(Action<IWampRawRpcOperationRouterCallback> value)
             {

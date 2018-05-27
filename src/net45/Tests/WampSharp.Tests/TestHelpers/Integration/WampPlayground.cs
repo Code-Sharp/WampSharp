@@ -13,10 +13,7 @@ namespace WampSharp.Tests.TestHelpers.Integration
 
     public class WampPlayground<TMessage>
     {
-        private readonly IWampHost mHost;
         private readonly MockConnectionListener<TMessage> mListener;
-
-        private readonly IWampChannelFactory<TMessage> mChannelFactory;
         private readonly IWampFormatter<TMessage> mFormatter;
 
         public WampPlayground(IWampFormatter<TMessage> wampFormatter)
@@ -36,8 +33,8 @@ namespace WampSharp.Tests.TestHelpers.Integration
         {
             mFormatter = formatter;
             mListener = listener;
-            mHost = host;
-            mChannelFactory = new WampChannelFactory<TMessage>(mFormatter);
+            Host = host;
+            ChannelFactory = new WampChannelFactory<TMessage>(mFormatter);
         }
 
         public IControlledWampConnection<TMessage> CreateClientConnection()
@@ -47,23 +44,11 @@ namespace WampSharp.Tests.TestHelpers.Integration
 
         public IWampChannel<TMessage> CreateNewChannel()
         {
-            return mChannelFactory.CreateChannel(CreateClientConnection());
+            return ChannelFactory.CreateChannel(CreateClientConnection());
         }
 
-        public IWampChannelFactory<TMessage> ChannelFactory
-        {
-            get
-            {
-                return mChannelFactory;
-            }
-        }
+        public IWampChannelFactory<TMessage> ChannelFactory { get; }
 
-        public IWampHost Host
-        {
-            get
-            {
-                return mHost;
-            }
-        }
+        public IWampHost Host { get; }
     }
 }

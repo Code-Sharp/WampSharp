@@ -11,7 +11,6 @@ namespace WampSharp.V2.Client
     {
         private IControlledWampConnection<TMessage> mConnection;
         private readonly WampClient<TMessage> mClient;
-        private readonly IWampServerProxy mServer;
         private int mConnectCalled;
         private readonly object mLock = new object();
 
@@ -23,7 +22,7 @@ namespace WampSharp.V2.Client
             mConnection.ConnectionError += OnConnectionError;
             mConnection.ConnectionClosed += OnConnectionClosed;
             mClient = client;
-            mServer = client.Realm.Proxy;
+            Server = client.Realm.Proxy;
         }
 
         private void OnConnectionOpen(object sender, EventArgs e)
@@ -42,13 +41,7 @@ namespace WampSharp.V2.Client
             mClient.OnConnectionError(e.Exception);
         }
 
-        public IWampServerProxy Server
-        {
-            get
-            {
-                return mServer;
-            }
-        }
+        public IWampServerProxy Server { get; }
 
         public IWampRealmProxy RealmProxy
         {

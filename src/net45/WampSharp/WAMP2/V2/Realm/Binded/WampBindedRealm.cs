@@ -8,7 +8,6 @@ namespace WampSharp.V2.Realm.Binded
 {
     internal class WampBindedRealm<TMessage> : IWampBindedRealm<TMessage>
     {
-        private readonly IWampServer<TMessage> mServer;
         private readonly IWampHostedRealm mRealm;
         private readonly IWampRealmGate mRealmGate;
 
@@ -27,16 +26,10 @@ namespace WampSharp.V2.Realm.Binded
             IWampBroker<TMessage> broker =
                 routerBuilder.CreateBrokerHandler(realm, binding, eventSerializer);
 
-            mServer = routerBuilder.CreateServer(session, dealer, broker);
+            Server = routerBuilder.CreateServer(session, dealer, broker);
         }
 
-        public IWampServer<TMessage> Server
-        {
-            get
-            {
-                return mServer;
-            }
-        }
+        public IWampServer<TMessage> Server { get; }
 
         public WelcomeDetails WelcomeDetails
         {

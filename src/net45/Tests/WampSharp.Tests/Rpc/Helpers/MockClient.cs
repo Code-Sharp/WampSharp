@@ -15,8 +15,6 @@ namespace WampSharp.Tests.Rpc.Helpers
         private readonly IDictionary<string, CallErrorDetails> mCallErrors =
             new ConcurrentDictionary<string, CallErrorDetails>();
 
-        private IWampCraAuthenticator mCraAuthenticator;
-        
         public void Welcome(string sessionId, int protocolVersion, string serverIdent)
         {
         }
@@ -78,10 +76,6 @@ namespace WampSharp.Tests.Rpc.Helpers
             throw new NotImplementedException();
         }
 
-        public IWampCraAuthenticator CraAuthenticator
-        {
-            get { return mCraAuthenticator; }
-            set { mCraAuthenticator = value; }
-        }
+        public IWampCraAuthenticator CraAuthenticator { get; set; }
     }
 }

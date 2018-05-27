@@ -7,8 +7,6 @@ namespace WampSharp.V1.PubSub.Server
     /// </summary>
     public class WampNotification
     {
-        private readonly object mEvent;
-        private readonly ICollection<string> mExcluded;
         private readonly ICollection<string> mEligible;
         private static readonly string[] mEmptyStringArray = new string[0];
 
@@ -29,32 +27,20 @@ namespace WampSharp.V1.PubSub.Server
         /// <param name="eligible">A collection of eligible observers' session ids.</param>
         public WampNotification(object @event, ICollection<string> excluded, ICollection<string> eligible)
         {
-            mEvent = @event;
-            mExcluded = excluded;
+            Event = @event;
+            Excluded = excluded;
             mEligible = eligible;
         }
 
         /// <summary>
         /// Gets the published event.
         /// </summary>
-        public object Event
-        {
-            get
-            {
-                return mEvent;
-            }
-        }
+        public object Event { get; }
 
         /// <summary>
         /// Gets a collection of excluded observers' session ids.
         /// </summary>
-        public ICollection<string> Excluded
-        {
-            get
-            {
-                return mExcluded;
-            }
-        }
+        public ICollection<string> Excluded { get; }
 
         /// <summary>
         /// Gets a collection of eligible observers' session ids.

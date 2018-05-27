@@ -10,7 +10,6 @@ namespace WampSharp.Fleck
     internal class FleckTransportDetails : WampTransportDetails
     {
         private readonly IWebSocketConnectionInfo mConnectionInfo;
-        private string mPeer;
 
         public FleckTransportDetails(IWebSocketConnectionInfo connectionInfo)
         {
@@ -18,19 +17,13 @@ namespace WampSharp.Fleck
 
             mConnectionInfo = connectionInfo;
 
-            mPeer = string.Format("tcp4://{0}:{1}",
+            Peer = string.Format("tcp4://{0}:{1}",
                                   mConnectionInfo.ClientIpAddress,
                                   mConnectionInfo.ClientPort);
         }
 
         [DataMember(Name = "peer")]
-        public string Peer
-        {
-            get
-            {
-                return mPeer;
-            }
-        }
+        public string Peer { get; }
 
         [DataMember(Name = "cookies")]
         public IDictionary<string, string> Cookies

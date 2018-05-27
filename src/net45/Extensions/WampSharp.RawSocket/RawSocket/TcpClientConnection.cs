@@ -18,8 +18,6 @@ namespace WampSharp.RawSocket
         private const string Tag = "WampSharp.RawSocket";
         private readonly IWampStreamingMessageParser<TMessage> mBinding;
         private readonly RawSocketFrameHeaderParser mFrameHeaderParser = new RawSocketFrameHeaderParser();
-        private readonly TcpClient mTcpClient;
-        private readonly Stream mStream;
         private readonly long mMaxAllowedMessageSize;
         private readonly Handshake mHandshake;
         private readonly RecyclableMemoryStreamManager mByteArrayPool;
@@ -35,8 +33,8 @@ namespace WampSharp.RawSocket
             RecyclableMemoryStreamManager byteArrayPool,
             TimeSpan? autoPingInterval)
         {
-            mTcpClient = client;
-            mStream = stream;
+            TcpClient = client;
+            Stream = stream;
             mMaxAllowedMessageSize = maxAllowedMessageSize;
             mHandshake = handshake;
             mBinding = binding;
@@ -84,21 +82,9 @@ namespace WampSharp.RawSocket
             }
         }
 
-        private Stream Stream
-        {
-            get
-            {
-                return mStream;
-            }
-        }
+        private Stream Stream { get; }
 
-        private TcpClient TcpClient
-        {
-            get
-            {
-                return mTcpClient;
-            }
-        }
+        private TcpClient TcpClient { get; }
 
         protected override void Dispose()
         {
@@ -131,7 +117,7 @@ namespace WampSharp.RawSocket
                     }
                     else
                     {
-                        mTcpClient.Close();
+                        TcpClient.Close();
                     }
                 }
 

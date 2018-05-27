@@ -6,10 +6,6 @@ namespace WampSharp.V2.Core
 {
     public class LocalParameter
     {
-        private readonly int mPosition;
-        private readonly string mName;
-        private readonly Type mType;
-        private readonly object mDefaultValue;
         private readonly bool mHasDefaultValue;
 
         public LocalParameter(Type type, int position) :
@@ -34,16 +30,16 @@ namespace WampSharp.V2.Core
 
         public LocalParameter(string name, Type type, object defaultValue, bool hasDefaultValue, int position)
         {
-            mName = name;
-            mType = type.StripByRef();
+            Name = name;
+            Type = type.StripByRef();
             mHasDefaultValue = hasDefaultValue;
 
             if (hasDefaultValue)
             {
-                mDefaultValue = defaultValue;
+                DefaultValue = defaultValue;
             }
 
-            mPosition = position;
+            Position = position;
         }
 
         public LocalParameter(ParameterInfo parameter) :
@@ -55,29 +51,11 @@ namespace WampSharp.V2.Core
         {
         }
 
-        public string Name
-        {
-            get
-            {
-                return mName;
-            }
-        }
+        public string Name { get; }
 
-        public Type Type
-        {
-            get
-            {
-                return mType;
-            }
-        }
+        public Type Type { get; }
 
-        public object DefaultValue
-        {
-            get
-            {
-                return mDefaultValue;
-            }
-        }
+        public object DefaultValue { get; }
 
         public bool HasDefaultValue
         {
@@ -87,12 +65,6 @@ namespace WampSharp.V2.Core
             }
         }
 
-        public int Position
-        {
-            get
-            {
-                return mPosition;
-            }
-        }
+        public int Position { get; }
     }
 }

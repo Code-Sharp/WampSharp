@@ -13,8 +13,6 @@ namespace WampSharp.V1.Rpc.Server
     public class MethodInfoWampRpcMethod : IWampRpcMethod
     {
         private readonly object mInstance;
-        private readonly MethodInfo mMethod;
-        private readonly string mProcUri;
         private readonly Func<object, object[], object> mMethodInvoke;
 
         /// <summary>
@@ -26,10 +24,10 @@ namespace WampSharp.V1.Rpc.Server
         public MethodInfoWampRpcMethod(object instance, MethodInfo method, string baseUri)
         {
             mInstance = instance;
-            mMethod = method;
+            MethodInfo = method;
             mMethodInvoke = MethodInvokeGenerator.CreateInvokeMethod(method);
 
-            mProcUri = GetProcUri(method, baseUri);
+            ProcUri = GetProcUri(method, baseUri);
         }
 
         private string GetProcUri(MethodInfo method, string baseUri)
@@ -55,33 +53,21 @@ namespace WampSharp.V1.Rpc.Server
         {
             get
             {
-                return mMethod.Name;
+                return MethodInfo.Name;
             }
         }
 
-        public string ProcUri
-        {
-            get
-            {
-                return mProcUri;
-            }
-        }
+        public string ProcUri { get; }
 
         /// <summary>
         /// Gets the <see cref="System.Reflection.MethodInfo"/> this rpc method
         /// is bound to.
         /// </summary>
-        public MethodInfo MethodInfo
-        {
-            get
-            {
-                return mMethod;
-            }
-        }
-        
+        public MethodInfo MethodInfo { get; }
+
         public Type[] Parameters
         {
-            get { return mMethod.GetParameters().Select(paramterInfo => paramterInfo.ParameterType).ToArray(); }
+            get { return MethodInfo.GetParameters().Select(paramterInfo => paramterInfo.ParameterType).ToArray(); }
         }
 
         /// <summary>
@@ -99,7 +85,7 @@ namespace WampSharp.V1.Rpc.Server
         {
             Task<object> result = null;
 
-            if (!typeof (Task).IsAssignableFrom(mMethod.ReturnType))
+            if (!typeof (Task).IsAssignableFrom(MethodInfo.ReturnType))
             {
                 result = Task.Factory.StartNew(() => Invoke(client, parameters));
             }

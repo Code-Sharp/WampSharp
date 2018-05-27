@@ -12,12 +12,8 @@ namespace WampSharp.V2.CalleeProxy
     internal abstract class SyncCallbackBase : IWampRawRpcOperationClientCallback
     {
         private readonly ManualResetEvent mWaitHandle = new ManualResetEvent(false);
-        private Exception mException;
 
-        public Exception Exception
-        {
-            get { return mException; }
-        }
+        public Exception Exception { get; private set; }
 
         public WaitHandle WaitHandle
         {
@@ -63,7 +59,7 @@ namespace WampSharp.V2.CalleeProxy
 
         public void SetException(Exception exception)
         {
-            mException = exception;
+            Exception = exception;
             mWaitHandle.Set();
         }
     }

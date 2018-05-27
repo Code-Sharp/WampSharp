@@ -8,12 +8,11 @@ namespace WampSharp.V2.Core.Proxy
 {
     internal class WampClientPropertyBag<TMessage> : IWampClientProperties, IWampClientProperties<TMessage>
     {
-        private readonly IWampBinding<TMessage> mBinding;
         private readonly WampTransportDetails mTransportDetails;
 
         public WampClientPropertyBag(IWampBinding<TMessage> binding, WampTransportDetails transportDetails)
         {
-            mBinding = binding;
+            Binding = binding;
             mTransportDetails = transportDetails;
         }
 
@@ -53,12 +52,6 @@ namespace WampSharp.V2.Core.Proxy
 
         public IWampBindedRealm<TMessage> Realm { get; set; }
 
-        public IWampBinding<TMessage> Binding
-        {
-            get
-            {
-                return mBinding;
-            }
-        }
+        public IWampBinding<TMessage> Binding { get; }
     }
 }

@@ -7,8 +7,6 @@ namespace WampSharp.V1
 {
     public class DefaultWampChannelFactory : WampChannelFactory<JToken>
     {
-        private readonly JsonSerializer mSerializer;
-
         public DefaultWampChannelFactory()
             : this(new JsonSerializer())
         {
@@ -17,7 +15,7 @@ namespace WampSharp.V1
         public DefaultWampChannelFactory(JsonSerializer serializer)
             : this(new JsonFormatter(serializer))
         {
-            mSerializer = serializer;
+            Serializer = serializer;
         }
 
         private DefaultWampChannelFactory(IWampFormatter<JToken> formatter)
@@ -25,12 +23,6 @@ namespace WampSharp.V1
         {
         }
 
-        public JsonSerializer Serializer
-        {
-            get
-            {
-                return mSerializer;
-            }
-        }
+        public JsonSerializer Serializer { get; }
     }
 }

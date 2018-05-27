@@ -8,7 +8,6 @@ namespace WampSharp.V2.Rpc
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public sealed class WampProcedureAttribute : Attribute
     {
-        private readonly string mProcedure;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampProcedureAttribute"/> given
@@ -17,18 +16,12 @@ namespace WampSharp.V2.Rpc
         /// <param name="procedure">The given the procedure uri this method is mapped to.</param>
         public WampProcedureAttribute(string procedure)
         {
-            this.mProcedure = procedure;
+            this.Procedure = procedure;
         }
 
         /// <summary>
         /// Gets the procedure uri this method is mapped to.
         /// </summary>
-        public string Procedure
-        {
-            get
-            {
-                return mProcedure;
-            }
-        }
+        public string Procedure { get; }
     }
 }

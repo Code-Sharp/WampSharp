@@ -13,10 +13,8 @@ namespace WampSharp.V2.Client
                                           IWampPublisherError<TMessage>,
                                           IWampSubscriberError<TMessage>
     {
-        #region Fields
 
-        private readonly IWampRealmProxy mRealm;
-        private readonly IWampError<TMessage> mErrorHandler;
+        #region Fields
 
         #endregion
 
@@ -24,18 +22,15 @@ namespace WampSharp.V2.Client
 
         public WampClient(IWampRealmProxyFactory<TMessage> realmFactory)
         {
-            mRealm = realmFactory.Build(this);
-            mErrorHandler = new ErrorForwarder<TMessage>(this);
+            Realm = realmFactory.Build(this);
+            ErrorHandler = new ErrorForwarder<TMessage>(this);
         }
 
         #endregion
 
         #region Properties
 
-        public IWampRealmProxy Realm
-        {
-            get { return mRealm; }
-        }
+        public IWampRealmProxy Realm { get; }
 
         public IWampCallee<TMessage> Callee
         {
@@ -77,16 +72,13 @@ namespace WampSharp.V2.Client
             get { return Realm.TopicContainer as IWampSubscriberError<TMessage>; }
         }
 
-        public IWampError<TMessage> ErrorHandler
-        {
-            get { return mErrorHandler; }
-        }
+        public IWampError<TMessage> ErrorHandler { get; }
 
         public IWampSessionClientExtended SessionClient
         {
             get
             {
-                return mRealm.Monitor as IWampSessionClientExtended;
+                return Realm.Monitor as IWampSessionClientExtended;
             }
         }
 

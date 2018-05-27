@@ -20,15 +20,11 @@ namespace WampSharp.V1.Cra
     /// <seealso cref="T:WampSharp.V1.Cra.IWampCraAuthenticator"/>
     public abstract class WampCraAuthenticator<TMessage> : IWampCraProcedures, IWampCraAuthenticator
     {
-        #region Fields
 
-        private readonly string mClientSessionId;
+        #region Fields
         private readonly IWampFormatter<TMessage> mFormatter;
         private readonly IWampTopicContainer mTopicContainer;
-        private bool mAuthenticated;
         private WampCraPendingAuth mPendingAuth;
-        private string mAuthKey;
-        private readonly WampCraPermissionsMapper mPermissions;
         private readonly IWampRpcMetadataCatalog mMetadataCatalog;
         private static readonly IWampSessionIdGenerator mIdGenerator = new WampSessionIdGenerator();
 
@@ -46,11 +42,11 @@ namespace WampSharp.V1.Cra
         protected WampCraAuthenticator(string clientSessionId, IWampFormatter<TMessage> formatter,
             IWampRpcMetadataCatalog metadataCatalog, IWampTopicContainer topicContainer)
         {
-            mClientSessionId = clientSessionId;
+            ClientSessionId = clientSessionId;
             mFormatter = formatter;
             mMetadataCatalog = metadataCatalog;
             mTopicContainer = topicContainer;
-            mPermissions = new WampCraPermissionsMapper();
+            CraPermissionsMapper = new WampCraPermissionsMapper();
         }
 
         #endregion
@@ -61,28 +57,19 @@ namespace WampSharp.V1.Cra
         /// The authKey provided by the client during the WAMP-CRA authentication request.
         /// </summary>
         /// <seealso cref="P:WampSharp.V1.Cra.IWampCraAuthenticator.AuthKey"/>
-        public string AuthKey
-        {
-            get { return mAuthKey; }
-        }
+        public string AuthKey { get; private set; }
 
         /// <summary>
         /// Gets the sessionId of the connected client.
         /// </summary>
         /// <seealso cref="P:WampSharp.V1.Cra.IWampCraAuthenticator.ClientSessionId"/>
-        public string ClientSessionId
-        {
-            get { return mClientSessionId; }
-        }
+        public string ClientSessionId { get; }
 
         /// <summary>
         /// Gets a value indicating whether the user identified by AuthKey is successfully authenticated.
         /// </summary>
         /// <seealso cref="P:WampSharp.V1.Cra.IWampCraAuthenticator.IsAuthenticated"/>
-        public bool IsAuthenticated
-        {
-            get { return mAuthenticated; }
-        }
+        public bool IsAuthenticated { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether we are waiting for an auth call after an authreq.
@@ -95,10 +82,7 @@ namespace WampSharp.V1.Cra
         /// <summary>
         /// Gets the permissions that were sent to the client following a successful authreq call.
         /// </summary>
-        public WampCraPermissionsMapper CraPermissionsMapper
-        {
-            get { return mPermissions; }
-        }
+        public WampCraPermissionsMapper CraPermissionsMapper { get; }
 
         /// <summary>
         /// Gets all RPC methods in this collection.
@@ -148,9 +132,9 @@ namespace WampSharp.V1.Cra
             WampCraPermissions permissions = GetAuthReqPermissions(authKey, extraAuth);
 
             WampCraChallenge info =
-                new WampCraChallenge(authid, authKey, DateTime.UtcNow, mClientSessionId, extra, permissions, extraAuth);
+                new WampCraChallenge(authid, authKey, DateTime.UtcNow, ClientSessionId, extra, permissions, extraAuth);
 
-            mAuthKey = authKey;
+            AuthKey = authKey;
 
             if (string.IsNullOrEmpty(authKey))
             {
@@ -255,7 +239,7 @@ namespace WampSharp.V1.Cra
 
             // Delete auth request and mark client as authenticated
             string authKey = mPendingAuth.AuthInfo.authkey;
-            mAuthenticated = true;
+            IsAuthenticated = true;
             mPendingAuth = null;
 
             // TODO: If implementing a pending auth timeout, here is where you would cancel it 
@@ -264,7 +248,7 @@ namespace WampSharp.V1.Cra
             RaiseOnAuthenticated(authKey, perms);
 
             // Return permissions to client
-            mPermissions.AddPermissions(perms);
+            CraPermissionsMapper.AddPermissions(perms);
             return perms;
         }
 
@@ -309,12 +293,12 @@ namespace WampSharp.V1.Cra
             }
             catch (WampRpcCallException e)
             {
-                mAuthenticated = false;
+                IsAuthenticated = false;
                 throw;
             }
             catch (Exception e)
             {
-                mAuthenticated = false;
+                IsAuthenticated = false;
                 ThrowHelper.InvalidSignature(e);
             }
         }

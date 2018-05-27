@@ -7,7 +7,6 @@ namespace WampSharp.V1.PubSub.Server
     /// </summary>
     public class WampSubscriptionAddEventArgs : WampSubscriptionEventArgs
     {
-        private readonly IObserver<object> mObserver;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampSubscriptionAddEventArgs"/>.
@@ -17,18 +16,12 @@ namespace WampSharp.V1.PubSub.Server
         public WampSubscriptionAddEventArgs(string sessionId, IObserver<object> observer) : 
             base(sessionId)
         {
-            mObserver = observer;
+            Observer = observer;
         }
 
         /// <summary>
         /// A proxy to the subscribing client.
         /// </summary>
-        public IObserver<object> Observer
-        {
-            get
-            {
-                return mObserver;
-            }
-        }
+        public IObserver<object> Observer { get; }
     }
 }

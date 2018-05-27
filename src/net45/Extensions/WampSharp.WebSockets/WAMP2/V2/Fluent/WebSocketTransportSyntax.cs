@@ -5,11 +5,9 @@ namespace WampSharp.V2.Fluent
 {
     internal class WebSocketTransportSyntax : IWebSocketTransportSyntax
     {
-        private readonly ChannelState mState;
-
         public WebSocketTransportSyntax(ChannelState state)
         {
-            mState = state;
+            State = state;
         }
 
         public ChannelFactorySyntax.ITransportSyntax SetClientWebSocketOptions(Action<ClientWebSocketOptions> configureClientWebSocketOptions)
@@ -18,12 +16,6 @@ namespace WampSharp.V2.Fluent
             return this;
         }
 
-        public ChannelState State
-        {
-            get
-            {
-                return mState;
-            }
-        }
+        public ChannelState State { get; }
     }
 }

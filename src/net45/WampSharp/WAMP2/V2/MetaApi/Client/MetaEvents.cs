@@ -4,32 +4,18 @@ namespace WampSharp.V2.MetaApi
 {
     public class MetaEvents
     {
-        private readonly SessionEvents mSessionEvents;
-        private readonly SubscriptionEvents mSubscriptionEvents;
         private readonly RegistrationEvents mRegistrationEvents;
 
         public MetaEvents(IWampRealmProxy proxy)
         {
-            mSessionEvents = new SessionEvents(proxy);
-            mSubscriptionEvents = new SubscriptionEvents(proxy);
+            Session = new SessionEvents(proxy);
+            Subscription = new SubscriptionEvents(proxy);
             mRegistrationEvents = new RegistrationEvents(proxy);
         }
 
-        public SessionEvents Session
-        {
-            get
-            {
-                return mSessionEvents;
-            }
-        }
+        public SessionEvents Session { get; }
 
-        public SubscriptionEvents Subscription
-        {
-            get
-            {
-                return mSubscriptionEvents;
-            }
-        }
+        public SubscriptionEvents Subscription { get; }
 
         public RegistrationEvents Registration
         {

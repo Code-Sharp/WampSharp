@@ -6,12 +6,11 @@ namespace WampSharp.V2.PubSub
     internal class RemoteWampTopicSubscriber : IRemoteWampTopicSubscriber
     {
         private readonly IWampClientProxy mSubscriber;
-        private readonly long mSubscriptionId;
 
         public RemoteWampTopicSubscriber(long subscriptionId, IWampSubscriber subscriber)
         {
             mSubscriber = subscriber as IWampClientProxy;
-            mSubscriptionId = subscriptionId;
+            SubscriptionId = subscriptionId;
         }
 
         public long SessionId
@@ -46,13 +45,7 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public long SubscriptionId
-        {
-            get
-            {
-                return mSubscriptionId;
-            }
-        }
+        public long SubscriptionId { get; }
 
         public void Event(long publicationId, EventDetails details)
         {

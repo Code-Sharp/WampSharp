@@ -12,7 +12,6 @@ namespace WampSharp.V1.Rpc.Client
     /// </summary>
     public class DynamicWampRpcClient : DynamicObject
     {
-        private readonly IWampRpcClientHandler mClientHandler;
         private readonly IWampRpcSerializer mSerializer;
 
         /// <summary>
@@ -25,17 +24,11 @@ namespace WampSharp.V1.Rpc.Client
         public DynamicWampRpcClient(IWampRpcClientHandler clientHandler,
                                     IWampRpcSerializer serializer)
         {
-            mClientHandler = clientHandler;
+            ClientHandler = clientHandler;
             mSerializer = serializer;
         }
 
-        private IWampRpcClientHandler ClientHandler
-        {
-            get
-            {
-                return mClientHandler;
-            }
-        }
+        private IWampRpcClientHandler ClientHandler { get; }
 
         private IWampRpcSerializer Serializer
         {
@@ -57,14 +50,13 @@ namespace WampSharp.V1.Rpc.Client
         private class DynamicWampCall : DynamicObject
         {
             private readonly DynamicWampRpcClient mClient;
-            private readonly string mMethodName;
             private readonly object[] mArguments;
             private Task<object> mTask;
 
             public DynamicWampCall(DynamicWampRpcClient client, string methodName, object[] arguments)
             {
                 mClient = client;
-                mMethodName = methodName;
+                MethodName = methodName;
                 mArguments = arguments;
             }
 
@@ -76,13 +68,7 @@ namespace WampSharp.V1.Rpc.Client
                 }
             }
 
-            private string MethodName
-            {
-                get
-                {
-                    return mMethodName;
-                }
-            }
+            private string MethodName { get; }
 
             public override bool TryGetMember(GetMemberBinder binder, out object result)
             {

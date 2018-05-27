@@ -24,7 +24,6 @@ namespace WampSharp.RawSocket
         private readonly TcpListener mListener;
         private bool mIsStarted = false;
         private readonly RecyclableMemoryStreamManager mByteArrayPool = new RecyclableMemoryStreamManager();
-        private readonly byte mMaxSize;
         private readonly TimeSpan? mAutoPingInterval;
         private readonly ServerSslConfiguration mSslConfiguration;
 
@@ -45,7 +44,7 @@ namespace WampSharp.RawSocket
                 throw new ArgumentException("Expected a number between 0 to 15", nameof(maxSize));
             }
 
-            mMaxSize = maxSize;
+            MaxSize = maxSize;
         }
 
         public override void Open()
@@ -118,13 +117,7 @@ namespace WampSharp.RawSocket
             }
         }
 
-        public byte MaxSize
-        {
-            get
-            {
-                return mMaxSize;
-            }
-        }
+        public byte MaxSize { get; }
 
         protected override void OpenConnection<TMessage>(RawSocketTcpClient original, IWampConnection<TMessage> connection)
         {

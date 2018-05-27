@@ -8,40 +8,26 @@ namespace WampSharp.Vtortola
     [DataContract]
     internal class VtortolaTransportDetails : WampTransportDetails
     {
-        private readonly string mRemoteEndpoint;
-        private readonly VtortolaWebSocketHttpRequest mHttpRequest;
         private readonly VtortolaWebSocketHttpResponse mHttpResponse;
 
         public VtortolaTransportDetails(WebSocket websocket)
         {
             IPEndPoint remoteEndpoint = websocket.RemoteEndpoint;
 
-            mRemoteEndpoint =
+            RemoteEndpoint =
                 string.Format("tcp4://{0}:{1}",
                               remoteEndpoint.Address,
                               remoteEndpoint.Port);
 
-            mHttpRequest = new VtortolaWebSocketHttpRequest(websocket.HttpRequest);
+            HttpRequest = new VtortolaWebSocketHttpRequest(websocket.HttpRequest);
             mHttpResponse = new VtortolaWebSocketHttpResponse(websocket.HttpResponse);
         }
 
         [DataMember(Name = "peer")]
-        public string RemoteEndpoint
-        {
-            get
-            {
-                return mRemoteEndpoint;
-            }
-        }
+        public string RemoteEndpoint { get; }
 
         [DataMember(Name = "http_request")]
-        public VtortolaWebSocketHttpRequest HttpRequest
-        {
-            get
-            {
-                return mHttpRequest;
-            }
-        }
+        public VtortolaWebSocketHttpRequest HttpRequest { get; }
 
         [DataMember(Name = "http_response")]
         public VtortolaWebSocketHttpResponse HttpResponse

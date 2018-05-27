@@ -16,7 +16,6 @@ namespace WampSharp.Core.Listener
     public class WampListener<TMessage, TClient>
     {
         private readonly IWampIncomingMessageHandler<TMessage, TClient> mHandler;
-        private readonly IWampClientContainer<TMessage, TClient> mClientContainer;
         private readonly IWampConnectionListener<TMessage> mListener;
         private IDisposable mSubscription;
         protected readonly ILog mLogger;
@@ -35,7 +34,7 @@ namespace WampSharp.Core.Listener
                             IWampClientContainer<TMessage, TClient> clientContainer)
         {
             mHandler = handler;
-            mClientContainer = clientContainer;
+            ClientContainer = clientContainer;
             mListener = listener;
             mLogger = LogProvider.GetLogger(this.GetType());
         }
@@ -44,13 +43,7 @@ namespace WampSharp.Core.Listener
         /// The <see cref="IWampClientContainer{TMessage,TClient}"/>
         /// holding all current connected clients.
         /// </summary>
-        public IWampClientContainer<TMessage, TClient> ClientContainer
-        {
-            get
-            {
-                return mClientContainer;
-            }
-        }
+        public IWampClientContainer<TMessage, TClient> ClientContainer { get; }
 
         /// <summary>
         /// Starts listening for <see cref="IWampConnection{TMessage}"/>s.

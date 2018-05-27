@@ -4,22 +4,14 @@ namespace WampSharp.V2.PubSub
 {
     public class WampTopicEventArgs : EventArgs
     {
-        private readonly IWampTopic mTopic;
-
         public WampTopicEventArgs(IWampTopic topic)
         {
-            mTopic = topic;
+            Topic = topic;
         }
 
         /// <summary>
         /// Gets the relevant topic.
         /// </summary>
-        public IWampTopic Topic
-        {
-            get
-            {
-                return mTopic;
-            }
-        }
+        public IWampTopic Topic { get; }
     }
 }

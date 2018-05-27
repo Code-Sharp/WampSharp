@@ -13,8 +13,6 @@ namespace WampSharp.Owin
         private readonly Func<ArraySegment<byte>, int, bool, CancellationToken, Task> mSendAsync;
         private readonly Func<ArraySegment<byte>, CancellationToken, Task<Tuple<int, bool, int>>> mReceiveAsync;
         private readonly Func<int, string, CancellationToken, Task> mCloseAsync;
-        private WebSocketState mState = WebSocketState.Open;
-
         private const string WebSocketSendAsync = "websocket.SendAsync";
         private const string WebSocketReceiveAsync = "websocket.ReceiveAsync";
         private const string WebSocketCloseAsync = "websocket.CloseAsync";
@@ -113,13 +111,7 @@ namespace WampSharp.Owin
             return new WebSocketReceiveResult(count: result.Item3, messageType: webSocketMessageType, endOfMessage: result.Item2);
         }
 
-        public WebSocketState State
-        {
-            get
-            {
-                return mState;
-            }
-        }
+        public WebSocketState State { get; private set; } = WebSocketState.Open;
 
         public Task SendAsync(ArraySegment<byte> data, WebSocketMessageType messageType, bool endOfMessage, CancellationToken cancel)
         {
@@ -138,11 +130,11 @@ namespace WampSharp.Owin
         {
             if (State == WebSocketState.Open)
             {
-                mState = actionDone;
+                State = actionDone;
             }
-            else if (mState == dualAction)
+            else if (State == dualAction)
             {
-                mState = WebSocketState.Closed;
+                State = WebSocketState.Closed;
             }
         }
 

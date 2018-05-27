@@ -6,22 +6,15 @@ namespace WampSharp.V2.PubSub
 {
     internal class SubscriptionToken : IWampRegistrationSubscriptionToken
     {
-        private readonly long mSubscriptionId;
         private readonly IDisposable mDisposable;
 
         public SubscriptionToken(long subscriptionId, IDisposable disposable)
         {
-            mSubscriptionId = subscriptionId;
+            TokenId = subscriptionId;
             mDisposable = disposable;
         }
 
-        public long TokenId
-        {
-            get
-            {
-                return mSubscriptionId;
-            }
-        }
+        public long TokenId { get; }
 
         public void Dispose()
         {

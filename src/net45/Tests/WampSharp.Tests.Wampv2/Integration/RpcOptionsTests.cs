@@ -211,15 +211,8 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         class MyCallback : IWampRawRpcOperationClientCallback
         {
-            private string mErrorUri;
 
-            public string ErrorUri
-            {
-                get
-                {
-                    return mErrorUri;
-                }
-            }
+            public string ErrorUri { get; private set; }
 
             public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
             {
@@ -236,18 +229,18 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error)
             {
-                mErrorUri = error;
+                ErrorUri = error;
             }
 
             public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments)
             {
-                mErrorUri = error;
+                ErrorUri = error;
             }
 
             public void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments,
                 TMessage argumentsKeywords)
             {
-                mErrorUri = error;
+                ErrorUri = error;
             }
         }
 

@@ -16,8 +16,6 @@ namespace WampSharp.V1
     {
         private readonly IWampServer<TMessage> mServer;
         private WampListener<TMessage> mListener;
-        private readonly IWampRpcMetadataCatalog mMetadataCatalog;
-        private readonly IWampTopicContainerExtended<TMessage> mTopicContainer;
         private readonly IWampFormatter<TMessage> mFormatter;
 
         public WampHost(IWampConnectionListener<TMessage> connectionListener, IWampFormatter<TMessage> formatter) : 
@@ -29,11 +27,11 @@ namespace WampSharp.V1
         {
             mFormatter = formatter;
 
-            mMetadataCatalog = new WampRpcMetadataCatalog();
+            MetadataCatalog = new WampRpcMetadataCatalog();
             
-            mTopicContainer = new WampTopicContainer<TMessage>();
+            TopicContainerExtended = new WampTopicContainer<TMessage>();
 
-            mServer = serverBuilder.Build(formatter, mMetadataCatalog, mTopicContainer);
+            mServer = serverBuilder.Build(formatter, MetadataCatalog, TopicContainerExtended);
 
             mListener = GetWampListener(connectionListener, formatter, mServer);
 		}
@@ -98,42 +96,30 @@ namespace WampSharp.V1
 
         public void HostService(object instance, string baseUri)
         {
-            mMetadataCatalog.Register(new MethodInfoWampRpcMetadata(instance, baseUri));
+            MetadataCatalog.Register(new MethodInfoWampRpcMetadata(instance, baseUri));
         }
         
         public void Register(IWampRpcMetadata rpcMetadata)
         {
-            mMetadataCatalog.Register(rpcMetadata);
+            MetadataCatalog.Register(rpcMetadata);
         }
         
         public void Unregister(IWampRpcMethod method)
         {
-            mMetadataCatalog.Unregister(method);
+            MetadataCatalog.Unregister(method);
         }
 
         public IWampTopicContainer TopicContainer
         {
             get
             {
-                return mTopicContainer;
+                return TopicContainerExtended;
             }
         }
 
-        protected IWampTopicContainerExtended<TMessage> TopicContainerExtended
-        {
-            get
-            {
-                return mTopicContainer;
-            }
-        }
+        protected IWampTopicContainerExtended<TMessage> TopicContainerExtended { get; }
 
-        protected IWampRpcMetadataCatalog MetadataCatalog
-        {
-            get
-            {
-                return mMetadataCatalog;
-            }
-        }
+        protected IWampRpcMetadataCatalog MetadataCatalog { get; }
 
         protected IWampFormatter<TMessage> Formatter
         {

@@ -10,13 +10,12 @@ namespace WampSharp.V2
     {
         private readonly IWampHostedRealm mUnderlyingRealm;
         private readonly IWampChannel mInternalChannel;
-        private readonly long mSessionId;
 
         public WampServiceHostedRealm(IWampHostedRealm underlyingRealm, IWampChannel internalChannel, long sessionId)
         {
             mUnderlyingRealm = underlyingRealm;
             mInternalChannel = internalChannel;
-            mSessionId = sessionId;
+            SessionId = sessionId;
         }
 
         public string Name
@@ -71,12 +70,6 @@ namespace WampSharp.V2
             }
         }
 
-        public long SessionId
-        {
-            get
-            {
-                return mSessionId;
-            }
-        }
+        public long SessionId { get; }
     }
 }

@@ -8,14 +8,13 @@ namespace WampSharp.V2.Rpc
 {
     internal class MethodInfoHelper
     {
-        private readonly MethodInfo mMethod;
         private readonly ParameterInfo[] mOutOrRefValues;
         private readonly int[] mInputValues;
         private readonly int mLength;
 
         public MethodInfoHelper(MethodInfo method)
         {
-            mMethod = method;
+            Method = method;
             ParameterInfo[] parameters = method.GetParameters();
 
             mLength = parameters.Length;
@@ -32,10 +31,7 @@ namespace WampSharp.V2.Rpc
                     .ToArray();
         }
 
-        public MethodInfo Method
-        {
-            get { return mMethod; }
-        }
+        public MethodInfo Method { get; }
 
         public object[] GetArguments(object[] inputs)
         {

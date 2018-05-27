@@ -302,21 +302,13 @@ namespace WampSharp.V2.Client
 
         private class RegisterRequest : WampPendingRequest<TMessage, IAsyncDisposable>
         {
-            private readonly IWampRpcOperation mOperation;
-
             public RegisterRequest(IWampRpcOperation operation, IWampFormatter<TMessage> formatter) :
                 base(formatter)
             {
-                mOperation = operation;
+                Operation = operation;
             }
 
-            public IWampRpcOperation Operation
-            {
-                get
-                {
-                    return mOperation;
-                }
-            }
+            public IWampRpcOperation Operation { get; }
         }
 
         private class UnregisterRequest : WampPendingRequest<TMessage>
@@ -358,21 +350,14 @@ namespace WampSharp.V2.Client
         private class ServerProxyCallback : IWampRawRpcOperationRouterCallback
         {
             private readonly IWampServerProxy mProxy;
-            private readonly long mRequestId;
 
             public ServerProxyCallback(IWampServerProxy proxy, long requestId)
             {
                 mProxy = proxy;
-                mRequestId = requestId;
+                RequestId = requestId;
             }
 
-            public long RequestId
-            {
-                get
-                {
-                    return mRequestId;
-                }
-            }
+            public long RequestId { get; }
 
             public void Result<TResult>(IWampFormatter<TResult> formatter, YieldOptions options)
             {
@@ -407,19 +392,15 @@ namespace WampSharp.V2.Client
 
         private class InvocationData
         {
-            private readonly IWampCancellableInvocation mCancellation;
             private readonly long mRegistrationId;
 
             public InvocationData(long registrationId, IWampCancellableInvocation cancellation)
             {
-                mCancellation = cancellation;
+                Cancellation = cancellation;
                 mRegistrationId = registrationId;
             }
 
-            public IWampCancellableInvocation Cancellation
-            {
-                get { return mCancellation; }
-            }
+            public IWampCancellableInvocation Cancellation { get; }
 
             public long RegistrationId
             {

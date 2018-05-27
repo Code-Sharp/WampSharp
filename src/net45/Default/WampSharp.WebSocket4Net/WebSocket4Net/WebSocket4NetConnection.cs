@@ -10,9 +10,8 @@ namespace WampSharp.WebSocket4Net
 {
     public abstract class WebSocket4NetConnection<TMessage> : IControlledWampConnection<TMessage>
     {
-        #region Fields
 
-        private readonly IWampBinding<TMessage> mBinding;
+        #region Fields
 
         private readonly WebSocket mWebSocket;
 
@@ -23,7 +22,7 @@ namespace WampSharp.WebSocket4Net
         public WebSocket4NetConnection(WebSocket webSocket,
                                        IWampBinding<TMessage> binding)
         {
-            mBinding = binding;
+            Binding = binding;
             mWebSocket = webSocket;
             mLogger = LogProvider.GetLogger(this.GetType());
             mWebSocket.Opened += WebSocketOnOpened;
@@ -48,13 +47,7 @@ namespace WampSharp.WebSocket4Net
             }
         }
 
-        public IWampBinding<TMessage> Binding
-        {
-            get
-            {
-                return mBinding;
-            }
-        }
+        public IWampBinding<TMessage> Binding { get; }
 
         protected WebSocket WebSocket
         {

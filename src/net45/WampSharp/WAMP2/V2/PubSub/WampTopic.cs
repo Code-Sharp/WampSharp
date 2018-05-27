@@ -15,14 +15,11 @@ namespace WampSharp.V2.PubSub
 
         private readonly SwapCollection<IWampRawTopicRouterSubscriber> mSubscribers =
             new SwapCollection<IWampRawTopicRouterSubscriber>();
-        
-        private readonly string mTopicUri;
-
         private bool mPersistent;
 
         public WampTopic(string topicUri, bool persistent)
         {
-            mTopicUri = topicUri;
+            TopicUri = topicUri;
             mPersistent = persistent;
         }
 
@@ -38,13 +35,7 @@ namespace WampSharp.V2.PubSub
             }
         }
 
-        public string TopicUri
-        {
-            get
-            {
-                return mTopicUri;
-            }
-        }
+        public string TopicUri { get; }
 
         public void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options)
         {

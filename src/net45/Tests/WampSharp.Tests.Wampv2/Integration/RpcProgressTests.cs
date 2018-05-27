@@ -132,16 +132,9 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         public class MyCallback : IWampRawRpcOperationClientCallback
         {
-            private readonly List<int> mProgressiveResults = new List<int>();
             private readonly TaskCompletionSource<int> mTask = new TaskCompletionSource<int>();
 
-            public List<int> ProgressiveResults
-            {
-                get
-                {
-                    return mProgressiveResults;
-                }
-            }
+            public List<int> ProgressiveResults { get; } = new List<int>();
 
             public Task<int> Task
             {
@@ -159,7 +152,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
                 if (details.Progress == true)
                 {
-                    mProgressiveResults.Add(current);
+                    ProgressiveResults.Add(current);
                 }
                 else
                 {

@@ -10,11 +10,10 @@ namespace WampSharp.Core.Listener
     internal class WampConnectionMonitor<TMessage> : IWampConnectionMonitor
     {
         private readonly IWampConnection<TMessage> mConnection;
-        private bool mConnected;
 
         public WampConnectionMonitor(IWampConnection<TMessage> connection)
         {
-            mConnected = true;
+            Connected = true;
             mConnection = connection;
 
             mConnection.ConnectionError += OnConnectionError;
@@ -23,13 +22,7 @@ namespace WampSharp.Core.Listener
 
         public object Client { private get; set; }
 
-        public bool Connected
-        {
-            get
-            {
-                return mConnected;
-            }
-        }
+        public bool Connected { get; private set; }
 
         private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
         {
@@ -43,7 +36,7 @@ namespace WampSharp.Core.Listener
 
         private void OnConnectionClosed()
         {
-            mConnected = false;
+            Connected = false;
             mConnection.ConnectionError -= OnConnectionError;
             mConnection.ConnectionClosed -= OnConnectionClosed;
             RaiseConnectionClosed(Client, EventArgs.Empty);

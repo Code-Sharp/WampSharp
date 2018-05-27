@@ -20,9 +20,6 @@ namespace WampSharp.V1.PubSub.Server
 
         private readonly ConcurrentDictionary<string, Subscription> mSessionIdToSubscription =
             new ConcurrentDictionary<string, Subscription>();
-
-        private readonly string mTopicUri;
-        private readonly bool mPersistent;
         private readonly object mLock = new object();
         private bool mDisposing = false;
         private bool mDisposed = false;
@@ -38,8 +35,8 @@ namespace WampSharp.V1.PubSub.Server
         /// <param name="persistent">A value indicating whether the topic is persistent.</param>
         public WampTopic(string topicUri, bool persistent = false)
         {
-            mTopicUri = topicUri;
-            mPersistent = persistent;
+            TopicUri = topicUri;
+            Persistent = persistent;
         }
 
         #endregion
@@ -66,21 +63,9 @@ namespace WampSharp.V1.PubSub.Server
             mSubject.OnCompleted();
         }
 
-        public string TopicUri
-        {
-            get
-            {
-                return mTopicUri;
-            }
-        }
+        public string TopicUri { get; }
 
-        public bool Persistent
-        {
-            get
-            {
-                return mPersistent;
-            }
-        }
+        public bool Persistent { get; }
 
         public bool HasObservers
         {
@@ -289,13 +274,12 @@ namespace WampSharp.V1.PubSub.Server
         private class Subscription : IDisposable
         {
             private readonly IWampTopic mTopic;
-            private readonly WampObserver mObserver;
             private readonly IDisposable mDisposable;
 
             public Subscription(IWampTopic topic, WampObserver observer, IDisposable disposable)
             {
                 mTopic = topic;
-                mObserver = observer;
+                Observer = observer;
                 mDisposable = disposable;
                 TrackConnection();
             }
@@ -303,7 +287,7 @@ namespace WampSharp.V1.PubSub.Server
             private void TrackConnection()
             {
                 IWampConnectionMonitor monitor = 
-                    mObserver.Client as IWampConnectionMonitor;
+                    Observer.Client as IWampConnectionMonitor;
 
                 monitor.ConnectionClosed += OnConnectionClosed;
             }
@@ -316,20 +300,14 @@ namespace WampSharp.V1.PubSub.Server
                 mTopic.Unsubscribe(Observer.SessionId);
             }
 
-            private WampObserver Observer
-            {
-                get
-                {
-                    return mObserver;
-                }
-            }
+            private WampObserver Observer { get; }
 
             public void Dispose()
             {
                 mDisposable.Dispose();
 
                 IWampConnectionMonitor monitor =
-                    mObserver.Client as IWampConnectionMonitor;
+                    Observer.Client as IWampConnectionMonitor;
 
                 monitor.ConnectionClosed -= OnConnectionClosed;
             }

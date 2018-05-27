@@ -125,22 +125,14 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         private class MyCancellableOperation : IWampRpcOperation
         {
-            private readonly string mProcedureName;
-
             public MyCancellableOperation(string procedure)
             {
-                mProcedureName = procedure;
+                Procedure = procedure;
             }
 
             public MyCancellableInvocation CancellableInvocation { get; private set; }
 
-            public string Procedure
-            {
-                get
-                {
-                    return mProcedureName;
-                }
-            }
+            public string Procedure { get; }
 
             public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
             {

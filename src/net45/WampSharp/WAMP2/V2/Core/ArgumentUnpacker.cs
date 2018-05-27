@@ -9,20 +9,12 @@ namespace WampSharp.V2.Core
 {
     internal class ArgumentUnpacker
     {
-        private readonly LocalParameter[] mParameters;
-
         public ArgumentUnpacker(LocalParameter[] parameters)
         {
-            mParameters = parameters;
+            Parameters = parameters;
         }
 
-        public LocalParameter[] Parameters
-        {
-            get
-            {
-                return mParameters;
-            }
-        }
+        public LocalParameter[] Parameters { get; }
 
         public IEnumerable<object> UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,
             TMessage[] arguments,

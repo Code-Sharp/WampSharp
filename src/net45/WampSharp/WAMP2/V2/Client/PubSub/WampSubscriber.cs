@@ -22,7 +22,6 @@ namespace WampSharp.V2.Client
             new WampRequestIdMapper<UnsubscribeRequest>();
 
         private readonly IWampServerProxy mProxy;
-        private readonly IWampFormatter<TMessage> mFormatter;
         private readonly IWampClientConnectionMonitor mMonitor;
 
         private readonly SwapDictionary<long, SwapCollection<Subscription>> mSubscriptionIdToSubscriptions =
@@ -35,7 +34,7 @@ namespace WampSharp.V2.Client
                               IWampClientConnectionMonitor monitor)
         {
             mProxy = proxy;
-            mFormatter = formatter;
+            Formatter = formatter;
             mMonitor = monitor;
 
             monitor.ConnectionBroken += OnConnectionBroken;
@@ -57,7 +56,7 @@ namespace WampSharp.V2.Client
                 throw new WampSessionNotEstablishedException();
             }
 
-            SubscribeRequest request = new SubscribeRequest(mFormatter, subscriber, options, topicUri);
+            SubscribeRequest request = new SubscribeRequest(Formatter, subscriber, options, topicUri);
             long requestId = mPendingSubscriptions.Add(request);
             request.RequestId = requestId;
 
@@ -107,7 +106,7 @@ namespace WampSharp.V2.Client
                 throw new WampSessionNotEstablishedException();
             }
 
-            UnsubscribeRequest request = new UnsubscribeRequest(mFormatter, subscriptionId);
+            UnsubscribeRequest request = new UnsubscribeRequest(Formatter, subscriptionId);
             long requestId = mPendingUnsubscriptions.Add(request);
             request.RequestId = requestId;
 
@@ -264,13 +263,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        private IWampFormatter<TMessage> Formatter
-        {
-            get
-            {
-                return mFormatter;
-            }
-        }
+        private IWampFormatter<TMessage> Formatter { get; }
 
         public void OnConnectionError(object sender, WampConnectionErrorEventArgs eventArgs)
         {
@@ -297,32 +290,18 @@ namespace WampSharp.V2.Client
 
         private class BaseSubscription
         {
-            private readonly IWampRawTopicClientSubscriber mSubscriber;
-            private readonly SubscribeOptions mOptions;
             private readonly string mTopicUri;
 
             public BaseSubscription(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri)
             {
-                mSubscriber = subscriber;
-                mOptions = options;
+                Subscriber = subscriber;
+                Options = options;
                 mTopicUri = topicUri;
             }
 
-            public IWampRawTopicClientSubscriber Subscriber
-            {
-                get
-                {
-                    return mSubscriber;
-                }
-            }
+            public IWampRawTopicClientSubscriber Subscriber { get; }
 
-            public SubscribeOptions Options
-            {
-                get
-                {
-                    return mOptions;
-                }
-            }
+            public SubscribeOptions Options { get; }
 
             public string TopicUri
             {
@@ -382,39 +361,23 @@ namespace WampSharp.V2.Client
 
         private class Subscription : BaseSubscription
         {
-            private readonly long mSubscriptionId;
-
             public Subscription(long subscriptionId, IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri) : 
                 base(subscriber, options, topicUri)
             {
-                mSubscriptionId = subscriptionId;
+                SubscriptionId = subscriptionId;
             }
 
-            public long SubscriptionId
-            {
-                get
-                {
-                    return mSubscriptionId;
-                }
-            }
+            public long SubscriptionId { get; }
         }
 
         private class UnsubscribeRequest : WampPendingRequest<TMessage>
         {
-            private readonly long mSubscriptionId;
-
             public UnsubscribeRequest(IWampFormatter<TMessage> formatter, long subscriptionId) : base(formatter)
             {
-                mSubscriptionId = subscriptionId;
+                SubscriptionId = subscriptionId;
             }
 
-            public long SubscriptionId
-            {
-                get
-                {
-                    return mSubscriptionId;
-                }
-            }
+            public long SubscriptionId { get; }
         }
 
         private class UnsubscribeDisposable : IAsyncDisposable

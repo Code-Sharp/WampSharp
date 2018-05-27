@@ -8,11 +8,7 @@ namespace WampSharp.V2.Core.Contracts
     [Serializable]
     public class WampException : Exception
     {
-        private readonly string mErrorUri;
-        private readonly IDictionary<string, object> mDetails;
         private readonly object[] mArguments;
-        private readonly IDictionary<string, object> mArgumentsKeywords;
-
         private static readonly IDictionary<string, object> mEmptyDetails =
             new ReadOnlyDictionary<string, object>(new Dictionary<string, object>());
 
@@ -37,27 +33,27 @@ namespace WampSharp.V2.Core.Contracts
         public WampException(IDictionary<string, object> details, string errorUri, object[] arguments,
                              IDictionary<string, object> argumentsKeywords) : base(errorUri)
         {
-            mErrorUri = errorUri;
-            mDetails = details ?? mEmptyDetails;
+            ErrorUri = errorUri;
+            Details = details ?? mEmptyDetails;
             mArguments = arguments;
-            mArgumentsKeywords = argumentsKeywords;
+            ArgumentsKeywords = argumentsKeywords;
         }
 
         public WampException(IDictionary<string, object> details, string errorUri, string message,
                              IDictionary<string, object> argumentsKeywords)
             : base(message)
         {
-            mErrorUri = errorUri;
-            mDetails = details ?? mEmptyDetails;
+            ErrorUri = errorUri;
+            Details = details ?? mEmptyDetails;
             mArguments = new object[] {message};
-            mArgumentsKeywords = argumentsKeywords;
+            ArgumentsKeywords = argumentsKeywords;
         }
 
         public WampException(string errorUri, string messageDetails) :
             base(string.Format("Error uri: '{0}', details: {1}",
                 errorUri, messageDetails))
         {
-            mErrorUri = errorUri;
+            ErrorUri = errorUri;
             mArguments = new object[] {messageDetails};
         }
 
@@ -65,10 +61,10 @@ namespace WampSharp.V2.Core.Contracts
                              IDictionary<string, object> argumentsKeywords, string message, Exception inner)
             : base(message, inner)
         {
-            mErrorUri = errorUri;
-            mDetails = details ?? mEmptyDetails;
+            ErrorUri = errorUri;
+            Details = details ?? mEmptyDetails;
             mArguments = arguments;
-            mArgumentsKeywords = argumentsKeywords;
+            ArgumentsKeywords = argumentsKeywords;
         }
 
 #if !PCL
@@ -78,21 +74,9 @@ namespace WampSharp.V2.Core.Contracts
         }
 #endif
 
-        public string ErrorUri
-        {
-            get
-            {
-                return mErrorUri;
-            }
-        }
+        public string ErrorUri { get; }
 
-        public IDictionary<string, object> Details
-        {
-            get
-            {
-                return mDetails;
-            }
-        }
+        public IDictionary<string, object> Details { get; }
 
         public object[] Arguments
         {
@@ -102,12 +86,6 @@ namespace WampSharp.V2.Core.Contracts
             }
         }
 
-        public IDictionary<string, object> ArgumentsKeywords
-        {
-            get
-            {
-                return mArgumentsKeywords;
-            }
-        }
+        public IDictionary<string, object> ArgumentsKeywords { get; }
     }
 }
