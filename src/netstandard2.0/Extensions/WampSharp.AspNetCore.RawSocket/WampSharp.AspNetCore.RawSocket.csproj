@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\net45\Extensions\WampSharp.AspNetCore.RawSocket.Server\**\*.cs" Exclude="..\..\..\net45\Extensions\WampSharp.AspNetCore.RawSocket.Server\**\bin\**;..\..\..\net45\Extensions\WampSharp.AspNetCore.RawSocket.Server\**\obj\**;" />
+    <Compile Include="..\..\..\net45\Extensions\WampSharp.AspNetCore.RawSocket\**\*.cs" Exclude="..\..\..\net45\Extensions\WampSharp.AspNetCore.RawSocket\**\bin\**;..\..\..\net45\Extensions\WampSharp.AspNetCore.RawSocket\**\obj\**;" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">

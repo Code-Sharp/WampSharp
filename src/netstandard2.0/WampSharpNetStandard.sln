@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.WAMP1.Default", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Tests", "Tests\WampSharp.Tests\WampSharp.Tests.csproj", "{BEFA3F94-8641-48F3-91EE-2FBB07EEBBE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.AspNetCore.RawSocket", "Extensions\WampSharp.AspNetCore.RawSocket.Server\WampSharp.AspNetCore.RawSocket.csproj", "{EB263842-2022-43EC-B51C-440FEBED1610}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.AspNetCore.RawSocket", "Extensions\WampSharp.AspNetCore.RawSocket\WampSharp.AspNetCore.RawSocket.csproj", "{837231C1-1C95-4946-85DF-FC2D9596EBF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,10 +113,10 @@ Global
 		{BEFA3F94-8641-48F3-91EE-2FBB07EEBBE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEFA3F94-8641-48F3-91EE-2FBB07EEBBE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEFA3F94-8641-48F3-91EE-2FBB07EEBBE4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB263842-2022-43EC-B51C-440FEBED1610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB263842-2022-43EC-B51C-440FEBED1610}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB263842-2022-43EC-B51C-440FEBED1610}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB263842-2022-43EC-B51C-440FEBED1610}.Release|Any CPU.Build.0 = Release|Any CPU
+		{837231C1-1C95-4946-85DF-FC2D9596EBF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{837231C1-1C95-4946-85DF-FC2D9596EBF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{837231C1-1C95-4946-85DF-FC2D9596EBF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{837231C1-1C95-4946-85DF-FC2D9596EBF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,7 +133,7 @@ Global
 		{5F6B51F6-1DA9-4D16-AEBD-BEC5F0E8E84D} = {E3EAE72D-738A-4179-8A22-50D58A91AD04}
 		{A089E5B3-A463-4F28-AB7A-536D76F9AD87} = {72E8F565-788F-4A29-8919-7F3F001C6FC9}
 		{BEFA3F94-8641-48F3-91EE-2FBB07EEBBE4} = {4CADCB5B-7607-4B2C-A1C4-0550568AAE5D}
-		{EB263842-2022-43EC-B51C-440FEBED1610} = {E3EAE72D-738A-4179-8A22-50D58A91AD04}
+		{837231C1-1C95-4946-85DF-FC2D9596EBF8} = {E3EAE72D-738A-4179-8A22-50D58A91AD04}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C83357C-2ED0-48F8-8468-E6531D94FBA3}
