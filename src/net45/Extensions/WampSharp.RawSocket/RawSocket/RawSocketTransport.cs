@@ -51,7 +51,7 @@ namespace WampSharp.RawSocket
 
             mListener.Start();
 
-            Task.Run(new Func<Task>(ListenAsync));
+            Task.Run(ListenAsync);
         }
 
         private async Task ListenAsync()
@@ -120,7 +120,7 @@ namespace WampSharp.RawSocket
         protected override void OpenConnection<TMessage>(RawSocketTcpClient original, IWampConnection<TMessage> connection)
         {
             TcpClientConnection<TMessage> casted = connection as TcpClientConnection<TMessage>;
-            Task.Run(new Func<Task>(casted.HandleTcpClientAsync));
+            Task.Run(casted.HandleTcpClientAsync);
         }
 
         protected override string GetSubProtocol(RawSocketTcpClient connection)

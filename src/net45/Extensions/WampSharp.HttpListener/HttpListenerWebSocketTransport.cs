@@ -86,7 +86,7 @@ namespace WampSharp.HttpListener
             mHttpListener.Prefixes.Add(mUrl);
             mHttpListener.Start();
 
-            Task.Run(new Func<Task>(ListenAsync));
+            Task.Run(ListenAsync);
         }
 
         private async Task ListenAsync()

@@ -119,7 +119,7 @@ namespace WampSharp.Vtortola
 
             mListener = listener;
 
-            Task.Run(new Func<Task>(() => ListenAsync(mCancellationToken.Token)));
+            Task.Run(() => ListenAsync(mCancellationToken.Token));
         }
 
         private async Task ListenAsync(CancellationToken cancellationToken)
@@ -151,7 +151,7 @@ namespace WampSharp.Vtortola
         protected override void OpenConnection<TMessage>(WebSocketData original, IWampConnection<TMessage> connection)
         {
             VtortolaWampConnection<TMessage> casted = connection as VtortolaWampConnection<TMessage>;
-            Task.Run(new Func<Task>(casted.HandleWebSocketAsync));
+            Task.Run(casted.HandleWebSocketAsync);
         }
 
         protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>
