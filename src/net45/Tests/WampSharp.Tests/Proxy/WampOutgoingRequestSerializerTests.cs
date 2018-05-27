@@ -12,7 +12,7 @@ namespace WampSharp.Tests.Proxy
     {
         private WampOutgoingRequestSerializer<MockRaw> mOutgoingRequestSerializer;
         private WampMessageEqualityComparer<MockRaw> mComparer;
-        private IWampFormatter<MockRaw> mFormatter = new MockRawFormatter();
+        private readonly IWampFormatter<MockRaw> mFormatter = new MockRawFormatter();
 
         [SetUp]
         public void Setup()

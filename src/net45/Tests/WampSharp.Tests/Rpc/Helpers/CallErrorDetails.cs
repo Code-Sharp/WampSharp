@@ -2,7 +2,7 @@
 {
     public class CallErrorDetails
     {
-        private string mErrorDesc;
+        private readonly string mErrorDesc;
 
         public CallErrorDetails(string errorUri, string errorDesc, object errorDetails)
         {

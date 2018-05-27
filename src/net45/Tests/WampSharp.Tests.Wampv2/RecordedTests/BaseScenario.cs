@@ -9,7 +9,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
 {
     internal abstract class BaseScenario
     {
-        private object mServer;
+        private readonly object mServer;
 
         public BaseScenario()
         {

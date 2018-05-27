@@ -789,7 +789,7 @@ namespace WampSharp.Logging
                                                "with a non-null value first.";
         private static dynamic s_currentLogProvider;
         private static Action<ILogProvider> s_onCurrentLogProviderSet;
-        private static Lazy<ILogProvider> s_resolvedLogProvider = new Lazy<ILogProvider>(() => ForceResolveLogProvider());
+        private static readonly Lazy<ILogProvider> s_resolvedLogProvider = new Lazy<ILogProvider>(() => ForceResolveLogProvider());
 
         [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
         static LogProvider()
@@ -1275,7 +1275,7 @@ namespace WampSharp.Logging.LogProviders
         {
             private readonly dynamic _logger;
 
-            private static Func<string, object, string, object[], Exception, object> _logEventInfoFact;
+            private static readonly Func<string, object, string, object[], Exception, object> _logEventInfoFact;
 
             private static readonly object _levelTrace;
             private static readonly object _levelDebug;

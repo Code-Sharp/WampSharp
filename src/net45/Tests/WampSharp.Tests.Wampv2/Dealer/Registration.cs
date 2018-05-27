@@ -7,7 +7,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
 {
     public class Registration
     {
-        private string mProcedure;
+        private readonly string mProcedure;
 
         public Registration(long requestId, RegisterOptions options, string procedure)
         {

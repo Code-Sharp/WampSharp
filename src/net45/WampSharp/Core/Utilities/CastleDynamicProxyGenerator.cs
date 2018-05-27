@@ -6,7 +6,7 @@ namespace WampSharp.Core.Utilities
 {
     internal static class CastleDynamicProxyGenerator
     {
-        private static string PREFIX = "WampSharp.";
+        private static readonly string PREFIX = "WampSharp.";
 
         public static readonly ProxyGenerator Instance = GetProxyGenerator();
 

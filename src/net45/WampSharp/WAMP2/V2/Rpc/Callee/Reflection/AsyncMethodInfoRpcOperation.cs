@@ -20,7 +20,7 @@ namespace WampSharp.V2.Rpc
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
         private readonly bool mSupportsCancellation;
-        private IWampResultExtractor mResultExtractor;
+        private readonly IWampResultExtractor mResultExtractor;
 
         public AsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) :
             base(procedureName)

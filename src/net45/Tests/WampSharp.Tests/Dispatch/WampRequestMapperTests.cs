@@ -16,7 +16,7 @@ namespace WampSharp.Tests.Dispatch
             new WampRequestMapper<MockRaw>(typeof (MockWampServer),
             new MockRawFormatter());
 
-        private WampRequestMapper<MockRaw> mClientMapper = new WampRequestMapper<MockRaw>(typeof(MockWampClient),
+        private readonly WampRequestMapper<MockRaw> mClientMapper = new WampRequestMapper<MockRaw>(typeof(MockWampClient),
             new MockRawFormatter());
 
         [TestCaseSource(typeof (Messages), nameof(Messages.PrefixMessages))]

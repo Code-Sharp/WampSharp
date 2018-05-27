@@ -9,7 +9,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
 {
     public class Call
     {
-        private IDictionary<string, MockRaw> mArgumentsKeywords;
+        private readonly IDictionary<string, MockRaw> mArgumentsKeywords;
 
         public Call(long requestId, CallOptions options, string procedure, MockRaw[] arguments, IDictionary<string, MockRaw> argumentsKeywords)
         {

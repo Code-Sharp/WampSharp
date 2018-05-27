@@ -12,8 +12,8 @@ namespace WampSharp.V2.Client
     public class WampSessionClient<TMessage> : IWampSessionClientExtended,
         IWampClientConnectionMonitor
     {
-        private static GoodbyeDetails EmptyGoodbyeDetails = new GoodbyeDetails();
-        private static AuthenticateExtraData EmptyAuthenticateDetails = new AuthenticateExtraData();
+        private static readonly GoodbyeDetails EmptyGoodbyeDetails = new GoodbyeDetails();
+        private static readonly AuthenticateExtraData EmptyAuthenticateDetails = new AuthenticateExtraData();
         private readonly IWampServerProxy mServerProxy;
         private TaskCompletionSource<bool> mOpenTask = new TaskCompletionSource<bool>();
         private readonly IWampFormatter<TMessage> mFormatter;

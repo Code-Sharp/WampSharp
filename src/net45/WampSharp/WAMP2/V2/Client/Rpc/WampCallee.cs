@@ -35,7 +35,7 @@ namespace WampSharp.V2.Client
         private readonly ConcurrentDictionary<long, InvocationData> mInvocations =
             new ConcurrentDictionary<long, InvocationData>();
 
-        private SwapDictionary<long, SwapCollection<long>> mRegistrationsToInvocations = 
+        private readonly SwapDictionary<long, SwapCollection<long>> mRegistrationsToInvocations = 
             new SwapDictionary<long, SwapCollection<long>>();
 
         private readonly object mLock = new object();

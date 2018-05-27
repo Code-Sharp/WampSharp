@@ -15,7 +15,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
     {
         private readonly IWampOutgoingRequestSerializer mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
-        private IWampBinding<TMessage> mBinding;
+        private readonly IWampBinding<TMessage> mBinding;
 
         /// <summary>
         /// Creates a new instance of <see cref="WampClientBuilderFactory{TMessage}"/>.

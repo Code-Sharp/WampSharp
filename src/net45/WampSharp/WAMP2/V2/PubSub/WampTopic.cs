@@ -13,7 +13,7 @@ namespace WampSharp.V2.PubSub
 
         private readonly SwapCollection<IWampRawTopicRouterSubscriber> mSubscribers =
             new SwapCollection<IWampRawTopicRouterSubscriber>();
-        private bool mPersistent;
+        private readonly bool mPersistent;
 
         public WampTopic(string topicUri, bool persistent)
         {

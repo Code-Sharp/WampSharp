@@ -19,7 +19,7 @@ namespace WampSharp.WebSockets
         private readonly IWebSocketWrapper mWebSocket;
         private CancellationTokenSource mCancellationTokenSource;
         private readonly Uri mAddressUri;
-        private CancellationToken mCancellationToken;
+        private readonly CancellationToken mCancellationToken;
 
         public WebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampStreamingMessageParser<TMessage> parser, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
             base(cookieProvider, cookieAuthenticatorFactory)

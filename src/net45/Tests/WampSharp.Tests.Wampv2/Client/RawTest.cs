@@ -10,7 +10,7 @@ namespace WampSharp.Tests.Wampv2.Client
     public abstract class RawTest<TMessage>
     {
         protected IWampBinding<TMessage> mBinding;
-        private IEqualityComparer<TMessage> mEqualityComparer;
+        private readonly IEqualityComparer<TMessage> mEqualityComparer;
 
         public RawTest(IWampBinding<TMessage> binding, IEqualityComparer<TMessage> equalityComparer)
         {

@@ -17,7 +17,7 @@ namespace WampSharp.V2
         private IDisposable mDisposable = Disposable.Empty;
         private bool mStarted = false;
         private readonly object mLock = new object();
-        private IDisposable mConnectionBrokenDisposable;
+        private readonly IDisposable mConnectionBrokenDisposable;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampChannelReconnector"/>.
