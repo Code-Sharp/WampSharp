@@ -1,7 +1,8 @@
 ﻿#if !ASYNC_LOCAL && !PCL
 using System.Runtime.Remoting.Messaging;
+#else
+using System.Threading;
 #endif
-
 using System;
 using WampSharp.V2.Core.Contracts;
 
