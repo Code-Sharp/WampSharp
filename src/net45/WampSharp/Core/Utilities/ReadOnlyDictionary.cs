@@ -1,6 +1,8 @@
-﻿namespace System.Collections.ObjectModel
+﻿#if NET40
+using System.Collections.Generic;
+
+namespace System.Collections.ObjectModel
 {
-#if NET40
 
     public class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
@@ -41,21 +43,9 @@
             throw new InvalidOperationException();
         }
 
-        public int Count
-        {
-            get
-            {
-                return mUnderlyingDictionary.Count;
-            }
-        }
+        public int Count => mUnderlyingDictionary.Count;
 
-        public bool IsReadOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool IsReadOnly => true;
 
         public bool ContainsKey(TKey key)
         {
@@ -79,37 +69,19 @@
 
         public TValue this[TKey key]
         {
-            get
-            {
-                return mUnderlyingDictionary[key];
-            }
-            set
-            {
-                throw new InvalidOperationException();
-            }
+            get => mUnderlyingDictionary[key];
+            set => throw new InvalidOperationException();
         }
 
-        public ICollection<TKey> Keys
-        {
-            get
-            {
-                return mUnderlyingDictionary.Keys;
-            }
-        }
+        public ICollection<TKey> Keys => mUnderlyingDictionary.Keys;
 
-        public ICollection<TValue> Values
-        {
-            get
-            {
-                return mUnderlyingDictionary.Values;
-            }
-        }
+        public ICollection<TValue> Values => mUnderlyingDictionary.Values;
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
     }
+}
 
 #endif
-}
