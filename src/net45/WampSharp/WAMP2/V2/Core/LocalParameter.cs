@@ -14,7 +14,7 @@ namespace WampSharp.V2.Core
         }
 
         public LocalParameter(Type type, object defaultValue, int position) :
-            this((string) null, type, defaultValue, true, position)
+            this(null, type, defaultValue, true, position)
         {
         }
 

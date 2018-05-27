@@ -57,7 +57,7 @@ namespace WampSharp.WebSockets
 
                 RaiseConnectionOpen();
 
-                Task task = Task.Run((Func<Task>) this.RunAsync, mCancellationToken);
+                Task task = Task.Run(this.RunAsync, mCancellationToken);
             }
             catch (Exception ex)
             {

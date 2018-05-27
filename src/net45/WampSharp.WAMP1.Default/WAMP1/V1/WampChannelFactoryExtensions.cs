@@ -12,7 +12,7 @@ namespace WampSharp.V1
     {
         public static IWampChannel<JToken> CreateChannel(this DefaultWampChannelFactory factory, string address)
         {
-            return factory.CreateChannel(address, (Action<SecurityOption>)null);
+            return factory.CreateChannel(address, null);
         }
 
         public static IWampChannel<JToken> CreateChannel(this DefaultWampChannelFactory factory, string address, 
