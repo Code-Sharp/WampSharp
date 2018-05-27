@@ -21,14 +21,8 @@ namespace WampSharp.V2
 
         public static WampInvocationContext Current
         {
-            get
-            {
-                return mCurrent.Value;
-            }
-            internal set
-            {
-                mCurrent.Value = value;
-            }
+            get => mCurrent.Value;
+            internal set => mCurrent.Value = value;
         }
 #elif !PCL
         public static WampInvocationContext Current
@@ -38,6 +32,20 @@ namespace WampSharp.V2
         }
 
 #else
+        [ThreadStatic]
+        private static WampInvocationContext mCurrent;
+
+        public static WampInvocationContext Current
+        {
+            get
+            {
+                return mCurrent;
+            }
+            internal set
+            {
+                mCurrent = value;
+            }
+        }
 #endif
         #endregion
         #region Members
