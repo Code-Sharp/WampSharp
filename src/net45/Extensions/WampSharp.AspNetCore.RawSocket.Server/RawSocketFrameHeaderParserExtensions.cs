@@ -12,5 +12,18 @@ namespace WampSharp.RawSocket
 
             return parser.TryParse(arraySegment, out frameType, out messageLength);
         }
+
+        public static void WriteHeader(this RawSocketFrameHeaderParser parser, FrameType frameType, int messageLength, Span<byte> span)
+        {
+            span[0] = (byte)frameType;
+
+            int length = messageLength;
+
+            for (int i = 3; i > 0; i--)
+            {
+                span[i] = (byte)length;
+                length = length >> 8;
+            }
+        }
     }
 }

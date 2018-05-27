@@ -34,9 +34,15 @@ namespace WampSharp.AspNetCore.RawSocket
 
         protected override async Task SendAsync(WampMessage<object> message)
         {
-            ReadOnlyMemory<byte> bytes = GetBytes(message);
-            
-            await Writer.WriteAsync(bytes).ConfigureAwait(false);
+            MemoryBufferWriter writer = MemoryBufferWriter.Get();
+
+            WriteBytes(message, writer);
+
+            writer.CopyTo(Writer);
+
+            await Writer.FlushAsync().ConfigureAwait(false);
+
+            MemoryBufferWriter.Return(writer);
         }
 
         public async Task RunAsync()
@@ -115,7 +121,6 @@ namespace WampSharp.AspNetCore.RawSocket
             RaiseMessageArrived(parsed);
         }
 
-        // TODO: improve this.
         private WampMessage<TMessage> ParseMessage(ReadOnlySequence<byte> messageInBytes)
         {
             ArraySegment<byte> segment = messageInBytes.ToArraySegment();
@@ -123,22 +128,17 @@ namespace WampSharp.AspNetCore.RawSocket
             return mParser.Parse(memoryStream);
         }
 
-        // TODO: improve this.
-        private ReadOnlyMemory<byte> GetBytes(WampMessage<object> message)
+        private void WriteBytes(WampMessage<object> message, MemoryBufferWriter writer)
         {
-            int headerSize = FrameHeaderSize;
+            Span<byte> span = writer.GetSpan(FrameHeaderSize);
+            writer.Advance(FrameHeaderSize);
+            mParser.Format(message, writer);
 
-            MemoryStream memoryStream = new MemoryStream(headerSize);
-            memoryStream.Position = headerSize;
-            mParser.Format(message, memoryStream);
-
-            byte[] buffer = memoryStream.GetBuffer();
+            int messageLength = (int) writer.Length - FrameHeaderSize;
 
             mFrameHeaderParser.WriteHeader(FrameType.WampMessage,
-                (int)memoryStream.Length - headerSize,
-                buffer);
-
-            return new ReadOnlyMemory<byte>(memoryStream.ToArray());
+                                           messageLength,
+                                           span);
         }
 
         protected override void Dispose()
