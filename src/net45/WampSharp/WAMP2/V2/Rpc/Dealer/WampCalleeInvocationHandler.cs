@@ -84,13 +84,12 @@ namespace WampSharp.V2.Rpc
 
         public void Cancel(IWampCaller caller, long requestId, CancelOptions options)
         {
-            WampRpcInvocation invocation;
 
             WampRpcOperationCallback callback = new WampRpcOperationCallback(caller, requestId);
 
             lock (mLock)
             {
-                if (mCallbackToInvocation.TryGetValue(callback, out invocation))
+                if (mCallbackToInvocation.TryGetValue(callback, out WampRpcInvocation invocation))
                 {
                     IWampCallee callee = invocation.Operation.Callee;
 
@@ -116,11 +115,10 @@ namespace WampSharp.V2.Rpc
             WampRpcOperationCallback callback =
                 sender as WampRpcOperationCallback;
 
-            ICollection<WampRpcInvocation> invocations;
 
             lock (mLock)
             {
-                if (mCallerToInvocations.TryGetValue(callback.Caller, out invocations))
+                if (mCallerToInvocations.TryGetValue(callback.Caller, out ICollection<WampRpcInvocation> invocations))
                 {
                     foreach (WampRpcInvocation invocation in invocations.ToArray())
                     {
@@ -210,9 +208,8 @@ namespace WampSharp.V2.Rpc
         {
             lock (mLock)
             {
-                ICollection<WampRpcInvocation> invocations;
 
-                if (mOperationToInvocations.TryGetValue(operation, out invocations))
+                if (mOperationToInvocations.TryGetValue(operation, out ICollection<WampRpcInvocation> invocations))
                 {
                     foreach (WampRpcInvocation invocation in invocations.ToArray())
                     {
@@ -228,9 +225,8 @@ namespace WampSharp.V2.Rpc
         private WampRpcInvocation GetInvocation(long requestId)
         {
             // This overload only removes - an error is an error
-            WampRpcInvocation invocation;
 
-            if (mRequestIdToInvocation.TryGetValue(requestId, out invocation))
+            if (mRequestIdToInvocation.TryGetValue(requestId, out WampRpcInvocation invocation))
             {
                 UnregisterInvocation(invocation);
                 return invocation;
@@ -243,9 +239,8 @@ namespace WampSharp.V2.Rpc
         {
             lock (mLock)
             {
-                WampRpcInvocation removedInvocation;
 
-                mRequestIdToInvocation.TryRemove(invocation.InvocationId, out removedInvocation);
+                mRequestIdToInvocation.TryRemove(invocation.InvocationId, out WampRpcInvocation removedInvocation);
 
                 IWampCaller caller = GetCaller(invocation.Callback);
 
@@ -263,12 +258,11 @@ namespace WampSharp.V2.Rpc
         {
             // This considers the options, since yield can also 
             // return a call progress.
-            WampRpcInvocation invocation;
 
-            if (mRequestIdToInvocation.TryGetValue(requestId, out invocation))
+            if (mRequestIdToInvocation.TryGetValue(requestId, out WampRpcInvocation invocation))
             {
                 bool progressiveResult = options.Progress == true;
-                
+
                 if (!progressiveResult)
                 {
                     UnregisterInvocation(invocation);

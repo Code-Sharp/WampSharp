@@ -380,9 +380,8 @@ namespace WampSharp.V2.PubSub
 
             public RemoteObserver Subscribe(IWampClientProxy<TMessage> client)
             {
-                Subscription subscription;
 
-                if (!mSessionIdToSubscription.TryGetValue(client.Session, out subscription))
+                if (!mSessionIdToSubscription.TryGetValue(client.Session, out Subscription subscription))
                 {
                     RemoteObserver result = new RemoteObserver(client);
 
@@ -404,8 +403,7 @@ namespace WampSharp.V2.PubSub
             {
                 bool result;
                 ImmutableHashSetInterlocked.Remove(ref mRemoteObservers , new RemoteObserver(client));
-                Subscription subscription;
-                result = ImmutableInterlocked.TryRemove(ref mSessionIdToSubscription, client.Session, out subscription);
+                result = ImmutableInterlocked.TryRemove(ref mSessionIdToSubscription, client.Session, out Subscription subscription);
                 RemoveAuthenticationData(client);
                 return result;
             }
@@ -510,9 +508,8 @@ namespace WampSharp.V2.PubSub
 
                     foreach (string id in ids)
                     {
-                        ImmutableList<Subscription> subscriptions;
 
-                        if (dictionary.TryGetValue(id, out subscriptions))
+                        if (dictionary.TryGetValue(id, out ImmutableList<Subscription> subscriptions))
                         {
                             result = result.Union(subscriptions.Select(x => x.Observer));
                         }
@@ -524,9 +521,8 @@ namespace WampSharp.V2.PubSub
 
             private RemoteObserver GetRemoteObserverById(long sessionId)
             {
-                Subscription subscription;
 
-                if (mSessionIdToSubscription.TryGetValue(sessionId, out subscription))
+                if (mSessionIdToSubscription.TryGetValue(sessionId, out Subscription subscription))
                 {
                     return subscription.Observer;
                 }
@@ -613,9 +609,8 @@ namespace WampSharp.V2.PubSub
             {
                 lock (mLock)
                 {
-                    ImmutableList<Subscription> subscriptions;
 
-                    if (dictionary.TryGetValue(id, out subscriptions))
+                    if (dictionary.TryGetValue(id, out ImmutableList<Subscription> subscriptions))
                     {
                         subscriptions = subscriptions.Remove(subscription);
 

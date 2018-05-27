@@ -46,9 +46,8 @@ namespace WampSharp.V2.MetaApi
 
         private void OnSessionClosed(object sender, WampSessionCloseEventArgs e)
         {
-            WampSessionDetails sessionDetails;
 
-            ImmutableInterlocked.TryRemove(ref mSessionIdToDetails, e.SessionId, out sessionDetails);
+            ImmutableInterlocked.TryRemove(ref mSessionIdToDetails, e.SessionId, out WampSessionDetails sessionDetails);
 
             mSubscriber.OnLeave(e.SessionId);
         }
@@ -65,9 +64,8 @@ namespace WampSharp.V2.MetaApi
 
         public WampSessionDetails GetSessionDetails(long sessionId)
         {
-            WampSessionDetails result;
 
-            if (mSessionIdToDetails.TryGetValue(sessionId, out result))
+            if (mSessionIdToDetails.TryGetValue(sessionId, out WampSessionDetails result))
             {
                 return result;
             }

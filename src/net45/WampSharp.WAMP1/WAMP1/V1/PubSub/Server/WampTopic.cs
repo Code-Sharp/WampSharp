@@ -78,9 +78,8 @@ namespace WampSharp.V1.PubSub.Server
 
         public void Unsubscribe(string sessionId)
         {
-            Subscription subscription;
 
-            if (mSessionIdToSubscription.TryRemove(sessionId, out subscription))
+            if (mSessionIdToSubscription.TryRemove(sessionId, out Subscription subscription))
             {
                 subscription.Dispose();
             }

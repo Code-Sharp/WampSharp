@@ -26,9 +26,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
         {
             base.Record(message);
 
-            string argumentName;
 
-            if (mMessageTypeToParameter.TryGetValue(message.MessageType, out argumentName))
+            if (mMessageTypeToParameter.TryGetValue(message.MessageType, out string argumentName))
             {
                 int relevantIndex =
                     GetIndex(message, argumentName).Value;
@@ -55,7 +54,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
                         if (current == originalId)
                         {
                             call.Arguments[currentIndex.Value] = new MockRaw(newId);
-                        }                        
+                        }
                     }
                 }
             }

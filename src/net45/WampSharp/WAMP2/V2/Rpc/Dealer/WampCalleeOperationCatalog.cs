@@ -64,9 +64,8 @@ namespace WampSharp.V2.Rpc
             RemoteWampCalleeDetails operation = 
                 new RemoteWampCalleeDetails(callee, registrationId);
 
-            IDisposable disposable;
 
-            if (!mOperationToDisposable.TryRemove(operation, out disposable))
+            if (!mOperationToDisposable.TryRemove(operation, out IDisposable disposable))
             {
                 throw new WampException(WampErrors.NoSuchRegistration, "registrationId: " + registrationId);
             }

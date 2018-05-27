@@ -29,8 +29,7 @@ namespace WampSharp.V2.Core
 
             foreach (T pendingRegistration in pendingRegistrations)
             {
-                T registration;
-                TryRemove(pendingRegistration.RequestId, out registration);
+                TryRemove(pendingRegistration.RequestId, out T registration);
 
                 pendingRegistration.SetException(exception);
             }

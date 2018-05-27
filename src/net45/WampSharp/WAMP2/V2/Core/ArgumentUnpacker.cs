@@ -57,10 +57,9 @@ namespace WampSharp.V2.Core
             }
             else
             {
-                TMessage value;
 
                 if (argumentKeywords != null &&
-                    argumentKeywords.TryGetValue(parameter.Name, out value))
+                    argumentKeywords.TryGetValue(parameter.Name, out TMessage value))
                 {
                     return ConvertNamedParameter(formatter, parameter, value);
                 }

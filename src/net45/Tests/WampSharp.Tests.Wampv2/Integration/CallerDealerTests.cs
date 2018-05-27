@@ -140,11 +140,8 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             IComplexResultService proxy =
                 channel.RealmProxy.Services.GetCalleeProxyPortable<IComplexResultService>();
+            proxy.AddComplex(2, 3, 4, 5, out int c, out int ci);
 
-            int c;
-            int ci;
-            proxy.AddComplex(2, 3, 4, 5, out c, out ci);
-            
             Assert.That(c, Is.EqualTo(6));
             Assert.That(ci, Is.EqualTo(8));
         }
@@ -254,10 +251,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             IComplexResultService proxy =
                 channel.RealmProxy.Services.GetCalleeProxyPortable<IComplexResultService>();
-
-            int c;
-            int ci;
-            proxy.AddComplex(2, 3, 4, 5, out c, out ci);
+            proxy.AddComplex(2, 3, 4, 5, out int c, out int ci);
 
             Assert.That(c, Is.EqualTo(6));
             Assert.That(ci, Is.EqualTo(8));

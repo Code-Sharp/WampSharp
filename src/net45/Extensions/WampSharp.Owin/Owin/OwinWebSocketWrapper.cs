@@ -39,11 +39,10 @@ namespace WampSharp.Owin
         {
             get
             {
-                object description;
 
-                if (mWebsocketContext.TryGetValue(WebSocketClientCloseDescription, out description))
+                if (mWebsocketContext.TryGetValue(WebSocketClientCloseDescription, out object description))
                 {
-                    return (string) description;
+                    return (string)description;
                 }
 
                 return null;
@@ -54,11 +53,10 @@ namespace WampSharp.Owin
         {
             get
             {
-                object status;
 
-                if (mWebsocketContext.TryGetValue(WebSocketClientCloseStatus, out status))
+                if (mWebsocketContext.TryGetValue(WebSocketClientCloseStatus, out object status))
                 {
-                    return (WebSocketCloseStatus) (int)status;
+                    return (WebSocketCloseStatus)(int)status;
                 }
 
                 return null;
@@ -71,11 +69,10 @@ namespace WampSharp.Owin
         {
             get
             {
-                object subprotocol;
 
-                if (mWebsocketContext.TryGetValue(WebSocketSubProtocol, out subprotocol))
+                if (mWebsocketContext.TryGetValue(WebSocketSubProtocol, out object subprotocol))
                 {
-                    return (string) subprotocol;
+                    return (string)subprotocol;
                 }
 
                 return null;

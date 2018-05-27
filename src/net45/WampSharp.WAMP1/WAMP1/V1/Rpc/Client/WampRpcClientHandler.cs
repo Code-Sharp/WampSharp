@@ -86,9 +86,8 @@ namespace WampSharp.V1.Rpc.Client
 
         private void ResultArrived(string callId, TMessage result)
         {
-            WampRpcRequest request;
-            
-            if (mCallIdToSubject.TryRemove(callId, out request))
+
+            if (mCallIdToSubject.TryRemove(callId, out WampRpcRequest request))
             {
                 object deserialized = mFormatter.Deserialize(request.Request.ReturnType, result);
                 ISubject<object> task = request.Task;
@@ -103,14 +102,13 @@ namespace WampSharp.V1.Rpc.Client
 
         private void ErrorArrived(string callId, string errorUri, string errorDesc, TMessage errorDetails = default(TMessage))
         {
-            WampRpcRequest request;
 
-            if (mCallIdToSubject.TryRemove(callId, out request))
+            if (mCallIdToSubject.TryRemove(callId, out WampRpcRequest request))
             {
                 object deserialized = null;
                 if (errorDetails != null)
                 {
-                    deserialized = mFormatter.Deserialize(typeof (ExpandoObject), errorDetails);
+                    deserialized = mFormatter.Deserialize(typeof(ExpandoObject), errorDetails);
                 }
 
                 ISubject<object> task = request.Task;

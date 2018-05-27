@@ -23,9 +23,8 @@ namespace WampSharp.Tests.Rpc.Helpers
 
         public object GetResultByCallId(string callId)
         {
-            object result;
 
-            if (mCallResults.TryGetValue(callId, out result))
+            if (mCallResults.TryGetValue(callId, out object result))
             {
                 return result;
             }
@@ -35,9 +34,8 @@ namespace WampSharp.Tests.Rpc.Helpers
 
         public CallErrorDetails GetCallErrorByCallId(string callId)
         {
-            CallErrorDetails result;
 
-            if (mCallErrors.TryGetValue(callId, out result))
+            if (mCallErrors.TryGetValue(callId, out CallErrorDetails result))
             {
                 return result;
             }

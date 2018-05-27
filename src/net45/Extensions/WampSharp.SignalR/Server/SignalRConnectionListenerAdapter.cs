@@ -36,9 +36,8 @@ namespace WampSharp.SignalR
 
         public void OnReceived(string connectionId, string data)
         {
-            SignalRTextConnection connection;
 
-            if (mConnectionIdToConnection.TryGetValue(connectionId, out connection))
+            if (mConnectionIdToConnection.TryGetValue(connectionId, out SignalRTextConnection connection))
             {
                 connection.OnMessage(data);
             }
@@ -46,9 +45,8 @@ namespace WampSharp.SignalR
 
         public void OnDisconnected(string connectionId)
         {
-            SignalRTextConnection connection;
 
-            if (mConnectionIdToConnection.TryGetValue(connectionId, out connection))
+            if (mConnectionIdToConnection.TryGetValue(connectionId, out SignalRTextConnection connection))
             {
                 connection.OnDisconnected();
             }
@@ -77,8 +75,7 @@ namespace WampSharp.SignalR
 
             protected override void Dispose()
             {
-                SignalRTextConnection value;
-                mParent.mConnectionIdToConnection.TryRemove(this.mConnectionId, out value);
+                mParent.mConnectionIdToConnection.TryRemove(this.mConnectionId, out SignalRTextConnection value);
             }
 
             protected override bool IsConnected => true;

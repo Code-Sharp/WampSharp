@@ -77,9 +77,8 @@ namespace WampSharp.V2.Authentication
 
         private bool CheckAction(string procedure, Func<WampUriPermissions, bool> permissionChecker)
         {
-            WampUriPermissions permissions;
 
-            if (mExactUriToPermissions.TryGetValue(procedure, out permissions))
+            if (mExactUriToPermissions.TryGetValue(procedure, out WampUriPermissions permissions))
             {
                 return permissionChecker(permissions);
             }

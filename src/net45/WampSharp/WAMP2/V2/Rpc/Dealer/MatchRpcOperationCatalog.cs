@@ -135,9 +135,8 @@ namespace WampSharp.V2.Rpc
 
         protected IWampRpcOperation GetOperationByUri(string procedureUri)
         {
-            WampProcedureRegistration result;
-            
-            if (mProcedureToRegistration.TryGetValue(procedureUri, out result))
+
+            if (mProcedureToRegistration.TryGetValue(procedureUri, out WampProcedureRegistration result))
             {
                 return result;
             }

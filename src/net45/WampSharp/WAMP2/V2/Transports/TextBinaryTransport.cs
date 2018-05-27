@@ -38,9 +38,8 @@ namespace WampSharp.V2.Transports
         {
             string protocol = GetSubProtocol(connection);
 
-            ConnectionListener listener;
 
-            if (mBindings.TryGetValue(protocol, out listener))
+            if (mBindings.TryGetValue(protocol, out ConnectionListener listener))
             {
                 listener.OnNewConnection(connection);
             }

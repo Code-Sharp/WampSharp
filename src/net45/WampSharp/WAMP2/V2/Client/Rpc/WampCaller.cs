@@ -144,9 +144,8 @@ namespace WampSharp.V2.Client
 
         private CallDetails TryGetCallDetails(long requestId)
         {
-            CallDetails result;
 
-            if (mPendingCalls.TryRemove(requestId, out result))
+            if (mPendingCalls.TryRemove(requestId, out CallDetails result))
             {
                 return result;
             }
@@ -156,12 +155,11 @@ namespace WampSharp.V2.Client
 
         private CallDetails TryGetCallDetails(long requestId, ResultDetails details)
         {
-            CallDetails result;
 
-            if (mPendingCalls.TryGetValue(requestId, out result))
+            if (mPendingCalls.TryGetValue(requestId, out CallDetails result))
             {
                 bool progressive = details.Progress == true;
-                
+
                 if (!progressive)
                 {
                     mPendingCalls.TryRemove(requestId, out result);

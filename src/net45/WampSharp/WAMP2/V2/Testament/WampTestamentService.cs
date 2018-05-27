@@ -68,9 +68,7 @@ namespace WampSharp.V2.Testament
 
             lock (mLock)
             {
-                IImmutableList<Testament> testaments;
-
-                if (!mSessionIdToTestaments.TryGetValue(sessionId, out testaments))
+                if (!mSessionIdToTestaments.TryGetValue(sessionId, out IImmutableList<Testament> testaments))
                 {
                     testaments = ImmutableList<Testament>.Empty;
                 }
@@ -91,9 +89,8 @@ namespace WampSharp.V2.Testament
 
             lock (mLock)
             {
-                IImmutableList<Testament> testaments;
 
-                if (mSessionIdToTestaments.TryGetValue(sessionId, out testaments))
+                if (mSessionIdToTestaments.TryGetValue(sessionId, out IImmutableList<Testament> testaments))
                 {
                     result = testaments.Count;
                 }

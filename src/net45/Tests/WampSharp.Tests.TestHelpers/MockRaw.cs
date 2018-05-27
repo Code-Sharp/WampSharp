@@ -39,8 +39,7 @@ namespace WampSharp.Tests.TestHelpers
                 return null;
             }
 
-            object clone;
-            if (TryClone(value, out clone))
+            if (TryClone(value, out object clone))
             {
                 return clone;
             }
@@ -49,7 +48,7 @@ namespace WampSharp.Tests.TestHelpers
                 // Anonymous type
                 Type type = value.GetType();
 
-                if (type.IsDefined(typeof (CompilerGeneratedAttribute), true))
+                if (type.IsDefined(typeof(CompilerGeneratedAttribute), true))
                 {
                     object[] properties =
                         type.GetProperties()

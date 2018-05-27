@@ -66,11 +66,10 @@ namespace WampSharp.V2.Client
 
             lock (mLock)
             {
-                SwapCollection<Subscription> subscriptions;
 
                 long subscriptionId = subscription.SubscriptionId;
 
-                if (!mSubscriptionIdToSubscriptions.TryGetValue(subscriptionId, out subscriptions))
+                if (!mSubscriptionIdToSubscriptions.TryGetValue(subscriptionId, out SwapCollection<Subscription> subscriptions))
                 {
                     completionSource.SetException(new Exception("Unknown subscription: " + subscriptionId));
                 }
@@ -110,8 +109,7 @@ namespace WampSharp.V2.Client
             }
             catch (Exception exception)
             {
-                UnsubscribeRequest removedRequest;
-                mPendingUnsubscriptions.TryRemove(requestId, out removedRequest);
+                mPendingUnsubscriptions.TryRemove(requestId, out UnsubscribeRequest removedRequest);
                 request.SetException(exception);
             }
 
@@ -120,9 +118,8 @@ namespace WampSharp.V2.Client
 
         public void Subscribed(long requestId, long subscriptionId)
         {
-            SubscribeRequest request;
-            
-            if (mPendingSubscriptions.TryRemove(requestId, out request))
+
+            if (mPendingSubscriptions.TryRemove(requestId, out SubscribeRequest request))
             {
                 Subscription subscription =
                     new Subscription(subscriptionId,
@@ -144,9 +141,8 @@ namespace WampSharp.V2.Client
 
         public void Unsubscribed(long requestId)
         {
-            UnsubscribeRequest request;
 
-            if (mPendingUnsubscriptions.TryRemove(requestId, out request))
+            if (mPendingUnsubscriptions.TryRemove(requestId, out UnsubscribeRequest request))
             {
                 request.Complete();
             }
@@ -154,9 +150,8 @@ namespace WampSharp.V2.Client
 
         public void SubscribeError(long requestId, TMessage details, string error)
         {
-            SubscribeRequest request;
 
-            if (mPendingSubscriptions.TryRemove(requestId, out request))
+            if (mPendingSubscriptions.TryRemove(requestId, out SubscribeRequest request))
             {
                 request.Error(details, error);
             }
@@ -164,9 +159,8 @@ namespace WampSharp.V2.Client
 
         public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            SubscribeRequest request;
 
-            if (mPendingSubscriptions.TryRemove(requestId, out request))
+            if (mPendingSubscriptions.TryRemove(requestId, out SubscribeRequest request))
             {
                 request.Error(details, error, arguments);
             }
@@ -174,9 +168,8 @@ namespace WampSharp.V2.Client
 
         public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            SubscribeRequest request;
 
-            if (mPendingSubscriptions.TryRemove(requestId, out request))
+            if (mPendingSubscriptions.TryRemove(requestId, out SubscribeRequest request))
             {
                 request.Error(details, error, arguments, argumentsKeywords);
             }
@@ -184,9 +177,8 @@ namespace WampSharp.V2.Client
 
         public void UnsubscribeError(long requestId, TMessage details, string error)
         {
-            UnsubscribeRequest request;
 
-            if (mPendingUnsubscriptions.TryRemove(requestId, out request))
+            if (mPendingUnsubscriptions.TryRemove(requestId, out UnsubscribeRequest request))
             {
                 request.Error(details, error);
             }
@@ -194,9 +186,8 @@ namespace WampSharp.V2.Client
 
         public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            UnsubscribeRequest request;
 
-            if (mPendingUnsubscriptions.TryRemove(requestId, out request))
+            if (mPendingUnsubscriptions.TryRemove(requestId, out UnsubscribeRequest request))
             {
                 request.Error(details, error, arguments);
             }
@@ -204,9 +195,8 @@ namespace WampSharp.V2.Client
 
         public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            UnsubscribeRequest request;
 
-            if (mPendingUnsubscriptions.TryRemove(requestId, out request))
+            if (mPendingUnsubscriptions.TryRemove(requestId, out UnsubscribeRequest request))
             {
                 request.Error(details, error, arguments, argumentsKeywords);
             }
@@ -244,15 +234,14 @@ namespace WampSharp.V2.Client
 
         private void InnerEvent(long subscriptionId, EventDetails details, Action<IWampRawTopicClientSubscriber, EventDetails> action)
         {
-            SwapCollection<Subscription> subscriptions;
 
-            if (mSubscriptionIdToSubscriptions.TryGetValue(subscriptionId, out subscriptions))
+            if (mSubscriptionIdToSubscriptions.TryGetValue(subscriptionId, out SwapCollection<Subscription> subscriptions))
             {
                 foreach (Subscription subscription in subscriptions)
                 {
                     EventDetails modifiedDetails = new EventDetails(details);
                     modifiedDetails.Topic = modifiedDetails.Topic ?? subscription.TopicUri;
-                    action(subscription.Subscriber, modifiedDetails);                    
+                    action(subscription.Subscriber, modifiedDetails);
                 }
             }
         }

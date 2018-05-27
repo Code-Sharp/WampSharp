@@ -93,9 +93,8 @@ namespace WampSharp.Core.Dispatch.Handler
 
         public WampMethodInfo Map(WampMessage<TMessage> request)
         {
-            ICollection<WampMethodInfo> candidates;
-            
-            if (!mMapping.TryGetValue(request.MessageType, out candidates))
+
+            if (!mMapping.TryGetValue(request.MessageType, out ICollection<WampMethodInfo> candidates))
             {
                 return mMissingMethod;
             }
@@ -117,7 +116,7 @@ namespace WampSharp.Core.Dispatch.Handler
                     }
 
                     return overloads.First(x => CanBind(x, request.Arguments));
-                }                
+                }
             }
         }
 

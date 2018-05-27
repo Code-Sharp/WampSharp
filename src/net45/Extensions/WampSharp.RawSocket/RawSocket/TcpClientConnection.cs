@@ -101,10 +101,7 @@ namespace WampSharp.RawSocket
                         .ReadExactAsync(frameHeaderBytes)
                         .ConfigureAwait(false);
 
-                    int messageLength;
-                    FrameType frameType;
-
-                    if (mFrameHeaderParser.TryParse(frameHeaderBytes, out frameType, out messageLength) &&
+                    if (mFrameHeaderParser.TryParse(frameHeaderBytes, out FrameType frameType, out int messageLength) &&
                         (messageLength <= mMaxAllowedMessageSize))
                     {
                         await HandleFrame(frameType, messageLength).ConfigureAwait(false);

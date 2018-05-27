@@ -50,9 +50,8 @@ namespace WampSharp.Core.Listener
 
         public virtual void RemoveClient(IWampConnection<TMessage> connection)
         {
-            TClient client;
 
-            mConnectionToClient.TryRemove(connection, out client);
+            mConnectionToClient.TryRemove(connection, out TClient client);
         }
 
         public virtual bool TryGetClient(IWampConnection<TMessage> connection, out TClient client)

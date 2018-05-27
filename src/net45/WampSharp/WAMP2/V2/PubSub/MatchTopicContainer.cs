@@ -165,9 +165,8 @@ namespace WampSharp.V2.PubSub
 
         public IWampTopic GetTopicByUri(string topicUri)
         {
-            IWampTopic result;
 
-            if (mTopicUriToSubject.TryGetValue(topicUri, out result))
+            if (mTopicUriToSubject.TryGetValue(topicUri, out IWampTopic result))
             {
                 return result;
             }
@@ -177,8 +176,7 @@ namespace WampSharp.V2.PubSub
 
         public bool TryRemoveTopicByUri(string topicUri, out IWampTopic topic)
         {
-            IWampTopic value;
-            bool result = mTopicUriToSubject.TryRemove(topicUri, out value);
+            bool result = mTopicUriToSubject.TryRemove(topicUri, out IWampTopic value);
             topic = value;
 
             if (result)

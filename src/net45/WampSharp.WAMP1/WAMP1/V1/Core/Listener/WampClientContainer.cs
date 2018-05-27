@@ -20,9 +20,8 @@ namespace WampSharp.V1.Core.Listener
 
         public override void RemoveClient(IWampConnection<TMessage> connection)
         {
-            IWampClient clientProxy;
 
-            bool clientFound = base.TryGetClient(connection, out clientProxy);
+            bool clientFound = base.TryGetClient(connection, out IWampClient clientProxy);
 
             base.RemoveClient(connection);
 

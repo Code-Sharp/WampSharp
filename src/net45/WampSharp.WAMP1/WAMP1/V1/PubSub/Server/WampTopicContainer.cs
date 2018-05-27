@@ -109,9 +109,8 @@ namespace WampSharp.V1.PubSub.Server
 
         public IWampTopic GetTopicByUri(string topicUri)
         {
-            WampTopic result;
 
-            if (mTopicUriToSubject.TryGetValue(topicUri, out result))
+            if (mTopicUriToSubject.TryGetValue(topicUri, out WampTopic result))
             {
                 return result;
             }
@@ -121,8 +120,7 @@ namespace WampSharp.V1.PubSub.Server
 
         public bool TryRemoveTopicByUri(string topicUri, out IWampTopic topic)
         {
-            WampTopic value;
-            bool result = mTopicUriToSubject.TryRemove(topicUri, out value);
+            bool result = mTopicUriToSubject.TryRemove(topicUri, out WampTopic value);
             topic = value;
 
             if (result)
@@ -161,8 +159,7 @@ namespace WampSharp.V1.PubSub.Server
                     topic.TopicEmpty -= OnTopicEmpty;
                     topic.Dispose();
 
-                    IWampTopic deletedTopic;
-                    TryRemoveTopicByUri(topic.TopicUri, out deletedTopic);
+                    TryRemoveTopicByUri(topic.TopicUri, out IWampTopic deletedTopic);
                 }
             }
         }

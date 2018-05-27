@@ -24,13 +24,11 @@ namespace WampSharp.V2.Authentication
 
         public WampAuthenticationRole GetRoleByName(string realm, string role)
         {
-            IDictionary<string, WampAuthenticationRole> roleNameToRole;
 
-            if (mRealmToRoleNameToRole.TryGetValue(realm, out roleNameToRole))
+            if (mRealmToRoleNameToRole.TryGetValue(realm, out IDictionary<string, WampAuthenticationRole> roleNameToRole))
             {
-                WampAuthenticationRole result;
 
-                if (roleNameToRole.TryGetValue(role, out result))
+                if (roleNameToRole.TryGetValue(role, out WampAuthenticationRole result))
                 {
                     return result;
                 }

@@ -37,12 +37,11 @@ namespace WampSharp.V2.PubSub
         {
             lock (mLock)
             {
-                WampRawTopic<TMessage> rawTopic;
 
                 IWampCustomizedSubscriptionId customizedSubscriptionId =
                     mTopicContainer.GetSubscriptionId(topicUri, options);
 
-                if (!mTopicUriToTopic.TryGetValue(customizedSubscriptionId, out rawTopic))
+                if (!mTopicUriToTopic.TryGetValue(customizedSubscriptionId, out WampRawTopic<TMessage> rawTopic))
                 {
                     rawTopic = CreateRawTopic(topicUri, options, customizedSubscriptionId);
 
@@ -69,9 +68,8 @@ namespace WampSharp.V2.PubSub
         {
             lock (mLock)
             {
-                WampRawTopic<TMessage> rawTopic;
 
-                if (!mSubscriptionIdToTopic.TryGetValue(subscriptionId, out rawTopic))
+                if (!mSubscriptionIdToTopic.TryGetValue(subscriptionId, out WampRawTopic<TMessage> rawTopic))
                 {
                     throw new WampException(WampErrors.NoSuchSubscription, "subscriptionId: " + subscriptionId);
                 }

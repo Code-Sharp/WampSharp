@@ -54,9 +54,8 @@ namespace WampSharp.Newtonsoft
 
         private Func<WampDetailsOptions> GetConstructor(Type objectType)
         {
-            Func<WampDetailsOptions> constructor;
 
-            if (!mTypeToConstructor.TryGetValue(objectType, out constructor))
+            if (!mTypeToConstructor.TryGetValue(objectType, out Func<WampDetailsOptions> constructor))
             {
                 constructor = GenerateConstructor(objectType);
 

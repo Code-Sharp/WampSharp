@@ -39,9 +39,8 @@ namespace WampSharp.V1.Rpc.Server
         
         public bool Unregister(IWampRpcMethod method)
         {
-            IWampRpcMethod originalMethod;
 
-            if (mProcUriToMethod.TryRemove(method.ProcUri, out originalMethod))
+            if (mProcUriToMethod.TryRemove(method.ProcUri, out IWampRpcMethod originalMethod))
             {
                 return true;
             }
@@ -51,9 +50,8 @@ namespace WampSharp.V1.Rpc.Server
 
         public IWampRpcMethod ResolveMethodByProcUri(string procUri)
         {
-            IWampRpcMethod method;
-            
-            if (mProcUriToMethod.TryGetValue(procUri, out method))
+
+            if (mProcUriToMethod.TryGetValue(procUri, out IWampRpcMethod method))
             {
                 return method;
             }

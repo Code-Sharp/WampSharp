@@ -83,9 +83,8 @@ namespace WampSharp.V2.Rpc
             {
                 foreach (ParameterInfo parameter in mOutOrRefValues)
                 {
-                    TMessage currentValue;
 
-                    if (!outOrRefParameters.TryGetValue(parameter.Name, out currentValue))
+                    if (!outOrRefParameters.TryGetValue(parameter.Name, out TMessage currentValue))
                     {
                         throw new Exception(string.Format("Argument {0} not found in arguments dictionary",
                             parameter.Name));

@@ -20,7 +20,6 @@ namespace WampSharp.V2.Rpc
         {
             try
             {
-                IDictionary<string, object> outputs;
 
                 object result =
                     InvokeSync(caller,
@@ -28,7 +27,7 @@ namespace WampSharp.V2.Rpc
                                details,
                                arguments,
                                argumentsKeywords,
-                               out outputs);
+                               out IDictionary<string, object> outputs);
 
                 CallResult(caller, result, outputs);
             }

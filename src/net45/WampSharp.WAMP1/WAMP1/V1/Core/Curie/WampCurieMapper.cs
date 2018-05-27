@@ -18,9 +18,8 @@ namespace WampSharp.V1.Core.Curie
 
         public string Resolve(string curie)
         {
-            Uri uri;
 
-            if (Uri.TryCreate(curie, UriKind.Absolute, out uri))
+            if (Uri.TryCreate(curie, UriKind.Absolute, out Uri uri))
             {
                 return curie;
             }
@@ -31,9 +30,8 @@ namespace WampSharp.V1.Core.Curie
             {
                 string prefix = curie.Substring(0, index);
 
-                string mappedUri;
 
-                if (mPrefixToUri.TryGetValue(prefix, out mappedUri))
+                if (mPrefixToUri.TryGetValue(prefix, out string mappedUri))
                 {
                     string rest = curie.Substring(index + 1);
                     string result = mappedUri + rest;

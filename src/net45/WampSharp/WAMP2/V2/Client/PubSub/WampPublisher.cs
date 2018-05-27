@@ -68,8 +68,7 @@ namespace WampSharp.V2.Client
             bool acknowledge = options.Acknowledge ?? false;
             if (!acknowledge)
             {
-                Publication removed;
-                mPendingPublication.TryRemove(requestId, out removed);
+                mPendingPublication.TryRemove(requestId, out Publication removed);
 #if NET45
                 return Task.FromResult(default(long?));
 #elif NET40
@@ -84,9 +83,8 @@ namespace WampSharp.V2.Client
 
         public void Published(long requestId, long publicationId)
         {
-            Publication publication;
-            
-            if (mPendingPublication.TryRemove(requestId, out publication))
+
+            if (mPendingPublication.TryRemove(requestId, out Publication publication))
             {
                 publication.Complete(publicationId);
             }
@@ -94,9 +92,8 @@ namespace WampSharp.V2.Client
 
         public void PublishError(long requestId, TMessage details, string error)
         {
-            Publication publication;
 
-            if (mPendingPublication.TryRemove(requestId, out publication))
+            if (mPendingPublication.TryRemove(requestId, out Publication publication))
             {
                 publication.Error(details, error);
             }
@@ -104,9 +101,8 @@ namespace WampSharp.V2.Client
 
         public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            Publication publication;
 
-            if (mPendingPublication.TryRemove(requestId, out publication))
+            if (mPendingPublication.TryRemove(requestId, out Publication publication))
             {
                 publication.Error(details, error, arguments);
             }
@@ -115,9 +111,8 @@ namespace WampSharp.V2.Client
         public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments,
                                  TMessage argumentsKeywords)
         {
-            Publication publication;
 
-            if (mPendingPublication.TryRemove(requestId, out publication))
+            if (mPendingPublication.TryRemove(requestId, out Publication publication))
             {
                 publication.Error(details, error, arguments, argumentsKeywords);
             }
