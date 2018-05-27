@@ -9,13 +9,13 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding.Parsers;
 using WampSharp.V2.Transports;
+using static WampSharp.RawSocket.RawSocketFrameHeaderParser;
 
 namespace WampSharp.RawSocket
 {
     internal class TcpClientConnection<TMessage> : AsyncWampConnection<TMessage> 
     {
         private const string Tag = "WampSharp.RawSocket";
-        private const int FrameHeaderSize = 4;
         private readonly IWampStreamingMessageParser<TMessage> mBinding;
         private readonly RawSocketFrameHeaderParser mFrameHeaderParser = new RawSocketFrameHeaderParser();
         private readonly TcpClient mTcpClient;
@@ -215,7 +215,7 @@ namespace WampSharp.RawSocket
 
                 mFrameHeaderParser.WriteHeader(FrameType.Pong, messageLength, buffer);
 
-            Stream networkStream = Stream;
+                Stream networkStream = Stream;
 
                 int frameSize = messageLength + FrameHeaderSize;
 

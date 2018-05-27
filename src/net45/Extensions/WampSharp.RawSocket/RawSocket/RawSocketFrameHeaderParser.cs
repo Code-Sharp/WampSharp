@@ -4,6 +4,8 @@ namespace WampSharp.RawSocket
 {
     public class RawSocketFrameHeaderParser
     {
+        public const int FrameHeaderSize = 4;
+
         public bool TryParse(byte[] headerBytes, out FrameType frameType, out int messageLength)
         {
             ArraySegment<byte> bytes = new ArraySegment<byte>(headerBytes);
@@ -41,7 +43,7 @@ namespace WampSharp.RawSocket
 
         private static bool ValidateHeaderArray(ArraySegment<byte> headerBytes, bool throwExceptions)
         {
-            if (headerBytes.Array == null || headerBytes.Count != 4)
+            if (headerBytes.Array == null || headerBytes.Count != FrameHeaderSize)
             {
                 if (throwExceptions)
                 {

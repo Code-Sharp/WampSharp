@@ -8,14 +8,13 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.RawSocket;
 using WampSharp.V2.Binding.Parsers;
+using static WampSharp.RawSocket.RawSocketFrameHeaderParser;
 
 namespace WampSharp.AspNetCore.RawSocket
 {
     public class RawSocketConnection<TMessage> : AsyncWampConnection<TMessage>
     {
         private readonly ConnectionContext mConnection;
-
-        private const int FrameHeaderSize = 4;
 
         private readonly RawSocketFrameHeaderParser mFrameHeaderParser = new RawSocketFrameHeaderParser();
 
