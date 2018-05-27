@@ -90,14 +90,12 @@ namespace WampSharp.V2.Realm
 
         protected virtual void RaiseSessionCreated(WampSessionCreatedEventArgs e)
         {
-            EventHandler<WampSessionCreatedEventArgs> handler = SessionCreated;
-            if (handler != null) handler(this, e);
+            SessionCreated?.Invoke(this, e);
         }
 
         protected virtual void RaiseSessionClosed(WampSessionCloseEventArgs e)
         {
-            EventHandler<WampSessionCloseEventArgs> handler = SessionClosed;
-            if (handler != null) handler(this, e);
+            SessionClosed?.Invoke(this, e);
         }
     }
 }

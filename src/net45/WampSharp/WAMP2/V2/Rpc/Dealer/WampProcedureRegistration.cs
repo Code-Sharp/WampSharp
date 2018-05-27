@@ -123,12 +123,7 @@ namespace WampSharp.V2.Rpc
 
         protected virtual void RaiseEmpty()
         {
-            EventHandler handler = Empty;
-
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            Empty?.Invoke(this, EventArgs.Empty);
         }
 
         public string Procedure { get; }
@@ -189,42 +184,22 @@ namespace WampSharp.V2.Rpc
 
         private void RaiseCalleeRegistering(IWampRpcOperation operation)
         {
-            EventHandler<WampCalleeAddEventArgs> handler = CalleeRegistering;
-
-            if (handler != null)
-            {
-                handler(this, new WampCalleeAddEventArgs(operation));
-            }
+            CalleeRegistering?.Invoke(this, new WampCalleeAddEventArgs(operation));
         }
 
         private void RaiseCalleeRegistered(IWampRpcOperation operation)
         {
-            EventHandler<WampCalleeAddEventArgs> handler = CalleeRegistered;
-
-            if (handler != null)
-            {
-                handler(this, new WampCalleeAddEventArgs(operation));
-            }
+            CalleeRegistered?.Invoke(this, new WampCalleeAddEventArgs(operation));
         }
 
         private void RaiseCalleeUnregistering(IWampRpcOperation operation)
         {
-            EventHandler<WampCalleeRemoveEventArgs> handler = CalleeUnregistering;
-
-            if (handler != null)
-            {
-                handler(this, new WampCalleeRemoveEventArgs(operation));
-            }
+            CalleeUnregistering?.Invoke(this, new WampCalleeRemoveEventArgs(operation));
         }
 
         private void RaiseCalleeUnregistered(IWampRpcOperation operation)
         {
-            EventHandler<WampCalleeRemoveEventArgs> handler = CalleeUnregistered;
-
-            if (handler != null)
-            {
-                handler(this, new WampCalleeRemoveEventArgs(operation));
-            }
+            CalleeUnregistered?.Invoke(this, new WampCalleeRemoveEventArgs(operation));
         }
 
         private class WampRegistrationToken : IWampRegistrationSubscriptionToken

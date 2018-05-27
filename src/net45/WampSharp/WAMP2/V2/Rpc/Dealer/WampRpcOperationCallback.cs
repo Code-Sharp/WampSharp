@@ -114,12 +114,7 @@ namespace WampSharp.V2.Rpc
 
         private void RaiseDisconnected()
         {
-            EventHandler handler = Disconnected;
-            
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            Disconnected?.Invoke(this, EventArgs.Empty);
         }
 
         #region Equality Members

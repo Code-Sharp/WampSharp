@@ -103,13 +103,7 @@ namespace WampSharp.V2.Transports
 
             private void OnNewMessage(WampMessage<TMessage> wampMessage)
             {
-                EventHandler<WampMessageArrivedEventArgs<TMessage>> messageArrived =
-                    this.MessageArrived;
-
-                if (messageArrived != null)
-                {
-                    messageArrived(this, new WampMessageArrivedEventArgs<TMessage>(wampMessage));
-                }
+                this.MessageArrived?.Invoke(this, new WampMessageArrivedEventArgs<TMessage>(wampMessage));
             }
 
             public void Connect()
@@ -136,26 +130,19 @@ namespace WampSharp.V2.Transports
 
             protected virtual void RaiseConnectionClosed()
             {
-                EventHandler handler = ConnectionClosed;
-                if (handler != null) handler(this, EventArgs.Empty);
+                ConnectionClosed?.Invoke(this, EventArgs.Empty);
             }
 
             public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
 
             protected virtual void OnConnectionError(WampConnectionErrorEventArgs e)
             {
-                EventHandler<WampConnectionErrorEventArgs> handler = ConnectionError;
-                if (handler != null) handler(this, e);
+                ConnectionError?.Invoke(this, e);
             }
 
             private void RaiseConnectionOpen()
             {
-                EventHandler connectionOpen = ConnectionOpen;
-
-                if (connectionOpen != null)
-                {
-                    connectionOpen(this, EventArgs.Empty);
-                }
+                ConnectionOpen?.Invoke(this, EventArgs.Empty);
             }
         }
     }

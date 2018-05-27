@@ -44,12 +44,7 @@ namespace WampSharp.Core.Listener
 
         private void RaiseConnectionClosed(object client, EventArgs empty)
         {
-            EventHandler connectionClosed = ConnectionClosed;
-
-            if (connectionClosed != null)
-            {
-                connectionClosed(client, empty);
-            }
+            ConnectionClosed?.Invoke(client, empty);
         }
 
         public event EventHandler ConnectionClosed;

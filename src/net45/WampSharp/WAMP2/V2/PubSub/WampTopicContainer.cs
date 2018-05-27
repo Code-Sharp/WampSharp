@@ -170,22 +170,12 @@ namespace WampSharp.V2.PubSub
 
         private void RaiseTopicCreated(WampTopicCreatedEventArgs e)
         {
-            EventHandler<WampTopicCreatedEventArgs> handler = TopicCreated;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            TopicCreated?.Invoke(this, e);
         }
 
         private void RaiseTopicRemoved(WampTopicRemovedEventArgs e)
         {
-            EventHandler<WampTopicRemovedEventArgs> handler = TopicRemoved;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            TopicRemoved?.Invoke(this, e);
         }
     }
 }

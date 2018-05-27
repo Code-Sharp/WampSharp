@@ -232,32 +232,17 @@ namespace WampSharp.RawSocket
 
         protected void RaiseConnectionOpen()
         {
-            EventHandler handler = ConnectionOpen;
-
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            ConnectionOpen?.Invoke(this, EventArgs.Empty);
         }
 
         protected void RaiseMessageArrived(WampMessageArrivedEventArgs<TMessage> e)
         {
-            EventHandler<WampMessageArrivedEventArgs<TMessage>> handler = MessageArrived;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            MessageArrived?.Invoke(this, e);
         }
 
         protected void RaiseConnectionClosed()
         {
-            EventHandler handler = ConnectionClosed;
-
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            ConnectionClosed?.Invoke(this, EventArgs.Empty);
         }
 
         protected void OnConnectionError(WampConnectionErrorEventArgs e)
@@ -269,12 +254,7 @@ namespace WampSharp.RawSocket
 
         private void RaiseConnectionErrorEvent(WampConnectionErrorEventArgs e)
         {
-            EventHandler<WampConnectionErrorEventArgs> handler = ConnectionError;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            ConnectionError?.Invoke(this, e);
         }
 
         public Task DisposeAsync()

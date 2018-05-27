@@ -73,10 +73,7 @@ namespace WampSharp.V2.Fluent
         {
             WebSocket webSocket = mWebSocketFactory(binaryBinding.Name);
 
-            if (SecurityOptionsConfigureAction != null)
-            {
-                SecurityOptionsConfigureAction(webSocket.Security);
-            }
+            SecurityOptionsConfigureAction?.Invoke(webSocket.Security);
 
             return webSocket;
         }

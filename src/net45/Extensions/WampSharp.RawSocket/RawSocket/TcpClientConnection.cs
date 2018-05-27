@@ -239,12 +239,7 @@ namespace WampSharp.RawSocket
 
             public void RaiseOnPong(IList<byte> bytes)
             {
-                Action<IList<byte>> handler = OnPong;
-
-                if (handler != null)
-                {
-                    handler(bytes);
-                }
+                OnPong?.Invoke(bytes);
             }
         }
     }

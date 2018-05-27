@@ -216,20 +216,17 @@ namespace WampSharp.V2.Client
 
         protected virtual void OnConnectionEstablished(WampSessionCreatedEventArgs e)
         {
-            EventHandler<WampSessionCreatedEventArgs> handler = ConnectionEstablished;
-            if (handler != null) handler(this, e);
+            ConnectionEstablished?.Invoke(this, e);
         }
 
         protected virtual void OnConnectionBroken(WampSessionCloseEventArgs e)
         {
-            EventHandler<WampSessionCloseEventArgs> handler = ConnectionBroken;
-            if (handler != null) handler(this, e);
+            ConnectionBroken?.Invoke(this, e);
         }
 
         protected virtual void OnConnectionError(WampConnectionErrorEventArgs e)
         {
-            EventHandler<WampConnectionErrorEventArgs> handler = ConnectionError;
-            if (handler != null) handler(this, e);
+            ConnectionError?.Invoke(this, e);
         }
     }
 }

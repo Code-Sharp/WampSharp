@@ -205,60 +205,31 @@ namespace WampSharp.V1.PubSub.Server
 
         private void RaiseTopicEmpty()
         {
-            EventHandler topicEmpty = TopicEmpty;
-
-            if (topicEmpty != null)
-            {
-                topicEmpty(this, EventArgs.Empty);
-            }
+            TopicEmpty?.Invoke(this, EventArgs.Empty);
         }
 
         private void RaiseSubscriptionAdding(WampObserver observer)
         {
-            EventHandler<WampSubscriptionAddEventArgs> adding =
-                SubscriptionAdding;
-
-            if (adding != null)
-            {
-                adding(this, new WampSubscriptionAddEventArgs(observer.SessionId,
-                                                              observer));
-            }
+            SubscriptionAdding?.Invoke(this, new WampSubscriptionAddEventArgs(observer.SessionId,
+                                              observer));
         }
 
         private void RaiseSubscriptionAdded(WampObserver observer)
         {
-            EventHandler<WampSubscriptionAddEventArgs> added =
-                SubscriptionAdded;
-
-            if (added != null)
-            {
-                added(this, new WampSubscriptionAddEventArgs(observer.SessionId,
-                                                               observer));
-            }
+            SubscriptionAdded?.Invoke(this, new WampSubscriptionAddEventArgs(observer.SessionId,
+                                               observer));
         }
 
         private void RaiseSubscriptionRemoving(string sessionId)
         {
-            EventHandler<WampSubscriptionRemoveEventArgs> subscriptionRemoving =
-                SubscriptionRemoving;
-
-            if (subscriptionRemoving != null)
-            {
-                subscriptionRemoving(this,
-                                    new WampSubscriptionRemoveEventArgs(sessionId));
-            }
+            SubscriptionRemoving?.Invoke(this,
+                    new WampSubscriptionRemoveEventArgs(sessionId));
         }
 
         private void RaiseSubscriptionRemoved(string sessionId)
         {
-            EventHandler<WampSubscriptionRemoveEventArgs> subscriptionRemoved =
-                SubscriptionRemoved;
-
-            if (subscriptionRemoved != null)
-            {
-                subscriptionRemoved(this,
-                                    new WampSubscriptionRemoveEventArgs(sessionId));
-            }
+            SubscriptionRemoved?.Invoke(this,
+                    new WampSubscriptionRemoveEventArgs(sessionId));
         }
 
         #endregion

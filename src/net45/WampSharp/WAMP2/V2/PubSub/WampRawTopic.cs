@@ -221,12 +221,7 @@ namespace WampSharp.V2.PubSub
 
         protected virtual void RaiseTopicEmpty()
         {
-            EventHandler handler = TopicEmpty;
-
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            TopicEmpty?.Invoke(this, EventArgs.Empty);
         }
 
         private WampSubscriptionAddEventArgs GetAddEventArgs(RemoteWampTopicSubscriber subscriber, SubscribeOptions options)

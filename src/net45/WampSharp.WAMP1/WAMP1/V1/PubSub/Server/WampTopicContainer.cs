@@ -177,22 +177,12 @@ namespace WampSharp.V1.PubSub.Server
 
         private void RaiseTopicCreated(IWampTopic wampTopic)
         {
-            EventHandler<WampTopicCreatedEventArgs> topicCreated = TopicCreated;
-
-            if (topicCreated != null)
-            {
-                topicCreated(this, new WampTopicCreatedEventArgs(wampTopic));
-            }
+            TopicCreated?.Invoke(this, new WampTopicCreatedEventArgs(wampTopic));
         }
 
         private void RaiseTopicRemoved(IWampTopic topic)
         {
-            EventHandler<WampTopicRemovedEventArgs> topicRemoved = TopicRemoved;
-
-            if (topicRemoved != null)
-            {
-                topicRemoved(this, new WampTopicRemovedEventArgs(topic));
-            }
+            TopicRemoved?.Invoke(this, new WampTopicRemovedEventArgs(topic));
         }
 
         #endregion

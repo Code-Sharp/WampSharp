@@ -64,10 +64,7 @@ namespace WampSharp.V2.Fluent
         {
             ClientWebSocket result = WebSocketFactory();
 
-            if (ConfigureOptions != null)
-            {
-                ConfigureOptions(result.Options);
-            }
+            ConfigureOptions?.Invoke(result.Options);
 
             return result;
         }

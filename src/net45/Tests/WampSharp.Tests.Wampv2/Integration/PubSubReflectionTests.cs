@@ -290,12 +290,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             public void RaiseMyEvent(int number1, int number2, string c, MyClass d)
             {
-                MyPublicationDelegate handler = MyEvent;
-
-                if (handler != null)
-                {
-                    handler(number1, number2, c, d);
-                }
+                MyEvent?.Invoke(number1, number2, c, d);
             }
 
             public event MyPublicationDelegate MyEvent;
@@ -308,8 +303,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             public void RaiseMyEvent(string arg1, int arg2, int arg3)
             {
-                var handler = MyEvent;
-                if (handler != null) handler(arg1, arg2, arg3);
+                MyEvent?.Invoke(arg1, arg2, arg3);
             }
         }
 

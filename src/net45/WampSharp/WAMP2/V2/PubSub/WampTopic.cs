@@ -181,52 +181,27 @@ namespace WampSharp.V2.PubSub
 
         protected virtual void RaiseTopicEmpty()
         {
-            EventHandler handler = TopicEmpty;
-            
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            TopicEmpty?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void RaiseSubscriptionAdding(WampSubscriptionAddEventArgs e)
         {
-            EventHandler<WampSubscriptionAddEventArgs> handler = SubscriptionAdding;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            SubscriptionAdding?.Invoke(this, e);
         }
 
         protected virtual void RaiseSubscriptionAdded(WampSubscriptionAddEventArgs e)
         {
-            EventHandler<WampSubscriptionAddEventArgs> handler = SubscriptionAdded;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            SubscriptionAdded?.Invoke(this, e);
         }
 
         protected virtual void RaiseSubscriptionRemoving(WampSubscriptionRemoveEventArgs e)
         {
-            EventHandler<WampSubscriptionRemoveEventArgs> handler = SubscriptionRemoving;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            SubscriptionRemoving?.Invoke(this, e);
         }
 
         protected virtual void RaiseSubscriptionRemoved(WampSubscriptionRemoveEventArgs e)
         {
-            EventHandler<WampSubscriptionRemoveEventArgs> handler = SubscriptionRemoved;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            SubscriptionRemoved?.Invoke(this, e);
         }
 
         #endregion
