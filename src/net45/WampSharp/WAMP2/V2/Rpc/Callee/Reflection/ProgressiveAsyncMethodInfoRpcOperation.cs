@@ -44,13 +44,7 @@ namespace WampSharp.V2.Rpc
             return result;
         }
 
-        public override RpcParameter[] Parameters
-        {
-            get
-            {
-                return mRpcParameters;
-            }
-        }
+        public override RpcParameter[] Parameters => mRpcParameters;
 
         private class CallerProgress : IProgress<T>
         {

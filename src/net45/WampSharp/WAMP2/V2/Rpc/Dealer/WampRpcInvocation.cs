@@ -17,13 +17,7 @@ namespace WampSharp.V2.Rpc
             mArgumentsKeywords = argumentsKeywords;
         }
 
-        public string Procedure
-        {
-            get
-            {
-                return Operation.Procedure;
-            }
-        }
+        public string Procedure => Operation.Procedure;
 
         public RemoteWampCalleeDetails Operation { get; }
 
@@ -33,13 +27,7 @@ namespace WampSharp.V2.Rpc
 
         public object[] Arguments { get; }
 
-        public IDictionary<string, object> ArgumentsKeywords
-        {
-            get
-            {
-                return mArgumentsKeywords;
-            }
-        }
+        public IDictionary<string, object> ArgumentsKeywords => mArgumentsKeywords;
 
         public long InvocationId
         {

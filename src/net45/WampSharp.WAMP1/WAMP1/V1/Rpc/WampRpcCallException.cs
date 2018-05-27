@@ -59,13 +59,7 @@ namespace WampSharp.V1.Rpc
         /// <summary>
         /// The error uri.
         /// </summary>
-        public string ErrorUri
-        {
-            get
-            {
-                return mErrorUri;
-            }
-        }
+        public string ErrorUri => mErrorUri;
 
         /// <summary>
         /// The error details.

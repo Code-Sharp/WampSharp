@@ -78,13 +78,7 @@ namespace WampSharp.V2.Core.Contracts
 
         public IDictionary<string, object> Details { get; }
 
-        public object[] Arguments
-        {
-            get
-            {
-                return mArguments;
-            }
-        }
+        public object[] Arguments => mArguments;
 
         public IDictionary<string, object> ArgumentsKeywords { get; }
     }

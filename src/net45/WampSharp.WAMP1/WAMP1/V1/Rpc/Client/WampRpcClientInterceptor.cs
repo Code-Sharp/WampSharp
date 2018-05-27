@@ -30,13 +30,7 @@ namespace WampSharp.V1.Rpc.Client
         /// The <see cref="IWampRpcClientHandler"/> use in order
         /// to handle serialized <see cref="WampRpcCall"/>s.
         /// </summary>
-        public IWampRpcClientHandler ClientHandler
-        {
-            get
-            {
-                return mClientHandler;
-            }
-        }
+        public IWampRpcClientHandler ClientHandler => mClientHandler;
 
         /// <summary>
         /// Implementation of <see cref="IInterceptor.Intercept"/>.

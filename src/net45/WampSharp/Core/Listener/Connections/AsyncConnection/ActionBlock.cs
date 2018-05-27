@@ -27,10 +27,7 @@ namespace WampSharp.Core.Listener
             return mBlock.Post(item);
         }
 
-        public Task Completion
-        {
-            get { return mBlock.Completion; }
-        }
+        public Task Completion => mBlock.Completion;
     }
 #else
 

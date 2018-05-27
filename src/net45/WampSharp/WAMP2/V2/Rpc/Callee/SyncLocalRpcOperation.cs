@@ -14,13 +14,7 @@ namespace WampSharp.V2.Rpc
         {
         }
 
-        public override bool SupportsCancellation
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool SupportsCancellation => false;
 
         protected override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {

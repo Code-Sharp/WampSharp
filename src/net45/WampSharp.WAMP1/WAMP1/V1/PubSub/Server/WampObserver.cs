@@ -24,13 +24,7 @@ namespace WampSharp.V1.PubSub.Server
         /// <summary>
         /// Gets the session id of the client.
         /// </summary>
-        public string SessionId
-        {
-            get
-            {
-                return Client.SessionId;
-            }
-        }
+        public string SessionId => Client.SessionId;
 
         /// <summary>
         /// Gets a proxy to the client.

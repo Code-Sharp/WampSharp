@@ -47,15 +47,9 @@ namespace WampSharp.V2.PubSub
 
         #endregion
 
-        public IEnumerable<string> TopicUris
-        {
-            get { return mExactTopicContainer.TopicUris; }
-        }
+        public IEnumerable<string> TopicUris => mExactTopicContainer.TopicUris;
 
-        public IEnumerable<IWampTopic> Topics
-        {
-            get { return mExactTopicContainer.Topics; }
-        }
+        public IEnumerable<IWampTopic> Topics => mExactTopicContainer.Topics;
 
         public IWampRegistrationSubscriptionToken Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {

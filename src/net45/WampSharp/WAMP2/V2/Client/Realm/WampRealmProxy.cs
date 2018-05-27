@@ -34,13 +34,7 @@ namespace WampSharp.V2.Client
 
         public IWampRealmServiceProvider Services { get; }
 
-        public IWampClientConnectionMonitor Monitor
-        {
-            get
-            {
-                return mMonitor;
-            }
-        }
+        public IWampClientConnectionMonitor Monitor => mMonitor;
 
         public IWampClientAuthenticator Authenticator { get; }
     }

@@ -30,12 +30,6 @@ namespace WampSharp.Vtortola
         public VtortolaWebSocketHttpRequest HttpRequest { get; }
 
         [DataMember(Name = "http_response")]
-        public VtortolaWebSocketHttpResponse HttpResponse
-        {
-            get
-            {
-                return mHttpResponse;
-            }
-        }
+        public VtortolaWebSocketHttpResponse HttpResponse => mHttpResponse;
     }
 }

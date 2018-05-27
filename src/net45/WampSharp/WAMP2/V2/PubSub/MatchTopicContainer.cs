@@ -36,15 +36,9 @@ namespace WampSharp.V2.PubSub
 
         #region Public Methods
 
-        public IEnumerable<string> TopicUris
-        {
-            get { return mTopicUriToSubject.Keys; }
-        }
+        public IEnumerable<string> TopicUris => mTopicUriToSubject.Keys;
 
-        public IEnumerable<IWampTopic> Topics
-        {
-            get { return mTopicUriToSubject.Values; }
-        }
+        public IEnumerable<IWampTopic> Topics => mTopicUriToSubject.Values;
 
         public IWampRegistrationSubscriptionToken Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {

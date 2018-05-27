@@ -62,26 +62,14 @@ namespace WampSharp.Vtortola
 
         protected abstract Task<WampMessage<TMessage>> ParseMessage(WebSocketMessageReadStream readStream);
 
-        protected override bool IsConnected
-        {
-            get
-            {
-                return !mCancellationToken.IsCancellationRequested &&
-                    mWebsocket.IsConnected;
-            }
-        }
+        protected override bool IsConnected => !mCancellationToken.IsCancellationRequested &&
+                                               mWebsocket.IsConnected;
 
         protected override void Dispose()
         {
             mWebsocket.Dispose();
         }
 
-        public WampTransportDetails TransportDetails
-        {
-            get
-            {
-                return mTransportDetails;
-            }
-        }
+        public WampTransportDetails TransportDetails => mTransportDetails;
     }
 }

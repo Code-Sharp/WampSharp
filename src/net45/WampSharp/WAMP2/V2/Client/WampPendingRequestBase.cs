@@ -21,10 +21,7 @@ namespace WampSharp.V2.Client
             set;
         }
 
-        protected Task<TResult> Task
-        {
-            get { return mTaskCompletionSource.Task; }
-        }
+        protected Task<TResult> Task => mTaskCompletionSource.Task;
 
         protected void Complete(TResult result)
         {

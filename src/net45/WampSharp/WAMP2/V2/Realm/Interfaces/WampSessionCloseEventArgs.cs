@@ -34,12 +34,6 @@ namespace WampSharp.V2.Realm
 
         public long SessionId { get; }
 
-        public GoodbyeAbortDetails Details
-        {
-            get
-            {
-                return mDetails;
-            }
-        }
+        public GoodbyeAbortDetails Details => mDetails;
     }
 }

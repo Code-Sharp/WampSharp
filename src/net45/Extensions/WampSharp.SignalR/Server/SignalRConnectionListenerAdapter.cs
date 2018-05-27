@@ -81,10 +81,7 @@ namespace WampSharp.SignalR
                 mParent.mConnectionIdToConnection.TryRemove(this.mConnectionId, out value);
             }
 
-            protected override bool IsConnected
-            {
-                get { return true; }
-            }
+            protected override bool IsConnected => true;
 
             public void OnConnected()
             {

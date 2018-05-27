@@ -15,10 +15,7 @@ namespace WampSharp.V2.CalleeProxy
 
         public Exception Exception { get; private set; }
 
-        public WaitHandle WaitHandle
-        {
-            get { return mWaitHandle; }
-        }
+        public WaitHandle WaitHandle => mWaitHandle;
 
         public void Wait(int timeout)
         {

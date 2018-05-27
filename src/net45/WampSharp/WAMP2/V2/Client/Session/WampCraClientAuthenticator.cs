@@ -67,13 +67,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public string[] AuthenticationMethods
-        {
-            get
-            {
-                return new string[] {WAMP_CRA};
-            }
-        }
+        public string[] AuthenticationMethods => new string[] {WAMP_CRA};
 
         public string AuthenticationId { get; }
     }

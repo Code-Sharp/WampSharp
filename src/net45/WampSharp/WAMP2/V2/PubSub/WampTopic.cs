@@ -27,13 +27,7 @@ namespace WampSharp.V2.PubSub
 
         #region IWampTopic members
 
-        public bool HasSubscribers
-        {
-            get
-            {
-                return mSubscribers.Count > 0;
-            }
-        }
+        public bool HasSubscribers => mSubscribers.Count > 0;
 
         public string TopicUri { get; }
 
@@ -61,13 +55,7 @@ namespace WampSharp.V2.PubSub
             InnerPublish(publishAction);
         }
 
-        public bool Persistent
-        {
-            get
-            {
-                return mPersistent;
-            }
-        }
+        public bool Persistent => mPersistent;
 
         public long SubscriptionId
         {

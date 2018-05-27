@@ -63,25 +63,13 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public override RpcParameter[] Parameters
-        {
-            get { return mParameters; }
-        }
+        public override RpcParameter[] Parameters => mParameters;
 
-        public override bool HasResult
-        {
-            get { return mHasResult; }
-        }
+        public override bool HasResult => mHasResult;
 
-        public override bool SupportsCancellation
-        {
-            get { return mSupportsCancellation; }
-        }
+        public override bool SupportsCancellation => mSupportsCancellation;
 
-        public override CollectionResultTreatment CollectionResultTreatment
-        {
-            get { return mCollectionResultTreatment; }
-        }
+        public override CollectionResultTreatment CollectionResultTreatment => mCollectionResultTreatment;
 
         protected virtual object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, CancellationToken cancellationToken, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {

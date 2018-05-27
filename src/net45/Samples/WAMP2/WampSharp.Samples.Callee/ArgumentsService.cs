@@ -62,23 +62,11 @@ namespace WampSharp.Samples.Callee
                 return new int[] { argumentsLength, argumentKeyWordsLength };
             }
 
-            public override RpcParameter[] Parameters
-            {
-                get { return mParameters; }
-            }
+            public override RpcParameter[] Parameters => mParameters;
 
-            public override bool HasResult
-            {
-                get { return true; }
-            }
+            public override bool HasResult => true;
 
-            public override CollectionResultTreatment CollectionResultTreatment
-            {
-                get
-                {
-                    return CollectionResultTreatment.Multivalued;
-                }
-            }
+            public override CollectionResultTreatment CollectionResultTreatment => CollectionResultTreatment.Multivalued;
         }
     }
 }

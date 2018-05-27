@@ -20,12 +20,6 @@ namespace WampSharp.V2.Realm
 
         public IWampTopicContainer TopicContainer { get; }
 
-        public IWampRealmServiceProvider Services
-        {
-            get
-            {
-                return mServices;
-            }
-        }
+        public IWampRealmServiceProvider Services => mServices;
     }
 }

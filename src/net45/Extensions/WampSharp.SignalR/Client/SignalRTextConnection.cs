@@ -86,12 +86,6 @@ namespace WampSharp.SignalR
             mConnection.Dispose();
         }
 
-        protected override bool IsConnected
-        {
-            get
-            {
-                return mIsConnected == 1;
-            }
-        }
+        protected override bool IsConnected => mIsConnected == 1;
     }
 }

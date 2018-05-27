@@ -18,13 +18,7 @@ namespace WampSharp.Tests.Rpc.Helpers
 
         public string CallId { get; }
 
-        public string ProcUri
-        {
-            get
-            {
-                return mProcUri;
-            }
-        }
+        public string ProcUri => mProcUri;
 
         public object[] Arguments { get; }
     }

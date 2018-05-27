@@ -108,13 +108,7 @@ namespace WampSharp.RawSocket
             }
         }
 
-        public bool IsError
-        {
-            get
-            {
-                return (SerializerType == SerializerType.Illegal);
-            }
-        }
+        public bool IsError => (SerializerType == SerializerType.Illegal);
 
         public byte[] ToArray()
         {

@@ -831,13 +831,7 @@ namespace WampSharp.Logging
             }
         }
 
-        internal static ILogProvider CurrentLogProvider
-        {
-            get
-            {
-                return s_currentLogProvider;
-            }
-        }
+        internal static ILogProvider CurrentLogProvider => s_currentLogProvider;
 
         /// <summary>
         /// Gets a logger for the specified type.
@@ -1057,10 +1051,7 @@ namespace WampSharp.Logging
             _getIsDisabled = getIsDisabled ?? (() => false);
         }
 
-        internal Logger WrappedLogger
-        {
-            get { return _logger; }
-        }
+        internal Logger WrappedLogger => _logger;
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters)
@@ -1216,8 +1207,8 @@ namespace WampSharp.Logging.LogProviders
 
         public static bool ProviderIsAvailableOverride
         {
-            get { return s_providerIsAvailableOverride; }
-            set { s_providerIsAvailableOverride = value; }
+            get => s_providerIsAvailableOverride;
+            set => s_providerIsAvailableOverride = value;
         }
 
         public override Logger GetLogger(string name)
@@ -1592,8 +1583,8 @@ namespace WampSharp.Logging.LogProviders
 
         public static bool ProviderIsAvailableOverride
         {
-            get { return s_providerIsAvailableOverride; }
-            set { s_providerIsAvailableOverride = value; }
+            get => s_providerIsAvailableOverride;
+            set => s_providerIsAvailableOverride = value;
         }
 
         public override Logger GetLogger(string name)
@@ -1974,8 +1965,8 @@ namespace WampSharp.Logging.LogProviders
 
         public static bool ProviderIsAvailableOverride
         {
-            get { return s_providerIsAvailableOverride; }
-            set { s_providerIsAvailableOverride = value; }
+            get => s_providerIsAvailableOverride;
+            set => s_providerIsAvailableOverride = value;
         }
 
         public override Logger GetLogger(string name)
@@ -2135,8 +2126,8 @@ namespace WampSharp.Logging.LogProviders
 
         public static bool ProviderIsAvailableOverride
         {
-            get { return s_providerIsAvailableOverride; }
-            set { s_providerIsAvailableOverride = value; }
+            get => s_providerIsAvailableOverride;
+            set => s_providerIsAvailableOverride = value;
         }
 
         public override Logger GetLogger(string name)
@@ -2409,8 +2400,8 @@ namespace WampSharp.Logging.LogProviders
         /// </value>
         public static bool ProviderIsAvailableOverride
         {
-            get { return s_providerIsAvailableOverride; }
-            set { s_providerIsAvailableOverride = value; }
+            get => s_providerIsAvailableOverride;
+            set => s_providerIsAvailableOverride = value;
         }
 
         public override Logger GetLogger(string name)

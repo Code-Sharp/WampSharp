@@ -49,14 +49,8 @@ namespace WampSharp.V2.Authentication
         /// </summary>
         public virtual ChallengeDetails ChallengeDetails
         {
-            get
-            {
-                return mChallengeDetails;
-            }
-            protected set
-            {
-                mChallengeDetails = value;
-            }
+            get => mChallengeDetails;
+            protected set => mChallengeDetails = value;
         }
 
         /// <summary>

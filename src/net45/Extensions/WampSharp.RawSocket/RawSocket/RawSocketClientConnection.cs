@@ -142,10 +142,7 @@ namespace WampSharp.RawSocket
             return stream;
         }
 
-        private bool IsSecure
-        {
-            get { return mSslConfiguration != null; }
-        }
+        private bool IsSecure => mSslConfiguration != null;
 
         private Handshake GetHandshakeRequest()
         {
@@ -162,10 +159,7 @@ namespace WampSharp.RawSocket
         /// </summary>
         public byte MaxLength
         {
-            get
-            {
-                return mMaxLength;
-            }
+            get => mMaxLength;
             set
             {
                 if (value >= 16)
@@ -188,10 +182,7 @@ namespace WampSharp.RawSocket
 
                 return mConnection;
             }
-            set
-            {
-                mConnection = value;
-            }
+            set => mConnection = value;
         }
 
         private SerializerType GetSerializerType()

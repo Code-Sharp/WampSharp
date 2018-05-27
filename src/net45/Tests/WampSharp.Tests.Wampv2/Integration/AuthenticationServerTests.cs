@@ -482,21 +482,9 @@ namespace WampSharp.Tests.Wampv2.Integration
                 mAuthenticate(signature, extra);
             }
 
-            public override string AuthenticationId
-            {
-                get
-                {
-                    return mAuthenticationId;
-                }
-            }
+            public override string AuthenticationId => mAuthenticationId;
 
-            public override string AuthenticationMethod
-            {
-                get
-                {
-                    return mAuthenticationMethod;
-                }
-            }
+            public override string AuthenticationMethod => mAuthenticationMethod;
 
             public void SetAuthenticate(Action<string, AuthenticateExtraData> value)
             {

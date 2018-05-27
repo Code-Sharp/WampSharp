@@ -92,13 +92,7 @@ namespace WampSharp.V2.PubSub
             Publish(message, options);
         }
 
-        public bool HasSubscribers
-        {
-            get
-            {
-                return mSubscriberBook.HasSubscribers;
-            }
-        }
+        public bool HasSubscribers => mSubscriberBook.HasSubscribers;
 
         public long SubscriptionId
         {
@@ -387,13 +381,7 @@ namespace WampSharp.V2.PubSub
                 mRawTopic = rawTopic;
             }
 
-            public bool HasSubscribers
-            {
-                get
-                {
-                    return mRemoteObservers.Count > 0;
-                }
-            }
+            public bool HasSubscribers => mRemoteObservers.Count > 0;
 
             public RemoteObserver Subscribe(IWampClientProxy<TMessage> client)
             {

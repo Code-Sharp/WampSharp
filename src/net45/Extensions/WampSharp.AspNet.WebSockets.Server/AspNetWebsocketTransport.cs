@@ -142,13 +142,7 @@ namespace WampSharp.AspNet.WebSockets.Server
                 mParent.ProcessRequest(context);
             }
 
-            public bool IsReusable
-            {
-                get
-                {
-                    return true;
-                }
-            }
+            public bool IsReusable => true;
         }
     }
 }

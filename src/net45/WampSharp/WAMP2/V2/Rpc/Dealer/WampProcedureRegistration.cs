@@ -133,21 +133,9 @@ namespace WampSharp.V2.Rpc
 
         public string Procedure { get; }
 
-        public bool HasOperations
-        {
-            get
-            {
-                return mOperations.Any();
-            }
-        }
+        public bool HasOperations => mOperations.Any();
 
-        public RegisterOptions RegisterOptions
-        {
-            get
-            {
-                return mRegisterOptions;
-            }
-        }
+        public RegisterOptions RegisterOptions => mRegisterOptions;
 
         public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                      InvocationDetails details)
@@ -255,13 +243,7 @@ namespace WampSharp.V2.Rpc
                 mRegistration.RemoveOperation(mOperation);
             }
 
-            public long TokenId
-            {
-                get
-                {
-                    return mRegistration.RegistrationId;
-                }
-            }
+            public long TokenId => mRegistration.RegistrationId;
         }
     }
 }

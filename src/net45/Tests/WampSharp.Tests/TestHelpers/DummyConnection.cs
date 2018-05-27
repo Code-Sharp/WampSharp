@@ -6,12 +6,6 @@ namespace WampSharp.Tests.TestHelpers
     {
         private static readonly MockConnection<TMessage> mMockConnection = new MockConnection<TMessage>(null);
 
-        public static IWampConnection<TMessage> Instance
-        {
-            get
-            {
-                return mMockConnection.SideAToSideB;
-            }
-        }
+        public static IWampConnection<TMessage> Instance => mMockConnection.SideAToSideB;
     }
 }

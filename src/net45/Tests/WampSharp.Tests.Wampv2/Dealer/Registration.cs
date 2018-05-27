@@ -32,9 +32,6 @@ namespace WampSharp.Tests.Wampv2.Dealer
 
         public RegisterOptions Options { get; }
 
-        public string Procedure
-        {
-            get { return mProcedure; }
-        }
+        public string Procedure => mProcedure;
     }
 }

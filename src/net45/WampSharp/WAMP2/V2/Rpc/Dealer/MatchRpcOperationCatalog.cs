@@ -145,13 +145,7 @@ namespace WampSharp.V2.Rpc
             return null;
         }
 
-        protected IEnumerable<IWampRpcOperation> Operations
-        {
-            get
-            {
-                return this.mProcedureToRegistration.Values;
-            }
-        }
+        protected IEnumerable<IWampRpcOperation> Operations => this.mProcedureToRegistration.Values;
 
         public event EventHandler<WampProcedureRegisterEventArgs> RegistrationAdded;
 

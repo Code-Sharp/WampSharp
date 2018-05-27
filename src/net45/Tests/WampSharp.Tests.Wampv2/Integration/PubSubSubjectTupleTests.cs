@@ -183,19 +183,13 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
             }
 
-            public override LocalParameter[] Parameters
-            {
-                get { return new LocalParameter[0]; }
-            }
+            public override LocalParameter[] Parameters => new LocalParameter[0];
 
             public EventDetails Details { get; private set; }
 
             public ISerializedValue[] Arguments { get; private set; }
 
-            public IDictionary<string, ISerializedValue> ArgumentsKeywords
-            {
-                get { return mArgumentsKeywords; }
-            }
+            public IDictionary<string, ISerializedValue> ArgumentsKeywords => mArgumentsKeywords;
 
             protected override void InnerEvent<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, EventDetails details, TMessage[] arguments,
                 IDictionary<string, TMessage> argumentsKeywords)

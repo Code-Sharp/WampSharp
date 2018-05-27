@@ -14,10 +14,7 @@ namespace WampSharp.V2.Client
             this.Complete(true);
         }
 
-        public Task Task
-        {
-            get { return base.Task; }
-        }
+        public Task Task => base.Task;
     }
 
     internal class WampPendingRequest<TMessage, TResult> : WampPendingRequestBase<TMessage, TResult>
@@ -32,9 +29,6 @@ namespace WampSharp.V2.Client
             base.Complete(result);
         }
 
-        public Task<TResult> Task
-        {
-            get { return base.Task; }
-        }
+        public Task<TResult> Task => base.Task;
     }    
 }

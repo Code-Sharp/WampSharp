@@ -33,14 +33,8 @@ namespace WampSharp.V2
 #elif !PCL
         public static WampInvocationContext Current
         {
-            get
-            {
-                return (WampInvocationContext)CallContext.LogicalGetData(typeof(WampInvocationContext).Name);
-            }
-            internal set
-            {
-                CallContext.LogicalSetData(typeof(WampInvocationContext).Name, value);
-            }
+            get => (WampInvocationContext)CallContext.LogicalGetData(typeof(WampInvocationContext).Name);
+            internal set => CallContext.LogicalSetData(typeof(WampInvocationContext).Name, value);
         }
 
 #else

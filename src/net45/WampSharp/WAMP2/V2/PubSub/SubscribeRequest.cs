@@ -12,13 +12,7 @@ namespace WampSharp.V2.PubSub
             mRequestId = requestId;
         }
 
-        public IWampSubscriber Subscriber
-        {
-            get
-            {
-                return Client as IWampSubscriber;
-            }
-        }
+        public IWampSubscriber Subscriber => Client as IWampSubscriber;
 
         public IWampClientProxy<TMessage> Client { get; }
 

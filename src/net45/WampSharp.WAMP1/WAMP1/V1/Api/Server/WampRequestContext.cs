@@ -16,14 +16,8 @@ namespace WampSharp.V1
 #if !NETSTANDARD2_0
         public static WampRequestContext Current
         {
-            get
-            {
-                return (WampRequestContext) CallContext.LogicalGetData(typeof (WampRequestContext).Name);
-            }
-            internal set
-            {
-                CallContext.LogicalSetData(typeof (WampRequestContext).Name, value);
-            }
+            get => (WampRequestContext) CallContext.LogicalGetData(typeof (WampRequestContext).Name);
+            internal set => CallContext.LogicalSetData(typeof (WampRequestContext).Name, value);
         }
 #else
         private static readonly AsyncLocal<WampRequestContext> mCurrent = new AsyncLocal<WampRequestContext>();
@@ -60,21 +54,9 @@ namespace WampSharp.V1
 
         #region Properties
 
-        public string SessionId
-        {
-            get
-            {
-                return mClient.SessionId;
-            }
-        }
+        public string SessionId => mClient.SessionId;
 
-        public IWampCraAuthenticator Authenticator
-        {
-            get
-            {
-                return mClient.CraAuthenticator;
-            }
-        }
+        public IWampCraAuthenticator Authenticator => mClient.CraAuthenticator;
 
         #endregion
     }

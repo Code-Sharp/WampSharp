@@ -15,10 +15,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         public IEnumerable<ISerializedValue> Arguments { get; private set; }
 
-        public IDictionary<string, ISerializedValue> ArgumentsKeywords
-        {
-            get { return mArgumentsKeywords; }
-        }
+        public IDictionary<string, ISerializedValue> ArgumentsKeywords => mArgumentsKeywords;
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
         {

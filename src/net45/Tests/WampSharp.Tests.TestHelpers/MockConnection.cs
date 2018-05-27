@@ -19,21 +19,9 @@ namespace WampSharp.Tests.TestHelpers
             mSideBToSideAConnection = new DirectedConnection(mSideAToSideB, mSideBToSideA, formatter);
         }
 
-        public IDirectedControlledWampConnection<TMessage> SideAToSideB
-        {
-            get
-            {
-                return mSideAToSideBConnection;
-            }
-        }
+        public IDirectedControlledWampConnection<TMessage> SideAToSideB => mSideAToSideBConnection;
 
-        public IDirectedControlledWampConnection<TMessage> SideBToSideA
-        {
-            get
-            {
-                return mSideBToSideAConnection;
-            }
-        }
+        public IDirectedControlledWampConnection<TMessage> SideBToSideA => mSideBToSideAConnection;
 
         public class DirectedConnection : IDirectedControlledWampConnection<TMessage>
         {

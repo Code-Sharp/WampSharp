@@ -21,13 +21,7 @@ namespace WampSharp.V2.Binding
 
         public string Name { get; }
 
-        public IWampFormatter<TMessage> Formatter
-        {
-            get
-            {
-                return mFormatter;
-            }
-        }
+        public IWampFormatter<TMessage> Formatter => mFormatter;
 
         public abstract WampMessage<object> GetRawMessage(WampMessage<object> message);
     }

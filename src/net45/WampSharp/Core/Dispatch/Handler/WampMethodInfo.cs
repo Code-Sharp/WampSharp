@@ -114,13 +114,7 @@ namespace WampSharp.Core.Dispatch.Handler
         /// Returns a value indicating whether this method receives the given
         /// <see cref="WampMessage{TMessage}"/> as is.
         /// </summary>
-        public bool IsRawMethod
-        {
-            get
-            {
-                return mIsRawMethod;
-            }
-        }
+        public bool IsRawMethod => mIsRawMethod;
 
         /// <summary>
         /// Gets this method's parameters.
@@ -130,24 +124,12 @@ namespace WampSharp.Core.Dispatch.Handler
         /// <summary>
         /// Gets this method's parameters that require deserialization.
         /// </summary>
-        public ParameterInfo[] ParametersToConvert
-        {
-            get
-            {
-                return mParametersToConvert;
-            }
-        }
+        public ParameterInfo[] ParametersToConvert => mParametersToConvert;
 
         /// <summary>
         /// Gets the number of arguments of this method.
         /// </summary>
-        public int TotalArgumentsCount
-        {
-            get
-            {
-                return mTotalArgumentsCount;
-            }
-        }
+        public int TotalArgumentsCount => mTotalArgumentsCount;
 
         /// <summary>
         /// Gets the message type this method handles.

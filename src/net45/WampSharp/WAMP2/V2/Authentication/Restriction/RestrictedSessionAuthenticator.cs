@@ -13,37 +13,13 @@ namespace WampSharp.V2.Authentication
             mAuthorizer = new RestrictedAuthorizer(mAuthenticator);
         }
 
-        public bool IsAuthenticated
-        {
-            get
-            {
-                return mAuthenticator.IsAuthenticated;
-            }
-        }
+        public bool IsAuthenticated => mAuthenticator.IsAuthenticated;
 
-        public string AuthenticationId
-        {
-            get
-            {
-                return mAuthenticator.AuthenticationId;
-            }
-        }
+        public string AuthenticationId => mAuthenticator.AuthenticationId;
 
-        public string AuthenticationMethod
-        {
-            get
-            {
-                return mAuthenticator.AuthenticationMethod;
-            }
-        }
+        public string AuthenticationMethod => mAuthenticator.AuthenticationMethod;
 
-        public ChallengeDetails ChallengeDetails
-        {
-            get
-            {
-                return mAuthenticator.ChallengeDetails;
-            }
-        }
+        public ChallengeDetails ChallengeDetails => mAuthenticator.ChallengeDetails;
 
         public void Authenticate(string signature, AuthenticateExtraData extra)
         {
@@ -63,9 +39,6 @@ namespace WampSharp.V2.Authentication
             }
         }
 
-        public WelcomeDetails WelcomeDetails
-        {
-            get { return mAuthenticator.WelcomeDetails; }
-        }
+        public WelcomeDetails WelcomeDetails => mAuthenticator.WelcomeDetails;
     }
 }

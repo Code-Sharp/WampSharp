@@ -19,23 +19,11 @@ namespace WampSharp.V1.Cra
 
         protected IWampRpcMetadataCatalog RpcMetadataCatalog { get; private set; }
 
-        protected IWampTopicContainerExtended<TMessage> TopicContainer
-        {
-            get
-            {
-                return mTopicContainer;
-            }
-        }
+        protected IWampTopicContainerExtended<TMessage> TopicContainer => mTopicContainer;
 
-        public bool IsValid
-        {
-            get
-            {
-                return (Formatter != null) && 
-                    (RpcMetadataCatalog != null) && 
-                    (mTopicContainer != null);
-            }
-        }
+        public bool IsValid => (Formatter != null) && 
+                               (RpcMetadataCatalog != null) && 
+                               (mTopicContainer != null);
 
         public abstract WampCraAuthenticator<TMessage> BuildAuthenticator(string clientSessionId);
     }

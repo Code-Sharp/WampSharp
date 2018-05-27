@@ -64,21 +64,9 @@ namespace WampSharp.Core.Utilities
             }
         }
 
-        public int Count
-        {
-            get
-            {
-                return mUnderlyingDictionary.Count;
-            }
-        }
+        public int Count => mUnderlyingDictionary.Count;
 
-        public bool IsReadOnly
-        {
-            get
-            {
-                return mUnderlyingDictionary.IsReadOnly;
-            }
-        }
+        public bool IsReadOnly => mUnderlyingDictionary.IsReadOnly;
 
         public bool ContainsKey(TKey key)
         {
@@ -113,10 +101,7 @@ namespace WampSharp.Core.Utilities
 
         public TValue this[TKey key]
         {
-            get
-            {
-                return mUnderlyingDictionary[key];
-            }
+            get => mUnderlyingDictionary[key];
             set
             {
                 lock (mLock)
@@ -128,21 +113,9 @@ namespace WampSharp.Core.Utilities
             }
         }
 
-        public ICollection<TKey> Keys
-        {
-            get
-            {
-                return mUnderlyingDictionary.Keys;
-            }
-        }
+        public ICollection<TKey> Keys => mUnderlyingDictionary.Keys;
 
-        public ICollection<TValue> Values
-        {
-            get
-            {
-                return mUnderlyingDictionary.Values;
-            }
-        }
+        public ICollection<TValue> Values => mUnderlyingDictionary.Values;
 
         IEnumerator IEnumerable.GetEnumerator()
         {

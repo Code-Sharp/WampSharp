@@ -59,20 +59,8 @@ namespace WampSharp.Fleck
             }
         }
 
-        protected override bool IsConnected
-        {
-            get
-            {
-                return mWebSocketConnection.IsAvailable;
-            }
-        }
+        protected override bool IsConnected => mWebSocketConnection.IsAvailable;
 
-        public WampTransportDetails TransportDetails
-        {
-            get
-            {
-                return mTransportDetails;
-            }
-        }
+        public WampTransportDetails TransportDetails => mTransportDetails;
     }
 }

@@ -27,29 +27,13 @@ namespace WampSharp.V2.Realm
             mUnderlyingRealm = underlyingRealm;
         }
 
-        public string Name
-        {
-            get { return mUnderlyingRealm.Name; }
-        }
+        public string Name => mUnderlyingRealm.Name;
 
-        public IWampRpcOperationCatalog RpcCatalog
-        {
-            get { return mUnderlyingRealm.RpcCatalog; }
-        }
+        public IWampRpcOperationCatalog RpcCatalog => mUnderlyingRealm.RpcCatalog;
 
-        public IWampTopicContainer TopicContainer
-        {
-            get { return mUnderlyingRealm.TopicContainer; }
-        }
+        public IWampTopicContainer TopicContainer => mUnderlyingRealm.TopicContainer;
 
-        public IWampRealmServiceProvider Services
-        {
-            get
-            {
-                // Should not be called.
-                throw new NotSupportedException();
-            }
-        }
+        public IWampRealmServiceProvider Services => throw new NotSupportedException();
 
         public RouterRoles Roles { get; } = new RouterRoles()
         {
@@ -71,14 +55,7 @@ namespace WampSharp.V2.Realm
             }
         };
 
-        public long SessionId
-        {
-            get
-            {
-                // Should not be called.
-                throw new NotSupportedException();
-            }
-        }
+        public long SessionId => throw new NotSupportedException();
 
         public event EventHandler<WampSessionCreatedEventArgs> SessionCreated;
 

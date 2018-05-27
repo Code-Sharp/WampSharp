@@ -28,12 +28,6 @@ namespace WampSharp.WebSockets
             return new ArraySegment<byte>(bytes);
         }
 
-        protected override WebSocketMessageType WebSocketMessageType
-        {
-            get
-            {
-                return WebSocketMessageType.Binary;
-            }
-        }
+        protected override WebSocketMessageType WebSocketMessageType => WebSocketMessageType.Binary;
     }
 }

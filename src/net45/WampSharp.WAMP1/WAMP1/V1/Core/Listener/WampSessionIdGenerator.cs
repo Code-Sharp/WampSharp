@@ -50,13 +50,7 @@ namespace WampSharp.V1.Core.Listener
             return new string(resultArray);
         }
 
-        private Random Random
-        {
-            get
-            {
-                return mRandom.Random;
-            }
-        }
+        private Random Random => mRandom.Random;
 
         #endregion
     }

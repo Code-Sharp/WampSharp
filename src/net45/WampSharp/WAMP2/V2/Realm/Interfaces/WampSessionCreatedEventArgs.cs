@@ -25,12 +25,6 @@ namespace WampSharp.V2.Realm
 
         public HelloDetails HelloDetails { get; }
 
-        public WelcomeDetails WelcomeDetails
-        {
-            get
-            {
-                return mWelcomeDetails;
-            }
-        }
+        public WelcomeDetails WelcomeDetails => mWelcomeDetails;
     }
 }

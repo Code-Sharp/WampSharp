@@ -19,13 +19,7 @@ namespace WampSharp.V2.PubSub
         /// <summary>
         /// Gets a proxy to the subscribing subscriber.
         /// </summary>
-        public IRemoteWampTopicSubscriber Subscriber
-        {
-            get
-            {
-                return mSubscriber;
-            }
-        }
+        public IRemoteWampTopicSubscriber Subscriber => mSubscriber;
 
         /// <summary>
         /// Gets the options the subscriber subscribed with.

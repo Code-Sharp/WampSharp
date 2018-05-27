@@ -39,8 +39,8 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
 
         public object[] ExpectedInvocation
         {
-            get { return mExpectedInvocation; }
-            set { mExpectedInvocation = value; }
+            get => mExpectedInvocation;
+            set => mExpectedInvocation = value;
         }
 
         public void SetupInvocation(long requestId, long registrationId, InvocationDetails details)

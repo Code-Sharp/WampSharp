@@ -24,13 +24,7 @@ namespace WampSharp.V2
 
         public ISerializedValue[] Arguments { get; }
 
-        public IDictionary<string, ISerializedValue> ArgumentsKeywords
-        {
-            get
-            {
-                return mArgumentsKeywords;
-            }
-        }
+        public IDictionary<string, ISerializedValue> ArgumentsKeywords => mArgumentsKeywords;
     }
 
 

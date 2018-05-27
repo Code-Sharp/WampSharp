@@ -17,12 +17,6 @@ namespace WampSharp.V2.MetaApi
 
         public SubscriptionEvents Subscription { get; }
 
-        public RegistrationEvents Registration
-        {
-            get
-            {
-                return mRegistrationEvents;
-            }
-        }
+        public RegistrationEvents Registration => mRegistrationEvents;
     }
 }

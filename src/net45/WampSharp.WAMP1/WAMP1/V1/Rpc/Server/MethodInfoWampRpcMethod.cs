@@ -49,13 +49,7 @@ namespace WampSharp.V1.Rpc.Server
             }
         }
 
-        public string Name
-        {
-            get
-            {
-                return MethodInfo.Name;
-            }
-        }
+        public string Name => MethodInfo.Name;
 
         public string ProcUri { get; }
 

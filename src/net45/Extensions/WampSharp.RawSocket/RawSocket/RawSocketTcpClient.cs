@@ -19,13 +19,7 @@ namespace WampSharp.RawSocket
 
         public Handshake HandshakeRequest { get; }
 
-        public Handshake HandshakeResponse
-        {
-            get
-            {
-                return mHandshakeResponse;
-            }
-        }
+        public Handshake HandshakeResponse => mHandshakeResponse;
 
         public Stream Stream { get; }
     }

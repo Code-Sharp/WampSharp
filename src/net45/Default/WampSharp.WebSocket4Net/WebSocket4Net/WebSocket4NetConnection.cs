@@ -49,13 +49,7 @@ namespace WampSharp.WebSocket4Net
 
         public IWampBinding<TMessage> Binding { get; }
 
-        protected WebSocket WebSocket
-        {
-            get
-            {
-                return mWebSocket;
-            }
-        }
+        protected WebSocket WebSocket => mWebSocket;
 
 
         private void WebSocketOnOpened(object sender, EventArgs eventArgs)

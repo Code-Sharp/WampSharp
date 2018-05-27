@@ -24,13 +24,7 @@ namespace WampSharp.V2.Authentication
         /// <summary>
         /// <see cref="ICookieProvider.Cookies"/>
         /// </summary>
-        public IEnumerable<Cookie> Cookies
-        {
-            get
-            {
-                return mCookieCollection.Cast<Cookie>();
-            }
-        }
+        public IEnumerable<Cookie> Cookies => mCookieCollection.Cast<Cookie>();
 
         /// <summary>
         /// <see cref="ICookieProvider.GetCookieByName"/>

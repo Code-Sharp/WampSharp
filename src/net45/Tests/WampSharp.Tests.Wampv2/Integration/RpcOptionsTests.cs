@@ -178,13 +178,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         public class MyOperation : IWampRpcOperation
         {
-            public string Procedure
-            {
-                get
-                {
-                    return "my.operation";
-                }
-            }
+            public string Procedure => "my.operation";
 
             public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
             {

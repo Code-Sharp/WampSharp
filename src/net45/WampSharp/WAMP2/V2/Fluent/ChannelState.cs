@@ -26,13 +26,7 @@ namespace WampSharp.V2.Fluent
 
         public IWampChannelFactory ChannelFactory { get; set; }
 
-        ChannelState ChannelFactorySyntax.ISyntaxState.State
-        {
-            get
-            {
-                return this;
-            }
-        }
+        ChannelState ChannelFactorySyntax.ISyntaxState.State => this;
 
         IWampChannel ChannelFactorySyntax.IBuildableSyntax.Build()
         {

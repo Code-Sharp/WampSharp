@@ -133,13 +133,7 @@ namespace WampSharp.V1.Auxiliary.Client
                 mParent.OnWelcome(sessionId, protocolVersion, serverIdent);
             }
 
-            public string SessionId
-            {
-                get
-                {
-                    return mParent.SessionId;
-                }
-            }
+            public string SessionId => mParent.SessionId;
         }
 
         #endregion

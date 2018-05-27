@@ -12,15 +12,9 @@ namespace WampSharp.Tests.Dispatch.Helpers
             throw new System.NotImplementedException();
         }
 
-        public IDictionary<string, object> ClientContext
-        {
-            get { throw new System.NotImplementedException(); }
-        }
+        public IDictionary<string, object> ClientContext => throw new System.NotImplementedException();
 
-        public string SessionId
-        {
-            get { throw new System.NotImplementedException(); }
-        }
+        public string SessionId => throw new System.NotImplementedException();
 
         public void CallResult(string callId, MockRaw result)
         {
@@ -44,14 +38,8 @@ namespace WampSharp.Tests.Dispatch.Helpers
 
         public IWampCraAuthenticator CraAuthenticator
         {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-                throw new System.NotImplementedException();
-            }
+            get => throw new System.NotImplementedException();
+            set => throw new System.NotImplementedException();
         }
     }
 }

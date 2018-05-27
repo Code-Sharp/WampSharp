@@ -45,13 +45,7 @@ namespace WampSharp.V2
             mExternalHost.Dispose();
         }
 
-        public virtual IWampHostedRealmContainer RealmContainer
-        {
-            get
-            {
-                return mRealmContainer;
-            }
-        }
+        public virtual IWampHostedRealmContainer RealmContainer => mRealmContainer;
 
         protected IWampUriValidator UriValidator { get; }
 

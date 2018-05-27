@@ -53,9 +53,6 @@ namespace WampSharp.Tests.Wampv2.Dealer
 
         public MockRaw[] Arguments { get; }
 
-        public IDictionary<string, MockRaw> ArgumentsKeywords
-        {
-            get { return mArgumentsKeywords; }
-        }
+        public IDictionary<string, MockRaw> ArgumentsKeywords => mArgumentsKeywords;
     }
 }

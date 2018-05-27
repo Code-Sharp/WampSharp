@@ -82,26 +82,26 @@ namespace WampSharp.V2.Fluent
 
         public event EventHandler ConnectionOpen
         {
-            add { mConnectionOpen.OnNext += new EventHandler<EventArgs>(value); }
-            remove { mConnectionOpen.OnNext -= new EventHandler<EventArgs>(value); }
+            add => mConnectionOpen.OnNext += new EventHandler<EventArgs>(value);
+            remove => mConnectionOpen.OnNext -= new EventHandler<EventArgs>(value);
         }
 
         public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived
         {
-            add { mMessageArrived.OnNext += value; }
-            remove { mMessageArrived.OnNext -= value; }
+            add => mMessageArrived.OnNext += value;
+            remove => mMessageArrived.OnNext -= value;
         }
 
         public event EventHandler ConnectionClosed
         {
-            add { mConnectionClosed.OnNext += new EventHandler<EventArgs>(value); }
-            remove { mConnectionClosed.OnNext -= new EventHandler<EventArgs>(value); }
+            add => mConnectionClosed.OnNext += new EventHandler<EventArgs>(value);
+            remove => mConnectionClosed.OnNext -= new EventHandler<EventArgs>(value);
         }
 
         public event EventHandler<WampConnectionErrorEventArgs> ConnectionError
         {
-            add { mConnectionError.OnNext += value; }
-            remove { mConnectionError.OnNext -= value; }
+            add => mConnectionError.OnNext += value;
+            remove => mConnectionError.OnNext -= value;
         }
     }
 }

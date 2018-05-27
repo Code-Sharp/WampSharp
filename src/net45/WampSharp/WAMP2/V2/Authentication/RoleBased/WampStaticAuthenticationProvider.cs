@@ -20,13 +20,7 @@ namespace WampSharp.V2.Authentication
             mRealmToRoleNameToRole = realmToRoleNameToRole;
         }
 
-        public virtual string ProviderName
-        {
-            get
-            {
-                return "static";
-            }
-        }
+        public virtual string ProviderName => "static";
 
         public WampAuthenticationRole GetRoleByName(string realm, string role)
         {

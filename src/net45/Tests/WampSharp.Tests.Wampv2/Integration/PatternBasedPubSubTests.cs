@@ -107,13 +107,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             private readonly List<int> mResults = new List<int>();
 
-            public IEnumerable<int> Results
-            {
-                get
-                {
-                    return mResults;
-                }
-            }
+            public IEnumerable<int> Results => mResults;
 
             [WampTopic("com.myapp")]
             public void OnEvent(string msg, int counter)
@@ -128,13 +122,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             private readonly List<int> mResults = new List<int>();
 
-            public IEnumerable<int> Results
-            {
-                get
-                {
-                    return mResults;
-                }
-            }
+            public IEnumerable<int> Results => mResults;
 
             [WampTopic("com.example..create")]
             public void OnEvent(string msg, int counter)

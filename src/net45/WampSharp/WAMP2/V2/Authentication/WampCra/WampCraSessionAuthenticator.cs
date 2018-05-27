@@ -36,14 +36,8 @@ namespace WampSharp.V2.Authentication
 
         public override sealed ChallengeDetails ChallengeDetails
         {
-            get
-            {
-                return CraChallengeDetails;
-            }
-            protected set
-            {
-                throw new Exception("Use CraChallengeDetails property instead.");
-            }
+            get => CraChallengeDetails;
+            protected set => throw new Exception("Use CraChallengeDetails property instead.");
         }
 
         /// <summary>
@@ -68,27 +62,12 @@ namespace WampSharp.V2.Authentication
                 
                 return result;
             }
-            set
-            {
-                mCraChallengeDetails = value;
-            }
+            set => mCraChallengeDetails = value;
         }
 
-        public override string AuthenticationId
-        {
-            get
-            {
-                return mAuthenticationId;
-            }
-        }
+        public override string AuthenticationId => mAuthenticationId;
 
-        public override string AuthenticationMethod
-        {
-            get
-            {
-                return WampAuthenticationMethods.WampCra;
-            }
-        }
+        public override string AuthenticationMethod => WampAuthenticationMethods.WampCra;
     }
 }
 #endif

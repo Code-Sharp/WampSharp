@@ -99,10 +99,7 @@ namespace WampSharp.CraServerSample
             return null;
         }
 
-        public override bool AllowAnonymous
-        {
-            get { return true; }
-        }
+        public override bool AllowAnonymous => true;
     }
 
     class Program

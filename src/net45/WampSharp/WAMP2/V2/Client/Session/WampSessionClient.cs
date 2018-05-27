@@ -152,13 +152,7 @@ namespace WampSharp.V2.Client
 
         public IWampRealmProxy Realm { get; }
 
-        public Task OpenTask
-        {
-            get
-            {
-                return mOpenTask.Task;
-            }
-        }
+        public Task OpenTask => mOpenTask.Task;
 
         public void Close(string reason, GoodbyeDetails details)
         {
@@ -218,13 +212,7 @@ namespace WampSharp.V2.Client
 
         public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
 
-        public bool IsConnected
-        {
-            get
-            {
-                return mIsConnected == 1;
-            }
-        }
+        public bool IsConnected => mIsConnected == 1;
 
         protected virtual void OnConnectionEstablished(WampSessionCreatedEventArgs e)
         {

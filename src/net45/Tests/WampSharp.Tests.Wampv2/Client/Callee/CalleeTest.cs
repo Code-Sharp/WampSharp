@@ -25,16 +25,16 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
 
             public object[] ActualUnregistration
             {
-                get { return mActualUnregistration; }
-                private set { mActualUnregistration = value; }
+                get => mActualUnregistration;
+                private set => mActualUnregistration = value;
             }
 
             public object[] ActualYield { get; private set; }
 
             public object[] ActualError
             {
-                get { return mActualError; }
-                private set { mActualError = value; }
+                get => mActualError;
+                private set => mActualError = value;
             }
 
             public void SetRegisterCallback(Action<IWampCallee, long> value)

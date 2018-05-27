@@ -42,9 +42,6 @@ namespace WampSharp.Vtortola
 
         public string[] WebSocketExtensions { get; }
 
-        public IDictionary<string, object> Items
-        {
-            get { return mItems; }
-        }
+        public IDictionary<string, object> Items => mItems;
     }
 }

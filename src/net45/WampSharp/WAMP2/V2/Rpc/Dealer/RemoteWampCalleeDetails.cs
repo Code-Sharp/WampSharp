@@ -27,13 +27,7 @@ namespace WampSharp.V2.Rpc
             set;
         }
 
-        public RegisterOptions Options
-        {
-            get
-            {
-                return mOptions;
-            }
-        }
+        public RegisterOptions Options => mOptions;
 
         public IWampCallee Callee { get; }
 

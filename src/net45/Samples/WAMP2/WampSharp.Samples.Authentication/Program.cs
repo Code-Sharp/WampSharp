@@ -44,21 +44,9 @@ namespace WampSharp.Samples.Authentication
             }
         }
 
-        public string[] AuthenticationMethods
-        {
-            get
-            {
-                return mAuthenticationMethods;
-            }
-        }
+        public string[] AuthenticationMethods => mAuthenticationMethods;
 
-        public string AuthenticationId
-        {
-            get
-            {
-                return User;
-            }
-        }
+        public string AuthenticationId => User;
     }
 
     class Program

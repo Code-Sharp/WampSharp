@@ -13,10 +13,7 @@
 
         public string ErrorUri { get; }
 
-        public string ErrorDesc
-        {
-            get { return mErrorDesc; }
-        }
+        public string ErrorDesc => mErrorDesc;
 
         public object ErrorDetails { get; }
     }

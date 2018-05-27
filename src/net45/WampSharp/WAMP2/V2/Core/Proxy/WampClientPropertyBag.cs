@@ -18,13 +18,7 @@ namespace WampSharp.V2.Core.Proxy
 
         public IWampSessionAuthenticator Authenticator { get; set; }
 
-        public IWampAuthorizer Authorizer
-        {
-            get
-            {
-                return Authenticator.Authorizer;
-            }
-        }
+        public IWampAuthorizer Authorizer => Authenticator.Authorizer;
 
         public HelloDetails HelloDetails { get; set; }
 
@@ -34,21 +28,9 @@ namespace WampSharp.V2.Core.Proxy
 
         public long Session { get; set; }
 
-        IWampBinding IWampClientProperties.Binding
-        {
-            get
-            {
-                return this.Binding;
-            }
-        }
+        IWampBinding IWampClientProperties.Binding => this.Binding;
 
-        public WampTransportDetails TransportDetails
-        {
-            get
-            {
-                return mTransportDetails;
-            }
-        }
+        public WampTransportDetails TransportDetails => mTransportDetails;
 
         public IWampBindedRealm<TMessage> Realm { get; set; }
 

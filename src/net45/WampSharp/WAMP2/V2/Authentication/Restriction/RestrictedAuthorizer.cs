@@ -47,12 +47,6 @@ namespace WampSharp.V2.Authentication
             return Authorizer.CanSubscribe(options, topicUri);
         }
 
-        public IWampAuthorizer Authorizer
-        {
-            get
-            {
-                return mAuthenticator.Authorizer;
-            }
-        }
+        public IWampAuthorizer Authorizer => mAuthenticator.Authorizer;
     }
 }

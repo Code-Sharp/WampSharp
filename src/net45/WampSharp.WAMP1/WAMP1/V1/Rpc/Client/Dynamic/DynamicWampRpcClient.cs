@@ -30,13 +30,7 @@ namespace WampSharp.V1.Rpc.Client
 
         private IWampRpcClientHandler ClientHandler { get; }
 
-        private IWampRpcSerializer Serializer
-        {
-            get
-            {
-                return mSerializer;
-            }
-        }
+        private IWampRpcSerializer Serializer => mSerializer;
 
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
@@ -60,13 +54,7 @@ namespace WampSharp.V1.Rpc.Client
                 mArguments = arguments;
             }
 
-            private object[] Arguments
-            {
-                get
-                {
-                    return mArguments;
-                }
-            }
+            private object[] Arguments => mArguments;
 
             private string MethodName { get; }
 

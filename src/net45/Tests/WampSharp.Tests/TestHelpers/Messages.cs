@@ -309,26 +309,17 @@ namespace WampSharp.Tests.TestHelpers
 
         public static WampMessage<MockRaw> PrefixMessage2 { get; private set; }
 
-        public static WampMessage<MockRaw> PrefixMessage1
-        {
-            get { return mPrefixMessage1; }
-        }
+        public static WampMessage<MockRaw> PrefixMessage1 => mPrefixMessage1;
 
         public static WampMessage<MockRaw> CallMessageForRpcWith2ArgumentsUsingCurie { get; private set; }
 
         public static WampMessage<MockRaw> CallMessageForRpcWith1ArgumentValueBeingNull { get; private set; }
 
-        public static WampMessage<MockRaw> CallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie
-        {
-            get { return mCallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie; }
-        }
+        public static WampMessage<MockRaw> CallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie => mCallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie;
 
         public static WampMessage<MockRaw> CallMessageForRpcWith2ComplexArgumentsUsingCurie { get; private set; }
 
-        public static WampMessage<MockRaw> CallMessageForRpcWith1ComplexObjectArgument
-        {
-            get { return mCallMessageForRpcWith1ComplexObjectArgument; }
-        }
+        public static WampMessage<MockRaw> CallMessageForRpcWith1ComplexObjectArgument => mCallMessageForRpcWith1ComplexObjectArgument;
 
         public static WampMessage<MockRaw> CallMessageForRpcWithNoArguments { get; private set; }
 
@@ -360,51 +351,24 @@ namespace WampSharp.Tests.TestHelpers
 
         public static WampMessage<MockRaw> EventMessageWithNullAsPayload { get; private set; }
 
-        public static WampMessage<MockRaw> EventMessageWithComplexObjectPayload
-        {
-            get { return mEventMessageWithComplexObjectPayload; }
-        }
+        public static WampMessage<MockRaw> EventMessageWithComplexObjectPayload => mEventMessageWithComplexObjectPayload;
 
         #endregion
 
         #region Server Packs
 
-        public static IEnumerable<WampMessage<MockRaw>> ServerMessages
-        {
-            get
-            {
-                return ServerAuxiliaryMessages
-                    .Concat(ServerRpcMessages)
-                    .Concat(ServerPubSubMessages);
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> ServerMessages => ServerAuxiliaryMessages
+                                                                          .Concat(ServerRpcMessages)
+                                                                          .Concat(ServerPubSubMessages);
 
-        public static IEnumerable<WampMessage<MockRaw>> ServerAuxiliaryMessages
-        {
-            get
-            {
-                return PrefixMessages;
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> ServerAuxiliaryMessages => PrefixMessages;
 
 
-        public static IEnumerable<WampMessage<MockRaw>> ServerRpcMessages
-        {
-            get
-            {
-                return CallMessages;
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> ServerRpcMessages => CallMessages;
 
-        public static IEnumerable<WampMessage<MockRaw>> ServerPubSubMessages
-        {
-            get
-            {
-                return SubscribeMessages
-                    .Concat(UnsubscribeMessages)
-                    .Concat(PublishMessages);
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> ServerPubSubMessages => SubscribeMessages
+                                                                                .Concat(UnsubscribeMessages)
+                                                                                .Concat(PublishMessages);
 
         public static IEnumerable<WampMessage<MockRaw>> PrefixMessages
         {
@@ -501,16 +465,10 @@ namespace WampSharp.Tests.TestHelpers
 
         #region Client Packs
 
-        public static IEnumerable<WampMessage<MockRaw>> ClientMessages
-        {
-            get
-            {
-                return WelcomeMessages
-                    .Concat(CallResultMessages)
-                    .Concat(CallErrorMessages)
-                    .Concat(EventMessages);
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> ClientMessages => WelcomeMessages
+                                                                          .Concat(CallResultMessages)
+                                                                          .Concat(CallErrorMessages)
+                                                                          .Concat(EventMessages);
 
         public static IEnumerable<WampMessage<MockRaw>> WelcomeMessages
         {
@@ -547,14 +505,8 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public static IEnumerable<WampMessage<MockRaw>> CallErrorMessages
-        {
-            get
-            {
-                return CallErrorMessagesSimple
-                    .Concat(CallErrorMessagesDetailed);
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> CallErrorMessages => CallErrorMessagesSimple
+            .Concat(CallErrorMessagesDetailed);
 
         public static IEnumerable<WampMessage<MockRaw>> EventMessages
         {

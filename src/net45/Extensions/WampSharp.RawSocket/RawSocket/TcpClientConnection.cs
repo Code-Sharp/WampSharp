@@ -48,13 +48,7 @@ namespace WampSharp.RawSocket
                     autoPingInterval);
         }
 
-        protected override bool IsConnected
-        {
-            get
-            {
-                return TcpClient.Connected;
-            }
-        }
+        protected override bool IsConnected => TcpClient.Connected;
 
         protected async override Task SendAsync(WampMessage<object> message)
         {
@@ -236,13 +230,7 @@ namespace WampSharp.RawSocket
             public event Action<IList<byte>> OnPong;
 
 
-            public bool IsConnected
-            {
-                get
-                {
-                    return mParent.IsConnected;
-                }
-            }
+            public bool IsConnected => mParent.IsConnected;
 
             public void Disconnect()
             {

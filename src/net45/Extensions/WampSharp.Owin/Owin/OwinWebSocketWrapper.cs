@@ -65,10 +65,7 @@ namespace WampSharp.Owin
             }
         }
 
-        public CancellationToken CancellationToken
-        {
-            get { return (CancellationToken) mWebsocketContext[WebSocketCallCancelled]; }
-        }
+        public CancellationToken CancellationToken => (CancellationToken) mWebsocketContext[WebSocketCallCancelled];
 
         public string SubProtocol
         {

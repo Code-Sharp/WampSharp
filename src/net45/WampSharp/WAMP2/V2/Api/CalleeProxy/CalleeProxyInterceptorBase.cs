@@ -23,13 +23,7 @@ namespace WampSharp.V2.CalleeProxy
             mInterceptor = interceptor;
         }
 
-        public ICalleeProxyInterceptor Interceptor
-        {
-            get
-            {
-                return mInterceptor;
-            }
-        }
+        public ICalleeProxyInterceptor Interceptor => mInterceptor;
 
         public IWampCalleeProxyInvocationHandler Handler { get; }
 

@@ -14,13 +14,7 @@ namespace WampSharp.V2.Rpc
 
         public IWampCallee Callee { get; }
 
-        public long RequestId
-        {
-            get
-            {
-                return mRequestId;
-            }
-        }
+        public long RequestId => mRequestId;
 
         public void Registered(long registrationId)
         {

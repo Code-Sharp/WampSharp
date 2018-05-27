@@ -31,16 +31,10 @@ namespace WampSharp.V2.Realm.Binded
 
         public IWampServer<TMessage> Server { get; }
 
-        public WelcomeDetails WelcomeDetails
-        {
-            get
-            {
-                return new WelcomeDetails()
-                {
-                    Roles = mRealm.Roles
-                };
-            }
-        }
+        public WelcomeDetails WelcomeDetails => new WelcomeDetails()
+                                                {
+                                                    Roles = mRealm.Roles
+                                                };
 
         public void Hello(long session, HelloDetails helloDetails, WelcomeDetails welcomeDetails)
         {
@@ -62,12 +56,6 @@ namespace WampSharp.V2.Realm.Binded
             mRealmGate.SessionLost(sessionId);
         }
 
-        public string Name
-        {
-            get
-            {
-                return mRealm.Name;
-            }
-        }
+        public string Name => mRealm.Name;
     }
 }

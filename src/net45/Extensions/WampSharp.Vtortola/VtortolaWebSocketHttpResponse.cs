@@ -25,9 +25,6 @@ namespace WampSharp.Vtortola
 
         public string[] WebSocketExtensions { get; }
 
-        public string WebSocketProtocol
-        {
-            get { return mWebSocketProtocol; }
-        }
+        public string WebSocketProtocol => mWebSocketProtocol;
     }
 }

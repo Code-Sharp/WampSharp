@@ -50,13 +50,7 @@ namespace WampSharp.V2.PubSub
                 .ToArray();
         }
 
-        public override LocalParameter[] Parameters
-        {
-            get
-            {
-                return mParameters;
-            }
-        }
+        public override LocalParameter[] Parameters => mParameters;
 
         protected override void InnerEvent<TMessage>
             (IWampFormatter<TMessage> formatter,

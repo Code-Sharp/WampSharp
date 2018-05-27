@@ -81,10 +81,7 @@ namespace WampSharp.V2.Client
             }
         }
 
-        private bool IsConnected
-        {
-            get { return mMonitor.IsConnected; }
-        }
+        private bool IsConnected => mMonitor.IsConnected;
 
         private class UnregisterDisposable : IAsyncDisposable
         {
@@ -402,10 +399,7 @@ namespace WampSharp.V2.Client
 
             public IWampCancellableInvocation Cancellation { get; }
 
-            public long RegistrationId
-            {
-                get { return mRegistrationId; }
-            }
+            public long RegistrationId => mRegistrationId;
         }
     }
 }

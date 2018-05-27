@@ -12,10 +12,7 @@ namespace WampSharp.V2.Authentication
 
         public string AuthenticationProvider { get; set; }
 
-        public string AuthenticationMethod
-        {
-            get { return WampAuthenticationMethods.WampCra; }
-        }
+        public string AuthenticationMethod => WampAuthenticationMethods.WampCra;
 
         public string AuthenticationId { get; set; }
 

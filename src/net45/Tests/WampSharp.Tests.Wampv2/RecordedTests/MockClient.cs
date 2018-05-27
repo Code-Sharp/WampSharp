@@ -15,12 +15,6 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
 
         public TClient Client { get; }
 
-        public IMessageRecorder<MockRaw> Recorder
-        {
-            get
-            {
-                return mRecorder;
-            }
-        }
+        public IMessageRecorder<MockRaw> Recorder => mRecorder;
     }
 }

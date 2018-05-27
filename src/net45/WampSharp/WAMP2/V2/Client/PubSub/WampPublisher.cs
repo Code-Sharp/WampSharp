@@ -27,10 +27,7 @@ namespace WampSharp.V2.Client
             mMonitor.ConnectionError += ConnectionError;
         }
 
-        private bool IsConnected
-        {
-            get { return mMonitor.IsConnected; }
-        }
+        private bool IsConnected => mMonitor.IsConnected;
 
         public Task<long?> Publish(string topicUri, PublishOptions options)
         {
@@ -159,13 +156,7 @@ namespace WampSharp.V2.Client
 
             public object[] Arguments { get; }
 
-            public IDictionary<string, object> ArgumentKeywords
-            {
-                get
-                {
-                    return mArgumentKeywords;
-                }
-            }
+            public IDictionary<string, object> ArgumentKeywords => mArgumentKeywords;
         }
     }
 }

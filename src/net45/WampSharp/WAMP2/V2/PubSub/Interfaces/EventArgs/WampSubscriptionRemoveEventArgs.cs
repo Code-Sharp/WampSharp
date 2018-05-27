@@ -14,12 +14,6 @@ namespace WampSharp.V2.PubSub
 
         public long Session { get; }
 
-        public long SubscriptionId
-        {
-            get
-            {
-                return mSubscriptionId;
-            }
-        }
+        public long SubscriptionId => mSubscriptionId;
     }
 }

@@ -43,13 +43,7 @@ namespace WampSharp.V2.Client
 
         public IWampServerProxy Server { get; }
 
-        public IWampRealmProxy RealmProxy
-        {
-            get
-            {
-                return mClient.Realm;
-            }
-        }
+        public IWampRealmProxy RealmProxy => mClient.Realm;
 
         public Task Open()
         {

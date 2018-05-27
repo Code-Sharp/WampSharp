@@ -68,13 +68,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         public class MyOperation : IWampRpcOperation
         {
-            public string Procedure
-            {
-                get
-                {
-                    return "com.myapp.longop";
-                }
-            }
+            public string Procedure => "com.myapp.longop";
 
             public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
             {
@@ -136,10 +130,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             public List<int> ProgressiveResults { get; } = new List<int>();
 
-            public Task<int> Task
-            {
-                get { return mTask.Task; }
-            }
+            public Task<int> Task => mTask.Task;
 
             public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
             {

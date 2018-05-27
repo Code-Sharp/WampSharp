@@ -74,10 +74,7 @@ namespace WampSharp.V1.Cra
         /// <summary>
         /// Gets a value indicating whether we are waiting for an auth call after an authreq.
         /// </summary>
-        public bool IsAuthenticationPending
-        {
-            get { return (mPendingAuth != null); }
-        }
+        public bool IsAuthenticationPending => (mPendingAuth != null);
 
         /// <summary>
         /// Gets the permissions that were sent to the client following a successful authreq call.

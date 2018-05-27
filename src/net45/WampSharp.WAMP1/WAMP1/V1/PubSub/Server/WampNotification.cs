@@ -45,12 +45,6 @@ namespace WampSharp.V1.PubSub.Server
         /// <summary>
         /// Gets a collection of eligible observers' session ids.
         /// </summary>
-        public ICollection<string> Eligible
-        {
-            get
-            {
-                return mEligible;
-            }
-        }
+        public ICollection<string> Eligible => mEligible;
     }
 }

@@ -109,48 +109,24 @@ namespace WampSharp.V1
             MetadataCatalog.Unregister(method);
         }
 
-        public IWampTopicContainer TopicContainer
-        {
-            get
-            {
-                return TopicContainerExtended;
-            }
-        }
+        public IWampTopicContainer TopicContainer => TopicContainerExtended;
 
         protected IWampTopicContainerExtended<TMessage> TopicContainerExtended { get; }
 
         protected IWampRpcMetadataCatalog MetadataCatalog { get; }
 
-        protected IWampFormatter<TMessage> Formatter
-        {
-            get
-            {
-                return mFormatter;
-            }
-        }
+        protected IWampFormatter<TMessage> Formatter => mFormatter;
 
         public event EventHandler<WampSessionEventArgs> SessionCreated
         {
-            add
-            {
-                mListener.SessionCreated += value;
-            }
-            remove
-            {
-                mListener.SessionCreated -= value;
-            }
+            add => mListener.SessionCreated += value;
+            remove => mListener.SessionCreated -= value;
         }
 
         public event EventHandler<WampSessionEventArgs> SessionClosed
         {
-            add
-            {
-                mListener.SessionClosed += value;
-            }
-            remove
-            {
-                mListener.SessionClosed -= value;
-            }
+            add => mListener.SessionClosed += value;
+            remove => mListener.SessionClosed -= value;
         }
     }
 }

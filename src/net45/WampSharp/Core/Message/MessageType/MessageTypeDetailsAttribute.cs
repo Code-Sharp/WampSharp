@@ -18,9 +18,6 @@ namespace WampSharp.Core.Message
 
         public MessageCategory Category { get; }
 
-        public int ProtocolVersion
-        {
-            get { return mProtocolVersion; }
-        }
+        public int ProtocolVersion => mProtocolVersion;
     }
 }

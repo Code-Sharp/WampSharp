@@ -67,13 +67,7 @@ namespace WampSharp.V1.PubSub.Server
 
         public bool Persistent { get; }
 
-        public bool HasObservers
-        {
-            get
-            {
-                return mSubject.HasObservers;
-            }
-        }
+        public bool HasObservers => mSubject.HasObservers;
 
         public event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdding;
         public event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoving;

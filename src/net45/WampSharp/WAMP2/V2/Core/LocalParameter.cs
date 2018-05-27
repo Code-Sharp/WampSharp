@@ -57,13 +57,7 @@ namespace WampSharp.V2.Core
 
         public object DefaultValue { get; }
 
-        public bool HasDefaultValue
-        {
-            get
-            {
-                return mHasDefaultValue;
-            }
-        }
+        public bool HasDefaultValue => mHasDefaultValue;
 
         public int Position { get; }
     }

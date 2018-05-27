@@ -28,10 +28,7 @@ namespace WampSharp.V2.Transports
         /// <summary>
         /// Gets the subprotocols registered within this transport.
         /// </summary>
-        protected string[] SubProtocols
-        {
-            get { return mBindings.Keys.ToArray(); }
-        }
+        protected string[] SubProtocols => mBindings.Keys.ToArray();
 
         /// <summary>
         /// Call this when a new connection is established.

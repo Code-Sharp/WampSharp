@@ -34,25 +34,13 @@ namespace WampSharp.V2.Authentication
                                                  mBinding);
         }
 
-        public string Name
-        {
-            get
-            {
-                return mBinding.Name;
-            }
-        }
+        public string Name => mBinding.Name;
 
         public WampMessage<object> GetRawMessage(WampMessage<object> message)
         {
             return mBinding.GetRawMessage(message);
         }
 
-        public IWampFormatter<TMessage> Formatter
-        {
-            get
-            {
-                return mBinding.Formatter;
-            }
-        }
+        public IWampFormatter<TMessage> Formatter => mBinding.Formatter;
     }
 }

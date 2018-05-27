@@ -41,13 +41,7 @@ namespace WampSharp.V2.Client
             monitor.ConnectionError += OnConnectionError;
         }
 
-        private bool IsConnected
-        {
-            get
-            {
-                return mMonitor.IsConnected;
-            }
-        }
+        private bool IsConnected => mMonitor.IsConnected;
 
         public Task<IAsyncDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri)
         {
@@ -303,13 +297,7 @@ namespace WampSharp.V2.Client
 
             public SubscribeOptions Options { get; }
 
-            public string TopicUri
-            {
-                get
-                {
-                    return mTopicUri;
-                }
-            }
+            public string TopicUri => mTopicUri;
         }
 
         private class SubscribeRequest : BaseSubscription, IWampPendingRequest
@@ -324,8 +312,8 @@ namespace WampSharp.V2.Client
 
             public long RequestId
             {
-                get { return mPendingRequest.RequestId; }
-                set { mPendingRequest.RequestId = value; }
+                get => mPendingRequest.RequestId;
+                set => mPendingRequest.RequestId = value;
             }
 
             public void SetException(Exception exception)
@@ -353,10 +341,7 @@ namespace WampSharp.V2.Client
                 mPendingRequest.Complete(result);
             }
 
-            public Task<IAsyncDisposable> Task
-            {
-                get { return mPendingRequest.Task; }
-            }
+            public Task<IAsyncDisposable> Task => mPendingRequest.Task;
         }
 
         private class Subscription : BaseSubscription

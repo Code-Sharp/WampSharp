@@ -8,10 +8,7 @@ namespace WampSharp.Tests.PubSub.Helpers
     {
         private readonly ICollection<WampSubscribeRequest<TMessage>> mSubscriptionRemovals = new List<WampSubscribeRequest<TMessage>>();
 
-        public ICollection<WampSubscribeRequest<TMessage>> SubscriptionRemovals
-        {
-            get { return mSubscriptionRemovals; }
-        }
+        public ICollection<WampSubscribeRequest<TMessage>> SubscriptionRemovals => mSubscriptionRemovals;
 
         public ICollection<WampSubscribeRequest<TMessage>> Subscriptions { get; } = new List<WampSubscribeRequest<TMessage>>();
 

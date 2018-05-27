@@ -66,13 +66,7 @@ namespace WampSharp.WebSockets
             }
         }
 
-        public IClientWebSocketWrapper ClientWebSocket
-        {
-            get
-            {
-                return mWebSocket as IClientWebSocketWrapper;
-            }
-        }
+        public IClientWebSocketWrapper ClientWebSocket => mWebSocket as IClientWebSocketWrapper;
 
         public async Task RunAsync()
         {
@@ -180,12 +174,6 @@ namespace WampSharp.WebSockets
             mCancellationTokenSource = null;
         }
 
-        protected override bool IsConnected
-        {
-            get
-            {
-                return mWebSocket.State == WebSocketState.Open;
-            }
-        }
+        protected override bool IsConnected => mWebSocket.State == WebSocketState.Open;
     }
 }

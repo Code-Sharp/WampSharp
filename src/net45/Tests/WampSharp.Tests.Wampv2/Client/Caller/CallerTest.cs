@@ -123,10 +123,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
 
             public object[] ActualCallParamters
             {
-                get
-                {
-                    return mActualCallParamters;
-                }
+                get => mActualCallParamters;
                 set
                 {
                     if (mActualCallParamters != null)
@@ -271,7 +268,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
 
             public object[] ActualResult
             {
-                get { return mActualResult; }
+                get => mActualResult;
                 set
                 {
                     if (ActualResult != null)
@@ -285,10 +282,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
 
             public object[] ActualError
             {
-                get
-                {
-                    return mActualError;
-                }
+                get => mActualError;
                 set
                 {
                     if (ActualResult != null)

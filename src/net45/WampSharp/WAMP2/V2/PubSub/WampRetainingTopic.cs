@@ -18,32 +18,32 @@ namespace WampSharp.V2.PubSub
 
         public event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdding
         {
-            add { mTopic.SubscriptionAdding += value; }
-            remove { mTopic.SubscriptionAdding -= value; }
+            add => mTopic.SubscriptionAdding += value;
+            remove => mTopic.SubscriptionAdding -= value;
         }
 
         public event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdded
         {
-            add { mTopic.SubscriptionAdded += value; }
-            remove { mTopic.SubscriptionAdded -= value; }
+            add => mTopic.SubscriptionAdded += value;
+            remove => mTopic.SubscriptionAdded -= value;
         }
 
         public event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoving
         {
-            add { mTopic.SubscriptionRemoving += value; }
-            remove { mTopic.SubscriptionRemoving -= value; }
+            add => mTopic.SubscriptionRemoving += value;
+            remove => mTopic.SubscriptionRemoving -= value;
         }
 
         public event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoved
         {
-            add { mTopic.SubscriptionRemoved += value; }
-            remove { mTopic.SubscriptionRemoved -= value; }
+            add => mTopic.SubscriptionRemoved += value;
+            remove => mTopic.SubscriptionRemoved -= value;
         }
 
         public event EventHandler TopicEmpty
         {
-            add { mTopic.TopicEmpty += value; }
-            remove { mTopic.TopicEmpty -= value; }
+            add => mTopic.TopicEmpty += value;
+            remove => mTopic.TopicEmpty -= value;
         }
 
         public void Dispose()
@@ -52,15 +52,9 @@ namespace WampSharp.V2.PubSub
             mDisposable.Dispose();
         }
 
-        public bool HasSubscribers
-        {
-            get { return mTopic.HasSubscribers; }
-        }
+        public bool HasSubscribers => mTopic.HasSubscribers;
 
-        public string TopicUri
-        {
-            get { return mTopic.TopicUri; }
-        }
+        public string TopicUri => mTopic.TopicUri;
 
         public void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions publishOptions)
         {
@@ -84,9 +78,6 @@ namespace WampSharp.V2.PubSub
             return mTopic.Subscribe(subscriber);
         }
 
-        public long SubscriptionId
-        {
-            get { return mTopic.SubscriptionId; }
-        }
+        public long SubscriptionId => mTopic.SubscriptionId;
     }
 }

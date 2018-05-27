@@ -73,13 +73,7 @@ namespace WampSharp.V2.Client
             return new WampCancellableInvocationProxy(mProxy, requestId);
         }
 
-        private bool IsConnected
-        {
-            get
-            {
-                return mMonitor.IsConnected;
-            }
-        }
+        private bool IsConnected => mMonitor.IsConnected;
 
         public void Result(long requestId, ResultDetails details)
         {
@@ -208,13 +202,7 @@ namespace WampSharp.V2.Client
 
             public object[] Arguments { get; }
 
-            public IDictionary<string, object> ArgumentsKeywords
-            {
-                get
-                {
-                    return mArgumentsKeywords;
-                }
-            }
+            public IDictionary<string, object> ArgumentsKeywords => mArgumentsKeywords;
         }
 
         public void OnConnectionError(object sender, WampConnectionErrorEventArgs wampConnectionErrorEventArgs)

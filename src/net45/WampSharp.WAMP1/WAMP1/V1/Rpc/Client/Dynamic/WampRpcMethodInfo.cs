@@ -25,21 +25,9 @@ namespace WampSharp.V1.Rpc.Client
             mName = name;
         }
 
-        public override string Name
-        {
-            get
-            {
-                return mName;
-            }
-        }
+        public override string Name => mName;
 
-        public override Type ReturnType
-        {
-            get
-            {
-                return mReturnType;
-            }
-        }
+        public override Type ReturnType => mReturnType;
 
         #region Not implemented
 
@@ -73,30 +61,15 @@ namespace WampSharp.V1.Rpc.Client
             throw new NotImplementedException();
         }
 
-        public override ICustomAttributeProvider ReturnTypeCustomAttributes
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override ICustomAttributeProvider ReturnTypeCustomAttributes => throw new NotImplementedException();
 
-        public override Type DeclaringType
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override Type DeclaringType => throw new NotImplementedException();
 
-        public override Type ReflectedType
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override Type ReflectedType => throw new NotImplementedException();
 
-        public override RuntimeMethodHandle MethodHandle
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override RuntimeMethodHandle MethodHandle => throw new NotImplementedException();
 
-        public override MethodAttributes Attributes
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override MethodAttributes Attributes => throw new NotImplementedException();
 
         public override object[] GetCustomAttributes(Type attributeType, bool inherit)
         {

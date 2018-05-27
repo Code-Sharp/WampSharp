@@ -68,21 +68,9 @@ namespace WampSharp.V1.PubSub.Server
             }
         }
 
-        public IEnumerable<string> TopicUris
-        {
-            get
-            {
-                return mTopicUriToSubject.Keys;
-            }
-        }
+        public IEnumerable<string> TopicUris => mTopicUriToSubject.Keys;
 
-        public IEnumerable<IWampTopic> Topics
-        {
-            get
-            {
-                return mTopicUriToSubject.Values;
-            }
-        }
+        public IEnumerable<IWampTopic> Topics => mTopicUriToSubject.Values;
 
         public IWampTopic CreateTopicByUri(string topicUri, bool persistent)
         {

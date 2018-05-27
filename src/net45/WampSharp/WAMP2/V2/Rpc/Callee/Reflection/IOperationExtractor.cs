@@ -21,9 +21,6 @@ namespace WampSharp.V2.Rpc
 
         public IWampRpcOperation Operation { get; }
 
-        public RegisterOptions Options
-        {
-            get { return mOptions; }
-        }
+        public RegisterOptions Options => mOptions;
     }
 }

@@ -15,12 +15,6 @@ namespace WampSharp.V1.Auxiliary.Client
 
         public string SessionId { get; }
 
-        public string ServerIdent
-        {
-            get
-            {
-                return mServerIdent;
-            }
-        }
+        public string ServerIdent => mServerIdent;
     }
 }
