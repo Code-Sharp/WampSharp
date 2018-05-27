@@ -18,13 +18,13 @@ namespace WampSharp.RawSocket
 
             if (maxLength >= 16)
             {
-                throw new ArgumentOutOfRangeException("maxLength", "Expected a value between 0 to 15");
+                throw new ArgumentOutOfRangeException(nameof(maxLength), "Expected a value between 0 to 15");
             }
 
             if (serializerType != SerializerType.Json && 
                 serializerType != SerializerType.MsgPack)
             {
-                throw new ArgumentException("Expected a value between 1 to 2", "serializerType");
+                throw new ArgumentException("Expected a value between 1 to 2", nameof(serializerType));
             }
 
             SecondOctet = (byte) ((maxLength << 4) + (byte)serializerType);
@@ -37,7 +37,7 @@ namespace WampSharp.RawSocket
             if (errorCode == HandshakeErrorCode.Illegal)
             {
                 throw new ArgumentException("HandshakeErrorCode.Illegal must not be used",
-                                            "errorCode");
+                                            nameof(errorCode));
             }
 
             SecondOctet = (byte)(((byte)errorCode) << 4);
@@ -45,9 +45,9 @@ namespace WampSharp.RawSocket
 
         public Handshake(ArraySegment<byte> message)
         {
-            if (message == null || message.Count != 4)
+            if (message.Array == null || message.Count != 4)
             {
-                throw new ArgumentException("Expected a 4 length byte array.", nameof(message));
+                throw new ArgumentException("Expected a 4 length ArraySegment<byte>.", nameof(message));
             }
 
             MagicOctet = message.ElementAt(0);
@@ -128,9 +128,9 @@ namespace WampSharp.RawSocket
         {
             result = default(Handshake);
 
-            if (message == null || message.Count != 4)
+            if (message.Array == null || message.Count != 4)
             {
-                throw new ArgumentException("Expected a 4 length byte array.", "message");
+                throw new ArgumentException("Expected a 4 length ArraySegment<byte>.", nameof(message));
             }
 
             byte magicOctet = message.ElementAt(0);
