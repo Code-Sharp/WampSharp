@@ -7,7 +7,7 @@ namespace WampSharp.RawSocket
     {
         public ServerSslConfiguration(X509Certificate serverCertificate,
                                       bool clientCertificateRequired = false,
-                                      SslProtocols enabledSslProtocols = SslProtocols.Default,
+                                      SslProtocols enabledSslProtocols = DefaultSslProtocols,
                                       bool checkCertificateRevocation = false)
         {
             Certificate = serverCertificate;
