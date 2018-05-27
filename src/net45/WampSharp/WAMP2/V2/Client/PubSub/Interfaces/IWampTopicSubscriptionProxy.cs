@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using SystemEx;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;

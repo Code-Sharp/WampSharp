@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading;
 using WampSharp.Core.Utilities;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc

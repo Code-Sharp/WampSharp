@@ -1,14 +1,6 @@
 ﻿#if CASTLE || DISPATCH_PROXY
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using Castle.DynamicProxy;
-using WampSharp.Core.Utilities;
-using WampSharp.Core.Utilities.ValueTuple;
-using WampSharp.V2.Core;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {

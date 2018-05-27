@@ -1132,14 +1132,12 @@ namespace WampSharp.Logging.LogProviders
     using global::System.Collections.Generic;
     using global::System.Diagnostics.CodeAnalysis;
 #if !LIBLOG_PORTABLE
-    using global::System.Diagnostics;
 #endif
     using global::System.Globalization;
     using global::System.Linq;
     using global::System.Linq.Expressions;
     using global::System.Reflection;
 #if !LIBLOG_PORTABLE
-    using global::System.Text;
 #endif
     using global::System.Text.RegularExpressions;
 

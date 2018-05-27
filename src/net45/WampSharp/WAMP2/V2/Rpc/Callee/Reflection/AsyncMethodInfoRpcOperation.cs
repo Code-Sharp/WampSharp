@@ -8,7 +8,6 @@ using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
 using WampSharp.Core.Utilities.ValueTuple;
 using WampSharp.V2.Core.Contracts;
-using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.V2.Rpc
 {

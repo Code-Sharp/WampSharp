@@ -2,7 +2,6 @@
 using System.Runtime.Remoting.Messaging;
 #endif
 using System;
-using System.Threading;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2

@@ -1,8 +1,6 @@
 ﻿using System;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SuperSocket.ClientEngine;
-using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
 using WampSharp.V2.Binding.Parsers;
 using WampSharp.WebSocket4Net;

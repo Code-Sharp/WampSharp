@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WampSharp.V2.Core.Contracts
+﻿namespace WampSharp.V2.Core.Contracts
 {
     /// <summary>
     /// Represents a proxy to a WAMP2 router.

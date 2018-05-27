@@ -1,7 +1,4 @@
-﻿using System;
-using System.Reflection;
-
-namespace WampSharp.Tests.TestHelpers
+﻿namespace WampSharp.Tests.TestHelpers
 {
 #if NETCORE
 

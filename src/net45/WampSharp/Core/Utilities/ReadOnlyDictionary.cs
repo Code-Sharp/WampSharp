@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace System.Collections.ObjectModel
+﻿namespace System.Collections.ObjectModel
 {
 #if NET40
 

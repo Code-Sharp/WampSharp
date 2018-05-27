@@ -1,7 +1,6 @@
 ﻿using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.Tests.Wampv2.TestHelpers;
 using WampSharp.V2.Core.Contracts;
 using MockRawFormatter = WampSharp.Tests.Wampv2.TestHelpers.MockRawFormatter;
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using WampSharp.Tests.Wampv2.Client.Caller;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Tests.Wampv2.Client.Callee

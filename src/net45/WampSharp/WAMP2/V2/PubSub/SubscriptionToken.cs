@@ -1,6 +1,5 @@
 using System;
 using WampSharp.V2.Core;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.PubSub
 {

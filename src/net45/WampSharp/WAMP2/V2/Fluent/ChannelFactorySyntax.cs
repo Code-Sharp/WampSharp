@@ -1,6 +1,4 @@
 using System.ComponentModel;
-using WampSharp.Core.Listener;
-using WampSharp.V2.Binding;
 
 namespace WampSharp.V2.Fluent
 {

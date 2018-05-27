@@ -5,7 +5,6 @@ using WampSharp.Binding;
 using WampSharp.Core.Serialization;
 using WampSharp.Tests.TestHelpers.Integration;
 using WampSharp.V2;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;

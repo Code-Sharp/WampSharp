@@ -2,7 +2,6 @@
 #if !NETSTANDARD2_0
 using System.Runtime.Remoting.Messaging;
 #endif
-using System.Threading;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Cra;
 

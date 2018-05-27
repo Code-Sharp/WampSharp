@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -8,7 +7,6 @@ using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Binding.Contracts;
 using WampSharp.V2.Binding.Parsers;
 using WampSharp.V2.Binding.Transports;
 using WampSharp.V2.Transports;

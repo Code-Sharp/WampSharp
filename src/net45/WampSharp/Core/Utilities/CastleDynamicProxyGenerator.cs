@@ -1,7 +1,5 @@
 ﻿#if CASTLE
 
-using System;
-using System.Threading;
 using Castle.DynamicProxy;
 
 namespace WampSharp.Core.Utilities

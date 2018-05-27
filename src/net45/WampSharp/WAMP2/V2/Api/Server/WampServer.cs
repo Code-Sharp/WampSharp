@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2

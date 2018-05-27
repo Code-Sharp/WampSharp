@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using WampSharp.Core.Utilities;
 
 namespace WampSharp.V2.Core

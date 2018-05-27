@@ -5,7 +5,6 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Utilities;
-using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Core.Proxy;
 
 namespace WampSharp.Core.Client

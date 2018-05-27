@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using WampSharp.V2.Client;
 
 #if CASTLE

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using NUnit.Framework;
 using WampSharp.Tests.PubSub.Helpers;

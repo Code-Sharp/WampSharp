@@ -1,5 +1,4 @@
-﻿using System;
-using WampSharp.Core.Dispatch;
+﻿using WampSharp.Core.Dispatch;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;

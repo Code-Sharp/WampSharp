@@ -1,7 +1,4 @@
 ﻿using System;
-using WampSharp.Core.Serialization;
-using WampSharp.V2.Authentication;
-using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Rpc;

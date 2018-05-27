@@ -3,7 +3,6 @@ using System.Linq;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {

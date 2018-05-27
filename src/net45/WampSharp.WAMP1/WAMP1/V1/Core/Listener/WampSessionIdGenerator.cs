@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading;
 using WampSharp.Core.Utilities;
 
 namespace WampSharp.V1.Core.Listener

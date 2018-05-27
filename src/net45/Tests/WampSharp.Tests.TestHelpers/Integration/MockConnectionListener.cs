@@ -3,7 +3,6 @@ using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Binding;
 
 namespace WampSharp.Tests.TestHelpers.Integration
 {

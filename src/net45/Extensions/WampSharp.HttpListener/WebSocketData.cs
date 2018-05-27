@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Net.WebSockets;
+﻿using System.Net.WebSockets;
 
 namespace WampSharp.HttpListener
 {

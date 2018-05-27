@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;

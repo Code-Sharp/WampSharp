@@ -252,3 +252,5 @@ paket-files/
 .idea/
 *.sln.iml
 *.project.lock.json
+
+**/AssemblyInfo.cs

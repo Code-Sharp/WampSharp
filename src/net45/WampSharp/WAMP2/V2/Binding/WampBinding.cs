@@ -1,7 +1,5 @@
-﻿using WampSharp.Core.Listener;
-using WampSharp.Core.Message;
+﻿using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Binding
 {

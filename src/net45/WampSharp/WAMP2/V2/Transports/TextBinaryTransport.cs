@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
 

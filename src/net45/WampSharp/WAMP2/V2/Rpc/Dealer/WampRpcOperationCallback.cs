@@ -1,12 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc

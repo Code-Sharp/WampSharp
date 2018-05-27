@@ -1,8 +1,4 @@
-using System;
 using System.Net;
-using System.Security.Authentication;
-using System.Security.Cryptography.X509Certificates;
-using WampSharp.RawSocket;
 
 namespace WampSharp.V2.Fluent
 {

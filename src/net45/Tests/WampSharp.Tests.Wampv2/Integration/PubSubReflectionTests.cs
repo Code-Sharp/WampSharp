@@ -12,7 +12,6 @@ using WampSharp.V2.Client;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.Tests.Wampv2.Integration
 {

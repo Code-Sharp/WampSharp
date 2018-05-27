@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using WampSharp.Binding;
-using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers.Integration;
 using WampSharp.V2;
 using WampSharp.V2.Binding;

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using WampSharp.Logging;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;

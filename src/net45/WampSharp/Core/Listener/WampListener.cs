@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reactive.Disposables;
 using SystemEx;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Message;
