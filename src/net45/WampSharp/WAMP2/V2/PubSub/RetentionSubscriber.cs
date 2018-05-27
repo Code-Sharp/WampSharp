@@ -107,7 +107,7 @@ namespace WampSharp.V2.PubSub
 
             public PublishOptions Options { get; }
 
-            private Action<IRemoteWampTopicSubscriber, EventDetails> Action { get; set; }
+            private Action<IRemoteWampTopicSubscriber, EventDetails> Action { get; }
 
             public void Publish(IRemoteWampTopicSubscriber subscriber)
             {

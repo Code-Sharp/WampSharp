@@ -13,12 +13,12 @@ namespace WampSharp.Owin
             SubProtocol = subProtocol;
         }
 
-        public IDictionary<string, object> WebSocketContext { get; private set; }
+        public IDictionary<string, object> WebSocketContext { get; }
 
-        public IOwinContext OwinContext { get; private set; }
+        public IOwinContext OwinContext { get; }
 
         public Task ReadTask { get; internal set; }
 
-        public string SubProtocol { get; private set; }
+        public string SubProtocol { get; }
     }
 }

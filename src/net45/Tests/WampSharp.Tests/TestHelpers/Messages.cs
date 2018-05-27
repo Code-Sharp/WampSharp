@@ -293,63 +293,63 @@ namespace WampSharp.Tests.TestHelpers
 
         #region Properties
 
-        public static WampMessage<MockRaw> CallErrorMessageWithListOfIntegersInErrorDetails { get; private set; }
+        public static WampMessage<MockRaw> CallErrorMessageWithListOfIntegersInErrorDetails { get; }
 
-        public static WampMessage<MockRaw> CallErrorMessageWithSpecificErrorAndIntegerInErrorDetails { get; private set; }
+        public static WampMessage<MockRaw> CallErrorMessageWithSpecificErrorAndIntegerInErrorDetails { get; }
 
-        public static WampMessage<MockRaw> CallErrorMessageWithGenericError { get; private set; }
+        public static WampMessage<MockRaw> CallErrorMessageWithGenericError { get; }
 
-        public static WampMessage<MockRaw> CallResultMessageWithComplexObjectResult { get; private set; }
+        public static WampMessage<MockRaw> CallResultMessageWithComplexObjectResult { get; }
 
-        public static WampMessage<MockRaw> CallResultMessageWithStringResult { get; private set; }
+        public static WampMessage<MockRaw> CallResultMessageWithStringResult { get; }
 
-        public static WampMessage<MockRaw> CallResultMessageWithNullResult { get; private set; }
+        public static WampMessage<MockRaw> CallResultMessageWithNullResult { get; }
 
-        public static WampMessage<MockRaw> WelcomeMessage { get; private set; }
+        public static WampMessage<MockRaw> WelcomeMessage { get; }
 
-        public static WampMessage<MockRaw> PrefixMessage2 { get; private set; }
+        public static WampMessage<MockRaw> PrefixMessage2 { get; }
 
         public static WampMessage<MockRaw> PrefixMessage1 => mPrefixMessage1;
 
-        public static WampMessage<MockRaw> CallMessageForRpcWith2ArgumentsUsingCurie { get; private set; }
+        public static WampMessage<MockRaw> CallMessageForRpcWith2ArgumentsUsingCurie { get; }
 
-        public static WampMessage<MockRaw> CallMessageForRpcWith1ArgumentValueBeingNull { get; private set; }
+        public static WampMessage<MockRaw> CallMessageForRpcWith1ArgumentValueBeingNull { get; }
 
         public static WampMessage<MockRaw> CallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie => mCallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie;
 
-        public static WampMessage<MockRaw> CallMessageForRpcWith2ComplexArgumentsUsingCurie { get; private set; }
+        public static WampMessage<MockRaw> CallMessageForRpcWith2ComplexArgumentsUsingCurie { get; }
 
         public static WampMessage<MockRaw> CallMessageForRpcWith1ComplexObjectArgument => mCallMessageForRpcWith1ComplexObjectArgument;
 
-        public static WampMessage<MockRaw> CallMessageForRpcWithNoArguments { get; private set; }
+        public static WampMessage<MockRaw> CallMessageForRpcWithNoArguments { get; }
 
-        public static WampMessage<MockRaw> SubscribeMessageWithFullyQualifiedUri { get; private set; }
+        public static WampMessage<MockRaw> SubscribeMessageWithFullyQualifiedUri { get; }
 
-        public static WampMessage<MockRaw> SubscribeMessageWithCurie { get; private set; }
+        public static WampMessage<MockRaw> SubscribeMessageWithCurie { get; }
 
-        public static WampMessage<MockRaw> UnsubscribeMessageWithCurie { get; private set; }
+        public static WampMessage<MockRaw> UnsubscribeMessageWithCurie { get; }
 
-        public static WampMessage<MockRaw> UnsubscribeMessageWithFullyQualifiedUri { get; private set; }
+        public static WampMessage<MockRaw> UnsubscribeMessageWithFullyQualifiedUri { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayload { get; private set; }
+        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayload { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithNullAsPayload { get; private set; }
+        public static WampMessage<MockRaw> PublishMessageWithNullAsPayload { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithStringAsPayload { get; private set; }
+        public static WampMessage<MockRaw> PublishMessageWithStringAsPayload { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayloadExcludeMe { get; private set; }
+        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayloadExcludeMe { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayloadDontExcludeMe { get; private set; }
+        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayloadDontExcludeMe { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithExcludeList { get; private set; }
+        public static WampMessage<MockRaw> PublishMessageWithExcludeList { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithEligibleList { get; private set; }
+        public static WampMessage<MockRaw> PublishMessageWithEligibleList { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithExcludedAndEligibleList { get; private set; }
+        public static WampMessage<MockRaw> PublishMessageWithExcludedAndEligibleList { get; }
 
-        public static WampMessage<MockRaw> EventMessageWithStringAsPayload { get; private set; }
+        public static WampMessage<MockRaw> EventMessageWithStringAsPayload { get; }
 
-        public static WampMessage<MockRaw> EventMessageWithNullAsPayload { get; private set; }
+        public static WampMessage<MockRaw> EventMessageWithNullAsPayload { get; }
 
         public static WampMessage<MockRaw> EventMessageWithComplexObjectPayload => mEventMessageWithComplexObjectPayload;
 
