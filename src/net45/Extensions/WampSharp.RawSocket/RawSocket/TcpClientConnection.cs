@@ -74,15 +74,7 @@ namespace WampSharp.RawSocket
 
                 byte[] buffer;
 
-#if NETCORE
-                ArraySegment<byte> arraySegment;
-
-                memoryStream.TryGetBuffer(out arraySegment);
-
-                buffer = arraySegment.Array;
-#else
                 buffer = memoryStream.GetBuffer();
-#endif
 
                 // Write a message header
                 mFrameHeaderParser.WriteHeader(FrameType.WampMessage, messageLength, buffer);
