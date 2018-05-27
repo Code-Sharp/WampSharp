@@ -17,9 +17,7 @@ namespace WampSharp.Fleck
 
             mConnectionInfo = connectionInfo;
 
-            Peer = string.Format("tcp4://{0}:{1}",
-                                  mConnectionInfo.ClientIpAddress,
-                                  mConnectionInfo.ClientPort);
+            Peer = $"tcp4://{mConnectionInfo.ClientIpAddress}:{mConnectionInfo.ClientPort}";
         }
 
         [DataMember(Name = "peer")]

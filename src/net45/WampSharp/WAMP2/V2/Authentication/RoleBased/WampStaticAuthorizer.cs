@@ -49,8 +49,7 @@ namespace WampSharp.V2.Authentication
             else
             {
                 throw new ArgumentException
-                    (string.Format("Role has specified permissions for uri '{0}' more than once",
-                                   uriPermissions.Uri),
+                    ($"Role has specified permissions for uri '{uriPermissions.Uri}' more than once",
                      "role");
             }
         }

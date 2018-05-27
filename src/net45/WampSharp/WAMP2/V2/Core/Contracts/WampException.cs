@@ -50,8 +50,7 @@ namespace WampSharp.V2.Core.Contracts
         }
 
         public WampException(string errorUri, string messageDetails) :
-            base(string.Format("Error uri: '{0}', details: {1}",
-                errorUri, messageDetails))
+            base($"Error uri: '{errorUri}', details: {messageDetails}")
         {
             ErrorUri = errorUri;
             mArguments = new object[] {messageDetails};

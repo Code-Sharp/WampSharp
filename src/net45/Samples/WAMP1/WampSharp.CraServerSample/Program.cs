@@ -24,7 +24,7 @@ namespace WampSharp.CraServerSample
             //NOTE: You could do this to determine the caller for logging or whatever you need.
             Console.Out.WriteLine("Hello called by user with authKey '{0}'", WampRequestContext.Current.Authenticator.AuthKey);
 
-            return string.Format("Hello back {0}!", name);
+            return $"Hello back {name}!";
         }
     }
 

@@ -15,9 +15,7 @@ namespace WampSharp.Vtortola
             IPEndPoint remoteEndpoint = websocket.RemoteEndpoint;
 
             RemoteEndpoint =
-                string.Format("tcp4://{0}:{1}",
-                              remoteEndpoint.Address,
-                              remoteEndpoint.Port);
+                $"tcp4://{remoteEndpoint.Address}:{remoteEndpoint.Port}";
 
             HttpRequest = new VtortolaWebSocketHttpRequest(websocket.HttpRequest);
             mHttpResponse = new VtortolaWebSocketHttpResponse(websocket.HttpResponse);

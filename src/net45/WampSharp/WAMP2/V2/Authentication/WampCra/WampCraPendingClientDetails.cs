@@ -39,15 +39,11 @@ namespace WampSharp.V2.Authentication
         public override string ToString()
         {
             return
-                string.Format(
-                    @"{{""nonce"": ""{0}"", ""authprovider"": ""{1}"", ""authid"": ""{2}"", ""timestamp"": ""{3}"", ""authrole"": ""{4}"", ""authmethod"": ""{5}"", ""session"": {6}}}",
-                    Nonce,
-                    AuthenticationProvider,
-                    AuthenticationId,
-                    TimeStamp,
-                    AuthenticationRole,
-                    AuthenticationMethod,
-                    SessionId);
+                $@"{{""nonce"": ""{Nonce}"", ""authprovider"": ""{AuthenticationProvider}"", ""authid"": ""{
+                        AuthenticationId
+                    }"", ""timestamp"": ""{TimeStamp}"", ""authrole"": ""{AuthenticationRole}"", ""authmethod"": ""{
+                        AuthenticationMethod
+                    }"", ""session"": {SessionId}}}";
         }
     }
 }

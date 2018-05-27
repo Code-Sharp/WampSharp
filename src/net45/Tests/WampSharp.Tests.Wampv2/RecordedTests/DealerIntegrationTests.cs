@@ -82,9 +82,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                     scenario.Caller = caller;
 
                     TestCaseData testCase = new TestCaseData(scenario);
-                    testCase.SetName(string.Format("DealerIntegrationTest.{0}.{1}",
-                                                   nestedType.Name,
-                                                   request.Arguments[2].Value));
+                    testCase.SetName($"DealerIntegrationTest.{nestedType.Name}.{request.Arguments[2].Value}");
 
                     yield return testCase;
                 }

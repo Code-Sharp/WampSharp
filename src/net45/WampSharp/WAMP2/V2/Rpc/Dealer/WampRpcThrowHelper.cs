@@ -7,7 +7,7 @@ namespace WampSharp.V2.Rpc
     {
         public static void NoProcedureRegistered(string procedure)
         {
-            string errorMessage = String.Format("no procedure '{0}' registered", procedure);
+            string errorMessage = $"no procedure '{procedure}' registered";
 
             throw new WampException(WampErrors.NoSuchProcedure, errorMessage);
         }

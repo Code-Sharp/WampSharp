@@ -23,13 +23,13 @@ namespace WampSharp.Samples.Callee
         [WampProcedure("com.arguments.stars")]
         public string Stars(string nick = "somebody", int stars = 0)
         {
-            return string.Format("{0} starred {1}x", nick, stars);
+            return $"{nick} starred {stars}x";
         }
 
         [WampProcedure("com.arguments.orders")]
         public string[] Orders(string product, int limit = 5)
         {
-            return Enumerable.Range(0, 50).Take(limit).Select(i => string.Format("Product {0}", i)).ToArray();
+            return Enumerable.Range(0, 50).Take(limit).Select(i => $"Product {i}").ToArray();
         }
 
         public class ArgLenOperation : SyncLocalRpcOperation

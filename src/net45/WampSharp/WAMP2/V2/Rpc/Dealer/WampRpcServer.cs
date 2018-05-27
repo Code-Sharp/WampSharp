@@ -128,7 +128,7 @@ namespace WampSharp.V2.Rpc
                 mLogger.ErrorFormat("call with invalid procedure URI '{ProcedureUri}'", procedure);
 
                 throw new WampException(WampErrors.InvalidUri,
-                                        string.Format("call with invalid procedure URI '{0}'", procedure));
+                                        $"call with invalid procedure URI '{procedure}'");
             }
         }
 
@@ -137,7 +137,7 @@ namespace WampSharp.V2.Rpc
             if (!mUriValidator.IsValid(procedure, match))
             {
                 throw new WampException(WampErrors.InvalidUri,
-                                        string.Format("register for invalid procedure URI '{0}'", procedure));
+                                        $"register for invalid procedure URI '{procedure}'");
             }
         }
 

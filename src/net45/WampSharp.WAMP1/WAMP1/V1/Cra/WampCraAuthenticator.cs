@@ -363,11 +363,11 @@ namespace WampSharp.V1.Cra
         {
             public static void AuthenticationKeyDoesNotExist(string authKey, Exception exception = null)
             {
-                string errorDesc = String.Format("authentication key '{0}' does not exist.", authKey);
+                string errorDesc = $"authentication key '{authKey}' does not exist.";
 
                 if (exception != null)
                 {
-                    errorDesc = String.Format("{0} {1}", errorDesc, exception.Message);
+                    errorDesc = $"{errorDesc} {exception.Message}";
                 }
 
                 throw new WampRpcCallException("http://api.wamp.ws/error#no-such-authkey",
@@ -407,7 +407,7 @@ namespace WampSharp.V1.Cra
             public static void InvalidSignature(Exception e)
             {
                 throw new WampRpcCallException("http://api.wamp.ws/error#invalid-signature",
-                    String.Format("internal error: {0}", e.Message), null);
+                                               $"internal error: {e.Message}", null);
             }
         }
 

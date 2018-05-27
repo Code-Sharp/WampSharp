@@ -8,7 +8,7 @@ namespace WampSharp.RawSocket
     public class RawSocketProtocolException : Exception
     {
         public RawSocketProtocolException(HandshakeErrorCode errorCode) :
-            base(string.Format("Server refused connection. Reason: {0}", errorCode))
+            base($"Server refused connection. Reason: {errorCode}")
         {
             ErrorCode = errorCode;
         }

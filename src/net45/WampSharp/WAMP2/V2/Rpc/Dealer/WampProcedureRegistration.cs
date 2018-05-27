@@ -41,7 +41,7 @@ namespace WampSharp.V2.Rpc
                 default:
                     throw new WampException
                         (WampErrors.InvalidOptions,
-                         string.Format("invoke = {0} isn't supported", invocationPolicy));
+                         $"invoke = {invocationPolicy} isn't supported");
             }
         }
 
@@ -79,7 +79,7 @@ namespace WampSharp.V2.Rpc
                 else
                 {
                     string registerError =
-                        string.Format("register for already registered procedure '{0}'", operation.Procedure);
+                        $"register for already registered procedure '{operation.Procedure}'";
 
                     throw new WampException(WampErrors.ProcedureAlreadyExists,
                                             registerError);
@@ -92,11 +92,7 @@ namespace WampSharp.V2.Rpc
             if (RegisterOptions.Invoke != registerOptions.Invoke)
             {
                 string messageDetails =
-                    string.Format(
-                        "register for already registered procedure '{0}' with conflicting invocation policy (has {1} and {2} was requested)",
-                        this.Procedure, 
-                        this.RegisterOptions.Invoke, 
-                        registerOptions.Invoke);
+                    $"register for already registered procedure '{this.Procedure}' with conflicting invocation policy (has {this.RegisterOptions.Invoke} and {registerOptions.Invoke} was requested)";
 
                 throw new WampException
                     (WampErrors.ProcedureExistsInvocationPolicyConflict,

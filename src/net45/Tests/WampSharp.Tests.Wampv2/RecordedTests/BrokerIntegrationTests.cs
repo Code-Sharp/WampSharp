@@ -103,8 +103,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                 scenario.Publisher = publisher;
 
                 TestCaseData testCase = new TestCaseData(scenario);
-                testCase.SetName(string.Format("PubSubIntegrationTest.{0}",
-                                               nestedType.Name));
+                testCase.SetName($"PubSubIntegrationTest.{nestedType.Name}");
 
                 yield return testCase;
             }

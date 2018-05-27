@@ -25,14 +25,14 @@ namespace WampSharp.V2.Core.Contracts
 
         private static string GetExceptionMessage(WampSessionCloseEventArgs eventArgs)
         {
-            string result = 
-                string.Format("Connection got broken. CloseType:{0}", eventArgs.CloseType);
+            string result =
+                $"Connection got broken. CloseType:{eventArgs.CloseType}";
             
             string reason = eventArgs.Reason;
             
             if (reason != null)
             {
-                result = string.Format("{0}, Reason: {1}", result, reason);
+                result = $"{result}, Reason: {reason}";
             }
 
             return result;

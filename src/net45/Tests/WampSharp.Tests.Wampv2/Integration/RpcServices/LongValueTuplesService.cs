@@ -13,7 +13,7 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
         public object[] GetLongTuple(string name)
         {
             object[] result =
-                Enumerable.Range(0, 10).Select(i => string.Format("{0} {1}", name, i))
+                Enumerable.Range(0, 10).Select(i => $"{name} {i}")
                           .Concat(new object[] {name.Length})
                           .ToArray();
 
@@ -49,7 +49,7 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
                 for (int i = 0; i < 10; i++)
                 {
                     string argumentName = "item" + (i + 1);
-                    outputs[argumentName] = string.Format("{0} {1}", name, i);
+                    outputs[argumentName] = $"{name} {i}";
                 }
 
                 return null;

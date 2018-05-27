@@ -46,8 +46,7 @@ namespace WampSharp.V2.Authentication
             if (user == null)
             {
                 throw new WampAuthenticationException
-                    (string.Format("no user with authid '{0}' in user database",
-                                   helloDetails.AuthenticationId));
+                    ($"no user with authid '{helloDetails.AuthenticationId}' in user database");
             }
 
             user.AuthenticationId = user.AuthenticationId ?? 
@@ -61,9 +60,7 @@ namespace WampSharp.V2.Authentication
             if (role == null)
             {
                 throw new WampAuthenticationException
-                    (message: string.Format("authentication failed - realm '{0}' has no role '{1}'",
-                                            details.Realm,
-                                            authenticationRole),
+                    (message: $"authentication failed - realm '{details.Realm}' has no role '{authenticationRole}'",
                      reason: WampErrors.NoSuchRole);
             }
 
