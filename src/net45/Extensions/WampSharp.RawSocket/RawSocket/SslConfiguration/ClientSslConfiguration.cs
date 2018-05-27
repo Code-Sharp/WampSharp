@@ -16,7 +16,7 @@ namespace WampSharp.RawSocket
             CheckCertificateRevocation = checkCertificateRevocation;
         }
 
-        public string TargetHost { get; set; }
+        public string TargetHost { get; }
 
         public X509CertificateCollection ClientCertificates { get; set; }
     }

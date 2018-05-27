@@ -17,6 +17,6 @@ namespace WampSharp.RawSocket
         }
 
         public bool ClientCertificateRequired { get; set; }
-        public X509Certificate Certificate { get; set; }
+        public X509Certificate Certificate { get; }
     }
 }
