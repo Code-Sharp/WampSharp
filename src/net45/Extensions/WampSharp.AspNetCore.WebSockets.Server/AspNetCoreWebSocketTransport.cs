@@ -84,11 +84,7 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 
         private async Task WebSocketHandler(HttpContext context, Func<Task> next)
         {
-            if (!context.WebSockets.IsWebSocketRequest)
-            {
-                await next().ConfigureAwait(false);
-            }
-            else
+            if (context.WebSockets.IsWebSocketRequest)
             {
                 IEnumerable<string> possibleSubProtocols =
                     context.WebSockets.WebSocketRequestedProtocols
@@ -112,9 +108,13 @@ namespace WampSharp.AspNetCore.WebSockets.Server
                         OnNewConnection(webSocketData);
 
                         await webSocketData.ReadTask.ConfigureAwait(false);
+
+                        return;
                     }
                 }
             }
+
+            await next().ConfigureAwait(false);
         }
     }
 }
