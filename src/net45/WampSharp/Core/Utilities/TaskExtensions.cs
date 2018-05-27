@@ -128,12 +128,12 @@ namespace WampSharp.Core.Utilities
         {
             if (task == null)
             {
-                throw new ArgumentNullException("task");
+                throw new ArgumentNullException(nameof(task));
             }
 
             if (transform == null)
             {
-                throw new ArgumentNullException("transform");
+                throw new ArgumentNullException(nameof(transform));
             }
 
             TaskCompletionSource<TResult> taskResult = new TaskCompletionSource<TResult>();

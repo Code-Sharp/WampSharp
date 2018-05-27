@@ -19,7 +19,7 @@ namespace WampSharp.Tests.Dispatch
         private WampRequestMapper<MockRaw> mClientMapper = new WampRequestMapper<MockRaw>(typeof(MockWampClient),
             new MockRawFormatter());
 
-        [TestCaseSource(typeof (Messages), "PrefixMessages")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.PrefixMessages))]
         public void Prefix(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -34,7 +34,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "CallMessages")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.CallMessages))]
         public void Call(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -49,7 +49,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "SubscribeMessages")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.SubscribeMessages))]
         public void Subscribe(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -64,7 +64,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "UnsubscribeMessages")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.UnsubscribeMessages))]
         public void Unsubscribe(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -79,7 +79,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "PublishMessagesSimple")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.PublishMessagesSimple))]
         public void Publish(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -94,7 +94,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "PublishMessagesExcludeMe")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.PublishMessagesExcludeMe))]
         public void PublishExcludeMe(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -109,7 +109,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "PublishMessagesExclude")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.PublishMessagesExclude))]
         public void PublishExcludeList(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -124,7 +124,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "PublishMessagesEligible")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.PublishMessagesEligible))]
         public void PublishEligibleList(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -140,7 +140,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "WelcomeMessages")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.WelcomeMessages))]
         public void Welcome(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -155,7 +155,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "CallResultMessages")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.CallResultMessages))]
         public void CallResult(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -170,7 +170,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "CallErrorMessagesSimple")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.CallErrorMessagesSimple))]
         public void CallErrorSimple(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -185,7 +185,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "CallErrorMessagesDetailed")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.CallErrorMessagesDetailed))]
         public void CallErrorDetailed(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -200,7 +200,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof (Messages), "EventMessages")]
+        [TestCaseSource(typeof (Messages), nameof(Messages.EventMessages))]
         public void Event(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -215,7 +215,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof(Messages), "ClientMessages")]
+        [TestCaseSource(typeof(Messages), nameof(Messages.ClientMessages))]
         public void UnknownMessageReturnsNullIfMissingContractNotImplemented(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -226,7 +226,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped, Is.Null);
         }
 
-        [TestCaseSource(typeof(Messages), "ClientMessages")]
+        [TestCaseSource(typeof(Messages), nameof(Messages.ClientMessages))]
         public void UnknownMessageReturnsMissingIfMissingContractImplemented(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =
@@ -242,7 +242,7 @@ namespace WampSharp.Tests.Dispatch
             Assert.That(mapped.Method, Is.SameAs(expected));
         }
 
-        [TestCaseSource(typeof(Messages), "ClientMessages")]
+        [TestCaseSource(typeof(Messages), nameof(Messages.ClientMessages))]
         public void UnknownMessageReturnsMissingIfMissingContractClientVersionImplemented(WampMessage<MockRaw> message)
         {
             IWampRequestMapper<MockRaw> mapper =

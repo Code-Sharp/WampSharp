@@ -28,7 +28,7 @@ namespace WampSharp.V2.PubSub
 
             if (method == null)
             {
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             }
 
             mMethodInvoker = MethodInvokeGenerator.CreateInvokeMethod(method);
@@ -36,13 +36,13 @@ namespace WampSharp.V2.PubSub
             if (method.ReturnType != typeof (void))
             {
                 throw new ArgumentException("Expected return type of void from method " + method.Name,
-                    "method");
+                    nameof(method));
             }
 
             if (method.GetParameters().Any(x => x.ParameterType.IsByRef || x.IsOut))
             {
                 throw new ArgumentException("Expected not out/ref parameters from method " + method.Name,
-                    "method");                
+                    nameof(method));                
             }
 
             mParameters = method.GetParameters()

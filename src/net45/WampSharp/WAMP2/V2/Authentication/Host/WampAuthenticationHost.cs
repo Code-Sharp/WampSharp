@@ -33,7 +33,7 @@ namespace WampSharp.V2
         {
             if (sessionAuthenticationFactory == null)
             {
-                throw new ArgumentNullException("sessionAuthenticationFactory");
+                throw new ArgumentNullException(nameof(sessionAuthenticationFactory));
             }
 
             mSessionAuthenticationFactory = sessionAuthenticationFactory;

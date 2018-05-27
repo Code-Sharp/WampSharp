@@ -13,7 +13,7 @@ namespace WampSharp.Tests.PubSub
     [TestFixture]
     public class WampPubSubSubjectTests
     {
-        [TestCaseSource(typeof(MessagesArguments), "SubscribeMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.SubscribeMessages))]
         public void BeforeSubscribeCallNoSubscriptionsAreMade(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
@@ -28,7 +28,7 @@ namespace WampSharp.Tests.PubSub
             Assert.That(requestManager.Publications, Is.Empty);
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "SubscribeMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.SubscribeMessages))]
         public void SubscribeCallCallsServerProxySubscribe(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
@@ -50,7 +50,7 @@ namespace WampSharp.Tests.PubSub
             Assert.That(subscription.TopicUri, Is.EqualTo(topicUri));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "SubscribeMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.SubscribeMessages))]
         public void SubscribeCallsServerProxySubscribeOnceForAllSubscribers(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
@@ -68,7 +68,7 @@ namespace WampSharp.Tests.PubSub
             Assert.That(requestManager.Subscriptions.Count, Is.EqualTo(1));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "SubscribeMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.SubscribeMessages))]
         public void DisposeDoesntCallServerProxyUnsubscribeIfObserversAreStillSubscribed(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
@@ -88,7 +88,7 @@ namespace WampSharp.Tests.PubSub
             Assert.That(requestManager.Subscriptions.Count, Is.EqualTo(1));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "SubscribeMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.SubscribeMessages))]
         public void DisposeCallsServerProxyUnsubscribeIfNoObserversAreSubscribed(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
@@ -114,7 +114,7 @@ namespace WampSharp.Tests.PubSub
             Assert.That(removal.TopicUri, Is.EqualTo(topicUri));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "EventMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.EventMessages))]
         public void ClientEventCallsObserverOnNext(string topicUri, object @event)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
@@ -136,7 +136,7 @@ namespace WampSharp.Tests.PubSub
             Assert.That(events[0], Is.EqualTo(@event));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "PublishMessagesSimple")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.PublishMessagesSimple))]
         public void OnNextCallCallsServerProxyEvent(string topicUri, object @event)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
@@ -160,7 +160,7 @@ namespace WampSharp.Tests.PubSub
             Assert.That(publication.TopicUri, Is.EqualTo(topicUri));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "UnsubscribeMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.UnsubscribeMessages))]
         public void OnCompletedCallCallsObserverOnCompleted(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =
@@ -178,7 +178,7 @@ namespace WampSharp.Tests.PubSub
             Assert.That(onCompleted, Is.EqualTo(true));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "UnsubscribeMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.UnsubscribeMessages))]
         public void OnCompletedCallCallsServerProxyUnsubscribe(string topicUri)
         {
             MockWampPubSubRequestManager<MockRaw> requestManager =

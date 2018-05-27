@@ -30,7 +30,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
         }
 
         [Test]
-        [TestCaseSource("GetRegistrationsTestCases")]
+        [TestCaseSource(nameof(GetRegistrationsTestCases))]
         public void RegisterCallsCatalogRegister(Registration[] registrations)
         {
             Mock<IWampRpcOperationCatalog> catalog = new Mock<IWampRpcOperationCatalog>();
@@ -65,7 +65,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
         }
 
         [Test]
-        [TestCaseSource("GetRegistrationsTestCases")]
+        [TestCaseSource(nameof(GetRegistrationsTestCases))]
         public void RegisterCatalogErrorCallsCalleeError(Registration[] registrations)
         {
             Mock<IWampRpcOperationCatalog> catalog = new Mock<IWampRpcOperationCatalog>();
@@ -101,7 +101,7 @@ namespace WampSharp.Tests.Wampv2.Dealer
         }
 
         [Test]
-        [TestCaseSource("GetCallTestCases")]
+        [TestCaseSource(nameof(GetCallTestCases))]
         public void CallCallsCatalogInvoke(Call call)
         {
             Mock<IWampRpcOperationCatalog> catalog = new Mock<IWampRpcOperationCatalog>();

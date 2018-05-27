@@ -18,7 +18,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
     [TestFixture]
     internal class BrokerIntegrationTests : IntegrationTestsBase
     {
-        [TestCaseSource("TestCases")]
+        [TestCaseSource(nameof(TestCases))]
         [Test]
         public void BrokerTest(BrokerScenario scenario)
         {

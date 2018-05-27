@@ -13,7 +13,7 @@ namespace WampSharp.Tests.Rpc
     [TestFixture]
     public class WampRpcClientHandlerTests
     {
-        [TestCaseSource(typeof(RpcCalls), "SomeCalls")]
+        [TestCaseSource(typeof(RpcCalls), nameof(RpcCalls.SomeCalls))]
         public void HandleAsync_Calls_ServerProxyCall(WampRpcCall rpcCall)
         {
             MockWampRpcCallManager<MockRaw> callManager =
@@ -36,7 +36,7 @@ namespace WampSharp.Tests.Rpc
             CollectionAssert.AreEqual(rpcCall.Arguments, details.Arguments);
         }
 
-        [TestCaseSource(typeof(RpcCalls), "CallsWithResults")]
+        [TestCaseSource(typeof(RpcCalls), nameof(RpcCalls.CallsWithResults))]
         public void HandleAsync_ClientCallResult_SetsTasksResult(WampRpcCall rpcCall, object result)
         {
             MockWampRpcCallManager<MockRaw> callManager =
@@ -62,7 +62,7 @@ namespace WampSharp.Tests.Rpc
             Assert.That(task.Result, Is.EqualTo(result));
         }
 
-        [TestCaseSource(typeof(RpcCalls), "CallsWithErrors")]
+        [TestCaseSource(typeof(RpcCalls), nameof(RpcCalls.CallsWithErrors))]
         public void HandleAsync_ClientCallError_SetsTasksException
             (WampRpcCall rpcCall, CallErrorDetails callErrorDetails)
         {

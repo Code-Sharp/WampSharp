@@ -27,7 +27,7 @@ namespace WampSharp.V2.DelegatePubSub
         {
             if (instance == null)
             {
-                throw new ArgumentNullException("instance");
+                throw new ArgumentNullException(nameof(instance));
             }
 
             IEnumerable<Type> typesToExplore = GetTypesToExplore(instance);

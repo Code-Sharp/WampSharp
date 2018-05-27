@@ -59,7 +59,7 @@ namespace WampSharp.V2
             }
             else
             {
-                throw new ArgumentException("Got no binding. Expected at least one binding.", "bindings");
+                throw new ArgumentException("Got no binding. Expected at least one binding.", nameof(bindings));
             }
         }
 

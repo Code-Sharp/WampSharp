@@ -8,7 +8,7 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
 {
     public class RawInvocationCalleeTests
     {
-        [TestCaseSource("TestCases")]
+        [TestCaseSource(nameof(TestCases))]
         public void TestRawCallerApi(InvocationCalleeeTest test)
         {
             test.Act();

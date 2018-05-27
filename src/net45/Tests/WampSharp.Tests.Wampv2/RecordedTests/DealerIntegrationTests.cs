@@ -17,7 +17,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
     [TestFixture]
     internal class DealerIntegrationTests : IntegrationTestsBase
     {
-        [TestCaseSource("TestCases")]
+        [TestCaseSource(nameof(TestCases))]
         [Test]
         public void DealerTest(DealerScenario scenario)
         {

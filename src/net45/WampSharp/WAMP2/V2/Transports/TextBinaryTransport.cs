@@ -122,7 +122,7 @@ namespace WampSharp.V2.Transports
                 return GetListener(binaryBinding);
             }
 
-            throw new ArgumentException("WebSockets can only deal with binary/text transports", "binding");
+            throw new ArgumentException("WebSockets can only deal with binary/text transports", nameof(binding));
         }
 
         private IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTextBinding<TMessage> binding)
@@ -149,7 +149,7 @@ namespace WampSharp.V2.Transports
             {
                 throw new ArgumentException("Already registered a binding for protocol: " +
                                             binding.Name,
-                                            "binding");
+                                            nameof(binding));
             }
 
             mBindings.Add(binding.Name, listener);

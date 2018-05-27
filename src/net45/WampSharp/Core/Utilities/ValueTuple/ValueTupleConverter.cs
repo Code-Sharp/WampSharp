@@ -115,7 +115,7 @@ namespace WampSharp.Core.Utilities.ValueTuple
             {
                 if (!tupleType.IsValueTuple())
                 {
-                    throw new ArgumentException("Expected a ValueTuple type", "tupleType");
+                    throw new ArgumentException("Expected a ValueTuple type", nameof(tupleType));
                 }
             }
         }

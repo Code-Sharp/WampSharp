@@ -35,7 +35,7 @@ namespace WampSharp.Core.Utilities.ValueTuple
         {
             if (!type.IsValueTuple())
             {
-                throw new ArgumentException("Expected a ValueTuple type", "type");
+                throw new ArgumentException("Expected a ValueTuple type", nameof(type));
             }
 
             Type genericTypeDefinition = type.GetGenericTypeDefinition();

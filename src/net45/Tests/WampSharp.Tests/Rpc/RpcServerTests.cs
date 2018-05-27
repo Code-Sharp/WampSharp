@@ -22,7 +22,7 @@ namespace WampSharp.Tests.Rpc
             return value.GetType();
         }
 
-        [TestCaseSource(typeof (RpcCalls), "CallsWithResults")]
+        [TestCaseSource(typeof (RpcCalls), nameof(RpcCalls.CallsWithResults))]
         public void SuccessfulTaskCallsCallResultWithResult(WampRpcCall call, object result)
         {            
             MockRawFormatter formatter = new MockRawFormatter();
@@ -52,7 +52,7 @@ namespace WampSharp.Tests.Rpc
                         Is.EqualTo(result));
         }
 
-        [TestCaseSource(typeof(RpcCalls), "CallsWithErrors")]
+        [TestCaseSource(typeof(RpcCalls), nameof(RpcCalls.CallsWithErrors))]
         public void ErrorTaskCallsCallErrorWithError(WampRpcCall call, CallErrorDetails details)
         {
             MockRawFormatter formatter = new MockRawFormatter();

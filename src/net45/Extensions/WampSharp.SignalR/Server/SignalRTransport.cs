@@ -59,7 +59,7 @@ namespace WampSharp.SignalR
 
             if (textBinding == null)
             {
-                throw new ArgumentException("This transport supports only text binding.", "binding");
+                throw new ArgumentException("This transport supports only text binding.", nameof(binding));
             }
             else
             {
