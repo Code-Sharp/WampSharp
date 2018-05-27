@@ -40,7 +40,7 @@ namespace WampSharp.V1.Cra
             string resolvedUri = ResolveUri(client, procUri);
             WampCraAuthenticator<TMessage> wampAuth = GetOrCreateWampAuthenticatorForClient(client);
 
-            WampRpcPermissions rpcPerm = wampAuth.Permissions.LookupRpcPermissions(resolvedUri);
+            WampRpcPermissions rpcPerm = wampAuth.CraPermissionsMapper.LookupRpcPermissions(resolvedUri);
             
             if (rpcPerm != null && rpcPerm.call)
             {
@@ -59,7 +59,7 @@ namespace WampSharp.V1.Cra
 
             if (wampAuth.IsAuthenticated)
             {
-                WampPubSubPermissions pubSubPerm = wampAuth.Permissions.LookupPubSubPermissions(resolvedTopicUri);
+                WampPubSubPermissions pubSubPerm = wampAuth.CraPermissionsMapper.LookupPubSubPermissions(resolvedTopicUri);
                 
                 if (pubSubPerm != null && pubSubPerm.sub)
                 {
@@ -75,7 +75,7 @@ namespace WampSharp.V1.Cra
             
             if (wampAuth.IsAuthenticated)
             {
-                WampPubSubPermissions pubSubPerm = wampAuth.Permissions.LookupPubSubPermissions(resolvedTopicUri);
+                WampPubSubPermissions pubSubPerm = wampAuth.CraPermissionsMapper.LookupPubSubPermissions(resolvedTopicUri);
                 
                 if (pubSubPerm != null && pubSubPerm.sub)
                 {
@@ -91,7 +91,7 @@ namespace WampSharp.V1.Cra
             
             if (wampAuth.IsAuthenticated)
             {
-                WampPubSubPermissions pubSubPerm = wampAuth.Permissions.LookupPubSubPermissions(resolvedTopicUri);
+                WampPubSubPermissions pubSubPerm = wampAuth.CraPermissionsMapper.LookupPubSubPermissions(resolvedTopicUri);
                 if (pubSubPerm != null && pubSubPerm.pub)
                 {
                     mPubSubServer.Publish(client, resolvedTopicUri, @event);
@@ -106,7 +106,7 @@ namespace WampSharp.V1.Cra
             
             if (wampAuth.IsAuthenticated)
             {
-                WampPubSubPermissions pubSubPerm = wampAuth.Permissions.LookupPubSubPermissions(resolvedTopicUri);
+                WampPubSubPermissions pubSubPerm = wampAuth.CraPermissionsMapper.LookupPubSubPermissions(resolvedTopicUri);
                 if (pubSubPerm != null && pubSubPerm.pub)
                 {
                     mPubSubServer.Publish(client, resolvedTopicUri, @event, excludeMe);
@@ -121,7 +121,7 @@ namespace WampSharp.V1.Cra
             
             if (wampAuth.IsAuthenticated)
             {
-                WampPubSubPermissions pubSubPerm = wampAuth.Permissions.LookupPubSubPermissions(resolvedTopicUri);
+                WampPubSubPermissions pubSubPerm = wampAuth.CraPermissionsMapper.LookupPubSubPermissions(resolvedTopicUri);
                 if (pubSubPerm != null && pubSubPerm.pub)
                 {
                     mPubSubServer.Publish(client, resolvedTopicUri, @event, exclude);
@@ -136,7 +136,7 @@ namespace WampSharp.V1.Cra
             
             if (wampAuth.IsAuthenticated)
             {
-                WampPubSubPermissions pubSubPerm = wampAuth.Permissions.LookupPubSubPermissions(resolvedTopicUri);
+                WampPubSubPermissions pubSubPerm = wampAuth.CraPermissionsMapper.LookupPubSubPermissions(resolvedTopicUri);
                 if (pubSubPerm != null && pubSubPerm.pub)
                 {
                     mPubSubServer.Publish(client, resolvedTopicUri, @event, exclude, eligible);
@@ -160,7 +160,7 @@ namespace WampSharp.V1.Cra
                 // Very important to give the client permissions to the auth APIs...
                 foreach (IWampRpcMethod method in mWampCraProceduredMetadata.GetServiceMethods())
                 {
-                    authenticator.Permissions.AddRpcPermission(new WampRpcPermissions(method.ProcUri, true));
+                    authenticator.CraPermissionsMapper.AddRpcPermission(new WampRpcPermissions(method.ProcUri, true));
                 }
 
                 client.CraAuthenticator = authenticator;
