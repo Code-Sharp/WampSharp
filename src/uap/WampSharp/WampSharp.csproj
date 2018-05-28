@@ -108,7 +108,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="..\..\net45\WampSharp\**\*.cs" Exclude="..\..\net45\WampSharp\**\bin\**;..\..\net45\WampSharp\**\obj\**;" />
+    <Compile Remove="..\..\net45\WampSharp\App_Packages\LibLog\5.0.0\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
