@@ -5,8 +5,22 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
-      <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="Fleck" version="[1.0.2]" />
+      <group targetFramework="net46">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Fleck" version="[1.0.2, )" />
+      </group>
+      <group targetFramework="net45">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Fleck" version="[1.0.2, )" />
+      </group>
+      <group targetFramework="net40">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Fleck" version="[0.14.0.59]" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Fleck" version="[1.0.2, )" />
+      </group>
     </dependencies>
     <id>WampSharp.Fleck</id>
     <title>WampSharp Fleck transport</title>
