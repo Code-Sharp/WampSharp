@@ -4,15 +4,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Connections;
 using WampSharp.Core.Listener;
 using WampSharp.RawSocket;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Parsers;
 using WampSharp.V2.Transports;
 
 namespace WampSharp.AspNetCore.RawSocket
 {
-    public class AspNetCoreRawSocketTransport : WebSocketTransport<SocketData>
+    public class AspNetCoreRawSocketTransport : TextBinaryTransport<SocketData>
     {
+        private readonly TimeSpan? mAutoPingInterval;
         private Func<ConnectionContext, Func<Task>, Task> mHandler;
         private readonly Handshaker mHandshaker = new Handshaker();
 
@@ -21,14 +21,16 @@ namespace WampSharp.AspNetCore.RawSocket
             get;
         }
 
-        public AspNetCoreRawSocketTransport
-        (IConnectionBuilder app, byte maxSize = 15, ICookieAuthenticatorFactory authenticatorFactory = null) :
-            base(authenticatorFactory)
+        public AspNetCoreRawSocketTransport(IConnectionBuilder app,
+                                            byte maxSize = 15,
+                                            TimeSpan? autoPingInterval = null)
         {
             if (maxSize >= 16)
             {
                 throw new ArgumentException("Expected a number between 0 to 15", nameof(maxSize));
             }
+
+            mAutoPingInterval = autoPingInterval;
 
             MaxSize = maxSize;
             mHandler = this.EmptyHandler;
@@ -73,9 +75,9 @@ namespace WampSharp.AspNetCore.RawSocket
             return CreateConnection(connection, binding);
         }
 
-        private static IWampConnection<TMessage> CreateConnection<TMessage>(SocketData connection, IWampStreamingMessageParser<TMessage> binding)
+        private IWampConnection<TMessage> CreateConnection<TMessage>(SocketData connection, IWampStreamingMessageParser<TMessage> binding)
         {
-            return new RawSocketConnection<TMessage>(connection, binding);
+            return new RawSocketConnection<TMessage>(connection, binding, mAutoPingInterval);
         }
 
         public override void Open()

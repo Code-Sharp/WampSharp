@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Buffers;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipelines;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.RawSocket;
 using WampSharp.V2.Binding.Parsers;
+using WampSharp.V2.Transports;
 using static WampSharp.RawSocket.RawSocketFrameHeaderParser;
 
 namespace WampSharp.AspNetCore.RawSocket
@@ -15,20 +17,27 @@ namespace WampSharp.AspNetCore.RawSocket
     public class RawSocketConnection<TMessage> : AsyncWampConnection<TMessage>
     {
         private readonly ConnectionContext mConnection;
-
         private readonly RawSocketFrameHeaderParser mFrameHeaderParser = new RawSocketFrameHeaderParser();
-
         private readonly int mMaxAllowedMessageSize;
-
-        private IWampStreamingMessageParser<TMessage> mParser;
-
+        private readonly IWampStreamingMessageParser<TMessage> mParser;
         private bool mIsConnected = true;
+        private readonly Pinger mPinger;
+        private readonly PingPongHandler mPingPongHandler;
 
-        public RawSocketConnection(SocketData connection, IWampStreamingMessageParser<TMessage> parser)
+        public RawSocketConnection(SocketData connection, 
+                                   IWampStreamingMessageParser<TMessage> parser,
+                                   TimeSpan? autoPingInterval)
         {
             mParser = parser;
             mConnection = connection.ConnectionContext;
             mMaxAllowedMessageSize = connection.Handshake.MaxMessageSizeInBytes;
+
+            mPinger = new Pinger(this);
+
+            mPingPongHandler =
+                new PingPongHandler(mLogger,
+                                    mPinger,
+                                    autoPingInterval);
         }
 
         protected override async Task SendAsync(WampMessage<object> message)
@@ -46,6 +55,8 @@ namespace WampSharp.AspNetCore.RawSocket
 
         public async Task RunAsync()
         {
+            mPingPongHandler.Start();
+
             try
             {
                 while (mIsConnected)
@@ -111,7 +122,25 @@ namespace WampSharp.AspNetCore.RawSocket
                 case FrameType.WampMessage:
                     HandleWampFrame(message);
                     break;
+                case FrameType.Ping:
+                    HandlePingFrame(message);
+                    break;
+                case FrameType.Pong:
+                    HandlePongFrame(message);
+                    break;
             }
+        }
+
+        private async Task HandlePingFrame(ReadOnlySequence<byte> message)
+        {
+            WriteFrameHeader(Writer, FrameType.Pong, (int)message.Length);
+            Writer.Write(message.ToArraySegment());
+            await Writer.FlushAsync().ConfigureAwait(false);
+        }
+
+        private void HandlePongFrame(in ReadOnlySequence<byte> message)
+        {
+            mPinger.RaiseOnPong(message.ToArraySegment());
         }
 
         private void HandleWampFrame(in ReadOnlySequence<byte> message)
@@ -140,6 +169,20 @@ namespace WampSharp.AspNetCore.RawSocket
                                            span);
         }
 
+        private async Task SendPing(byte[] message)
+        {
+            WriteFrameHeader(Writer, FrameType.Ping, message.Length);
+            Writer.Write(message);
+            await Writer.FlushAsync().ConfigureAwait(false);
+        }
+
+        private void WriteFrameHeader(PipeWriter writer, FrameType frameType, int messageLength)
+        {
+            Span<byte> headerSpan = writer.GetSpan(FrameHeaderSize);
+            mFrameHeaderParser.WriteHeader(frameType, messageLength, headerSpan);
+            writer.Advance(FrameHeaderSize);
+        }
+
         protected override void Dispose()
         {
             Reader.CancelPendingRead();
@@ -147,27 +190,38 @@ namespace WampSharp.AspNetCore.RawSocket
             Writer.Complete();
         }
 
-        protected override bool IsConnected
-        {
-            get
-            {
-                return mIsConnected;
-            }
-        }
+        protected override bool IsConnected => mIsConnected;
 
-        private PipeReader Reader
-        {
-            get
-            {
-                return mConnection.Transport.Input;
-            }
-        }
+        private PipeReader Reader => mConnection.Transport.Input;
 
-        private PipeWriter Writer
+        private PipeWriter Writer => mConnection.Transport.Output;
+
+        internal class Pinger : IPinger
         {
-            get
+            private readonly RawSocketConnection<TMessage> mParent;
+
+            public Pinger(RawSocketConnection<TMessage> parent)
             {
-                return mConnection.Transport.Output;
+                mParent = parent;
+            }
+
+            public Task SendPing(byte[] message)
+            {
+                return mParent.SendPing(message);
+            }
+
+            public event Action<IList<byte>> OnPong;
+
+            public bool IsConnected => mParent.IsConnected;
+
+            public void Disconnect()
+            {
+                mParent.Dispose();
+            }
+
+            public void RaiseOnPong(IList<byte> bytes)
+            {
+                OnPong?.Invoke(bytes);
             }
         }
     }
