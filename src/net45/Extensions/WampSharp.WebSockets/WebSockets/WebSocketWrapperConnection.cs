@@ -13,15 +13,15 @@ namespace WampSharp.WebSockets
 {
     // Based on this sample:
     // https://code.msdn.microsoft.com/vstudio/The-simple-WebSocket-4524921c
-    public abstract class WebSocketWrapperConnection<TMessage> : AsyncWebSocketWampConnection<TMessage>
+    public abstract class WebSocketWrapperConnection<TMessage, TRaw> : AsyncWebSocketWampConnection<TMessage>, IWampWebSocketWrapperConnection
     {
-        private readonly IWampStreamingMessageParser<TMessage> mParser;
+        private readonly IWampMessageParser<TMessage, TRaw> mParser;
         private readonly IWebSocketWrapper mWebSocket;
         private CancellationTokenSource mCancellationTokenSource;
         private readonly Uri mAddressUri;
         private readonly CancellationToken mCancellationToken;
 
-        public WebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampStreamingMessageParser<TMessage> parser, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
+        public WebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampMessageParser<TMessage, TRaw> parser, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
             base(cookieProvider, cookieAuthenticatorFactory)
         {
             mWebSocket = webSocket;
@@ -30,7 +30,7 @@ namespace WampSharp.WebSockets
             mCancellationToken = mCancellationTokenSource.Token;
         }
 
-        protected WebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri, string protocolName, IWampStreamingMessageParser<TMessage> parser) :
+        protected WebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri, string protocolName, IWampMessageParser<TMessage, TRaw> parser) :
             this(clientWebSocket, parser, null, null)
         {
             clientWebSocket.Options.AddSubProtocol(protocolName);
@@ -44,7 +44,11 @@ namespace WampSharp.WebSockets
             return mWebSocket.SendAsync(messageToSend, WebSocketMessageType, true, mCancellationToken);
         }
 
-        protected abstract ArraySegment<byte> GetMessageInBytes(WampMessage<object> message);
+        private ArraySegment<byte> GetMessageInBytes(WampMessage<object> message)
+        {
+            byte[] bytes = mParser.GetBytes(message);
+            return new ArraySegment<byte>(bytes);
+        }
 
         protected abstract WebSocketMessageType WebSocketMessageType { get; }
 

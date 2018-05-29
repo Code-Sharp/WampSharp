@@ -45,7 +45,6 @@ namespace WampSharp.V2.Binding
 
         private RawMessage<TRaw> GetFormattedMessage(WampMessage<object> message)
         {
-
             if (!(message is RawMessage<TRaw> result))
             {
                 result = new RawMessage<TRaw>(message);

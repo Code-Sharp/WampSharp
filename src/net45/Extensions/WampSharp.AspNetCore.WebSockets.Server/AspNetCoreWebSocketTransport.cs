@@ -33,7 +33,7 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 
         protected override void OpenConnection<TMessage>(WebSocketData original, IWampConnection<TMessage> connection)
         {
-            WebSocketWrapperConnection<TMessage> casted = connection as WebSocketWrapperConnection<TMessage>;
+            IWampWebSocketWrapperConnection casted = connection as IWampWebSocketWrapperConnection;
 
             Task task = Task.Run(casted.RunAsync);
 
@@ -49,6 +49,8 @@ namespace WampSharp.AspNetCore.WebSockets.Server
             (WebSocketData connection,
              IWampBinaryBinding<TMessage> binding)
         {
+            ConfigureComputeBytes(binding);
+
             return new BinaryWebSocketConnection<TMessage>
                 (connection.WebSocket,
                  binding,
@@ -60,11 +62,21 @@ namespace WampSharp.AspNetCore.WebSockets.Server
             (WebSocketData connection,
              IWampTextBinding<TMessage> binding)
         {
+            ConfigureComputeBytes(binding);
+
             return new TextWebSocketConnection<TMessage>
                 (connection.WebSocket,
                  binding,
                  new AspNetCoreCookieProvider(connection.HttpContext),
                  AuthenticatorFactory);
+        }
+
+        private void ConfigureComputeBytes<TMessage, TRaw>(IWampTransportBinding<TMessage, TRaw> binding)
+        {
+            if (binding.ComputeBytes == null)
+            {
+                binding.ComputeBytes = true;
+            }
         }
 
         public override void Open()
