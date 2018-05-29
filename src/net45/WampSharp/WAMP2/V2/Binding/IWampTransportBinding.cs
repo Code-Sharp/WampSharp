@@ -11,5 +11,6 @@ namespace WampSharp.V2.Binding
         IWampBinding<TMessage>,
         IWampMessageParser<TMessage, TRaw>
     {
+        bool? ComputeBytes { get; set; }
     }
 }

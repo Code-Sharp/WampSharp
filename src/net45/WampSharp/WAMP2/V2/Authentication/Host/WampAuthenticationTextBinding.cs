@@ -28,6 +28,11 @@ namespace WampSharp.V2.Authentication
             return mBinding.Format(message);
         }
 
+        public byte[] GetBytes(string raw)
+        {
+            return mBinding.GetBytes(raw);
+        }
+
         public WampMessage<TMessage> Parse(Stream stream)
         {
             return mBinding.Parse(stream);
@@ -36,6 +41,12 @@ namespace WampSharp.V2.Authentication
         public void Format(WampMessage<object> message, Stream stream)
         {
             mBinding.Format(message, stream);
+        }
+
+        public bool? ComputeBytes
+        {
+            get => mBinding.ComputeBytes;
+            set => mBinding.ComputeBytes = value;
         }
     }
 }

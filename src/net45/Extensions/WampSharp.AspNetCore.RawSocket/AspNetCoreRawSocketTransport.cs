@@ -16,10 +16,7 @@ namespace WampSharp.AspNetCore.RawSocket
         private Func<ConnectionContext, Func<Task>, Task> mHandler;
         private readonly Handshaker mHandshaker = new Handshaker();
 
-        public byte MaxSize
-        {
-            get;
-        }
+        public byte MaxSize { get; }
 
         public AspNetCoreRawSocketTransport(IConnectionBuilder app,
                                             byte maxSize = 15,
@@ -61,22 +58,27 @@ namespace WampSharp.AspNetCore.RawSocket
             return connection.HandshakeResponse.SerializerType.GetSubProtocol();
         }
 
-        protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>
-        (SocketData connection,
-            IWampBinaryBinding<TMessage> binding)
+        protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>(SocketData connection,
+                                                                                      IWampBinaryBinding<TMessage>
+                                                                                          binding)
         {
             return CreateConnection(connection, binding);
         }
 
-        protected override IWampConnection<TMessage> CreateTextConnection<TMessage>
-        (SocketData connection,
-            IWampTextBinding<TMessage> binding)
+        protected override IWampConnection<TMessage> CreateTextConnection<TMessage>(SocketData connection,
+                                                                                    IWampTextBinding<TMessage> binding)
         {
             return CreateConnection(connection, binding);
         }
 
-        private IWampConnection<TMessage> CreateConnection<TMessage>(SocketData connection, IWampStreamingMessageParser<TMessage> binding)
+        private IWampConnection<TMessage> CreateConnection<TMessage, TRaw>(SocketData connection,
+                                                                           IWampTransportBinding<TMessage, TRaw> binding)
         {
+            if (binding.ComputeBytes == null)
+            {
+                binding.ComputeBytes = true;
+            }
+
             return new RawSocketConnection<TMessage>(connection, binding, mAutoPingInterval);
         }
 

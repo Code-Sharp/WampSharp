@@ -144,8 +144,13 @@ namespace WampSharp.RawSocket
             return CreateConnection(connection, binding);
         }
 
-        private TcpClientConnection<TMessage> CreateConnection<TMessage>(RawSocketTcpClient connection, IWampStreamingMessageParser<TMessage> binding)
+        private TcpClientConnection<TMessage> CreateConnection<TMessage, TRaw>(RawSocketTcpClient connection, IWampTransportBinding<TMessage, TRaw> binding)
         {
+            if (binding.ComputeBytes == null)
+            {
+                binding.ComputeBytes = true;
+            }
+
             return new TcpClientConnection<TMessage>
             (connection.Client,
                 connection.Stream,

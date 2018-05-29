@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using WampSharp.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -88,6 +89,11 @@ namespace WampSharp.Msgpack
                     return result;
                 }
             }
+        }
+
+        public byte[] GetBytes(byte[] raw)
+        {
+            return raw;
         }
 
         public WampMessage<JToken> Parse(Stream stream)
