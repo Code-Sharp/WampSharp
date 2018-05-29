@@ -35,9 +35,9 @@ namespace WampSharp.Owin
 
         protected override void OpenConnection<TMessage>(WebSocketData original, IWampConnection<TMessage> connection)
         {
-            WebSocketWrapperConnection<TMessage> casted = connection as WebSocketWrapperConnection<TMessage>;
+            IWampWebSocketWrapperConnection casted = connection as IWampWebSocketWrapperConnection;
 
-            Task task = Task.Run((Func<Task>) casted.RunAsync);
+            Task task = Task.Run(casted.RunAsync);
 
             original.ReadTask = task;
         }

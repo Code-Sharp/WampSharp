@@ -23,7 +23,7 @@ namespace WampSharp.V1
 
         public static IWampChannel<TMessage> CreateChannel<TMessage>(this IWampChannelFactory<TMessage> factory, string address, IWampTextMessageParser<TMessage> parser)
         {
-            return factory.CreateChannel(address, parser, (Action<SecurityOption>)null);
+            return factory.CreateChannel(address, parser, null);
         }
 
         public static IWampChannel<TMessage> CreateChannel<TMessage>(this IWampChannelFactory<TMessage> factory, string address, 
