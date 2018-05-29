@@ -18,11 +18,10 @@ namespace WampSharp.Tests
             mSubject.OnNext(value);
 
             // Yuck
-            IControlledWampConnection<TMessage> casted = value as IControlledWampConnection<TMessage>;
-            
-            if (casted != null)
+
+            if (value is IControlledWampConnection<TMessage> casted)
             {
-                casted.Connect();                
+                casted.Connect();
             }
         }
 

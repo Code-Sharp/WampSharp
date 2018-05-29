@@ -68,9 +68,8 @@ namespace WampSharp.V2.Rpc
             {
                 mLogger.ErrorFormat(ex, "An error occured while calling {ProcedureUri}", this.Procedure);
 
-                WampException wampException = ex as WampException;
 
-                if (wampException == null)
+                if (!(ex is WampException wampException))
                 {
                     wampException = ConvertExceptionToRuntimeException(ex);
                 }

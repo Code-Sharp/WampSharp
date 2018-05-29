@@ -143,11 +143,8 @@ namespace WampSharp.V2.MetaApi
 
         public long? GetBestMatchingRegistrationId(string procedureUri)
         {
-            IWampProcedureRegistration registration =
-                mOperationCatalog.GetMatchingOperation(procedureUri)
-                    as IWampProcedureRegistration;
 
-            if (registration == null)
+            if (!(mOperationCatalog.GetMatchingOperation(procedureUri) is IWampProcedureRegistration registration))
             {
                 return null;
             }

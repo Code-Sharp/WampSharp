@@ -81,10 +81,8 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
 
             WampTransportDetails transportDetails = null;
 
-            IDetailedWampConnection<TMessage> detailedConnection = 
-                connection as IDetailedWampConnection<TMessage>;
-            
-            if (detailedConnection != null)
+
+            if (connection is IDetailedWampConnection<TMessage> detailedConnection)
             {
                 transportDetails = detailedConnection.TransportDetails;
             }
@@ -94,10 +92,8 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
             
             proxyGenerationOptions.AddMixinInstance(propertyBag);
 
-            IWampAuthenticatedConnection<TMessage> authenticatedConnection = 
-                connection as IWampAuthenticatedConnection<TMessage>;
-            
-            if (authenticatedConnection != null)
+
+            if (connection is IWampAuthenticatedConnection<TMessage> authenticatedConnection)
             {
                 propertyBag.Authenticator = authenticatedConnection.Authenticator;
             }

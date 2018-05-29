@@ -73,9 +73,8 @@ namespace WampSharp.V2.Rpc
         private static IWampCaller GetCaller(IWampRawRpcOperationRouterCallback callback)
         {
             IWampCaller caller = null;
-            WampRpcOperationCallback operationCallback = callback as WampRpcOperationCallback;
 
-            if (operationCallback != null)
+            if (callback is WampRpcOperationCallback operationCallback)
             {
                 caller = operationCallback.Caller;
             }
@@ -100,9 +99,8 @@ namespace WampSharp.V2.Rpc
 
         private void RegisterDisconnectionNotifier(IWampRawRpcOperationRouterCallback callback)
         {
-            ICallbackDisconnectionNotifier notifier = callback as ICallbackDisconnectionNotifier;
 
-            if (notifier != null)
+            if (callback is ICallbackDisconnectionNotifier notifier)
             {
                 notifier.Disconnected += OnCallbackDisconnected;
             }
@@ -130,9 +128,8 @@ namespace WampSharp.V2.Rpc
 
         private void UnregisterDisconnectionNotifier(object sender)
         {
-            ICallbackDisconnectionNotifier notifier = sender as ICallbackDisconnectionNotifier;
-            
-            if (notifier != null)
+
+            if (sender is ICallbackDisconnectionNotifier notifier)
             {
                 notifier.Disconnected -= OnCallbackDisconnected;
             }

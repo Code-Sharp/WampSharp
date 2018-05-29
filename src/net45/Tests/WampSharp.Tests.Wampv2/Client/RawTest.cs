@@ -45,13 +45,12 @@ namespace WampSharp.Tests.Wampv2.Client
             }
 
             IWampFormatter<TMessage> formatter = mBinding.Formatter;
-            object[] array = x as object[];
-            
-            if (array != null)
+
+            if (x is object[] array)
             {
-                TMessage[] arguments = 
+                TMessage[] arguments =
                     array.Select(y => formatter.Serialize(y)).ToArray();
-                
+
                 return arguments;
             }
 

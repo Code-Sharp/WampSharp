@@ -75,10 +75,9 @@ namespace WampSharp.Core.Listener
         {
             ClientContainer.RemoveClient(connection);
 
-            IAsyncDisposable asyncDisposable = connection as IAsyncDisposable;
 
             // Prefer the non-blocking version
-            if (asyncDisposable != null)
+            if (connection is IAsyncDisposable asyncDisposable)
             {
                 asyncDisposable.DisposeAsync();
             }

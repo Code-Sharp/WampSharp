@@ -79,9 +79,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 
         private static JToken Convert(MockRaw raw)
         {
-            MockRaw[] array = raw.Value as MockRaw[];
 
-            if (array != null)
+            if (raw.Value is MockRaw[] array)
             {
                 return new JArray(array.Select(x => Convert(x)));
             }

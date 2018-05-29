@@ -9,10 +9,9 @@ namespace WampSharp.Tests.TestHelpers
     {
         public MockRaw(object value)
         {
-            MockRaw raw = value as MockRaw;
             object[] rawArray = value as object[];
 
-            if (raw != null)
+            if (value is MockRaw raw)
             {
                 Value = Clone(raw.Value);
             }
@@ -66,9 +65,8 @@ namespace WampSharp.Tests.TestHelpers
         private static bool TryClone(object value, out object result)
         {
             result = null;
-            ICloneable cloneable = value as ICloneable;
 
-            if (cloneable != null)
+            if (value is ICloneable cloneable)
             {
                 result = cloneable.Clone();
                 return true;

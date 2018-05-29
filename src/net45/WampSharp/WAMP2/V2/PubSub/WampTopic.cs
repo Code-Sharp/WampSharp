@@ -111,9 +111,8 @@ namespace WampSharp.V2.PubSub
 
         private void RegisterSubscriberEventsIfNeeded(IWampRawTopicRouterSubscriber subscriber)
         {
-            ISubscriptionNotifier notifier = subscriber as ISubscriptionNotifier;
 
-            if (notifier != null)
+            if (subscriber is ISubscriptionNotifier notifier)
             {
                 RegisterSubscriberEvents(notifier);
             }
@@ -129,9 +128,8 @@ namespace WampSharp.V2.PubSub
 
         private void UnregisterSubscriberEventsIfNeeded(IWampRawTopicRouterSubscriber subscriber)
         {
-            ISubscriptionNotifier subscriptionNotifier = subscriber as ISubscriptionNotifier;
 
-            if (subscriptionNotifier != null)
+            if (subscriber is ISubscriptionNotifier subscriptionNotifier)
             {
                 UnregisterSubscriberEvents(subscriptionNotifier);
             }

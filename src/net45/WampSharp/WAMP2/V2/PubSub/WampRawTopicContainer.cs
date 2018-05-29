@@ -92,9 +92,8 @@ namespace WampSharp.V2.PubSub
 
         private void OnTopicEmpty(object sender, EventArgs e)
         {
-            WampRawTopic<TMessage> rawTopic = sender as WampRawTopic<TMessage>;
 
-            if (rawTopic != null)
+            if (sender is WampRawTopic<TMessage> rawTopic)
             {
                 lock (mLock)
                 {

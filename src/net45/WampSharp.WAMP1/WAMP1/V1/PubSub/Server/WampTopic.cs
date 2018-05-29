@@ -87,15 +87,14 @@ namespace WampSharp.V1.PubSub.Server
 
         public IDisposable Subscribe(IObserver<object> observer)
         {
-            WampObserver casted = observer as WampObserver;
 
             IDisposable result;
 
-            if (casted == null)
+            if (!(observer is WampObserver casted))
             {
                 IObservable<object> events = mSubject.Select(x => x.Event);
 
-                result = 
+                result =
                     events.Subscribe(observer);
 
                 result = GetSubscriptionDisposable(result);
@@ -118,11 +117,11 @@ namespace WampSharp.V1.PubSub.Server
                         (Disposable.Create(() => OnWampObserverLeaving(sessionId)),
                         observerDisposable,
                         Disposable.Create(() => OnWampObserverLeft(sessionId)));
-                
+
                 result =
                     GetSubscriptionDisposable(result);
 
-                mSessionIdToSubscription[sessionId] = 
+                mSessionIdToSubscription[sessionId] =
                     new Subscription(this, casted, result);
 
                 RaiseSubscriptionAdded(casted);

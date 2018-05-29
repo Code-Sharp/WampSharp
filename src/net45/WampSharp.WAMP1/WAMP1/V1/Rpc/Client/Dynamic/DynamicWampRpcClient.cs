@@ -62,9 +62,8 @@ namespace WampSharp.V1.Rpc.Client
             {
                 CallRpcMethod(typeof(ExpandoObject));
 
-                ExpandoObject expando = mTask.Result as ExpandoObject;
 
-                if (expando != null)
+                if (mTask.Result is ExpandoObject expando)
                 {
                     IDictionary<string, object> dictionary = expando;
                     return dictionary.TryGetValue(binder.Name, out result);

@@ -42,16 +42,14 @@ namespace WampSharp.V2.Fluent
 
         private IControlledWampConnection<TMessage> GetConnectionFactory<TMessage>(IWampBinding<TMessage> binding)
         {
-            IWampTextBinding<TMessage> textBinding = binding as IWampTextBinding<TMessage>;
 
-            if (textBinding != null)
+            if (binding is IWampTextBinding<TMessage> textBinding)
             {
                 return CreateTextConnection(textBinding);
             }
 
-            IWampBinaryBinding<TMessage> binaryBinding = binding as IWampBinaryBinding<TMessage>;
 
-            if (binaryBinding != null)
+            if (binding is IWampBinaryBinding<TMessage> binaryBinding)
             {
                 return CreateBinaryConnection(binaryBinding);
             }

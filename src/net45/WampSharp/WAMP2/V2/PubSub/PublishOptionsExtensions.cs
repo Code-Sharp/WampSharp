@@ -9,12 +9,10 @@ namespace WampSharp.V2.PubSub
         {
             EventDetails result = new EventDetails();
 
-            PublishOptionsExtended extendedOptions =
-                options as PublishOptionsExtended;
 
             bool disclosePublisher = options.DiscloseMe ?? false;
 
-            if (extendedOptions != null)
+            if (options is PublishOptionsExtended extendedOptions)
             {
                 if (disclosePublisher)
                 {
