@@ -33,16 +33,12 @@ namespace WampSharp.V2.Fluent
 
         private IControlledWampConnection<TMessage> GetConnectionFactory<TMessage>(IWampBinding<TMessage> binding)
         {
-
-            if (binding is IWampTextBinding<TMessage> textBinding)
+            switch (binding)
             {
-                return CreateTextConnection(textBinding);
-            }
-
-
-            if (binding is IWampBinaryBinding<TMessage> binaryBinding)
-            {
-                return CreateBinaryConnection(binaryBinding);
+                case IWampTextBinding<TMessage> textBinding:
+                    return CreateTextConnection(textBinding);
+                case IWampBinaryBinding<TMessage> binaryBinding:
+                    return CreateBinaryConnection(binaryBinding);
             }
 
             throw new Exception();

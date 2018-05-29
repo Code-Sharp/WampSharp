@@ -106,16 +106,12 @@ namespace WampSharp.V2.Transports
 
         public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampBinding<TMessage> binding)
         {
-
-            if (binding is IWampTextBinding<TMessage> textBinding)
+            switch (binding)
             {
-                return GetListener(textBinding);
-            }
-
-
-            if (binding is IWampBinaryBinding<TMessage> binaryBinding)
-            {
-                return GetListener(binaryBinding);
+                case IWampTextBinding<TMessage> textBinding:
+                    return GetListener(textBinding);
+                case IWampBinaryBinding<TMessage> binaryBinding:
+                    return GetListener(binaryBinding);
             }
 
             throw new ArgumentException("WebSockets can only deal with binary/text transports", nameof(binding));
