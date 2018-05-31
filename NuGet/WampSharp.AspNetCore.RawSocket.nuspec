@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>WampSharp.AspNetCore.RawSocket</id>
+    <version>$version$</version>
+    <title>WampSharp ASP.NET Core RawSocket support</title>
+    <authors>CodeSharp</authors>
+    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WampSharp ASP.NET WebSockets support</description>
+    <tags>websockets,wampws,rpc,pubsub,wampv1,wampv2,aspnet</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.AspNetCore.Connections.Abstractions" version="[2.1.0, )" />
+        <dependency id="System.Buffers" version="[4.5.0, )" />
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="WampSharp.RawSocket" version="[$version$]" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="$bin$\netstandard2.0\WampSharp.AspNetCore.RawSocket.dll" target="lib\netstandard2.0\WampSharp.AspNetCore.RawSocket.dll" />
+    <file src="$bin$\netstandard2.0\WampSharp.AspNetCore.RawSocket.pdb" target="lib\netstandard2.0\WampSharp.AspNetCore.RawSocket.pdb" />
+  </files>
+</package>

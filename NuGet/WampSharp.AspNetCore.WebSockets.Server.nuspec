@@ -15,6 +15,11 @@
         <dependency id="WampSharp" version="[$version$]" />
         <dependency id="WampSharp.WebSockets" version="[$version$]" />
       </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.AspNetCore.WebSockets" version="[1.0.2, )" />
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="WampSharp.WebSockets" version="[$version$]" />
+      </group>      
     </dependencies>
   </metadata>
   <files>
