@@ -18,9 +18,9 @@ Your donations help keep this project's development alive.
 
 Documentation has been moved to [its own site](https://wampsharp.net)!
 
-## WampSharp v1.2.6.41-beta
+## WampSharp v18.6.1
 
-WampSharp v1.2.6.41-beta released, see version [release notes](http://wampsharp.net/release-notes/wampsharp-v1.2.6.41-beta-release-notes/).
+WampSharp v18.6.1 released, see version [release notes](http://wampsharp.net/release-notes/wampsharp-v18.6.1-release-notes/).
 
 ## Get Started
 
