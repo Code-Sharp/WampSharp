@@ -74,6 +74,9 @@
     <file src="$bin$\net45\WampSharp.dll" target="lib\net45\WampSharp.dll" />
     <file src="$bin$\net45\WampSharp.pdb" target="lib\net45\WampSharp.pdb" />
     <file src="$bin$\net45\WampSharp.xml" target="lib\net45\WampSharp.xml" />
+    <file src="$bin$\net46\WampSharp.dll" target="lib\net46\WampSharp.dll" />
+    <file src="$bin$\net46\WampSharp.pdb" target="lib\net46\WampSharp.pdb" />
+    <file src="$bin$\net46\WampSharp.xml" target="lib\net46\WampSharp.xml" />
     <file src="$bin$\net40\WampSharp.dll" target="lib\net40\WampSharp.dll" />
     <file src="$bin$\net40\WampSharp.pdb" target="lib\net40\WampSharp.pdb" />
     <file src="$bin$\net40\WampSharp.xml" target="lib\net40\WampSharp.xml" />
