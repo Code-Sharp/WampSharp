@@ -86,7 +86,7 @@ namespace WampSharp.HttpListener
             mHttpListener.Prefixes.Add(mUrl);
             mHttpListener.Start();
 
-            Task.Run(new Func<Task>(ListenAsync));
+            Task.Run(ListenAsync);
         }
 
         private async Task ListenAsync()
@@ -129,9 +129,9 @@ namespace WampSharp.HttpListener
         /// <exclude />
         protected override void OpenConnection<TMessage>(WebSocketData original, IWampConnection<TMessage> connection)
         {
-            WebSocketWrapperConnection<TMessage> casted = connection as WebSocketWrapperConnection<TMessage>;
+            IWampWebSocketWrapperConnection casted = connection as IWampWebSocketWrapperConnection;
 
-            Task task = Task.Run((Func<Task>)casted.RunAsync);
+            Task task = Task.Run(casted.RunAsync);
         }
     }
 }

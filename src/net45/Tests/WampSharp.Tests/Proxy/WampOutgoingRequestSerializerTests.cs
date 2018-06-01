@@ -2,7 +2,6 @@
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
-using WampSharp.Tests.Proxy.Helpers;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.V1.Core.Contracts;
 
@@ -13,7 +12,7 @@ namespace WampSharp.Tests.Proxy
     {
         private WampOutgoingRequestSerializer<MockRaw> mOutgoingRequestSerializer;
         private WampMessageEqualityComparer<MockRaw> mComparer;
-        private IWampFormatter<MockRaw> mFormatter = new MockRawFormatter();
+        private readonly IWampFormatter<MockRaw> mFormatter = new MockRawFormatter();
 
         [SetUp]
         public void Setup()
@@ -27,7 +26,7 @@ namespace WampSharp.Tests.Proxy
 
         #region Tests
 
-        [TestCaseSource(typeof(MessagesArguments), "WelcomeMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.WelcomeMessages))]
         public void Welcome(string sessionId, int protocolVersion, string serverIdent)
         {
             WampMessage<MockRaw> serialized =
@@ -39,7 +38,7 @@ namespace WampSharp.Tests.Proxy
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "PrefixMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.PrefixMessages))]
         public void Prefix(string prefix, string uri)
         {
             WampMessage<MockRaw> serialized =
@@ -51,7 +50,7 @@ namespace WampSharp.Tests.Proxy
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "CallMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.CallMessages))]
         public void Call(string callId, string procUri, object[] arguments)
         {
             WampMessage<MockRaw> serialized =
@@ -63,7 +62,7 @@ namespace WampSharp.Tests.Proxy
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "CallErrorMessagesSimple")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.CallErrorMessagesSimple))]
         public void CallError(string callId, string errorUri, string errorDesc)
         {
             WampMessage<MockRaw> serialized =
@@ -75,7 +74,7 @@ namespace WampSharp.Tests.Proxy
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "CallErrorMessagesDetailed")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.CallErrorMessagesDetailed))]
         public void CallError(string callId, string errorUri, string errorDesc, object errorDetails)
         {
             WampMessage<MockRaw> serialized =
@@ -87,7 +86,7 @@ namespace WampSharp.Tests.Proxy
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "CallResultMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.CallResultMessages))]
         public void CallResult(string callId, object result)
         {
             WampMessage<MockRaw> serialized =
@@ -99,7 +98,7 @@ namespace WampSharp.Tests.Proxy
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "SubscribeMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.SubscribeMessages))]
         public void Subscribe(string topicUri)
         {
             WampMessage<MockRaw> serialized =
@@ -111,7 +110,7 @@ namespace WampSharp.Tests.Proxy
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "UnsubscribeMessages")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.UnsubscribeMessages))]
         public void Unsubscribe(string topicUri)
         {
             WampMessage<MockRaw> serialized =
@@ -124,7 +123,7 @@ namespace WampSharp.Tests.Proxy
         }
 
 
-        [TestCaseSource(typeof(MessagesArguments), "PublishMessagesSimple")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.PublishMessagesSimple))]
         public void Publish(string topicUri, object @event)
         {
             WampMessage<MockRaw> serialized =
@@ -136,7 +135,7 @@ namespace WampSharp.Tests.Proxy
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "PublishMessagesExcludeMe")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.PublishMessagesExcludeMe))]
         public void Publish(string topicUri, object @event, bool excludeMe)
         {
             WampMessage<MockRaw> serialized =
@@ -148,7 +147,7 @@ namespace WampSharp.Tests.Proxy
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "PublishMessagesExclude")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.PublishMessagesExclude))]
         public void Publish(string topicUri, object @event, string[] exclude)
         {
             WampMessage<MockRaw> serialized =
@@ -160,7 +159,7 @@ namespace WampSharp.Tests.Proxy
             Assert.That(serialized, Is.EqualTo(raw).Using(mComparer));
         }
 
-        [TestCaseSource(typeof(MessagesArguments), "PublishMessagesEligible")]
+        [TestCaseSource(typeof(MessagesArguments), nameof(MessagesArguments.PublishMessagesEligible))]
         public void Publish(string topicUri, object @event, string[] exclude, string[] eligible)
         {
             WampMessage<MockRaw> serialized =

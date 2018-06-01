@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\net45\WampSharp.WAMP1.Default\**\*.cs" Exclude="..\..\net45\WampSharp.WAMP1.Default\**\bin\**;..\..\net45\WampSharp.WAMP1.Default\**\obj\**;" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\WampSharp.WAMP1\WampSharp.WAMP1.csproj" />
+    <ProjectReference Include="..\Default\WampSharp.Fleck\WampSharp.Fleck.csproj" />
+    <ProjectReference Include="..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
+    <ProjectReference Include="..\Default\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.csproj" />
+  </ItemGroup>
+  
+</Project>

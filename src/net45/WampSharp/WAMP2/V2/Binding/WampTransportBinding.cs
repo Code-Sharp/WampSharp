@@ -33,6 +33,11 @@ namespace WampSharp.V2.Binding
             return textMessage.Raw;
         }
 
+        public byte[] GetBytes(TRaw raw)
+        {
+            return mParser.GetBytes(raw);
+        }
+
         public override WampMessage<object> GetRawMessage(WampMessage<object> message)
         {
             return GetFormattedMessage(message);
@@ -40,12 +45,15 @@ namespace WampSharp.V2.Binding
 
         private RawMessage<TRaw> GetFormattedMessage(WampMessage<object> message)
         {
-            RawMessage<TRaw> result = message as RawMessage<TRaw>;
-
-            if (result == null)
+            if (!(message is RawMessage<TRaw> result))
             {
                 result = new RawMessage<TRaw>(message);
                 result.Raw = mParser.Format(message);
+
+                if (ComputeBytes == true)
+                {
+                    result.Bytes = mParser.GetBytes(result.Raw);
+                }
             }
 
             return result;
@@ -58,8 +66,18 @@ namespace WampSharp.V2.Binding
 
         public void Format(WampMessage<object> message, Stream stream)
         {
-            // TODO: You know! reuse the RawMessage if possible :)
-            mParser.Format(message, stream);
+            if (ComputeBytes == true && 
+                message is RawMessage<TRaw> casted)
+            {
+                byte[] bytes = casted.Bytes;
+                stream.Write(bytes, 0, bytes.Length);
+            }
+            else
+            {
+                mParser.Format(message, stream);
+            }
         }
+
+        public bool? ComputeBytes { get; set; }
     }
 }

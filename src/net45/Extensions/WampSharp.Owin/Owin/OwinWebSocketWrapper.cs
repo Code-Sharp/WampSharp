@@ -13,8 +13,6 @@ namespace WampSharp.Owin
         private readonly Func<ArraySegment<byte>, int, bool, CancellationToken, Task> mSendAsync;
         private readonly Func<ArraySegment<byte>, CancellationToken, Task<Tuple<int, bool, int>>> mReceiveAsync;
         private readonly Func<int, string, CancellationToken, Task> mCloseAsync;
-        private WebSocketState mState = WebSocketState.Open;
-
         private const string WebSocketSendAsync = "websocket.SendAsync";
         private const string WebSocketReceiveAsync = "websocket.ReceiveAsync";
         private const string WebSocketCloseAsync = "websocket.CloseAsync";
@@ -41,11 +39,10 @@ namespace WampSharp.Owin
         {
             get
             {
-                object description;
 
-                if (mWebsocketContext.TryGetValue(WebSocketClientCloseDescription, out description))
+                if (mWebsocketContext.TryGetValue(WebSocketClientCloseDescription, out object description))
                 {
-                    return (string) description;
+                    return (string)description;
                 }
 
                 return null;
@@ -56,31 +53,26 @@ namespace WampSharp.Owin
         {
             get
             {
-                object status;
 
-                if (mWebsocketContext.TryGetValue(WebSocketClientCloseStatus, out status))
+                if (mWebsocketContext.TryGetValue(WebSocketClientCloseStatus, out object status))
                 {
-                    return (WebSocketCloseStatus) (int)status;
+                    return (WebSocketCloseStatus)(int)status;
                 }
 
                 return null;
             }
         }
 
-        public CancellationToken CancellationToken
-        {
-            get { return (CancellationToken) mWebsocketContext[WebSocketCallCancelled]; }
-        }
+        public CancellationToken CancellationToken => (CancellationToken) mWebsocketContext[WebSocketCallCancelled];
 
         public string SubProtocol
         {
             get
             {
-                object subprotocol;
 
-                if (mWebsocketContext.TryGetValue(WebSocketSubProtocol, out subprotocol))
+                if (mWebsocketContext.TryGetValue(WebSocketSubProtocol, out object subprotocol))
                 {
-                    return (string) subprotocol;
+                    return (string)subprotocol;
                 }
 
                 return null;
@@ -113,13 +105,7 @@ namespace WampSharp.Owin
             return new WebSocketReceiveResult(count: result.Item3, messageType: webSocketMessageType, endOfMessage: result.Item2);
         }
 
-        public WebSocketState State
-        {
-            get
-            {
-                return mState;
-            }
-        }
+        public WebSocketState State { get; private set; } = WebSocketState.Open;
 
         public Task SendAsync(ArraySegment<byte> data, WebSocketMessageType messageType, bool endOfMessage, CancellationToken cancel)
         {
@@ -138,11 +124,11 @@ namespace WampSharp.Owin
         {
             if (State == WebSocketState.Open)
             {
-                mState = actionDone;
+                State = actionDone;
             }
-            else if (mState == dualAction)
+            else if (State == dualAction)
             {
-                mState = WebSocketState.Closed;
+                State = WebSocketState.Closed;
             }
         }
 

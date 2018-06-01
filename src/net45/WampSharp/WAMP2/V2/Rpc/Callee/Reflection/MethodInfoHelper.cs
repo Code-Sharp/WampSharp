@@ -8,14 +8,13 @@ namespace WampSharp.V2.Rpc
 {
     internal class MethodInfoHelper
     {
-        private readonly MethodInfo mMethod;
         private readonly ParameterInfo[] mOutOrRefValues;
         private readonly int[] mInputValues;
         private readonly int mLength;
 
         public MethodInfoHelper(MethodInfo method)
         {
-            mMethod = method;
+            Method = method;
             ParameterInfo[] parameters = method.GetParameters();
 
             mLength = parameters.Length;
@@ -32,10 +31,7 @@ namespace WampSharp.V2.Rpc
                     .ToArray();
         }
 
-        public MethodInfo Method
-        {
-            get { return mMethod; }
-        }
+        public MethodInfo Method { get; }
 
         public object[] GetArguments(object[] inputs)
         {
@@ -87,12 +83,10 @@ namespace WampSharp.V2.Rpc
             {
                 foreach (ParameterInfo parameter in mOutOrRefValues)
                 {
-                    TMessage currentValue;
 
-                    if (!outOrRefParameters.TryGetValue(parameter.Name, out currentValue))
+                    if (!outOrRefParameters.TryGetValue(parameter.Name, out TMessage currentValue))
                     {
-                        throw new Exception(string.Format("Argument {0} not found in arguments dictionary",
-                            parameter.Name));
+                        throw new Exception($"Argument {parameter.Name} not found in arguments dictionary");
                     }
                     else
                     {

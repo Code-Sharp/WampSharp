@@ -55,11 +55,10 @@ namespace WampSharp.SignalR
 
         public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampBinding<TMessage> binding)
         {
-            IWampTextBinding<TMessage> textBinding = binding as IWampTextBinding<TMessage>;
 
-            if (textBinding == null)
+            if (!(binding is IWampTextBinding<TMessage> textBinding))
             {
-                throw new ArgumentException("This transport supports only text binding.", "binding");
+                throw new ArgumentException("This transport supports only text binding.", nameof(binding));
             }
             else
             {

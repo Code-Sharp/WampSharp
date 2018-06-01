@@ -6,7 +6,6 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 
@@ -19,9 +18,7 @@ namespace WampSharp.V2.PubSub
         private readonly RawTopicSubscriberBook mSubscriberBook;
         private readonly IWampBinding<TMessage> mBinding; 
         private readonly IWampEventSerializer mSerializer;
-        private readonly string mTopicUri;
         private readonly SubscribeOptions mSubscribeOptions;
-        private readonly IWampCustomizedSubscriptionId mCustomizedSubscriptionId;
 
         #endregion
 
@@ -31,10 +28,10 @@ namespace WampSharp.V2.PubSub
         {
             mSerializer = serializer;
             mSubscriberBook = new RawTopicSubscriberBook(this);
-            mTopicUri = topicUri;
+            TopicUri = topicUri;
             mBinding = binding;
             mSubscribeOptions = subscribeOptions;
-            mCustomizedSubscriptionId = customizedSubscriptionId;
+            CustomizedSubscriptionId = customizedSubscriptionId;
         }
 
         #endregion
@@ -94,13 +91,7 @@ namespace WampSharp.V2.PubSub
             Publish(message, options);
         }
 
-        public bool HasSubscribers
-        {
-            get
-            {
-                return mSubscriberBook.HasSubscribers;
-            }
-        }
+        public bool HasSubscribers => mSubscriberBook.HasSubscribers;
 
         public long SubscriptionId
         {
@@ -108,13 +99,7 @@ namespace WampSharp.V2.PubSub
             set;
         }
 
-        public string TopicUri
-        {
-            get
-            {
-                return mTopicUri;
-            }
-        }
+        public string TopicUri { get; }
 
         public IDisposable SubscriptionDisposable
         {
@@ -122,10 +107,7 @@ namespace WampSharp.V2.PubSub
             set;
         }
 
-        public IWampCustomizedSubscriptionId CustomizedSubscriptionId
-        {
-            get { return mCustomizedSubscriptionId; }
-        }
+        public IWampCustomizedSubscriptionId CustomizedSubscriptionId { get; }
 
         public void Subscribe(ISubscribeRequest<TMessage> request, SubscribeOptions options)
         {
@@ -238,12 +220,7 @@ namespace WampSharp.V2.PubSub
 
         protected virtual void RaiseTopicEmpty()
         {
-            EventHandler handler = TopicEmpty;
-
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            TopicEmpty?.Invoke(this, EventArgs.Empty);
         }
 
         private WampSubscriptionAddEventArgs GetAddEventArgs(RemoteWampTopicSubscriber subscriber, SubscribeOptions options)
@@ -264,22 +241,15 @@ namespace WampSharp.V2.PubSub
         {
             private readonly WampRawTopic<TMessage> mParent;
             private readonly IWampClientProxy<TMessage> mClient;
-            private readonly RemoteObserver mObserver;
 
             public Subscription(WampRawTopic<TMessage> parent, IWampClientProxy<TMessage> client, RemoteObserver observer)
             {
                 mParent = parent;
                 mClient = client;
-                mObserver = observer;
+                Observer = observer;
             }
 
-            public RemoteObserver Observer
-            {
-                get
-                {
-                    return mObserver;
-                }
-            }
+            public RemoteObserver Observer { get; }
 
             public void Open()
             {
@@ -314,20 +284,12 @@ namespace WampSharp.V2.PubSub
 
             private class DisconnectUnsubscribeRequest : IUnsubscribeRequest<TMessage>
             {
-                private readonly IWampClientProxy<TMessage> mClient;
-
                 public DisconnectUnsubscribeRequest(IWampClientProxy<TMessage> client)
                 {
-                    mClient = client;
+                    Client = client;
                 }
 
-                public IWampClientProxy<TMessage> Client
-                {
-                    get
-                    {
-                        return mClient;
-                    }
-                }
+                public IWampClientProxy<TMessage> Client { get; }
 
                 public void Unsubscribed()
                 {
@@ -337,47 +299,32 @@ namespace WampSharp.V2.PubSub
 
         private class RemoteObserver : IWampRawClient
         {
-            private bool mIsOpen = false;
-
             private readonly IWampRawClient mClient;
-            private readonly long mSessionId;
 
             public RemoteObserver(IWampRawClient client)
             {
                 mClient = client;
                 IWampClientProxy casted = mClient as IWampClientProxy;
-                mSessionId = casted.Session;
+                SessionId = casted.Session;
             }
 
             public RemoteObserver(long sessionId)
             {
-                mSessionId = sessionId;
+                SessionId = sessionId;
             }
 
-            public long SessionId
-            {
-                get
-                {
-                    return mSessionId;
-                }
-            }
+            public long SessionId { get; }
 
-            public bool IsOpen
-            {
-                get
-                {
-                    return mIsOpen;
-                }
-            }
+            public bool IsOpen { get; private set; } = false;
 
             public void Open()
             {
-                mIsOpen = true;
+                IsOpen = true;
             }
 
             public void Message(WampMessage<object> message)
             {
-                if (mIsOpen)
+                if (IsOpen)
                 {
                     mClient.Message(message);
                 }
@@ -386,7 +333,7 @@ namespace WampSharp.V2.PubSub
             protected bool Equals(RemoteObserver other)
             {
                 return (ReferenceEquals(mClient, other.mClient)) ||
-                       mSessionId == other.mSessionId;
+                       SessionId == other.SessionId;
             }
 
             public override bool Equals(object obj)
@@ -401,7 +348,7 @@ namespace WampSharp.V2.PubSub
             {
                 unchecked
                 {
-                    return mSessionId.GetHashCode();
+                    return SessionId.GetHashCode();
                 }
             }
         }
@@ -428,19 +375,12 @@ namespace WampSharp.V2.PubSub
                 mRawTopic = rawTopic;
             }
 
-            public bool HasSubscribers
-            {
-                get
-                {
-                    return mRemoteObservers.Count > 0;
-                }
-            }
+            public bool HasSubscribers => mRemoteObservers.Count > 0;
 
             public RemoteObserver Subscribe(IWampClientProxy<TMessage> client)
             {
-                Subscription subscription;
 
-                if (!mSessionIdToSubscription.TryGetValue(client.Session, out subscription))
+                if (!mSessionIdToSubscription.TryGetValue(client.Session, out Subscription subscription))
                 {
                     RemoteObserver result = new RemoteObserver(client);
 
@@ -462,8 +402,7 @@ namespace WampSharp.V2.PubSub
             {
                 bool result;
                 ImmutableHashSetInterlocked.Remove(ref mRemoteObservers , new RemoteObserver(client));
-                Subscription subscription;
-                result = ImmutableInterlocked.TryRemove(ref mSessionIdToSubscription, client.Session, out subscription);
+                result = ImmutableInterlocked.TryRemove(ref mSessionIdToSubscription, client.Session, out Subscription subscription);
                 RemoveAuthenticationData(client);
                 return result;
             }
@@ -568,9 +507,8 @@ namespace WampSharp.V2.PubSub
 
                     foreach (string id in ids)
                     {
-                        ImmutableList<Subscription> subscriptions;
 
-                        if (dictionary.TryGetValue(id, out subscriptions))
+                        if (dictionary.TryGetValue(id, out ImmutableList<Subscription> subscriptions))
                         {
                             result = result.Union(subscriptions.Select(x => x.Observer));
                         }
@@ -582,9 +520,8 @@ namespace WampSharp.V2.PubSub
 
             private RemoteObserver GetRemoteObserverById(long sessionId)
             {
-                Subscription subscription;
 
-                if (mSessionIdToSubscription.TryGetValue(sessionId, out subscription))
+                if (mSessionIdToSubscription.TryGetValue(sessionId, out Subscription subscription))
                 {
                     return subscription.Observer;
                 }
@@ -671,9 +608,8 @@ namespace WampSharp.V2.PubSub
             {
                 lock (mLock)
                 {
-                    ImmutableList<Subscription> subscriptions;
 
-                    if (dictionary.TryGetValue(id, out subscriptions))
+                    if (dictionary.TryGetValue(id, out ImmutableList<Subscription> subscriptions))
                     {
                         subscriptions = subscriptions.Remove(subscription);
 

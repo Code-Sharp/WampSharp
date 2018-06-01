@@ -1,7 +1,5 @@
-﻿using WampSharp.Core.Listener;
-using WampSharp.Core.Message;
+﻿using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Binding
 {
@@ -11,30 +9,17 @@ namespace WampSharp.V2.Binding
     /// <typeparam name="TMessage"></typeparam>
     public abstract class WampBinding<TMessage> : IWampBinding<TMessage>
     {
-        private readonly string mName;
         private readonly IWampFormatter<TMessage> mFormatter;
 
         protected WampBinding(string name, IWampFormatter<TMessage> formatter)
         {
-            mName = name;
+            Name = name;
             mFormatter = formatter;
         }
 
-        public string Name
-        {
-            get
-            {
-                return mName;
-            }
-        }
+        public string Name { get; }
 
-        public IWampFormatter<TMessage> Formatter
-        {
-            get
-            {
-                return mFormatter;
-            }
-        }
+        public IWampFormatter<TMessage> Formatter => mFormatter;
 
         public abstract WampMessage<object> GetRawMessage(WampMessage<object> message);
     }

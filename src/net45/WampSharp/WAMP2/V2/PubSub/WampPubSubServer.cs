@@ -122,7 +122,7 @@ namespace WampSharp.V2.PubSub
             if (!mUriValidator.IsValid(topicUri, match))
             {
                 throw new WampException(WampErrors.InvalidUri,
-                                        string.Format("subscribe for invalid topic URI '{0}'", topicUri));
+                                        $"subscribe for invalid topic URI '{topicUri}'");
             }
         }
 
@@ -132,9 +132,7 @@ namespace WampSharp.V2.PubSub
             {
                 WampException exception =
                     new WampException(WampErrors.InvalidUri,
-                                      string.Format("publish with invalid topic URI '{0}'",
-                                                    //+ " (URI strict checking {1})",
-                                                    topicUri));
+                                      $"publish with invalid topic URI '{topicUri}'");
 
                 throw exception;
             }

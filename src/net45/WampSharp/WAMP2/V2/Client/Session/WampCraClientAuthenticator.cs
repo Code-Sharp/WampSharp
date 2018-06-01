@@ -11,7 +11,6 @@ namespace WampSharp.V2.Client
     public class WampCraClientAuthenticator : IWampClientAuthenticator
     {
         private const string WAMP_CRA = WampAuthenticationMethods.WampCra;
-        private readonly string mAuthenticationId;
         private readonly string mAuthenticationKey;
         private readonly string mSecret;
 
@@ -30,7 +29,7 @@ namespace WampSharp.V2.Client
                                           int? keyLen = null)
         {
             mSecret = secret;
-            mAuthenticationId = authenticationId;
+            AuthenticationId = authenticationId;
             mAuthenticationKey = WampCraHelpers.DeriveKey(secret, salt, iterations, keyLen);
         }
 
@@ -68,21 +67,9 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public string[] AuthenticationMethods
-        {
-            get
-            {
-                return new string[] {WAMP_CRA};
-            }
-        }
+        public string[] AuthenticationMethods => new string[] {WAMP_CRA};
 
-        public string AuthenticationId
-        {
-            get
-            {
-                return mAuthenticationId;
-            }
-        }
+        public string AuthenticationId { get; }
     }
 }
 #endif

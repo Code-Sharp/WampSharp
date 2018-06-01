@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using WampSharp.Core.Utilities;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Core.Listener;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.PubSub
 {
@@ -37,12 +34,11 @@ namespace WampSharp.V2.PubSub
         {
             lock (mLock)
             {
-                WampRawTopic<TMessage> rawTopic;
 
                 IWampCustomizedSubscriptionId customizedSubscriptionId =
                     mTopicContainer.GetSubscriptionId(topicUri, options);
 
-                if (!mTopicUriToTopic.TryGetValue(customizedSubscriptionId, out rawTopic))
+                if (!mTopicUriToTopic.TryGetValue(customizedSubscriptionId, out WampRawTopic<TMessage> rawTopic))
                 {
                     rawTopic = CreateRawTopic(topicUri, options, customizedSubscriptionId);
 
@@ -69,9 +65,8 @@ namespace WampSharp.V2.PubSub
         {
             lock (mLock)
             {
-                WampRawTopic<TMessage> rawTopic;
 
-                if (!mSubscriptionIdToTopic.TryGetValue(subscriptionId, out rawTopic))
+                if (!mSubscriptionIdToTopic.TryGetValue(subscriptionId, out WampRawTopic<TMessage> rawTopic))
                 {
                     throw new WampException(WampErrors.NoSuchSubscription, "subscriptionId: " + subscriptionId);
                 }
@@ -97,9 +92,8 @@ namespace WampSharp.V2.PubSub
 
         private void OnTopicEmpty(object sender, EventArgs e)
         {
-            WampRawTopic<TMessage> rawTopic = sender as WampRawTopic<TMessage>;
 
-            if (rawTopic != null)
+            if (sender is WampRawTopic<TMessage> rawTopic)
             {
                 lock (mLock)
                 {

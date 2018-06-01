@@ -84,9 +84,7 @@ namespace WampSharp.V2
                 if (!genericTypeDefinitionBaseTupleType.IsValueTuple())
                 {
                     throw new ArgumentException(
-                        string.Format(
-                            "Expected a class deriving directly from {0} to specify a ValueTuple as the generic parameter TTuple",
-                            typeof(WampEventValueTupleConverter<>).Name));
+                                                $"Expected a class deriving directly from {typeof(WampEventValueTupleConverter<>).Name} to specify a ValueTuple as the generic parameter TTuple");
                 }
             }
         }

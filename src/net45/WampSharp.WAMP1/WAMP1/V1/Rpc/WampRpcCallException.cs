@@ -10,10 +10,7 @@ namespace WampSharp.V1.Rpc
     [Serializable]
     public class WampRpcCallException : Exception
     {
-        private readonly string mProcUri;
-        private readonly string mCallId;
         private readonly string mErrorUri;
-        private readonly object mErrorDetails;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampRpcCallException"/>.
@@ -37,10 +34,10 @@ namespace WampSharp.V1.Rpc
         public WampRpcCallException(string procUri, string callId, string errorUri, string errorDesc, object errorDetails)
             : base(errorDesc)
         {
-            mProcUri = procUri;
-            mCallId = callId;
+            ProcUri = procUri;
+            CallId = callId;
             mErrorUri = errorUri;
-            mErrorDetails = errorDetails;
+            ErrorDetails = errorDetails;
         }
 
         protected WampRpcCallException(
@@ -52,45 +49,21 @@ namespace WampSharp.V1.Rpc
         /// <summary>
         /// The called method's proc uri.
         /// </summary>
-        public string ProcUri
-        {
-            get
-            {
-                return mProcUri;
-            }
-        }
+        public string ProcUri { get; }
 
         /// <summary>
         /// The call id of the WAMP CALL.
         /// </summary>
-        public string CallId
-        {
-            get
-            {
-                return mCallId;
-            }
-        }
+        public string CallId { get; }
 
         /// <summary>
         /// The error uri.
         /// </summary>
-        public string ErrorUri
-        {
-            get
-            {
-                return mErrorUri;
-            }
-        }
+        public string ErrorUri => mErrorUri;
 
         /// <summary>
         /// The error details.
         /// </summary>
-        public object ErrorDetails
-        {
-            get
-            {
-                return mErrorDetails;
-            }
-        }
+        public object ErrorDetails { get; }
     }
 }

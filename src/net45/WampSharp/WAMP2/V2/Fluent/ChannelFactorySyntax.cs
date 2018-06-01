@@ -1,6 +1,4 @@
 using System.ComponentModel;
-using WampSharp.Core.Listener;
-using WampSharp.V2.Binding;
 
 namespace WampSharp.V2.Fluent
 {
@@ -26,6 +24,10 @@ namespace WampSharp.V2.Fluent
 
         public interface IAuthenticationSyntax : ISyntaxState, IBuildableSyntax
         {
+        }
+
+        public interface IObserveOnSyntax : ISyntaxState, IBuildableSyntax
+        {  
         }
 
         public interface IBuildableSyntax

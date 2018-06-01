@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using WampSharp.V2;
 using WampSharp.V2.Authentication;
-using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Rpc;
 

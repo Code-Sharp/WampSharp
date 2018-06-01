@@ -22,12 +22,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
 
     public class WampPlayground<TMessage>
     {
-        private readonly IEqualityComparer<TMessage> mEqualityComparer;
-        private readonly IWampHost mHost;
         private readonly MockConnectionListener<TMessage> mListener;
-
-        private readonly IWampChannelFactory mChannelFactory;
-        private readonly IWampBinding<TMessage> mBinding;
         private readonly WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy> mProxyFactory;
 
         public WampPlayground(IWampBinding<TMessage> binding)
@@ -53,11 +48,11 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
         protected WampPlayground(IWampBinding<TMessage> binding, MockConnectionListener<TMessage> listener,
                                  IWampHost host, IEqualityComparer<TMessage> equalityComparer)
         {
-            mBinding = binding;
+            Binding = binding;
             mListener = listener;
-            mHost = host;
-            mChannelFactory = new WampChannelFactory();
-            mEqualityComparer = equalityComparer;
+            Host = host;
+            ChannelFactory = new WampChannelFactory();
+            EqualityComparer = equalityComparer;
 
             IWampFormatter<TMessage> formatter = binding.Formatter;
 
@@ -75,7 +70,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
 
         public IWampChannel CreateNewChannel(string realm)
         {
-            return mChannelFactory.CreateChannel(realm,
+            return ChannelFactory.CreateChannel(realm,
                                                  CreateClientConnection(),
                                                  Binding);
         }
@@ -83,7 +78,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
         public IWampChannel CreateNewChannel(string realm,
                                              IWampClientAuthenticator authenticator)
         {
-            return mChannelFactory.CreateChannel(realm,
+            return ChannelFactory.CreateChannel(realm,
                                                  CreateClientConnection(),
                                                  Binding,
                                                  authenticator);
@@ -96,33 +91,12 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
             return mProxyFactory.Create(client, connection);
         }
 
-        public IWampChannelFactory ChannelFactory
-        {
-            get
-            {
-                return mChannelFactory;
-            }
-        }
+        public IWampChannelFactory ChannelFactory { get; }
 
-        public IWampHost Host
-        {
-            get
-            {
-                return mHost;
-            }
-        }
+        public IWampHost Host { get; }
 
-        public IWampBinding<TMessage> Binding
-        {
-            get
-            {
-                return mBinding;
-            }
-        }
+        public IWampBinding<TMessage> Binding { get; }
 
-        public IEqualityComparer<TMessage> EqualityComparer
-        {
-            get { return mEqualityComparer; }
-        }
+        public IEqualityComparer<TMessage> EqualityComparer { get; }
     }
 }

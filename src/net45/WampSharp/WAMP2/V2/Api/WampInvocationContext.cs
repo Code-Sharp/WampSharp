@@ -1,9 +1,9 @@
 ﻿#if !ASYNC_LOCAL && !PCL
 using System.Runtime.Remoting.Messaging;
-#endif
-
-using System;
+#else
 using System.Threading;
+#endif
+using System;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2
@@ -21,27 +21,16 @@ namespace WampSharp.V2
 
         public static WampInvocationContext Current
         {
-            get
-            {
-                return mCurrent.Value;
-            }
-            internal set
-            {
-                mCurrent.Value = value;
-            }
+            get => mCurrent.Value;
+            internal set => mCurrent.Value = value;
         }
 #elif !PCL
         public static WampInvocationContext Current
         {
-            get
-            {
-                return (WampInvocationContext)CallContext.LogicalGetData(typeof(WampInvocationContext).Name);
-            }
-            internal set
-            {
-                CallContext.LogicalSetData(typeof(WampInvocationContext).Name, value);
-            }
+            get => (WampInvocationContext)CallContext.LogicalGetData(typeof(WampInvocationContext).Name);
+            internal set => CallContext.LogicalSetData(typeof(WampInvocationContext).Name, value);
         }
+
 #else
         [ThreadStatic]
         private static WampInvocationContext mCurrent;
@@ -58,12 +47,8 @@ namespace WampSharp.V2
             }
         }
 #endif
-
         #endregion
-
         #region Members
-
-        private readonly InvocationDetails mInvocationDetails;
 
         #endregion
 
@@ -71,20 +56,14 @@ namespace WampSharp.V2
 
         internal WampInvocationContext(InvocationDetails invocationDetails)
         {
-            mInvocationDetails = invocationDetails;
+            InvocationDetails = invocationDetails;
         }
 
         #endregion
 
         #region Properties
 
-        public InvocationDetails InvocationDetails
-        {
-            get
-            {
-                return mInvocationDetails;
-            }
-        }
+        public InvocationDetails InvocationDetails { get; }
 
         #endregion
     }

@@ -11,23 +11,16 @@ namespace WampSharp.V2.Rpc
 
     internal class OperationToRegister
     {
-        private readonly IWampRpcOperation mOperation;
         private readonly RegisterOptions mOptions;
 
         public OperationToRegister(IWampRpcOperation operation, RegisterOptions options)
         {
-            mOperation = operation;
+            Operation = operation;
             mOptions = options;
         }
 
-        public IWampRpcOperation Operation
-        {
-            get { return mOperation; }
-        }
+        public IWampRpcOperation Operation { get; }
 
-        public RegisterOptions Options
-        {
-            get { return mOptions; }
-        }
+        public RegisterOptions Options => mOptions;
     }
 }

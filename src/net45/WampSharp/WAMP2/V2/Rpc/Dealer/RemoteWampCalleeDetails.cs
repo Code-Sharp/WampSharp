@@ -4,30 +4,22 @@ namespace WampSharp.V2.Rpc
 {
     internal class RemoteWampCalleeDetails
     {
-        private readonly IWampCallee mCallee;
-        private readonly string mProcedure;
         private readonly RegisterOptions mOptions;
 
         protected RemoteWampCalleeDetails(IWampCallee callee, string procedure, RegisterOptions options)
         {
-            mCallee = callee;
-            mProcedure = procedure;
+            Callee = callee;
+            Procedure = procedure;
             mOptions = options;
         }
 
         public RemoteWampCalleeDetails(IWampCallee callee, long registrationId)
         {
-            mCallee = callee;
+            Callee = callee;
             RegistrationId = registrationId;
         }
 
-        public string Procedure
-        {
-            get
-            {
-                return mProcedure;
-            }
-        }
+        public string Procedure { get; }
 
         public long RegistrationId
         {
@@ -35,27 +27,15 @@ namespace WampSharp.V2.Rpc
             set;
         }
 
-        public RegisterOptions Options
-        {
-            get
-            {
-                return mOptions;
-            }
-        }
+        public RegisterOptions Options => mOptions;
 
-        public IWampCallee Callee
-        {
-            get
-            {
-                return mCallee;
-            }
-        }
+        public IWampCallee Callee { get; }
 
         public long SessionId
         {
             get
             {
-                IWampClientProperties properties = mCallee as IWampClientProperties;
+                IWampClientProperties properties = Callee as IWampClientProperties;
                 return properties.Session;
             }
         }
@@ -64,15 +44,15 @@ namespace WampSharp.V2.Rpc
         {
             unchecked
             {
-                var hashCode = (mCallee != null ? mCallee.GetHashCode() : 0);
+                var hashCode = (Callee != null ? Callee.GetHashCode() : 0);
                 return hashCode;
             }
         }
 
         protected bool Equals(RemoteWampCalleeDetails other)
         {
-            return Equals(mCallee, other.mCallee) &&
-                   ((string.Equals(mProcedure, other.mProcedure) &&
+            return Equals(Callee, other.Callee) &&
+                   ((string.Equals(Procedure, other.Procedure) &&
                      string.Equals(Options.Match, other.Options.Match)) ||
                     RegistrationId == other.RegistrationId);
         }

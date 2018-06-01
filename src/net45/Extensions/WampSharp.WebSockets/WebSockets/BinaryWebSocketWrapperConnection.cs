@@ -6,7 +6,7 @@ using WampSharp.V2.Binding;
 
 namespace WampSharp.WebSockets
 {
-    public class BinaryWebSocketWrapperConnection<TMessage> : WebSocketWrapperConnection<TMessage>
+    public class BinaryWebSocketWrapperConnection<TMessage> : WebSocketWrapperConnection<TMessage, byte[]>
     {
         private readonly IWampBinaryBinding<TMessage> mBinding;
 
@@ -22,18 +22,6 @@ namespace WampSharp.WebSockets
             mBinding = binding;
         }
 
-        protected override ArraySegment<byte> GetMessageInBytes(WampMessage<object> message)
-        {
-            byte[] bytes = mBinding.Format(message);
-            return new ArraySegment<byte>(bytes);
-        }
-
-        protected override WebSocketMessageType WebSocketMessageType
-        {
-            get
-            {
-                return WebSocketMessageType.Binary;
-            }
-        }
+        protected override WebSocketMessageType WebSocketMessageType => WebSocketMessageType.Binary;
     }
 }

@@ -7,24 +7,21 @@ namespace WampSharp.Tests.TestHelpers
 {
     public class MockRaw
     {
-        private readonly object mValue;
-
         public MockRaw(object value)
         {
-            MockRaw raw = value as MockRaw;
             object[] rawArray = value as object[];
 
-            if (raw != null)
+            if (value is MockRaw raw)
             {
-                mValue = Clone(raw.Value);
+                Value = Clone(raw.Value);
             }
             else if (rawArray != null && rawArray.GetType() == typeof(object[]))
             {
-                mValue = ConvertToMockRawArray(rawArray);
+                Value = ConvertToMockRawArray(rawArray);
             }
             else
             {
-                mValue = Clone(value);
+                Value = Clone(value);
             }
         }
 
@@ -41,8 +38,7 @@ namespace WampSharp.Tests.TestHelpers
                 return null;
             }
 
-            object clone;
-            if (TryClone(value, out clone))
+            if (TryClone(value, out object clone))
             {
                 return clone;
             }
@@ -51,7 +47,7 @@ namespace WampSharp.Tests.TestHelpers
                 // Anonymous type
                 Type type = value.GetType();
 
-                if (type.IsDefined(typeof (CompilerGeneratedAttribute), true))
+                if (type.IsDefined(typeof(CompilerGeneratedAttribute), true))
                 {
                     object[] properties =
                         type.GetProperties()
@@ -69,9 +65,8 @@ namespace WampSharp.Tests.TestHelpers
         private static bool TryClone(object value, out object result)
         {
             result = null;
-            ICloneable cloneable = value as ICloneable;
 
-            if (cloneable != null)
+            if (value is ICloneable cloneable)
             {
                 result = cloneable.Clone();
                 return true;
@@ -89,12 +84,6 @@ namespace WampSharp.Tests.TestHelpers
 
 #endif
 
-        public object Value
-        {
-            get
-            {
-                return mValue;
-            }
-        }
+        public object Value { get; }
     }
 }

@@ -9,41 +9,30 @@ namespace WampSharp.Tests.Wampv2.Integration
 {
     internal class MockRawCallback : IWampRawRpcOperationClientCallback
     {
-        private ResultDetails mDetails;
-        private IEnumerable<ISerializedValue> mArguments;
         private IDictionary<string, ISerializedValue> mArgumentsKeywords;
 
-        public ResultDetails Details
-        {
-            get { return mDetails; }
-        }
+        public ResultDetails Details { get; private set; }
 
-        public IEnumerable<ISerializedValue> Arguments
-        {
-            get { return mArguments; }
-        }
+        public IEnumerable<ISerializedValue> Arguments { get; private set; }
 
-        public IDictionary<string, ISerializedValue> ArgumentsKeywords
-        {
-            get { return mArgumentsKeywords; }
-        }
+        public IDictionary<string, ISerializedValue> ArgumentsKeywords => mArgumentsKeywords;
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
         {
-            mDetails = details;
+            Details = details;
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
         {
-            mDetails = details;
-            mArguments = arguments.Select(x => new SerializedValue<TMessage>(formatter, x))
+            Details = details;
+            Arguments = arguments.Select(x => new SerializedValue<TMessage>(formatter, x))
                                   .ToArray();
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
-            mDetails = details;
-            mArguments = arguments.Select(x => new SerializedValue<TMessage>(formatter, x))
+            Details = details;
+            Arguments = arguments.Select(x => new SerializedValue<TMessage>(formatter, x))
                                   .ToArray();
             mArgumentsKeywords = argumentsKeywords.ToDictionary(x => x.Key,
                                                                 x => (ISerializedValue)new SerializedValue<TMessage>(formatter, x.Value));

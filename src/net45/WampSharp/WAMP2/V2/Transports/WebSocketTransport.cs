@@ -7,23 +7,15 @@ namespace WampSharp.V2.Transports
     /// </summary>
     public abstract class WebSocketTransport<TConnection> : TextBinaryTransport<TConnection>
     {
-        private readonly ICookieAuthenticatorFactory mAuthenticatorFactory;
-
         public WebSocketTransport(ICookieAuthenticatorFactory authenticatorFactory)
         {
-            mAuthenticatorFactory = authenticatorFactory;
+            AuthenticatorFactory = authenticatorFactory;
         }
 
         #region Protected Members
 
-        protected ICookieAuthenticatorFactory AuthenticatorFactory
-        {
-            get
-            {
-                return mAuthenticatorFactory;
-            }
-        }
+        protected ICookieAuthenticatorFactory AuthenticatorFactory { get; }
 
         #endregion
-   }
+    }
 }

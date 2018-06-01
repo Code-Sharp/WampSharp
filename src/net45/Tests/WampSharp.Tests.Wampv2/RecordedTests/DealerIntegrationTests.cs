@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using NUnit.Framework;
 using WampSharp.Core.Dispatch;
-using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.Tests.Wampv2.IntegrationTests
 {
     [TestFixture]
     internal class DealerIntegrationTests : IntegrationTestsBase
     {
-        [TestCaseSource("TestCases")]
+        [TestCaseSource(nameof(TestCases))]
         [Test]
         public void DealerTest(DealerScenario scenario)
         {
@@ -82,9 +78,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
                     scenario.Caller = caller;
 
                     TestCaseData testCase = new TestCaseData(scenario);
-                    testCase.SetName(string.Format("DealerIntegrationTest.{0}.{1}",
-                                                   nestedType.Name,
-                                                   request.Arguments[2].Value));
+                    testCase.SetName($"DealerIntegrationTest.{nestedType.Name}.{request.Arguments[2].Value}");
 
                     yield return testCase;
                 }

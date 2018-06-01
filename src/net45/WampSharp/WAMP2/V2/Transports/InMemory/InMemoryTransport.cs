@@ -48,15 +48,14 @@ namespace WampSharp.V2.Transports
 
         private InMemoryConnectionListener<TMessage> GetOrRegisterBinding<TMessage>(IWampBinding<TMessage> binding)
         {
-            IDisposable disposable;
 
-            if (mBindings.TryGetValue(binding.Name, out disposable))
+            if (mBindings.TryGetValue(binding.Name, out IDisposable disposable))
             {
                 return (InMemoryConnectionListener<TMessage>)disposable;
             }
             else
             {
-                return (InMemoryConnectionListener<TMessage>) RegisterBinding(binding);
+                return (InMemoryConnectionListener<TMessage>)RegisterBinding(binding);
             }
         }
 

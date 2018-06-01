@@ -1,6 +1,5 @@
 ﻿#if !NET40
 using System;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using WampSharp.V2.Rpc;
 

@@ -20,9 +20,11 @@ namespace WampSharp.V2.Fluent
 
         public TimeSpan? AutoPingInterval { get; set; }
 
+        public ClientSslConfiguration SslConfiguration { get; set; }
+
         public IControlledWampConnection<TMessage> Activate<TMessage>(IWampBinding<TMessage> binding)
         {
-            return new RawSocketClientConnection<TMessage>(ClientBuilder, Connector, (dynamic) binding, AutoPingInterval);
+            return new RawSocketClientConnection<TMessage>(ClientBuilder, Connector, (dynamic) binding, AutoPingInterval, SslConfiguration);
         }
     }
 }

@@ -8,7 +8,6 @@ namespace WampSharp.V1.PubSub.Server
     /// </summary>
     public class WampTopicEventArgs : System.EventArgs
     {
-        private readonly IWampTopic mTopic;
 
         /// <summary>
         /// Creates a new instance of <see cref="WampTopicEventArgs"/>.
@@ -16,18 +15,12 @@ namespace WampSharp.V1.PubSub.Server
         /// <param name="topic">The relevant topic.</param>
         public WampTopicEventArgs(IWampTopic topic)
         {
-            mTopic = topic;
+            Topic = topic;
         }
 
         /// <summary>
         /// Gets the relevant topic.
         /// </summary>
-        public IWampTopic Topic
-        {
-            get
-            {
-                return mTopic;
-            }
-        }
+        public IWampTopic Topic { get; }
     }
 }

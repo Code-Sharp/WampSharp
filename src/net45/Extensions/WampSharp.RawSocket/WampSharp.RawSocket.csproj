@@ -35,9 +35,10 @@
     <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
     <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj" />
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
+
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Buffers" Version="4.3.0" />
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="1.2.2" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />

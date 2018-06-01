@@ -2,19 +2,22 @@ using System;
 
 namespace WampSharp.RawSocket
 {
-    internal class RawSocketFrameHeaderParser
+    public class RawSocketFrameHeaderParser
     {
-        public void Parse(byte[] headerBytes, out FrameType frameType, out int messageLength)
-        {
-            InnerParse(true, headerBytes, out frameType, out messageLength);
-        }
+        public const int FrameHeaderSize = 4;
 
         public bool TryParse(byte[] headerBytes, out FrameType frameType, out int messageLength)
+        {
+            ArraySegment<byte> bytes = new ArraySegment<byte>(headerBytes);
+            return InnerParse(false, bytes, out frameType, out messageLength);
+        }
+
+        public bool TryParse(ArraySegment<byte> headerBytes, out FrameType frameType, out int messageLength)
         {
             return InnerParse(false, headerBytes, out frameType, out messageLength);
         }
 
-        private static bool InnerParse(bool throwExceptions, byte[] headerBytes, out FrameType frameType, out int messageLength)
+        private static bool InnerParse(bool throwExceptions, ArraySegment<byte> headerBytes, out FrameType frameType, out int messageLength)
         {
             frameType = default(FrameType);
             messageLength = default(int);
@@ -24,7 +27,7 @@ namespace WampSharp.RawSocket
                 return false;
             }
 
-            byte messageTypeInBytes = headerBytes[0];
+            byte messageTypeInBytes = headerBytes.ElementAt(0);
 
             if (!ValidateMessageType(messageTypeInBytes, throwExceptions))
             {
@@ -33,18 +36,18 @@ namespace WampSharp.RawSocket
 
             frameType = (FrameType) messageTypeInBytes;
 
-            messageLength = headerBytes[3] + (headerBytes[2] << 8) + (headerBytes[1] << 16);
+            messageLength = headerBytes.ElementAt(3) + (headerBytes.ElementAt(2) << 8) + (headerBytes.ElementAt(1) << 16);
 
             return true;
         }
 
-        private static bool ValidateHeaderArray(byte[] headerBytes, bool throwExceptions)
+        private static bool ValidateHeaderArray(ArraySegment<byte> headerBytes, bool throwExceptions)
         {
-            if (headerBytes == null || headerBytes.Length != 4)
+            if (headerBytes.Array == null || headerBytes.Count != FrameHeaderSize)
             {
                 if (throwExceptions)
                 {
-                    throw new ArgumentException("Expected a 4 length byte[]", "headerBytes");
+                    throw new ArgumentException("Expected a 4 length ArraySegment<byte>", nameof(headerBytes));
                 }
                 else
                 {

@@ -3,7 +3,6 @@ using System.Linq;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
@@ -26,9 +25,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
         {
             base.Record(message);
 
-            string argumentName;
 
-            if (mMessageTypeToParameter.TryGetValue(message.MessageType, out argumentName))
+            if (mMessageTypeToParameter.TryGetValue(message.MessageType, out string argumentName))
             {
                 int relevantIndex =
                     GetIndex(message, argumentName).Value;
@@ -55,7 +53,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
                         if (current == originalId)
                         {
                             call.Arguments[currentIndex.Value] = new MockRaw(newId);
-                        }                        
+                        }
                     }
                 }
             }

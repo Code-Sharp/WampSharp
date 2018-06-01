@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Newtonsoft.Json;
@@ -23,13 +22,7 @@ namespace WampSharp.Newtonsoft
             mFormatter = formatter;
         }
 
-        public override bool CanWrite
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanWrite => false;
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -60,9 +53,8 @@ namespace WampSharp.Newtonsoft
 
         private Func<WampDetailsOptions> GetConstructor(Type objectType)
         {
-            Func<WampDetailsOptions> constructor;
 
-            if (!mTypeToConstructor.TryGetValue(objectType, out constructor))
+            if (!mTypeToConstructor.TryGetValue(objectType, out Func<WampDetailsOptions> constructor))
             {
                 constructor = GenerateConstructor(objectType);
 

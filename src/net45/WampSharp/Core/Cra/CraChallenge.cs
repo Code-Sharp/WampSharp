@@ -14,9 +14,8 @@ namespace WampSharp.Core.Cra
 
         public static CraChallenge Create(IDictionary<string, string> extra)
         {
-            string salt;
 
-            if (extra == null || !extra.TryGetValue("salt", out salt))
+            if (extra == null || !extra.TryGetValue("salt", out string salt))
             {
                 return null;
             }
@@ -26,23 +25,19 @@ namespace WampSharp.Core.Cra
 
                 result.Salt = salt;
 
-                string strTemp;
 
-                int iterations;
-
-                if (extra.TryGetValue("iterations", out strTemp))
+                if (extra.TryGetValue("iterations", out string strTemp))
                 {
-                    if (int.TryParse(strTemp, out iterations))
+                    if (int.TryParse(strTemp, out int iterations))
                     {
                         result.Iterations = iterations;
                     }
                 }
 
-                int keyLen;
 
                 if (extra.TryGetValue("keylen", out strTemp))
                 {
-                    if (int.TryParse(strTemp, out keyLen))
+                    if (int.TryParse(strTemp, out int keyLen))
                     {
                         result.KeyLength = keyLen;
                     }

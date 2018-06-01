@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Security.Authentication;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using WampSharp.Binding;
@@ -264,19 +262,12 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         private class HelloMock<TMessage> : MockServer<TMessage>
         {
-            private HelloDetails mDetails;
 
-            public HelloDetails Details
-            {
-                get
-                {
-                    return mDetails;
-                }
-            }
+            public HelloDetails Details { get; private set; }
 
             public override void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
-                mDetails = details;
+                Details = details;
             }
         }
 
@@ -400,8 +391,6 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         private class CustomAuthenticator : IWampClientAuthenticator
         {
-            private string mAuthMethod;
-            private ChallengeDetails mExtra;
             private readonly Func<string, ChallengeDetails, AuthenticationResponse> mAuthenticate;
 
             public CustomAuthenticator() : 
@@ -416,8 +405,8 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             public AuthenticationResponse Authenticate(string authmethod, ChallengeDetails extra)
             {
-                mExtra = extra;
-                mAuthMethod = authmethod;
+                Extra = extra;
+                AuthMethod = authmethod;
                 return mAuthenticate(authmethod, extra);
             }
 
@@ -425,17 +414,9 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             public string AuthenticationId { get; set; }
 
-            public string AuthMethod
-            {
-                get { return mAuthMethod; }
-                set { mAuthMethod = value; }
-            }
+            public string AuthMethod { get; set; }
 
-            public ChallengeDetails Extra
-            {
-                get { return mExtra; }
-                set { mExtra = value; }
-            }
+            public ChallengeDetails Extra { get; set; }
         }
 
         [DataContract]

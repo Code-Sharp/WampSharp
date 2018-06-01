@@ -47,15 +47,9 @@ namespace WampSharp.V2.PubSub
 
         #endregion
 
-        public IEnumerable<string> TopicUris
-        {
-            get { return mExactTopicContainer.TopicUris; }
-        }
+        public IEnumerable<string> TopicUris => mExactTopicContainer.TopicUris;
 
-        public IEnumerable<IWampTopic> Topics
-        {
-            get { return mExactTopicContainer.Topics; }
-        }
+        public IEnumerable<IWampTopic> Topics => mExactTopicContainer.Topics;
 
         public IWampRegistrationSubscriptionToken Subscribe(IWampRawTopicRouterSubscriber subscriber, string topicUri, SubscribeOptions options)
         {
@@ -176,22 +170,12 @@ namespace WampSharp.V2.PubSub
 
         private void RaiseTopicCreated(WampTopicCreatedEventArgs e)
         {
-            EventHandler<WampTopicCreatedEventArgs> handler = TopicCreated;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            TopicCreated?.Invoke(this, e);
         }
 
         private void RaiseTopicRemoved(WampTopicRemovedEventArgs e)
         {
-            EventHandler<WampTopicRemovedEventArgs> handler = TopicRemoved;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            TopicRemoved?.Invoke(this, e);
         }
     }
 }

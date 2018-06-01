@@ -9,7 +9,6 @@ using WampSharp.Core.Serialization;
 using WampSharp.Newtonsoft;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Listener;
-using WampSharp.V1.Core.Listener.ClientBuilder;
 
 namespace WampSharp.Tests
 {

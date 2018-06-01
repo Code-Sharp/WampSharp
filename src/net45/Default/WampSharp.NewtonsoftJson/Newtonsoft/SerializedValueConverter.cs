@@ -15,13 +15,7 @@ namespace WampSharp.Newtonsoft
             mFormatter = formatter;
         }
 
-        public override bool CanWrite
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanWrite => false;
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

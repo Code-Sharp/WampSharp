@@ -146,17 +146,16 @@ namespace WampSharp.V1.Cra
 
         private WampCraAuthenticator<TMessage> GetOrCreateWampAuthenticatorForClient(IWampClient client)
         {
-            WampCraAuthenticator<TMessage> authenticator = client.CraAuthenticator as WampCraAuthenticator<TMessage>;
-            
-            if (authenticator == null)
+
+            if (!(client.CraAuthenticator is WampCraAuthenticator<TMessage> authenticator))
             {
                 if (!mAuthFactory.IsValid)
                 {
                     throw new InvalidOperationException("WampCraAuthenticaticatorBuilder is not valid.");
                 }
-                
+
                 authenticator = mAuthFactory.BuildAuthenticator(client.SessionId);
-                
+
                 // Very important to give the client permissions to the auth APIs...
                 foreach (IWampRpcMethod method in mWampCraProceduredMetadata.GetServiceMethods())
                 {

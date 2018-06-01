@@ -13,7 +13,7 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
         public object[] GetLongTuple(string name)
         {
             object[] result =
-                Enumerable.Range(0, 10).Select(i => string.Format("{0} {1}", name, i))
+                Enumerable.Range(0, 10).Select(i => $"{name} {i}")
                           .Concat(new object[] {name.Length})
                           .ToArray();
 
@@ -26,29 +26,11 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
             {
             }
 
-            public override RpcParameter[] Parameters
-            {
-                get
-                {
-                    return new RpcParameter[] {new RpcParameter(typeof(string), 0) };
-                }
-            }
+            public override RpcParameter[] Parameters => new RpcParameter[] {new RpcParameter(typeof(string), 0) };
 
-            public override bool HasResult
-            {
-                get
-                {
-                    return false;
-                }
-            }
+            public override bool HasResult => false;
 
-            public override CollectionResultTreatment CollectionResultTreatment
-            {
-                get
-                {
-                    return CollectionResultTreatment.SingleValue;
-                }
-            }
+            public override CollectionResultTreatment CollectionResultTreatment => CollectionResultTreatment.SingleValue;
 
             protected override object InvokeSync<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                                            InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords,
@@ -67,7 +49,7 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
                 for (int i = 0; i < 10; i++)
                 {
                     string argumentName = "item" + (i + 1);
-                    outputs[argumentName] = string.Format("{0} {1}", name, i);
+                    outputs[argumentName] = $"{name} {i}";
                 }
 
                 return null;

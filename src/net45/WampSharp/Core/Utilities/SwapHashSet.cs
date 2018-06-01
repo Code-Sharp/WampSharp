@@ -175,21 +175,9 @@ namespace WampSharp.Core.Utilities
             }
         }
 
-        public int Count
-        {
-            get
-            {
-                return mHashSet.Count;
-            }
-        }
+        public int Count => mHashSet.Count;
 
-        public IEqualityComparer<T> Comparer
-        {
-            get
-            {
-                return mHashSet.Comparer;
-            }
-        }
+        public IEqualityComparer<T> Comparer => mHashSet.Comparer;
 
         public bool Add(T item)
         {

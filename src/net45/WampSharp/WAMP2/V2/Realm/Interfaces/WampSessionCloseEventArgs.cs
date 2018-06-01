@@ -8,9 +8,6 @@ namespace WampSharp.V2.Realm
     /// </summary>
     public class WampSessionCloseEventArgs : EventArgs
     {
-        private readonly string mReason;
-        private readonly SessionCloseType mCloseType;
-        private readonly long mSessionId;
         private readonly GoodbyeAbortDetails mDetails;
 
         public WampSessionCloseEventArgs
@@ -19,48 +16,24 @@ namespace WampSharp.V2.Realm
              GoodbyeAbortDetails details,
              string reason)
         {
-            mReason = reason;
-            mCloseType = closeType;
-            mSessionId = sessionId;
+            Reason = reason;
+            CloseType = closeType;
+            SessionId = sessionId;
             mDetails = details;
         }
 
         /// <summary>
         /// Gets the close reason.
         /// </summary>
-        public string Reason
-        {
-            get
-            {
-                return mReason;
-            }
-        }
+        public string Reason { get; }
 
         /// <summary>
         /// Gets the close type.
         /// </summary>
-        public SessionCloseType CloseType
-        {
-            get
-            {
-                return mCloseType;
-            }
-        }
+        public SessionCloseType CloseType { get; }
 
-        public long SessionId
-        {
-            get
-            {
-                return mSessionId;
-            }
-        }
+        public long SessionId { get; }
 
-        public GoodbyeAbortDetails Details
-        {
-            get
-            {
-                return mDetails;
-            }
-        }
+        public GoodbyeAbortDetails Details => mDetails;
     }
 }

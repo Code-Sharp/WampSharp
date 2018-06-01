@@ -42,8 +42,8 @@ namespace WampSharp.Core.Utilities.ValueTuple
             typeof(IList<string>).GetProperties().
                                  FirstOrDefault(x => x.GetIndexParameters().Any());
 
-        private static Func<object, IList<string>, IDictionary<string, object>> mToDictionary = GetToDictionaryBuilder();
-        private static Func<IDictionary<string, object>, IList<string>, object> mToTuple = GetToTupleBuilder();
+        private static readonly Func<object, IList<string>, IDictionary<string, object>> mToDictionary = GetToDictionaryBuilder();
+        private static readonly Func<IDictionary<string, object>, IList<string>, object> mToTuple = GetToTupleBuilder();
 
         public static ValueTupleDictionaryConverter Get(IList<string> transformNames)
         {

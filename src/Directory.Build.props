@@ -10,8 +10,9 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false'">
-    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.0" PrivateAssets="All" /> 
+    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.1" PrivateAssets="All" /> 
   </ItemGroup>
 </Project>

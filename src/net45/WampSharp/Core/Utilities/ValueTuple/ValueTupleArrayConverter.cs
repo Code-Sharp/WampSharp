@@ -36,7 +36,7 @@ namespace WampSharp.Core.Utilities.ValueTuple
         {
             if (array.Length != mTupleLegnth)
             {
-                throw new ArgumentException("Expected an array of size " + mTupleLegnth, "array");
+                throw new ArgumentException("Expected an array of size " + mTupleLegnth, nameof(array));
             }
 
             return mToTupleDelegate(array);

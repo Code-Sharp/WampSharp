@@ -10,74 +10,32 @@ namespace WampSharp.V2.Client
     /// <typeparam name="TMessage"></typeparam>
     internal class WampRealmProxy<TMessage> : IWampRealmProxy
     {
-        private readonly IWampTopicContainerProxy mTopicContainer;
-        private readonly IWampRpcOperationCatalogProxy mRpcCatalog;
-        private readonly string mName;
-        private readonly IWampServerProxy mProxy;
-        private readonly IWampRealmServiceProvider mServices;
         private readonly WampSessionClient<TMessage> mMonitor;
-        private readonly IWampClientAuthenticator mAuthenticator;
 
         public WampRealmProxy(string name, IWampServerProxy proxy, IWampBinding<TMessage> binding, IWampClientAuthenticator authenticator)
         {
-            mName = name;
-            mProxy = proxy;
+            Name = name;
+            Proxy = proxy;
             IWampFormatter<TMessage> formatter = binding.Formatter;
             mMonitor = new WampSessionClient<TMessage>(this, formatter, authenticator);
-            mRpcCatalog = new WampRpcOperationCatalogProxy<TMessage>(proxy, formatter, mMonitor);
-            mTopicContainer = new WampTopicContainerProxy<TMessage>(proxy, formatter, mMonitor);
-            mServices = new WampRealmProxyServiceProvider(this);
-            mAuthenticator = authenticator;
+            RpcCatalog = new WampRpcOperationCatalogProxy<TMessage>(proxy, formatter, mMonitor);
+            TopicContainer = new WampTopicContainerProxy<TMessage>(proxy, formatter, mMonitor);
+            Services = new WampRealmProxyServiceProvider(this);
+            Authenticator = authenticator;
         }
 
-        public string Name
-        {
-            get
-            {
-                return mName;
-            }
-        }
+        public string Name { get; }
 
-        public IWampTopicContainerProxy TopicContainer
-        {
-            get
-            {
-                return mTopicContainer;
-            }
-        }
+        public IWampTopicContainerProxy TopicContainer { get; }
 
-        public IWampRpcOperationCatalogProxy RpcCatalog
-        {
-            get
-            {
-                return mRpcCatalog;
-            }
-        }
+        public IWampRpcOperationCatalogProxy RpcCatalog { get; }
 
-        public IWampServerProxy Proxy
-        {
-            get { return mProxy; }
-        }
+        public IWampServerProxy Proxy { get; }
 
-        public IWampRealmServiceProvider Services
-        {
-            get { return mServices; }
-        }
+        public IWampRealmServiceProvider Services { get; }
 
-        public IWampClientConnectionMonitor Monitor
-        {
-            get
-            {
-                return mMonitor;
-            }
-        }
+        public IWampClientConnectionMonitor Monitor => mMonitor;
 
-        public IWampClientAuthenticator Authenticator
-        {
-            get
-            {
-                return mAuthenticator;
-            }
-        }
+        public IWampClientAuthenticator Authenticator { get; }
     }
 }

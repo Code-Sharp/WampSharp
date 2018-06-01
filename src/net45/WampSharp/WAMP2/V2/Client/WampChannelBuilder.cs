@@ -11,7 +11,7 @@ namespace WampSharp.V2.Client
     internal class WampChannelBuilder<TMessage>
     {
         private readonly IWampBinding<TMessage> mBinding;
-        private WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy> mFactory;
+        private readonly WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy> mFactory;
 
         public WampChannelBuilder(IWampBinding<TMessage> binding)
         {

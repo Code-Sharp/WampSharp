@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Disposables;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
-using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.PubSub
@@ -15,14 +13,11 @@ namespace WampSharp.V2.PubSub
 
         private readonly SwapCollection<IWampRawTopicRouterSubscriber> mSubscribers =
             new SwapCollection<IWampRawTopicRouterSubscriber>();
-        
-        private readonly string mTopicUri;
-
-        private bool mPersistent;
+        private readonly bool mPersistent;
 
         public WampTopic(string topicUri, bool persistent)
         {
-            mTopicUri = topicUri;
+            TopicUri = topicUri;
             mPersistent = persistent;
         }
 
@@ -30,21 +25,9 @@ namespace WampSharp.V2.PubSub
 
         #region IWampTopic members
 
-        public bool HasSubscribers
-        {
-            get
-            {
-                return mSubscribers.Count > 0;
-            }
-        }
+        public bool HasSubscribers => mSubscribers.Count > 0;
 
-        public string TopicUri
-        {
-            get
-            {
-                return mTopicUri;
-            }
-        }
+        public string TopicUri { get; }
 
         public void Publish<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, PublishOptions options)
         {
@@ -70,13 +53,7 @@ namespace WampSharp.V2.PubSub
             InnerPublish(publishAction);
         }
 
-        public bool Persistent
-        {
-            get
-            {
-                return mPersistent;
-            }
-        }
+        public bool Persistent => mPersistent;
 
         public long SubscriptionId
         {
@@ -134,9 +111,8 @@ namespace WampSharp.V2.PubSub
 
         private void RegisterSubscriberEventsIfNeeded(IWampRawTopicRouterSubscriber subscriber)
         {
-            ISubscriptionNotifier notifier = subscriber as ISubscriptionNotifier;
 
-            if (notifier != null)
+            if (subscriber is ISubscriptionNotifier notifier)
             {
                 RegisterSubscriberEvents(notifier);
             }
@@ -152,9 +128,8 @@ namespace WampSharp.V2.PubSub
 
         private void UnregisterSubscriberEventsIfNeeded(IWampRawTopicRouterSubscriber subscriber)
         {
-            ISubscriptionNotifier subscriptionNotifier = subscriber as ISubscriptionNotifier;
 
-            if (subscriptionNotifier != null)
+            if (subscriber is ISubscriptionNotifier subscriptionNotifier)
             {
                 UnregisterSubscriberEvents(subscriptionNotifier);
             }
@@ -202,52 +177,27 @@ namespace WampSharp.V2.PubSub
 
         protected virtual void RaiseTopicEmpty()
         {
-            EventHandler handler = TopicEmpty;
-            
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            TopicEmpty?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void RaiseSubscriptionAdding(WampSubscriptionAddEventArgs e)
         {
-            EventHandler<WampSubscriptionAddEventArgs> handler = SubscriptionAdding;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            SubscriptionAdding?.Invoke(this, e);
         }
 
         protected virtual void RaiseSubscriptionAdded(WampSubscriptionAddEventArgs e)
         {
-            EventHandler<WampSubscriptionAddEventArgs> handler = SubscriptionAdded;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            SubscriptionAdded?.Invoke(this, e);
         }
 
         protected virtual void RaiseSubscriptionRemoving(WampSubscriptionRemoveEventArgs e)
         {
-            EventHandler<WampSubscriptionRemoveEventArgs> handler = SubscriptionRemoving;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            SubscriptionRemoving?.Invoke(this, e);
         }
 
         protected virtual void RaiseSubscriptionRemoved(WampSubscriptionRemoveEventArgs e)
         {
-            EventHandler<WampSubscriptionRemoveEventArgs> handler = SubscriptionRemoved;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            SubscriptionRemoved?.Invoke(this, e);
         }
 
         #endregion

@@ -16,7 +16,7 @@ namespace WampSharp.V1.Rpc.Client
 
             if (rpcMethodAttribute == null)
             {
-                throw new ArgumentException("Method doesn't have WampRpcMethodAttribute", "method");
+                throw new ArgumentException("Method doesn't have WampRpcMethodAttribute", nameof(method));
             }
 
             return rpcMethodAttribute.ProcUri;

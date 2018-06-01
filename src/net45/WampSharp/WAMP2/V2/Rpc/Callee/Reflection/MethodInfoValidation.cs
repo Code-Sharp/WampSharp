@@ -153,66 +153,49 @@ namespace WampSharp.V2.Rpc
             public static void AsyncOutRefMethod(MethodInfo method)
             {
                 throw new ArgumentException
-                    (String.Format(
-                        "Method {0} of type {1} is declared as a WAMP procedure, but it is both asynchronous and has out/ref parameters",
-                        method.Name, method.DeclaringType.FullName));
+                    ($"Method {method.Name} of type {method.DeclaringType.FullName} is declared as a WAMP procedure, but it is both asynchronous and has out/ref parameters");
             }
 
             public static void ProgressiveParameterTypeMismatch(MethodInfo method, Type returnType)
             {
                 throw new ArgumentException
-                    (String.Format(
-                        "Method {0} of type {1} is declared as a progressive WAMP procedure, but its last (or second to last) parameter is not a IProgress of its return type. Expected: IProgress<{2}>",
-                        method.Name, method.DeclaringType.FullName, returnType.FullName));
+                    ($"Method {method.Name} of type {method.DeclaringType.FullName} is declared as a progressive WAMP procedure, but its last (or second to last) parameter is not a IProgress of its return type. Expected: IProgress<{returnType.FullName}>");
             }
 
             public static void ProgressiveParameterTupleMismatch(MethodInfo method)
             {
                 throw new ArgumentException
-                    (String.Format(
-                        "Method {0} of type {1} is declared as a progressive WAMP procedure that returns a tuple, but its last parameter tuple definition does not match its return type tuple definition.",
-                        method.Name, method.DeclaringType.FullName));
+                    ($"Method {method.Name} of type {method.DeclaringType.FullName} is declared as a progressive WAMP procedure that returns a tuple, but its last parameter tuple definition does not match its return type tuple definition.");
             }
 
             public static void InvalidTupleReturnType(MethodInfo method)
             {
                 throw new ArgumentException
-                    (String.Format(
-                        "Method {0} of type {1} is declared as a WAMP procedure that returns a tuple which some of its elements have names and some don't. Expected all tuple elements have names or none of them have names.",
-                        method.Name, method.DeclaringType.FullName));
+                    ($"Method {method.Name} of type {method.DeclaringType.FullName} is declared as a WAMP procedure that returns a tuple which some of its elements have names and some don't. Expected all tuple elements have names or none of them have names.");
             }
 
             public static void TupleReturnTypeAndOutRefParametersHaveCommonNames(MethodInfo method, ICollection<string> intersection)
             {
                 throw new ArgumentException
-                    (String.Format(
-                        "Method {0} of type {1} is declared as a WAMP procedure that returns a tuple and also has out/ref parameters. There exists some tuple elements with the same names as some of the out/ref parameters. Expected out/ref and element names of returned tuple to be distinct. Details: conflicted names {2}",
-                        method.Name, method.DeclaringType.FullName, 
-                        string.Join(", ", intersection)));
+                    ($"Method {method.Name} of type {method.DeclaringType.FullName} is declared as a WAMP procedure that returns a tuple and also has out/ref parameters. There exists some tuple elements with the same names as some of the out/ref parameters. Expected out/ref and element names of returned tuple to be distinct. Details: conflicted names {string.Join(", ", intersection)}");
             }
 
             public static void MethodReturnsInvalidValueTuple(MethodInfo method)
             {
                 throw new ArgumentException
-                    (String.Format(
-                        "Method {0} of type {1} returns an invalid ValueTuple. Expected TRest to be a ValueTuple.",
-                        method.Name, method.DeclaringType.FullName));
+                    ($"Method {method.Name} of type {method.DeclaringType.FullName} returns an invalid ValueTuple. Expected TRest to be a ValueTuple.");
             }
 
             public static void SyncMethodDoesNotSupportCancellation(MethodInfo method)
             {
                 throw new ArgumentException
-                (String.Format(
-                     "Method {0} of type {1} is a synchronous method, but expects to receive a CancellationToken.",
-                     method.Name, method.DeclaringType.FullName));
+                ($"Method {method.Name} of type {method.DeclaringType.FullName} is a synchronous method, but expects to receive a CancellationToken.");
             }
 
             public static void CancellationTokenMustBeLastParameter(MethodInfo method)
             {
                 throw new ArgumentException
-                (String.Format(
-                     "Method {0} of type {1} receives a CancellationToken not as its last argument. A CancellationToken can be declared only as the last argument of a method.",
-                     method.Name, method.DeclaringType.FullName));
+                ($"Method {method.Name} of type {method.DeclaringType.FullName} receives a CancellationToken not as its last argument. A CancellationToken can be declared only as the last argument of a method.");
             }
         }
     }

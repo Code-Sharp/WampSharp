@@ -12,9 +12,8 @@ namespace WampSharp.V2.Binding
              IWampConnectionListener<TMessage> connectionListener,
              IWampUriValidator uriValidator)
         {
-            IWampRouterBinding<TMessage> routerBinding = binding as IWampRouterBinding<TMessage>;
 
-            if (routerBinding != null)
+            if (binding is IWampRouterBinding<TMessage> routerBinding)
             {
                 return routerBinding.CreateHost(realmContainer, connectionListener);
             }

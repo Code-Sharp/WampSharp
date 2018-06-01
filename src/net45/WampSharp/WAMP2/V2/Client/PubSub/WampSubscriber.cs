@@ -22,7 +22,6 @@ namespace WampSharp.V2.Client
             new WampRequestIdMapper<UnsubscribeRequest>();
 
         private readonly IWampServerProxy mProxy;
-        private readonly IWampFormatter<TMessage> mFormatter;
         private readonly IWampClientConnectionMonitor mMonitor;
 
         private readonly SwapDictionary<long, SwapCollection<Subscription>> mSubscriptionIdToSubscriptions =
@@ -35,20 +34,14 @@ namespace WampSharp.V2.Client
                               IWampClientConnectionMonitor monitor)
         {
             mProxy = proxy;
-            mFormatter = formatter;
+            Formatter = formatter;
             mMonitor = monitor;
 
             monitor.ConnectionBroken += OnConnectionBroken;
             monitor.ConnectionError += OnConnectionError;
         }
 
-        private bool IsConnected
-        {
-            get
-            {
-                return mMonitor.IsConnected;
-            }
-        }
+        private bool IsConnected => mMonitor.IsConnected;
 
         public Task<IAsyncDisposable> Subscribe(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri)
         {
@@ -57,7 +50,7 @@ namespace WampSharp.V2.Client
                 throw new WampSessionNotEstablishedException();
             }
 
-            SubscribeRequest request = new SubscribeRequest(mFormatter, subscriber, options, topicUri);
+            SubscribeRequest request = new SubscribeRequest(Formatter, subscriber, options, topicUri);
             long requestId = mPendingSubscriptions.Add(request);
             request.RequestId = requestId;
 
@@ -73,11 +66,10 @@ namespace WampSharp.V2.Client
 
             lock (mLock)
             {
-                SwapCollection<Subscription> subscriptions;
 
                 long subscriptionId = subscription.SubscriptionId;
 
-                if (!mSubscriptionIdToSubscriptions.TryGetValue(subscriptionId, out subscriptions))
+                if (!mSubscriptionIdToSubscriptions.TryGetValue(subscriptionId, out SwapCollection<Subscription> subscriptions))
                 {
                     completionSource.SetException(new Exception("Unknown subscription: " + subscriptionId));
                 }
@@ -107,7 +99,7 @@ namespace WampSharp.V2.Client
                 throw new WampSessionNotEstablishedException();
             }
 
-            UnsubscribeRequest request = new UnsubscribeRequest(mFormatter, subscriptionId);
+            UnsubscribeRequest request = new UnsubscribeRequest(Formatter, subscriptionId);
             long requestId = mPendingUnsubscriptions.Add(request);
             request.RequestId = requestId;
 
@@ -117,8 +109,7 @@ namespace WampSharp.V2.Client
             }
             catch (Exception exception)
             {
-                UnsubscribeRequest removedRequest;
-                mPendingUnsubscriptions.TryRemove(requestId, out removedRequest);
+                mPendingUnsubscriptions.TryRemove(requestId, out UnsubscribeRequest removedRequest);
                 request.SetException(exception);
             }
 
@@ -127,9 +118,8 @@ namespace WampSharp.V2.Client
 
         public void Subscribed(long requestId, long subscriptionId)
         {
-            SubscribeRequest request;
-            
-            if (mPendingSubscriptions.TryRemove(requestId, out request))
+
+            if (mPendingSubscriptions.TryRemove(requestId, out SubscribeRequest request))
             {
                 Subscription subscription =
                     new Subscription(subscriptionId,
@@ -151,9 +141,8 @@ namespace WampSharp.V2.Client
 
         public void Unsubscribed(long requestId)
         {
-            UnsubscribeRequest request;
 
-            if (mPendingUnsubscriptions.TryRemove(requestId, out request))
+            if (mPendingUnsubscriptions.TryRemove(requestId, out UnsubscribeRequest request))
             {
                 request.Complete();
             }
@@ -161,9 +150,8 @@ namespace WampSharp.V2.Client
 
         public void SubscribeError(long requestId, TMessage details, string error)
         {
-            SubscribeRequest request;
 
-            if (mPendingSubscriptions.TryRemove(requestId, out request))
+            if (mPendingSubscriptions.TryRemove(requestId, out SubscribeRequest request))
             {
                 request.Error(details, error);
             }
@@ -171,9 +159,8 @@ namespace WampSharp.V2.Client
 
         public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            SubscribeRequest request;
 
-            if (mPendingSubscriptions.TryRemove(requestId, out request))
+            if (mPendingSubscriptions.TryRemove(requestId, out SubscribeRequest request))
             {
                 request.Error(details, error, arguments);
             }
@@ -181,9 +168,8 @@ namespace WampSharp.V2.Client
 
         public void SubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            SubscribeRequest request;
 
-            if (mPendingSubscriptions.TryRemove(requestId, out request))
+            if (mPendingSubscriptions.TryRemove(requestId, out SubscribeRequest request))
             {
                 request.Error(details, error, arguments, argumentsKeywords);
             }
@@ -191,9 +177,8 @@ namespace WampSharp.V2.Client
 
         public void UnsubscribeError(long requestId, TMessage details, string error)
         {
-            UnsubscribeRequest request;
 
-            if (mPendingUnsubscriptions.TryRemove(requestId, out request))
+            if (mPendingUnsubscriptions.TryRemove(requestId, out UnsubscribeRequest request))
             {
                 request.Error(details, error);
             }
@@ -201,9 +186,8 @@ namespace WampSharp.V2.Client
 
         public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            UnsubscribeRequest request;
 
-            if (mPendingUnsubscriptions.TryRemove(requestId, out request))
+            if (mPendingUnsubscriptions.TryRemove(requestId, out UnsubscribeRequest request))
             {
                 request.Error(details, error, arguments);
             }
@@ -211,9 +195,8 @@ namespace WampSharp.V2.Client
 
         public void UnsubscribeError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            UnsubscribeRequest request;
 
-            if (mPendingUnsubscriptions.TryRemove(requestId, out request))
+            if (mPendingUnsubscriptions.TryRemove(requestId, out UnsubscribeRequest request))
             {
                 request.Error(details, error, arguments, argumentsKeywords);
             }
@@ -251,26 +234,19 @@ namespace WampSharp.V2.Client
 
         private void InnerEvent(long subscriptionId, EventDetails details, Action<IWampRawTopicClientSubscriber, EventDetails> action)
         {
-            SwapCollection<Subscription> subscriptions;
 
-            if (mSubscriptionIdToSubscriptions.TryGetValue(subscriptionId, out subscriptions))
+            if (mSubscriptionIdToSubscriptions.TryGetValue(subscriptionId, out SwapCollection<Subscription> subscriptions))
             {
                 foreach (Subscription subscription in subscriptions)
                 {
                     EventDetails modifiedDetails = new EventDetails(details);
                     modifiedDetails.Topic = modifiedDetails.Topic ?? subscription.TopicUri;
-                    action(subscription.Subscriber, modifiedDetails);                    
+                    action(subscription.Subscriber, modifiedDetails);
                 }
             }
         }
 
-        private IWampFormatter<TMessage> Formatter
-        {
-            get
-            {
-                return mFormatter;
-            }
-        }
+        private IWampFormatter<TMessage> Formatter { get; }
 
         public void OnConnectionError(object sender, WampConnectionErrorEventArgs eventArgs)
         {
@@ -297,40 +273,20 @@ namespace WampSharp.V2.Client
 
         private class BaseSubscription
         {
-            private readonly IWampRawTopicClientSubscriber mSubscriber;
-            private readonly SubscribeOptions mOptions;
             private readonly string mTopicUri;
 
             public BaseSubscription(IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri)
             {
-                mSubscriber = subscriber;
-                mOptions = options;
+                Subscriber = subscriber;
+                Options = options;
                 mTopicUri = topicUri;
             }
 
-            public IWampRawTopicClientSubscriber Subscriber
-            {
-                get
-                {
-                    return mSubscriber;
-                }
-            }
+            public IWampRawTopicClientSubscriber Subscriber { get; }
 
-            public SubscribeOptions Options
-            {
-                get
-                {
-                    return mOptions;
-                }
-            }
+            public SubscribeOptions Options { get; }
 
-            public string TopicUri
-            {
-                get
-                {
-                    return mTopicUri;
-                }
-            }
+            public string TopicUri => mTopicUri;
         }
 
         private class SubscribeRequest : BaseSubscription, IWampPendingRequest
@@ -345,8 +301,8 @@ namespace WampSharp.V2.Client
 
             public long RequestId
             {
-                get { return mPendingRequest.RequestId; }
-                set { mPendingRequest.RequestId = value; }
+                get => mPendingRequest.RequestId;
+                set => mPendingRequest.RequestId = value;
             }
 
             public void SetException(Exception exception)
@@ -374,47 +330,28 @@ namespace WampSharp.V2.Client
                 mPendingRequest.Complete(result);
             }
 
-            public Task<IAsyncDisposable> Task
-            {
-                get { return mPendingRequest.Task; }
-            }
+            public Task<IAsyncDisposable> Task => mPendingRequest.Task;
         }
 
         private class Subscription : BaseSubscription
         {
-            private readonly long mSubscriptionId;
-
             public Subscription(long subscriptionId, IWampRawTopicClientSubscriber subscriber, SubscribeOptions options, string topicUri) : 
                 base(subscriber, options, topicUri)
             {
-                mSubscriptionId = subscriptionId;
+                SubscriptionId = subscriptionId;
             }
 
-            public long SubscriptionId
-            {
-                get
-                {
-                    return mSubscriptionId;
-                }
-            }
+            public long SubscriptionId { get; }
         }
 
         private class UnsubscribeRequest : WampPendingRequest<TMessage>
         {
-            private readonly long mSubscriptionId;
-
             public UnsubscribeRequest(IWampFormatter<TMessage> formatter, long subscriptionId) : base(formatter)
             {
-                mSubscriptionId = subscriptionId;
+                SubscriptionId = subscriptionId;
             }
 
-            public long SubscriptionId
-            {
-                get
-                {
-                    return mSubscriptionId;
-                }
-            }
+            public long SubscriptionId { get; }
         }
 
         private class UnsubscribeDisposable : IAsyncDisposable

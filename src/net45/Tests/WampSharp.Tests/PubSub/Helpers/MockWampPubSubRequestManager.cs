@@ -1,29 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.Tests.PubSub.Helpers
 {
     public class MockWampPubSubRequestManager<TMessage>
     {
-        private readonly ICollection<WampPublishRequest<TMessage>> mPublications = new List<WampPublishRequest<TMessage>>();
-        private readonly ICollection<WampSubscribeRequest<TMessage>> mSubscriptions = new List<WampSubscribeRequest<TMessage>>();
         private readonly ICollection<WampSubscribeRequest<TMessage>> mSubscriptionRemovals = new List<WampSubscribeRequest<TMessage>>();
 
-        public ICollection<WampSubscribeRequest<TMessage>> SubscriptionRemovals
-        {
-            get { return mSubscriptionRemovals; }
-        }
+        public ICollection<WampSubscribeRequest<TMessage>> SubscriptionRemovals => mSubscriptionRemovals;
 
-        public ICollection<WampSubscribeRequest<TMessage>> Subscriptions
-        {
-            get { return mSubscriptions; }
-        }
+        public ICollection<WampSubscribeRequest<TMessage>> Subscriptions { get; } = new List<WampSubscribeRequest<TMessage>>();
 
-        public ICollection<WampPublishRequest<TMessage>> Publications
-        {
-            get { return mPublications; }
-        }
+        public ICollection<WampPublishRequest<TMessage>> Publications { get; } = new List<WampPublishRequest<TMessage>>();
 
         public IWampServer GetServer(IWampPubSubClient<TMessage> client)
         {
@@ -51,7 +39,7 @@ namespace WampSharp.Tests.PubSub.Helpers
 
             public void Subscribe(IWampClient client, string topicUri)
             {
-                mParent.mSubscriptions.Add(new WampSubscribeRequest<TMessage>()
+                mParent.Subscriptions.Add(new WampSubscribeRequest<TMessage>()
                 {
                     Client = mClient,
                     TopicUri = topicUri
@@ -89,7 +77,7 @@ namespace WampSharp.Tests.PubSub.Helpers
 
             private void InnerPublish(IWampClient client, string topicUri, object @event, bool? excludeMe = null, string[] exclude = null, string[] eligible = null)
             {
-                mParent.mPublications.Add(new WampPublishRequest<TMessage>()
+                mParent.Publications.Add(new WampPublishRequest<TMessage>()
                 {
                     Client = mClient,
                     Eligible = eligible,

@@ -152,9 +152,9 @@ namespace WampSharp.Core.Cra
                     hashLength++;
                 }
                 int keyLength = dklen/hashLength;
-                if ((long) dklen > (0xFFFFFFFFL*hashLength) || dklen < 0)
+                if (dklen > (0xFFFFFFFFL*hashLength) || dklen < 0)
                 {
-                    throw new ArgumentOutOfRangeException("dklen");
+                    throw new ArgumentOutOfRangeException(nameof(dklen));
                 }
                 if (dklen%hashLength != 0)
                 {

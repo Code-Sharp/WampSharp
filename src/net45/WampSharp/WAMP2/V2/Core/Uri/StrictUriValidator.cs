@@ -39,28 +39,10 @@ namespace WampSharp.V2.Core
             mUriPatternAllowLastEmpty = new Regex(@"^([0-9a-z_]+\.)*([0-9a-z_]*)$", regexOptions);
         }
 
-        public override Regex UriPatternAllowEmpty
-        {
-            get
-            {
-                return mUriPatternAllowEmpty;
-            }
-        }
+        public override Regex UriPatternAllowEmpty => mUriPatternAllowEmpty;
 
-        public override Regex UriPatternDisallowEmpty
-        {
-            get
-            {
-                return mUriPatternDisallowEmpty;
-            }
-        }
+        public override Regex UriPatternDisallowEmpty => mUriPatternDisallowEmpty;
 
-        public override Regex UriPatternAllowLastEmpty
-        {
-            get
-            {
-                return mUriPatternAllowLastEmpty;
-            }
-        }
+        public override Regex UriPatternAllowLastEmpty => mUriPatternAllowLastEmpty;
     }
 }

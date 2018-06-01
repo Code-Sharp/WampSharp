@@ -8,7 +8,6 @@ namespace WampSharp.V2.Client
 {
     internal class WampTopicProxy : IWampTopicProxy
     {
-        private readonly string mTopicUri;
         private readonly IWampTopicSubscriptionProxy mSubscriber;
         private readonly IWampTopicPublicationProxy mPublisher;
 
@@ -16,18 +15,12 @@ namespace WampSharp.V2.Client
                               IWampTopicSubscriptionProxy subscriber,
                               IWampTopicPublicationProxy publisher)
         {
-            mTopicUri = topicUri;
+            TopicUri = topicUri;
             mSubscriber = subscriber;
             mPublisher = publisher;
         }
 
-        public string TopicUri
-        {
-            get
-            {
-                return mTopicUri;
-            }
-        }
+        public string TopicUri { get; }
 
         public Task<long?> Publish(PublishOptions options)
         {

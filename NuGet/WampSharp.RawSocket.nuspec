@@ -5,18 +5,23 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
+      <group targetFramework="net46">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="1.2.2" />
+      </group>
       <group targetFramework="net45">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="System.Buffers" version="4.3.0" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="1.2.2" />
       </group>
-      <group targetFramework=".NETStandard1.3">
+      <group targetFramework=".NETStandard1.4">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="System.Buffers" version="4.3.0" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="1.2.2" />
         <dependency id="System.Net.Sockets" version="4.3.0" />
+        <dependency id="System.Net.Security" version="4.3.2" />
       </group>
       <group targetFramework=".NETStandard2.0">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="System.Buffers" version="4.3.0" />
+        <dependency id="Microsoft.IO.RecyclableMemoryStream" version="1.2.2" />
       </group>
     </dependencies>
     <id>WampSharp.RawSocket</id>
@@ -27,12 +32,15 @@
     <tags>websockets wampws rpc pubsub supersocket wampv2 rawsocket</tags>
   </metadata>
   <files>
+    <file src="$bin$\net46\WampSharp.RawSocket.dll" target="lib\net46\WampSharp.RawSocket.dll" />
+    <file src="$bin$\net46\WampSharp.RawSocket.pdb" target="lib\net46\WampSharp.RawSocket.pdb" />
+    <file src="$bin$\net46\WampSharp.RawSocket.xml" target="lib\net46\WampSharp.RawSocket.xml" />
     <file src="$bin$\net45\WampSharp.RawSocket.dll" target="lib\net45\WampSharp.RawSocket.dll" />
     <file src="$bin$\net45\WampSharp.RawSocket.pdb" target="lib\net45\WampSharp.RawSocket.pdb" />
     <file src="$bin$\net45\WampSharp.RawSocket.xml" target="lib\net45\WampSharp.RawSocket.xml" />
-    <file src="$bin$\netstandard1.3\WampSharp.RawSocket.dll" target="lib\netstandard1.3\WampSharp.RawSocket.dll" />
-    <file src="$bin$\netstandard1.3\WampSharp.RawSocket.pdb" target="lib\netstandard1.3\WampSharp.RawSocket.pdb" />
-    <file src="$bin$\netstandard1.3\WampSharp.RawSocket.xml" target="lib\netstandard1.3\WampSharp.RawSocket.xml" />
+    <file src="$bin$\netstandard1.3\WampSharp.RawSocket.dll" target="lib\netstandard1.4\WampSharp.RawSocket.dll" />
+    <file src="$bin$\netstandard1.3\WampSharp.RawSocket.pdb" target="lib\netstandard1.4\WampSharp.RawSocket.pdb" />
+    <file src="$bin$\netstandard1.3\WampSharp.RawSocket.xml" target="lib\netstandard1.4\WampSharp.RawSocket.xml" />
     <file src="$bin$\netstandard2.0\WampSharp.RawSocket.dll" target="lib\netstandard2.0\WampSharp.RawSocket.dll" />
     <file src="$bin$\netstandard2.0\WampSharp.RawSocket.pdb" target="lib\netstandard2.0\WampSharp.RawSocket.pdb" />
     <file src="$bin$\netstandard2.0\WampSharp.RawSocket.xml" target="lib\netstandard2.0\WampSharp.RawSocket.xml" />

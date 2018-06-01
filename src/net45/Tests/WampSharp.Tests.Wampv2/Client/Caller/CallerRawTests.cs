@@ -8,7 +8,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
     [TestFixture]
     public class CallerRawTests
     {
-        [TestCaseSource("TestCases")]
+        [TestCaseSource(nameof(TestCases))]
         public void TestRawCallerApi(CallerTest test)
         {
             test.Act();

@@ -3,7 +3,6 @@ using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Binding;
 
 namespace WampSharp.Tests.TestHelpers.Integration
 {
@@ -68,51 +67,27 @@ namespace WampSharp.Tests.TestHelpers.Integration
 
             public event EventHandler ConnectionOpen
             {
-                add
-                {
-                    mConnection.SideAToSideB.ConnectionOpen += value;
-                }
-                remove
-                {
-                    mConnection.SideAToSideB.ConnectionOpen -= value;                    
-                }
+                add => mConnection.SideAToSideB.ConnectionOpen += value;
+                remove => mConnection.SideAToSideB.ConnectionOpen -= value;
             }
 
             public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived
             {
-                add
-                {
-                    mConnection.SideAToSideB.MessageArrived += value;
-                }
-                remove
-                {
-                    mConnection.SideAToSideB.MessageArrived -= value;
-                }
+                add => mConnection.SideAToSideB.MessageArrived += value;
+                remove => mConnection.SideAToSideB.MessageArrived -= value;
             }
 
 
             public event EventHandler ConnectionClosed
             {
-                add
-                {
-                    mConnection.SideAToSideB.ConnectionClosed += value;
-                }
-                remove
-                {
-                    mConnection.SideAToSideB.ConnectionClosed -= value;
-                }                
+                add => mConnection.SideAToSideB.ConnectionClosed += value;
+                remove => mConnection.SideAToSideB.ConnectionClosed -= value;
             }
 
             public event EventHandler<WampConnectionErrorEventArgs> ConnectionError
             {
-                add
-                {
-                    mConnection.SideAToSideB.ConnectionError += value;
-                }
-                remove
-                {
-                    mConnection.SideAToSideB.ConnectionError -= value;
-                }
+                add => mConnection.SideAToSideB.ConnectionError += value;
+                remove => mConnection.SideAToSideB.ConnectionError -= value;
             }
 
         }

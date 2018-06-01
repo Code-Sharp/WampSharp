@@ -8,7 +8,6 @@ using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
 using WampSharp.Core.Utilities.ValueTuple;
 using WampSharp.V2.Core.Contracts;
-using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.V2.Rpc
 {
@@ -21,7 +20,7 @@ namespace WampSharp.V2.Rpc
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
         private readonly bool mSupportsCancellation;
-        private IWampResultExtractor mResultExtractor;
+        private readonly IWampResultExtractor mResultExtractor;
 
         public AsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) :
             base(procedureName)
@@ -63,25 +62,13 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public override RpcParameter[] Parameters
-        {
-            get { return mParameters; }
-        }
+        public override RpcParameter[] Parameters => mParameters;
 
-        public override bool HasResult
-        {
-            get { return mHasResult; }
-        }
+        public override bool HasResult => mHasResult;
 
-        public override bool SupportsCancellation
-        {
-            get { return mSupportsCancellation; }
-        }
+        public override bool SupportsCancellation => mSupportsCancellation;
 
-        public override CollectionResultTreatment CollectionResultTreatment
-        {
-            get { return mCollectionResultTreatment; }
-        }
+        public override CollectionResultTreatment CollectionResultTreatment => mCollectionResultTreatment;
 
         protected virtual object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, CancellationToken cancellationToken, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {

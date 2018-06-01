@@ -9,8 +9,8 @@
             Permissions = permissions;
         }
 
-        public WampCraChallenge AuthInfo { get; private set; }
-        public string Signature { get; private set; }
-        public WampCraPermissions Permissions { get; private set; }
+        public WampCraChallenge AuthInfo { get; }
+        public string Signature { get; }
+        public WampCraPermissions Permissions { get; }
     }
 }

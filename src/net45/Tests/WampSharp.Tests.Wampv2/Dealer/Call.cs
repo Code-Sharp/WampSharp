@@ -9,34 +9,30 @@ namespace WampSharp.Tests.Wampv2.Dealer
 {
     public class Call
     {
-        private long mRequestId;
-        private CallOptions mOptions;
-        private string mProcedure;
-        private MockRaw[] mArguments;
-        private IDictionary<string, MockRaw> mArgumentsKeywords;
+        private readonly IDictionary<string, MockRaw> mArgumentsKeywords;
 
         public Call(long requestId, CallOptions options, string procedure, MockRaw[] arguments, IDictionary<string, MockRaw> argumentsKeywords)
         {
-            mRequestId = requestId;
-            mOptions = options;
-            mProcedure = procedure;
-            mArguments = arguments;
+            RequestId = requestId;
+            Options = options;
+            Procedure = procedure;
+            Arguments = arguments;
             mArgumentsKeywords = argumentsKeywords;
         }
 
         public Call(WampMessage<MockRaw> message)
         {
-            mRequestId = (long) message.Arguments[0].Value;
+            RequestId = (long) message.Arguments[0].Value;
             MockRawFormatter formatter = new MockRawFormatter();
             
-            mOptions = formatter.Deserialize<CallOptions>
+            Options = formatter.Deserialize<CallOptions>
                 (formatter.Serialize(message.Arguments[1].Value));
             
-            mProcedure = (string) message.Arguments[2].Value;
+            Procedure = (string) message.Arguments[2].Value;
 
             if (message.Arguments.Length >= 4)
             {
-                mArguments =
+                Arguments =
                     (message.Arguments[3].Value as object[])
                         .Select(x => new MockRaw(x)).ToArray();
 
@@ -49,29 +45,14 @@ namespace WampSharp.Tests.Wampv2.Dealer
             }
         }
 
-        public long RequestId
-        {
-            get { return mRequestId; }
-        }
+        public long RequestId { get; }
 
-        public CallOptions Options
-        {
-            get { return mOptions; }
-        }
+        public CallOptions Options { get; }
 
-        public string Procedure
-        {
-            get { return mProcedure; }
-        }
+        public string Procedure { get; }
 
-        public MockRaw[] Arguments
-        {
-            get { return mArguments; }
-        }
+        public MockRaw[] Arguments { get; }
 
-        public IDictionary<string, MockRaw> ArgumentsKeywords
-        {
-            get { return mArgumentsKeywords; }
-        }
+        public IDictionary<string, MockRaw> ArgumentsKeywords => mArgumentsKeywords;
     }
 }

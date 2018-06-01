@@ -14,19 +14,12 @@ namespace WampSharp.V2.Rpc
         {
         }
 
-        public override bool SupportsCancellation
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool SupportsCancellation => false;
 
         protected override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
-                IDictionary<string, object> outputs;
 
                 object result =
                     InvokeSync(caller,
@@ -34,7 +27,7 @@ namespace WampSharp.V2.Rpc
                                details,
                                arguments,
                                argumentsKeywords,
-                               out outputs);
+                               out IDictionary<string, object> outputs);
 
                 CallResult(caller, result, outputs);
             }

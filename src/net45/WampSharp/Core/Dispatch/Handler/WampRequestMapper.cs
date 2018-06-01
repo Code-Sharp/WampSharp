@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using WampSharp.Core.Contracts;
 using WampSharp.Core.Message;
-using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
 
@@ -93,9 +92,8 @@ namespace WampSharp.Core.Dispatch.Handler
 
         public WampMethodInfo Map(WampMessage<TMessage> request)
         {
-            ICollection<WampMethodInfo> candidates;
-            
-            if (!mMapping.TryGetValue(request.MessageType, out candidates))
+
+            if (!mMapping.TryGetValue(request.MessageType, out ICollection<WampMethodInfo> candidates))
             {
                 return mMissingMethod;
             }
@@ -117,7 +115,7 @@ namespace WampSharp.Core.Dispatch.Handler
                     }
 
                     return overloads.First(x => CanBind(x, request.Arguments));
-                }                
+                }
             }
         }
 

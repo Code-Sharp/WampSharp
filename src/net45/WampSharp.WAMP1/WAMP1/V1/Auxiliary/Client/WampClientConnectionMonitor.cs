@@ -60,34 +60,19 @@ namespace WampSharp.V1.Auxiliary.Client
 
         private void RaiseConnectionEstablished(string sessionId, string serverIdent)
         {
-            EventHandler<WampConnectionEstablishedEventArgs> connectionEstablished = ConnectionEstablished;
-
-            if (connectionEstablished != null)
-            {
-                connectionEstablished(this,
+            ConnectionEstablished?.Invoke(this,
                                       new WampConnectionEstablishedEventArgs(sessionId, serverIdent));
-            }
         }
 
         private void RaiseConnectionLost()
         {
-            EventHandler connectionLost = ConnectionLost;
-
-            if (connectionLost != null)
-            {
-                connectionLost(this, EventArgs.Empty);
-            }
+            ConnectionLost?.Invoke(this, EventArgs.Empty);
         }
 
 
         private void RaiseConnectionError(Exception exception)
         {
-            EventHandler<WampConnectionErrorEventArgs> connectionError = ConnectionError;
-
-            if (connectionError != null)
-            {
-                connectionError(this, new WampConnectionErrorEventArgs(exception));
-            }
+            ConnectionError?.Invoke(this, new WampConnectionErrorEventArgs(exception));
         }
 
         public void MapPrefix(string prefix, string uri)
@@ -133,13 +118,7 @@ namespace WampSharp.V1.Auxiliary.Client
                 mParent.OnWelcome(sessionId, protocolVersion, serverIdent);
             }
 
-            public string SessionId
-            {
-                get
-                {
-                    return mParent.SessionId;
-                }
-            }
+            public string SessionId => mParent.SessionId;
         }
 
         #endregion

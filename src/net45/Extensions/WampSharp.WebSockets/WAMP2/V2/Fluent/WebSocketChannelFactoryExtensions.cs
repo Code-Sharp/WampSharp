@@ -1,5 +1,4 @@
 using System;
-using System.Net.WebSockets;
 using WampSharp.WebSockets;
 
 namespace WampSharp.V2.Fluent

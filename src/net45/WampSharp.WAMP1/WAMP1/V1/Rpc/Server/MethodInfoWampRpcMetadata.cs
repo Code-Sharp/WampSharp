@@ -12,7 +12,6 @@ namespace WampSharp.V1.Rpc.Server
     public class MethodInfoWampRpcMetadata : IWampRpcMetadata
     {
         private readonly object mInstance;
-        private readonly string mBaseUri;
 
         /// <summary>
         /// Creates a new instance of <see cref="MethodInfoWampRpcMetadata"/>.
@@ -20,16 +19,10 @@ namespace WampSharp.V1.Rpc.Server
         public MethodInfoWampRpcMetadata(object instance, string baseUri = null)
         {
             mInstance = instance;
-            mBaseUri = baseUri;
+            BaseUri = baseUri;
         }
 
-        protected string BaseUri
-        {
-            get
-            {
-                return mBaseUri;
-            }
-        }
+        protected string BaseUri { get; }
 
         public IEnumerable<IWampRpcMethod> GetServiceMethods()
         {
@@ -58,7 +51,7 @@ namespace WampSharp.V1.Rpc.Server
 
         protected virtual MethodInfoWampRpcMethod CreateRpcMethod(MethodInfo method)
         {
-            return new MethodInfoWampRpcMethod(mInstance, method, mBaseUri);
+            return new MethodInfoWampRpcMethod(mInstance, method, BaseUri);
         }
     }
 }

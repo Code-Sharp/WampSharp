@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 
@@ -9,20 +8,12 @@ namespace WampSharp.V2.Core
 {
     internal class ArgumentUnpacker
     {
-        private readonly LocalParameter[] mParameters;
-
         public ArgumentUnpacker(LocalParameter[] parameters)
         {
-            mParameters = parameters;
+            Parameters = parameters;
         }
 
-        public LocalParameter[] Parameters
-        {
-            get
-            {
-                return mParameters;
-            }
-        }
+        public LocalParameter[] Parameters { get; }
 
         public IEnumerable<object> UnpackParameters<TMessage>(IWampFormatter<TMessage> formatter,
             TMessage[] arguments,
@@ -65,10 +56,9 @@ namespace WampSharp.V2.Core
             }
             else
             {
-                TMessage value;
 
                 if (argumentKeywords != null &&
-                    argumentKeywords.TryGetValue(parameter.Name, out value))
+                    argumentKeywords.TryGetValue(parameter.Name, out TMessage value))
                 {
                     return ConvertNamedParameter(formatter, parameter, value);
                 }

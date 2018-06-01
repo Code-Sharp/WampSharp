@@ -5,8 +5,22 @@
     <authors>CodeSharp</authors>
     <owners />
     <dependencies>
-      <dependency id="WampSharp" version="[$version$]" />
-      <dependency id="Fleck" version="[0.14.0.59]" />
+      <group targetFramework="net46">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Fleck" version="[1.0.3, )" />
+      </group>
+      <group targetFramework="net45">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Fleck" version="[1.0.3, )" />
+      </group>
+      <group targetFramework="net40">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Fleck" version="[0.14.0.59]" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="WampSharp" version="[$version$]" />
+        <dependency id="Fleck" version="[1.0.3, )" />
+      </group>
     </dependencies>
     <id>WampSharp.Fleck</id>
     <title>WampSharp Fleck transport</title>
@@ -16,11 +30,17 @@
     <tags>websockets wampws rpc pubsub fleck wampv1 wampv2</tags>
   </metadata>
   <files>
+    <file src="$bin$\net46\WampSharp.Fleck.dll" target="lib\net46\WampSharp.Fleck.dll" />
+    <file src="$bin$\net46\WampSharp.Fleck.pdb" target="lib\net46\WampSharp.Fleck.pdb" />
+    <file src="$bin$\net46\WampSharp.Fleck.xml" target="lib\net46\WampSharp.Fleck.xml" />
     <file src="$bin$\net45\WampSharp.Fleck.dll" target="lib\net45\WampSharp.Fleck.dll" />
     <file src="$bin$\net45\WampSharp.Fleck.pdb" target="lib\net45\WampSharp.Fleck.pdb" />
     <file src="$bin$\net45\WampSharp.Fleck.xml" target="lib\net45\WampSharp.Fleck.xml" />
     <file src="$bin$\net40\WampSharp.Fleck.dll" target="lib\net40\WampSharp.Fleck.dll" />
     <file src="$bin$\net40\WampSharp.Fleck.pdb" target="lib\net40\WampSharp.Fleck.pdb" />
     <file src="$bin$\net40\WampSharp.Fleck.xml" target="lib\net40\WampSharp.Fleck.xml" />
+    <file src="$bin$\netstandard2.0\WampSharp.Fleck.dll" target="lib\netstandard2.0\WampSharp.Fleck.dll" />
+    <file src="$bin$\netstandard2.0\WampSharp.Fleck.pdb" target="lib\netstandard2.0\WampSharp.Fleck.pdb" />
+    <file src="$bin$\netstandard2.0\WampSharp.Fleck.xml" target="lib\netstandard2.0\WampSharp.Fleck.xml" />
   </files>
 </package>

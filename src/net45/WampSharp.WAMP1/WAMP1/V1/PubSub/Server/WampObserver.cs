@@ -9,7 +9,6 @@ namespace WampSharp.V1.PubSub.Server
     public class WampObserver : IObserver<object>
     {
         private readonly string mTopicUri;
-        private readonly IWampClient mClient;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampObserver"/>.
@@ -19,30 +18,18 @@ namespace WampSharp.V1.PubSub.Server
         public WampObserver(string topicUri, IWampClient client)
         {
             mTopicUri = topicUri;
-            mClient = client;
+            Client = client;
         }
 
         /// <summary>
         /// Gets the session id of the client.
         /// </summary>
-        public string SessionId
-        {
-            get
-            {
-                return Client.SessionId;
-            }
-        }
+        public string SessionId => Client.SessionId;
 
         /// <summary>
         /// Gets a proxy to the client.
         /// </summary>
-        public IWampClient Client
-        {
-            get
-            {
-                return mClient;
-            }
-        }
+        public IWampClient Client { get; }
 
         public void OnNext(object value)
         {

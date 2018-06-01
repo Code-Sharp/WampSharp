@@ -9,20 +9,17 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
 {
     internal abstract class BaseScenario
     {
-        private MockBinding mBinding;
-        private WampMockClientBuilder<MockRaw> mClientBuilder;
-        private object mServer;
-        private WampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> mHandler;
+        private readonly object mServer;
 
         public BaseScenario()
         {
-            mBinding = new MockBinding();
+            Binding = new MockBinding();
 
-            mClientBuilder = new WampMockClientBuilder<MockRaw>(Binding);
+            ClientBuilder = new WampMockClientBuilder<MockRaw>(Binding);
 
             mServer = CreateServer();
 
-            mHandler =
+            Handler =
                 new WampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>>
                     (new WampRequestMapper<MockRaw>(mServer.GetType(),
                                                     Binding.Formatter),
@@ -32,19 +29,10 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
 
         protected abstract object CreateServer();
 
-        public MockBinding Binding
-        {
-            get { return mBinding; }
-        }
+        public MockBinding Binding { get; }
 
-        public WampMockClientBuilder<MockRaw> ClientBuilder
-        {
-            get { return mClientBuilder; }
-        }
+        public WampMockClientBuilder<MockRaw> ClientBuilder { get; }
 
-        public WampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> Handler
-        {
-            get { return mHandler; }
-        }
+        public WampIncomingMessageHandler<MockRaw, IWampClientProxy<MockRaw>> Handler { get; }
     }
 }

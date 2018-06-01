@@ -43,7 +43,7 @@
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fleck" Version="0.14.0.59" />
+    <PackageReference Include="Fleck" Version="1.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

@@ -15,9 +15,8 @@ namespace WampSharp.Core.Dispatch.Handler
 
         public TMethod Get(TKey key)
         {
-            TMethod method;
 
-            if (mKeyToMethod.TryGetValue(key, out method))
+            if (mKeyToMethod.TryGetValue(key, out TMethod method))
             {
                 return method;
             }

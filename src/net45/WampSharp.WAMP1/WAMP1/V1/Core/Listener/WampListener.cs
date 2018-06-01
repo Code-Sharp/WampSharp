@@ -59,12 +59,7 @@ namespace WampSharp.V1.Core.Listener
 
         private void RaiseSessionCreated(IWampClient client)
         {
-            EventHandler<WampSessionEventArgs> sessionCreated = SessionCreated;
-
-            if (sessionCreated != null)
-            {
-                sessionCreated(this, new WampSessionEventArgs(client.SessionId));
-            }
+            SessionCreated?.Invoke(this, new WampSessionEventArgs(client.SessionId));
         }
 
         protected override void OnCloseConnection(IWampConnection<TMessage> connection)

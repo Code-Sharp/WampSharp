@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using SystemEx;
@@ -36,7 +35,7 @@ namespace WampSharp.V2.Client
         private readonly ConcurrentDictionary<long, InvocationData> mInvocations =
             new ConcurrentDictionary<long, InvocationData>();
 
-        private SwapDictionary<long, SwapCollection<long>> mRegistrationsToInvocations = 
+        private readonly SwapDictionary<long, SwapCollection<long>> mRegistrationsToInvocations = 
             new SwapDictionary<long, SwapCollection<long>>();
 
         private readonly object mLock = new object();
@@ -72,19 +71,15 @@ namespace WampSharp.V2.Client
 
         public void Registered(long requestId, long registrationId)
         {
-            RegisterRequest registerRequest;
 
-            if (mPendingRegistrations.TryRemove(requestId, out registerRequest))
+            if (mPendingRegistrations.TryRemove(requestId, out RegisterRequest registerRequest))
             {
                 mRegistrations[registrationId] = registerRequest.Operation;
                 registerRequest.Complete(new UnregisterDisposable(this, registrationId));
             }
         }
 
-        private bool IsConnected
-        {
-            get { return mMonitor.IsConnected; }
-        }
+        private bool IsConnected => mMonitor.IsConnected;
 
         private class UnregisterDisposable : IAsyncDisposable
         {
@@ -124,25 +119,21 @@ namespace WampSharp.V2.Client
 
         public void Unregistered(long requestId)
         {
-            UnregisterRequest unregisterRequest;
 
-            if (mPendingUnregistrations.TryRemove(requestId, out unregisterRequest))
+            if (mPendingUnregistrations.TryRemove(requestId, out UnregisterRequest unregisterRequest))
             {
-                IWampRpcOperation operation;
-                mRegistrations.TryRemove(requestId, out operation);
+                mRegistrations.TryRemove(requestId, out IWampRpcOperation operation);
 
                 lock (mLock)
                 {
-                    SwapCollection<long> invocationsToRemove;
 
-                    if (mRegistrationsToInvocations.TryGetValue(requestId, out invocationsToRemove))
+                    if (mRegistrationsToInvocations.TryGetValue(requestId, out SwapCollection<long> invocationsToRemove))
                     {
                         mRegistrationsToInvocations.Remove(requestId);
 
                         foreach (long invocationId in invocationsToRemove)
                         {
-                            InvocationData invocation;
-                            mInvocations.TryRemove(invocationId, out invocation);
+                            mInvocations.TryRemove(invocationId, out InvocationData invocation);
                         }
                     }
                 }
@@ -153,9 +144,8 @@ namespace WampSharp.V2.Client
 
         private IWampRpcOperation TryGetOperation(long registrationId)
         {
-            IWampRpcOperation operation;
 
-            if (mRegistrations.TryGetValue(registrationId, out operation))
+            if (mRegistrations.TryGetValue(registrationId, out IWampRpcOperation operation))
             {
                 return operation;
             }
@@ -227,9 +217,8 @@ namespace WampSharp.V2.Client
 
         public void RegisterError(long requestId, TMessage details, string error)
         {
-            RegisterRequest registerRequest;
 
-            if (mPendingRegistrations.TryRemove(requestId, out registerRequest))
+            if (mPendingRegistrations.TryRemove(requestId, out RegisterRequest registerRequest))
             {
                 registerRequest.Error(details, error);
             }
@@ -237,9 +226,8 @@ namespace WampSharp.V2.Client
 
         public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            RegisterRequest registerRequest;
 
-            if (mPendingRegistrations.TryRemove(requestId, out registerRequest))
+            if (mPendingRegistrations.TryRemove(requestId, out RegisterRequest registerRequest))
             {
                 registerRequest.Error(details, error, arguments);
             }
@@ -247,9 +235,8 @@ namespace WampSharp.V2.Client
 
         public void RegisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            RegisterRequest registerRequest;
 
-            if (mPendingRegistrations.TryRemove(requestId, out registerRequest))
+            if (mPendingRegistrations.TryRemove(requestId, out RegisterRequest registerRequest))
             {
                 registerRequest.Error(details, error, arguments, argumentsKeywords);
             }
@@ -257,9 +244,8 @@ namespace WampSharp.V2.Client
 
         public void UnregisterError(long requestId, TMessage details, string error)
         {
-            UnregisterRequest unregisterRequest;
 
-            if (mPendingUnregistrations.TryRemove(requestId, out unregisterRequest))
+            if (mPendingUnregistrations.TryRemove(requestId, out UnregisterRequest unregisterRequest))
             {
                 unregisterRequest.Error(details, error);
             }
@@ -267,9 +253,8 @@ namespace WampSharp.V2.Client
 
         public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            UnregisterRequest unregisterRequest;
 
-            if (mPendingUnregistrations.TryRemove(requestId, out unregisterRequest))
+            if (mPendingUnregistrations.TryRemove(requestId, out UnregisterRequest unregisterRequest))
             {
                 unregisterRequest.Error(details, error, arguments);
             }
@@ -277,9 +262,8 @@ namespace WampSharp.V2.Client
 
         public void UnregisterError(long requestId, TMessage details, string error, TMessage[] arguments, TMessage argumentsKeywords)
         {
-            UnregisterRequest unregisterRequest;
 
-            if (mPendingUnregistrations.TryRemove(requestId, out unregisterRequest))
+            if (mPendingUnregistrations.TryRemove(requestId, out UnregisterRequest unregisterRequest))
             {
                 unregisterRequest.Error(details, error, arguments, argumentsKeywords);
             }
@@ -287,9 +271,8 @@ namespace WampSharp.V2.Client
 
         public void Interrupt(long requestId, InterruptDetails details)
         {
-            InvocationData invocation;
 
-            if (mInvocations.TryRemove(requestId, out invocation))
+            if (mInvocations.TryRemove(requestId, out InvocationData invocation))
             {
                 invocation.Cancellation.Cancel(details);
 
@@ -302,21 +285,13 @@ namespace WampSharp.V2.Client
 
         private class RegisterRequest : WampPendingRequest<TMessage, IAsyncDisposable>
         {
-            private readonly IWampRpcOperation mOperation;
-
             public RegisterRequest(IWampRpcOperation operation, IWampFormatter<TMessage> formatter) :
                 base(formatter)
             {
-                mOperation = operation;
+                Operation = operation;
             }
 
-            public IWampRpcOperation Operation
-            {
-                get
-                {
-                    return mOperation;
-                }
-            }
+            public IWampRpcOperation Operation { get; }
         }
 
         private class UnregisterRequest : WampPendingRequest<TMessage>
@@ -358,21 +333,14 @@ namespace WampSharp.V2.Client
         private class ServerProxyCallback : IWampRawRpcOperationRouterCallback
         {
             private readonly IWampServerProxy mProxy;
-            private readonly long mRequestId;
 
             public ServerProxyCallback(IWampServerProxy proxy, long requestId)
             {
                 mProxy = proxy;
-                mRequestId = requestId;
+                RequestId = requestId;
             }
 
-            public long RequestId
-            {
-                get
-                {
-                    return mRequestId;
-                }
-            }
+            public long RequestId { get; }
 
             public void Result<TResult>(IWampFormatter<TResult> formatter, YieldOptions options)
             {
@@ -407,24 +375,17 @@ namespace WampSharp.V2.Client
 
         private class InvocationData
         {
-            private readonly IWampCancellableInvocation mCancellation;
             private readonly long mRegistrationId;
 
             public InvocationData(long registrationId, IWampCancellableInvocation cancellation)
             {
-                mCancellation = cancellation;
+                Cancellation = cancellation;
                 mRegistrationId = registrationId;
             }
 
-            public IWampCancellableInvocation Cancellation
-            {
-                get { return mCancellation; }
-            }
+            public IWampCancellableInvocation Cancellation { get; }
 
-            public long RegistrationId
-            {
-                get { return mRegistrationId; }
-            }
+            public long RegistrationId => mRegistrationId;
         }
     }
 }

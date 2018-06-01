@@ -10,7 +10,6 @@ namespace WampSharp.Core.Listener
     /// </remarks>
     public class WampConnectionErrorEventArgs : EventArgs
     {
-        private readonly Exception mException;
 
         /// <summary>
         /// Initializes an new instance of <see cref="WampConnectionErrorEventArgs"/>.
@@ -18,18 +17,12 @@ namespace WampSharp.Core.Listener
         /// <param name="exception">The exception that describes this error.</param>
         public WampConnectionErrorEventArgs(Exception exception)
         {
-            mException = exception;
+            Exception = exception;
         }
 
         /// <summary>
         /// Gets the exception that represents the error.
         /// </summary>
-        public Exception Exception
-        {
-            get
-            {
-                return mException;
-            }
-        }
+        public Exception Exception { get; }
     }
 }

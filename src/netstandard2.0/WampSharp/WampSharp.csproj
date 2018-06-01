@@ -15,13 +15,13 @@
   </ItemGroup>
   
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <DefineConstants>$(DefineConstants);NET45;NETCORE;PCL;CASTLE;LIBLOG_PUBLIC;LIBLOG_PORTABLE;TPL;ASYNC_LOCAL;ASYNC;WAMPCRA</DefineConstants>
+    <DefineConstants>$(DefineConstants);NET45;CASTLE;LIBLOG_PUBLIC;TPL;ASYNC_LOCAL;ASYNC;WAMPCRA</DefineConstants>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="Castle.Core" Version="4.2.1" />
-    <PackageReference Include="System.Reactive" Version="3.0.0" />
+    <PackageReference Include="System.Reactive" Version="4.0.0" />
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.7.0" />
     <PackageReference Include="System.Collections.Immutable" Version="1.3.1" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />

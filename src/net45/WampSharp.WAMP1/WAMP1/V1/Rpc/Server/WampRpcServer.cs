@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.V1.Core.Contracts;
@@ -74,9 +73,8 @@ namespace WampSharp.V1.Rpc.Server
 
         private static void HandleException(IWampClient client, string callId, Exception innerException)
         {
-            WampRpcCallException callException = innerException as WampRpcCallException;
 
-            if (callException != null)
+            if (innerException is WampRpcCallException callException)
             {
                 HandleWampException(client, callId, callException);
             }

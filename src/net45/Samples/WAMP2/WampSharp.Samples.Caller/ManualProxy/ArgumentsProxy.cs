@@ -101,10 +101,7 @@ namespace WampSharp.Samples.Caller.ManualProxy
         {
             protected readonly TaskCompletionSource<T> mTask = new TaskCompletionSource<T>();
 
-            public Task<T> Task
-            {
-                get { return mTask.Task; }
-            }
+            public Task<T> Task => mTask.Task;
 
             public abstract void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details);
 

@@ -19,19 +19,12 @@ namespace WampSharp.Tests.Rpc.Helpers
             mCallIdToCallDetails[callId] = new MockWampRpcCallDetails<TMessage>(client, callId, procUri, arguments);
         }
 
-        public IEnumerable<MockWampRpcCallDetails<TMessage>> AllCalls
-        {
-            get
-            {
-                return mCallIdToCallDetails.Values;
-            }
-        }
+        public IEnumerable<MockWampRpcCallDetails<TMessage>> AllCalls => mCallIdToCallDetails.Values;
 
         public MockWampRpcCallDetails<TMessage> GetCallDetails(string callId)
         {
-            MockWampRpcCallDetails<TMessage> result;
 
-            if (mCallIdToCallDetails.TryGetValue(callId, out result))
+            if (mCallIdToCallDetails.TryGetValue(callId, out MockWampRpcCallDetails<TMessage> result))
             {
                 return result;
             }

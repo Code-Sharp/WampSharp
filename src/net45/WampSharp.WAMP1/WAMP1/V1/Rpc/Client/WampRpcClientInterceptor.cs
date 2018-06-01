@@ -8,7 +8,6 @@ namespace WampSharp.V1.Rpc.Client
     /// </summary>
     public abstract class WampRpcClientInterceptor : IInterceptor
     {
-        private readonly IWampRpcSerializer mSerializer;
         private readonly IWampRpcClientHandler mClientHandler;
 
         /// <summary>
@@ -18,32 +17,20 @@ namespace WampSharp.V1.Rpc.Client
         /// <param name="clientHandler"></param>
         public WampRpcClientInterceptor(IWampRpcSerializer serializer, IWampRpcClientHandler clientHandler)
         {
-            mSerializer = serializer;
+            Serializer = serializer;
             mClientHandler = clientHandler;
         }
 
         /// <summary>
         /// The serializer used in order to serialize method calls.
         /// </summary>
-        public IWampRpcSerializer Serializer
-        {
-            get
-            {
-                return mSerializer;
-            }
-        }
+        public IWampRpcSerializer Serializer { get; }
 
         /// <summary>
         /// The <see cref="IWampRpcClientHandler"/> use in order
         /// to handle serialized <see cref="WampRpcCall"/>s.
         /// </summary>
-        public IWampRpcClientHandler ClientHandler
-        {
-            get
-            {
-                return mClientHandler;
-            }
-        }
+        public IWampRpcClientHandler ClientHandler => mClientHandler;
 
         /// <summary>
         /// Implementation of <see cref="IInterceptor.Intercept"/>.

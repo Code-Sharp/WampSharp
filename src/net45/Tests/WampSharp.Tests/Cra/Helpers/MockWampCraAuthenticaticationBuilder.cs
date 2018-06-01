@@ -4,8 +4,6 @@ namespace WampSharp.Tests.Cra.Helpers
 {
     public class MockWampCraAuthenticaticationBuilder<TMessage> : WampCraAuthenticaticatorBuilder<TMessage>
     {
-        private bool mRequireSalted = true;
-
         public override WampCraAuthenticator<TMessage> BuildAuthenticator(string clientSessionId)
         {
             MockWampCraAuthenticator<TMessage> result = new MockWampCraAuthenticator<TMessage>(clientSessionId, Formatter, RpcMetadataCatalog, TopicContainer);
@@ -14,12 +12,7 @@ namespace WampSharp.Tests.Cra.Helpers
             return result;
         }
 
-        public bool RequireSalted
-        {
-            get { return mRequireSalted; }
-            set { mRequireSalted = value; }
-        }
-
+        public bool RequireSalted { get; set; } = true;
         public bool AllowAnonymous { get; set; }
     }
 }

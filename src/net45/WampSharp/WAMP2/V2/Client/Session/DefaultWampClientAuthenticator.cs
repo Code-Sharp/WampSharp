@@ -18,20 +18,8 @@ namespace WampSharp.V2.Client
             throw new WampAuthenticationNotImplementedException("Authentication was requested but no authenticator was provided");
         }
 
-        public string[] AuthenticationMethods
-        {
-            get
-            {
-                return null;
-            }
-        }
+        public string[] AuthenticationMethods => null;
 
-        public string AuthenticationId
-        {
-            get
-            {
-                return null;
-            }
-        }
+        public string AuthenticationId => null;
     }
 }

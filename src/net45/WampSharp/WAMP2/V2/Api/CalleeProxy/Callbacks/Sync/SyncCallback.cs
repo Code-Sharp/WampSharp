@@ -13,7 +13,6 @@ namespace WampSharp.V2.CalleeProxy
         private readonly ILog mLogger;
         protected readonly MethodInfoHelper mMethodInfoHelper;
         private readonly object[] mArguments;
-        private TResult mResult;
 
         public SyncCallback(string procedureUri, MethodInfoHelper methodInfoHelper, object[] arguments, IOperationResultExtractor<TResult> extractor)
         {
@@ -23,10 +22,7 @@ namespace WampSharp.V2.CalleeProxy
             mExtractor = extractor;
         }
 
-        public TResult OperationResult
-        {
-            get { return mResult; }
-        }
+        public TResult OperationResult { get; private set; }
 
         public override void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
         {
@@ -74,7 +70,7 @@ namespace WampSharp.V2.CalleeProxy
 
         protected void SetResult(TResult result)
         {
-            mResult = result;
+            OperationResult = result;
             ResultArrived();
         }
     }

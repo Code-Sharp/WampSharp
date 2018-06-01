@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 

@@ -192,37 +192,13 @@ namespace WampSharp.Tests.Wampv2.Integration
                 mAction = action;
             }
 
-            public override RpcParameter[] Parameters
-            {
-                get
-                {
-                    return new RpcParameter[0];
-                }
-            }
+            public override RpcParameter[] Parameters => new RpcParameter[0];
 
-            public override bool HasResult
-            {
-                get
-                {
-                    return false;
-                }
-            }
+            public override bool HasResult => false;
 
-            public override bool SupportsCancellation
-            {
-                get
-                {
-                    return false;
-                }
-            }
+            public override bool SupportsCancellation => false;
 
-            public override CollectionResultTreatment CollectionResultTreatment
-            {
-                get
-                {
-                    return CollectionResultTreatment.SingleValue;
-                }
-            }
+            public override CollectionResultTreatment CollectionResultTreatment => CollectionResultTreatment.SingleValue;
 
             protected override IWampCancellableInvocation InnerInvoke<TMessage>
                 (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)

@@ -14,7 +14,7 @@ namespace WampSharp.V1.Rpc.Server
         /// Creates a new instance of <see cref="ProcUriAlreadyMappedException"/>.
         /// </summary>
         /// <param name="procUri">The given proc uri.</param>
-        public ProcUriAlreadyMappedException(string procUri) : base(string.Format("The following procUri is already mapped: {0}", procUri))
+        public ProcUriAlreadyMappedException(string procUri) : base($"The following procUri is already mapped: {procUri}")
         {
         }
 

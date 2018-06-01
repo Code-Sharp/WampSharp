@@ -10,18 +10,18 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
         {
             public class PublisherToBroker
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
                 static PublisherToBroker()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -245,7 +245,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class BrokerToPublisher
             {
-                private static WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest0;
                 static BrokerToPublisher()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -290,9 +290,9 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class SubscriberToBroker
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
                 static SubscriberToBroker()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -374,15 +374,15 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class BrokerToSubscriber
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
                 static BrokerToSubscriber()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -541,29 +541,29 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
         {
             public class PublisherToBroker
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
-                private static WampMessage<MockRaw> mRequest12;
-                private static WampMessage<MockRaw> mRequest13;
-                private static WampMessage<MockRaw> mRequest14;
-                private static WampMessage<MockRaw> mRequest15;
-                private static WampMessage<MockRaw> mRequest16;
-                private static WampMessage<MockRaw> mRequest17;
-                private static WampMessage<MockRaw> mRequest18;
-                private static WampMessage<MockRaw> mRequest19;
-                private static WampMessage<MockRaw> mRequest20;
-                private static WampMessage<MockRaw> mRequest21;
-                private static WampMessage<MockRaw> mRequest22;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest12;
+                private static readonly WampMessage<MockRaw> mRequest13;
+                private static readonly WampMessage<MockRaw> mRequest14;
+                private static readonly WampMessage<MockRaw> mRequest15;
+                private static readonly WampMessage<MockRaw> mRequest16;
+                private static readonly WampMessage<MockRaw> mRequest17;
+                private static readonly WampMessage<MockRaw> mRequest18;
+                private static readonly WampMessage<MockRaw> mRequest19;
+                private static readonly WampMessage<MockRaw> mRequest20;
+                private static readonly WampMessage<MockRaw> mRequest21;
+                private static readonly WampMessage<MockRaw> mRequest22;
                 static PublisherToBroker()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1073,7 +1073,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class BrokerToPublisher
             {
-                private static WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest0;
                 static BrokerToPublisher()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1118,10 +1118,10 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class SubscriberToBroker
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
                 static SubscriberToBroker()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1215,20 +1215,20 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class BrokerToSubscriber
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
-                private static WampMessage<MockRaw> mRequest12;
-                private static WampMessage<MockRaw> mRequest13;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest12;
+                private static readonly WampMessage<MockRaw> mRequest13;
                 static BrokerToSubscriber()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1511,29 +1511,29 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
         {
             public class PublisherToBroker
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
-                private static WampMessage<MockRaw> mRequest12;
-                private static WampMessage<MockRaw> mRequest13;
-                private static WampMessage<MockRaw> mRequest14;
-                private static WampMessage<MockRaw> mRequest15;
-                private static WampMessage<MockRaw> mRequest16;
-                private static WampMessage<MockRaw> mRequest17;
-                private static WampMessage<MockRaw> mRequest18;
-                private static WampMessage<MockRaw> mRequest19;
-                private static WampMessage<MockRaw> mRequest20;
-                private static WampMessage<MockRaw> mRequest21;
-                private static WampMessage<MockRaw> mRequest22;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest12;
+                private static readonly WampMessage<MockRaw> mRequest13;
+                private static readonly WampMessage<MockRaw> mRequest14;
+                private static readonly WampMessage<MockRaw> mRequest15;
+                private static readonly WampMessage<MockRaw> mRequest16;
+                private static readonly WampMessage<MockRaw> mRequest17;
+                private static readonly WampMessage<MockRaw> mRequest18;
+                private static readonly WampMessage<MockRaw> mRequest19;
+                private static readonly WampMessage<MockRaw> mRequest20;
+                private static readonly WampMessage<MockRaw> mRequest21;
+                private static readonly WampMessage<MockRaw> mRequest22;
                 static PublisherToBroker()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1922,7 +1922,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class BrokerToPublisher
             {
-                private static WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest0;
                 static BrokerToPublisher()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1967,10 +1967,10 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class SubscriberToBroker
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
                 static SubscriberToBroker()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2064,22 +2064,22 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class BrokerToSubscriber
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
-                private static WampMessage<MockRaw> mRequest12;
-                private static WampMessage<MockRaw> mRequest13;
-                private static WampMessage<MockRaw> mRequest14;
-                private static WampMessage<MockRaw> mRequest15;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest12;
+                private static readonly WampMessage<MockRaw> mRequest13;
+                private static readonly WampMessage<MockRaw> mRequest14;
+                private static readonly WampMessage<MockRaw> mRequest15;
                 static BrokerToSubscriber()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2337,18 +2337,18 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
         {
             public class PublisherToBroker
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
                 static PublisherToBroker()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2594,18 +2594,18 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class BrokerToPublisher
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
                 static BrokerToPublisher()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2749,9 +2749,9 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class SubscriberToBroker
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
                 static SubscriberToBroker()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2833,15 +2833,15 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class BrokerToSubscriber
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
                 static BrokerToSubscriber()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3006,18 +3006,18 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
         {
             public class PublisherToBroker
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
                 static PublisherToBroker()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3241,7 +3241,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class BrokerToPublisher
             {
-                private static WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest0;
                 static BrokerToPublisher()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3286,10 +3286,10 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class SubscriberToBroker
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
                 static SubscriberToBroker()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3381,16 +3381,16 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
 
             public class BrokerToSubscriber
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
                 static BrokerToSubscriber()
                 {
                     mRequest0 = new WampMessage<MockRaw>();

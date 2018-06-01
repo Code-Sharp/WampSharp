@@ -22,9 +22,8 @@ namespace WampSharp.V2
 
         public CallOptions GetCallOptions(MethodInfo method)
         {
-            CallOptions result;
 
-            if (!mMethodToCallOptions.TryGetValue(method, out result))
+            if (!mMethodToCallOptions.TryGetValue(method, out CallOptions result))
             {
                 result = mUnderlying.GetCallOptions(method);
                 mMethodToCallOptions[method] = result;
@@ -35,9 +34,8 @@ namespace WampSharp.V2
 
         public string GetProcedureUri(MethodInfo method)
         {
-            string result;
 
-            if (!mMethodToProcedureUri.TryGetValue(method, out result))
+            if (!mMethodToProcedureUri.TryGetValue(method, out string result))
             {
                 result = mUnderlying.GetProcedureUri(method);
                 mMethodToProcedureUri[method] = result;

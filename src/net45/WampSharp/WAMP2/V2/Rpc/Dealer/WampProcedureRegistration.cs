@@ -10,7 +10,6 @@ namespace WampSharp.V2.Rpc
 {
     internal class WampProcedureRegistration : IWampProcedureRegistration
     {
-        private readonly string mProcedureUri;
         private readonly RegisterOptions mRegisterOptions;
 
         private IImmutableList<IWampRpcOperation> mOperations =
@@ -21,7 +20,7 @@ namespace WampSharp.V2.Rpc
 
         public WampProcedureRegistration(string procedureUri, RegisterOptions registerOptions)
         {
-            mProcedureUri = procedureUri;
+            Procedure = procedureUri;
             mSelector = GetOperationSelector(registerOptions.Invoke);
             mRegisterOptions = registerOptions;
         }
@@ -42,7 +41,7 @@ namespace WampSharp.V2.Rpc
                 default:
                     throw new WampException
                         (WampErrors.InvalidOptions,
-                         string.Format("invoke = {0} isn't supported", invocationPolicy));
+                         $"invoke = {invocationPolicy} isn't supported");
             }
         }
 
@@ -80,7 +79,7 @@ namespace WampSharp.V2.Rpc
                 else
                 {
                     string registerError =
-                        string.Format("register for already registered procedure '{0}'", operation.Procedure);
+                        $"register for already registered procedure '{operation.Procedure}'";
 
                     throw new WampException(WampErrors.ProcedureAlreadyExists,
                                             registerError);
@@ -93,11 +92,7 @@ namespace WampSharp.V2.Rpc
             if (RegisterOptions.Invoke != registerOptions.Invoke)
             {
                 string messageDetails =
-                    string.Format(
-                        "register for already registered procedure '{0}' with conflicting invocation policy (has {1} and {2} was requested)",
-                        this.Procedure, 
-                        this.RegisterOptions.Invoke, 
-                        registerOptions.Invoke);
+                    $"register for already registered procedure '{this.Procedure}' with conflicting invocation policy (has {this.RegisterOptions.Invoke} and {registerOptions.Invoke} was requested)";
 
                 throw new WampException
                     (WampErrors.ProcedureExistsInvocationPolicyConflict,
@@ -124,37 +119,14 @@ namespace WampSharp.V2.Rpc
 
         protected virtual void RaiseEmpty()
         {
-            EventHandler handler = Empty;
-
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            Empty?.Invoke(this, EventArgs.Empty);
         }
 
-        public string Procedure
-        {
-            get
-            {
-                return mProcedureUri;
-            }
-        }
+        public string Procedure { get; }
 
-        public bool HasOperations
-        {
-            get
-            {
-                return mOperations.Any();
-            }
-        }
+        public bool HasOperations => mOperations.Any();
 
-        public RegisterOptions RegisterOptions
-        {
-            get
-            {
-                return mRegisterOptions;
-            }
-        }
+        public RegisterOptions RegisterOptions => mRegisterOptions;
 
         public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
                                      InvocationDetails details)
@@ -208,42 +180,22 @@ namespace WampSharp.V2.Rpc
 
         private void RaiseCalleeRegistering(IWampRpcOperation operation)
         {
-            EventHandler<WampCalleeAddEventArgs> handler = CalleeRegistering;
-
-            if (handler != null)
-            {
-                handler(this, new WampCalleeAddEventArgs(operation));
-            }
+            CalleeRegistering?.Invoke(this, new WampCalleeAddEventArgs(operation));
         }
 
         private void RaiseCalleeRegistered(IWampRpcOperation operation)
         {
-            EventHandler<WampCalleeAddEventArgs> handler = CalleeRegistered;
-
-            if (handler != null)
-            {
-                handler(this, new WampCalleeAddEventArgs(operation));
-            }
+            CalleeRegistered?.Invoke(this, new WampCalleeAddEventArgs(operation));
         }
 
         private void RaiseCalleeUnregistering(IWampRpcOperation operation)
         {
-            EventHandler<WampCalleeRemoveEventArgs> handler = CalleeUnregistering;
-
-            if (handler != null)
-            {
-                handler(this, new WampCalleeRemoveEventArgs(operation));
-            }
+            CalleeUnregistering?.Invoke(this, new WampCalleeRemoveEventArgs(operation));
         }
 
         private void RaiseCalleeUnregistered(IWampRpcOperation operation)
         {
-            EventHandler<WampCalleeRemoveEventArgs> handler = CalleeUnregistered;
-
-            if (handler != null)
-            {
-                handler(this, new WampCalleeRemoveEventArgs(operation));
-            }
+            CalleeUnregistered?.Invoke(this, new WampCalleeRemoveEventArgs(operation));
         }
 
         private class WampRegistrationToken : IWampRegistrationSubscriptionToken
@@ -262,13 +214,7 @@ namespace WampSharp.V2.Rpc
                 mRegistration.RemoveOperation(mOperation);
             }
 
-            public long TokenId
-            {
-                get
-                {
-                    return mRegistration.RegistrationId;
-                }
-            }
+            public long TokenId => mRegistration.RegistrationId;
         }
     }
 }

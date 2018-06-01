@@ -14,13 +14,12 @@ namespace WampSharp.V2.Client
     {
         private readonly IWampServerProxy mProxy;
         private readonly WampIdMapper<CallDetails> mPendingCalls = new WampIdMapper<CallDetails>();
-        private readonly IWampFormatter<TMessage> mFormatter;
         private readonly IWampClientConnectionMonitor mMonitor;
 
         public WampCaller(IWampServerProxy proxy, IWampFormatter<TMessage> formatter, IWampClientConnectionMonitor monitor)
         {
             mProxy = proxy;
-            mFormatter = formatter;
+            Formatter = formatter;
             mMonitor = monitor;
             monitor.ConnectionBroken += OnConnectionBroken;
             monitor.ConnectionError += OnConnectionError;
@@ -74,13 +73,7 @@ namespace WampSharp.V2.Client
             return new WampCancellableInvocationProxy(mProxy, requestId);
         }
 
-        private bool IsConnected
-        {
-            get
-            {
-                return mMonitor.IsConnected;
-            }
-        }
+        private bool IsConnected => mMonitor.IsConnected;
 
         public void Result(long requestId, ResultDetails details)
         {
@@ -151,9 +144,8 @@ namespace WampSharp.V2.Client
 
         private CallDetails TryGetCallDetails(long requestId)
         {
-            CallDetails result;
 
-            if (mPendingCalls.TryRemove(requestId, out result))
+            if (mPendingCalls.TryRemove(requestId, out CallDetails result))
             {
                 return result;
             }
@@ -163,12 +155,11 @@ namespace WampSharp.V2.Client
 
         private CallDetails TryGetCallDetails(long requestId, ResultDetails details)
         {
-            CallDetails result;
 
-            if (mPendingCalls.TryGetValue(requestId, out result))
+            if (mPendingCalls.TryGetValue(requestId, out CallDetails result))
             {
                 bool progressive = details.Progress == true;
-                
+
                 if (!progressive)
                 {
                     mPendingCalls.TryRemove(requestId, out result);
@@ -180,28 +171,18 @@ namespace WampSharp.V2.Client
             return null;
         }
 
-        private IWampFormatter<TMessage> Formatter
-        {
-            get
-            {
-                return mFormatter;
-            }
-        }
+        private IWampFormatter<TMessage> Formatter { get; }
 
         private class CallDetails
         {
-            private readonly IWampRawRpcOperationClientCallback mCaller;
-            private readonly CallOptions mOptions;
-            private readonly string mProcedure;
-            private readonly object[] mArguments;
             private readonly IDictionary<string, object> mArgumentsKeywords;
 
             public CallDetails(IWampRawRpcOperationClientCallback caller, CallOptions options, string procedure, object[] arguments = null, IDictionary<string, object> argumentsKeywords = null)
             {
-                mCaller = caller;
-                mOptions = options;
-                mProcedure = procedure;
-                mArguments = arguments;
+                Caller = caller;
+                Options = options;
+                Procedure = procedure;
+                Arguments = arguments;
                 mArgumentsKeywords = argumentsKeywords;
             }
 
@@ -211,45 +192,15 @@ namespace WampSharp.V2.Client
                 set;
             }
 
-            public IWampRawRpcOperationClientCallback Caller
-            {
-                get
-                {
-                    return mCaller;
-                }
-            }
+            public IWampRawRpcOperationClientCallback Caller { get; }
 
-            public CallOptions Options
-            {
-                get
-                {
-                    return mOptions;
-                }
-            }
+            public CallOptions Options { get; }
 
-            public string Procedure
-            {
-                get
-                {
-                    return mProcedure;
-                }
-            }
+            public string Procedure { get; }
 
-            public object[] Arguments
-            {
-                get
-                {
-                    return mArguments;
-                }
-            }
+            public object[] Arguments { get; }
 
-            public IDictionary<string, object> ArgumentsKeywords
-            {
-                get
-                {
-                    return mArgumentsKeywords;
-                }
-            }
+            public IDictionary<string, object> ArgumentsKeywords => mArgumentsKeywords;
         }
 
         public void OnConnectionError(object sender, WampConnectionErrorEventArgs wampConnectionErrorEventArgs)

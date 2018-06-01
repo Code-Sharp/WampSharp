@@ -33,7 +33,7 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 
         protected override void OpenConnection<TMessage>(WebSocketData original, IWampConnection<TMessage> connection)
         {
-            WebSocketWrapperConnection<TMessage> casted = connection as WebSocketWrapperConnection<TMessage>;
+            IWampWebSocketWrapperConnection casted = connection as IWampWebSocketWrapperConnection;
 
             Task task = Task.Run(casted.RunAsync);
 
@@ -49,6 +49,8 @@ namespace WampSharp.AspNetCore.WebSockets.Server
             (WebSocketData connection,
              IWampBinaryBinding<TMessage> binding)
         {
+            ConfigureComputeBytes(binding);
+
             return new BinaryWebSocketConnection<TMessage>
                 (connection.WebSocket,
                  binding,
@@ -60,11 +62,21 @@ namespace WampSharp.AspNetCore.WebSockets.Server
             (WebSocketData connection,
              IWampTextBinding<TMessage> binding)
         {
+            ConfigureComputeBytes(binding);
+
             return new TextWebSocketConnection<TMessage>
                 (connection.WebSocket,
                  binding,
                  new AspNetCoreCookieProvider(connection.HttpContext),
                  AuthenticatorFactory);
+        }
+
+        private void ConfigureComputeBytes<TMessage, TRaw>(IWampTransportBinding<TMessage, TRaw> binding)
+        {
+            if (binding.ComputeBytes == null)
+            {
+                binding.ComputeBytes = true;
+            }
         }
 
         public override void Open()
@@ -79,7 +91,7 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 
         private async Task EmptyHandler(HttpContext context, Func<Task> next)
         {
-            await next();
+            await next().ConfigureAwait(false);
         }
 
         private async Task WebSocketHandler(HttpContext context, Func<Task> next)
@@ -95,9 +107,9 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 
                 if (subprotocol != null)
                 {
-                    using (var websocket = await context.WebSockets.AcceptWebSocketAsync(subprotocol).ConfigureAwait(false))
+                    using (var websocket =
+                        await context.WebSockets.AcceptWebSocketAsync(subprotocol).ConfigureAwait(false))
                     {
-
                         // In an ideal world, OnNewConnection would return the
                         // connection itself and then we could somehow access its
                         // task, but for now we wrap the WebSocket with a WebSocketData
@@ -114,7 +126,7 @@ namespace WampSharp.AspNetCore.WebSockets.Server
                 }
             }
 
-            await next();
+            await next().ConfigureAwait(false);
         }
     }
 }

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using WampSharp.Core.Serialization;
@@ -68,13 +67,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         public class MyOperation : IWampRpcOperation
         {
-            public string Procedure
-            {
-                get
-                {
-                    return "com.myapp.longop";
-                }
-            }
+            public string Procedure => "com.myapp.longop";
 
             public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
             {
@@ -132,21 +125,11 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         public class MyCallback : IWampRawRpcOperationClientCallback
         {
-            private readonly List<int> mProgressiveResults = new List<int>();
             private readonly TaskCompletionSource<int> mTask = new TaskCompletionSource<int>();
 
-            public List<int> ProgressiveResults
-            {
-                get
-                {
-                    return mProgressiveResults;
-                }
-            }
+            public List<int> ProgressiveResults { get; } = new List<int>();
 
-            public Task<int> Task
-            {
-                get { return mTask.Task; }
-            }
+            public Task<int> Task => mTask.Task;
 
             public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
             {
@@ -159,7 +142,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
                 if (details.Progress == true)
                 {
-                    mProgressiveResults.Add(current);
+                    ProgressiveResults.Add(current);
                 }
                 else
                 {

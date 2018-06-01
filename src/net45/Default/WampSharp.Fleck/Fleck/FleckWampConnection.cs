@@ -1,7 +1,6 @@
 ﻿using System;
 using Fleck;
 using WampSharp.Core.Listener;
-using WampSharp.Logging;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.MetaApi;
 using WampSharp.V2.Transports;
@@ -59,20 +58,8 @@ namespace WampSharp.Fleck
             }
         }
 
-        protected override bool IsConnected
-        {
-            get
-            {
-                return mWebSocketConnection.IsAvailable;
-            }
-        }
+        protected override bool IsConnected => mWebSocketConnection.IsAvailable;
 
-        public WampTransportDetails TransportDetails
-        {
-            get
-            {
-                return mTransportDetails;
-            }
-        }
+        public WampTransportDetails TransportDetails => mTransportDetails;
     }
 }

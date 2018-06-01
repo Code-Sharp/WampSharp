@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reactive.Subjects;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
 
@@ -28,10 +27,7 @@ namespace WampSharp.V2.Transports
         /// <summary>
         /// Gets the subprotocols registered within this transport.
         /// </summary>
-        protected string[] SubProtocols
-        {
-            get { return mBindings.Keys.ToArray(); }
-        }
+        protected string[] SubProtocols => mBindings.Keys.ToArray();
 
         /// <summary>
         /// Call this when a new connection is established.
@@ -41,9 +37,8 @@ namespace WampSharp.V2.Transports
         {
             string protocol = GetSubProtocol(connection);
 
-            ConnectionListener listener;
 
-            if (mBindings.TryGetValue(protocol, out listener))
+            if (mBindings.TryGetValue(protocol, out ConnectionListener listener))
             {
                 listener.OnNewConnection(connection);
             }
@@ -111,21 +106,15 @@ namespace WampSharp.V2.Transports
 
         public IWampConnectionListener<TMessage> GetListener<TMessage>(IWampBinding<TMessage> binding)
         {
-            IWampTextBinding<TMessage> textBinding = binding as IWampTextBinding<TMessage>;
-
-            if (textBinding != null)
+            switch (binding)
             {
-                return GetListener(textBinding);
+                case IWampTextBinding<TMessage> textBinding:
+                    return GetListener(textBinding);
+                case IWampBinaryBinding<TMessage> binaryBinding:
+                    return GetListener(binaryBinding);
             }
 
-            IWampBinaryBinding<TMessage> binaryBinding = binding as IWampBinaryBinding<TMessage>;
-
-            if (binaryBinding != null)
-            {
-                return GetListener(binaryBinding);
-            }
-
-            throw new ArgumentException("WebSockets can only deal with binary/text transports", "binding");
+            throw new ArgumentException("WebSockets can only deal with binary/text transports", nameof(binding));
         }
 
         private IWampConnectionListener<TMessage> GetListener<TMessage>(IWampTextBinding<TMessage> binding)
@@ -152,7 +141,7 @@ namespace WampSharp.V2.Transports
             {
                 throw new ArgumentException("Already registered a binding for protocol: " +
                                             binding.Name,
-                                            "binding");
+                                            nameof(binding));
             }
 
             mBindings.Add(binding.Name, listener);
@@ -174,22 +163,17 @@ namespace WampSharp.V2.Transports
             private readonly Subject<IWampConnection<TMessage>> mSubject =
                 new Subject<IWampConnection<TMessage>>();
 
-            private readonly TextBinaryTransport<TConnection> mParent;
-
             protected ConnectionListener(TextBinaryTransport<TConnection> parent)
             {
-                mParent = parent;
+                Parent = parent;
             }
 
-            public TextBinaryTransport<TConnection> Parent
-            {
-                get { return mParent; }
-            }
+            public TextBinaryTransport<TConnection> Parent { get; }
 
             protected void OnNewConnection(IWampConnection<TMessage> connection, TConnection original)
             {
                 mSubject.OnNext(connection);
-                mParent.OpenConnection(original, connection);
+                Parent.OpenConnection(original, connection);
             }
 
             public IDisposable Subscribe(IObserver<IWampConnection<TMessage>> observer)
@@ -206,20 +190,15 @@ namespace WampSharp.V2.Transports
 
         private class BinaryConnectionListener<TMessage> : ConnectionListener<TMessage>
         {
-            private readonly IWampBinaryBinding<TMessage> mBinding;
-
             public BinaryConnectionListener
                 (IWampBinaryBinding<TMessage> binding,
                  TextBinaryTransport<TConnection> parent)
                 : base(parent)
             {
-                mBinding = binding;
+                Binding = binding;
             }
 
-            public IWampBinaryBinding<TMessage> Binding
-            {
-                get { return mBinding; }
-            }
+            public IWampBinaryBinding<TMessage> Binding { get; }
 
             public override void OnNewConnection(TConnection connection)
             {
@@ -229,20 +208,15 @@ namespace WampSharp.V2.Transports
 
         private class TextConnectionListener<TMessage> : ConnectionListener<TMessage>
         {
-            private readonly IWampTextBinding<TMessage> mBinding;
-
             public TextConnectionListener
                 (IWampTextBinding<TMessage> binding,
                  TextBinaryTransport<TConnection> parent) :
                      base(parent)
             {
-                mBinding = binding;
+                Binding = binding;
             }
 
-            public IWampTextBinding<TMessage> Binding
-            {
-                get { return mBinding; }
-            }
+            public IWampTextBinding<TMessage> Binding { get; }
 
             public override void OnNewConnection(TConnection connection)
             {

@@ -21,5 +21,12 @@ namespace WampSharp.V2.Binding.Parsers
         /// <param name="message">The given <see cref="WampMessage{TMessage}"/>.</param>
         /// <returns>A raw format representing the given <see cref="WampMessage{TMessage}"/>.</returns>
         TRaw Format(WampMessage<object> message);
+
+        /// <summary>
+        /// Serializes a raw message to bytes.
+        /// </summary>
+        /// <param name="raw">The given raw message.</param>
+        /// <returns>Bytes representing the binary format of the given raw message.</returns>
+        byte[] GetBytes(TRaw raw);
     }
 }

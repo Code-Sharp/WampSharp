@@ -30,13 +30,7 @@ namespace WampSharp.Core.Utilities
             return result;
         }
 
-        public Random Random
-        {
-            get
-            {
-                return mRandom.Value;
-            }
-        }
+        public Random Random => mRandom.Value;
 
         public int Next()
         {

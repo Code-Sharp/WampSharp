@@ -10,9 +10,8 @@ namespace WampSharp.WebSocket4Net
 {
     public abstract class WebSocket4NetConnection<TMessage> : IControlledWampConnection<TMessage>
     {
-        #region Fields
 
-        private readonly IWampBinding<TMessage> mBinding;
+        #region Fields
 
         private readonly WebSocket mWebSocket;
 
@@ -23,7 +22,7 @@ namespace WampSharp.WebSocket4Net
         public WebSocket4NetConnection(WebSocket webSocket,
                                        IWampBinding<TMessage> binding)
         {
-            mBinding = binding;
+            Binding = binding;
             mWebSocket = webSocket;
             mLogger = LogProvider.GetLogger(this.GetType());
             mWebSocket.Opened += WebSocketOnOpened;
@@ -42,27 +41,12 @@ namespace WampSharp.WebSocket4Net
                                        Action<SecurityOption> configureSecurityOptions)
             : this(new WebSocket(serverAddress, binding.Name, WebSocketVersion.None), binding)
         {
-            if (configureSecurityOptions != null)
-            {
-                configureSecurityOptions(WebSocket.Security);
-            }
+            configureSecurityOptions?.Invoke(WebSocket.Security);
         }
 
-        public IWampBinding<TMessage> Binding
-        {
-            get
-            {
-                return mBinding;
-            }
-        }
+        public IWampBinding<TMessage> Binding { get; }
 
-        protected WebSocket WebSocket
-        {
-            get
-            {
-                return mWebSocket;
-            }
-        }
+        protected WebSocket WebSocket => mWebSocket;
 
 
         private void WebSocketOnOpened(object sender, EventArgs eventArgs)
@@ -108,12 +92,7 @@ namespace WampSharp.WebSocket4Net
 
         protected virtual void RaiseConnectionError(Exception ex)
         {
-            EventHandler<WampConnectionErrorEventArgs> handler = ConnectionError;
-            
-            if (handler != null)
-            {
-                handler(this, new WampConnectionErrorEventArgs(ex));
-            }
+            ConnectionError?.Invoke(this, new WampConnectionErrorEventArgs(ex));
         }
 
         protected virtual void RaiseMessageArrived(WampMessage<TMessage> message)
@@ -129,22 +108,12 @@ namespace WampSharp.WebSocket4Net
         
         protected virtual void RaiseConnectionOpen()
         {
-            EventHandler handler = ConnectionOpen;
-            
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            ConnectionOpen?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void RaiseConnectionClosed()
         {
-            EventHandler handler = ConnectionClosed;
-            
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            ConnectionClosed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

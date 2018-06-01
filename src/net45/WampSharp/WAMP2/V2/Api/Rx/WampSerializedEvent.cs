@@ -8,50 +8,23 @@ namespace WampSharp.V2
 {
     internal abstract class WampSerializedEvent : IWampSerializedEvent
     {
-        private readonly long mPublicationId;
-        private readonly EventDetails mDetails;
-        private readonly ISerializedValue[] mArguments;
         private readonly IDictionary<string, ISerializedValue> mArgumentsKeywords;
 
         protected WampSerializedEvent(long publicationId, EventDetails details, ISerializedValue[] arguments, IDictionary<string, ISerializedValue> argumentsKeywords)
         {
-            mPublicationId = publicationId;
-            mDetails = details;
-            mArguments = arguments;
+            PublicationId = publicationId;
+            Details = details;
+            Arguments = arguments;
             mArgumentsKeywords = argumentsKeywords;
         }
 
-        public long PublicationId
-        {
-            get
-            {
-                return mPublicationId;
-            }
-        }
+        public long PublicationId { get; }
 
-        public EventDetails Details
-        {
-            get
-            {
-                return mDetails;
-            }
-        }
+        public EventDetails Details { get; }
 
-        public ISerializedValue[] Arguments
-        {
-            get
-            {
-                return mArguments;
-            }
-        }
+        public ISerializedValue[] Arguments { get; }
 
-        public IDictionary<string, ISerializedValue> ArgumentsKeywords
-        {
-            get
-            {
-                return mArgumentsKeywords;
-            }
-        }
+        public IDictionary<string, ISerializedValue> ArgumentsKeywords => mArgumentsKeywords;
     }
 
 

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\net45\Default\WampSharp.NewtonsoftJson\**\*.cs" Exclude="..\..\..\net45\Default\WampSharp.NewtonsoftJson\**\bin\**;..\..\..\net45\Default\WampSharp.NewtonsoftJson\**\obj\**;" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="6.0.5" />
+  </ItemGroup>
+
+</Project>

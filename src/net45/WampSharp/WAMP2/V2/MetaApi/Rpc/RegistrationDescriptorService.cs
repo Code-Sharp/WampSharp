@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using WampSharp.V2.Authentication;
@@ -145,11 +143,8 @@ namespace WampSharp.V2.MetaApi
 
         public long? GetBestMatchingRegistrationId(string procedureUri)
         {
-            IWampProcedureRegistration registration =
-                mOperationCatalog.GetMatchingOperation(procedureUri)
-                    as IWampProcedureRegistration;
 
-            if (registration == null)
+            if (!(mOperationCatalog.GetMatchingOperation(procedureUri) is IWampProcedureRegistration registration))
             {
                 return null;
             }

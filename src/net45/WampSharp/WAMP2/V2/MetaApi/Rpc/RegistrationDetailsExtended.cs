@@ -10,13 +10,7 @@ namespace WampSharp.V2.MetaApi
         private readonly object mLock = new object();
 
         [IgnoreDataMember]
-        public IReadOnlyList<long> Callees
-        {
-            get
-            {
-                return mCallees;
-            }
-        }
+        public IReadOnlyList<long> Callees => mCallees;
 
         public void AddCallee(long sessionId)
         {
@@ -34,18 +28,9 @@ namespace WampSharp.V2.MetaApi
             }
         }
 
-        long IGroupDetailsExtended.GroupId
-        {
-            get { return RegistrationId; }
-        }
+        long IGroupDetailsExtended.GroupId => RegistrationId;
 
-        IReadOnlyList<long> IGroupDetailsExtended.Peers
-        {
-            get
-            {
-                return Callees;
-            }
-        }
+        IReadOnlyList<long> IGroupDetailsExtended.Peers => Callees;
 
         void IGroupDetailsExtended.AddPeer(long sessionId)
         {

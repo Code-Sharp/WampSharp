@@ -1,17 +1,17 @@
+using System;
 using System.IO;
-using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace WampSharp.RawSocket
 {
     internal static class NetworkStreamExtensions
     {
-        public static Task ReadExactAsync(this NetworkStream networkStream, byte[] buffer, int position = 0)
+        public static Task ReadExactAsync(this Stream networkStream, byte[] buffer, int position = 0)
         {
             return networkStream.ReadExactAsync(buffer, position, buffer.Length);
         }
 
-        public async static Task ReadExactAsync(this NetworkStream networkStream, byte[] buffer, int position, int length)
+        public async static Task ReadExactAsync(this Stream networkStream, byte[] buffer, int position, int length)
         {
             int currentPosition = position;
             int readBytes = 0;
@@ -30,5 +30,17 @@ namespace WampSharp.RawSocket
                 currentPosition += currentlyRead;
             }
         }
+
+#if NETSTANDARD1_4
+
+        // TODO: Move to a different class
+        public static byte[] GetBuffer(this MemoryStream stream)
+        {
+            ArraySegment<byte> result;
+            stream.TryGetBuffer(out result);
+            return result.Array;
+        }
+
+#endif
     }
 }

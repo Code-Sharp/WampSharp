@@ -116,9 +116,9 @@ namespace WampSharp.AspNet.WebSockets.Server
         /// <exclude />
         protected override void OpenConnection<TMessage>(WebSocketData original, IWampConnection<TMessage> connection)
         {
-            WebSocketWrapperConnection<TMessage> casted = connection as WebSocketWrapperConnection<TMessage>;
+            IWampWebSocketWrapperConnection casted = connection as IWampWebSocketWrapperConnection;
 
-            Task task = Task.Run((Func<Task>) casted.RunAsync);
+            Task task = Task.Run(casted.RunAsync);
 
             original.ReadTask = task;
         }
@@ -142,13 +142,7 @@ namespace WampSharp.AspNet.WebSockets.Server
                 mParent.ProcessRequest(context);
             }
 
-            public bool IsReusable
-            {
-                get
-                {
-                    return true;
-                }
-            }
+            public bool IsReusable => true;
         }
     }
 }

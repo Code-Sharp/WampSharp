@@ -9,7 +9,6 @@ namespace WampSharp.Core.Contracts
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     public sealed class WampHandlerAttribute : Attribute
     {
-        private readonly WampMessageType mMessageType;
 
         /// <summary>
         /// Initializes a new instance of <see cref="WampHandlerAttribute"/>
@@ -19,18 +18,12 @@ namespace WampSharp.Core.Contracts
         /// method handles</param>
         public WampHandlerAttribute(WampMessageType messageType)
         {
-            mMessageType = messageType;
+            MessageType = messageType;
         }
 
         /// <summary>
         /// Gets the <see cref="WampMessageType"/> this method handles.
         /// </summary>
-        public WampMessageType MessageType
-        {
-            get
-            {
-                return mMessageType;
-            }
-        }
+        public WampMessageType MessageType { get; }
     }
 }

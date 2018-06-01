@@ -51,9 +51,8 @@ namespace WampSharp.V2.Core.Listener
 
         protected override void OnCloseConnection(IWampConnection<TMessage> connection)
         {
-            IWampClientProxy<TMessage> client;
 
-            if (ClientContainer.TryGetClient(connection, out client))
+            if (ClientContainer.TryGetClient(connection, out IWampClientProxy<TMessage> client))
             {
                 mLogger.DebugFormat("Client disconnected, session id: {SessionId}", client.Session);
 

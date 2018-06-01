@@ -27,10 +27,7 @@ namespace WampSharp.V2.Client
             mMonitor.ConnectionError += ConnectionError;
         }
 
-        private bool IsConnected
-        {
-            get { return mMonitor.IsConnected; }
-        }
+        private bool IsConnected => mMonitor.IsConnected;
 
         public Task<long?> Publish(string topicUri, PublishOptions options)
         {
@@ -71,8 +68,7 @@ namespace WampSharp.V2.Client
             bool acknowledge = options.Acknowledge ?? false;
             if (!acknowledge)
             {
-                Publication removed;
-                mPendingPublication.TryRemove(requestId, out removed);
+                mPendingPublication.TryRemove(requestId, out Publication removed);
 #if NET45
                 return Task.FromResult(default(long?));
 #elif NET40
@@ -87,9 +83,8 @@ namespace WampSharp.V2.Client
 
         public void Published(long requestId, long publicationId)
         {
-            Publication publication;
-            
-            if (mPendingPublication.TryRemove(requestId, out publication))
+
+            if (mPendingPublication.TryRemove(requestId, out Publication publication))
             {
                 publication.Complete(publicationId);
             }
@@ -97,9 +92,8 @@ namespace WampSharp.V2.Client
 
         public void PublishError(long requestId, TMessage details, string error)
         {
-            Publication publication;
 
-            if (mPendingPublication.TryRemove(requestId, out publication))
+            if (mPendingPublication.TryRemove(requestId, out Publication publication))
             {
                 publication.Error(details, error);
             }
@@ -107,9 +101,8 @@ namespace WampSharp.V2.Client
 
         public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments)
         {
-            Publication publication;
 
-            if (mPendingPublication.TryRemove(requestId, out publication))
+            if (mPendingPublication.TryRemove(requestId, out Publication publication))
             {
                 publication.Error(details, error, arguments);
             }
@@ -118,9 +111,8 @@ namespace WampSharp.V2.Client
         public void PublishError(long requestId, TMessage details, string error, TMessage[] arguments,
                                  TMessage argumentsKeywords)
         {
-            Publication publication;
 
-            if (mPendingPublication.TryRemove(requestId, out publication))
+            if (mPendingPublication.TryRemove(requestId, out Publication publication))
             {
                 publication.Error(details, error, arguments, argumentsKeywords);
             }
@@ -138,9 +130,6 @@ namespace WampSharp.V2.Client
 
         private class Publication : WampPendingRequest<TMessage, long?>
         {
-            private readonly string mTopicUri;
-            private readonly PublishOptions mOptions;
-            private readonly object[] mArguments;
             private readonly IDictionary<string, object> mArgumentKeywords;
 
             public Publication(IWampFormatter<TMessage> formatter, 
@@ -150,43 +139,19 @@ namespace WampSharp.V2.Client
                 IDictionary<string, object> argumentKeywords = null) : 
                 base(formatter)
             {
-                mTopicUri = topicUri;
-                mOptions = options;
-                mArguments = arguments;
+                TopicUri = topicUri;
+                Options = options;
+                Arguments = arguments;
                 mArgumentKeywords = argumentKeywords;
             }
 
-            public string TopicUri
-            {
-                get
-                {
-                    return mTopicUri;
-                }
-            }
+            public string TopicUri { get; }
 
-            public PublishOptions Options
-            {
-                get
-                {
-                    return mOptions;
-                }
-            }
+            public PublishOptions Options { get; }
 
-            public object[] Arguments
-            {
-                get
-                {
-                    return mArguments;
-                }
-            }
+            public object[] Arguments { get; }
 
-            public IDictionary<string, object> ArgumentKeywords
-            {
-                get
-                {
-                    return mArgumentKeywords;
-                }
-            }
+            public IDictionary<string, object> ArgumentKeywords => mArgumentKeywords;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using WampSharp.Logging;
@@ -74,9 +73,8 @@ namespace WampSharp.Core.Proxy
 
         private WampMethodInfo GetWampMethod(MethodInfo method)
         {
-            WampMethodInfo result;
 
-            if (mMethodToWampMethod.TryGetValue(method, out result))
+            if (mMethodToWampMethod.TryGetValue(method, out WampMethodInfo result))
             {
                 return result;
             }

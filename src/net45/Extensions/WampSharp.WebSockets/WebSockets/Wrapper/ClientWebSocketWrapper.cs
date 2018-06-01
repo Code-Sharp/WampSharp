@@ -15,13 +15,7 @@ namespace WampSharp.WebSockets
             mClientWebSocket = clientWebSocket;
         }
 
-        public ClientWebSocketOptions Options
-        {
-            get
-            {
-                return mClientWebSocket.Options;
-            }
-        }
+        public ClientWebSocketOptions Options => mClientWebSocket.Options;
 
         public Task ConnectAsync(Uri connectUri, CancellationToken cancellationToken)
         {

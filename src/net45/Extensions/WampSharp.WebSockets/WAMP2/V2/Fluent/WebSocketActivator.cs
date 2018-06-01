@@ -33,18 +33,12 @@ namespace WampSharp.V2.Fluent
 
         private IControlledWampConnection<TMessage> GetConnectionFactory<TMessage>(IWampBinding<TMessage> binding)
         {
-            IWampTextBinding<TMessage> textBinding = binding as IWampTextBinding<TMessage>;
-
-            if (textBinding != null)
+            switch (binding)
             {
-                return CreateTextConnection(textBinding);
-            }
-
-            IWampBinaryBinding<TMessage> binaryBinding = binding as IWampBinaryBinding<TMessage>;
-
-            if (binaryBinding != null)
-            {
-                return CreateBinaryConnection(binaryBinding);
+                case IWampTextBinding<TMessage> textBinding:
+                    return CreateTextConnection(textBinding);
+                case IWampBinaryBinding<TMessage> binaryBinding:
+                    return CreateBinaryConnection(binaryBinding);
             }
 
             throw new Exception();
@@ -64,10 +58,7 @@ namespace WampSharp.V2.Fluent
         {
             ClientWebSocket result = WebSocketFactory();
 
-            if (ConfigureOptions != null)
-            {
-                ConfigureOptions(result.Options);
-            }
+            ConfigureOptions?.Invoke(result.Options);
 
             return result;
         }

@@ -68,9 +68,7 @@ namespace WampSharp.V2.Testament
 
             lock (mLock)
             {
-                IImmutableList<Testament> testaments;
-
-                if (!mSessionIdToTestaments.TryGetValue(sessionId, out testaments))
+                if (!mSessionIdToTestaments.TryGetValue(sessionId, out IImmutableList<Testament> testaments))
                 {
                     testaments = ImmutableList<Testament>.Empty;
                 }
@@ -91,9 +89,8 @@ namespace WampSharp.V2.Testament
 
             lock (mLock)
             {
-                IImmutableList<Testament> testaments;
 
-                if (mSessionIdToTestaments.TryGetValue(sessionId, out testaments))
+                if (mSessionIdToTestaments.TryGetValue(sessionId, out IImmutableList<Testament> testaments))
                 {
                     result = testaments.Count;
                 }
@@ -124,15 +121,15 @@ namespace WampSharp.V2.Testament
                 Scope = scope;
             }
 
-            public string Topic { get; private set; }
+            public string Topic { get; }
 
-            public object[] Arguments { get; private set; }
+            public object[] Arguments { get; }
 
-            public IDictionary<string, object> ArgumentsKeywords { get; private set; }
+            public IDictionary<string, object> ArgumentsKeywords { get; }
 
-            public PublishOptions PublishOptions { get; private set; }
+            public PublishOptions PublishOptions { get; }
 
-            public string Scope { get; private set; }
+            public string Scope { get; }
 
             private static PublishOptions GetPublishOptions(InvocationDetails invocationDetails, PublishOptions publishOptions)
             {

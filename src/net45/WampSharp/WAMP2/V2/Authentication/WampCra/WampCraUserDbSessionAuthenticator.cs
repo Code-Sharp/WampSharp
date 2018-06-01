@@ -54,13 +54,7 @@ namespace WampSharp.V2.Authentication
             mAuthenticationChallenge = details.ToString();
         }
 
-        public override string AuthenticationChallenge
-        {
-            get
-            {
-                return mAuthenticationChallenge;
-            }
-        }
+        public override string AuthenticationChallenge => mAuthenticationChallenge;
 
         public sealed override WelcomeDetails WelcomeDetails
         {
@@ -74,13 +68,7 @@ namespace WampSharp.V2.Authentication
             protected set;
         }
 
-        public override string Secret
-        {
-            get
-            {
-                return mUser.Secret;
-            }
-        }
+        public override string Secret => mUser.Secret;
     }
 }
 #endif

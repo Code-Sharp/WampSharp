@@ -14,17 +14,11 @@ namespace WampSharp.Core.Dispatch.Handler
     /// </summary>
     public class WampMethodInfo
     {
-        #region Members
 
-        private readonly MethodInfo mMethod;
-        private readonly int mArgumentsCount;
+        #region Members
         private readonly int mTotalArgumentsCount;
-        private readonly bool mHasWampClientArgument;
-        private readonly bool mHasParamsArgument;
         private readonly bool mIsRawMethod;
-        private readonly ParameterInfo[] mParameters;
         private readonly ParameterInfo[] mParametersToConvert;
-        private readonly WampMessageType mMessageType;
 
         #endregion
 
@@ -38,30 +32,30 @@ namespace WampSharp.Core.Dispatch.Handler
         /// from.</param>
         public WampMethodInfo(MethodInfo method)
         {
-            mMethod = method;
+            Method = method;
 
             WampHandlerAttribute handlerAttribute = 
                 method.GetCustomAttribute<WampHandlerAttribute>(true);
 
             if (handlerAttribute != null)
             {
-                mMessageType = handlerAttribute.MessageType;
+                MessageType = handlerAttribute.MessageType;
             }
             else
             {
-                mMessageType = WampMessageType.Unknown;
+                MessageType = WampMessageType.Unknown;
             }
 
             ParameterInfo[] parameters = method.GetParameters();
 
-            mParameters = parameters;
-            List<ParameterInfo> parametersToConvert = mParameters.ToList();
+            Parameters = parameters;
+            List<ParameterInfo> parametersToConvert = Parameters.ToList();
 
             if (parameters.Length > 0)
             {
                 if (parameters[0].IsDefined(typeof(WampProxyParameterAttribute), true))
                 {
-                    mHasWampClientArgument = true;
+                    HasWampClientArgument = true;
                     parametersToConvert.RemoveAt(0);
                 }
 
@@ -69,7 +63,7 @@ namespace WampSharp.Core.Dispatch.Handler
 
                 if (lastParameter.IsDefined(typeof(ParamArrayAttribute), true))
                 {
-                    mHasParamsArgument = true;
+                    HasParamsArgument = true;
                 }
 
                 if (typeof (WampMessage<>).IsGenericAssignableFrom(lastParameter.ParameterType))
@@ -80,12 +74,12 @@ namespace WampSharp.Core.Dispatch.Handler
             }
 
             mTotalArgumentsCount = parameters.Length;
-            mArgumentsCount = mTotalArgumentsCount;
+            ArgumentsCount = mTotalArgumentsCount;
             mParametersToConvert = parametersToConvert.ToArray();
 
-            if (mHasWampClientArgument)
+            if (HasWampClientArgument)
             {
-                mArgumentsCount = mArgumentsCount - 1;
+                ArgumentsCount = ArgumentsCount - 1;
             }
         }
 
@@ -96,106 +90,52 @@ namespace WampSharp.Core.Dispatch.Handler
         /// <summary>
         /// Gets the <see cref="MethodInfo"/> this method represents.
         /// </summary>
-        public MethodInfo Method
-        {
-            get
-            {
-                return mMethod;
-            }
-        }
+        public MethodInfo Method { get; }
 
         /// <summary>
         /// Gets the number of arguments this method gets, not including
         /// <see cref="WampProxyParameterAttribute"/> parameter.
         /// </summary>
-        public int ArgumentsCount
-        {
-            get
-            {
-                return mArgumentsCount;
-            }
-        }
+        public int ArgumentsCount { get; }
 
         /// <summary>
         /// Returns a value indicating whether this method gets a
         /// <see cref="WampProxyParameterAttribute"/> parameter.
         /// </summary>
-        public bool HasWampClientArgument
-        {
-            get
-            {
-                return mHasWampClientArgument;
-            }
-        }
+        public bool HasWampClientArgument { get; }
 
         /// <summary>
         /// Returns a value indicating whether this method has a params
         /// argument.
         /// </summary>
-        public bool HasParamsArgument
-        {
-            get
-            {
-                return mHasParamsArgument;
-            }
-        }
+        public bool HasParamsArgument { get; }
 
         /// <summary>
         /// Returns a value indicating whether this method receives the given
         /// <see cref="WampMessage{TMessage}"/> as is.
         /// </summary>
-        public bool IsRawMethod
-        {
-            get
-            {
-                return mIsRawMethod;
-            }
-        }
+        public bool IsRawMethod => mIsRawMethod;
 
         /// <summary>
         /// Gets this method's parameters.
         /// </summary>
-        public ParameterInfo[] Parameters
-        {
-            get
-            {
-                return mParameters;
-            }
-        }
+        public ParameterInfo[] Parameters { get; }
 
         /// <summary>
         /// Gets this method's parameters that require deserialization.
         /// </summary>
-        public ParameterInfo[] ParametersToConvert
-        {
-            get
-            {
-                return mParametersToConvert;
-            }
-        }
+        public ParameterInfo[] ParametersToConvert => mParametersToConvert;
 
         /// <summary>
         /// Gets the number of arguments of this method.
         /// </summary>
-        public int TotalArgumentsCount
-        {
-            get
-            {
-                return mTotalArgumentsCount;
-            }
-        }
+        public int TotalArgumentsCount => mTotalArgumentsCount;
 
         /// <summary>
         /// Gets the message type this method handles.
         /// </summary>
-        public WampMessageType MessageType
-        {
-            get
-            {
-                return mMessageType;
-            }
-        }
+        public WampMessageType MessageType { get; }
 
         #endregion
-   }
+    }
 }

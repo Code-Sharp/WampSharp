@@ -73,13 +73,7 @@ namespace WampSharp.Tests.Cra.Helpers
             return null;
         }
 
-        public override bool AllowAnonymous
-        {
-            get
-            {
-                return AllowAnonymousAccess;
-            } 
-        }
+        public override bool AllowAnonymous => AllowAnonymousAccess;
 
         public bool RequireSalted { get; set; }
 

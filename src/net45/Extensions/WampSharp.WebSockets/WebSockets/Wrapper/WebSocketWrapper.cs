@@ -29,9 +29,6 @@ namespace WampSharp.WebSockets
             return mWebSocket.CloseAsync(closeStatus, closeDescription, cancel);
         }
 
-        public WebSocketState State
-        {
-            get { return mWebSocket.State; }
-        }
+        public WebSocketState State => mWebSocket.State;
     }
 }

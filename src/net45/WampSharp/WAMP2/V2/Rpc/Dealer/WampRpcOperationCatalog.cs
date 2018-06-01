@@ -131,22 +131,12 @@ namespace WampSharp.V2.Rpc
 
         private void RaiseRegistrationAdded(WampProcedureRegisterEventArgs e)
         {
-            EventHandler<WampProcedureRegisterEventArgs> handler = RegistrationAdded;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            RegistrationAdded?.Invoke(this, e);
         }
 
         private void RaiseRegistrationRemoved(WampProcedureRegisterEventArgs e)
         {
-            EventHandler<WampProcedureRegisterEventArgs> handler = RegistrationRemoved;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            RegistrationRemoved?.Invoke(this, e);
         }
     }
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using WampSharp.Logging;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
@@ -128,7 +127,7 @@ namespace WampSharp.V2.Rpc
                 mLogger.ErrorFormat("call with invalid procedure URI '{ProcedureUri}'", procedure);
 
                 throw new WampException(WampErrors.InvalidUri,
-                                        string.Format("call with invalid procedure URI '{0}'", procedure));
+                                        $"call with invalid procedure URI '{procedure}'");
             }
         }
 
@@ -137,7 +136,7 @@ namespace WampSharp.V2.Rpc
             if (!mUriValidator.IsValid(procedure, match))
             {
                 throw new WampException(WampErrors.InvalidUri,
-                                        string.Format("register for invalid procedure URI '{0}'", procedure));
+                                        $"register for invalid procedure URI '{procedure}'");
             }
         }
 

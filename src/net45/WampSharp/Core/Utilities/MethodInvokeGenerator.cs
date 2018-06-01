@@ -9,7 +9,7 @@ namespace WampSharp.Core.Utilities
     internal static class MethodInvokeGenerator
     {
         private static readonly MethodInvokeGenerator<object> mInvokeGenerator = new MethodInvokeGenerator<object>();
-        private static TaskMethodInvokeGenerator mTaskInvokeGenerator = new TaskMethodInvokeGenerator(); 
+        private static readonly TaskMethodInvokeGenerator mTaskInvokeGenerator = new TaskMethodInvokeGenerator(); 
 
         public static Func<object, object[], object> CreateInvokeMethod(MethodInfo method)
         {

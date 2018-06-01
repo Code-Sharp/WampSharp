@@ -18,7 +18,7 @@ namespace WampSharp.V2.Rpc
         private readonly RpcParameter[] mParameters;
         private readonly bool mHasResult;
         private readonly CollectionResultTreatment mCollectionResultTreatment;
-        private IWampResultExtractor mResultExtractor;
+        private readonly IWampResultExtractor mResultExtractor;
 
         public SyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) :
             base(procedureName)
@@ -55,20 +55,11 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        public override RpcParameter[] Parameters
-        {
-            get { return mParameters; }
-        }
+        public override RpcParameter[] Parameters => mParameters;
 
-        public override bool HasResult
-        {
-            get { return mHasResult; }
-        }
+        public override bool HasResult => mHasResult;
 
-        public override CollectionResultTreatment CollectionResultTreatment
-        {
-            get { return mCollectionResultTreatment; }
-        }
+        public override CollectionResultTreatment CollectionResultTreatment => mCollectionResultTreatment;
 
         protected override object InvokeSync<TMessage>
             (IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using WampSharp.Core.Serialization;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
@@ -16,35 +15,25 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
 
         protected class DealerMock : IWampServer<TMessage>
         {
-            private object[] mActualRegistration;
             private object[] mActualUnregistration;
             private Action<IWampCallee, long> mRegisterCallback;
             private Action<IWampCallee, long> mUnregisterCallback;
-            private object[] mActualYield;
             private object[] mActualError;
 
-            public object[] ActualRegistration
-            {
-                get { return mActualRegistration; }
-                private set { mActualRegistration = value; }
-            }
+            public object[] ActualRegistration { get; private set; }
 
             public object[] ActualUnregistration
             {
-                get { return mActualUnregistration; }
-                private set { mActualUnregistration = value; }
+                get => mActualUnregistration;
+                private set => mActualUnregistration = value;
             }
 
-            public object[] ActualYield
-            {
-                get { return mActualYield; }
-                private set { mActualYield = value; }
-            }
+            public object[] ActualYield { get; private set; }
 
             public object[] ActualError
             {
-                get { return mActualError; }
-                private set { mActualError = value; }
+                get => mActualError;
+                private set => mActualError = value;
             }
 
             public void SetRegisterCallback(Action<IWampCallee, long> value)
@@ -178,15 +167,10 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
 
         protected class OperationMock : IWampRpcOperation
         {
-            private object[] mActualInvoke;
             private Action<IWampRawRpcOperationRouterCallback> mInvocationCallback;
             public string Procedure { get; set; }
 
-            public object[] ActualInvoke
-            {
-                get { return mActualInvoke; }
-                private set { mActualInvoke = value; }
-            }
+            public object[] ActualInvoke { get; private set; }
 
             public void SetInvocationCallback(Action<IWampRawRpcOperationRouterCallback> value)
             {

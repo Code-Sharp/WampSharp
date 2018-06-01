@@ -23,13 +23,13 @@ namespace WampSharp.Samples.Callee
         [WampProcedure("com.arguments.stars")]
         public string Stars(string nick = "somebody", int stars = 0)
         {
-            return string.Format("{0} starred {1}x", nick, stars);
+            return $"{nick} starred {stars}x";
         }
 
         [WampProcedure("com.arguments.orders")]
         public string[] Orders(string product, int limit = 5)
         {
-            return Enumerable.Range(0, 50).Take(limit).Select(i => string.Format("Product {0}", i)).ToArray();
+            return Enumerable.Range(0, 50).Take(limit).Select(i => $"Product {i}").ToArray();
         }
 
         public class ArgLenOperation : SyncLocalRpcOperation
@@ -62,23 +62,11 @@ namespace WampSharp.Samples.Callee
                 return new int[] { argumentsLength, argumentKeyWordsLength };
             }
 
-            public override RpcParameter[] Parameters
-            {
-                get { return mParameters; }
-            }
+            public override RpcParameter[] Parameters => mParameters;
 
-            public override bool HasResult
-            {
-                get { return true; }
-            }
+            public override bool HasResult => true;
 
-            public override CollectionResultTreatment CollectionResultTreatment
-            {
-                get
-                {
-                    return CollectionResultTreatment.Multivalued;
-                }
-            }
+            public override CollectionResultTreatment CollectionResultTreatment => CollectionResultTreatment.Multivalued;
         }
     }
 }

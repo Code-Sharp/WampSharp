@@ -14,10 +14,10 @@ namespace WampSharp.AspNet.WebSockets.Server
         }
 
         /// <exclude />
-        public WebSocket WebSocket { get; private set; }
+        public WebSocket WebSocket { get; }
 
         /// <exclude />
-        public HttpContext HttpContext { get; private set; }
+        public HttpContext HttpContext { get; }
 
         /// <exclude />
         public Task ReadTask { get; internal set; }

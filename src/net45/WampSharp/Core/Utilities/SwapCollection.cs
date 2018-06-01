@@ -58,21 +58,9 @@ namespace WampSharp.Core.Utilities
             }
         }
 
-        public int Count
-        {
-            get
-            {
-                return mCollection.Count;
-            }
-        }
+        public int Count => mCollection.Count;
 
-        public bool IsReadOnly
-        {
-            get
-            {
-                return mCollection.IsReadOnly;
-            }
-        }
+        public bool IsReadOnly => mCollection.IsReadOnly;
 
         public IEnumerator<T> GetEnumerator()
         {

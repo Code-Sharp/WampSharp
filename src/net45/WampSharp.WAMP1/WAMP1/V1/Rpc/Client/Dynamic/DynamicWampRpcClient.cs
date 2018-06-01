@@ -12,7 +12,6 @@ namespace WampSharp.V1.Rpc.Client
     /// </summary>
     public class DynamicWampRpcClient : DynamicObject
     {
-        private readonly IWampRpcClientHandler mClientHandler;
         private readonly IWampRpcSerializer mSerializer;
 
         /// <summary>
@@ -25,25 +24,13 @@ namespace WampSharp.V1.Rpc.Client
         public DynamicWampRpcClient(IWampRpcClientHandler clientHandler,
                                     IWampRpcSerializer serializer)
         {
-            mClientHandler = clientHandler;
+            ClientHandler = clientHandler;
             mSerializer = serializer;
         }
 
-        private IWampRpcClientHandler ClientHandler
-        {
-            get
-            {
-                return mClientHandler;
-            }
-        }
+        private IWampRpcClientHandler ClientHandler { get; }
 
-        private IWampRpcSerializer Serializer
-        {
-            get
-            {
-                return mSerializer;
-            }
-        }
+        private IWampRpcSerializer Serializer => mSerializer;
 
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
@@ -57,40 +44,26 @@ namespace WampSharp.V1.Rpc.Client
         private class DynamicWampCall : DynamicObject
         {
             private readonly DynamicWampRpcClient mClient;
-            private readonly string mMethodName;
             private readonly object[] mArguments;
             private Task<object> mTask;
 
             public DynamicWampCall(DynamicWampRpcClient client, string methodName, object[] arguments)
             {
                 mClient = client;
-                mMethodName = methodName;
+                MethodName = methodName;
                 mArguments = arguments;
             }
 
-            private object[] Arguments
-            {
-                get
-                {
-                    return mArguments;
-                }
-            }
+            private object[] Arguments => mArguments;
 
-            private string MethodName
-            {
-                get
-                {
-                    return mMethodName;
-                }
-            }
+            private string MethodName { get; }
 
             public override bool TryGetMember(GetMemberBinder binder, out object result)
             {
                 CallRpcMethod(typeof(ExpandoObject));
 
-                ExpandoObject expando = mTask.Result as ExpandoObject;
 
-                if (expando != null)
+                if (mTask.Result is ExpandoObject expando)
                 {
                     IDictionary<string, object> dictionary = expando;
                     return dictionary.TryGetValue(binder.Name, out result);

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client
@@ -13,10 +12,8 @@ namespace WampSharp.V2.Client
                                           IWampPublisherError<TMessage>,
                                           IWampSubscriberError<TMessage>
     {
-        #region Fields
 
-        private readonly IWampRealmProxy mRealm;
-        private readonly IWampError<TMessage> mErrorHandler;
+        #region Fields
 
         #endregion
 
@@ -24,80 +21,41 @@ namespace WampSharp.V2.Client
 
         public WampClient(IWampRealmProxyFactory<TMessage> realmFactory)
         {
-            mRealm = realmFactory.Build(this);
-            mErrorHandler = new ErrorForwarder<TMessage>(this);
+            Realm = realmFactory.Build(this);
+            ErrorHandler = new ErrorForwarder<TMessage>(this);
         }
 
         #endregion
 
         #region Properties
 
-        public IWampRealmProxy Realm
-        {
-            get { return mRealm; }
-        }
+        public IWampRealmProxy Realm { get; }
 
-        public IWampCallee<TMessage> Callee
-        {
-            get { return this.Realm.RpcCatalog as IWampCallee<TMessage>; }
-        }
+        public IWampCallee<TMessage> Callee => this.Realm.RpcCatalog as IWampCallee<TMessage>;
 
-        public IWampCaller<TMessage> Caller
-        {
-            get { return this.Realm.RpcCatalog as IWampCaller<TMessage>; }
-        }
+        public IWampCaller<TMessage> Caller => this.Realm.RpcCatalog as IWampCaller<TMessage>;
 
-        public IWampCalleeError<TMessage> CalleeError
-        {
-            get { return this.Realm.RpcCatalog as IWampCalleeError<TMessage>; }
-        }
+        public IWampCalleeError<TMessage> CalleeError => this.Realm.RpcCatalog as IWampCalleeError<TMessage>;
 
-        public IWampCallerError<TMessage> CallerError
-        {
-            get { return this.Realm.RpcCatalog as IWampCallerError<TMessage>; }
-        }
+        public IWampCallerError<TMessage> CallerError => this.Realm.RpcCatalog as IWampCallerError<TMessage>;
 
-        public IWampPublisher<TMessage> Publisher
-        {
-            get { return Realm.TopicContainer as IWampPublisher<TMessage>; }
-        }
+        public IWampPublisher<TMessage> Publisher => Realm.TopicContainer as IWampPublisher<TMessage>;
 
-        public IWampSubscriber<TMessage> Subscriber
-        {
-            get { return Realm.TopicContainer as IWampSubscriber<TMessage>; }
-        }
+        public IWampSubscriber<TMessage> Subscriber => Realm.TopicContainer as IWampSubscriber<TMessage>;
 
-        public IWampPublisherError<TMessage> PublisherError
-        {
-            get { return Realm.TopicContainer as IWampPublisherError<TMessage>; }
-        }
+        public IWampPublisherError<TMessage> PublisherError => Realm.TopicContainer as IWampPublisherError<TMessage>;
 
-        public IWampSubscriberError<TMessage> SubscriberError
-        {
-            get { return Realm.TopicContainer as IWampSubscriberError<TMessage>; }
-        }
+        public IWampSubscriberError<TMessage> SubscriberError => Realm.TopicContainer as IWampSubscriberError<TMessage>;
 
-        public IWampError<TMessage> ErrorHandler
-        {
-            get { return mErrorHandler; }
-        }
+        public IWampError<TMessage> ErrorHandler { get; }
 
-        public IWampSessionClientExtended SessionClient
-        {
-            get
-            {
-                return mRealm.Monitor as IWampSessionClientExtended;
-            }
-        }
+        public IWampSessionClientExtended SessionClient => Realm.Monitor as IWampSessionClientExtended;
 
         #endregion
 
         #region Delegating Members
 
-        public Task OpenTask
-        {
-            get { return SessionClient.OpenTask; }
-        }
+        public Task OpenTask => SessionClient.OpenTask;
 
         public void Challenge(string authMethod, ChallengeDetails extra)
         {
@@ -119,10 +77,7 @@ namespace WampSharp.V2.Client
             SessionClient.Goodbye(details, reason);
         }
 
-        public long Session
-        {
-            get { return SessionClient.Session; }
-        }
+        public long Session => SessionClient.Session;
 
         public void Close(string reason, GoodbyeDetails details)
         {

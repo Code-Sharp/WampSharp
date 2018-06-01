@@ -18,10 +18,7 @@ namespace WampSharp.V2.CalleeProxy
             mExtractor = extractor;
         }
 
-        public Task<TResult> Task
-        {
-            get { return mTask.Task; }
-        }
+        public Task<TResult> Task => mTask.Task;
 
         protected virtual void SetResult(ResultDetails details, TResult result)
         {

@@ -11,7 +11,6 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
         private readonly IWampIncomingMessageHandler<TMessage, IWampClientProxy<TMessage>> mServerPipe;
         protected readonly IEnumerable<WampMessage<TMessage>> mMessages;
         private readonly WampMessageType[] mCategories;
-        private IWampClientProxy<TMessage> mClient;
 
         public MessagePlayer(IEnumerable<WampMessage<TMessage>> messages,
                              WampMessageType[] categories,
@@ -22,11 +21,7 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
             mServerPipe = handler;
         }
 
-        public IWampClientProxy<TMessage> Client
-        {
-            get { return mClient; }
-            set { mClient = value; }
-        }
+        public IWampClientProxy<TMessage> Client { get; set; }
 
         public void Response(WampMessage<TMessage> message)
         {

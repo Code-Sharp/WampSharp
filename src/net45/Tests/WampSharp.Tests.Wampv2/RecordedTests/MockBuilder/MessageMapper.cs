@@ -4,9 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Message;
-using WampSharp.Newtonsoft;
 using WampSharp.Tests.TestHelpers;
-using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 {
@@ -81,9 +79,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests.MockBuilder
 
         private static JToken Convert(MockRaw raw)
         {
-            MockRaw[] array = raw.Value as MockRaw[];
 
-            if (array != null)
+            if (raw.Value is MockRaw[] array)
             {
                 return new JArray(array.Select(x => Convert(x)));
             }

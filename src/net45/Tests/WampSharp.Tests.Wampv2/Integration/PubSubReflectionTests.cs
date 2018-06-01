@@ -12,7 +12,6 @@ using WampSharp.V2.Client;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
-using WampSharp.V2.Rpc;
 
 namespace WampSharp.Tests.Wampv2.Integration
 {
@@ -215,40 +214,26 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         public class MyCustomSubscriber : LocalSubscriber
         {
-            private EventDetails mDetails;
-            private ISerializedValue[] mArguments;
             private IDictionary<string, ISerializedValue> mArgumentsKeywords;
 
             public MyCustomSubscriber() : base()
             {
             }
 
-            public override LocalParameter[] Parameters
-            {
-                get { return new LocalParameter[0];}
-            }
+            public override LocalParameter[] Parameters => new LocalParameter[0];
 
-            public EventDetails Details
-            {
-                get { return mDetails; }
-            }
+            public EventDetails Details { get; private set; }
 
-            public ISerializedValue[] Arguments
-            {
-                get { return mArguments; }
-            }
+            public ISerializedValue[] Arguments { get; private set; }
 
-            public IDictionary<string, ISerializedValue> ArgumentsKeywords
-            {
-                get { return mArgumentsKeywords; }
-            }
+            public IDictionary<string, ISerializedValue> ArgumentsKeywords => mArgumentsKeywords;
 
             protected override void InnerEvent<TMessage>(IWampFormatter<TMessage> formatter, long publicationId, EventDetails details, TMessage[] arguments,
                 IDictionary<string, TMessage> argumentsKeywords)
             {
                 if (arguments != null)
                 {
-                    mArguments = arguments.Select(x => new SerializedValue<TMessage>(formatter, x)).ToArray();                    
+                    Arguments = arguments.Select(x => new SerializedValue<TMessage>(formatter, x)).ToArray();                    
                 }
 
                 if (argumentsKeywords != null)
@@ -258,7 +243,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                             x => (ISerializedValue)new SerializedValue<TMessage>(formatter, x.Value));
                 }
 
-                mDetails = details;
+                Details = details;
             }
         }
 
@@ -304,12 +289,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             public void RaiseMyEvent(int number1, int number2, string c, MyClass d)
             {
-                MyPublicationDelegate handler = MyEvent;
-
-                if (handler != null)
-                {
-                    handler(number1, number2, c, d);
-                }
+                MyEvent?.Invoke(number1, number2, c, d);
             }
 
             public event MyPublicationDelegate MyEvent;
@@ -322,8 +302,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             public void RaiseMyEvent(string arg1, int arg2, int arg3)
             {
-                var handler = MyEvent;
-                if (handler != null) handler(arg1, arg2, arg3);
+                MyEvent?.Invoke(arg1, arg2, arg3);
             }
         }
 

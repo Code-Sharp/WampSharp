@@ -68,21 +68,9 @@ namespace WampSharp.V1.PubSub.Server
             }
         }
 
-        public IEnumerable<string> TopicUris
-        {
-            get
-            {
-                return mTopicUriToSubject.Keys;
-            }
-        }
+        public IEnumerable<string> TopicUris => mTopicUriToSubject.Keys;
 
-        public IEnumerable<IWampTopic> Topics
-        {
-            get
-            {
-                return mTopicUriToSubject.Values;
-            }
-        }
+        public IEnumerable<IWampTopic> Topics => mTopicUriToSubject.Values;
 
         public IWampTopic CreateTopicByUri(string topicUri, bool persistent)
         {
@@ -121,9 +109,8 @@ namespace WampSharp.V1.PubSub.Server
 
         public IWampTopic GetTopicByUri(string topicUri)
         {
-            WampTopic result;
 
-            if (mTopicUriToSubject.TryGetValue(topicUri, out result))
+            if (mTopicUriToSubject.TryGetValue(topicUri, out WampTopic result))
             {
                 return result;
             }
@@ -133,8 +120,7 @@ namespace WampSharp.V1.PubSub.Server
 
         public bool TryRemoveTopicByUri(string topicUri, out IWampTopic topic)
         {
-            WampTopic value;
-            bool result = mTopicUriToSubject.TryRemove(topicUri, out value);
+            bool result = mTopicUriToSubject.TryRemove(topicUri, out WampTopic value);
             topic = value;
 
             if (result)
@@ -173,8 +159,7 @@ namespace WampSharp.V1.PubSub.Server
                     topic.TopicEmpty -= OnTopicEmpty;
                     topic.Dispose();
 
-                    IWampTopic deletedTopic;
-                    TryRemoveTopicByUri(topic.TopicUri, out deletedTopic);
+                    TryRemoveTopicByUri(topic.TopicUri, out IWampTopic deletedTopic);
                 }
             }
         }
@@ -189,22 +174,12 @@ namespace WampSharp.V1.PubSub.Server
 
         private void RaiseTopicCreated(IWampTopic wampTopic)
         {
-            EventHandler<WampTopicCreatedEventArgs> topicCreated = TopicCreated;
-
-            if (topicCreated != null)
-            {
-                topicCreated(this, new WampTopicCreatedEventArgs(wampTopic));
-            }
+            TopicCreated?.Invoke(this, new WampTopicCreatedEventArgs(wampTopic));
         }
 
         private void RaiseTopicRemoved(IWampTopic topic)
         {
-            EventHandler<WampTopicRemovedEventArgs> topicRemoved = TopicRemoved;
-
-            if (topicRemoved != null)
-            {
-                topicRemoved(this, new WampTopicRemovedEventArgs(topic));
-            }
+            TopicRemoved?.Invoke(this, new WampTopicRemovedEventArgs(topic));
         }
 
         #endregion

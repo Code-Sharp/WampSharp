@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using WampSharp.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -47,6 +48,11 @@ namespace WampSharp.Newtonsoft
             
             mLogger.DebugFormat("Formatted message {JsonMessage}", result);
             return result;
+        }
+
+        public byte[] GetBytes(string raw)
+        {
+            return Encoding.UTF8.GetBytes(raw);
         }
 
         public WampMessage<JToken> Parse(Stream stream)

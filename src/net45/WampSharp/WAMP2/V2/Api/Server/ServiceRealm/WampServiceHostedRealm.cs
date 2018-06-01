@@ -10,73 +10,36 @@ namespace WampSharp.V2
     {
         private readonly IWampHostedRealm mUnderlyingRealm;
         private readonly IWampChannel mInternalChannel;
-        private readonly long mSessionId;
 
         public WampServiceHostedRealm(IWampHostedRealm underlyingRealm, IWampChannel internalChannel, long sessionId)
         {
             mUnderlyingRealm = underlyingRealm;
             mInternalChannel = internalChannel;
-            mSessionId = sessionId;
+            SessionId = sessionId;
         }
 
-        public string Name
-        {
-            get
-            {
-                return mUnderlyingRealm.Name;
-            }
-        }
+        public string Name => mUnderlyingRealm.Name;
 
-        public IWampRpcOperationCatalog RpcCatalog
-        {
-            get
-            {
-                return mUnderlyingRealm.RpcCatalog;
-            }
-        }
+        public IWampRpcOperationCatalog RpcCatalog => mUnderlyingRealm.RpcCatalog;
 
-        public IWampTopicContainer TopicContainer
-        {
-            get
-            {
-                return mUnderlyingRealm.TopicContainer;
-            }
-        }
+        public IWampTopicContainer TopicContainer => mUnderlyingRealm.TopicContainer;
 
         public event EventHandler<WampSessionCreatedEventArgs> SessionCreated
         {
-            add { mUnderlyingRealm.SessionCreated += value; }
-            remove { mUnderlyingRealm.SessionCreated -= value; }
+            add => mUnderlyingRealm.SessionCreated += value;
+            remove => mUnderlyingRealm.SessionCreated -= value;
         }
 
         public event EventHandler<WampSessionCloseEventArgs> SessionClosed
         {
-            add { mUnderlyingRealm.SessionClosed += value; }
-            remove { mUnderlyingRealm.SessionClosed -= value; }
+            add => mUnderlyingRealm.SessionClosed += value;
+            remove => mUnderlyingRealm.SessionClosed -= value;
         }
         
-        public IWampRealmServiceProvider Services
-        {
-            get
-            {
-                return mInternalChannel.RealmProxy.Services;
-            }
-        }
+        public IWampRealmServiceProvider Services => mInternalChannel.RealmProxy.Services;
 
-        public RouterRoles Roles
-        {
-            get
-            {
-                return mUnderlyingRealm.Roles;
-            }
-        }
+        public RouterRoles Roles => mUnderlyingRealm.Roles;
 
-        public long SessionId
-        {
-            get
-            {
-                return mSessionId;
-            }
-        }
+        public long SessionId { get; }
     }
 }

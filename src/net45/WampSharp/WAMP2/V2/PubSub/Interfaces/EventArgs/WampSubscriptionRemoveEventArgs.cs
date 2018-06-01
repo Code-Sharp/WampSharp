@@ -4,29 +4,16 @@ namespace WampSharp.V2.PubSub
 {
     public class WampSubscriptionRemoveEventArgs : EventArgs
     {
-        private readonly long mSession;
         private readonly long mSubscriptionId;
 
         public WampSubscriptionRemoveEventArgs(long session, long subscriptionId)
         {
-            mSession = session;
+            Session = session;
             mSubscriptionId = subscriptionId;
         }
 
-        public long Session
-        {
-            get
-            {
-                return mSession;
-            }
-        }
+        public long Session { get; }
 
-        public long SubscriptionId
-        {
-            get
-            {
-                return mSubscriptionId;
-            }
-        }
+        public long SubscriptionId => mSubscriptionId;
     }
 }

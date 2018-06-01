@@ -1,5 +1,4 @@
 ﻿using System;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Realm
@@ -9,42 +8,22 @@ namespace WampSharp.V2.Realm
     /// </summary>
     public class WampSessionCreatedEventArgs : EventArgs
     {
-        private readonly long mSessionId;
-        private readonly HelloDetails mHelloDetails;
         private readonly WelcomeDetails mWelcomeDetails;
 
         public WampSessionCreatedEventArgs(long sessionId, HelloDetails helloDetails, WelcomeDetails welcomeDetails)
         {
-            mSessionId = sessionId;
-            mHelloDetails = helloDetails;
+            SessionId = sessionId;
+            HelloDetails = helloDetails;
             mWelcomeDetails = welcomeDetails;
         }
 
         /// <summary>
         /// Gets the relevant session id.
         /// </summary>
-        public long SessionId
-        {
-            get
-            {
-                return mSessionId;
-            }
-        }
+        public long SessionId { get; }
 
-        public HelloDetails HelloDetails
-        {
-            get
-            {
-                return mHelloDetails;
-            }
-        }
+        public HelloDetails HelloDetails { get; }
 
-        public WelcomeDetails WelcomeDetails
-        {
-            get
-            {
-                return mWelcomeDetails;
-            }
-        }
+        public WelcomeDetails WelcomeDetails => mWelcomeDetails;
     }
 }

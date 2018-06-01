@@ -5,14 +5,12 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Dispatch;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Core.Listener.ClientBuilder;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
-using WampSharp.V2.Session;
 
 namespace WampSharp.V2
 {

@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Client

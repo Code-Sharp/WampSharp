@@ -7,8 +7,7 @@ namespace WampSharp.V2
     public class WampIncompatibleCalleeProxyMethodException : Exception
     {
         public WampIncompatibleCalleeProxyMethodException(MethodInfo method) :
-            base(String.Format("Method {0} doesn't have a [WampProcedure] attribute.",
-                               method.Name))
+            base($"Method {method.Name} doesn't have a [WampProcedure] attribute.")
         {
         }
     }

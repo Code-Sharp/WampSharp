@@ -9,5 +9,7 @@ namespace WampSharp.V2.Binding.Messages
         }
 
         public TRaw Raw { get; set; }
+
+        public byte[] Bytes { get; set; }
     }
 }

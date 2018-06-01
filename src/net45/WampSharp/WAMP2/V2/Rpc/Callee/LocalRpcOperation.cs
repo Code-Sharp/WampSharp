@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using WampSharp.Logging;
 using WampSharp.Core.Serialization;
@@ -12,8 +11,6 @@ namespace WampSharp.V2.Rpc
 {
     public abstract class LocalRpcOperation : IWampRpcOperation
     {
-        private readonly string mProcedure;
-
         protected readonly ILog mLogger;
 
         protected readonly static IWampFormatter<object> ObjectFormatter =
@@ -21,17 +18,11 @@ namespace WampSharp.V2.Rpc
 
         protected LocalRpcOperation(string procedure)
         {
-            mProcedure = procedure;
+            Procedure = procedure;
             mLogger = LogProvider.GetLogger(typeof (LocalRpcOperation) + "." + procedure);
         }
 
-        public string Procedure
-        {
-            get
-            {
-                return mProcedure;
-            }
-        }
+        public string Procedure { get; }
 
         public abstract RpcParameter[] Parameters
         {
@@ -149,9 +140,8 @@ namespace WampSharp.V2.Rpc
 
         protected static WampException ConvertExceptionToRuntimeException(Exception exception)
         {
-            OperationCanceledException canceledException = exception as OperationCanceledException;
 
-            if (canceledException != null)
+            if (exception is OperationCanceledException canceledException)
             {
                 return new WampRpcCanceledException(canceledException.Message);
             }

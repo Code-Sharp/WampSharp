@@ -6,7 +6,6 @@ namespace WampSharp.V2.Rpc
     [AttributeUsage(AttributeTargets.ReturnValue, Inherited = false, AllowMultiple = false)]
     public sealed class WampResultAttribute : Attribute
     {
-        private readonly CollectionResultTreatment mCollectionResultTreatment = CollectionResultTreatment.Multivalued;
 
         /// <summary>
         /// Creates a new instance of <see cref="WampResultAttribute"/>.
@@ -15,15 +14,9 @@ namespace WampSharp.V2.Rpc
         /// <see cref="ICollection{T}"/>.</param>
         public WampResultAttribute(CollectionResultTreatment collectionResultTreatment)
         {
-            mCollectionResultTreatment = collectionResultTreatment;
+            CollectionResultTreatment = collectionResultTreatment;
         }
 
-        public CollectionResultTreatment CollectionResultTreatment
-        {
-            get
-            {
-                return mCollectionResultTreatment;
-            }
-        }
+        public CollectionResultTreatment CollectionResultTreatment { get; } = CollectionResultTreatment.Multivalued;
     }
 }

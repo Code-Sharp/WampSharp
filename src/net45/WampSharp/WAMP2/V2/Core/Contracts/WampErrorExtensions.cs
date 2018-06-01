@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using WampSharp.Core.Message;
+﻿using WampSharp.Core.Message;
 using WampSharp.V2.Error;
 
 namespace WampSharp.V2.Core.Contracts

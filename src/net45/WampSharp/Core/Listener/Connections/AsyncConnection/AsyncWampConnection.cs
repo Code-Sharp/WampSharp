@@ -101,28 +101,24 @@ namespace WampSharp.Core.Listener
 
         protected virtual void RaiseConnectionOpen()
         {
-            var handler = ConnectionOpen;
-            if (handler != null) handler(this, EventArgs.Empty);
+            ConnectionOpen?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void RaiseMessageArrived(WampMessage<TMessage> message)
         {
-            var handler = MessageArrived;
-            if (handler != null) handler(this, new WampMessageArrivedEventArgs<TMessage>(message));
+            MessageArrived?.Invoke(this, new WampMessageArrivedEventArgs<TMessage>(message));
         }
 
         protected virtual void RaiseConnectionClosed()
         {
             mLogger.Debug("Connection has been closed");
-            var handler = ConnectionClosed;
-            if (handler != null) handler(this, EventArgs.Empty);
+            ConnectionClosed?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void RaiseConnectionError(Exception ex)
         {
             mLogger.Error("A connection error occured", ex);
-            var handler = ConnectionError;
-            if (handler != null) handler(this, new WampConnectionErrorEventArgs(ex));
+            ConnectionError?.Invoke(this, new WampConnectionErrorEventArgs(ex));
         }
         
         void IDisposable.Dispose()

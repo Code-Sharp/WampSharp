@@ -9,7 +9,6 @@ namespace WampSharp.V2.MetaApi
         private readonly WampRegistrationDescriptorProxyProxy mRegistrationDescriptorProxy;
         private readonly WampSessionDescriptorProxyProxy mSessionDescriptorProxy;
         private readonly WampSubscriptionDescriptorProxyProxy mSubscriptionDescriptor;
-        private readonly MetaEvents mMetaEvents;
 
         internal WampMetaApiServiceProxy(IWampRealmProxy proxy)
         {
@@ -18,16 +17,10 @@ namespace WampSharp.V2.MetaApi
             mRegistrationDescriptorProxy = new WampRegistrationDescriptorProxyProxy(proxy, calleeProxyInterceptor);
             mSessionDescriptorProxy = new WampSessionDescriptorProxyProxy(proxy, calleeProxyInterceptor);
             mSubscriptionDescriptor = new WampSubscriptionDescriptorProxyProxy(proxy, calleeProxyInterceptor);
-            mMetaEvents = new MetaEvents(proxy);
+            SubscribeTo = new MetaEvents(proxy);
         }
 
-        public MetaEvents SubscribeTo
-        {
-            get
-            {
-                return mMetaEvents;
-            }
-        }
+        public MetaEvents SubscribeTo { get; }
 
         public Task<long> CountSessionsAsync()
         {

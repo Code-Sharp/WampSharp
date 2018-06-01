@@ -85,10 +85,22 @@ namespace WampSharp.Fleck
             Action<LogLevel, string, Exception> logAction = FleckLog.LogAction;
 
             if (logAction != null &&
-                logAction.Method.DeclaringType == typeof (FleckLog))
+                GetMethodDeclaringType(logAction) == typeof (FleckLog))
             {
                 FleckLog.LogAction = ConvertLog;
             }
+        }
+
+        private static Type GetMethodDeclaringType(Action<LogLevel, string, Exception> logAction)
+        {
+            Type methodDeclaringType = logAction.Method.DeclaringType;
+
+            while (methodDeclaringType.IsNested)
+            {
+                methodDeclaringType = methodDeclaringType.DeclaringType;
+            }
+
+            return methodDeclaringType;
         }
 
         private void ConvertLog(LogLevel logLevel, string message, Exception exception)

@@ -21,8 +21,7 @@ namespace WampSharp.V2.Authentication
 
         public WampCraUser GetUserById(string authenticationId)
         {
-            WampCraUser result;
-            mUsers.TryGetValue(authenticationId, out result);
+            mUsers.TryGetValue(authenticationId, out WampCraUser result);
             return result;
         }
     }

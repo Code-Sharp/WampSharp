@@ -8,9 +8,8 @@ namespace WampSharp.V2.Transports
     {
         public static WampMessage<TMessage> SerializeMessage<TMessage>(this IWampFormatter<TMessage> formatter, WampMessage<object> message)
         {
-            WampMessage<TMessage> casted = message as WampMessage<TMessage>;
 
-            if (casted != null)
+            if (message is WampMessage<TMessage> casted)
             {
                 return casted;
             }
@@ -24,7 +23,7 @@ namespace WampSharp.V2.Transports
                     message.Arguments.Select(x => formatter.Serialize(x))
                         .ToArray();
 
-                return result;                
+                return result;
             }
         }
     }

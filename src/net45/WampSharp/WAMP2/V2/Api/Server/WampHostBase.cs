@@ -16,9 +16,6 @@ namespace WampSharp.V2
     {
         private readonly IDictionary<IWampBinding, IWampBindingHost> mBindingToHost =
             new Dictionary<IWampBinding, IWampBindingHost>();
-
-        private readonly IWampHostedRealmContainer mRealmContainer;
-
         private readonly ICollection<WampTransportDefinition> mTransportDefinitions =
             new List<WampTransportDefinition>();
 
@@ -41,13 +38,10 @@ namespace WampSharp.V2
         public WampHostBase(IWampRealmContainer realmContainer, IWampUriValidator uriValidator)
         {
             mUriValidator = uriValidator;
-            mRealmContainer = new HostedRealmContainer(realmContainer);
+            RealmContainer = new HostedRealmContainer(realmContainer);
         }
 
-        public IWampHostedRealmContainer RealmContainer
-        {
-            get { return mRealmContainer; }
-        }
+        public IWampHostedRealmContainer RealmContainer { get; }
 
         public void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings)
         {
@@ -65,7 +59,7 @@ namespace WampSharp.V2
             }
             else
             {
-                throw new ArgumentException("Got no binding. Expected at least one binding.", "bindings");
+                throw new ArgumentException("Got no binding. Expected at least one binding.", nameof(bindings));
             }
         }
 

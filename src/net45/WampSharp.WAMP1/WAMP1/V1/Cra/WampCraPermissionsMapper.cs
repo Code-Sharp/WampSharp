@@ -53,8 +53,7 @@ namespace WampSharp.V1.Cra
                 return null;
             }
 
-            WampRpcPermissions rpc;
-            mRpcPermissions.TryGetValue(unprefixedUri, out rpc);
+            mRpcPermissions.TryGetValue(unprefixedUri, out WampRpcPermissions rpc);
             return rpc;
         }
 
@@ -65,9 +64,8 @@ namespace WampSharp.V1.Cra
                 return null;
             }
 
-            WampPubSubPermissions pubsub;
 
-            if (mPubSubPermissions.TryGetValue(unprefixedUri, out pubsub))
+            if (mPubSubPermissions.TryGetValue(unprefixedUri, out WampPubSubPermissions pubsub))
             {
                 return pubsub;
             }

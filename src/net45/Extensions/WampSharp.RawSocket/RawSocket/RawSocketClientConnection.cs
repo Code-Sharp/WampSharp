@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Buffers;
-using System.Net;
+using System.IO;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using SystemEx;
+using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
@@ -12,7 +13,8 @@ using WampSharp.V2.Binding.Parsers;
 
 namespace WampSharp.RawSocket
 {
-    public class RawSocketClientConnection<TMessage> : IControlledWampConnection<TMessage>
+    public class RawSocketClientConnection<TMessage> : IControlledWampConnection<TMessage>,
+        IAsyncDisposable
     {
         private readonly Func<TcpClient> mClientBuilder;
         private TcpClientConnection<TMessage> mConnection;
@@ -20,26 +22,29 @@ namespace WampSharp.RawSocket
         private readonly IWampStreamingMessageParser<TMessage> mParser;
         private readonly Handshaker mHandshaker = new Handshaker();
         private byte mMaxLength = 15;
-        private readonly ArrayPool<byte> mByteArrayPool = ArrayPool<byte>.Create();
+        private readonly RecyclableMemoryStreamManager mByteArrayPool = new RecyclableMemoryStreamManager();
         private TcpClient mClient;
         private readonly TimeSpan? mAutoPingInterval;
+        private readonly ClientSslConfiguration mSslConfiguration;
 
         public RawSocketClientConnection
             (Func<TcpClient> clientBuilder,
              Func<TcpClient, Task> connector,
              IWampStreamingMessageParser<TMessage> parser, 
-             TimeSpan? autoPingInterval)
+             TimeSpan? autoPingInterval,
+             ClientSslConfiguration sslConfiguration = null)
         {
             mClientBuilder = clientBuilder;
             mConnector = connector;
 
             if (!(parser is JsonBinding<TMessage> || parser is MsgPackBinding<TMessage>))
             {
-                throw new ArgumentException("Expected Json or MsgPack binding", "parser");
+                throw new ArgumentException("Expected Json or MsgPack binding", nameof(parser));
             }
 
             mParser = parser;
             mAutoPingInterval = autoPingInterval;
+            mSslConfiguration = sslConfiguration;
         }
 
         public void Send(WampMessage<object> message)
@@ -93,11 +98,19 @@ namespace WampSharp.RawSocket
 
                 await mConnector(mClient).ConfigureAwait(false);
 
+                Stream stream = mClient.GetStream();
+
+                if (IsSecure)
+                {
+                    stream = await GetSecureStream(stream)
+                        .ConfigureAwait(false);
+                }
+
                 Handshake handshakeRequest = GetHandshakeRequest();
 
-                await mHandshaker.SendHandshake(mClient, handshakeRequest).ConfigureAwait(false);
+                await mHandshaker.SendHandshake(stream, handshakeRequest).ConfigureAwait(false);
 
-                Handshake handshakeResponse = await mHandshaker.GetHandshakeMessage(mClient).ConfigureAwait(false);
+                Handshake handshakeResponse = await mHandshaker.GetHandshakeMessage(stream).ConfigureAwait(false);
 
                 if (handshakeResponse.IsError)
                 {
@@ -107,9 +120,9 @@ namespace WampSharp.RawSocket
                 else
                 {
                     Connection =
-                        CreateInnerConnection(handshakeRequest, handshakeResponse);
+                        CreateInnerConnection(stream, handshakeRequest, handshakeResponse);
 
-                    Task.Run((Func<Task>) Connection.HandleTcpClientAsync);
+                    Task.Run(Connection.HandleTcpClientAsync);
                 }
             }
             catch (Exception ex)
@@ -117,6 +130,19 @@ namespace WampSharp.RawSocket
                 OnConnectionError(new WampConnectionErrorEventArgs(ex));
             }
         }
+
+        private async Task<Stream> GetSecureStream(Stream stream)
+        {
+            SslStream sslStream = new SslStream(stream);
+
+            await sslStream.AuthenticateAsClientAsync(mSslConfiguration)
+                .ConfigureAwait(false);
+
+            stream = sslStream;
+            return stream;
+        }
+
+        private bool IsSecure => mSslConfiguration != null;
 
         private Handshake GetHandshakeRequest()
         {
@@ -133,15 +159,12 @@ namespace WampSharp.RawSocket
         /// </summary>
         public byte MaxLength
         {
-            get
-            {
-                return mMaxLength;
-            }
+            get => mMaxLength;
             set
             {
                 if (value >= 16)
                 {
-                    throw new ArgumentException("Expected a value between 0 to 15", "value");
+                    throw new ArgumentException("Expected a value between 0 to 15", nameof(value));
                 }
 
                 mMaxLength = value;
@@ -159,10 +182,7 @@ namespace WampSharp.RawSocket
 
                 return mConnection;
             }
-            set
-            {
-                mConnection = value;
-            }
+            set => mConnection = value;
         }
 
         private SerializerType GetSerializerType()
@@ -181,18 +201,17 @@ namespace WampSharp.RawSocket
         }
 
         private TcpClientConnection<TMessage> CreateInnerConnection
-            (Handshake handshakeRequest,
-            Handshake handshakeResponse)
+            (Stream stream, Handshake handshakeRequest, Handshake handshakeResponse)
         {
             TcpClientConnection<TMessage> connection =
                 new TcpClientConnection<TMessage>
-                    (mClient,
-                     handshakeRequest.MaxMessageSizeInBytes,
-                     handshakeResponse,
-                     mParser,
-                     mByteArrayPool,
-                     mAutoPingInterval);
-
+                   (mClient,
+                    stream,
+                    handshakeRequest.MaxMessageSizeInBytes,
+                    handshakeResponse,
+                    mParser,
+                    mByteArrayPool,
+                    mAutoPingInterval);
 
             connection.ConnectionOpen += OnConnectionOpen;
             connection.MessageArrived += OnMessageArrived;
@@ -213,32 +232,17 @@ namespace WampSharp.RawSocket
 
         protected void RaiseConnectionOpen()
         {
-            EventHandler handler = ConnectionOpen;
-
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            ConnectionOpen?.Invoke(this, EventArgs.Empty);
         }
 
         protected void RaiseMessageArrived(WampMessageArrivedEventArgs<TMessage> e)
         {
-            EventHandler<WampMessageArrivedEventArgs<TMessage>> handler = MessageArrived;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            MessageArrived?.Invoke(this, e);
         }
 
         protected void RaiseConnectionClosed()
         {
-            EventHandler handler = ConnectionClosed;
-
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            ConnectionClosed?.Invoke(this, EventArgs.Empty);
         }
 
         protected void OnConnectionError(WampConnectionErrorEventArgs e)
@@ -250,12 +254,7 @@ namespace WampSharp.RawSocket
 
         private void RaiseConnectionErrorEvent(WampConnectionErrorEventArgs e)
         {
-            EventHandler<WampConnectionErrorEventArgs> handler = ConnectionError;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            ConnectionError?.Invoke(this, e);
         }
 
         public Task DisposeAsync()

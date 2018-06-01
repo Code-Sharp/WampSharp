@@ -49,8 +49,7 @@ namespace WampSharp.V2.Authentication
             else
             {
                 throw new ArgumentException
-                    (string.Format("Role has specified permissions for uri '{0}' more than once",
-                                   uriPermissions.Uri),
+                    ($"Role has specified permissions for uri '{uriPermissions.Uri}' more than once",
                      "role");
             }
         }
@@ -77,9 +76,8 @@ namespace WampSharp.V2.Authentication
 
         private bool CheckAction(string procedure, Func<WampUriPermissions, bool> permissionChecker)
         {
-            WampUriPermissions permissions;
 
-            if (mExactUriToPermissions.TryGetValue(procedure, out permissions))
+            if (mExactUriToPermissions.TryGetValue(procedure, out WampUriPermissions permissions))
             {
                 return permissionChecker(permissions);
             }

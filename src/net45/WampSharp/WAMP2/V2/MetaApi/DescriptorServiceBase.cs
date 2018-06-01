@@ -56,9 +56,8 @@ namespace WampSharp.V2.MetaApi
 
         protected void RemovePeerFromGroup(string uri, long sessionId, long groupId)
         {
-            TDetails details;
 
-            if (mGroupIdToDetails.TryGetValue(groupId, out details))
+            if (mGroupIdToDetails.TryGetValue(groupId, out TDetails details))
             {
                 details.RemovePeer(sessionId);
 
@@ -92,9 +91,8 @@ namespace WampSharp.V2.MetaApi
 
         private void DeleteUriToGroup(string uri, TDetails details)
         {
-            ImmutableList<TDetails> groups;
 
-            if (mUriToGroups.TryGetValue(uri, out groups))
+            if (mUriToGroups.TryGetValue(uri, out ImmutableList<TDetails> groups))
             {
                 groups = groups.Remove(details);
 
@@ -126,10 +124,9 @@ namespace WampSharp.V2.MetaApi
 
             AvailableGroups result = new AvailableGroups();
 
-            long[] groups;
 
             // Yuck!
-            if (matchToGroupId.TryGetValue(WampMatchPattern.Exact, out groups))
+            if (matchToGroupId.TryGetValue(WampMatchPattern.Exact, out long[] groups))
             {
                 result.Exact = groups;
             }
@@ -149,11 +146,10 @@ namespace WampSharp.V2.MetaApi
         {
             match = match ?? WampMatchPattern.Default;
 
-            ImmutableList<TDetails> groups;
 
             TDetails result = null;
 
-            if (mUriToGroups.TryGetValue(uri, out groups))
+            if (mUriToGroups.TryGetValue(uri, out ImmutableList<TDetails> groups))
             {
                 result = groups.FirstOrDefault(x => x.Match == match);
             }
@@ -174,9 +170,8 @@ namespace WampSharp.V2.MetaApi
 
         protected IEnumerable<TDetails> GetMatchingGroups(string uri)
         {
-            ImmutableList<TDetails> groups;
 
-            if (mUriToGroups.TryGetValue(uri, out groups))
+            if (mUriToGroups.TryGetValue(uri, out ImmutableList<TDetails> groups))
             {
                 return groups;
             }
@@ -186,9 +181,8 @@ namespace WampSharp.V2.MetaApi
 
         protected TDetails GetGroupDetails(long groupId)
         {
-            TDetails details;
 
-            if (mGroupIdToDetails.TryGetValue(groupId, out details))
+            if (mGroupIdToDetails.TryGetValue(groupId, out TDetails details))
             {
                 return details;
             }

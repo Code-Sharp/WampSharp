@@ -2,30 +2,19 @@
 {
     public class CallErrorDetails
     {
-        private string mErrorUri;
-        private string mErrorDesc;
-        private object mErrorDetails;
+        private readonly string mErrorDesc;
 
         public CallErrorDetails(string errorUri, string errorDesc, object errorDetails)
         {
-            mErrorUri = errorUri;
+            ErrorUri = errorUri;
             mErrorDesc = errorDesc;
-            mErrorDetails = errorDetails;
+            ErrorDetails = errorDetails;
         }
 
-        public string ErrorUri
-        {
-            get { return mErrorUri; }
-        }
+        public string ErrorUri { get; }
 
-        public string ErrorDesc
-        {
-            get { return mErrorDesc; }
-        }
+        public string ErrorDesc => mErrorDesc;
 
-        public object ErrorDetails
-        {
-            get { return mErrorDetails; }
-        }
+        public object ErrorDetails { get; }
     }
 }

@@ -7,7 +7,7 @@ using WampSharp.V2.Binding;
 
 namespace WampSharp.WebSockets
 {
-    public class TextWebSocketWrapperConnection<TMessage> : WebSocketWrapperConnection<TMessage>
+    public class TextWebSocketWrapperConnection<TMessage> : WebSocketWrapperConnection<TMessage, string>
     {
         private readonly IWampTextBinding<TMessage> mBinding;
 
@@ -23,21 +23,6 @@ namespace WampSharp.WebSockets
             mBinding = binding;
         }
 
-        protected override ArraySegment<byte> GetMessageInBytes(WampMessage<object> message)
-        {
-            string formatted = mBinding.Format(message);
-
-            byte[] bytes = Encoding.UTF8.GetBytes(formatted);
-
-            return new ArraySegment<byte>(bytes);
-        }
-
-        protected override WebSocketMessageType WebSocketMessageType
-        {
-            get
-            {
-                return WebSocketMessageType.Text;
-            }
-        }
+        protected override WebSocketMessageType WebSocketMessageType => WebSocketMessageType.Text;
     }
 }

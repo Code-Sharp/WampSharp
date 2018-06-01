@@ -130,9 +130,8 @@ namespace WampSharp.V2.Rpc
 
         private InvocationDetails GetInvocationDetails(InvocationDetails details)
         {
-            InvocationDetailsExtended casted = details as InvocationDetailsExtended;
 
-            if (casted == null)
+            if (!(details is InvocationDetailsExtended casted))
             {
                 return details;
             }

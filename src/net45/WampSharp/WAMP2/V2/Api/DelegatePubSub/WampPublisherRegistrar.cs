@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reflection;
 using WampSharp.Core.Listener;
-using WampSharp.Core.Utilities;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
@@ -25,7 +24,7 @@ namespace WampSharp.V2.DelegatePubSub
         {
             if (instance == null)
             {
-                throw new ArgumentNullException("instance");
+                throw new ArgumentNullException(nameof(instance));
             }
 
             Type runtimeType = instance.GetType();

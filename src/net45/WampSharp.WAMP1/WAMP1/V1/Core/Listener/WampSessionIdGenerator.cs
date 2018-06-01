@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading;
 using WampSharp.Core.Utilities;
 
 namespace WampSharp.V1.Core.Listener
@@ -50,13 +49,7 @@ namespace WampSharp.V1.Core.Listener
             return new string(resultArray);
         }
 
-        private Random Random
-        {
-            get
-            {
-                return mRandom.Random;
-            }
-        }
+        private Random Random => mRandom.Random;
 
         #endregion
     }

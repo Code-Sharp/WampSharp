@@ -98,26 +98,22 @@ namespace WampSharp.Core.Listener
 
         protected virtual void RaiseConnectionOpen()
         {
-            var handler = ConnectionOpen;
-            if (handler != null) handler(this, EventArgs.Empty);
+            ConnectionOpen?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void RaiseMessageArrived(WampMessageArrivedEventArgs<TMessage> e)
         {
-            var handler = MessageArrived;
-            if (handler != null) handler(this, e);
+            MessageArrived?.Invoke(this, e);
         }
 
         protected virtual void RaiseConnectionClosed()
         {
-            var handler = ConnectionClosed;
-            if (handler != null) handler(this, EventArgs.Empty);
+            ConnectionClosed?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void RaiseConnectionError(WampConnectionErrorEventArgs e)
         {
-            var handler = ConnectionError;
-            if (handler != null) handler(this, e);
+            ConnectionError?.Invoke(this, e);
         }
     }
 }

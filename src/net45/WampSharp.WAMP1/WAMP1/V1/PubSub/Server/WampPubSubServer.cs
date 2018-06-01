@@ -39,13 +39,7 @@ namespace WampSharp.V1.PubSub.Server
         /// <summary>
         /// Gets the <see cref="IWampTopicContainer"/> this server works against.
         /// </summary>
-        public IWampTopicContainer TopicContainer
-        {
-            get
-            {
-                return mContainer;
-            }
-        }
+        public IWampTopicContainer TopicContainer => mContainer;
 
         #endregion
 

@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Buffers;
-using System.Linq;
+using System.IO;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Binding.Contracts;
 using WampSharp.V2.Binding.Parsers;
 using WampSharp.V2.Binding.Transports;
 using WampSharp.V2.Transports;
@@ -21,9 +21,9 @@ namespace WampSharp.RawSocket
         private readonly Handshaker mHandshaker = new Handshaker();
         private readonly TcpListener mListener;
         private bool mIsStarted = false;
-        private readonly ArrayPool<byte> mByteArrayPool = ArrayPool<byte>.Create();
-        private readonly byte mMaxSize;
+        private readonly RecyclableMemoryStreamManager mByteArrayPool = new RecyclableMemoryStreamManager();
         private readonly TimeSpan? mAutoPingInterval;
+        private readonly ServerSslConfiguration mSslConfiguration;
 
         /// <summary>
         /// Creates a new instance of <see cref="RawSocketTransport"/>.
@@ -31,17 +31,18 @@ namespace WampSharp.RawSocket
         /// <param name="listener">The <see cref="TcpListener"/> to use.</param>
         /// <param name="autoPingInterval">The auto pings send interval.</param>
         /// <param name="maxSize">The max message size to receive: </param>
-        public RawSocketTransport(TcpListener listener, TimeSpan? autoPingInterval = null, byte maxSize = 15)
+        public RawSocketTransport(TcpListener listener, ServerSslConfiguration sslConfiguration = null, TimeSpan? autoPingInterval = null, byte maxSize = 15)
         {
             mListener = listener;
+            mSslConfiguration = sslConfiguration;
             mAutoPingInterval = autoPingInterval;
 
             if (maxSize >= 16)
             {
-                throw new ArgumentException("Expected a number between 0 to 15", "maxSize");
+                throw new ArgumentException("Expected a number between 0 to 15", nameof(maxSize));
             }
 
-            mMaxSize = maxSize;
+            MaxSize = maxSize;
         }
 
         public override void Open()
@@ -50,7 +51,7 @@ namespace WampSharp.RawSocket
 
             mListener.Start();
 
-            Task.Run(new Func<Task>(ListenAsync));
+            Task.Run(ListenAsync);
         }
 
         private async Task ListenAsync()
@@ -77,18 +78,31 @@ namespace WampSharp.RawSocket
         private async Task<RawSocketTcpClient> AcceptClient()
         {
             TcpClient tcpClient = null;
+
             try
             {
                 tcpClient = await mListener.AcceptTcpClientAsync().ConfigureAwait(false);
 
-                Handshake handshakeRequest = await mHandshaker.GetHandshakeMessage(tcpClient).ConfigureAwait(false);
+                Stream stream = tcpClient.GetStream();
 
-                Handshake handshakeResponse = GetHandshakeResponse(handshakeRequest);
+                if (mSslConfiguration != null)
+                {
+                    SslStream sslStream = new SslStream(stream);
 
-                await mHandshaker.SendHandshake(tcpClient, handshakeResponse)
+                    await sslStream.AuthenticateAsServerAsync(mSslConfiguration)
+                        .ConfigureAwait(false);
+
+                    stream = sslStream;
+                }
+
+                Handshake handshakeRequest = await mHandshaker.GetHandshakeMessage(stream).ConfigureAwait(false);
+
+                Handshake handshakeResponse = handshakeRequest.GetHandshakeResponse(SubProtocols, MaxSize);
+
+                await mHandshaker.SendHandshake(stream, handshakeResponse)
                                  .ConfigureAwait(false);
 
-                return new RawSocketTcpClient(tcpClient, handshakeRequest, handshakeResponse);
+                return new RawSocketTcpClient(tcpClient, stream, handshakeRequest, handshakeResponse);
             }
             catch (Exception)
             {
@@ -101,65 +115,19 @@ namespace WampSharp.RawSocket
             }
         }
 
-        private Handshake GetHandshakeResponse(Handshake handshakeRequest)
-        {
-            Handshake handshakeResponse;
-
-            if (handshakeRequest.ReservedOctects != 0)
-            {
-                handshakeResponse = new Handshake(HandshakeErrorCode.UseOfReservedBits);
-            }
-            else
-            {
-                SerializerType serializerType = handshakeRequest.SerializerType;
-
-                string requestedSubprotocol = GetSubProtocol(serializerType);
-
-                if (!SubProtocols.Contains(requestedSubprotocol))
-                {
-                    handshakeResponse = new Handshake(HandshakeErrorCode.SerializerUnsupported);
-                }
-                else
-                {
-                    handshakeResponse = new Handshake(MaxSize, serializerType);
-                }
-            }
-
-            return handshakeResponse;
-        }
-
-        public byte MaxSize
-        {
-            get
-            {
-                return mMaxSize;
-            }
-        }
+        public byte MaxSize { get; }
 
         protected override void OpenConnection<TMessage>(RawSocketTcpClient original, IWampConnection<TMessage> connection)
         {
             TcpClientConnection<TMessage> casted = connection as TcpClientConnection<TMessage>;
-            Task.Run(new Func<Task>(casted.HandleTcpClientAsync));
+            Task.Run(casted.HandleTcpClientAsync);
         }
 
         protected override string GetSubProtocol(RawSocketTcpClient connection)
         {
             SerializerType serializerType = connection.HandshakeRequest.SerializerType;
 
-            return GetSubProtocol(serializerType);
-        }
-
-        private static string GetSubProtocol(SerializerType serializerType)
-        {
-            switch (serializerType)
-            {
-                case SerializerType.Json:
-                    return WampSubProtocols.JsonSubProtocol;
-                case SerializerType.MsgPack:
-                    return WampSubProtocols.MsgPackSubProtocol;
-            }
-
-            return serializerType.ToString();
+            return serializerType.GetSubProtocol();
         }
 
         protected override IWampConnection<TMessage> CreateBinaryConnection<TMessage>
@@ -176,15 +144,21 @@ namespace WampSharp.RawSocket
             return CreateConnection(connection, binding);
         }
 
-        private TcpClientConnection<TMessage> CreateConnection<TMessage>(RawSocketTcpClient connection, IWampStreamingMessageParser<TMessage> binding)
+        private TcpClientConnection<TMessage> CreateConnection<TMessage, TRaw>(RawSocketTcpClient connection, IWampTransportBinding<TMessage, TRaw> binding)
         {
+            if (binding.ComputeBytes == null)
+            {
+                binding.ComputeBytes = true;
+            }
+
             return new TcpClientConnection<TMessage>
-                (connection.Client,
-                 connection.HandshakeResponse.MaxMessageSizeInBytes,
-                 connection.HandshakeRequest,
-                 binding,
-                 mByteArrayPool,
-                 mAutoPingInterval);
+            (connection.Client,
+                connection.Stream,
+                connection.HandshakeResponse.MaxMessageSizeInBytes,
+                connection.HandshakeRequest,
+                binding,
+                mByteArrayPool,
+                mAutoPingInterval);
         }
 
         public override void Dispose()

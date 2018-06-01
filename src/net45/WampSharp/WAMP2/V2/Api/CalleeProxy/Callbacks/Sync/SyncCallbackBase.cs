@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
@@ -12,17 +11,10 @@ namespace WampSharp.V2.CalleeProxy
     internal abstract class SyncCallbackBase : IWampRawRpcOperationClientCallback
     {
         private readonly ManualResetEvent mWaitHandle = new ManualResetEvent(false);
-        private Exception mException;
 
-        public Exception Exception
-        {
-            get { return mException; }
-        }
+        public Exception Exception { get; private set; }
 
-        public WaitHandle WaitHandle
-        {
-            get { return mWaitHandle; }
-        }
+        public WaitHandle WaitHandle => mWaitHandle;
 
         public void Wait(int timeout)
         {
@@ -63,7 +55,7 @@ namespace WampSharp.V2.CalleeProxy
 
         public void SetException(Exception exception)
         {
-            mException = exception;
+            Exception = exception;
             mWaitHandle.Set();
         }
     }

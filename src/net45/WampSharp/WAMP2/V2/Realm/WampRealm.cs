@@ -5,48 +5,21 @@ namespace WampSharp.V2.Realm
 {
     public class WampRealm : IWampRealm
     {
-        private readonly string mName;
-        private readonly IWampRpcOperationCatalog mCatalog;
-        private readonly IWampTopicContainer mTopicContainer;
         private readonly IWampRealmServiceProvider mServices;
 
         public WampRealm(string name, IWampRpcOperationCatalog catalog, IWampTopicContainer topicContainer)
         {
-            mName = name;
-            mCatalog = catalog;
-            mTopicContainer = topicContainer;
+            Name = name;
+            RpcCatalog = catalog;
+            TopicContainer = topicContainer;
         }
 
-        public string Name
-        {
-            get
-            {
-                return mName;
-            }
-        }
+        public string Name { get; }
 
-        public IWampRpcOperationCatalog RpcCatalog
-        {
-            get
-            {
-                return mCatalog;
-            }
-        }
+        public IWampRpcOperationCatalog RpcCatalog { get; }
 
-        public IWampTopicContainer TopicContainer
-        {
-            get
-            {
-                return mTopicContainer;
-            }
-        }
+        public IWampTopicContainer TopicContainer { get; }
 
-        public IWampRealmServiceProvider Services
-        {
-            get
-            {
-                return mServices;
-            }
-        }
+        public IWampRealmServiceProvider Services => mServices;
     }
 }

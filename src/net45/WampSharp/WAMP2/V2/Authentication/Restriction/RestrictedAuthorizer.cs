@@ -16,7 +16,7 @@ namespace WampSharp.V2.Authentication
             if (WampRestrictedUris.IsRestrictedUri(procedure))
             {
                 throw new WampException(WampErrors.InvalidUri,
-                                        string.Format("register for restricted procedure URI '{0}'", procedure));
+                                        $"register for restricted procedure URI '{procedure}'");
             }
             else
             {
@@ -34,7 +34,7 @@ namespace WampSharp.V2.Authentication
             if (WampRestrictedUris.IsRestrictedUri(topicUri))
             {
                 throw new WampException(WampErrors.InvalidUri,
-                                        string.Format("publish with restricted topic URI '{0}'", topicUri));
+                                        $"publish with restricted topic URI '{topicUri}'");
             }
             else
             {
@@ -47,12 +47,6 @@ namespace WampSharp.V2.Authentication
             return Authorizer.CanSubscribe(options, topicUri);
         }
 
-        public IWampAuthorizer Authorizer
-        {
-            get
-            {
-                return mAuthenticator.Authorizer;
-            }
-        }
+        public IWampAuthorizer Authorizer => mAuthenticator.Authorizer;
     }
 }

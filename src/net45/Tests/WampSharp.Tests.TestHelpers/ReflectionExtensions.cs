@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace WampSharp.Tests.TestHelpers
 {
-#if NETCORE
+#if NETCORE && !NETSTANDARD2_0
 
     internal static class ReflectionExtensions
     {

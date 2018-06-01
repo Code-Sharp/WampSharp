@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace WampSharp.Core.Utilities
@@ -12,14 +11,12 @@ namespace WampSharp.Core.Utilities
              TValue value)
         {
             bool result = false;
-            TValue dictionaryValue;
 
-            if (dictionary.TryGetValue(key, out dictionaryValue))
+            if (dictionary.TryGetValue(key, out TValue dictionaryValue))
             {
                 if (object.ReferenceEquals(dictionaryValue, value))
                 {
-                    TValue removed;
-                    result = dictionary.TryRemove(key, out removed);
+                    result = dictionary.TryRemove(key, out TValue removed);
                 }
             }
 
@@ -33,9 +30,8 @@ namespace WampSharp.Core.Utilities
         {
             bool result = false;
 
-            TCollection collection;
-            
-            if (dictionary.TryGetValue(key, out collection))
+
+            if (dictionary.TryGetValue(key, out TCollection collection))
             {
                 if (collection.Remove(value))
                 {
@@ -72,9 +68,8 @@ namespace WampSharp.Core.Utilities
             where TCollection : ICollection<TValue>
             where TNewCollection : TCollection, new()
         {
-            TCollection collection;
 
-            if (!dictionary.TryGetValue(key, out collection))
+            if (!dictionary.TryGetValue(key, out TCollection collection))
             {
                 collection = new TNewCollection();
                 dictionary[key] = collection;

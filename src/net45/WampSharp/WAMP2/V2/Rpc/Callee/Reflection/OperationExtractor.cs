@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using WampSharp.Core.Utilities;
 using WampSharp.V2.Core.Contracts;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 

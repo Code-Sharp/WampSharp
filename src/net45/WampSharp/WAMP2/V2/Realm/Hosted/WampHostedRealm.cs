@@ -1,7 +1,4 @@
 ﻿using System;
-using WampSharp.Core.Serialization;
-using WampSharp.V2.Authentication;
-using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Rpc;
@@ -27,29 +24,13 @@ namespace WampSharp.V2.Realm
             mUnderlyingRealm = underlyingRealm;
         }
 
-        public string Name
-        {
-            get { return mUnderlyingRealm.Name; }
-        }
+        public string Name => mUnderlyingRealm.Name;
 
-        public IWampRpcOperationCatalog RpcCatalog
-        {
-            get { return mUnderlyingRealm.RpcCatalog; }
-        }
+        public IWampRpcOperationCatalog RpcCatalog => mUnderlyingRealm.RpcCatalog;
 
-        public IWampTopicContainer TopicContainer
-        {
-            get { return mUnderlyingRealm.TopicContainer; }
-        }
+        public IWampTopicContainer TopicContainer => mUnderlyingRealm.TopicContainer;
 
-        public IWampRealmServiceProvider Services
-        {
-            get
-            {
-                // Should not be called.
-                throw new NotSupportedException();
-            }
-        }
+        public IWampRealmServiceProvider Services => throw new NotSupportedException();
 
         public RouterRoles Roles { get; } = new RouterRoles()
         {
@@ -71,14 +52,7 @@ namespace WampSharp.V2.Realm
             }
         };
 
-        public long SessionId
-        {
-            get
-            {
-                // Should not be called.
-                throw new NotSupportedException();
-            }
-        }
+        public long SessionId => throw new NotSupportedException();
 
         public event EventHandler<WampSessionCreatedEventArgs> SessionCreated;
 
@@ -113,14 +87,12 @@ namespace WampSharp.V2.Realm
 
         protected virtual void RaiseSessionCreated(WampSessionCreatedEventArgs e)
         {
-            EventHandler<WampSessionCreatedEventArgs> handler = SessionCreated;
-            if (handler != null) handler(this, e);
+            SessionCreated?.Invoke(this, e);
         }
 
         protected virtual void RaiseSessionClosed(WampSessionCloseEventArgs e)
         {
-            EventHandler<WampSessionCloseEventArgs> handler = SessionClosed;
-            if (handler != null) handler(this, e);
+            SessionClosed?.Invoke(this, e);
         }
     }
 }

@@ -6,8 +6,6 @@ namespace WampSharp.Core.Listener
         AsyncWampConnection<TMessage>,
         IWampAuthenticatedConnection<TMessage>
     {
-        private readonly IWampSessionAuthenticator mAuthenticator;
-
         public AsyncWebSocketWampConnection
             (ICookieProvider cookieProvider,
              ICookieAuthenticatorFactory cookieAuthenticatorFactory = null)
@@ -17,16 +15,10 @@ namespace WampSharp.Core.Listener
                 IWampSessionAuthenticator authenticator =
                     cookieAuthenticatorFactory.CreateAuthenticator(cookieProvider);
 
-                mAuthenticator = authenticator;
+                Authenticator = authenticator;
             }
         }
 
-        public IWampSessionAuthenticator Authenticator
-        {
-            get
-            {
-                return mAuthenticator;
-            }
-        }
+        public IWampSessionAuthenticator Authenticator { get; }
     }
 }

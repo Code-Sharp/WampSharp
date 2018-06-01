@@ -7,46 +7,20 @@ namespace WampSharp.Tests.TestHelpers
 {
     public class Messages
     {
-        private static readonly WampMessage<MockRaw> mPrefixMessage2;
         private static readonly WampMessage<MockRaw> mPrefixMessage1;
-        private static readonly WampMessage<MockRaw> mCallMessageForRpcWith2ArgumentsUsingCurie;
-        private static readonly WampMessage<MockRaw> mCallMessageForRpcWith1ArgumentValueBeingNull;
         private static readonly WampMessage<MockRaw> mCallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie;
-        private static readonly WampMessage<MockRaw> mCallMessageForRpcWith2ComplexArgumentsUsingCurie;
         private static readonly WampMessage<MockRaw> mCallMessageForRpcWith1ComplexObjectArgument;
-        private static readonly WampMessage<MockRaw> mCallMessageForRpcWithNoArguments;
-        private static readonly WampMessage<MockRaw> mSubscribeMessageWithFullyQualifiedUri;
-        private static readonly WampMessage<MockRaw> mSubscribeMessageWithCurie;
-        private static readonly WampMessage<MockRaw> mUnsubscribeMessageWithCurie;
-        private static readonly WampMessage<MockRaw> mUnsubscribeMessageWithFullyQualifiedUri;
-        private static readonly WampMessage<MockRaw> mPublishMessageWithComplexObjectAsPayload;
-        private static readonly WampMessage<MockRaw> mPublishMessageWithNullAsPayload;
-        private static readonly WampMessage<MockRaw> mPublishMessageWithStringAsPayload;
-        private static readonly WampMessage<MockRaw> mPublishMessageWithComplexObjectAsPayloadExcludeMe;
-        private static readonly WampMessage<MockRaw> mPublishMessageWithComplexObjectAsPayloadDontExcludeMe;
-        private static readonly WampMessage<MockRaw> mPublishMessageWithExcludeList;
-        private static readonly WampMessage<MockRaw> mPublishMessageWithEligibleList;
-        private static readonly WampMessage<MockRaw> mPublishMessageWithExcludedAndEligibleList;
-        private static readonly WampMessage<MockRaw> mWelcomeMessage;
-        private static readonly WampMessage<MockRaw> mCallResultMessageWithNullResult;
-        private static readonly WampMessage<MockRaw> mCallResultMessageWithStringResult;
-        private static readonly WampMessage<MockRaw> mCallResultMessageWithComplexObjectResult;
-        private static readonly WampMessage<MockRaw> mCallErrorMessageWithGenericError;
-        private static readonly WampMessage<MockRaw> mCallErrorMessageWithSpecificErrorAndIntegerInErrorDetails;
-        private static readonly WampMessage<MockRaw> mCallErrorMessageWithListOfIntegersInErrorDetails;
-        private static readonly WampMessage<MockRaw> mEventMessageWithStringAsPayload;
-        private static readonly WampMessage<MockRaw> mEventMessageWithNullAsPayload;
         private static readonly WampMessage<MockRaw> mEventMessageWithComplexObjectPayload;
 
         static Messages()
         {
-            mPrefixMessage2 = new WampMessage<MockRaw>();
+            PrefixMessage2 = new WampMessage<MockRaw>();
             {
-                mPrefixMessage2.MessageType = WampMessageType.v1Prefix;
+                PrefixMessage2.MessageType = WampMessageType.v1Prefix;
                 MockRaw[] arguments = new MockRaw[2];
                 arguments[0] = new MockRaw("keyvalue");
                 arguments[1] = new MockRaw("http://example.com/simple/keyvalue#");
-                mPrefixMessage2.Arguments = arguments;
+                PrefixMessage2.Arguments = arguments;
             }
             mPrefixMessage1 = new WampMessage<MockRaw>();
             {
@@ -56,24 +30,24 @@ namespace WampSharp.Tests.TestHelpers
                 arguments[1] = new MockRaw("http://example.com/simple/calc#");
                 mPrefixMessage1.Arguments = arguments;
             }
-            mCallMessageForRpcWith2ArgumentsUsingCurie = new WampMessage<MockRaw>();
+            CallMessageForRpcWith2ArgumentsUsingCurie = new WampMessage<MockRaw>();
             {
-                mCallMessageForRpcWith2ArgumentsUsingCurie.MessageType = WampMessageType.v1Call;
+                CallMessageForRpcWith2ArgumentsUsingCurie.MessageType = WampMessageType.v1Call;
                 MockRaw[] arguments = new MockRaw[4];
                 arguments[0] = new MockRaw("Yp9EFZt9DFkuKndg");
                 arguments[1] = new MockRaw("api:add2");
                 arguments[2] = new MockRaw(23);
                 arguments[3] = new MockRaw(99);
-                mCallMessageForRpcWith2ArgumentsUsingCurie.Arguments = arguments;
+                CallMessageForRpcWith2ArgumentsUsingCurie.Arguments = arguments;
             }
-            mCallMessageForRpcWith1ArgumentValueBeingNull = new WampMessage<MockRaw>();
+            CallMessageForRpcWith1ArgumentValueBeingNull = new WampMessage<MockRaw>();
             {
-                mCallMessageForRpcWith1ArgumentValueBeingNull.MessageType = WampMessageType.v1Call;
+                CallMessageForRpcWith1ArgumentValueBeingNull.MessageType = WampMessageType.v1Call;
                 MockRaw[] arguments = new MockRaw[3];
                 arguments[0] = new MockRaw("Dns3wuQo0ipOX1Xc");
                 arguments[1] = new MockRaw("http://example.com/api#woooat");
                 arguments[2] = new MockRaw(null);
-                mCallMessageForRpcWith1ArgumentValueBeingNull.Arguments = arguments;
+                CallMessageForRpcWith1ArgumentValueBeingNull.Arguments = arguments;
             }
             mCallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie = new WampMessage<MockRaw>();
             {
@@ -90,9 +64,9 @@ namespace WampSharp.Tests.TestHelpers
                                                });
                 mCallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie.Arguments = arguments;
             }
-            mCallMessageForRpcWith2ComplexArgumentsUsingCurie = new WampMessage<MockRaw>();
+            CallMessageForRpcWith2ComplexArgumentsUsingCurie = new WampMessage<MockRaw>();
             {
-                mCallMessageForRpcWith2ComplexArgumentsUsingCurie.MessageType = WampMessageType.v1Call;
+                CallMessageForRpcWith2ComplexArgumentsUsingCurie.MessageType = WampMessageType.v1Call;
                 MockRaw[] arguments = new MockRaw[4];
                 arguments[0] = new MockRaw("ujL7WKGXCn8bkvFV");
                 arguments[1] = new MockRaw("keyvalue:set");
@@ -104,7 +78,7 @@ namespace WampSharp.Tests.TestHelpers
                                                    value3 = true,
                                                    modified = new DateTime(2012, 3, 29, 10, 29, 16, 625),
                                                });
-                mCallMessageForRpcWith2ComplexArgumentsUsingCurie.Arguments = arguments;
+                CallMessageForRpcWith2ComplexArgumentsUsingCurie.Arguments = arguments;
             }
             mCallMessageForRpcWith1ComplexObjectArgument = new WampMessage<MockRaw>();
             {
@@ -119,45 +93,45 @@ namespace WampSharp.Tests.TestHelpers
                                                });
                 mCallMessageForRpcWith1ComplexObjectArgument.Arguments = arguments;
             }
-            mCallMessageForRpcWithNoArguments = new WampMessage<MockRaw>();
+            CallMessageForRpcWithNoArguments = new WampMessage<MockRaw>();
             {
-                mCallMessageForRpcWithNoArguments.MessageType = WampMessageType.v1Call;
+                CallMessageForRpcWithNoArguments.MessageType = WampMessageType.v1Call;
                 MockRaw[] arguments = new MockRaw[2];
                 arguments[0] = new MockRaw("7DK6TdN4wLiUJgNM");
                 arguments[1] = new MockRaw("http://example.com/api#howdy");
-                mCallMessageForRpcWithNoArguments.Arguments = arguments;
+                CallMessageForRpcWithNoArguments.Arguments = arguments;
             }
-            mSubscribeMessageWithFullyQualifiedUri = new WampMessage<MockRaw>();
+            SubscribeMessageWithFullyQualifiedUri = new WampMessage<MockRaw>();
             {
-                mSubscribeMessageWithFullyQualifiedUri.MessageType = WampMessageType.v1Subscribe;
+                SubscribeMessageWithFullyQualifiedUri.MessageType = WampMessageType.v1Subscribe;
                 MockRaw[] arguments = new MockRaw[1];
                 arguments[0] = new MockRaw("http://example.com/simple");
-                mSubscribeMessageWithFullyQualifiedUri.Arguments = arguments;
+                SubscribeMessageWithFullyQualifiedUri.Arguments = arguments;
             }
-            mSubscribeMessageWithCurie = new WampMessage<MockRaw>();
+            SubscribeMessageWithCurie = new WampMessage<MockRaw>();
             {
-                mSubscribeMessageWithCurie.MessageType = WampMessageType.v1Subscribe;
+                SubscribeMessageWithCurie.MessageType = WampMessageType.v1Subscribe;
                 MockRaw[] arguments = new MockRaw[1];
                 arguments[0] = new MockRaw("event:myevent1");
-                mSubscribeMessageWithCurie.Arguments = arguments;
+                SubscribeMessageWithCurie.Arguments = arguments;
             }
-            mUnsubscribeMessageWithCurie = new WampMessage<MockRaw>();
+            UnsubscribeMessageWithCurie = new WampMessage<MockRaw>();
             {
-                mUnsubscribeMessageWithCurie.MessageType = WampMessageType.v1Unsubscribe;
+                UnsubscribeMessageWithCurie.MessageType = WampMessageType.v1Unsubscribe;
                 MockRaw[] arguments = new MockRaw[1];
                 arguments[0] = new MockRaw("event:myevent1");
-                mUnsubscribeMessageWithCurie.Arguments = arguments;
+                UnsubscribeMessageWithCurie.Arguments = arguments;
             }
-            mUnsubscribeMessageWithFullyQualifiedUri = new WampMessage<MockRaw>();
+            UnsubscribeMessageWithFullyQualifiedUri = new WampMessage<MockRaw>();
             {
-                mUnsubscribeMessageWithFullyQualifiedUri.MessageType = WampMessageType.v1Unsubscribe;
+                UnsubscribeMessageWithFullyQualifiedUri.MessageType = WampMessageType.v1Unsubscribe;
                 MockRaw[] arguments = new MockRaw[1];
                 arguments[0] = new MockRaw("http://example.com/simple");
-                mUnsubscribeMessageWithFullyQualifiedUri.Arguments = arguments;
+                UnsubscribeMessageWithFullyQualifiedUri.Arguments = arguments;
             }
-            mPublishMessageWithComplexObjectAsPayload = new WampMessage<MockRaw>();
+            PublishMessageWithComplexObjectAsPayload = new WampMessage<MockRaw>();
             {
-                mPublishMessageWithComplexObjectAsPayload.MessageType = WampMessageType.v1Publish;
+                PublishMessageWithComplexObjectAsPayload.MessageType = WampMessageType.v1Publish;
                 MockRaw[] arguments = new MockRaw[2];
                 arguments[0] = new MockRaw("http://example.com/event#myevent2");
                 arguments[1] = new MockRaw(new
@@ -168,27 +142,27 @@ namespace WampSharp.Tests.TestHelpers
                                                    name = "Kross",
                                                    created = new DateTime(2012, 3, 29, 10, 41, 9, 864),
                                                });
-                mPublishMessageWithComplexObjectAsPayload.Arguments = arguments;
+                PublishMessageWithComplexObjectAsPayload.Arguments = arguments;
             }
-            mPublishMessageWithNullAsPayload = new WampMessage<MockRaw>();
+            PublishMessageWithNullAsPayload = new WampMessage<MockRaw>();
             {
-                mPublishMessageWithNullAsPayload.MessageType = WampMessageType.v1Publish;
+                PublishMessageWithNullAsPayload.MessageType = WampMessageType.v1Publish;
                 MockRaw[] arguments = new MockRaw[2];
                 arguments[0] = new MockRaw("http://example.com/simple");
                 arguments[1] = new MockRaw(null);
-                mPublishMessageWithNullAsPayload.Arguments = arguments;
+                PublishMessageWithNullAsPayload.Arguments = arguments;
             }
-            mPublishMessageWithStringAsPayload = new WampMessage<MockRaw>();
+            PublishMessageWithStringAsPayload = new WampMessage<MockRaw>();
             {
-                mPublishMessageWithStringAsPayload.MessageType = WampMessageType.v1Publish;
+                PublishMessageWithStringAsPayload.MessageType = WampMessageType.v1Publish;
                 MockRaw[] arguments = new MockRaw[2];
                 arguments[0] = new MockRaw("http://example.com/simple");
                 arguments[1] = new MockRaw("Hello, world!");
-                mPublishMessageWithStringAsPayload.Arguments = arguments;
+                PublishMessageWithStringAsPayload.Arguments = arguments;
             }
-            mPublishMessageWithComplexObjectAsPayloadExcludeMe = new WampMessage<MockRaw>();
+            PublishMessageWithComplexObjectAsPayloadExcludeMe = new WampMessage<MockRaw>();
             {
-                mPublishMessageWithComplexObjectAsPayloadExcludeMe.MessageType = WampMessageType.v1Publish;
+                PublishMessageWithComplexObjectAsPayloadExcludeMe.MessageType = WampMessageType.v1Publish;
                 MockRaw[] arguments = new MockRaw[3];
                 arguments[0] = new MockRaw("http://example.com/event#myevent2");
                 arguments[1] = new MockRaw(new
@@ -200,11 +174,11 @@ namespace WampSharp.Tests.TestHelpers
                                                    created = new DateTime(2012, 3, 29, 10, 41, 9, 864),
                                                });
                 arguments[2] = new MockRaw(true);
-                mPublishMessageWithComplexObjectAsPayloadExcludeMe.Arguments = arguments;
+                PublishMessageWithComplexObjectAsPayloadExcludeMe.Arguments = arguments;
             }
-            mPublishMessageWithComplexObjectAsPayloadDontExcludeMe = new WampMessage<MockRaw>();
+            PublishMessageWithComplexObjectAsPayloadDontExcludeMe = new WampMessage<MockRaw>();
             {
-                mPublishMessageWithComplexObjectAsPayloadDontExcludeMe.MessageType = WampMessageType.v1Publish;
+                PublishMessageWithComplexObjectAsPayloadDontExcludeMe.MessageType = WampMessageType.v1Publish;
                 MockRaw[] arguments = new MockRaw[3];
                 arguments[0] = new MockRaw("http://example.com/event#myevent2");
                 arguments[1] = new MockRaw(new
@@ -216,11 +190,11 @@ namespace WampSharp.Tests.TestHelpers
                                                    created = new DateTime(2012, 3, 29, 10, 41, 9, 864),
                                                });
                 arguments[2] = new MockRaw(false);
-                mPublishMessageWithComplexObjectAsPayloadDontExcludeMe.Arguments = arguments;
+                PublishMessageWithComplexObjectAsPayloadDontExcludeMe.Arguments = arguments;
             }
-            mPublishMessageWithExcludeList = new WampMessage<MockRaw>();
+            PublishMessageWithExcludeList = new WampMessage<MockRaw>();
             {
-                mPublishMessageWithExcludeList.MessageType = WampMessageType.v1Publish;
+                PublishMessageWithExcludeList.MessageType = WampMessageType.v1Publish;
                 MockRaw[] arguments = new MockRaw[3];
                 arguments[0] = new MockRaw("event:myevent1");
                 arguments[1] = new MockRaw("hello");
@@ -229,11 +203,11 @@ namespace WampSharp.Tests.TestHelpers
                                                    "NwtXQ8rdfPsy-ewS",
                                                    "dYqgDl0FthI6_hjb",
                                                });
-                mPublishMessageWithExcludeList.Arguments = arguments;
+                PublishMessageWithExcludeList.Arguments = arguments;
             }
-            mPublishMessageWithEligibleList = new WampMessage<MockRaw>();
+            PublishMessageWithEligibleList = new WampMessage<MockRaw>();
             {
-                mPublishMessageWithEligibleList.MessageType = WampMessageType.v1Publish;
+                PublishMessageWithEligibleList.MessageType = WampMessageType.v1Publish;
                 MockRaw[] arguments = new MockRaw[4];
                 arguments[0] = new MockRaw("event:myevent1");
                 arguments[1] = new MockRaw("hello");
@@ -244,11 +218,11 @@ namespace WampSharp.Tests.TestHelpers
                                                {
                                                    "NwtXQ8rdfPsy-ewS",
                                                });
-                mPublishMessageWithEligibleList.Arguments = arguments;
+                PublishMessageWithEligibleList.Arguments = arguments;
             }
-            mPublishMessageWithExcludedAndEligibleList = new WampMessage<MockRaw>();
+            PublishMessageWithExcludedAndEligibleList = new WampMessage<MockRaw>();
             {
-                mPublishMessageWithExcludedAndEligibleList.MessageType = WampMessageType.v1Publish;
+                PublishMessageWithExcludedAndEligibleList.MessageType = WampMessageType.v1Publish;
                 MockRaw[] arguments = new MockRaw[4];
                 arguments[0] = new MockRaw("event:myevent1");
                 arguments[1] = new MockRaw("hello");
@@ -260,19 +234,19 @@ namespace WampSharp.Tests.TestHelpers
                                                {
                                                    "NwtXQ8rdfPsy-ewS",
                                                });
-                mPublishMessageWithExcludedAndEligibleList.Arguments = arguments;
+                PublishMessageWithExcludedAndEligibleList.Arguments = arguments;
             }
 
-            mWelcomeMessage =
+            WelcomeMessage =
                 WampV1Messages.Welcome("v59mbCGDXZ7WTyxB", 1, "Autobahn/0.5.1");
 
-            mCallResultMessageWithNullResult =
+            CallResultMessageWithNullResult =
                 WampV1Messages.CallResult("CcDnuI2bl2oLGBzO", null);
 
-            mCallResultMessageWithStringResult =
+            CallResultMessageWithStringResult =
                 WampV1Messages.CallResult("otZom9UsJhrnzvLa", "Awesome result ..");
 
-            mCallResultMessageWithComplexObjectResult =
+            CallResultMessageWithComplexObjectResult =
                 WampV1Messages.CallResult("CcDnuI2bl2oLGBzO",
                                           new
                                               {
@@ -282,27 +256,27 @@ namespace WampSharp.Tests.TestHelpers
                                                   modified = new DateTime(2012, 3, 29, 10, 29, 16, 625),
                                               });
 
-            mCallErrorMessageWithGenericError =
+            CallErrorMessageWithGenericError =
                 WampV1Messages.CallError("gwbN3EDtFv6JvNV5",
                                          "http://autobahn.tavendo.de/error#generic",
                                          "math domain error");
 
-            mCallErrorMessageWithSpecificErrorAndIntegerInErrorDetails =
+            CallErrorMessageWithSpecificErrorAndIntegerInErrorDetails =
                 WampV1Messages.CallError("7bVW5pv8r60ZeL6u",
                                          "http://example.com/error#number_too_big",
                                          "1001 too big for me, max is 1000",
                                          1000);
 
-            mCallErrorMessageWithListOfIntegersInErrorDetails =
+            CallErrorMessageWithListOfIntegersInErrorDetails =
                 WampV1Messages.CallError("AStPd8RS60pfYP8c",
                                          "http://example.com/error#invalid_numbers",
                                          "one or more numbers are multiples of 3",
                                          new[] {0, 3});
 
-            mEventMessageWithStringAsPayload =
+            EventMessageWithStringAsPayload =
                 WampV1Messages.Event("http://example.com/simple", "Hello, I am a simple event.");
 
-            mEventMessageWithNullAsPayload =
+            EventMessageWithNullAsPayload =
                 WampV1Messages.Event("http://example.com/simple", null);
 
             mEventMessageWithComplexObjectPayload =
@@ -319,196 +293,82 @@ namespace WampSharp.Tests.TestHelpers
 
         #region Properties
 
-        public static WampMessage<MockRaw> CallErrorMessageWithListOfIntegersInErrorDetails
-        {
-            get { return mCallErrorMessageWithListOfIntegersInErrorDetails; }
-        }
+        public static WampMessage<MockRaw> CallErrorMessageWithListOfIntegersInErrorDetails { get; }
 
-        public static WampMessage<MockRaw> CallErrorMessageWithSpecificErrorAndIntegerInErrorDetails
-        {
-            get { return mCallErrorMessageWithSpecificErrorAndIntegerInErrorDetails; }
-        }
+        public static WampMessage<MockRaw> CallErrorMessageWithSpecificErrorAndIntegerInErrorDetails { get; }
 
-        public static WampMessage<MockRaw> CallErrorMessageWithGenericError
-        {
-            get { return mCallErrorMessageWithGenericError; }
-        }
+        public static WampMessage<MockRaw> CallErrorMessageWithGenericError { get; }
 
-        public static WampMessage<MockRaw> CallResultMessageWithComplexObjectResult
-        {
-            get { return mCallResultMessageWithComplexObjectResult; }
-        }
+        public static WampMessage<MockRaw> CallResultMessageWithComplexObjectResult { get; }
 
-        public static WampMessage<MockRaw> CallResultMessageWithStringResult
-        {
-            get { return mCallResultMessageWithStringResult; }
-        }
+        public static WampMessage<MockRaw> CallResultMessageWithStringResult { get; }
 
-        public static WampMessage<MockRaw> CallResultMessageWithNullResult
-        {
-            get { return mCallResultMessageWithNullResult; }
-        }
+        public static WampMessage<MockRaw> CallResultMessageWithNullResult { get; }
 
-        public static WampMessage<MockRaw> WelcomeMessage
-        {
-            get { return mWelcomeMessage; }
-        }
+        public static WampMessage<MockRaw> WelcomeMessage { get; }
 
-        public static WampMessage<MockRaw> PrefixMessage2
-        {
-            get { return mPrefixMessage2; }
-        }
+        public static WampMessage<MockRaw> PrefixMessage2 { get; }
 
-        public static WampMessage<MockRaw> PrefixMessage1
-        {
-            get { return mPrefixMessage1; }
-        }
+        public static WampMessage<MockRaw> PrefixMessage1 => mPrefixMessage1;
 
-        public static WampMessage<MockRaw> CallMessageForRpcWith2ArgumentsUsingCurie
-        {
-            get { return mCallMessageForRpcWith2ArgumentsUsingCurie; }
-        }
+        public static WampMessage<MockRaw> CallMessageForRpcWith2ArgumentsUsingCurie { get; }
 
-        public static WampMessage<MockRaw> CallMessageForRpcWith1ArgumentValueBeingNull
-        {
-            get { return mCallMessageForRpcWith1ArgumentValueBeingNull; }
-        }
+        public static WampMessage<MockRaw> CallMessageForRpcWith1ArgumentValueBeingNull { get; }
 
-        public static WampMessage<MockRaw> CallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie
-        {
-            get { return mCallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie; }
-        }
+        public static WampMessage<MockRaw> CallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie => mCallMessageForRpcWith1ArgumentValueBeingAListOfIntegersUsingCurie;
 
-        public static WampMessage<MockRaw> CallMessageForRpcWith2ComplexArgumentsUsingCurie
-        {
-            get { return mCallMessageForRpcWith2ComplexArgumentsUsingCurie; }
-        }
+        public static WampMessage<MockRaw> CallMessageForRpcWith2ComplexArgumentsUsingCurie { get; }
 
-        public static WampMessage<MockRaw> CallMessageForRpcWith1ComplexObjectArgument
-        {
-            get { return mCallMessageForRpcWith1ComplexObjectArgument; }
-        }
+        public static WampMessage<MockRaw> CallMessageForRpcWith1ComplexObjectArgument => mCallMessageForRpcWith1ComplexObjectArgument;
 
-        public static WampMessage<MockRaw> CallMessageForRpcWithNoArguments
-        {
-            get { return mCallMessageForRpcWithNoArguments; }
-        }
+        public static WampMessage<MockRaw> CallMessageForRpcWithNoArguments { get; }
 
-        public static WampMessage<MockRaw> SubscribeMessageWithFullyQualifiedUri
-        {
-            get { return mSubscribeMessageWithFullyQualifiedUri; }
-        }
+        public static WampMessage<MockRaw> SubscribeMessageWithFullyQualifiedUri { get; }
 
-        public static WampMessage<MockRaw> SubscribeMessageWithCurie
-        {
-            get { return mSubscribeMessageWithCurie; }
-        }
+        public static WampMessage<MockRaw> SubscribeMessageWithCurie { get; }
 
-        public static WampMessage<MockRaw> UnsubscribeMessageWithCurie
-        {
-            get { return mUnsubscribeMessageWithCurie; }
-        }
+        public static WampMessage<MockRaw> UnsubscribeMessageWithCurie { get; }
 
-        public static WampMessage<MockRaw> UnsubscribeMessageWithFullyQualifiedUri
-        {
-            get { return mUnsubscribeMessageWithFullyQualifiedUri; }
-        }
+        public static WampMessage<MockRaw> UnsubscribeMessageWithFullyQualifiedUri { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayload
-        {
-            get { return mPublishMessageWithComplexObjectAsPayload; }
-        }
+        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayload { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithNullAsPayload
-        {
-            get { return mPublishMessageWithNullAsPayload; }
-        }
+        public static WampMessage<MockRaw> PublishMessageWithNullAsPayload { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithStringAsPayload
-        {
-            get { return mPublishMessageWithStringAsPayload; }
-        }
+        public static WampMessage<MockRaw> PublishMessageWithStringAsPayload { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayloadExcludeMe
-        {
-            get { return mPublishMessageWithComplexObjectAsPayloadExcludeMe; }
-        }
+        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayloadExcludeMe { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayloadDontExcludeMe
-        {
-            get { return mPublishMessageWithComplexObjectAsPayloadDontExcludeMe; }
-        }
+        public static WampMessage<MockRaw> PublishMessageWithComplexObjectAsPayloadDontExcludeMe { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithExcludeList
-        {
-            get { return mPublishMessageWithExcludeList; }
-        }
+        public static WampMessage<MockRaw> PublishMessageWithExcludeList { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithEligibleList
-        {
-            get { return mPublishMessageWithEligibleList; }
-        }
+        public static WampMessage<MockRaw> PublishMessageWithEligibleList { get; }
 
-        public static WampMessage<MockRaw> PublishMessageWithExcludedAndEligibleList
-        {
-            get { return mPublishMessageWithExcludedAndEligibleList; }
-        }
+        public static WampMessage<MockRaw> PublishMessageWithExcludedAndEligibleList { get; }
 
-        public static WampMessage<MockRaw> EventMessageWithStringAsPayload
-        {
-            get { return mEventMessageWithStringAsPayload; }
-        }
+        public static WampMessage<MockRaw> EventMessageWithStringAsPayload { get; }
 
-        public static WampMessage<MockRaw> EventMessageWithNullAsPayload
-        {
-            get { return mEventMessageWithNullAsPayload; }
-        }
+        public static WampMessage<MockRaw> EventMessageWithNullAsPayload { get; }
 
-        public static WampMessage<MockRaw> EventMessageWithComplexObjectPayload
-        {
-            get { return mEventMessageWithComplexObjectPayload; }
-        }
+        public static WampMessage<MockRaw> EventMessageWithComplexObjectPayload => mEventMessageWithComplexObjectPayload;
 
         #endregion
 
         #region Server Packs
 
-        public static IEnumerable<WampMessage<MockRaw>> ServerMessages
-        {
-            get
-            {
-                return ServerAuxiliaryMessages
-                    .Concat(ServerRpcMessages)
-                    .Concat(ServerPubSubMessages);
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> ServerMessages => ServerAuxiliaryMessages
+                                                                          .Concat(ServerRpcMessages)
+                                                                          .Concat(ServerPubSubMessages);
 
-        public static IEnumerable<WampMessage<MockRaw>> ServerAuxiliaryMessages
-        {
-            get
-            {
-                return PrefixMessages;
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> ServerAuxiliaryMessages => PrefixMessages;
 
 
-        public static IEnumerable<WampMessage<MockRaw>> ServerRpcMessages
-        {
-            get
-            {
-                return CallMessages;
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> ServerRpcMessages => CallMessages;
 
-        public static IEnumerable<WampMessage<MockRaw>> ServerPubSubMessages
-        {
-            get
-            {
-                return SubscribeMessages
-                    .Concat(UnsubscribeMessages)
-                    .Concat(PublishMessages);
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> ServerPubSubMessages => SubscribeMessages
+                                                                                .Concat(UnsubscribeMessages)
+                                                                                .Concat(PublishMessages);
 
         public static IEnumerable<WampMessage<MockRaw>> PrefixMessages
         {
@@ -605,16 +465,10 @@ namespace WampSharp.Tests.TestHelpers
 
         #region Client Packs
 
-        public static IEnumerable<WampMessage<MockRaw>> ClientMessages
-        {
-            get
-            {
-                return WelcomeMessages
-                    .Concat(CallResultMessages)
-                    .Concat(CallErrorMessages)
-                    .Concat(EventMessages);
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> ClientMessages => WelcomeMessages
+                                                                          .Concat(CallResultMessages)
+                                                                          .Concat(CallErrorMessages)
+                                                                          .Concat(EventMessages);
 
         public static IEnumerable<WampMessage<MockRaw>> WelcomeMessages
         {
@@ -651,14 +505,8 @@ namespace WampSharp.Tests.TestHelpers
             }
         }
 
-        public static IEnumerable<WampMessage<MockRaw>> CallErrorMessages
-        {
-            get
-            {
-                return CallErrorMessagesSimple
-                    .Concat(CallErrorMessagesDetailed);
-            }
-        }
+        public static IEnumerable<WampMessage<MockRaw>> CallErrorMessages => CallErrorMessagesSimple
+            .Concat(CallErrorMessagesDetailed);
 
         public static IEnumerable<WampMessage<MockRaw>> EventMessages
         {

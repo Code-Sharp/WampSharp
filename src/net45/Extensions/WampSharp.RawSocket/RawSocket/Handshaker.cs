@@ -1,27 +1,28 @@
-﻿using System.Net.Sockets;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace WampSharp.RawSocket
 {
     internal class Handshaker
     {
-        public async Task<Handshake> GetHandshakeMessage(TcpClient client)
+        public async Task<Handshake> GetHandshakeMessage(Stream stream)
         {
             byte[] bytes = new byte[4];
 
-            await client.GetStream()
-                        .ReadExactAsync(bytes, 0, bytes.Length)
+            await stream.ReadExactAsync(bytes, 0, bytes.Length)
                         .ConfigureAwait(false);
 
-            return new Handshake(bytes);
+            ArraySegment<byte> arraySegment = new ArraySegment<byte>(bytes);
+
+            return new Handshake(arraySegment);
         }
 
-        public async Task SendHandshake(TcpClient client, Handshake handshake)
+        public async Task SendHandshake(Stream stream, Handshake handshake)
         {
             byte[] handshakeResponse = handshake.ToArray();
 
-            await client.GetStream()
-                        .WriteAsync(handshakeResponse,
+            await stream.WriteAsync(handshakeResponse,
                                     0,
                                     handshakeResponse.Length)
                         .ConfigureAwait(false);

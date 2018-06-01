@@ -20,9 +20,6 @@ namespace WampSharp.V1.PubSub.Server
 
         private readonly ConcurrentDictionary<string, Subscription> mSessionIdToSubscription =
             new ConcurrentDictionary<string, Subscription>();
-
-        private readonly string mTopicUri;
-        private readonly bool mPersistent;
         private readonly object mLock = new object();
         private bool mDisposing = false;
         private bool mDisposed = false;
@@ -38,8 +35,8 @@ namespace WampSharp.V1.PubSub.Server
         /// <param name="persistent">A value indicating whether the topic is persistent.</param>
         public WampTopic(string topicUri, bool persistent = false)
         {
-            mTopicUri = topicUri;
-            mPersistent = persistent;
+            TopicUri = topicUri;
+            Persistent = persistent;
         }
 
         #endregion
@@ -66,29 +63,11 @@ namespace WampSharp.V1.PubSub.Server
             mSubject.OnCompleted();
         }
 
-        public string TopicUri
-        {
-            get
-            {
-                return mTopicUri;
-            }
-        }
+        public string TopicUri { get; }
 
-        public bool Persistent
-        {
-            get
-            {
-                return mPersistent;
-            }
-        }
+        public bool Persistent { get; }
 
-        public bool HasObservers
-        {
-            get
-            {
-                return mSubject.HasObservers;
-            }
-        }
+        public bool HasObservers => mSubject.HasObservers;
 
         public event EventHandler<WampSubscriptionAddEventArgs> SubscriptionAdding;
         public event EventHandler<WampSubscriptionRemoveEventArgs> SubscriptionRemoving;
@@ -99,9 +78,8 @@ namespace WampSharp.V1.PubSub.Server
 
         public void Unsubscribe(string sessionId)
         {
-            Subscription subscription;
 
-            if (mSessionIdToSubscription.TryRemove(sessionId, out subscription))
+            if (mSessionIdToSubscription.TryRemove(sessionId, out Subscription subscription))
             {
                 subscription.Dispose();
             }
@@ -109,15 +87,14 @@ namespace WampSharp.V1.PubSub.Server
 
         public IDisposable Subscribe(IObserver<object> observer)
         {
-            WampObserver casted = observer as WampObserver;
 
             IDisposable result;
 
-            if (casted == null)
+            if (!(observer is WampObserver casted))
             {
                 IObservable<object> events = mSubject.Select(x => x.Event);
 
-                result = 
+                result =
                     events.Subscribe(observer);
 
                 result = GetSubscriptionDisposable(result);
@@ -140,11 +117,11 @@ namespace WampSharp.V1.PubSub.Server
                         (Disposable.Create(() => OnWampObserverLeaving(sessionId)),
                         observerDisposable,
                         Disposable.Create(() => OnWampObserverLeft(sessionId)));
-                
+
                 result =
                     GetSubscriptionDisposable(result);
 
-                mSessionIdToSubscription[sessionId] = 
+                mSessionIdToSubscription[sessionId] =
                     new Subscription(this, casted, result);
 
                 RaiseSubscriptionAdded(casted);
@@ -226,60 +203,31 @@ namespace WampSharp.V1.PubSub.Server
 
         private void RaiseTopicEmpty()
         {
-            EventHandler topicEmpty = TopicEmpty;
-
-            if (topicEmpty != null)
-            {
-                topicEmpty(this, EventArgs.Empty);
-            }
+            TopicEmpty?.Invoke(this, EventArgs.Empty);
         }
 
         private void RaiseSubscriptionAdding(WampObserver observer)
         {
-            EventHandler<WampSubscriptionAddEventArgs> adding =
-                SubscriptionAdding;
-
-            if (adding != null)
-            {
-                adding(this, new WampSubscriptionAddEventArgs(observer.SessionId,
-                                                              observer));
-            }
+            SubscriptionAdding?.Invoke(this, new WampSubscriptionAddEventArgs(observer.SessionId,
+                                              observer));
         }
 
         private void RaiseSubscriptionAdded(WampObserver observer)
         {
-            EventHandler<WampSubscriptionAddEventArgs> added =
-                SubscriptionAdded;
-
-            if (added != null)
-            {
-                added(this, new WampSubscriptionAddEventArgs(observer.SessionId,
-                                                               observer));
-            }
+            SubscriptionAdded?.Invoke(this, new WampSubscriptionAddEventArgs(observer.SessionId,
+                                               observer));
         }
 
         private void RaiseSubscriptionRemoving(string sessionId)
         {
-            EventHandler<WampSubscriptionRemoveEventArgs> subscriptionRemoving =
-                SubscriptionRemoving;
-
-            if (subscriptionRemoving != null)
-            {
-                subscriptionRemoving(this,
-                                    new WampSubscriptionRemoveEventArgs(sessionId));
-            }
+            SubscriptionRemoving?.Invoke(this,
+                    new WampSubscriptionRemoveEventArgs(sessionId));
         }
 
         private void RaiseSubscriptionRemoved(string sessionId)
         {
-            EventHandler<WampSubscriptionRemoveEventArgs> subscriptionRemoved =
-                SubscriptionRemoved;
-
-            if (subscriptionRemoved != null)
-            {
-                subscriptionRemoved(this,
-                                    new WampSubscriptionRemoveEventArgs(sessionId));
-            }
+            SubscriptionRemoved?.Invoke(this,
+                    new WampSubscriptionRemoveEventArgs(sessionId));
         }
 
         #endregion
@@ -289,13 +237,12 @@ namespace WampSharp.V1.PubSub.Server
         private class Subscription : IDisposable
         {
             private readonly IWampTopic mTopic;
-            private readonly WampObserver mObserver;
             private readonly IDisposable mDisposable;
 
             public Subscription(IWampTopic topic, WampObserver observer, IDisposable disposable)
             {
                 mTopic = topic;
-                mObserver = observer;
+                Observer = observer;
                 mDisposable = disposable;
                 TrackConnection();
             }
@@ -303,7 +250,7 @@ namespace WampSharp.V1.PubSub.Server
             private void TrackConnection()
             {
                 IWampConnectionMonitor monitor = 
-                    mObserver.Client as IWampConnectionMonitor;
+                    Observer.Client as IWampConnectionMonitor;
 
                 monitor.ConnectionClosed += OnConnectionClosed;
             }
@@ -316,20 +263,14 @@ namespace WampSharp.V1.PubSub.Server
                 mTopic.Unsubscribe(Observer.SessionId);
             }
 
-            private WampObserver Observer
-            {
-                get
-                {
-                    return mObserver;
-                }
-            }
+            private WampObserver Observer { get; }
 
             public void Dispose()
             {
                 mDisposable.Dispose();
 
                 IWampConnectionMonitor monitor =
-                    mObserver.Client as IWampConnectionMonitor;
+                    Observer.Client as IWampConnectionMonitor;
 
                 monitor.ConnectionClosed -= OnConnectionClosed;
             }

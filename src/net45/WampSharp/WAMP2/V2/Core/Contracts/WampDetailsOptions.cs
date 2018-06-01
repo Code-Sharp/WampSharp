@@ -19,8 +19,8 @@ namespace WampSharp.V2.Core.Contracts
         [IgnoreDataMember]
         public ISerializedValue OriginalValue
         {
-            get { return mOriginalValue; }
-            set { mOriginalValue = value; }
+            get => mOriginalValue;
+            set => mOriginalValue = value;
         }
     }
 }

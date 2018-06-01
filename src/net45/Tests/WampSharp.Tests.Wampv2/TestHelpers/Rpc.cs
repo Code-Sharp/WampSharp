@@ -11,24 +11,24 @@ namespace WampSharp.Tests.Wampv2.TestHelpers
         {
             public class CalleeToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
-                private static WampMessage<MockRaw> mRequest12;
-                private static WampMessage<MockRaw> mRequest13;
-                private static WampMessage<MockRaw> mRequest14;
-                private static WampMessage<MockRaw> mRequest15;
-                private static WampMessage<MockRaw> mRequest16;
-                private static WampMessage<MockRaw> mRequest17;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest12;
+                private static readonly WampMessage<MockRaw> mRequest13;
+                private static readonly WampMessage<MockRaw> mRequest14;
+                private static readonly WampMessage<MockRaw> mRequest15;
+                private static readonly WampMessage<MockRaw> mRequest16;
+                private static readonly WampMessage<MockRaw> mRequest17;
                 static CalleeToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -344,24 +344,24 @@ new object[] {
 
             public class DealerToCallee
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
-                private static WampMessage<MockRaw> mRequest12;
-                private static WampMessage<MockRaw> mRequest13;
-                private static WampMessage<MockRaw> mRequest14;
-                private static WampMessage<MockRaw> mRequest15;
-                private static WampMessage<MockRaw> mRequest16;
-                private static WampMessage<MockRaw> mRequest17;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest12;
+                private static readonly WampMessage<MockRaw> mRequest13;
+                private static readonly WampMessage<MockRaw> mRequest14;
+                private static readonly WampMessage<MockRaw> mRequest15;
+                private static readonly WampMessage<MockRaw> mRequest16;
+                private static readonly WampMessage<MockRaw> mRequest17;
                 static DealerToCallee()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -652,20 +652,20 @@ new object[] {
 
             public class CallerToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
-                private static WampMessage<MockRaw> mRequest12;
-                private static WampMessage<MockRaw> mRequest13;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest12;
+                private static readonly WampMessage<MockRaw> mRequest13;
                 static CallerToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -936,20 +936,20 @@ new object[] {
 
             public class DealerToCaller
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
-                private static WampMessage<MockRaw> mRequest7;
-                private static WampMessage<MockRaw> mRequest8;
-                private static WampMessage<MockRaw> mRequest9;
-                private static WampMessage<MockRaw> mRequest10;
-                private static WampMessage<MockRaw> mRequest11;
-                private static WampMessage<MockRaw> mRequest12;
-                private static WampMessage<MockRaw> mRequest13;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest7;
+                private static readonly WampMessage<MockRaw> mRequest8;
+                private static readonly WampMessage<MockRaw> mRequest9;
+                private static readonly WampMessage<MockRaw> mRequest10;
+                private static readonly WampMessage<MockRaw> mRequest11;
+                private static readonly WampMessage<MockRaw> mRequest12;
+                private static readonly WampMessage<MockRaw> mRequest13;
                 static DealerToCaller()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1206,11 +1206,11 @@ new object[] {
         {
             public class CalleeToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
                 static CalleeToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1326,11 +1326,11 @@ new object[] {
 
             public class DealerToCallee
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
                 static DealerToCallee()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1426,10 +1426,10 @@ new object[] {
 
             public class CallerToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
                 static CallerToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1532,10 +1532,10 @@ new object[] {
 
             public class DealerToCaller
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
                 static DealerToCaller()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1628,11 +1628,11 @@ new object[] {
         {
             public class CalleeToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
                 static CalleeToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1754,11 +1754,11 @@ new object[] {
 
             public class DealerToCallee
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
                 static DealerToCallee()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1857,11 +1857,11 @@ new object[] {
 
             public class CallerToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
                 static CallerToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -1976,11 +1976,11 @@ new object[] {
 
             public class DealerToCaller
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
                 static DealerToCaller()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2091,13 +2091,13 @@ new object[] {
         {
             public class CalleeToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
-                private static WampMessage<MockRaw> mRequest6;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest6;
                 static CalleeToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2246,11 +2246,11 @@ new object[] {
 
             public class DealerToCallee
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
                 static DealerToCallee()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2352,11 +2352,11 @@ new object[] {
 
             public class CallerToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
                 static CallerToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2487,12 +2487,12 @@ new object[] {
 
             public class DealerToCaller
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
                 static DealerToCaller()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2607,12 +2607,12 @@ new object[] {
         {
             public class CalleeToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
                 static CalleeToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2742,9 +2742,9 @@ new object[] {
 
             public class DealerToCallee
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
                 static DealerToCallee()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2814,9 +2814,9 @@ new object[] {
 
             public class CallerToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
                 static CallerToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -2906,12 +2906,12 @@ new object[] {
 
             public class DealerToCaller
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
-                private static WampMessage<MockRaw> mRequest5;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest5;
                 static DealerToCaller()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3030,11 +3030,11 @@ new object[] {
         {
             public class CalleeToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
                 static CalleeToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3145,11 +3145,11 @@ new object[] {
 
             public class DealerToCallee
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
-                private static WampMessage<MockRaw> mRequest4;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest4;
                 static DealerToCallee()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3242,10 +3242,10 @@ new object[] {
 
             public class CallerToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
                 static CallerToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3345,10 +3345,10 @@ new object[] {
 
             public class DealerToCaller
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
-                private static WampMessage<MockRaw> mRequest3;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest3;
                 static DealerToCaller()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3436,9 +3436,9 @@ new object[] {
         {
             public class CalleeToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
                 static CalleeToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3523,9 +3523,9 @@ new DateTime(2014, 4, 8, 19, 48, 36, 956),
 
             public class DealerToCallee
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
                 static DealerToCallee()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3591,9 +3591,9 @@ new DateTime(2014, 4, 8, 19, 48, 36, 956),
 
             public class CallerToDealer
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
                 static CallerToDealer()
                 {
                     mRequest0 = new WampMessage<MockRaw>();
@@ -3675,9 +3675,9 @@ new DateTime(2014, 4, 8, 19, 48, 36, 956),
 
             public class DealerToCaller
             {
-                private static WampMessage<MockRaw> mRequest0;
-                private static WampMessage<MockRaw> mRequest1;
-                private static WampMessage<MockRaw> mRequest2;
+                private static readonly WampMessage<MockRaw> mRequest0;
+                private static readonly WampMessage<MockRaw> mRequest1;
+                private static readonly WampMessage<MockRaw> mRequest2;
                 static DealerToCaller()
                 {
                     mRequest0 = new WampMessage<MockRaw>();

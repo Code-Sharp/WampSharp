@@ -135,9 +135,8 @@ namespace WampSharp.V2.Rpc
 
         protected IWampRpcOperation GetOperationByUri(string procedureUri)
         {
-            WampProcedureRegistration result;
-            
-            if (mProcedureToRegistration.TryGetValue(procedureUri, out result))
+
+            if (mProcedureToRegistration.TryGetValue(procedureUri, out WampProcedureRegistration result))
             {
                 return result;
             }
@@ -145,13 +144,7 @@ namespace WampSharp.V2.Rpc
             return null;
         }
 
-        protected IEnumerable<IWampRpcOperation> Operations
-        {
-            get
-            {
-                return this.mProcedureToRegistration.Values;
-            }
-        }
+        protected IEnumerable<IWampRpcOperation> Operations => this.mProcedureToRegistration.Values;
 
         public event EventHandler<WampProcedureRegisterEventArgs> RegistrationAdded;
 
@@ -159,22 +152,12 @@ namespace WampSharp.V2.Rpc
 
         private void RaiseRegistrationAdded(IWampProcedureRegistration registration)
         {
-            EventHandler<WampProcedureRegisterEventArgs> handler = RegistrationAdded;
-
-            if (handler != null)
-            {
-                handler(this, new WampProcedureRegisterEventArgs(registration));
-            }
+            RegistrationAdded?.Invoke(this, new WampProcedureRegisterEventArgs(registration));
         }
 
         private void RaiseRegistrationRemoved(IWampProcedureRegistration registration)
         {
-            EventHandler<WampProcedureRegisterEventArgs> handler = RegistrationRemoved;
-
-            if (handler != null)
-            {
-                handler(this, new WampProcedureRegisterEventArgs(registration));
-            }
+            RegistrationRemoved?.Invoke(this, new WampProcedureRegisterEventArgs(registration));
         }
 
         #region Abstract methods

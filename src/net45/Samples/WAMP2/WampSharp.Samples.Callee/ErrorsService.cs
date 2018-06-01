@@ -22,7 +22,7 @@ namespace WampSharp.Samples.Callee
                 if (x < 0)
                 {
                     // Math.Sqrt doesn't throw exceptions for negative numbers.
-                    throw new ArgumentException("The square root of a negative number is non real", "x");
+                    throw new ArgumentException("The square root of a negative number is non real", nameof(x));
                 }
                 else
                 {

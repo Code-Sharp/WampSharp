@@ -5,7 +5,6 @@ using WampSharp.Binding;
 using WampSharp.Core.Serialization;
 using WampSharp.Tests.TestHelpers.Integration;
 using WampSharp.V2;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
@@ -123,10 +122,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
 
             public object[] ActualCallParamters
             {
-                get
-                {
-                    return mActualCallParamters;
-                }
+                get => mActualCallParamters;
                 set
                 {
                     if (mActualCallParamters != null)
@@ -271,7 +267,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
 
             public object[] ActualResult
             {
-                get { return mActualResult; }
+                get => mActualResult;
                 set
                 {
                     if (ActualResult != null)
@@ -285,10 +281,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
 
             public object[] ActualError
             {
-                get
-                {
-                    return mActualError;
-                }
+                get => mActualError;
                 set
                 {
                     if (ActualResult != null)

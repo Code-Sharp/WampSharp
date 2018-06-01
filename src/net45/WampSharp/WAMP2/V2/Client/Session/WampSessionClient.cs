@@ -12,12 +12,9 @@ namespace WampSharp.V2.Client
     public class WampSessionClient<TMessage> : IWampSessionClientExtended,
         IWampClientConnectionMonitor
     {
-        private static GoodbyeDetails EmptyGoodbyeDetails = new GoodbyeDetails();
-        private static AuthenticateExtraData EmptyAuthenticateDetails = new AuthenticateExtraData();
-
-        private readonly IWampRealmProxy mRealm;
+        private static readonly GoodbyeDetails EmptyGoodbyeDetails = new GoodbyeDetails();
+        private static readonly AuthenticateExtraData EmptyAuthenticateDetails = new AuthenticateExtraData();
         private readonly IWampServerProxy mServerProxy;
-        private long mSession;
         private TaskCompletionSource<bool> mOpenTask = new TaskCompletionSource<bool>();
         private readonly IWampFormatter<TMessage> mFormatter;
         private readonly object mLock = new object();
@@ -65,7 +62,7 @@ namespace WampSharp.V2.Client
 
         public WampSessionClient(IWampRealmProxy realm, IWampFormatter<TMessage> formatter, IWampClientAuthenticator authenticator)
         {
-            mRealm = realm;
+            Realm = realm;
             mFormatter = formatter;
             mServerProxy = realm.Proxy;
             mAuthenticator = authenticator ?? new DefaultWampClientAuthenticator();
@@ -92,7 +89,7 @@ namespace WampSharp.V2.Client
 
         public void Welcome(long session, WelcomeDetails details)
         {
-            mSession = session;
+            Session = session;
 
             Interlocked.CompareExchange(ref mIsConnected, 1, 0);
 
@@ -145,35 +142,17 @@ namespace WampSharp.V2.Client
             if (mCloseEventArgs == null)
             {
                 mCloseEventArgs = new WampSessionCloseEventArgs
-                (sessionCloseType, mSession,
+                (sessionCloseType, Session,
                  details,
                  reason);
             }
         }
 
-        public long Session
-        {
-            get
-            {
-                return mSession;
-            }
-        }
+        public long Session { get; private set; }
 
-        public IWampRealmProxy Realm
-        {
-            get
-            {
-                return mRealm;
-            }
-        }
+        public IWampRealmProxy Realm { get; }
 
-        public Task OpenTask
-        {
-            get
-            {
-                return mOpenTask.Task;
-            }
-        }
+        public Task OpenTask => mOpenTask.Task;
 
         public void Close(string reason, GoodbyeDetails details)
         {
@@ -233,30 +212,21 @@ namespace WampSharp.V2.Client
 
         public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
 
-        public bool IsConnected
-        {
-            get
-            {
-                return mIsConnected == 1;
-            }
-        }
+        public bool IsConnected => mIsConnected == 1;
 
         protected virtual void OnConnectionEstablished(WampSessionCreatedEventArgs e)
         {
-            EventHandler<WampSessionCreatedEventArgs> handler = ConnectionEstablished;
-            if (handler != null) handler(this, e);
+            ConnectionEstablished?.Invoke(this, e);
         }
 
         protected virtual void OnConnectionBroken(WampSessionCloseEventArgs e)
         {
-            EventHandler<WampSessionCloseEventArgs> handler = ConnectionBroken;
-            if (handler != null) handler(this, e);
+            ConnectionBroken?.Invoke(this, e);
         }
 
         protected virtual void OnConnectionError(WampConnectionErrorEventArgs e)
         {
-            EventHandler<WampConnectionErrorEventArgs> handler = ConnectionError;
-            if (handler != null) handler(this, e);
+            ConnectionError?.Invoke(this, e);
         }
     }
 }

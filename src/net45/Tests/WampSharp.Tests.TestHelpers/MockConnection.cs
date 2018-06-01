@@ -19,21 +19,9 @@ namespace WampSharp.Tests.TestHelpers
             mSideBToSideAConnection = new DirectedConnection(mSideAToSideB, mSideBToSideA, formatter);
         }
 
-        public IDirectedControlledWampConnection<TMessage> SideAToSideB
-        {
-            get
-            {
-                return mSideAToSideBConnection;
-            }
-        }
+        public IDirectedControlledWampConnection<TMessage> SideAToSideB => mSideAToSideBConnection;
 
-        public IDirectedControlledWampConnection<TMessage> SideBToSideA
-        {
-            get
-            {
-                return mSideBToSideAConnection;
-            }
-        }
+        public IDirectedControlledWampConnection<TMessage> SideBToSideA => mSideBToSideAConnection;
 
         public class DirectedConnection : IDirectedControlledWampConnection<TMessage>
         {
@@ -67,13 +55,7 @@ namespace WampSharp.Tests.TestHelpers
 
             private void OnNewMessage(WampMessage<TMessage> wampMessage)
             {
-                EventHandler<WampMessageArrivedEventArgs<TMessage>> messageArrived = 
-                    this.MessageArrived;
-
-                if (messageArrived != null)
-                {
-                    messageArrived(this, new WampMessageArrivedEventArgs<TMessage>(wampMessage));
-                }
+                this.MessageArrived?.Invoke(this, new WampMessageArrivedEventArgs<TMessage>(wampMessage));
             }
 
             public void Connect()
@@ -111,26 +93,19 @@ namespace WampSharp.Tests.TestHelpers
 
             protected virtual void OnConnectionClosed()
             {
-                EventHandler handler = ConnectionClosed;
-                if (handler != null) handler(this, EventArgs.Empty);
+                ConnectionClosed?.Invoke(this, EventArgs.Empty);
             }
 
             public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
 
             protected virtual void OnConnectionError(WampConnectionErrorEventArgs e)
             {
-                EventHandler<WampConnectionErrorEventArgs> handler = ConnectionError;
-                if (handler != null) handler(this, e);
+                ConnectionError?.Invoke(this, e);
             }
 
             private void RaiseConnectionOpen()
             {
-                EventHandler connectionOpen = ConnectionOpen;
-
-                if (connectionOpen != null)
-                {
-                    connectionOpen(this, EventArgs.Empty);
-                }
+                ConnectionOpen?.Invoke(this, EventArgs.Empty);
             }
         }
     }
