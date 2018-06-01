@@ -26,5 +26,8 @@
     <file src="$bin$\net40\WampSharp.Default.Router.dll" target="lib\net40\WampSharp.Default.Router.dll" />
     <file src="$bin$\net40\WampSharp.Default.Router.pdb" target="lib\net40\WampSharp.Default.Router.pdb" />
     <file src="$bin$\net40\WampSharp.Default.Router.xml" target="lib\net40\WampSharp.Default.Router.xml" />
+    <file src="$bin$\netstandard2.0\WampSharp.Default.Router.dll" target="lib\netstandard2.0\WampSharp.Default.Router.dll" />
+    <file src="$bin$\netstandard2.0\WampSharp.Default.Router.pdb" target="lib\netstandard2.0\WampSharp.Default.Router.pdb" />
+    <file src="$bin$\netstandard2.0\WampSharp.Default.Router.xml" target="lib\netstandard2.0\WampSharp.Default.Router.xml" />
   </files>
 </package>
