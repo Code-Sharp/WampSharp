@@ -22,8 +22,8 @@ namespace WampSharp.Fleck
 
         public event Action<IList<byte>> OnPong
         {
-            add => mConnection.OnPong += value;
-            remove => mConnection.OnPong -= value;
+            add => mConnection.OnPong += new Action<byte[]>(value);
+            remove => mConnection.OnPong -= new Action<byte[]>(value);
         }
 
         public bool IsConnected => mConnection.IsAvailable;
