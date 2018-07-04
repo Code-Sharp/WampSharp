@@ -7,7 +7,7 @@ namespace WampSharp.V2.Realm.Binded
         IWampServer<TMessage> Server { get; }
         WelcomeDetails WelcomeDetails { get; }
 
-        void Hello(long session, HelloDetails details, WelcomeDetails welcomeDetails);
+        void Hello(IWampClientProxy session);
         void Abort(long session, AbortDetails details, string reason);
         void Goodbye(long session, GoodbyeDetails details, string reason);
         void SessionLost(long sessionId);

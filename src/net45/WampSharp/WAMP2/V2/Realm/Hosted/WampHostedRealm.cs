@@ -58,9 +58,9 @@ namespace WampSharp.V2.Realm
 
         public event EventHandler<WampSessionCloseEventArgs> SessionClosed;
 
-        public void Hello(long sessionId, HelloDetails helloDetails, WelcomeDetails welcomeDetails)
+        public void Hello(long sessionId, HelloDetails helloDetails, WelcomeDetails welcomeDetails, IWampSessionClientTerminator terminator)
         {
-            RaiseSessionCreated(new WampSessionCreatedEventArgs(sessionId, helloDetails, welcomeDetails));
+            RaiseSessionCreated(new WampRouterSessionCreatedEventArgs(sessionId, helloDetails, welcomeDetails, terminator));
         }
 
         public void Goodbye(long session, GoodbyeDetails details, string reason)

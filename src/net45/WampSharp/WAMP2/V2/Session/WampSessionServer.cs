@@ -67,7 +67,7 @@ namespace WampSharp.V2.Session
 
             wampClient.WelcomeDetails = welcomeDetails;
 
-            wampClient.Realm.Hello(wampClient.Session, details, welcomeDetails);
+            wampClient.Realm.Hello(wampClient);
 
             wampClient.Welcome(wampClient.Session, welcomeDetails);
         }

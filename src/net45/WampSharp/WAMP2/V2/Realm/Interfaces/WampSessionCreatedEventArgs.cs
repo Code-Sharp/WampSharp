@@ -8,13 +8,11 @@ namespace WampSharp.V2.Realm
     /// </summary>
     public class WampSessionCreatedEventArgs : EventArgs
     {
-        private readonly WelcomeDetails mWelcomeDetails;
-
         public WampSessionCreatedEventArgs(long sessionId, HelloDetails helloDetails, WelcomeDetails welcomeDetails)
         {
             SessionId = sessionId;
             HelloDetails = helloDetails;
-            mWelcomeDetails = welcomeDetails;
+            WelcomeDetails = welcomeDetails;
         }
 
         /// <summary>
@@ -24,6 +22,6 @@ namespace WampSharp.V2.Realm
 
         public HelloDetails HelloDetails { get; }
 
-        public WelcomeDetails WelcomeDetails => mWelcomeDetails;
+        public WelcomeDetails WelcomeDetails { get; }
     }
 }

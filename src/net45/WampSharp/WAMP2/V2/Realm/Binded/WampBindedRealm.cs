@@ -33,9 +33,12 @@ namespace WampSharp.V2.Realm.Binded
                                                     Roles = mRealm.Roles
                                                 };
 
-        public void Hello(long session, HelloDetails helloDetails, WelcomeDetails welcomeDetails)
+        public void Hello(IWampClientProxy session)
         {
-            mRealmGate.Hello(session, helloDetails, welcomeDetails);
+            IWampSessionClientTerminator terminator = 
+                new WampSessionClientTerminator(session);
+
+            mRealmGate.Hello(session.Session, session.HelloDetails, session.WelcomeDetails, terminator);
         }
 
         public void Abort(long session, AbortDetails details, string reason)
