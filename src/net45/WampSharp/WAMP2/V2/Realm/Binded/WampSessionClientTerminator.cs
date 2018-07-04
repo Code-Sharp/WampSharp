@@ -1,19 +1,24 @@
-﻿using WampSharp.V2.Core.Contracts;
+﻿using System;
+using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Realm.Binded
 {
     internal class WampSessionClientTerminator : IWampSessionClientTerminator
     {
-        private readonly IWampSessionClient mSession;
+        private readonly IWampClientProxy mClientProxy;
 
-        public WampSessionClientTerminator(IWampSessionClient session)
+        public WampSessionClientTerminator(IWampClientProxy clientProxy)
         {
-            mSession = session;
+            mClientProxy = clientProxy;
         }
 
         public void Disconnect(GoodbyeDetails details, string reason)
         {
-            mSession.Goodbye(details, reason);
+            using (mClientProxy as IDisposable)
+            {
+                mClientProxy.Goodbye(details, reason);
+                mClientProxy.GoodbyeSent = true;
+            }
         }
     }
 }
