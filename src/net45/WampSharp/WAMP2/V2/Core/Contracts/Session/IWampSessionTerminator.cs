@@ -1,6 +1,6 @@
 ﻿namespace WampSharp.V2.Core.Contracts
 {
-    internal interface IWampSessionClientTerminator
+    public interface IWampSessionTerminator
     {
         void Disconnect(GoodbyeDetails details, string reason);
     }

@@ -3,7 +3,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Realm.Binded
 {
-    internal class WampSessionClientTerminator : IWampSessionClientTerminator
+    internal class WampSessionClientTerminator : IWampSessionTerminator
     {
         private readonly IWampClientProxy mClientProxy;
 

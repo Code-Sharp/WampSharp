@@ -35,7 +35,7 @@ namespace WampSharp.V2.Realm.Binded
 
         public void Hello(IWampClientProxy session)
         {
-            IWampSessionClientTerminator terminator = 
+            IWampSessionTerminator terminator = 
                 new WampSessionClientTerminator(session);
 
             mRealmGate.Hello(session.Session, session.HelloDetails, session.WelcomeDetails, terminator);

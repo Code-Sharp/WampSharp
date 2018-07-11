@@ -97,7 +97,7 @@ namespace WampSharp.V2.Client
             mOpenTask.TrySetResult(true);
 
             OnConnectionEstablished(new WampSessionCreatedEventArgs
-                (session, mSentDetails, details));
+                (session, mSentDetails, details, new SessionTerminator(this)));
         }
 
         public void Abort(AbortDetails details, string reason)
@@ -245,6 +245,21 @@ namespace WampSharp.V2.Client
         protected virtual void OnConnectionError(WampConnectionErrorEventArgs e)
         {
             ConnectionError?.Invoke(this, e);
+        }
+
+        private class SessionTerminator : IWampSessionTerminator
+        {
+            private readonly WampSessionClient<TMessage> mParent;
+
+            public SessionTerminator(WampSessionClient<TMessage> parent)
+            {
+                mParent = parent;
+            }
+
+            public void Disconnect(GoodbyeDetails details, string reason)
+            {
+                mParent.Close(reason, details);
+            }
         }
     }
 }
