@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
@@ -112,7 +113,10 @@ namespace WampSharp.V2.Management
                 throw new WampException(WampErrors.InvalidUri);
             }
 
-            return KillSessionList(callerId, mSessionIdToDetails.Values, reason, message);
+            IEnumerable<IWampSessionTerminator> terminators = 
+                mSessionIdToDetails.Values.Select(x => x.Terminator);
+
+            return KillSessionList(callerId, terminators, reason, message);
         }
 
         private void OnSessionCreated(object sender, WampSessionCreatedEventArgs e)
@@ -200,9 +204,16 @@ namespace WampSharp.V2.Management
         {
             mRealm.SessionCreated -= OnSessionCreated;
             mRealm.SessionClosed -= OnSessionClosed;
+
+            lock (mLock)
+            {
+                mSessionIdToDetails = ImmutableDictionary<long, SessionDetails>.Empty;
+                mAuthIdToTerminator = ImmutableDictionary<string, ImmutableList<IWampSessionTerminator>>.Empty;
+                mAuthRoleToTerminator = ImmutableDictionary<string, ImmutableList<IWampSessionTerminator>>.Empty;
+            }
         }
 
-        private class SessionDetails : IWampSessionTerminator
+        private class SessionDetails
         {
             public SessionDetails(long session, WelcomeDetails welcomeDetails, IWampSessionTerminator terminator)
             {

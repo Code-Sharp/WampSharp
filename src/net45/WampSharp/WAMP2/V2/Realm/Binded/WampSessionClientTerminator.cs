@@ -3,9 +3,30 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Realm.Binded
 {
+    internal class WampSessionClientTerminator<TMessage> : WampSessionClientTerminator
+    {
+        private readonly IWampClientProxy<TMessage> mClientProxy;
+        private readonly long mSessionId;
+
+        public WampSessionClientTerminator(IWampClientProxy<TMessage> clientProxy) :
+            base(clientProxy.Session)
+        {
+            mClientProxy = clientProxy;
+        }
+
+        public override void Disconnect(GoodbyeDetails details, string reason)
+        {
+            using (mClientProxy as IDisposable)
+            {
+                mClientProxy.Goodbye(details, reason);
+                mClientProxy.GoodbyeSent = true;
+                mClientProxy.Realm.Goodbye(mClientProxy.Session, details, reason);
+            }
+        }
+    }
+
     internal class WampSessionClientTerminator : IWampSessionTerminator
     {
-        private readonly IWampClientProxy mClientProxy;
         private readonly long mSessionId;
 
         public WampSessionClientTerminator(long sessionId)
@@ -13,19 +34,9 @@ namespace WampSharp.V2.Realm.Binded
             mSessionId = sessionId;
         }
 
-        public WampSessionClientTerminator(IWampClientProxy clientProxy)
+        public virtual void Disconnect(GoodbyeDetails details, string reason)
         {
-            mClientProxy = clientProxy;
-            mSessionId = mClientProxy.Session;
-        }
-
-        public void Disconnect(GoodbyeDetails details, string reason)
-        {
-            using (mClientProxy as IDisposable)
-            {
-                mClientProxy.Goodbye(details, reason);
-                mClientProxy.GoodbyeSent = true;
-            }
+            throw new NotImplementedException();
         }
 
         protected bool Equals(WampSessionClientTerminator other)
@@ -37,8 +48,8 @@ namespace WampSharp.V2.Realm.Binded
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((WampSessionClientTerminator) obj);
+            if (!(obj is WampSessionClientTerminator casted)) return false;
+            return Equals(casted);
         }
 
         public override int GetHashCode()

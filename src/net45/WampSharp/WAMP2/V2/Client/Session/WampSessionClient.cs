@@ -112,6 +112,8 @@ namespace WampSharp.V2.Client
         {
             using (IDisposable proxy = mServerProxy as IDisposable)
             {
+                TrySetCloseEventArgs(SessionCloseType.Goodbye, details, reason);
+
                 if (!mGoodbyeSent)
                 {
                     mServerProxy.Goodbye(new GoodbyeDetails(), WampErrors.GoodbyeAndOut);
@@ -121,8 +123,6 @@ namespace WampSharp.V2.Client
                     mGoodbyeMessage = new GoodbyeMessage(){Details = details, Reason = reason};
                 }
             }
-
-            TrySetCloseEventArgs(SessionCloseType.Goodbye, details, reason);
         }
 
         private void RaiseConnectionBroken()

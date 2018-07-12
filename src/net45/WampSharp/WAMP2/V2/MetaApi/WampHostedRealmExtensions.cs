@@ -2,7 +2,9 @@
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using SystemEx;
+using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Management;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Testament;
 
@@ -84,6 +86,22 @@ namespace WampSharp.V2.MetaApi
                 new CompositeDisposable(unregisterDisposable, service);
 
             return result;
+        }
+
+        /// <summary>
+        /// Hosts a WAMP session management service for the given realm.
+        /// </summary>
+        /// <param name="hostedRealm">The given realm.</param>
+        /// <returns>A disposable: disposing it will unregister the hosted session management service.</returns>
+        public static IDisposable HostSessionManagementService(this IWampHostedRealm hostedRealm, IWampUriValidator uriValidator = null)
+        {
+            WampSessionManagmentService service = new WampSessionManagmentService(hostedRealm, uriValidator);
+
+            RegisterOptions registerOptions = new RegisterOptions { DiscloseCaller = true };
+
+            CompositeDisposable disposable = HostDisposableService(hostedRealm, service, new CalleeRegistrationInterceptor(registerOptions));
+
+            return disposable;
         }
     }
 }
