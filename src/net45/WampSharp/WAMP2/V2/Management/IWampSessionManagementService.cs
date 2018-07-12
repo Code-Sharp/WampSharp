@@ -37,6 +37,7 @@ namespace WampSharp.V2.Management
         /// <param name="reason">reason for closing sessions, sent to clients in GOODBYE.Reason.</param>
         /// <param name="message">additional information sent to clients in `GOODBYE.Details` under the key "message".</param>
         /// <returns>The number of sessions closed by this meta procedure.</returns>
+        [WampProcedure("wamp.session.kill_by_authrole")]
         int KillByAuthRole(string authRole, string reason = WampErrors.CloseNormal, string message = null);
 
         /// <summary>
