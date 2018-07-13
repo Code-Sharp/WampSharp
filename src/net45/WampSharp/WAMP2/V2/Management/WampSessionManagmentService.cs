@@ -37,13 +37,13 @@ namespace WampSharp.V2.Management
         {
             long? callerId = WampInvocationContext.Current.InvocationDetails.Caller;
 
-            if ((callerId == session) || !mSessionIdToDetails.TryGetValue(session, out var details))
-            {
-                throw new WampException(WampErrors.NoSuchSession);
-            }
-            else if (!mUriValidator.IsValid(reason))
+            if (!mUriValidator.IsValid(reason))
             {
                 throw new WampException(WampErrors.InvalidUri);
+            }
+            else if ((callerId == session) || !mSessionIdToDetails.TryGetValue(session, out var details))
+            {
+                throw new WampException(WampErrors.NoSuchSession);
             }
             else
             {
@@ -225,11 +225,6 @@ namespace WampSharp.V2.Management
             public IWampSessionTerminator Terminator { get; }
             public long Session { get; }
             public WelcomeDetails WelcomeDetails { get; }
-
-            public void Disconnect(GoodbyeDetails details, string reason)
-            {
-                Terminator.Disconnect(details, reason);
-            }
         }
     }
 }
