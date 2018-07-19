@@ -98,7 +98,7 @@ namespace {$namespace}
         {
             yield return interfaceType;
 
-            foreach (Type implementedInterface in interfaceType.GetTypeInfo().ImplementedInterfaces)
+            foreach (Type implementedInterface in interfaceType.GetInterfaces())
             {
                 yield return implementedInterface;
             }
