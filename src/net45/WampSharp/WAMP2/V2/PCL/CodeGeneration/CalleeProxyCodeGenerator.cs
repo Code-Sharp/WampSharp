@@ -1,5 +1,4 @@
-﻿#if !CASTLE && !DISPATCH_PROXY
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -119,9 +118,13 @@ namespace {$namespace}
 
         private static void ValidateMethod(MethodInfo method)
         {
-            if (typeof (Task).IsAssignableFrom(method.ReturnType))
+            if (!typeof(Task).IsAssignableFrom(method.ReturnType))
             {
-                if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
+                MethodInfoValidation.ValidateSyncMethod(method);
+            }
+            else
+            {
+                if (method.IsDefined(typeof(WampProgressiveResultProcedureAttribute)))
                 {
                     MethodInfoValidation.ValidateProgressiveMethod(method);
                 }
@@ -159,4 +162,3 @@ namespace {$namespace}
         }
     }
 }
-#endif

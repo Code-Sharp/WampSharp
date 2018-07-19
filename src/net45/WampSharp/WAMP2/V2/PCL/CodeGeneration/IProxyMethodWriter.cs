@@ -1,5 +1,4 @@
-﻿#if !CASTLE && !DISPATCH_PROXY
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace WampSharp.CodeGeneration
 {
@@ -9,4 +8,3 @@ namespace WampSharp.CodeGeneration
         string WriteMethod(int methodIndex, MethodInfo method);
     }
 }
-#endif

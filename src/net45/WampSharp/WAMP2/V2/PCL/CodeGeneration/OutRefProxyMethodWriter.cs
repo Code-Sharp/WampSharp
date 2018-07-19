@@ -1,4 +1,3 @@
-#if !CASTLE && !DISPATCH_PROXY
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,7 +109,7 @@ public {$returnType} {$methodName}({$parametersDeclaration})
                             new[] {"this", "___array"});
 
             Type returnType = method.ReturnType;
-            dictionary["returnType"] = FormatTypeExtensions.FormatType(returnType);
+            dictionary["returnType"] = FormatTypeExtensions.GetFormattedReturnType(method);
 
             if (returnType != typeof(void))
             {
@@ -166,4 +165,3 @@ public {$returnType} {$methodName}({$parametersDeclaration})
         }
     }
 }
-#endif

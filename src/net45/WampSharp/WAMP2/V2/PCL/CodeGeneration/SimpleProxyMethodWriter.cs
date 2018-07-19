@@ -1,4 +1,3 @@
-#if !CASTLE && !DISPATCH_PROXY
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,7 +86,7 @@ public {$returnType} {$methodName}({$parametersDeclaration})
                             new[] {"this"}.Concat(specialParameters).Concat(methodCallParameters
                                                                                 .Select(x => x.Name)));
 
-            dictionary["returnType"] = FormatTypeExtensions.FormatType(method.ReturnType);
+            dictionary["returnType"] = FormatTypeExtensions.GetFormattedReturnType(method);
 
 
 
@@ -138,4 +137,3 @@ public {$returnType} {$methodName}({$parametersDeclaration})
         }
     }
 }
-#endif

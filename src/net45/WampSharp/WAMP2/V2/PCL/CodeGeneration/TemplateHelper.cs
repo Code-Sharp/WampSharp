@@ -1,4 +1,3 @@
-#if !CASTLE && !DISPATCH_PROXY
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -31,4 +30,3 @@ namespace WampSharp.CodeGeneration
         }
     }
 }
-#endif

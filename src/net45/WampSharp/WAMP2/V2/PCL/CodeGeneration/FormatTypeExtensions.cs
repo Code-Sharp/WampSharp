@@ -1,7 +1,11 @@
-﻿#if !CASTLE && !DISPATCH_PROXY
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using WampSharp.Core.Utilities.ValueTuple;
+using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
 namespace WampSharp.CodeGeneration
 {
@@ -96,6 +100,51 @@ namespace WampSharp.CodeGeneration
 
             return result;
         }
+
+        public static string GetFormattedReturnType(MethodInfo method)
+        {
+            if (!method.ReturnsTuple())
+            {
+                return FormatType(method.ReturnType);
+            }
+            else
+            {
+                Type returnType = TaskExtensions.UnwrapReturnType(method.ReturnType);
+
+                IEnumerable<Type> tupleElementTypes =
+                    returnType.GetValueTupleElementTypes();
+
+                TupleElementNamesAttribute tupleElementNamesAttribute = 
+                    method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
+
+                IEnumerable<string> tupleElementsIdentifiers;
+
+                IEnumerable<string> tupleElementTypesIdentifiers = tupleElementTypes
+                    .Select(x => FormatType(x));
+
+                if (tupleElementNamesAttribute == null)
+                {
+                    tupleElementsIdentifiers = tupleElementTypesIdentifiers;
+                }
+                else
+                {
+                    tupleElementsIdentifiers =
+                        tupleElementTypesIdentifiers
+                            .Zip(tupleElementNamesAttribute.TransformNames,
+                                 (type, name) => $"{type} {name}");
+                }
+
+                string tupleIdentifierContent = string.Join(", ", tupleElementsIdentifiers);
+
+                if (typeof(Task).IsAssignableFrom(method.ReturnType))
+                {
+                    return $"Task<({tupleIdentifierContent})>";
+                }
+                else
+                {
+                    return $"({tupleIdentifierContent})";
+                }
+            }
+        }
     }
 }
-#endif
