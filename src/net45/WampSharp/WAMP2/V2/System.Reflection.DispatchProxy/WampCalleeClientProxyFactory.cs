@@ -1,5 +1,6 @@
 ﻿#if DISPATCH_PROXY
 
+using System;
 using System.Reflection;
 using WampSharp.V2.Client;
 
@@ -8,23 +9,32 @@ namespace WampSharp.V2.CalleeProxy
 {
     internal class WampCalleeClientProxyFactory : IWampCalleeProxyFactory
     {
+        private readonly IWampRealmProxy mProxy;
         private readonly WampCalleeProxyInvocationHandler mHandler;
 
         public WampCalleeClientProxyFactory(IWampRealmProxy proxy)
         {
+            mProxy = proxy;
             mHandler = new ClientInvocationHandler(proxy);
         }
 
         public virtual TProxy GetProxy<TProxy>(ICalleeProxyInterceptor interceptor) where TProxy : class
         {
-            TProxy result = DispatchProxy.Create<TProxy, CalleeProxy>();
+            if (typeof(CalleeProxyBase).IsAssignableFrom(typeof(TProxy)))
+            {
+                return (TProxy) Activator.CreateInstance(typeof(TProxy), mProxy, interceptor);
+            }
+            else
+            {
+                TProxy result = DispatchProxy.Create<TProxy, CalleeProxy>();
 
-            CalleeProxy casted = result as CalleeProxy;
+                CalleeProxy casted = result as CalleeProxy;
 
-            casted.Handler = mHandler;
-            casted.CalleeProxyInterceptor = interceptor;
+                casted.Handler = mHandler;
+                casted.CalleeProxyInterceptor = interceptor;
 
-            return result;
+                return result;
+            }
         }
     }
 }
