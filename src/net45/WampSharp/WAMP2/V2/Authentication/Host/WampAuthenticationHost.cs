@@ -61,6 +61,12 @@ namespace WampSharp.V2
             return new WampAuthenticationBinaryBinding<TMessage>(binding, mSessionAuthenticationFactory, this.UriValidator);
         }
 
+        private IWampBinding CreateAuthenticationBinding<TMessage>
+            (IWampBinding<TMessage> binding)
+        {
+            return new WampAuthenticationBinding<TMessage>(binding, mSessionAuthenticationFactory, this.UriValidator);
+        }
+
         /// <summary>
         /// Fallback in case that binding doesn't implement
         /// IWampBinding{TMessage}

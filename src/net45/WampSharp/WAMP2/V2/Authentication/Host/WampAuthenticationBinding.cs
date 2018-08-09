@@ -7,13 +7,13 @@ using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Authentication
 {
-    internal abstract class WampAuthenticationBinding<TMessage> : IWampRouterBinding<TMessage>
+    internal class WampAuthenticationBinding<TMessage> : IWampRouterBinding<TMessage>
     {
         private readonly IWampBinding<TMessage> mBinding;
         private readonly IWampSessionAuthenticatorFactory mSessionAuthenticationFactory;
         private readonly IWampUriValidator mUriValidator;
 
-        protected WampAuthenticationBinding(IWampBinding<TMessage> binding,
+        public WampAuthenticationBinding(IWampBinding<TMessage> binding,
                                          IWampSessionAuthenticatorFactory sessionAuthenticationFactory, 
                                          IWampUriValidator uriValidator)
         {
