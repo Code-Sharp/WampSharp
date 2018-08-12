@@ -1,4 +1,6 @@
 using WampSharp.Core.Listener;
+using WampSharp.V2.Core;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Binding
@@ -14,8 +16,10 @@ namespace WampSharp.V2.Binding
         /// </summary>
         /// <param name="realmContainer"></param>
         /// <param name="connectionListener"></param>
+        /// <param name="sessionIdMap"></param>
         /// <returns></returns>
         IWampBindingHost CreateHost(IWampHostedRealmContainer realmContainer,
-            IWampConnectionListener<TMessage> connectionListener);
+                                    IWampConnectionListener<TMessage> connectionListener,
+                                    IWampSessionMapper sessionIdMap);
     }
 }

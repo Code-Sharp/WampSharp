@@ -4,6 +4,7 @@ using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Binding.Transports;
 using WampSharp.V2.Core;
+using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
@@ -29,10 +30,12 @@ namespace WampSharp.V2
 
             UriValidator = uriValidator ?? new LooseUriValidator();
 
-            mInternalHost = new InMemoryWampHost(realmContainer, UriValidator);
+            WampSessionMapper sessionIdMap = new WampSessionMapper();
+
+            mInternalHost = new InMemoryWampHost(realmContainer, UriValidator, sessionIdMap);
             mInternalHost.Open();
 
-            mExternalHost = new WampHostBase(realmContainer, UriValidator);
+            mExternalHost = new WampHostBase(realmContainer, UriValidator, sessionIdMap);
 
             mRealmContainer =
                 new ServiceHostedRealmContainer(mExternalHost.RealmContainer,

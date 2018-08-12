@@ -16,21 +16,16 @@ namespace WampSharp.V2
             new WampChannelFactory();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="InMemoryWampHost"/>.
-        /// </summary>
-        public InMemoryWampHost() : this(new WampRealmContainer(), new LooseUriValidator())
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of <see cref="InMemoryWampHost"/> given the
         /// <see cref="IWampRealmContainer"/> associated with this host.
         /// </summary>
         /// <param name="realmContainer"></param>
         /// <param name="uriValidator"></param>
+        /// <param name="sessionIdMap"></param>
         public InMemoryWampHost(IWampRealmContainer realmContainer,
-                                IWampUriValidator uriValidator) :
-                                    base(realmContainer, uriValidator)
+                                IWampUriValidator uriValidator,
+                                IWampSessionMapper sessionIdMap) :
+                                    base(realmContainer, uriValidator, sessionIdMap)
         {
             mInternalBinding = new InMemoryBinding();
 

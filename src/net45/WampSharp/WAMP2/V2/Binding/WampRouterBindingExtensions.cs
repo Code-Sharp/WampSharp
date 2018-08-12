@@ -1,5 +1,6 @@
 using WampSharp.Core.Listener;
 using WampSharp.V2.Core;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Binding
@@ -10,12 +11,13 @@ namespace WampSharp.V2.Binding
             (this IWampBinding<TMessage> binding,
              IWampHostedRealmContainer realmContainer,
              IWampConnectionListener<TMessage> connectionListener,
-             IWampUriValidator uriValidator)
+             IWampUriValidator uriValidator,
+             IWampSessionMapper sessionIdMap)
         {
 
             if (binding is IWampRouterBinding<TMessage> routerBinding)
             {
-                return routerBinding.CreateHost(realmContainer, connectionListener);
+                return routerBinding.CreateHost(realmContainer, connectionListener, sessionIdMap);
             }
             else
             {
@@ -25,7 +27,8 @@ namespace WampSharp.V2.Binding
                     new WampBindingHost<TMessage>(realmContainer,
                                                   routerBuilder,
                                                   connectionListener,
-                                                  binding);
+                                                  binding,
+                                                  sessionIdMap);
 
                 return result;
             }
