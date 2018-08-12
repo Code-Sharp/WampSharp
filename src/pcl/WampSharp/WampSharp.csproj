@@ -605,6 +605,12 @@
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Contracts\WampMatchPattern.cs">
       <Link>WAMP2\V2\Core\Contracts\WampMatchPattern.cs</Link>
     </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Listener\IWampSessionMapper.cs">
+      <Link>WAMP2\V2\Core\Listener\IWampSessionMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Listener\WampSessionMapper.cs">
+      <Link>WAMP2\V2\Core\Listener\WampSessionMapper.cs</Link>
+    </Compile>
     <Compile Include="..\..\net45\WampSharp\WAMP2\V2\Core\Uri\IWampUriValidator.cs">
       <Link>WAMP2\V2\Core\Uri\IWampUriValidator.cs</Link>
     </Compile>
