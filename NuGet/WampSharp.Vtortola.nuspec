@@ -22,7 +22,9 @@
     <title>WampSharp Vtortola support</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Vtortola transport for WampSharp</description>
-    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <projectUrl>https://wampsharp.net/</projectUrl>
+    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
+    <repositoryType>git</repositoryType>
     <tags>websockets wampws rpc pubsub vtortola wampv2</tags>
   </metadata>
   <files>

@@ -14,7 +14,9 @@
     <title>WampSharp WAMP1 default binding</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>WampSharp WAMP1 default binding, implemented using Newtonsoft.Json, WebSocket4Net and Fleck</description>
-    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <projectUrl>https://wampsharp.net/</projectUrl>
+    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
+    <repositoryType>git</repositoryType>
     <tags>websockets wampws rpc pubsub fleck newtonsoft json websocket4net wampv1</tags>
   </metadata>
   <files>

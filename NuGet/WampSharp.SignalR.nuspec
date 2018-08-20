@@ -14,7 +14,9 @@
     <title>WampSharp SignalR support</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SignalR transport for WampSharp</description>
-    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <projectUrl>https://wampsharp.net/</projectUrl>
+    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
+    <repositoryType>git</repositoryType>
     <tags>websockets wampws rpc pubsub signalr wampv2</tags>
   </metadata>
   <files>

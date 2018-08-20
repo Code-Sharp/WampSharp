@@ -5,7 +5,9 @@
     <authors>CodeSharp</authors>
     <id>WampSharp.WebSockets</id>
     <title>WampSharp System.Net.WebSockets.WebSocket support</title>
-    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <projectUrl>https://wampsharp.net/</projectUrl>
+    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
+    <repositoryType>git</repositoryType>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>WampSharp System.Net.WebSockets.WebSocket support</description>
     <tags>websockets,wampws,rpc,pubsub,wampv1,wampv2</tags>

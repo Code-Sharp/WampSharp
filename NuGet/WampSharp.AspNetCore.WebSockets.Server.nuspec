@@ -5,7 +5,9 @@
     <version>$version$</version>
     <title>WampSharp AspNetCore WebSockets Server support</title>
     <authors>CodeSharp</authors>
-    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <projectUrl>https://wampsharp.net/</projectUrl>
+    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
+    <repositoryType>git</repositoryType>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>WampSharp Microsoft.AspNetCore.WebSockets.Server support</description>
     <tags>websockets,wampws,rpc,pubsub,wampv1,wampv2,aspnetcore</tags>

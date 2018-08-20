@@ -42,7 +42,9 @@
     <title>WampSharp Newtonsoft.Json binding</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>WampSharp Newtonsoft.Json support</description>
-    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <projectUrl>https://wampsharp.net/</projectUrl>
+    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
+    <repositoryType>git</repositoryType>
     <tags>websockets wampws rpc pubsub newtonsoft json wampv1 wampv2</tags>
   </metadata>
   <files>

@@ -48,7 +48,9 @@
     <title>WampSharp default client binding</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>WampSharp above Newtonsoft.Json, Newtonsoft.Msgpack and WebSocket4Net</description>
-    <projectUrl>https://github.com/Code-Sharp/WampSharp/</projectUrl>
+    <projectUrl>https://wampsharp.net/</projectUrl>
+    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
+    <repositoryType>git</repositoryType>
     <tags>websockets wampws rpc pubsub newtonsoft json msgpack wampv2</tags>
   </metadata>
   <files>
