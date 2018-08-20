@@ -15,8 +15,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows websocket connection for WampSharp</description>
     <projectUrl>https://wampsharp.net/</projectUrl>
-    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
-    <repositoryType>git</repositoryType>
+    <repository type="git" url="https://github.com/Code-Sharp/WampSharp/" />
     <tags>websockets wampws rpc pubsub windows wampv2</tags>
   </metadata>
   <files>

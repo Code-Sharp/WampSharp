@@ -67,8 +67,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>An implementation of WAMP (The Web Application Messaging Protocol). Supports both WAMPv2 and WAMPv1.</description>
     <projectUrl>https://wampsharp.net/</projectUrl>
-    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
-    <repositoryType>git</repositoryType>
+    <repository type="git" url="https://github.com/Code-Sharp/WampSharp/" />
     <tags>websockets wampws rpc pubsub wampv2</tags>
   </metadata>
   <files>

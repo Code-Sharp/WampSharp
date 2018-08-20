@@ -35,8 +35,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>WampSharp WebSocket4Net support</description>
     <projectUrl>https://wampsharp.net/</projectUrl>
-    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
-    <repositoryType>git</repositoryType>
+    <repository type="git" url="https://github.com/Code-Sharp/WampSharp/" />
     <tags>websockets wampws rpc pubsub websocket4net wampv1 wampv2</tags>
   </metadata>
   <files>

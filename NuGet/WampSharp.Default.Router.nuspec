@@ -14,8 +14,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>WampSharp above Fleck, Newtonsoft.Json and WebSocket4Net</description>
     <projectUrl>https://wampsharp.net/</projectUrl>
-    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
-    <repositoryType>git</repositoryType>
+    <repository type="git" url="https://github.com/Code-Sharp/WampSharp/" />
     <tags>websockets wampws rpc pubsub fleck newtonsoft json msgpack wampv2</tags>
   </metadata>
   <files>

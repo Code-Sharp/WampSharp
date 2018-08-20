@@ -29,8 +29,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>RawSocket transport for WampSharp</description>
     <projectUrl>https://wampsharp.net/</projectUrl>
-    <repositoryUrl>https://github.com/Code-Sharp/WampSharp/</repositoryUrl>
-    <repositoryType>git</repositoryType>
+    <repository type="git" url="https://github.com/Code-Sharp/WampSharp/" />
     <tags>websockets wampws rpc pubsub supersocket wampv2 rawsocket</tags>
   </metadata>
   <files>
