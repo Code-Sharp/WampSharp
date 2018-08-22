@@ -54,7 +54,13 @@ namespace WampSharp.V2.Transports
                 try
                 {
                     byte[] ticks = GetCurrentTicks();
-                    await mPinger.SendPing(ticks).ConfigureAwait(false);
+                    Task pingTask = mPinger.SendPing(ticks);
+
+                    if (pingTask != null)
+                    {
+                        await pingTask.ConfigureAwait(false);
+                    }
+
                     await Task.Delay(mAutoSendPingInterval.Value).ConfigureAwait(false);
                 }
                 catch (Exception ex)
