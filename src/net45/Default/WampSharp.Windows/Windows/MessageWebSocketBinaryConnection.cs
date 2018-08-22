@@ -31,7 +31,7 @@ namespace WampSharp.Windows
 
                 memoryStream.Position = 0;
 
-                WampMessage<TMessage> message = mBinaryBinding.Parse(stream);
+                WampMessage<TMessage> message = mBinaryBinding.Parse(memoryStream);
 
                 RaiseMessageArrived(message);
             }
