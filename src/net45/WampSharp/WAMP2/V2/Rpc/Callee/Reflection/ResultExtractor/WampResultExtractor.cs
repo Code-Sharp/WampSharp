@@ -47,11 +47,11 @@ namespace WampSharp.V2.Rpc
 
             IWampResultExtractor result = new PositionalTupleExtractor(tupleType);
 
-            if (method.ReturnParameter.IsDefined(typeof(TupleElementNamesAttribute)))
-            {
-                TupleElementNamesAttribute attribute =
-                    method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
+            TupleElementNamesAttribute attribute =
+                method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
 
+            if (attribute != null)
+            {
                 int valueTupleLength = tupleType.GetValueTupleLength();
 
                 // If the tuple is named, return a named tuple extractor

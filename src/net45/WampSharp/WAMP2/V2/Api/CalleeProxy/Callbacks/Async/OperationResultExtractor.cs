@@ -51,11 +51,11 @@ namespace WampSharp.V2.CalleeProxy
 
             IEnumerable<string> transformNames = null;
 
-            if (method.ReturnParameter.IsDefined(typeof(TupleElementNamesAttribute)))
-            {
-                TupleElementNamesAttribute attribute =
-                    method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
+            TupleElementNamesAttribute attribute =
+                method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
 
+            if (attribute != null)
+            {
                 transformNames = attribute.TransformNames;
             }
 

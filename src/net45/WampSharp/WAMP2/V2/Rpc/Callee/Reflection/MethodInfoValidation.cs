@@ -23,12 +23,12 @@ namespace WampSharp.V2.Rpc
                     ThrowHelper.MethodReturnsInvalidValueTuple(method);
                 }
 
-                if (method.ReturnParameter.IsDefined(typeof(TupleElementNamesAttribute)))
+                TupleElementNamesAttribute attribute =
+                    method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
+
+                if (attribute != null)
                 {
                     int tupleLength = tupleType.GetValueTupleLength();
-
-                    TupleElementNamesAttribute attribute = 
-                        method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
 
                     IList<string> transformNames = attribute.TransformNames;
 
@@ -123,19 +123,19 @@ namespace WampSharp.V2.Rpc
 
         private static void ValidateTupleReturnTypeOfProgressiveMethod(MethodInfo method, ParameterInfo lastParameter)
         {
-            bool methodHasAttribute = method.ReturnParameter.IsDefined(typeof(TupleElementNamesAttribute));
-            bool parameterHasAttributte = lastParameter.IsDefined(typeof(TupleElementNamesAttribute));
+            TupleElementNamesAttribute methodAttribute =
+                method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
+
+            TupleElementNamesAttribute parameterAttribute =
+                lastParameter.GetCustomAttribute<TupleElementNamesAttribute>();
+
+            bool methodHasAttribute = methodAttribute != null;
+            bool parameterHasAttributte = parameterAttribute != null;
 
             bool attributesMatch = methodHasAttribute == parameterHasAttributte;
 
             if (methodHasAttribute && parameterHasAttributte)
             {
-                TupleElementNamesAttribute methodAttribute =
-                    method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
-
-                TupleElementNamesAttribute parameterAttribute =
-                    lastParameter.GetCustomAttribute<TupleElementNamesAttribute>();
-
                 IList<string> methodTransformNames = methodAttribute.TransformNames;
                 IList<string> parameterTransformNames = parameterAttribute.TransformNames;
 
