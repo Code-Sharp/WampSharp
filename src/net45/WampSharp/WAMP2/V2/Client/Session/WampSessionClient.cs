@@ -16,8 +16,8 @@ namespace WampSharp.V2.Client
         private static readonly AuthenticateExtraData EmptyAuthenticateDetails = new AuthenticateExtraData();
         private readonly IWampServerProxy mServerProxy;
         private TaskCompletionSource<bool> mOpenTask = new TaskCompletionSource<bool>();
+        private TaskCompletionSource<GoodbyeMessage> mCloseTask = new TaskCompletionSource<GoodbyeMessage>();
         private readonly IWampFormatter<TMessage> mFormatter;
-        private readonly object mLock = new object();
         private bool mGoodbyeSent;
 		private readonly IWampClientAuthenticator mAuthenticator;
         private HelloDetails mSentDetails;
@@ -115,6 +115,11 @@ namespace WampSharp.V2.Client
                 {
                     mServerProxy.Goodbye(new GoodbyeDetails(), WampErrors.GoodbyeAndOut);
                 }
+                else
+                {
+                    GoodbyeMessage message = new GoodbyeMessage(){Details = details, Reason = reason};
+                    mCloseTask.SetResult(message);
+                }
             }
 
             TrySetCloseEventArgs(SessionCloseType.Goodbye, details, reason);
@@ -126,10 +131,11 @@ namespace WampSharp.V2.Client
 
             WampSessionCloseEventArgs closeEventArgs = mCloseEventArgs;
 
-            SetOpenTaskErrorIfNeeded(new WampConnectionBrokenException(mCloseEventArgs));
+            SetTasksErrorsIfNeeded(new WampConnectionBrokenException(mCloseEventArgs));
 
             Interlocked.CompareExchange(ref mIsConnected, 0, 1);
             mOpenTask = new TaskCompletionSource<bool>();
+            mCloseTask = new TaskCompletionSource<GoodbyeMessage>();
             mCloseEventArgs = null;
 
             OnConnectionBroken(closeEventArgs);
@@ -153,6 +159,8 @@ namespace WampSharp.V2.Client
         public IWampRealmProxy Realm { get; }
 
         public Task OpenTask => mOpenTask.Task;
+
+        public Task<GoodbyeMessage> CloseTask => mCloseTask.Task;
 
         public void Close(string reason, GoodbyeDetails details)
         {
@@ -191,19 +199,15 @@ namespace WampSharp.V2.Client
 
         public void OnConnectionError(Exception exception)
         {
-            SetOpenTaskErrorIfNeeded(exception);
+            SetTasksErrorsIfNeeded(exception);
 
             OnConnectionError(new WampConnectionErrorEventArgs(exception));
         }
 
-        private void SetOpenTaskErrorIfNeeded(Exception exception)
+        private void SetTasksErrorsIfNeeded(Exception exception)
         {
-            TaskCompletionSource<bool> openTask = mOpenTask;
-
-            if (openTask != null)
-            {
-                openTask.TrySetException(exception);
-            }
+            mOpenTask?.TrySetException(exception);
+            mCloseTask?.TrySetException(exception);
         }
 
         public event EventHandler<WampSessionCreatedEventArgs> ConnectionEstablished;

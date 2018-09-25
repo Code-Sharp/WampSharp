@@ -31,6 +31,7 @@ namespace WampSharp.V2
         /// </summary>
         /// <param name="reason">The close reason.</param>
         /// <param name="details">The close details.</param>
-        void Close(string reason, GoodbyeDetails details);
+        /// <returns>A task that completes upon a GOODBYE message from the router.</returns>
+        Task<GoodbyeMessage> Close(string reason, GoodbyeDetails details);
     }
 }

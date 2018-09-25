@@ -71,9 +71,11 @@ namespace WampSharp.V2.Client
             }
         }
 
-        public void Close(string reason, GoodbyeDetails details)
+        public Task<GoodbyeMessage> Close(string reason, GoodbyeDetails details)
         {
+            Task<GoodbyeMessage> task = mClient.CloseTask;
             mClient.Close(reason, details);
+            return task;
         }
     }
 }

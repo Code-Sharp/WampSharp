@@ -57,6 +57,8 @@ namespace WampSharp.V2.Client
 
         public Task OpenTask => SessionClient.OpenTask;
 
+        public Task<GoodbyeMessage> CloseTask => SessionClient.CloseTask;
+
         public void Challenge(string authMethod, ChallengeDetails extra)
         {
             SessionClient.Challenge(authMethod, extra);
