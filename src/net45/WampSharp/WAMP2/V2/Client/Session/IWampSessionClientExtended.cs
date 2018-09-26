@@ -14,7 +14,7 @@ namespace WampSharp.V2.Client
 
         Task OpenTask { get; }
 
-        void Close(string reason, GoodbyeDetails details);
+        Task<GoodbyeMessage> Close(string reason, GoodbyeDetails details);
 
         void OnConnectionOpen();
         void OnConnectionClosed();

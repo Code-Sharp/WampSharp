@@ -62,6 +62,12 @@ namespace WampSharp.Newtonsoft
                 using (JsonReader reader = new JsonTextReader(new StreamReader(stream)) {CloseInput = false})
                 {
                     JToken parsed = JToken.ReadFrom(reader);
+
+                    if (mLogger.IsDebugEnabled())
+                    {
+                        mLogger.DebugFormat("Trying to parse message {JsonMessage}", parsed.ToString(Formatting.None));
+                    }
+
                     return mMessageFormatter.Parse(parsed);
                 }
             }
@@ -80,6 +86,12 @@ namespace WampSharp.Newtonsoft
                 object[] array = mMessageFormatter.Format(message);
                 mSerializer.Serialize(textWriter, array);
                 textWriter.Flush();
+
+                if (mLogger.IsDebugEnabled())
+                {
+                    // Call this just for the logs
+                    Format(message);
+                }
             }
         }
     }

@@ -79,9 +79,9 @@ namespace WampSharp.V2.Client
 
         public long Session => SessionClient.Session;
 
-        public void Close(string reason, GoodbyeDetails details)
+        public Task<GoodbyeMessage> Close(string reason, GoodbyeDetails details)
         {
-            SessionClient.Close(reason, details);
+            return SessionClient.Close(reason, details);
         }
 
         public void OnConnectionOpen()
