@@ -16,7 +16,7 @@ namespace WampSharp.V2.Client
         private static readonly AuthenticateExtraData EmptyAuthenticateDetails = new AuthenticateExtraData();
         private readonly IWampServerProxy mServerProxy;
         private TaskCompletionSource<bool> mOpenTask = new TaskCompletionSource<bool>();
-        private TaskCompletionSource<GoodbyeMessage> mCloseTask = new TaskCompletionSource<GoodbyeMessage>();
+        private TaskCompletionSource<GoodbyeMessage> mCloseTask;
         private readonly IWampFormatter<TMessage> mFormatter;
         private bool mGoodbyeSent;
 		private readonly IWampClientAuthenticator mAuthenticator;
@@ -118,7 +118,7 @@ namespace WampSharp.V2.Client
                 else
                 {
                     GoodbyeMessage message = new GoodbyeMessage(){Details = details, Reason = reason};
-                    mCloseTask.SetResult(message);
+                    mCloseTask?.SetResult(message);
                 }
             }
 
@@ -135,7 +135,7 @@ namespace WampSharp.V2.Client
 
             Interlocked.CompareExchange(ref mIsConnected, 0, 1);
             mOpenTask = new TaskCompletionSource<bool>();
-            mCloseTask = new TaskCompletionSource<GoodbyeMessage>();
+            mCloseTask = null;
             mCloseEventArgs = null;
 
             OnConnectionBroken(closeEventArgs);
@@ -160,15 +160,20 @@ namespace WampSharp.V2.Client
 
         public Task OpenTask => mOpenTask.Task;
 
-        public Task<GoodbyeMessage> CloseTask => mCloseTask.Task;
-
-        public void Close(string reason, GoodbyeDetails details)
+        public Task<GoodbyeMessage> Close(string reason, GoodbyeDetails details)
         {
             reason = reason ?? WampErrors.CloseNormal;
             details = details ?? EmptyGoodbyeDetails;
 
+            TaskCompletionSource<GoodbyeMessage> closeTask = 
+                new TaskCompletionSource<GoodbyeMessage>();
+
+            mCloseTask = closeTask;
+
             mGoodbyeSent = true;
             mServerProxy.Goodbye(details, reason);
+
+            return closeTask.Task;
         }
 
         public void OnConnectionOpen()
