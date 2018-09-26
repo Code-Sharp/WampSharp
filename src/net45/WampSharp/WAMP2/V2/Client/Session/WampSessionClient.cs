@@ -17,6 +17,7 @@ namespace WampSharp.V2.Client
         private readonly IWampServerProxy mServerProxy;
         private TaskCompletionSource<bool> mOpenTask = new TaskCompletionSource<bool>();
         private TaskCompletionSource<GoodbyeMessage> mCloseTask;
+        private GoodbyeMessage mGoodbyeMessage;
         private readonly IWampFormatter<TMessage> mFormatter;
         private bool mGoodbyeSent;
 		private readonly IWampClientAuthenticator mAuthenticator;
@@ -117,8 +118,7 @@ namespace WampSharp.V2.Client
                 }
                 else
                 {
-                    GoodbyeMessage message = new GoodbyeMessage(){Details = details, Reason = reason};
-                    mCloseTask?.SetResult(message);
+                    mGoodbyeMessage = new GoodbyeMessage(){Details = details, Reason = reason};
                 }
             }
 
@@ -131,12 +131,21 @@ namespace WampSharp.V2.Client
 
             WampSessionCloseEventArgs closeEventArgs = mCloseEventArgs;
 
+            Interlocked.CompareExchange(ref mIsConnected, 0, 1);
+
+            GoodbyeMessage goodbyeMessage = mGoodbyeMessage;
+
+            if (goodbyeMessage != null)
+            {
+                mCloseTask?.SetResult(goodbyeMessage);
+            }
+
             SetTasksErrorsIfNeeded(new WampConnectionBrokenException(mCloseEventArgs));
 
-            Interlocked.CompareExchange(ref mIsConnected, 0, 1);
             mOpenTask = new TaskCompletionSource<bool>();
             mCloseTask = null;
             mCloseEventArgs = null;
+            mGoodbyeMessage = null;
 
             OnConnectionBroken(closeEventArgs);
         }
