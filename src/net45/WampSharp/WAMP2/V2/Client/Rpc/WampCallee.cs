@@ -106,7 +106,7 @@ namespace WampSharp.V2.Client
         private Task Unregister(long registrationId)
         {
             UnregisterRequest unregisterRequest =
-                new UnregisterRequest(mFormatter);
+                new UnregisterRequest(mFormatter, registrationId);
 
             long requestId = mPendingUnregistrations.Add(unregisterRequest);
 
@@ -119,17 +119,18 @@ namespace WampSharp.V2.Client
 
         public void Unregistered(long requestId)
         {
-
             if (mPendingUnregistrations.TryRemove(requestId, out UnregisterRequest unregisterRequest))
             {
-                mRegistrations.TryRemove(requestId, out IWampRpcOperation operation);
+                long registrationId = unregisterRequest.RegistrationId;
+
+                mRegistrations.TryRemove(registrationId, out IWampRpcOperation operation);
 
                 lock (mLock)
                 {
 
-                    if (mRegistrationsToInvocations.TryGetValue(requestId, out SwapCollection<long> invocationsToRemove))
+                    if (mRegistrationsToInvocations.TryGetValue(registrationId, out SwapCollection<long> invocationsToRemove))
                     {
-                        mRegistrationsToInvocations.Remove(requestId);
+                        mRegistrationsToInvocations.Remove(registrationId);
 
                         foreach (long invocationId in invocationsToRemove)
                         {
@@ -296,8 +297,11 @@ namespace WampSharp.V2.Client
 
         private class UnregisterRequest : WampPendingRequest<TMessage>
         {
-            public UnregisterRequest(IWampFormatter<TMessage> formatter) : base(formatter)
+            public long RegistrationId { get; }
+
+            public UnregisterRequest(IWampFormatter<TMessage> formatter, long registrationId) : base(formatter)
             {
+                RegistrationId = registrationId;
             }
         }
 
