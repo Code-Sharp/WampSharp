@@ -15,6 +15,8 @@ namespace WampSharp.WebSocket4Net
 
         private readonly WebSocket mWebSocket;
 
+        private bool mDisposed = false;
+
         private readonly ILog mLogger;
 
         #endregion
@@ -72,7 +74,11 @@ namespace WampSharp.WebSocket4Net
 
         public virtual void Dispose()
         {
-            mWebSocket.Dispose();
+            if (!mDisposed)
+            {
+                mDisposed = true;
+                mWebSocket.Close();
+            }
         }
 
         void IWampConnection<TMessage>.Send(WampMessage<object> message)
