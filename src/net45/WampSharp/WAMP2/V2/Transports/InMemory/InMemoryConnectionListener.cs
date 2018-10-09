@@ -99,6 +99,8 @@ namespace WampSharp.V2.Transports
             private void OnCompleted()
             {
                 mConnectionClosed.OnNext(Unit.Default);
+                mSubscription.Dispose();
+                mSubscription = null;
             }
 
             private void OnNewMessage(WampMessage<TMessage> wampMessage)
@@ -113,9 +115,7 @@ namespace WampSharp.V2.Transports
 
             public void Dispose()
             {
-                mSubscription.Dispose();
                 mOutgoing.OnCompleted();
-                mSubscription = null;
             }
 
             public void Send(WampMessage<object> message)
