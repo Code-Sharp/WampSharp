@@ -74,7 +74,8 @@ namespace WampSharp.V2.Transports
                 mBinding = binding;
 
                 IDisposable connectionClosedSubscription =
-                    mConnectionClosed.Subscribe(x => RaiseConnectionClosed());
+                    mConnectionClosed.Take(1)
+                                     .Subscribe(x => RaiseConnectionClosed());
 
                 IDisposable connectionOpenSubscription =
                     mConnectionOpen.Subscribe(x => RaiseConnectionOpen());
