@@ -72,7 +72,7 @@ namespace WampSharp.WebSocket4Net
 
         public virtual void Dispose()
         {
-            mWebSocket.Close();
+            mWebSocket.Dispose();
         }
 
         void IWampConnection<TMessage>.Send(WampMessage<object> message)
