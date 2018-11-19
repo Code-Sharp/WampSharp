@@ -137,7 +137,7 @@ namespace WampSharp.V2.Client
 
             if (goodbyeMessage != null)
             {
-                mCloseTask?.SetResult(goodbyeMessage);
+                mCloseTask?.TrySetResult(goodbyeMessage);
             }
 
             SetTasksErrorsIfNeeded(new WampConnectionBrokenException(mCloseEventArgs));
