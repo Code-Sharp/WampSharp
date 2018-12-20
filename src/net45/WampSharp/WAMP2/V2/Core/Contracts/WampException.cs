@@ -53,6 +53,7 @@ namespace WampSharp.V2.Core.Contracts
             base($"Error uri: '{errorUri}', details: {messageDetails}")
         {
             ErrorUri = errorUri;
+            Details = mEmptyDetails;
             mArguments = new object[] {messageDetails};
         }
 
