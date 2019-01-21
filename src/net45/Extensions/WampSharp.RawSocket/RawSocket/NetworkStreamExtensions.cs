@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.IO;
 
 namespace WampSharp.RawSocket
 {
@@ -42,5 +43,18 @@ namespace WampSharp.RawSocket
         }
 
 #endif
+        public static byte[] GetBufferWorkaround(this MemoryStream stream)
+        {
+            RecyclableMemoryStream memoryStream = stream as RecyclableMemoryStream;
+
+            if (memoryStream != null)
+            {
+                return memoryStream.GetBuffer();
+            }
+
+            return stream.GetBuffer();
+        }
+
+
     }
 }

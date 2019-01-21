@@ -65,7 +65,7 @@ namespace WampSharp.RawSocket
 
                 byte[] buffer;
 
-                buffer = memoryStream.GetBuffer();
+                buffer = memoryStream.GetBufferWorkaround();
 
                 // Write a message header
                 mFrameHeaderParser.WriteHeader(FrameType.WampMessage, messageLength, buffer);
@@ -151,7 +151,7 @@ namespace WampSharp.RawSocket
 
             MemoryStream stream = mByteArrayPool.GetStream(Tag, length, true);
 
-            byte[] buffer = stream.GetBuffer();
+            byte[] buffer = stream.GetBufferWorkaround();
 
             await Stream
                 .ReadExactAsync(buffer, position, messageLength)
@@ -169,7 +169,7 @@ namespace WampSharp.RawSocket
             using (MemoryStream buffer = await ReadStream(messageLength).ConfigureAwait(false))
             {
                 ArraySegment<byte> arraySegment =
-                    new ArraySegment<byte>(buffer.GetBuffer(), 0, messageLength);
+                    new ArraySegment<byte>(buffer.GetBufferWorkaround(), 0, messageLength);
 
                 mPinger.RaiseOnPong(arraySegment);
             }
@@ -179,7 +179,7 @@ namespace WampSharp.RawSocket
         {
             using (MemoryStream memoryStream = await ReadStream(messageLength, FrameHeaderSize).ConfigureAwait(false))
             {
-                byte[] buffer = memoryStream.GetBuffer();
+                byte[] buffer = memoryStream.GetBufferWorkaround();
 
                 mFrameHeaderParser.WriteHeader(FrameType.Pong, messageLength, buffer);
 
@@ -197,7 +197,7 @@ namespace WampSharp.RawSocket
 
             using (MemoryStream memoryStream = mByteArrayPool.GetStream(Tag, frameSize, true))
             {
-                byte[] buffer = memoryStream.GetBuffer();
+                byte[] buffer = memoryStream.GetBufferWorkaround();
 
                 mFrameHeaderParser.WriteHeader(FrameType.Ping, message.Length, buffer);
                 memoryStream.SetLength(FrameHeaderSize);
