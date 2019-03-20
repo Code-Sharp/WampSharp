@@ -10,8 +10,9 @@ namespace WampSharp.Fleck
         public FleckAuthenticatedWebSocketTransport
             (string location,
              ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
-             X509Certificate2 certificate = null)
-            : this(location: location, cookieAuthenticatorFactory: cookieAuthenticatorFactory, certificate: certificate, getEnabledSslProtocols: null)
+             X509Certificate2 certificate = null,
+             bool supportDualStack = true)
+            : this(location: location, supportDualStack: supportDualStack, cookieAuthenticatorFactory: cookieAuthenticatorFactory, certificate: certificate, getEnabledSslProtocols: null)
         {
         }
 
@@ -19,8 +20,9 @@ namespace WampSharp.Fleck
             (string location,
              ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
              X509Certificate2 certificate = null,
-             Func<SslProtocols> getEnabledSslProtocols = null)
-            : base(location, cookieAuthenticatorFactory, certificate, getEnabledSslProtocols)
+             Func<SslProtocols> getEnabledSslProtocols = null,
+             bool supportDualStack = true)
+            : base(location, cookieAuthenticatorFactory, certificate, getEnabledSslProtocols, supportDualStack)
         {
         }
     }
