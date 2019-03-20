@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
-    <PackageReference Include="Fleck" Version="1.0.3" />
+    <PackageReference Include="Fleck" Version="1.1.0" />
   </ItemGroup>
 
 </Project>

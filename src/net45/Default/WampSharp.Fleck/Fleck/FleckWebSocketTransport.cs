@@ -24,8 +24,9 @@ namespace WampSharp.Fleck
         /// </summary>
         /// <param name="location">The given server address.</param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
-        public FleckWebSocketTransport(string location, X509Certificate2 certificate = null)
-            : this(location: location, cookieAuthenticatorFactory: null, certificate: certificate, getEnabledSslProtocols: null)
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
+        public FleckWebSocketTransport(string location, X509Certificate2 certificate = null, bool supportDualStack = true)
+            : this(location: location, supportDualStack: supportDualStack, cookieAuthenticatorFactory: null, certificate: certificate, getEnabledSslProtocols: null)
         {
         }
 
@@ -34,10 +35,11 @@ namespace WampSharp.Fleck
         /// given the server address to run at.
         /// </summary>
         /// <param name="location">The given server address.</param>
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
         /// <param name="getEnabledSslProtocols"> If non-null, used to set Fleck's EnabledSslProtocols. </param>
-        public FleckWebSocketTransport(string location, X509Certificate2 certificate, Func<SslProtocols> getEnabledSslProtocols)
-            : this(location: location, cookieAuthenticatorFactory: null, certificate: certificate, getEnabledSslProtocols: getEnabledSslProtocols)
+        public FleckWebSocketTransport(string location, X509Certificate2 certificate, Func<SslProtocols> getEnabledSslProtocols, bool supportDualStack = true)
+            : this(location: location, supportDualStack: supportDualStack, cookieAuthenticatorFactory: null, certificate: certificate, getEnabledSslProtocols: getEnabledSslProtocols)
         {
         }
 
@@ -48,10 +50,12 @@ namespace WampSharp.Fleck
         /// <param name="location">The given server address.</param>
         /// <param name="cookieAuthenticatorFactory"></param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
         protected FleckWebSocketTransport(string location,
                                           ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
-                                          X509Certificate2 certificate = null)
-            : this(location: location, cookieAuthenticatorFactory: null, certificate: certificate, getEnabledSslProtocols: null)
+                                          X509Certificate2 certificate = null,
+                                          bool supportDualStack = true)
+            : this(location: location, cookieAuthenticatorFactory: null, certificate: certificate, supportDualStack: supportDualStack, getEnabledSslProtocols: null)
         {
         }
 
@@ -62,14 +66,16 @@ namespace WampSharp.Fleck
         /// <param name="location">The given server address.</param>
         /// <param name="cookieAuthenticatorFactory"></param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
         /// <param name="getEnabledSslProtocols"> If non-null, used to set Fleck's EnabledSslProtocols. </param>
         protected FleckWebSocketTransport(string location,
                                           ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
                                           X509Certificate2 certificate = null,
-                                          Func<SslProtocols> getEnabledSslProtocols = null)
+                                          Func<SslProtocols> getEnabledSslProtocols = null,
+                                          bool supportDualStack = true)
             : base(cookieAuthenticatorFactory)
         {
-            mServer = new WebSocketServer(location);
+            mServer = new WebSocketServer(location, supportDualStack);
             mServer.Certificate = certificate;
 
             if (getEnabledSslProtocols != null)
