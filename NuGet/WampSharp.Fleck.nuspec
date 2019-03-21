@@ -7,19 +7,19 @@
     <dependencies>
       <group targetFramework="net46">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="Fleck" version="[1.0.3, )" />
+        <dependency id="Fleck" version="[1.1.0, )" />
       </group>
       <group targetFramework="net45">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="Fleck" version="[1.0.3, )" />
+        <dependency id="Fleck" version="[1.1.0, )" />
       </group>
       <group targetFramework="net40">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="Fleck" version="[0.14.0.59]" />
+        <dependency id="Fleck" version="[1.1.0]" />
       </group>
       <group targetFramework=".NETStandard2.0">
         <dependency id="WampSharp" version="[$version$]" />
-        <dependency id="Fleck" version="[1.0.3, )" />
+        <dependency id="Fleck" version="[1.1.0, )" />
       </group>
     </dependencies>
     <id>WampSharp.Fleck</id>
