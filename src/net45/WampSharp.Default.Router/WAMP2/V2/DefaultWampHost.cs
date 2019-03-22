@@ -18,6 +18,18 @@ namespace WampSharp.V2
     /// </summary>
     public class DefaultWampHost : WampHost
     {
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="DefaultWampHost"/> listening at
+        /// the given location with the given bindings and the given
+        /// <see cref="IWampRealmContainer"/>.
+        /// </summary>
+        /// <param name="location">The given location.</param>
+        public DefaultWampHost(string location)
+            : this(location: location, supportDualStack: true)
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of <see cref="DefaultWampHost"/> listening at
         /// the given location with the given bindings and the given

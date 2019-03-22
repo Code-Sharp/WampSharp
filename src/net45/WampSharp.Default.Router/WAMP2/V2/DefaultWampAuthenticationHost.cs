@@ -29,6 +29,26 @@ namespace WampSharp.V2
         /// used to accept pending clients.</param>
         /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
         public DefaultWampAuthenticationHost
+        (string location,
+            IWampSessionAuthenticatorFactory sessionAuthenticationFactory)
+            : this(location: location,
+                sessionAuthenticationFactory: sessionAuthenticationFactory,
+                supportDualStack: true,
+                cookieAuthenticatorFactory: null,
+                certificate: null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="DefaultWampAuthenticationHost"/> listening at
+        /// the given location with the given bindings and the given
+        /// <see cref="IWampRealmContainer"/>.
+        /// </summary>
+        /// <param name="location">The given location.</param>
+        /// <param name="sessionAuthenticationFactory">The <see cref="IWampSessionAuthenticatorFactory"/>
+        /// used to accept pending clients.</param>
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
+        public DefaultWampAuthenticationHost
             (string location,
              IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
              bool supportDualStack = true)
