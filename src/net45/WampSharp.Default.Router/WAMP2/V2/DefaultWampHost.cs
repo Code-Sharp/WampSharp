@@ -24,8 +24,9 @@ namespace WampSharp.V2
         /// <see cref="IWampRealmContainer"/>.
         /// </summary>
         /// <param name="location">The given location.</param>
-        public DefaultWampHost(string location)
-            : this(location: location, certificate: null)
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
+        public DefaultWampHost(string location, bool supportDualStack = true)
+            : this(location: location, certificate: null, supportDualStack: supportDualStack)
         {
         }
 
@@ -36,8 +37,9 @@ namespace WampSharp.V2
         /// </summary>
         /// <param name="location">The given location.</param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
-        public DefaultWampHost(string location, X509Certificate2 certificate = null)
-            : this(location: location, bindings: null, certificate: certificate)
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
+        public DefaultWampHost(string location, X509Certificate2 certificate = null, bool supportDualStack = true)
+            : this(location: location, bindings: null, certificate: certificate, supportDualStack: supportDualStack)
         {
         }
 
@@ -49,8 +51,9 @@ namespace WampSharp.V2
         /// <param name="location">The given location.</param>
         /// <param name="bindings">The given bindings.</param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
-        public DefaultWampHost(string location, IEnumerable<IWampBinding> bindings, X509Certificate2 certificate = null)
-            : this(location: location, realmContainer: null, uriValidator: null, bindings: bindings, certificate: certificate)
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
+        public DefaultWampHost(string location, IEnumerable<IWampBinding> bindings, X509Certificate2 certificate = null, bool supportDualStack = true)
+            : this(location: location, realmContainer: null, uriValidator: null, bindings: bindings, certificate: certificate, supportDualStack: supportDualStack)
         {
         }
 
@@ -64,12 +67,15 @@ namespace WampSharp.V2
         /// <param name="uriValidator">The <see cref="IWampUriValidator"/> to use to validate uris.</param>
         /// <param name="bindings">The given bindings.</param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
         public DefaultWampHost(string location,
             IWampRealmContainer realmContainer = null,
             IWampUriValidator uriValidator = null,
             IEnumerable<IWampBinding> bindings = null,
-            X509Certificate2 certificate = null)
-            : this(location: location, realmContainer: null, uriValidator: null, bindings: bindings, certificate: certificate, getEnabledSslProtocols: null)
+            X509Certificate2 certificate = null,
+            bool supportDualStack = true)
+            : this(location: location, realmContainer: null, uriValidator: null, bindings: bindings, 
+                   certificate: certificate, supportDualStack: supportDualStack, getEnabledSslProtocols: null)
         {
         }
 
@@ -83,18 +89,20 @@ namespace WampSharp.V2
         /// <param name="uriValidator">The <see cref="IWampUriValidator"/> to use to validate uris.</param>
         /// <param name="bindings">The given bindings.</param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
         /// <param name="getEnabledSslProtocols"> If non-null, used to set Fleck's EnabledSslProtocols. </param>
         public DefaultWampHost(string location,
             IWampRealmContainer realmContainer = null,
             IWampUriValidator uriValidator = null,
             IEnumerable<IWampBinding> bindings = null,
             X509Certificate2 certificate = null,
+            bool supportDualStack = true,
             Func<SslProtocols> getEnabledSslProtocols = null)
             : base(realmContainer, uriValidator)
         {
             bindings = bindings ?? new IWampBinding[] {new JTokenJsonBinding(), new JTokenMsgpackBinding()};
 
-            this.RegisterTransport(new FleckWebSocketTransport(location, certificate, getEnabledSslProtocols),
+            this.RegisterTransport(new FleckWebSocketTransport(location, certificate, getEnabledSslProtocols, supportDualStack),
                                    bindings.ToArray());
         }
 

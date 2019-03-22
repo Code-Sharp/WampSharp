@@ -27,11 +27,14 @@ namespace WampSharp.V2
         /// <param name="location">The given location.</param>
         /// <param name="sessionAuthenticationFactory">The <see cref="IWampSessionAuthenticatorFactory"/>
         /// used to accept pending clients.</param>
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
         public DefaultWampAuthenticationHost
             (string location,
-             IWampSessionAuthenticatorFactory sessionAuthenticationFactory)
+             IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
+             bool supportDualStack = true)
             : this(location: location,
                    sessionAuthenticationFactory: sessionAuthenticationFactory,
+                   supportDualStack: supportDualStack,
                    cookieAuthenticatorFactory: null,
                    certificate: null)
         {
@@ -48,16 +51,19 @@ namespace WampSharp.V2
         /// <param name="cookieAuthenticatorFactory">The given <see cref="ICookieAuthenticatorFactory"/> used to authenticate
         /// users given their cookies.</param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
         public DefaultWampAuthenticationHost
             (string location,
              IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
              ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
-             X509Certificate2 certificate = null)
+             X509Certificate2 certificate = null,
+             bool supportDualStack = true)
             : this(location: location,
                    sessionAuthenticationFactory: sessionAuthenticationFactory,
                    bindings: null,
                    cookieAuthenticatorFactory: cookieAuthenticatorFactory,
-                   certificate: certificate)
+                   certificate: certificate,
+                   supportDualStack: supportDualStack)
         {
         }
 
@@ -71,18 +77,22 @@ namespace WampSharp.V2
         /// <param name="bindings">The given bindings.</param>
         /// <param name="cookieAuthenticatorFactory"></param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
         public DefaultWampAuthenticationHost
             (string location,
              IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
              IEnumerable<IWampBinding> bindings = null,
              ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
-             X509Certificate2 certificate = null)
+             X509Certificate2 certificate = null,
+             bool supportDualStack = true)
             : this(location: location,
                    sessionAuthenticationFactory: sessionAuthenticationFactory,
                    realmContainer: null,
                    uriValidator: null,
                    bindings: bindings,
-                   cookieAuthenticatorFactory: cookieAuthenticatorFactory, certificate: certificate)
+                   cookieAuthenticatorFactory: cookieAuthenticatorFactory,
+                   certificate: certificate,
+                   supportDualStack: supportDualStack)
         {
         }
 
@@ -101,13 +111,15 @@ namespace WampSharp.V2
         /// <param name="cookieAuthenticatorFactory">The given <see cref="ICookieAuthenticatorFactory"/> used to authenticate
         /// users given their cookies.</param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
         public DefaultWampAuthenticationHost(string location,
             IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
             IWampRealmContainer realmContainer = null,
             IWampUriValidator uriValidator = null,
             IEnumerable<IWampBinding> bindings = null,
             ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
-            X509Certificate2 certificate = null)
+            X509Certificate2 certificate = null,
+            bool supportDualStack = true)
             : this(location: location,
                    sessionAuthenticationFactory: sessionAuthenticationFactory,
                    realmContainer: null,
@@ -115,7 +127,8 @@ namespace WampSharp.V2
                    bindings: bindings,
                    cookieAuthenticatorFactory: cookieAuthenticatorFactory, 
                    certificate: certificate,
-                   getEnabledSslProtocols: null)
+                   getEnabledSslProtocols: null,
+                   supportDualStack: supportDualStack)
         {
         }
 
@@ -134,6 +147,7 @@ namespace WampSharp.V2
         /// <param name="cookieAuthenticatorFactory">The given <see cref="ICookieAuthenticatorFactory"/> used to authenticate
         /// users given their cookies.</param>
         /// <param name="certificate">The <see cref="X509Certificate2"/> certificate to use for secured websockets.</param>
+        /// <param name="supportDualStack">IPv4/IPv6 dual stack support</param>
         /// <param name="getEnabledSslProtocols"> If non-null, used to set Fleck's EnabledSslProtocols. </param>
         public DefaultWampAuthenticationHost(string location,
                                              IWampSessionAuthenticatorFactory sessionAuthenticationFactory,
@@ -142,13 +156,14 @@ namespace WampSharp.V2
                                              IEnumerable<IWampBinding> bindings = null,
                                              ICookieAuthenticatorFactory cookieAuthenticatorFactory = null,
                                              X509Certificate2 certificate = null,
+                                             bool supportDualStack = true,
                                              Func<SslProtocols> getEnabledSslProtocols = null)
             : base(sessionAuthenticationFactory, realmContainer, uriValidator)
         {
             bindings = bindings ?? new IWampBinding[] { new JTokenJsonBinding(), new JTokenMsgpackBinding() };
 
             this.RegisterTransport(
-                new FleckAuthenticatedWebSocketTransport(location, cookieAuthenticatorFactory, certificate, getEnabledSslProtocols),
+                new FleckAuthenticatedWebSocketTransport(location, cookieAuthenticatorFactory, certificate, getEnabledSslProtocols, supportDualStack),
                 bindings.ToArray());
         }
 
