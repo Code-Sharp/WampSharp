@@ -134,6 +134,10 @@ namespace WampSharp.WebSockets
                                             CancellationToken.None)
                                 .ConfigureAwait(false);
             }
+            catch (WebSocketException ex) when (ex.WebSocketErrorCode == WebSocketError.InvalidState)
+            {
+                mLogger.DebugException("Failed closing the websocket as it was already aborted", ex);
+            }
             catch (Exception ex)
             {
                 mLogger.WarnException("Failed sending a close message to client", ex);
