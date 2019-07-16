@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\net45\WampSharp.Default.Client\**\*.cs" Exclude="..\..\net45\WampSharp.Default.Client\**\bin\**;..\..\net45\WampSharp.Default.Client\**\obj\**;" />
+  </ItemGroup>
+  
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+    <DefineConstants>$(DefineConstants);NETCORE;</DefineConstants>
+  </PropertyGroup>
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+    <ProjectReference Include="..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj" />
+    <ProjectReference Include="..\Extensions\WampSharp.WebSockets\WampSharp.WebSockets.csproj" />
+  </ItemGroup>  
+</Project>

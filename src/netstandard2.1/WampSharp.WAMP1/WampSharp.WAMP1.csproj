@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyTitle>WampSharp.WAMP1</AssemblyTitle>
     <Authors>CodeSharp</Authors>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>WampSharp.WAMP1</AssemblyName>
     <PackageId>WampSharp.WAMP1</PackageId>
     <PackageTags>websockets;wampws;rpc;pubsub;wampv2</PackageTags>
@@ -14,11 +14,11 @@
     <Compile Include="..\..\net45\WampSharp.WAMP1\**\*.cs" Exclude="..\..\net45\WampSharp.WAMP1\**\bin\**;..\..\net45\WampSharp.WAMP1\**\obj\**;" />
   </ItemGroup>
   
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
     <DefineConstants>$(DefineConstants);NET45;ASYNC_LOCAL;</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
     <ProjectReference Include="..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
   

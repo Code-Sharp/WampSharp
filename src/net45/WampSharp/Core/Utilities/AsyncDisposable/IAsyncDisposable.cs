@@ -1,3 +1,4 @@
+#if !ASYNC_DISPOSABLE
 using System;
 using System.Threading.Tasks;
 
@@ -17,3 +18,4 @@ namespace SystemEx
         ValueTask DisposeAsync();
     }
 }
+#endif

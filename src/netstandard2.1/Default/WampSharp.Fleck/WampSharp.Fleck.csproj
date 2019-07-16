@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\net45\Default\WampSharp.Fleck\**\*.cs" Exclude="..\..\..\net45\Default\WampSharp.Fleck\**\bin\**;..\..\..\net45\Default\WampSharp.Fleck\**\obj\**;" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+    <DefineConstants>NETCORE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
+    <PackageReference Include="Fleck" Version="1.1.0" />
+  </ItemGroup>
+
+
+</Project>
