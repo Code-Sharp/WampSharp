@@ -135,7 +135,7 @@ namespace WampSharp.Core.Listener
 
 #if ASYNC
 
-        async Task IAsyncDisposable.DisposeAsync()
+        async ValueTask IAsyncDisposable.DisposeAsync()
         {
             if (Interlocked.CompareExchange(ref mDisposeCalled, 1, 0) == 0)
             {

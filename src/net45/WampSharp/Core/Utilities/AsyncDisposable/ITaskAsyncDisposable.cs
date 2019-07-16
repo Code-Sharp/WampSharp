@@ -5,15 +5,14 @@ using System.Threading.Tasks;
 namespace SystemEx
 {
     /// <summary>
-    /// Represents a <see cref="IDisposable"/> which its <see cref="IDisposable.Dispose"/>
-    /// method is async.
+    /// A Task based version of <see cref="IAsyncDisposable"/>.
     /// </summary>
-    public interface IAsyncDisposable
+    internal interface ITaskAsyncDisposable
     {
         /// <summary>
         /// <see cref="IDisposable.Dispose"/>
         /// </summary>
         /// <returns>A task that is finished when dispose is done.</returns>
-        ValueTask DisposeAsync();
+        Task DisposeAsync();
     }
 }

@@ -257,7 +257,7 @@ namespace WampSharp.RawSocket
             ConnectionError?.Invoke(this, e);
         }
 
-        public Task DisposeAsync()
+        public ValueTask DisposeAsync()
         {
             IAsyncDisposable asyncDisposable = Connection;
             return asyncDisposable.DisposeAsync();

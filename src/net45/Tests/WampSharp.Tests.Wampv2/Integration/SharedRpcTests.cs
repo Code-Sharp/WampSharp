@@ -220,7 +220,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 mDisposable = disposable;
             }
 
-            public Task DisposeAsync()
+            public ValueTask DisposeAsync()
             {
                 return mDisposable.DisposeAsync();
             }
