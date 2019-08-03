@@ -122,7 +122,7 @@ namespace WampSharp.RawSocket
                     Connection =
                         CreateInnerConnection(stream, handshakeRequest, handshakeResponse);
 
-                    Task.Run(Connection.HandleTcpClientAsync);
+                    await Task.Run(Connection.HandleTcpClientAsync).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
