@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
-using SystemEx;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
 using WampSharp.V2.DelegatePubSub;

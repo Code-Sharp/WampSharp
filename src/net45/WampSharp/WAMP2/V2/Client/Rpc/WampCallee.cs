@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SystemEx;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;

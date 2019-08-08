@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SystemEx;
 using WampSharp.Core.Message;
 using WampSharp.Logging;
 

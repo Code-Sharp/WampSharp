@@ -1,8 +1,5 @@
 using System;
 using System.Threading.Tasks;
-#if !ASYNC_DISPOSABLE
-using SystemEx;
-#endif
 using WampSharp.V2.Client;
 
 namespace WampSharp.V2.MetaApi

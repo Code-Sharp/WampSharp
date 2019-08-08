@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
-using SystemEx;
 using WampSharp.V2.PubSub;
 using WampSharp.V2.Rpc;
 
