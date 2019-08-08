@@ -54,6 +54,16 @@ namespace WampSharp.WebSockets
 
         protected async void Connect()
         {
+            bool connected = await TryConnect();
+
+            if (connected)
+            {
+                await Task.Run(this.RunAsync, mCancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        private async Task<bool> TryConnect()
+        {
             try
             {
                 await this.ClientWebSocket.ConnectAsync(mAddressUri, mCancellationToken)
@@ -61,13 +71,15 @@ namespace WampSharp.WebSockets
 
                 RaiseConnectionOpen();
 
-                Task task = Task.Run(this.RunAsync, mCancellationToken);
+                return true;
             }
             catch (Exception ex)
             {
                 RaiseConnectionError(ex);
                 RaiseConnectionClosed();
             }
+
+            return false;
         }
 
         public IClientWebSocketWrapper ClientWebSocket => mWebSocket as IClientWebSocketWrapper;

@@ -92,6 +92,16 @@ namespace WampSharp.RawSocket
 
         private async Task InnerConnect()
         {
+            bool connected = await TryConnect().ConfigureAwait(false);
+
+            if (connected)
+            {
+                await Task.Run(Connection.HandleTcpClientAsync).ConfigureAwait(false);
+            }
+        }
+
+        private async Task<bool> TryConnect()
+        {
             try
             {
                 mClient = mClientBuilder();
@@ -115,19 +125,21 @@ namespace WampSharp.RawSocket
                 if (handshakeResponse.IsError)
                 {
                     OnConnectionError(
-                        new WampConnectionErrorEventArgs(new RawSocketProtocolException(handshakeResponse.HandshakeError.Value)));
+                                      new WampConnectionErrorEventArgs(new RawSocketProtocolException(handshakeResponse
+                                                                                                      .HandshakeError.Value)));
                 }
                 else
                 {
                     Connection =
                         CreateInnerConnection(stream, handshakeRequest, handshakeResponse);
-
-                    Task.Run(Connection.HandleTcpClientAsync);
                 }
+
+                return true;
             }
             catch (Exception ex)
             {
                 OnConnectionError(new WampConnectionErrorEventArgs(ex));
+                return false;
             }
         }
 
