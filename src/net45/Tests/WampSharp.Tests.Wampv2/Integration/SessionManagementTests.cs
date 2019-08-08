@@ -7,6 +7,7 @@ using WampSharp.Tests.Wampv2.TestHelpers.Integration;
 using WampSharp.V2;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Client;
+using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Management;
 using WampSharp.V2.Realm;
 using WampSharp.V2.MetaApi;
@@ -17,115 +18,86 @@ namespace WampSharp.Tests.Wampv2.Integration
     public class SessionManagementTests
     {
         [Test]
-        public async Task KillBySessionIdTest()
+        [TestCase(3,5)]
+        [TestCase(7,7, true)]
+        public async Task KillBySessionIdTest(int killer, int killed, bool expectException = false)
         {
-            WampPlayground playground = new WampPlayground();
+            WampPlayground playground = SetupHost();
 
-            playground.Host.Open();
+            List<IWampChannel> channels = new List<IWampChannel>();
+            IDictionary<int, long> channelToSessionId = new Dictionary<int, long>();
 
-            IWampHostedRealm realm =
-                playground.Host.RealmContainer.GetRealmByName("realm1");
+            for (int i = 0; i < 30; i++)
+            {
+                IWampChannel channel = 
+                    playground.CreateNewChannel("realm1");
 
-            IDisposable disposable = realm.HostSessionManagementService();
+                int copyOfKey = i;
 
-            var channel = await playground.GetChannel().ConfigureAwait(false);
-            var channel2 = await playground.GetChannel().ConfigureAwait(false);
-            var channel3 = await playground.GetChannel().ConfigureAwait(false);
+                channel.RealmProxy.Monitor.ConnectionEstablished +=
+                    (sender, args) => { channelToSessionId[copyOfKey] = args.SessionId; };
 
-            bool channelDisconnected = false;
-            channel.Channel.RealmProxy.Monitor.ConnectionBroken +=
-                (sender, args) => { channelDisconnected = true; };
+                channels.Add(channel);
+            }
 
-            bool channel2Disconnected = false;
-            string channel2DisconnectReason = null;
-            string channel2DisconnectMessage = null;
+            Dictionary<int, (string reason, string message)> disconnectionDetails = 
+                await OpenChannels(channels).ConfigureAwait(false);
 
-            channel2.Channel.RealmProxy.Monitor.ConnectionBroken +=
-                (sender, args) =>
-                {
-                    channel2Disconnected = true;
-                    channel2DisconnectReason = args.Reason;
-                    channel2DisconnectMessage = args.Details.Message;
-                };
-
-            bool channel3Disconnected = false;
-
-            channel3.Channel.RealmProxy.Monitor.ConnectionBroken +=
-                (sender, args) => { channel3Disconnected = true; };
-
-            Assert.That(!channelDisconnected &&
-                        !channel2Disconnected &&
-                        !channel3Disconnected,
-                        Is.True, "Channels should be open before calling kill method");
+            Assert.That(disconnectionDetails.Count, Is.EqualTo(0));
 
             IWampSessionManagementServiceProxy proxy =
-                channel.Channel.RealmProxy.Services
-                       .GetCalleeProxy<IWampSessionManagementServiceProxy>();
+                channels[killer].RealmProxy.Services
+                                .GetCalleeProxy<IWampSessionManagementServiceProxy>();
 
             const string expectedReason = "wamp.myreason";
             const string expectedMessage = "Bye bye bye";
 
-            await proxy.KillBySessionIdAsync(channel2.SessionId, expectedReason, expectedMessage)
-                       .ConfigureAwait(false);
+            WampException exception = null;
 
-            Assert.That(channelDisconnected, Is.False);
-            Assert.That(channel3Disconnected, Is.False);
-            Assert.That(channel2Disconnected, Is.True);
-            Assert.That(channel2DisconnectReason, Is.EqualTo(expectedReason));
-            Assert.That(channel2DisconnectMessage, Is.EqualTo(expectedMessage));
+            try
+            {
+                await proxy.KillBySessionIdAsync(channelToSessionId[killed], expectedReason, expectedMessage).ConfigureAwait(false);
+            }
+            catch (WampException ex)
+            {
+                exception = ex;
+            }
+
+            if (expectException)
+            {
+                Assert.That(exception, Is.Not.Null);
+                Assert.That(exception.ErrorUri, Is.EqualTo("wamp.error.no_such_session"));
+            }
+
+            AssertClosedChannels(new []{killed}.Except(new[] {killer}), disconnectionDetails, expectedMessage,
+                                 expectedReason);
         }
 
         [Test]
-        public async Task KillAllTest()
+        [TestCase(0)]
+        [TestCase(5)]
+        [TestCase(7)]
+        public async Task KillAllTest(int killer)
         {
-            WampPlayground playground = new WampPlayground();
+            WampPlayground playground = SetupHost();
 
-            playground.Host.Open();
+            List<IWampChannel> channels = new List<IWampChannel>();
 
-            IWampHostedRealm realm =
-                playground.Host.RealmContainer.GetRealmByName("realm1");
+            for (int i = 0; i < 30; i++)
+            {
+                IWampChannel channel = 
+                    playground.CreateNewChannel("realm1");
 
-            IDisposable disposable = realm.HostSessionManagementService();
+                channels.Add(channel);
+            }
 
-            var channel = await playground.GetChannel().ConfigureAwait(false);
-            var channel2 = await playground.GetChannel().ConfigureAwait(false);
-            var channel3 = await playground.GetChannel().ConfigureAwait(false);
+            Dictionary<int, (string reason, string message)> disconnectionDetails = 
+                await OpenChannels(channels).ConfigureAwait(false);
 
-            bool channelDisconnected = false;
-            channel.Channel.RealmProxy.Monitor.ConnectionBroken +=
-                (sender, args) => { channelDisconnected = true; };
-
-            bool channel2Disconnected = false;
-            string channel2DisconnectReason = null;
-            string channel2DisconnectMessage = null;
-
-            channel2.Channel.RealmProxy.Monitor.ConnectionBroken +=
-                (sender, args) =>
-                {
-                    channel2Disconnected = true;
-                    channel2DisconnectReason = args.Reason;
-                    channel2DisconnectMessage = args.Details.Message;
-                };
-
-            bool channel3Disconnected = false;
-            string channel3DisconnectReason = null;
-            string channel3DisconnectMessage = null;
-
-            channel3.Channel.RealmProxy.Monitor.ConnectionBroken +=
-                (sender, args) =>
-                {
-                    channel3Disconnected = true;
-                    channel3DisconnectReason = args.Reason;
-                    channel3DisconnectMessage = args.Details.Message;
-                };
-
-            Assert.That(!channelDisconnected &&
-                        !channel3Disconnected &&
-                        !channel3Disconnected,
-                        Is.True, "Channels should be open before calling kill method");
+            Assert.That(disconnectionDetails.Count, Is.EqualTo(0));
 
             IWampSessionManagementServiceProxy proxy =
-                channel.Channel.RealmProxy.Services
+                channels[killer].RealmProxy.Services
                        .GetCalleeProxy<IWampSessionManagementServiceProxy>();
 
             const string expectedReason = "wamp.myreason";
@@ -133,21 +105,13 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             await proxy.KillAllAsync(expectedReason, expectedMessage).ConfigureAwait(false);
 
-            Assert.That(channelDisconnected, Is.False);
-            Assert.That(channel2Disconnected, Is.True);
-            Assert.That(channel2DisconnectReason, Is.EqualTo(expectedReason));
-            Assert.That(channel2DisconnectMessage, Is.EqualTo(expectedMessage));
-            Assert.That(channel3Disconnected, Is.True);
-            Assert.That(channel3DisconnectReason, Is.EqualTo(expectedReason));
-            Assert.That(channel3DisconnectMessage, Is.EqualTo(expectedMessage));
+            AssertClosedChannels(Enumerable.Range(0, 30).Except(new[] {killer}), disconnectionDetails, expectedMessage,
+                                 expectedReason);
         }
 
-        [TestCase(0, 3, new []{3,13,23})]
-        [TestCase(4, 4, new []{14,24})]
-        public async Task KillByRoleTest(int killingChannel, int killedChannel, IEnumerable<int> expectedDeadChannels)
+        private static WampPlayground SetupHost()
         {
-            WampAuthenticationPlayground playground =
-                GetWampCraPlayground();
+            WampPlayground playground = new WampPlayground();
 
             playground.Host.Open();
 
@@ -155,11 +119,16 @@ namespace WampSharp.Tests.Wampv2.Integration
                 playground.Host.RealmContainer.GetRealmByName("realm1");
 
             IDisposable disposable = realm.HostSessionManagementService();
+            return playground;
+        }
+
+        [TestCase(0, 3, new []{3,13,23})]
+        [TestCase(4, 4, new []{14,24})]
+        public async Task KillByRoleTest(int killingChannel, int killedChannel, IEnumerable<int> expectedDeadChannels)
+        {
+            WampAuthenticationPlayground playground = SetupAuthenticationHost();
 
             List<IWampChannel> channels = new List<IWampChannel>();
-
-            var disconnectionDetails =
-                new Dictionary<int, (string reason, string message)>();
 
             for (int i = 0; i < 30; i++)
             {
@@ -167,18 +136,9 @@ namespace WampSharp.Tests.Wampv2.Integration
                     playground.CreateNewChannel("realm1", new WampCraClientAuthenticator("user" + i, "secret"));
 
                 channels.Add(channel);
-
-                int keyCopy = i;
-
-                channel.RealmProxy.Monitor.ConnectionBroken +=
-                    (sender, args) =>
-                    {
-                        disconnectionDetails[keyCopy] =
-                            (reason: args.Reason, message: args.Details.Message);
-                    };
-
-                await channel.Open();
             }
+
+            var disconnectionDetails = await OpenChannels(channels).ConfigureAwait(false);
 
             Assert.That(disconnectionDetails.Count, Is.EqualTo(0));
 
@@ -190,14 +150,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             await proxy.KillByAuthRoleAsync("role" + killedChannel, expectedReason, expectedMessage).ConfigureAwait(false);
 
-            Assert.That(disconnectionDetails.Keys, Is.EquivalentTo(expectedDeadChannels));
-
-            foreach (var keyValuePair in disconnectionDetails)
-            {
-                (string reason, string message) details = keyValuePair.Value;
-                Assert.That(details.message, Is.EqualTo(expectedMessage));
-                Assert.That(details.reason, Is.EqualTo(expectedReason));
-            }
+            AssertClosedChannels(expectedDeadChannels, disconnectionDetails, expectedMessage, expectedReason);
         }
 
         [TestCase(2, 1, new []{1,16})]
@@ -205,20 +158,9 @@ namespace WampSharp.Tests.Wampv2.Integration
         [TestCase(3, 40, new int[0])]
         public async Task KillByAuthIdTest(int killingChannel, int killedChannel, IEnumerable<int> expectedDeadChannels)
         {
-            WampAuthenticationPlayground playground =
-                GetWampCraPlayground();
-        
-            playground.Host.Open();
-        
-            IWampHostedRealm realm =
-                playground.Host.RealmContainer.GetRealmByName("realm1");
-        
-            IDisposable disposable = realm.HostSessionManagementService();
-        
+            WampAuthenticationPlayground playground = SetupAuthenticationHost();
+
             List<IWampChannel> channels = new List<IWampChannel>();
-        
-            var disconnectionDetails =
-                new Dictionary<int, (string reason, string message)>();
         
             for (int i = 0; i < 30; i++)
             {
@@ -226,19 +168,11 @@ namespace WampSharp.Tests.Wampv2.Integration
                     playground.CreateNewChannel("realm1", new WampCraClientAuthenticator("user" + i % 15, "secret"));
         
                 channels.Add(channel);
-        
-                int keyCopy = i;
-        
-                channel.RealmProxy.Monitor.ConnectionBroken +=
-                    (sender, args) =>
-                    {
-                        disconnectionDetails[keyCopy] =
-                            (reason: args.Reason, message: args.Details.Message);
-                    };
-        
-                await channel.Open();
             }
-        
+
+            Dictionary<int, (string reason, string message)> disconnectionDetails = 
+                await OpenChannels(channels);
+
             Assert.That(disconnectionDetails.Count, Is.EqualTo(0));
         
             IWampSessionManagementServiceProxy proxy = 
@@ -249,14 +183,58 @@ namespace WampSharp.Tests.Wampv2.Integration
         
             await proxy.KillByAuthIdAsync("user" + killedChannel, expectedReason, expectedMessage).ConfigureAwait(false);
         
+            AssertClosedChannels(expectedDeadChannels, disconnectionDetails, expectedMessage, expectedReason);
+        }
+
+        private static void AssertClosedChannels(IEnumerable<int> expectedDeadChannels, Dictionary<int, (string reason, string message)> disconnectionDetails,
+                                                 string expectedMessage, string expectedReason)
+        {
             Assert.That(disconnectionDetails.Keys, Is.EquivalentTo(expectedDeadChannels));
-        
+
             foreach (var keyValuePair in disconnectionDetails)
             {
                 (string reason, string message) details = keyValuePair.Value;
                 Assert.That(details.message, Is.EqualTo(expectedMessage));
                 Assert.That(details.reason, Is.EqualTo(expectedReason));
             }
+        }
+
+        private static WampAuthenticationPlayground SetupAuthenticationHost()
+        {
+            WampAuthenticationPlayground playground =
+                GetWampCraPlayground();
+
+            playground.Host.Open();
+
+            IWampHostedRealm realm =
+                playground.Host.RealmContainer.GetRealmByName("realm1");
+
+            IDisposable disposable = realm.HostSessionManagementService();
+            return playground;
+        }
+
+        private static async Task<Dictionary<int, (string reason, string message)>> OpenChannels(List<IWampChannel> channels)
+        {
+            var disconnectionDetails =
+                new Dictionary<int, (string reason, string message)>();
+
+            for (int i = 0; i < channels.Count; i++)
+            {
+                int keyCopy = i;
+
+                IWampChannel channel = channels[i];
+
+                channel.RealmProxy.Monitor.ConnectionBroken +=
+                    (sender, args) =>
+                    {
+                        disconnectionDetails[keyCopy] =
+                            (reason: args.Reason, message: args.Details.Message);
+                    };
+
+                await channel.Open();
+            }
+
+            return disconnectionDetails;
         }
 
         private static WampAuthenticationPlayground GetWampCraPlayground()
