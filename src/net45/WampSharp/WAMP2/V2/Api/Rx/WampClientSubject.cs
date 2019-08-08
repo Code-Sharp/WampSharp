@@ -98,7 +98,7 @@ namespace WampSharp.V2
                         (mDisposableTask.Exception == null))
                     {
                         IAsyncDisposable result = mDisposableTask.Result;
-                        result.DisposeAsync().ContinueWith(x =>
+                        result.DisposeAsync().AsTask().ContinueWith(x =>
                         {
                             if (x.Exception != null)
                             {

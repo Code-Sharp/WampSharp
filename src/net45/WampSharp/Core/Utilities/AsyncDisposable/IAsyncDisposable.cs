@@ -1,3 +1,4 @@
+#if !ASYNC_DISPOSABLE
 using System;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace SystemEx
         /// <see cref="IDisposable.Dispose"/>
         /// </summary>
         /// <returns>A task that is finished when dispose is done.</returns>
-        Task DisposeAsync();
+        ValueTask DisposeAsync();
     }
 }
+#endif

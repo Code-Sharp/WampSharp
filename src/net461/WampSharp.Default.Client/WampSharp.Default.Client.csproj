@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\net45\WampSharp.Default.Client\**\*.cs" Exclude="..\..\net45\WampSharp.Default.Client\**\bin\**;..\..\net45\WampSharp.Default.Client\**\obj\**;" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj" />
+    <ProjectReference Include="..\Default\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.csproj" />
+  </ItemGroup>  
+</Project>

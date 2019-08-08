@@ -71,7 +71,6 @@ namespace WampSharp.V2.Client
 
         public void Registered(long requestId, long registrationId)
         {
-
             if (mPendingRegistrations.TryRemove(requestId, out RegisterRequest registerRequest))
             {
                 mRegistrations[registrationId] = registerRequest.Operation;
@@ -81,7 +80,7 @@ namespace WampSharp.V2.Client
 
         private bool IsConnected => mMonitor.IsConnected;
 
-        private class UnregisterDisposable : IAsyncDisposable
+        private class UnregisterDisposable : ITaskAsyncDisposable, IAsyncDisposable
         {
             private readonly WampCallee<TMessage> mCallee;
             private readonly long mRegistrationId;
@@ -100,6 +99,12 @@ namespace WampSharp.V2.Client
                 }
 
                 return mCallee.Unregister(mRegistrationId);
+            }
+
+            ValueTask IAsyncDisposable.DisposeAsync()
+            {
+                Task result = DisposeAsync();
+                return new ValueTask(result);
             }
         }
 

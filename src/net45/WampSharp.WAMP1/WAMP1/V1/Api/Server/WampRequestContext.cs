@@ -1,5 +1,5 @@
 ﻿using System;
-#if !NETSTANDARD2_0
+#if !ASYNC_LOCAL
 using System.Runtime.Remoting.Messaging;
 #else
 using System.Threading;
@@ -14,7 +14,7 @@ namespace WampSharp.V1
     {
         #region Static Members
 
-#if !NETSTANDARD2_0
+#if !ASYNC_LOCAL
         public static WampRequestContext Current
         {
             get => (WampRequestContext) CallContext.LogicalGetData(typeof (WampRequestContext).Name);

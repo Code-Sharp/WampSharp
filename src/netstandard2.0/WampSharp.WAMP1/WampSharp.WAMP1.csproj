@@ -15,7 +15,7 @@
   </ItemGroup>
   
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <DefineConstants>$(DefineConstants);NET45;</DefineConstants>
+    <DefineConstants>$(DefineConstants);NET45;ASYNC_LOCAL;</DefineConstants>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">

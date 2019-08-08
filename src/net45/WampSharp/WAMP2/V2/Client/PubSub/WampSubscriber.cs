@@ -127,7 +127,7 @@ namespace WampSharp.V2.Client
                     request.Options,
                     request.TopicUri);
 
-                IAsyncDisposable disposable =
+                UnsubscribeDisposable disposable =
                     new UnsubscribeDisposable(this, subscription);
 
                 lock (mLock)
@@ -354,7 +354,7 @@ namespace WampSharp.V2.Client
             public long SubscriptionId { get; }
         }
 
-        private class UnsubscribeDisposable : IAsyncDisposable
+        private class UnsubscribeDisposable : ITaskAsyncDisposable, IAsyncDisposable
         {
             private readonly WampSubscriber<TMessage> mParent;
             private readonly Subscription mSubscription;
@@ -368,6 +368,12 @@ namespace WampSharp.V2.Client
             public Task DisposeAsync()
             {
                 return mParent.Unsubscribe(mSubscription);
+            }
+
+            ValueTask IAsyncDisposable.DisposeAsync()
+            {
+                Task result = this.DisposeAsync();
+                return new ValueTask(result);
             }
         }
     }

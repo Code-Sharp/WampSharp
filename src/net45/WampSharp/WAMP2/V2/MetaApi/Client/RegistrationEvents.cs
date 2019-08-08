@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using SystemEx;
 using WampSharp.V2.Client;
