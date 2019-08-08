@@ -116,6 +116,7 @@ namespace WampSharp.V2.Client
 
                 if (!mGoodbyeSent)
                 {
+                    mGoodbyeSent = true;
                     mServerProxy.Goodbye(new GoodbyeDetails(), WampErrors.GoodbyeAndOut);
                 }
                 else

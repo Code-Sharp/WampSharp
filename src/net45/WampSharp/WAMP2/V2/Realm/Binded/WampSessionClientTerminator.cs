@@ -18,8 +18,8 @@ namespace WampSharp.V2.Realm.Binded
         {
             using (mClientProxy as IDisposable)
             {
-                mClientProxy.Goodbye(details, reason);
                 mClientProxy.GoodbyeSent = true;
+                mClientProxy.Goodbye(details, reason);
                 mClientProxy.Realm.Goodbye(mClientProxy.Session, details, reason);
             }
         }

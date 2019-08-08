@@ -183,7 +183,7 @@ namespace WampSharp.V2.Management
         {
             var result = map;
 
-            if (map.TryGetValue(key, out var list))
+            if ((key != null) && (map.TryGetValue(key, out var list)))
             {
                 list = list.Remove(terminator);
 

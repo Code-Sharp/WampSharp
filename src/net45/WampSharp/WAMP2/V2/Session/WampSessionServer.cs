@@ -85,13 +85,18 @@ namespace WampSharp.V2.Session
 
         public virtual void Goodbye(IWampSessionClient client, GoodbyeDetails details, string reason)
         {
-            using (IDisposable disposable = client as IDisposable)
-            {
-                client.Goodbye(details, WampErrors.CloseNormal);
+            IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
 
-                IWampClientProxy<TMessage> wampClient = client as IWampClientProxy<TMessage>;
-                wampClient.GoodbyeSent = true;
-                wampClient.Realm.Goodbye(wampClient.Session, details, reason);
+            if (!wampClient.GoodbyeSent)
+            {
+                using (IDisposable disposable = client as IDisposable)
+                {
+                    wampClient.GoodbyeSent = true;
+
+                    client.Goodbye(details, WampErrors.CloseNormal);
+
+                    wampClient.Realm.Goodbye(wampClient.Session, details, reason);
+                }
             }
         }
 
