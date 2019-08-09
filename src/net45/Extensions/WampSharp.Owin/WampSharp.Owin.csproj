@@ -7,6 +7,6 @@
     <ProjectReference Include="..\WampSharp.WebSockets\WampSharp.WebSockets.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Owin" Version="4.0.1" />
+    <PackageReference Include="Microsoft.Owin" Version="3.0.1" />
   </ItemGroup>
 </Project>
