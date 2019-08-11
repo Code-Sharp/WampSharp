@@ -50,6 +50,8 @@
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{01f80592-26d3-436e-b8da-e95f1ad6e3a7}</Project>
       <Name>WampSharp</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
   </ItemGroup>
 </Project>

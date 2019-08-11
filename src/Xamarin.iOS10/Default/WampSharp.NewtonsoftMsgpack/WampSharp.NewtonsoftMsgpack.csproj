@@ -50,10 +50,14 @@
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{01f80592-26d3-436e-b8da-e95f1ad6e3a7}</Project>
       <Name>WampSharp</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
       <Project>{131b430e-afd7-4a87-a2cd-703fe5f7474b}</Project>
       <Name>WampSharp.NewtonsoftJson</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
   </ItemGroup>
 </Project>

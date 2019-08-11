@@ -47,24 +47,29 @@
     <ProjectReference Include="..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
       <Project>{131b430e-afd7-4a87-a2cd-703fe5f7474b}</Project>
       <Name>WampSharp.NewtonsoftJson</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj">
       <Project>{73c8b5f2-0bb7-4319-aeee-cb1431b9be7a}</Project>
       <Name>WampSharp.NewtonsoftMsgpack</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\Extensions\WampSharp.WebSockets\WampSharp.WebSockets.csproj">
       <Project>{d105f7af-f086-45bf-8a35-ed7e5238c3b5}</Project>
       <Name>WampSharp.WebSockets</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\WampSharp\WampSharp.csproj">
       <Project>{01f80592-26d3-436e-b8da-e95f1ad6e3a7}</Project>
       <Name>WampSharp</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
   </ItemGroup>
-
-  
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);NETCORE;</DefineConstants>
   </PropertyGroup>
-
 </Project>
