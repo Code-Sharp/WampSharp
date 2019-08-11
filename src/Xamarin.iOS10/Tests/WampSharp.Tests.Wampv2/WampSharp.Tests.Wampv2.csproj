@@ -16,9 +16,6 @@
     <PackageReference Include="Moq" Version="4.8.1" />
     <PackageReference Include="NUnit" Version="3.7.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
-    <ProjectReference Include="..\..\WampSharp\WampSharp.csproj" />
-    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
-    <ProjectReference Include="..\WampSharp.Tests.TestHelpers\WampSharp.Tests.TestHelpers.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\**\*.cs" Exclude="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\**\bin\**;..\..\..\net45\Tests\WampSharp.Tests.Wampv2\**\obj\**;" />
