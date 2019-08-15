@@ -70,7 +70,7 @@ namespace WampSharp.RawSocket
                 }
                 catch (Exception ex)
                 {
-                    mLogger.Error("An error occured while trying to accept a client", ex);
+                    mLogger.Error("An error occurred while trying to accept a client", ex);
                 }
             }
         }

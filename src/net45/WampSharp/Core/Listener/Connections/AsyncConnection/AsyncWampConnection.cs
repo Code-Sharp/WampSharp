@@ -30,7 +30,7 @@ namespace WampSharp.Core.Listener
         protected async Task InnerSend(WampMessage<object> message)
         {
             const string errorMessage = 
-                "An error occured while attempting to send a message to remote peer.";
+                "An error occurred while attempting to send a message to remote peer.";
 
             if (IsConnected)
             {
@@ -58,7 +58,7 @@ namespace WampSharp.Core.Listener
         protected Task InnerSend(WampMessage<object> message)
         {
             const string errorMessage =
-                "An error occured while attempting to send a message to remote peer.";
+                "An error occurred while attempting to send a message to remote peer.";
 
             if (IsConnected)
             {
@@ -117,7 +117,7 @@ namespace WampSharp.Core.Listener
 
         protected virtual void RaiseConnectionError(Exception ex)
         {
-            mLogger.Error("A connection error occured", ex);
+            mLogger.Error("A connection error occurred", ex);
             ConnectionError?.Invoke(this, new WampConnectionErrorEventArgs(ex));
         }
         
