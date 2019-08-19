@@ -52,7 +52,7 @@ namespace WampSharp.V2.Rpc
         void Result<TMessage>(IWampFormatter<TMessage> formatter, TDetailsOptions details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords);
 
         /// <summary>
-        /// Occurs when an error has occured.
+        /// Occurs when an error has occurred.
         /// </summary>
         /// <param name="formatter">The formatter that can be used to deserialize arguments.</param>
         /// <param name="details">The details associated with this error.</param>
@@ -61,7 +61,7 @@ namespace WampSharp.V2.Rpc
         void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error);
 
         /// <summary>
-        /// Occurs when an error has occured.
+        /// Occurs when an error has occurred.
         /// </summary>
         /// <param name="formatter">The formatter that can be used to deserialize arguments.</param>
         /// <param name="details">The details associated with this error.</param>
@@ -71,7 +71,7 @@ namespace WampSharp.V2.Rpc
         void Error<TMessage>(IWampFormatter<TMessage> formatter, TMessage details, string error, TMessage[] arguments);
 
         /// <summary>
-        /// Occurs when an error has occured.
+        /// Occurs when an error has occurred.
         /// </summary>
         /// <param name="formatter">The formatter that can be used to deserialize arguments.</param>
         /// <param name="details">The details associated with this error.</param>

@@ -50,7 +50,7 @@ namespace WampSharp.V2.CalleeProxy
             }
             catch (Exception ex)
             {
-                mLogger.Error("An error occured while trying to populate out/ref parameters", ex);
+                mLogger.Error("An error occurred while trying to populate out/ref parameters", ex);
                 SetException(ex);
             }
         }

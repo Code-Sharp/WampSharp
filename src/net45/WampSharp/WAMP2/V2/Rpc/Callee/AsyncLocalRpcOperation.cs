@@ -66,7 +66,7 @@ namespace WampSharp.V2.Rpc
             }
             catch (Exception ex)
             {
-                mLogger.ErrorFormat(ex, "An error occured while calling {ProcedureUri}", this.Procedure);
+                mLogger.ErrorFormat(ex, "An error occurred while calling {ProcedureUri}", this.Procedure);
 
 
                 if (!(ex is WampException wampException))
@@ -109,7 +109,7 @@ namespace WampSharp.V2.Rpc
             }
             catch (WampException ex)
             {
-                mLogger.ErrorFormat(ex, "An error occured while calling {0}", this.Procedure);
+                mLogger.ErrorFormat(ex, "An error occurred while calling {0}", this.Procedure);
                 IWampErrorCallback callback = new WampRpcErrorCallback(caller);
                 callback.Error(ex);
             }
@@ -128,7 +128,7 @@ namespace WampSharp.V2.Rpc
             {
                 Exception innerException = task.Exception.InnerException;
 
-                mLogger.ErrorFormat(innerException, "An error occured while calling {0}", this.Procedure);
+                mLogger.ErrorFormat(innerException, "An error occurred while calling {0}", this.Procedure);
 
                 WampException wampException = innerException as WampException;
                 

@@ -63,7 +63,7 @@ namespace WampSharp.WebSocket4Net
 
         private void WebSocketOnError(object sender, ErrorEventArgs e)
         {
-            mLogger.Error("A connection error occured", e.Exception);
+            mLogger.Error("A connection error occurred", e.Exception);
             RaiseConnectionError(e.Exception);
         }
 
