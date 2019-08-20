@@ -25,11 +25,11 @@ namespace WampSharp.Samples.WampCra.Router
             IWampHostedRealm realm = host.RealmContainer.GetRealmByName("realm1");
 
             string[] topics = new[]
-            {
-                "com.example.topic1",
-                "com.foobar.topic1",
-                "com.foobar.topic2"
-            };
+                              {
+                                  "com.example.topic1",
+                                  "com.foobar.topic1",
+                                  "com.foobar.topic2"
+                              };
 
             foreach (string topic in topics)
             {
@@ -62,69 +62,65 @@ namespace WampSharp.Samples.WampCra.Router
         {
             public MyAuthenticationProvider() :
                 base(new Dictionary<string, IDictionary<string, WampAuthenticationRole>>()
-                {
-                    {
-                        "realm1", new Dictionary<string, WampAuthenticationRole>()
-                        {
-                            {
-                                "frontend",
-                                new WampAuthenticationRole
-                                {
-                                    Authorizer = new WampStaticAuthorizer(new List<WampUriPermissions>
-                                    {
-                                        new WampUriPermissions
-                                        {
-                                            Uri = "com.example.add2",
-                                            CanCall = true
-                                        },
-                                        new WampUriPermissions
-                                        {
-                                            Uri = "com.example.",
-                                            Prefixed = true,
-                                            CanPublish = true
-                                        },
-                                        new WampUriPermissions
-                                        {
-                                            Uri = "com.example.topic2",
-                                            CanPublish = false
-                                        },
-                                        new WampUriPermissions
-                                        {
-                                            Uri = "com.foobar.topic1",
-                                            CanPublish = true
-                                        },
-                                    })
-                                }
-                            }
-                        }
-                    }
-                })
+                     {
+                         ["realm1"] =
+                             new Dictionary<string, WampAuthenticationRole>()
+                             {
+                                 ["frontend"] =
+                                     new WampAuthenticationRole
+                                     {
+                                         Authorizer =
+                                             new WampStaticAuthorizer
+                                                 (new List<WampUriPermissions>
+                                                  {
+                                                      new WampUriPermissions
+                                                      {
+                                                          Uri = "com.example.add2",
+                                                          CanCall = true
+                                                      },
+                                                      new WampUriPermissions
+                                                      {
+                                                          Uri = "com.example.",
+                                                          Prefixed = true,
+                                                          CanPublish = true
+                                                      },
+                                                      new WampUriPermissions
+                                                      {
+                                                          Uri = "com.example.topic2",
+                                                          CanPublish = false
+                                                      },
+                                                      new WampUriPermissions
+                                                      {
+                                                          Uri = "com.foobar.topic1",
+                                                          CanPublish = true
+                                                      },
+                                                  })
+                                     }
+                             }
+                     })
             {
             }
         }
 
         private class MyUserDb : WampCraStaticUserDb
         {
-            public MyUserDb() : base(new Dictionary<string, WampCraUser>()
-            {
-                {
-                    "joe", new WampCraUser()
-                    {
-                        Secret = "secret2",
-                        AuthenticationRole = "frontend"
-                    }
-                },
-                {
-                    "peter", new WampCraUser()
-                    {
-                        Secret = "prq7+YkJ1/KlW1X0YczMHw==",
-                        AuthenticationRole = "frontend",
-                        Salt = "salt123",
-                        Iterations = 100,
-                        KeyLength = 16
-                    }
-                },
-            })
+            public MyUserDb() : 
+                base(new Dictionary<string, WampCraUser>
+                                     {
+                                         ["joe"] = new WampCraUser()
+                                                   {
+                                                       Secret = "secret2",
+                                                       AuthenticationRole = "frontend"
+                                                   },
+                                         ["peter"] = new WampCraUser()
+                                                     {
+                                                         Secret = "prq7+YkJ1/KlW1X0YczMHw==",
+                                                         AuthenticationRole = "frontend",
+                                                         Salt = "salt123",
+                                                         Iterations = 100,
+                                                         KeyLength = 16
+                                                     }
+                                     })
             {
             }
         }
