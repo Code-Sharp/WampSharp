@@ -16,7 +16,7 @@ namespace WampSharp.Samples.WampCra.Client
 
             IWampClientAuthenticator authenticator;
 
-            if (true)
+            if (false)
             {
                 authenticator = new WampCraClientAuthenticator(authenticationId: "joe", secret: "secret2");
             }
