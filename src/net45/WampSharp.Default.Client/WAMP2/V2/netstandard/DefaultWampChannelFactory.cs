@@ -1,4 +1,4 @@
-﻿#if NETCORE
+﻿#if !PCL
 using System;
 using WampSharp.Binding;
 using WampSharp.Core.Listener;
