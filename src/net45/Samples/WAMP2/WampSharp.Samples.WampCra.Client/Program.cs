@@ -10,27 +10,13 @@ namespace WampSharp.Samples.WampCra.Client
 {
     public class Program
     {
-        static void Main(string[] args)
-        {
-#if NET45
-            Task clientTask = ClientCode();
-            clientTask.Wait();
-#else
-            ClientCode();
-#endif
-        }
-
-#if NET45
-        public static async Task ClientCode()
-#else
-        public static void ClientCode()
-#endif
+        static async Task Main(string[] arguments)
         {
             DefaultWampChannelFactory channelFactory = new DefaultWampChannelFactory();
 
             IWampClientAuthenticator authenticator;
 
-            if (false)
+            if (true)
             {
                 authenticator = new WampCraClientAuthenticator(authenticationId: "joe", secret: "secret2");
             }
@@ -42,10 +28,10 @@ namespace WampSharp.Samples.WampCra.Client
 
             IWampChannel channel =
                 channelFactory.ConnectToRealm("realm1")
-                    .WebSocketTransport("ws://127.0.0.1:8080/ws")
-                    .JsonSerialization()
-                    .CraAuthentication("peter", "secret1")
-                    .Build();
+                              .WebSocketTransport(new Uri("ws://127.0.0.1:8080/ws"))
+                              .JsonSerialization()
+                              .CraAuthentication("peter", "secret1")
+                              .Build();
 
             channel.RealmProxy.Monitor.ConnectionEstablished +=
                 (sender, args) =>
@@ -62,30 +48,24 @@ namespace WampSharp.Samples.WampCra.Client
                 };
 
             channel.RealmProxy.Monitor.ConnectionBroken += (sender, args) =>
-            {
-                dynamic details = args.Details.OriginalValue.Deserialize<dynamic>();
-                Console.WriteLine("disconnected " + args.Reason + " " + details.reason + details);
-            };
+                                                           {
+                                                               dynamic details =
+                                                                   args.Details.OriginalValue.Deserialize<dynamic>();
+                                                               Console.WriteLine("disconnected " + args.Reason + " " +
+                                                                                 details.reason + details);
+                                                           };
 
             IWampRealmProxy realmProxy = channel.RealmProxy;
 
-#if NET45
             await channel.Open().ConfigureAwait(false);
-#else
-            channel.Open().Wait();
-#endif
+
             // call a procedure we are allowed to call (so this should succeed)
             //
             IAdd2Service proxy = realmProxy.Services.GetCalleeProxy<IAdd2Service>();
 
             try
             {
-#if NET45
-                var five = await proxy.Add2Async(2, 3)
-                    .ConfigureAwait(false);
-#else
-                var five = proxy.Add2Async(2, 3).Result;
-#endif
+                var five = await proxy.Add2Async(2, 3);
                 Console.WriteLine("call result {0}", five);
             }
             catch (Exception e)
@@ -99,28 +79,15 @@ namespace WampSharp.Samples.WampCra.Client
 
             try
             {
-#if NET45
                 await realmProxy.Services.RegisterCallee(service)
-                    .ConfigureAwait(false);
-#else
-                realmProxy.Services.RegisterCallee(service)
-                    .Wait();
-#endif
+                                .ConfigureAwait(false);
 
                 Console.WriteLine("huh, function registered!");
             }
-#if NET45
             catch (WampException ex)
             {
                 Console.WriteLine("registration failed - this is expected: " + ex.ErrorUri);
             }
-#else
-            catch (AggregateException ex)
-            {
-                WampException innerException = ex.InnerException as WampException;
-                Console.WriteLine("registration failed - this is expected: " + innerException.ErrorUri);
-            }
-#endif
 
             // (try to) publish to some topics
             //
@@ -139,32 +106,20 @@ namespace WampSharp.Samples.WampCra.Client
 
                 try
                 {
-#if NET45
-                    await topicProxy.Publish(new PublishOptions() { Acknowledge = true },
-                        new object[] { "hello" })
-                        .ConfigureAwait(false);
-#else
-                    topicProxy.Publish(new PublishOptions() { Acknowledge = true },
-                        new object[] { "hello" })
-                        .Wait();
-#endif
+                    await topicProxy.Publish(new PublishOptions() {Acknowledge = true},
+                                             new object[] {"hello"})
+                                    .ConfigureAwait(false);
+
                     Console.WriteLine("event published to topic " + topic);
                 }
-#if NET45
                 catch (WampException ex)
                 {
                     Console.WriteLine("publication to topic " + topic + " failed: " + ex.ErrorUri);
                 }
-#else
-                catch (AggregateException ex)
-                {
-                    WampException innerException = ex.InnerException as WampException;
-                    Console.WriteLine("publication to topic " + topic + " failed: " + innerException.ErrorUri);
-                }
-#endif
             }
-        }
 
+            Console.ReadLine();
+        }
 
         public interface IAdd2Service
         {
