@@ -5,4 +5,12 @@
     <TargetFrameworks>net461;netcoreapp3.0</TargetFrameworks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WampSharp.Samples.Common\WampSharp.Samples.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 </Project>

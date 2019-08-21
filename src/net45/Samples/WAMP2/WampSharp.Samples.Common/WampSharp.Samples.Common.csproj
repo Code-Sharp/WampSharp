@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netcoreapp3.0</TargetFrameworks>
+    <LangVersion>8</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine.Experimental" Version="0.3.0-alpha.19405.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
+    <ProjectReference Include="..\..\..\Default\WampSharp.NewtonsoftMessagePack\WampSharp.NewtonsoftMessagePack.csproj" />
+    <ProjectReference Include="..\..\..\Extensions\WampSharp.RawSocket\WampSharp.RawSocket.csproj" />
+    <ProjectReference Include="..\..\..\Extensions\WampSharp.WebSockets\WampSharp.WebSockets.csproj" />
+    <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj" />
+  </ItemGroup>
+
+</Project>

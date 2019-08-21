@@ -11,15 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
-    <ProjectReference Include="..\..\..\Default\WampSharp.NewtonsoftMessagePack\WampSharp.NewtonsoftMessagePack.csproj" />
-    <ProjectReference Include="..\..\..\Extensions\WampSharp.RawSocket\WampSharp.RawSocket.csproj" />
-    <ProjectReference Include="..\..\..\Extensions\WampSharp.WebSockets\WampSharp.WebSockets.csproj" />
-    <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\WampSharp.Samples.Common\WampSharp.Samples.Common.csproj" />
   </ItemGroup>
 
 </Project>
