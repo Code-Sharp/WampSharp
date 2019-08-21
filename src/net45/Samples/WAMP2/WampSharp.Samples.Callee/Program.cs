@@ -18,7 +18,7 @@ namespace WampSharp.Samples.Callee
 
             await channel.Open();
 
-            BasicService service = new BasicService();
+            ArgumentsService service = new ArgumentsService();
 
             await using (IAsyncDisposable disposable =
                 await channel.RealmProxy.Services.RegisterCallee(service))
