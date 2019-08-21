@@ -3,7 +3,6 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Callee
 {
-    [Sample("timeservice")]
     public class TimeService
     {
         [WampProcedure("com.timeservice.now")]

@@ -1,147 +1,163 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using System.CommandLine;
+using System.CommandLine.Builder;
+using System.CommandLine.Invocation;
+using System.IO;
 using System.Threading.Tasks;
-using WampSharp.Binding;
 using WampSharp.V2;
-using WampSharp.V2.Binding;
-using WampSharp.V2.Core.Contracts;
-using WampSharp.V2.Realm;
-using WampSharp.V2.Rpc;
+using WampSharp.V2.Client;
+using WampSharp.V2.Fluent;
 
 namespace WampSharp.Samples.Callee
 {
-    internal class Program
+    class Program
     {
-        private static void Main(string[] args)
+        async static Task Main(string[] args)
         {
-            if (args == null || args.Length == 0)
+            IWampChannel channel = CreateWampChannel(args);
+
+            await channel.Open();
+
+            BasicService service = new BasicService();
+
+            await using (IAsyncDisposable disposable =
+                await channel.RealmProxy.Services.RegisterCallee(service))
             {
-                Console.WriteLine("Usage: WampSharp.Samples.Callee.exe sample [client|router]");
-                Console.WriteLine("Where sample is one of the following values:");
+                Console.WriteLine($"Registered {service.GetType().Name}!");
 
-                foreach (string name in
-                    typeof(SampleAttribute).Assembly
-                            .GetExportedTypes()
-                            .Where(x => x.IsDefined(typeof (SampleAttribute), true))
-                            .Select(x => x.GetCustomAttribute<SampleAttribute>().Name))
-                {
-                    Console.WriteLine(" {0}", name);
-                }
+                await Task.Yield();
 
-                args = new string[] {"timeservice", "router"};
-            }
-
-            string sampleName = args[0];
-            string routerOrClient = args[1];
-
-            bool router = StringComparer.InvariantCultureIgnoreCase.Equals(routerOrClient, "router");
-
-            Type sampleType = GetSampleType(sampleName);
-
-            IEnumerable<IWampRpcOperation> operations = 
-                GetSampleOperations(sampleType);
-
-            string serverAddress = "ws://127.0.0.1:8080/ws";
-
-            if (router)
-            {
-                RouterCode(serverAddress, operations);
-            }
-            else
-            {
-                ClientCode(serverAddress, operations);
-            }
-        }
-
-        private static void RouterCode(string serverAddress, IEnumerable<IWampRpcOperation> operations)
-        {
-            DefaultWampHost host =
-                new DefaultWampHost(serverAddress, new IWampBinding[]
-                    {
-                        new JTokenMsgpackBinding(),
-                        new JTokenJsonBinding(), 
-                    });
-
-            IWampRealm realm = host.RealmContainer.GetRealmByName("realm1");
-
-            foreach (IWampRpcOperation operation in operations)
-            {
-                realm.RpcCatalog.Register(operation, new RegisterOptions());
-            }
-
-            host.Open();
-            Console.WriteLine("Server is up");
-            Console.ReadLine();
-        }
-
-        private static void ClientCode(string serverAddress, IEnumerable<IWampRpcOperation> operations)
-        {
-            DefaultWampChannelFactory factory = new DefaultWampChannelFactory();
-
-            IWampChannel channel =
-                factory.CreateJsonChannel(serverAddress, "realm1");
-
-            Task task = channel.Open();
-            task.Wait(5000);
-
-            if (!task.IsCompleted)
-            {
-                Console.WriteLine("Server might be down.");
-                Console.WriteLine("Press any key to exit...");
                 Console.ReadLine();
-                Environment.Exit(0);
+            }
+        }
+
+        private static IWampChannel CreateWampChannel(string[] args)
+        {
+            (string address, int port, string realm, Transport transport, Serialization serialization) =
+                ParseOptions(args);
+
+            WampChannelFactory factory = new WampChannelFactory();
+
+            var realmSyntax =
+                factory.ConnectToRealm(realm);
+
+            ChannelFactorySyntax.ITransportSyntax transportSyntax = default;
+
+            if (transport == Transport.WebSocket)
+            {
+                transportSyntax = realmSyntax.WebSocketTransport(new Uri($"ws://{address}:{port}"));
+            }
+            else if (transport == Transport.RawSocket)
+            {
+                transportSyntax = realmSyntax.RawSocketTransport(address, port);
+            }
+
+            ChannelFactorySyntax.ISerializationSyntax serializationSyntax;
+
+            if (serialization == Serialization.Json)
+            {
+                serializationSyntax = transportSyntax.JsonSerialization();
             }
             else
             {
-                Console.WriteLine("Connected to server.");
+                serializationSyntax = transportSyntax.MessagePackSerialization();
             }
 
-            var tasks = new List<Task>();
-
-            foreach (IWampRpcOperation operation in operations)
-            {
-                Task registrationTask = channel.RealmProxy.RpcCatalog.Register(operation, new RegisterOptions());
-                tasks.Add(registrationTask);
-            }
-
-            bool complete = Task.WaitAll(tasks.ToArray(), TimeSpan.FromSeconds(30));
-
-            if (complete)
-            {
-                Console.WriteLine("All operations registered.");
-            }
-
-            Console.ReadLine();
+            IWampChannel channel = serializationSyntax.Build();
+            return channel;
         }
 
-        private static IEnumerable<IWampRpcOperation> GetSampleOperations(Type sampleType)
+        private static (string address, int port, string realm, Transport transport, Serialization serialization) ParseOptions(string[] args)
         {
-            object instance = Activator.CreateInstance(sampleType);
+            const string defaultAddress = "127.0.0.1";
+            Option optionAddress =
+                new Option("--address",
+                           $"Remote router address. Defaults to {defaultAddress}.")
+                {
+                    Argument = new Argument<string>()
+                };
+            optionAddress.AddAlias("-a");
+            optionAddress.Argument.SetDefaultValue(defaultAddress);
 
-            foreach (MethodInfo method in
-                sampleType.GetMethods()
-                          .Where(x => x.IsDefined(typeof (WampProcedureAttribute), true)))
-            {
-                string procedure = method.GetCustomAttribute<WampProcedureAttribute>().Procedure;
-                yield return new SyncMethodInfoRpcOperation(() => instance, method, procedure);
-            }
+            const int defaultPort = 8080;
+            Option optionPort =
+                new Option("--port",
+                           $"Remote router port. Defaults to {defaultPort}")
+                {
+                    Argument = new Argument<int>()
+                };
+            optionPort.AddAlias("-p");
+            optionPort.Argument.SetDefaultValue(defaultPort);
 
-            foreach (Type nestedType in
-                sampleType.GetNestedTypes(BindingFlags.NonPublic |
-                                          BindingFlags.Public)
-                          .Where(x => typeof (IWampRpcOperation).IsAssignableFrom(x)))
-            {
-                yield return (IWampRpcOperation) Activator.CreateInstance(nestedType);
-            }
+            string defaultRealm = "realm1";
+            Option optionRealm =
+                new Option("--realm", $"Remote router realm. Defaults to {defaultRealm}")
+                {
+                    Argument = new Argument<string>()
+                };
+            optionRealm.AddAlias("-r");
+            optionRealm.Argument.SetDefaultValue(defaultRealm);
+
+            const Transport defaultTransport = Transport.WebSocket;
+            Option optionTransport = new Option("--transport",
+                                          $"Transport to use in order to connect to remote router. Default is {defaultTransport}")
+                               {
+                                   Argument = new Argument<Transport>()
+                               };
+            optionTransport.AddAlias("-t");
+            optionTransport.Argument.SetDefaultValue(defaultTransport);
+
+
+            const Serialization defaultSerialization = Serialization.Json;
+            Option optionSerialization = new Option("--serialization",
+                                          $"Serialization to use in order to connect to remote router. Default is {defaultSerialization}")
+                               {
+                                   Argument = new Argument<Serialization>()
+                               };
+            optionSerialization.AddAlias("-s");
+            optionSerialization.Argument.SetDefaultValue(defaultSerialization);
+            
+            string userAddress = default; 
+            int userPort = default; 
+            string userRealm = default; 
+            Transport userTransport = default; 
+            Serialization userSerialization = default;
+
+            Parser parser =
+                new CommandLineBuilder(new RootCommand
+                                       {
+                                           Handler = CommandHandler
+                                               .Create<string, int, string, Transport, Serialization>
+                                                   ((address, port, realm, transport, serialization) =>
+                                                        (userAddress, userPort, userRealm, userTransport,
+                                                         userSerialization) = 
+                                                        (address, port, realm, transport, serialization))
+                                       })
+                    .AddOption(optionAddress)
+                    .AddOption(optionPort)
+                    .AddOption(optionRealm)
+                    .AddOption(optionTransport)
+                    .AddOption(optionSerialization)
+                    .Build();
+
+            parser.Invoke(args);
+
+            return (userAddress, userPort, userRealm, userTransport,
+                    userSerialization);
         }
+    }
 
-        private static Type GetSampleType(string sampleName)
-        {
-            return typeof(SampleAttribute).Assembly.GetExportedTypes()
-                           .Where(x => x.IsDefined(typeof(SampleAttribute), true))
-                           .FirstOrDefault(x => StringComparer.InvariantCultureIgnoreCase.Equals(x.GetCustomAttribute<SampleAttribute>().Name, sampleName));
-        }
+
+    enum Serialization
+    {
+        Json,
+        Msgpack
+    }
+
+    enum Transport
+    {
+        WebSocket,
+        Ws = WebSocket,
+        RawSocket
     }
 }

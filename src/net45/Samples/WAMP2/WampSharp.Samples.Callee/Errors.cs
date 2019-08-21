@@ -7,8 +7,7 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Callee
 {
-    [Sample("errors")]
-    public class ErrorsService
+    public class ErrorService
     {
         [WampProcedure("com.myapp.sqrt")]
         public int Sqrt(int x)
@@ -46,14 +45,14 @@ namespace WampSharp.Samples.Callee
 
             if ((name.Length < 3) || (name.Length > 10))
             {
-                object[] arguments = new object[] {};
+                object[] arguments = {};
 
                 IDictionary<string, object> argumentKeywords =
                     new Dictionary<string, object>()
-                        {
-                            {"min", 3},
-                            {"max", 10}
-                        };
+                    {
+                        {"min", 3},
+                        {"max", 10}
+                    };
 
                 throw new WampException("com.myapp.error.invalid_length", arguments, argumentKeywords);
             }
@@ -92,13 +91,13 @@ namespace WampSharp.Samples.Callee
 
             public AppException1(IDictionary<string, object> details, string message,
                                  IDictionary<string, object> argumentsKeywords) :
-                                     base(details, ErrorUri, message, argumentsKeywords)
+                base(details, ErrorUri, message, argumentsKeywords)
             {
             }
 
             public AppException1(IDictionary<string, object> details, object[] arguments,
                                  IDictionary<string, object> argumentsKeywords, string message, Exception inner) :
-                                     base(details, ErrorUri, arguments, argumentsKeywords, message, inner)
+                base(details, ErrorUri, arguments, argumentsKeywords, message, inner)
             {
             }
 
