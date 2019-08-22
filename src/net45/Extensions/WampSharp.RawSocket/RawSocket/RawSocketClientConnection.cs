@@ -37,9 +37,11 @@ namespace WampSharp.RawSocket
             mClientBuilder = clientBuilder;
             mConnector = connector;
 
-            if (!(parser is JsonBinding<TMessage> || parser is MsgPackBinding<TMessage>))
+            if (!(parser is JsonBinding<TMessage> || 
+                  parser is MsgPackBinding<TMessage> || 
+                  parser is CborBinding<TMessage>))
             {
-                throw new ArgumentException("Expected Json or MsgPack binding", nameof(parser));
+                throw new ArgumentException("Expected Json, MsgPack or Cbor binding", nameof(parser));
             }
 
             mParser = parser;
@@ -207,6 +209,8 @@ namespace WampSharp.RawSocket
                     return SerializerType.Json;
                 case WampSubProtocols.MsgPackSubProtocol:
                     return SerializerType.MsgPack;
+                case WampSubProtocols.CborSubProtocol:
+                    return SerializerType.Cbor;
             }
 
             return SerializerType.Illegal;

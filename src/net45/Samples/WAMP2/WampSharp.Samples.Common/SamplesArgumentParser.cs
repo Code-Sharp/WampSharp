@@ -37,9 +37,13 @@ namespace WampSharp.Samples
             {
                 serializationSyntax = transportSyntax.JsonSerialization();
             }
-            else
+            else if (serialization == Serialization.Msgpack)
             {
                 serializationSyntax = transportSyntax.MessagePackSerialization();
+            }
+            else
+            {
+                serializationSyntax = transportSyntax.CborSerialization();
             }
 
             IWampChannel channel = serializationSyntax.Build();
@@ -129,7 +133,8 @@ namespace WampSharp.Samples
     enum Serialization
     {
         Json,
-        Msgpack
+        Msgpack,
+        Cbor
     }
 
     enum Transport

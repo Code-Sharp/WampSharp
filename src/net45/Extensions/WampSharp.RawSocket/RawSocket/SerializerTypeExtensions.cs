@@ -12,6 +12,8 @@ namespace WampSharp.RawSocket
                     return WampSubProtocols.JsonSubProtocol;
                 case SerializerType.MsgPack:
                     return WampSubProtocols.MsgPackSubProtocol;
+                case SerializerType.Cbor:
+                    return WampSubProtocols.CborSubProtocol;
             }
 
             return serializerType.ToString();

@@ -22,9 +22,10 @@ namespace WampSharp.RawSocket
             }
 
             if (serializerType != SerializerType.Json && 
-                serializerType != SerializerType.MsgPack)
+                serializerType != SerializerType.MsgPack &&
+                serializerType != SerializerType.Cbor)
             {
-                throw new ArgumentException("Expected a value between 1 to 2", nameof(serializerType));
+                throw new ArgumentException("Expected a value between 1 to 3", nameof(serializerType));
             }
 
             SecondOctet = (byte) ((maxLength << 4) + (byte)serializerType);
