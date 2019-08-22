@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
-using Newtonsoft.Msgpack;
+using Newtonsoft.MessagePack;
 using WampSharp.Newtonsoft;
 
-namespace WampSharp.Msgpack
+namespace WampSharp.MessagePack
 {
-    public class MessagePackParser : BinaryJTokenMessageParser
+    public sealed class MessagePackParser : BinaryJTokenMessageParser
     {
         public MessagePackParser(JsonSerializer serializer) : base(serializer)
         {
@@ -19,7 +19,7 @@ namespace WampSharp.Msgpack
 
         protected override JsonWriter GetWriter(Stream stream)
         {
-            return new MessagePackWriter(stream) {WriteDateTimeAsString = true};
+            return new MessagePackWriter(stream);
         }
     }
 }
