@@ -1,12 +1,28 @@
 ﻿using System;
+using System.Threading.Tasks;
+using WampSharp.V2;
 
 namespace WampSharp.Samples.Subscriber
 {
     class Program
     {
-        static void Main(string[] args)
+        async static Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IWampChannel channel = SamplesArgumentParser.CreateWampChannel(args);
+
+            await channel.Open();
+
+            ComplexSubscriber service = new ComplexSubscriber();
+
+            await using (IAsyncDisposable disposable =
+                await channel.RealmProxy.Services.RegisterSubscriber(service))
+            {
+                Console.WriteLine($"Subscribered {service.GetType().Name}!");
+
+                await Task.Yield();
+
+                Console.ReadLine();
+            }
         }
     }
 }

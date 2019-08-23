@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WampSharp.Samples.Subscriber": {
+      "commandName": "Project",
+      "commandLineArgs": "-a 127.0.0.1 -p 8080 -r realm1 -t rawsocket -s cbor"
+    }
+  }
+}
