@@ -31,7 +31,7 @@ namespace WampSharp.Newtonsoft
                     {
                         if (mLogger.IsDebugEnabled())
                         {
-                            mLogger.DebugFormat("Trying to parse msgpack message: {MsgPackMessage}",
+                            mLogger.DebugFormat("Trying to parse binary message: {BinaryMessage}",
                                                 Convert.ToBase64String(raw));
                         }
 
@@ -39,7 +39,7 @@ namespace WampSharp.Newtonsoft
 
                         if (mLogger.IsDebugEnabled())
                         {
-                            mLogger.DebugFormat("Parsed msgpack message: {Message}",
+                            mLogger.DebugFormat("Parsed binary message: {Message}",
                                 token.ToString(Formatting.None));
                         }
 
@@ -49,7 +49,7 @@ namespace WampSharp.Newtonsoft
                     }
                     catch (Exception ex)
                     {
-                        mLogger.ErrorFormat(ex, "Failed parsing msgpack message: {MsgPackMessage}",
+                        mLogger.ErrorFormat(ex, "Failed parsing binary message: {BinaryMessage}",
                             Convert.ToBase64String(raw));
 
                         throw;
@@ -78,7 +78,7 @@ namespace WampSharp.Newtonsoft
 
                     if (mLogger.IsDebugEnabled())
                     {
-                        mLogger.DebugFormat("Formatted message: {MsgPackMessage}",
+                        mLogger.DebugFormat("Formatted message: {BinaryMessage}",
                             Convert.ToBase64String(result));
                     }
 
