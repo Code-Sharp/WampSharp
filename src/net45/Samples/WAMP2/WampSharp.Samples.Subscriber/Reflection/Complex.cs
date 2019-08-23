@@ -24,8 +24,7 @@ namespace WampSharp.Samples.Subscriber
 
         public void OnTopic2(int number1, int number2, string c, MyClass d)
         {
-            Console.WriteLine("Got event: number1:{0}, number2:{1}, c:{2}, d:{3}",
-                              number1, number2, c, d);
+            Console.WriteLine($@"Got event: number1:{number1}, number2:{number2}, c:""{c}"", d:{{{d}}}");
         }
     }
 
