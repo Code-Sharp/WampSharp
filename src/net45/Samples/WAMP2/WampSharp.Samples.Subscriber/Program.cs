@@ -21,8 +21,14 @@ namespace WampSharp.Samples.Subscriber
 
                 await Task.Yield();
 
+                Console.WriteLine("Hit enter to unsubscribe");
+
                 Console.ReadLine();
             }
+
+            Console.WriteLine("Unsubscribed");
+
+            Console.ReadLine();
         }
     }
 }
