@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using WampSharp.Samples.Subscriber.Reflection;
 using WampSharp.V2;
 
 namespace WampSharp.Samples.Subscriber

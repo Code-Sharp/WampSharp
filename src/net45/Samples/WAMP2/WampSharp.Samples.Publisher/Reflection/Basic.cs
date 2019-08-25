@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using WampSharp.V2;
 using WampSharp.V2.PubSub;
 
-namespace WampSharp.Samples
+namespace WampSharp.Samples.Publisher.Reflection
 {
     class BasicProgram
     {

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using WampSharp.Samples.Publisher.Reflection;
 using WampSharp.V2;
 
 namespace WampSharp.Samples.Publisher

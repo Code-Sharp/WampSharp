@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using WampSharp.V2;
 using WampSharp.V2.PubSub;
 
-namespace WampSharp.Samples.Subscriber
+namespace WampSharp.Samples.Subscriber.Reflection
 {
     public interface IComplexSubscriber
     {

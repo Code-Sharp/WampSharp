@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using WampSharp.V2;
 using WampSharp.V2.Core.Contracts;
 
-namespace WampSharp.Samples
+namespace WampSharp.Samples.Publisher.Reflection
 {
     class OptionsProgram
     {
