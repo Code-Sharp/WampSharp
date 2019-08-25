@@ -1,10 +1,34 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using WampSharp.V2;
 using WampSharp.V2.PubSub;
 
 namespace WampSharp.Samples
 {
+    class ComplexProgram
+    {
+        public static async Task RunAsync(IWampChannel channel)
+        {
+            await channel.Open().ConfigureAwait(false);
+
+            ComplexPublisher publisher = new ComplexPublisher();
+
+            using (IDisposable disposable =
+                channel.RealmProxy.Services.RegisterPublisher(publisher))
+            {
+                Console.WriteLine("Hit enter to stop publishing");
+
+                Console.ReadLine();
+            }
+
+            Console.WriteLine("Stopped publishing");
+
+            Console.ReadLine();
+        }        
+    }
+
     public class MyClass
     {
         [JsonProperty("counter")]
@@ -25,7 +49,7 @@ namespace WampSharp.Samples
         event MyPublicationDelegate MyEvent;
     }
 
-    public class ComplexPublisher : IComplexPublisher
+    public class ComplexPublisher : IComplexPublisher, IDisposable
     {
         private readonly Random mRandom = new Random();
         private IDisposable mSubscription;
@@ -65,5 +89,11 @@ namespace WampSharp.Samples
         public event Action Heartbeat;
 
         public event MyPublicationDelegate MyEvent;
+
+        public void Dispose()
+        {
+            mSubscription?.Dispose();
+            mSubscription = null;
+        }
     }
 }

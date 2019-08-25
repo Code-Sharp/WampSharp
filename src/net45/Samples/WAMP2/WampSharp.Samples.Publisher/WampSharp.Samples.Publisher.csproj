@@ -9,8 +9,4 @@
     <ProjectReference Include="..\WampSharp.Samples.Common\WampSharp.Samples.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Reflection\" />
-  </ItemGroup>
-
 </Project>

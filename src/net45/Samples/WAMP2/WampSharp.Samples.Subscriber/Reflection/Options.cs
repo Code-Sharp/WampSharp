@@ -4,13 +4,7 @@ using WampSharp.V2.PubSub;
 
 namespace WampSharp.Samples.Subscriber
 {
-    public interface IOptionsSubscriber
-    {
-        [WampTopic("com.myapp.topic1")]
-        void OnEvent(int value);
-    }
-
-    public class OptionsSubscriber : IOptionsSubscriber
+    public class OptionsSubscriber : IBasicSubscriber
     {
         public void OnEvent(int value)
         {
