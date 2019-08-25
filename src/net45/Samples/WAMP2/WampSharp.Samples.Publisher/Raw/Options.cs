@@ -36,9 +36,9 @@ namespace WampSharp.Samples.Publisher.Raw
                 Console.WriteLine($"Published with publication ID {publicationId}");
             }
 
-            void ErrorHandler(Exception exception)
+            void ErrorHandler(Exception ex)
             {
-                Console.WriteLine("An error has occurred: " + exception);
+                Console.WriteLine($"An error has occurred: {ex}");
             }
 
             using (IDisposable disposable = timer.SelectMany(value => TopicSelector(value))

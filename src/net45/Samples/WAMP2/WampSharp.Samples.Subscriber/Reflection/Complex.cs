@@ -1,10 +1,19 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using WampSharp.V2;
 using WampSharp.V2.PubSub;
 
 namespace WampSharp.Samples.Subscriber.Reflection
 {
+    class ComplexProgram
+    {
+        public static async Task RunAsync(IWampChannel channel)
+        {
+            await Program.Run<ComplexSubscriber>(channel);
+        }
+    }
+
     public interface IComplexSubscriber
     {
         [WampTopic("com.myapp.heartbeat")]
