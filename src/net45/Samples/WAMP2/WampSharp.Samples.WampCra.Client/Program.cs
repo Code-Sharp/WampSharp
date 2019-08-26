@@ -38,21 +38,17 @@ namespace WampSharp.Samples.WampCra.Client
                 {
                     Console.WriteLine("connected session with ID " + args.SessionId);
 
-                    dynamic details = args.WelcomeDetails.OriginalValue.Deserialize<dynamic>();
+                    WelcomeDetails details = args.WelcomeDetails;
 
-                    Console.WriteLine("authenticated using method '{0}' and provider '{1}'", details.authmethod,
-                                      details.authprovider);
+                    Console.WriteLine($"authenticated using method '{details.AuthenticationMethod}' and provider '{details.AuthenticationProvider}'");
 
-                    Console.WriteLine("authenticated with authid '{0}' and authrole '{1}'", details.authid,
-                                      details.authrole);
+                    Console.WriteLine($"authenticated with authid '{details.AuthenticationId}' and authrole '{details.AuthenticationRole}'");
                 };
 
             channel.RealmProxy.Monitor.ConnectionBroken += (sender, args) =>
                                                            {
-                                                               dynamic details =
-                                                                   args.Details.OriginalValue.Deserialize<dynamic>();
-                                                               Console.WriteLine("disconnected " + args.Reason + " " +
-                                                                                 details.reason + details);
+                                                               GoodbyeAbortDetails details = args.Details;
+                                                               Console.WriteLine($"disconnected {args.Reason} {details.Message}");
                                                            };
 
             IWampRealmProxy realmProxy = channel.RealmProxy;
