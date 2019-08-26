@@ -26,7 +26,7 @@ public {$returnType} {$methodName}({$parametersDeclaration})
 
             string returnTypeAlias = FormatTypeExtensions.FormatType(returnType);
 
-            string result = string.Format("{0}Delegate<{1}>", prefix, returnTypeAlias);
+            string result = $"{prefix}Delegate<{returnTypeAlias}>";
 
             return result;
         }
@@ -130,8 +130,7 @@ public {$returnType} {$methodName}({$parametersDeclaration})
             dictionary["defaults"] =
                 string.Join(", ",
                             method.GetParameters()
-                                  .Select(x => string.Format("default({0})",
-                                                             FormatTypeExtensions.FormatType(x.ParameterType))));
+                                  .Select(x => $"default({FormatTypeExtensions.FormatType(x.ParameterType)})"));
 
             return CodeGenerationHelper.ProcessTemplate(mFieldTemplate, dictionary);
         }

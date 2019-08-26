@@ -8,7 +8,7 @@ namespace WampSharp.CodeGeneration
     {
         public static string GetGenericType(Type returnType)
         {
-            return string.Format("<{0}>", FormatTypeExtensions.FormatType(returnType));
+            return $"<{FormatTypeExtensions.FormatType(returnType)}>";
         }
 
         public static string GetMethodParameterDeclaration(ParameterInfo parameter)
@@ -22,7 +22,7 @@ namespace WampSharp.CodeGeneration
 
             foreach (KeyValuePair<string, string> keyValuePair in dictionary)
             {
-                result = result.Replace(string.Format("{{${0}}}", keyValuePair.Key),
+                result = result.Replace($"{{${keyValuePair.Key}}}",
                                         keyValuePair.Value);
             }
 

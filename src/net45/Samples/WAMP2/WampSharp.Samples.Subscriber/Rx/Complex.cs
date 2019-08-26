@@ -64,9 +64,7 @@ namespace WampSharp.Samples.Subscriber.Rx
 
         public override string ToString()
         {
-            return string.Format("counter: {0}, foo: [{1}]",
-                                 Counter,
-                                 string.Join(", ", Foo));
+            return $"counter: {Counter}, foo: [{string.Join(", ", Foo)}]";
         }
     }
 }

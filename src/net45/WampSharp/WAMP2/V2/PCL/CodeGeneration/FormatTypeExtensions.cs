@@ -19,15 +19,14 @@ namespace WampSharp.CodeGeneration
             }
             else if (type.IsArray)
             {
-                return string.Format("{0}[{1}]", FormatType(type.GetElementType()),
-                    new string(',', type.GetArrayRank() - 1));
+                return $"{FormatType(type.GetElementType())}[{new string(',', type.GetArrayRank() - 1)}]";
             }
             else if (type.IsGenericType())
             {
                 string truncatedName = type.FullName.Substring(0, type.FullName.IndexOf('`'));
 
-                return string.Format("{0}<{1}>", Prettify(truncatedName),
-                    string.Join(", ", type.GetGenericArguments().Select(x => FormatType(x))));
+                return
+                    $"{Prettify(truncatedName)}<{string.Join(", ", type.GetGenericArguments().Select(x => FormatType(x)))}>";
             }
 
             return null;
