@@ -21,7 +21,7 @@ namespace WampSharp.Vtortola
             mBinding = binding;
         }
 
-        protected async override Task<WampMessage<TMessage>> ParseMessage(WebSocketMessageReadStream readStream)
+        protected override async Task<WampMessage<TMessage>> ParseMessage(WebSocketMessageReadStream readStream)
         {
             using (StreamReader streamReader = new StreamReader(readStream))
             {

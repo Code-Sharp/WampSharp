@@ -8,7 +8,7 @@ namespace WampSharp.V2.PubSub
 {
     public abstract class LocalSubscriber : IWampRawTopicClientSubscriber
     {
-        protected readonly static IWampFormatter<object> ObjectFormatter =
+        protected static readonly IWampFormatter<object> ObjectFormatter =
             WampObjectFormatter.Value;
 
         public abstract LocalParameter[] Parameters

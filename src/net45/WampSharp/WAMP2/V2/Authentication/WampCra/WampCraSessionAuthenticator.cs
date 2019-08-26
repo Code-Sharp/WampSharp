@@ -34,7 +34,7 @@ namespace WampSharp.V2.Authentication
             }
         }
 
-        public override sealed ChallengeDetails ChallengeDetails
+        public sealed override ChallengeDetails ChallengeDetails
         {
             get => CraChallengeDetails;
             protected set => throw new Exception("Use CraChallengeDetails property instead.");

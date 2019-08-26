@@ -7,7 +7,7 @@ namespace WampSharp.Samples.Callee
 {
     class Program
     {
-        async static Task Main(string[] args)
+        static async Task Main(string[] args)
         {
             IWampChannel channel = SamplesArgumentParser.CreateWampChannel(args);
 

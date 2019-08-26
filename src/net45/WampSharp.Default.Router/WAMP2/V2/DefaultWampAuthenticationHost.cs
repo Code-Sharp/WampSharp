@@ -152,7 +152,7 @@ namespace WampSharp.V2
                 bindings.ToArray());
         }
 
-        public override sealed void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings)
+        public sealed override void RegisterTransport(IWampTransport transport, IEnumerable<IWampBinding> bindings)
         {
             base.RegisterTransport(transport, bindings);
         }

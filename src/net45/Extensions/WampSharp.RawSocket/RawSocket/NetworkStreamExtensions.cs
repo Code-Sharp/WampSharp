@@ -12,7 +12,7 @@ namespace WampSharp.RawSocket
             return networkStream.ReadExactAsync(buffer, position, buffer.Length);
         }
 
-        public async static Task ReadExactAsync(this Stream networkStream, byte[] buffer, int position, int length)
+        public static async Task ReadExactAsync(this Stream networkStream, byte[] buffer, int position, int length)
         {
             int currentPosition = position;
             int readBytes = 0;

@@ -13,7 +13,7 @@ namespace WampSharp.V2.Rpc
     {
         protected readonly ILog mLogger;
 
-        protected readonly static IWampFormatter<object> ObjectFormatter =
+        protected static readonly IWampFormatter<object> ObjectFormatter =
             WampObjectFormatter.Value;
 
         protected LocalRpcOperation(string procedure)

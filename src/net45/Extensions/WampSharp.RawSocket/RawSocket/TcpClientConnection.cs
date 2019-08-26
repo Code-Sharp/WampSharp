@@ -49,7 +49,7 @@ namespace WampSharp.RawSocket
 
         protected override bool IsConnected => TcpClient.Connected;
 
-        protected async override Task SendAsync(WampMessage<object> message)
+        protected override async Task SendAsync(WampMessage<object> message)
         {
             using (MemoryStream memoryStream = mByteArrayPool.GetStream(Tag))
             {
