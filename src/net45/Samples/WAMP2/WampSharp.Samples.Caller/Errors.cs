@@ -9,6 +9,18 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Caller
 {
+    public interface IErrorServiceProxy
+    {
+        [WampProcedure("com.myapp.sqrt")]
+        Task<double> Sqrt(double x);
+        
+        [WampProcedure("com.myapp.checkname")]
+        Task CheckName(string name);
+        
+        [WampProcedure("com.myapp.compare")]
+        Task Compare(int a, int b);
+    }
+
     [Command("error")]
     public class ErrorCommand : SampleCommand
     {
@@ -62,17 +74,5 @@ namespace WampSharp.Samples.Caller
 
             Console.WriteLine("Exiting; we received only errors we expected.");
         }
-    }
-
-    public interface IErrorServiceProxy
-    {
-        [WampProcedure("com.myapp.sqrt")]
-        Task<double> Sqrt(double x);
-        
-        [WampProcedure("com.myapp.checkname")]
-        Task CheckName(string name);
-        
-        [WampProcedure("com.myapp.compare")]
-        Task Compare(int a, int b);
     }
 }

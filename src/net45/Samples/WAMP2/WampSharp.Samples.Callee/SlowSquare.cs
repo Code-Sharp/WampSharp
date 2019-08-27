@@ -8,7 +8,7 @@ namespace WampSharp.Samples.Callee
     public class SlowSquareCommand : CalleeCommand<SlowSquareService>
     {
     }
-    
+
     public class SlowSquareService
     {
         [WampProcedure("com.math.slowsquare")]

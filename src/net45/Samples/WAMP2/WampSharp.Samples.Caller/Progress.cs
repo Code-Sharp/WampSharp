@@ -9,6 +9,13 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Caller
 {
+    public interface ILongOpServiceProxy
+    {
+        [WampProcedure("com.myapp.longop")]
+        [WampProgressiveResultProcedure]
+        Task<int> LongOpAsync(int n, IProgress<int> progress);
+    }
+
     [Command("progress")]
     public class ProgressCommand : SampleCommand
     {
@@ -26,12 +33,5 @@ namespace WampSharp.Samples.Caller
 
             Console.WriteLine("Got result " + result);
         }
-    }
-
-    public interface ILongOpServiceProxy
-    {
-        [WampProcedure("com.myapp.longop")]
-        [WampProgressiveResultProcedure]
-        Task<int> LongOpAsync(int n, IProgress<int> progress);
     }
 }
