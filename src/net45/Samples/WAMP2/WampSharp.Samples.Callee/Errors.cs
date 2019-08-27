@@ -16,7 +16,7 @@ namespace WampSharp.Samples.Callee
     public class ErrorService
     {
         [WampProcedure("com.myapp.sqrt")]
-        public int Sqrt(int x)
+        public double Sqrt(double x)
         {
             if (x == 0)
             {
@@ -31,7 +31,7 @@ namespace WampSharp.Samples.Callee
                 }
                 else
                 {
-                    return (int) Math.Sqrt(x);
+                    return Math.Sqrt(x);
                 }
             }
         }
