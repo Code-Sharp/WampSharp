@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Threading.Tasks;
-using WampSharp.V2;
+using CliFx.Attributes;
 using WampSharp.V2.PubSub;
 
 namespace WampSharp.Samples.Subscriber.Reflection
 {
-    class BasicProgram
+    [Command("basic reflection")]
+    public class BasicCommand : SubscriberCommand<BasicSubscriber>
     {
-        public static async Task RunAsync(IWampChannel channel)
-        {
-            await Program.Run<BasicSubscriber>(channel);
-        }
     }
 
     public interface IBasicSubscriber

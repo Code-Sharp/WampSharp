@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
+using WampSharp.Samples.Common;
 using WampSharp.V2;
 
 namespace WampSharp.Samples.Subscriber.Reflection
 {
-    class Program
+    public class SubscriberCommand<TService> : SampleCommand
+        where TService : new()
     {
-        public static async Task Run<TService>(IWampChannel channel) where TService : new()
+        protected override async Task RunAsync(IWampChannel channel)
         {
             await channel.Open();
 

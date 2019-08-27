@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CliFx.Attributes;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Callee
 {
+    [Command("progress")]
+    public class ProgressCommand : CalleeCommand<LongOpService>
+    {
+    }
+
     public interface ILongOpService
     {
         [WampProcedure("com.myapp.longop")]

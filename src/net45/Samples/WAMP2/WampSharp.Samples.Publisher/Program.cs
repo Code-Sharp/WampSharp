@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
-using WampSharp.Samples.Publisher.Reflection;
-using WampSharp.V2;
+using CliFx;
 
 namespace WampSharp.Samples.Publisher
 {
@@ -8,9 +7,10 @@ namespace WampSharp.Samples.Publisher
     {
         static async Task Main(string[] args)
         {
-            IWampChannel channel = SamplesArgumentParser.CreateWampChannel(args);
-
-            await ComplexProgram.RunAsync(channel);
+            await new CliApplicationBuilder()
+                  .AddCommandsFromThisAssembly()
+                  .Build()
+                  .RunAsync(args);
         }
     }
 }

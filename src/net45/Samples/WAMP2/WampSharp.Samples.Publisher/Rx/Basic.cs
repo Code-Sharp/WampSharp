@@ -1,14 +1,18 @@
 ﻿using System;
+using System.CommandLine;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using CliFx.Attributes;
+using WampSharp.Samples.Common;
 using WampSharp.V2;
 
 namespace WampSharp.Samples.Publisher.Rx
 {
-    class BasicProgram
+    [Command("basic rx")]
+    public class BasicCommand : SampleCommand
     {
-        public static async Task RunAsync(IWampChannel channel)
+        protected override async Task RunAsync(IWampChannel channel)
         {
             await channel.Open().ConfigureAwait(false);
 

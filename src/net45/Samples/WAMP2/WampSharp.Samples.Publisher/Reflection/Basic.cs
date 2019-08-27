@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using CliFx.Attributes;
+using WampSharp.Samples.Common;
 using WampSharp.V2;
 using WampSharp.V2.PubSub;
 
 namespace WampSharp.Samples.Publisher.Reflection
 {
-    class BasicProgram
+    [Command("basic reflection")]
+    public class BasicCommand : SampleCommand
     {
-        public static async Task RunAsync(IWampChannel channel)
+        protected override async Task RunAsync(IWampChannel channel)
         {
             await channel.Open().ConfigureAwait(false);
 

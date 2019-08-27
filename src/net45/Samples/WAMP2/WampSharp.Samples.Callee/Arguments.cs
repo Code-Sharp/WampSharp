@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CliFx.Attributes;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Callee
 {
+    [Command("arguments")]
+    public class ArgumentsCommand : CalleeCommand<ArgumentsService>
+    {
+    }
+
     public interface IArgumentsService
     {
         [WampProcedure("com.arguments.ping")]

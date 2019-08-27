@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using CliFx.Attributes;
+using WampSharp.Samples.Common;
 using WampSharp.V2;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Samples.Publisher.Raw
 {
-    class OptionsProgram
+    [Command("options raw")]
+    public class OptionsCommand : SampleCommand
     {
-        public static async Task RunAsync(IWampChannel channel)
+        protected override async Task RunAsync(IWampChannel channel)
         {
             await channel.Open().ConfigureAwait(false);
 

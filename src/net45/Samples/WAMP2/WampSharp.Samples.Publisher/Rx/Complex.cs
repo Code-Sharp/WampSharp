@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using CliFx.Attributes;
 using Newtonsoft.Json;
+using WampSharp.Samples.Common;
 using WampSharp.V2;
 
 namespace WampSharp.Samples.Publisher.Rx
 {
-    internal class ComplexProgram
+    [Command("complex rx")]
+    public class ComplexCommand : SampleCommand
     {
-        public static async Task RunAsync(IWampChannel channel)
+        protected override async Task RunAsync(IWampChannel channel)
         {
             await channel.Open().ConfigureAwait(false);
 
@@ -51,7 +54,6 @@ namespace WampSharp.Samples.Publisher.Rx
                 }
             }
 
-
             Console.WriteLine("Stopped publishing");
 
             Console.ReadLine();
@@ -62,7 +64,6 @@ namespace WampSharp.Samples.Publisher.Rx
         WampEventValueTupleConverter<(int number1, int number2, string c, MyClass d)>
     {
     }
-
 
     internal class MyClass
     {

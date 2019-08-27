@@ -2,7 +2,7 @@
   "profiles": {
     "WampSharp.Samples.Callee": {
       "commandName": "Project",
-      "commandLineArgs": "-a 127.0.0.1 -p 8080 -r realm1 -t rawsocket -s msgpack"
+      "commandLineArgs": "complex -t rawsocket -s msgpack"
     }
   }
 }

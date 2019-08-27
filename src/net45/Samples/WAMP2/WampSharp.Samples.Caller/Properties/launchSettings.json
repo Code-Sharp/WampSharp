@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WampSharp.Samples.Caller": {
+      "commandName": "Project",
+      "commandLineArgs": "complex -a ws://127.0.0.1:8080/ws -r realm1 -t websocket -s msgpack"
+    }
+  }
+}

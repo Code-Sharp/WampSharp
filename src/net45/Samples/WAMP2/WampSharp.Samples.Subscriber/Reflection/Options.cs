@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Threading.Tasks;
+using CliFx.Attributes;
 using WampSharp.V2;
 
 namespace WampSharp.Samples.Subscriber.Reflection
 {
-    class OptionsProgram
+    [Command("options reflection")]
+    public class OptionsCommand : SubscriberCommand<OptionsSubscriber>
     {
-        public static async Task RunAsync(IWampChannel channel)
-        {
-            await Program.Run<OptionsSubscriber>(channel);
-        }
     }
 
     public class OptionsSubscriber : IBasicSubscriber

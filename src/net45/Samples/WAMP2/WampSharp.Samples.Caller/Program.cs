@@ -1,4 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using CliFx;
+using CliFx.Attributes;
+using CliFx.Services;
 using WampSharp.V2;
 
 namespace WampSharp.Samples.Caller
@@ -7,11 +11,12 @@ namespace WampSharp.Samples.Caller
     {
         static async Task Main(string[] args)
         {
-            IWampChannel channel = SamplesArgumentParser.CreateWampChannel(args);
-
-            await channel.Open();
-
-            await ArgumentsProgram.RunAsync(channel).ConfigureAwait(false);
+            await new CliApplicationBuilder()
+                .AddCommandsFromThisAssembly()
+                .Build()
+                .RunAsync(args);
         }
     }
+
+
 }

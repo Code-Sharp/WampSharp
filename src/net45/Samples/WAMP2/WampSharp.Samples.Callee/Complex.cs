@@ -1,7 +1,13 @@
-﻿using WampSharp.V2.Rpc;
+﻿using CliFx.Attributes;
+using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Callee
 {
+    [Command("complex")]
+    public class ComplexCommand : CalleeCommand<ComplexResultService>
+    {
+    }
+
     public interface IComplexResultService
     {
         [WampProcedure("com.myapp.add_complex")]

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CliFx.Attributes;
+using WampSharp.Samples.Common;
 using WampSharp.V2;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Caller
 {
-
     public interface IArgumentsServiceProxy
     {
         [WampProcedure("com.arguments.ping")]
@@ -14,7 +15,6 @@ namespace WampSharp.Samples.Caller
     
         [WampProcedure("com.arguments.add2")]
         Task<int> Add2Async(int a, int b);
-
 
         [WampProcedure("com.arguments.stars")]
         Task<string> StarsAsync();
@@ -35,10 +35,13 @@ namespace WampSharp.Samples.Caller
         Task<string[]> OrdersAsync(string product, int limit);
     }
 
-    public class ArgumentsProgram
+    [Command("arguments")]
+    public class ArgumentsSample : SampleCommand
     {
-        public static async Task RunAsync(IWampChannel channel)
+        protected override async Task RunAsync(IWampChannel channel)
         {
+            await channel.Open().ConfigureAwait(false);
+
             IArgumentsServiceProxy proxy = 
                 channel.RealmProxy.Services.GetCalleeProxy<IArgumentsServiceProxy>();
 

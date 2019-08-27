@@ -1,8 +1,14 @@
 ﻿using System.Threading.Tasks;
+using CliFx.Attributes;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Callee
 {
+    [Command("slowsquare")]
+    public class SlowSquareCommand : CalleeCommand<SlowSquareService>
+    {
+    }
+    
     public class SlowSquareService
     {
         [WampProcedure("com.math.slowsquare")]

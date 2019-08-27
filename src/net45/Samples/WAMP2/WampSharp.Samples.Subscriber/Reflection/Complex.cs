@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Threading.Tasks;
+using CliFx.Attributes;
 using Newtonsoft.Json;
 using WampSharp.V2;
 using WampSharp.V2.PubSub;
 
 namespace WampSharp.Samples.Subscriber.Reflection
 {
-    class ComplexProgram
+    [Command("complex reflection")]
+    public class ComplexCommand : SubscriberCommand<ComplexSubscriber>
     {
-        public static async Task RunAsync(IWampChannel channel)
-        {
-            await Program.Run<ComplexSubscriber>(channel);
-        }
     }
 
     public interface IComplexSubscriber

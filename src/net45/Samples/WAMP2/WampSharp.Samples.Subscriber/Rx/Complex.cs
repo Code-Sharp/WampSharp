@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CliFx.Attributes;
 using Newtonsoft.Json;
+using WampSharp.Samples.Common;
 using WampSharp.V2;
 
 namespace WampSharp.Samples.Subscriber.Rx
 {
-    class ComplexProgram
+    [Command("complex rx")]
+    public class ComplexCommand : SampleCommand 
     {
-        public static async Task RunAsync(IWampChannel channel)
+        protected override async Task RunAsync(IWampChannel channel)
         {
             await channel.Open().ConfigureAwait(false);
 

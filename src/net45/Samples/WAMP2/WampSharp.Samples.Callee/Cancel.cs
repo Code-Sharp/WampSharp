@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CliFx.Attributes;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Callee
 {
+    [Command("cancel")]
+    public class CancelCommand : CalleeCommand<CancellableOpService>
+    {
+    }
+
     public class CancellableOpService
     {
         [WampProcedure("com.myapp.cancellableop")]

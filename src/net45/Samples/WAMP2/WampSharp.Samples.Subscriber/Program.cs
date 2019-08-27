@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using WampSharp.Samples.Subscriber.Rx;
-using WampSharp.V2;
+﻿using System.Threading.Tasks;
+using CliFx;
 
 namespace WampSharp.Samples.Subscriber
 {
@@ -9,9 +7,10 @@ namespace WampSharp.Samples.Subscriber
     {
         static async Task Main(string[] args)
         {
-            IWampChannel channel = SamplesArgumentParser.CreateWampChannel(args);
-
-            await OptionsProgram.RunAsync(channel);
+            await new CliApplicationBuilder()
+                  .AddCommandsFromThisAssembly()
+                  .Build()
+                  .RunAsync(args);
         }        
     }
 }

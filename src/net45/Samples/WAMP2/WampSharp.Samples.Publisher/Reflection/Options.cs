@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CliFx.Attributes;
+using WampSharp.Samples.Common;
 using WampSharp.V2;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.Samples.Publisher.Reflection
 {
-    class OptionsProgram
+    [Command("options reflection")]
+    public class OptionsCommand : SampleCommand
     {
-        public static async Task RunAsync(IWampChannel channel)
+        protected override async Task RunAsync(IWampChannel channel)
         {
             await channel.Open().ConfigureAwait(false);
 
