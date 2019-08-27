@@ -17,6 +17,4 @@ namespace WampSharp.Samples.Caller
                 .RunAsync(args);
         }
     }
-
-
 }

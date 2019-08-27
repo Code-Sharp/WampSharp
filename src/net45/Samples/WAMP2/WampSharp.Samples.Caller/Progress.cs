@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using CliFx.Attributes;
 using WampSharp.Samples.Common;
 using WampSharp.V2;
-using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
 
 namespace WampSharp.Samples.Caller
