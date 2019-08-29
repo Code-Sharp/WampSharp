@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WampSharp.Samples.AspNetCore.Router": {
+      "commandName": "Project",
+      "commandLineArgs": "run"
+    }
+  }
+}
