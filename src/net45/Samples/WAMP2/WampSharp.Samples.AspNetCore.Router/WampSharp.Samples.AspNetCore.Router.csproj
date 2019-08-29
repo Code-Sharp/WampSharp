@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
+    <ProjectReference Include="..\..\..\Default\WampSharp.NewtonsoftMessagePack\WampSharp.NewtonsoftMessagePack.csproj" />
+    <ProjectReference Include="..\..\..\Extensions\WampSharp.AspNetCore.RawSocket\WampSharp.AspNetCore.RawSocket.csproj" />
+    <ProjectReference Include="..\..\..\Extensions\WampSharp.AspNetCore.WebSockets.Server\WampSharp.AspNetCore.WebSockets.Server.csproj" />
+    <ProjectReference Include="..\..\..\Extensions\WampSharp.NewtonsoftCbor\WampSharp.NewtonsoftCbor.csproj" />
+    <ProjectReference Include="..\..\..\WampSharp\WampSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="static\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="static\callee\" />
+    <Folder Include="static\publisher\" />
+    <Folder Include="static\subscriber\" />
+  </ItemGroup>
+  
+</Project>
