@@ -23,7 +23,7 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <ProjectReference Include="..\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
-    <PackageReference Include="Newtonsoft.Msgpack" Version="0.1.10" />
+    <PackageReference Include="Newtonsoft.Msgpack" Version="0.1.11" />
   </ItemGroup>
 
 </Project>

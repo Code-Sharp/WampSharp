@@ -34,7 +34,7 @@
     <ProjectReference Include="..\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Msgpack" Version="0.1.10" />
+    <PackageReference Include="Newtonsoft.Msgpack" Version="0.1.11" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
