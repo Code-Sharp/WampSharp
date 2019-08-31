@@ -1,22 +1,14 @@
 # see http://docs.travis-ci.com/user/languages/csharp/
 
 language: csharp
+mono: latest
+dotnet: 2.0.0
 
-solution: src/mono/WampSharpMono.sln
-
-mono:
-  - 4.2.3
-
-before_install:
-  - mkdir -p .nuget
-  - wget -O .nuget/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-  - mono .nuget/nuget.exe # Output NuGet's version number
+before_install: cd src/netstandard/
 
 install:
-  - mono .nuget/nuget.exe restore src/mono/WampSharpMono.sln -Verbosity detailed
-  - mono .nuget/nuget.exe install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner -Verbosity detailed
+- export FrameworkPathOverride=$(dirname $(which mono))/../lib/mono/4.5/
+- dotnet restore
 
 script:
-  - xbuild /p:Configuration=Release src/mono/WampSharpMono.sln
-  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/mono/Tests/WampSharp.Tests/bin/Release/WampSharp.Tests.dll
-  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/mono/Tests/WampSharp.Tests.Wampv2/bin/Release/WampSharp.Tests.Wampv2.dll
+ - dotnet build
