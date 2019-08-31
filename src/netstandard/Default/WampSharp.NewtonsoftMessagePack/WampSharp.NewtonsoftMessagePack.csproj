@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.MessagePack" Version="0.1.11-develop" />
+    <PackageReference Include="NewtonsoftMessagePack" Version="0.1.11" />
   </ItemGroup>
 
   <ItemGroup>
