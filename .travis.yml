@@ -6,7 +6,7 @@ addons:
     channel: latest/beta
 sudo: required
 language: csharp
-mono: 5.18.0
+mono: 5.20.0
 
 before_install: cd src/netstandard/
 
