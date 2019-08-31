@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Newtonsoft.Msgpack\src\netstandard\Newtonsoft.MessagePack\Newtonsoft.MessagePack.csproj" />
+    <PackageReference Include="Newtonsoft.MessagePack" Version="0.1.11-develop" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
   </ItemGroup>
 
