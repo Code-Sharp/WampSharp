@@ -1,4 +1,3 @@
-#if PCL
 namespace WampSharp.V2.Fluent
 {
     public static class MessageWebSocketChannelFactoryExtensions
@@ -13,5 +12,3 @@ namespace WampSharp.V2.Fluent
         }
     }
 }
-
-#endif

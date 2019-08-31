@@ -1,5 +1,4 @@
-﻿#if PCL
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Windows.Networking.Sockets;
 using WampSharp.Core.Listener;
@@ -76,4 +75,3 @@ namespace WampSharp.Windows
         }
     }
 }
-#endif
