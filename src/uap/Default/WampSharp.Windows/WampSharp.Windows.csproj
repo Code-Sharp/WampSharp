@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -131,7 +131,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\net45\Default\WampSharp.Windows\**\*.cs" Exclude="..\..\..\net45\Default\WampSharp.Windows\**\bin\**;..\..\..\net45\Default\WampSharp.Windows\**\obj\**;" />
+    <Compile Include="..\..\..\netstandard\Default\WampSharp.Windows\**\*.cs" Exclude="..\..\..\netstandard\Default\WampSharp.Windows\**\bin\**;..\..\..\netstandard\Default\WampSharp.Windows\**\obj\**;" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

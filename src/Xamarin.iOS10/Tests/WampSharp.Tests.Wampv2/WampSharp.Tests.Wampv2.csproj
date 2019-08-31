@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
@@ -18,6 +18,6 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\**\*.cs" Exclude="..\..\..\net45\Tests\WampSharp.Tests.Wampv2\**\bin\**;..\..\..\net45\Tests\WampSharp.Tests.Wampv2\**\obj\**;" />
+    <Compile Include="..\..\..\netstandard\Tests\WampSharp.Tests.Wampv2\**\*.cs" Exclude="..\..\..\netstandard\Tests\WampSharp.Tests.Wampv2\**\bin\**;..\..\..\netstandard\Tests\WampSharp.Tests.Wampv2\**\obj\**;" />
   </ItemGroup>
 </Project>
