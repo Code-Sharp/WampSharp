@@ -1,14 +1,19 @@
-# see http://docs.travis-ci.com/user/languages/csharp/
-
+dist: xenial
+addons:
+  snaps:
+  - name: dotnet-sdk
+    classic: true
+    channel: latest/beta
+sudo: required
 language: csharp
 mono: latest
-dotnet: 3.0.100-preview8-013656
 
 before_install: cd src/netstandard/
 
 install:
-- export FrameworkPathOverride=$(dirname $(which mono))/../lib/mono/4.5/
-- dotnet restore
+ - export FrameworkPathOverride=$(dirname $(which mono))/../lib/mono/4.5/
 
 script:
+ - sudo snap alias dotnet-sdk.dotnet dotnet
+ - dotnet restore
  - dotnet build
