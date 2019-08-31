@@ -6,12 +6,9 @@ addons:
     channel: latest/beta
 sudo: required
 language: csharp
-mono: 5.20.0
+mono: none
 
 before_install: cd src/netstandard/
-
-install:
- - export FrameworkPathOverride=$(dirname $(which mono))/../lib/mono/4.5/
 
 script:
  - sudo snap alias dotnet-sdk.dotnet dotnet
