@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace WampSharp.Core.Utilities
@@ -13,12 +14,46 @@ namespace WampSharp.Core.Utilities
 
         public static Func<object, object[], object> CreateInvokeMethod(MethodInfo method)
         {
-            return mInvokeGenerator.CreateInvokeMethod(method);
+            if (RuntimeFeature.IsDynamicCodeCompiled)
+            {
+                return mInvokeGenerator.CreateInvokeMethod(method);
+            }
+            else
+            {
+                return (instance, arguments) =>
+                       {
+                           try
+                           {
+                               return method.Invoke(instance, arguments);
+                           }
+                           catch (TargetInvocationException ex)
+                           {
+                               throw ex.InnerException;
+                           }
+                       };
+            }
         }
 
         public static Func<object, object[], Task> CreateTaskInvokeMethod(MethodInfo method)
         {
-            return mTaskInvokeGenerator.CreateInvokeMethod(method);
+            if (RuntimeFeature.IsDynamicCodeCompiled)
+            {
+                return mTaskInvokeGenerator.CreateInvokeMethod(method);
+            }
+            else
+            {
+                return (instance, arguments) =>
+                       {
+                           try
+                           {
+                               return ((Task) method.Invoke(instance, arguments)).CastTask();
+                           }
+                           catch (TargetInvocationException ex)
+                           {
+                               throw ex.InnerException;
+                           }
+                       };
+            }
         }
     }
 
