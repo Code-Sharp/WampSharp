@@ -2,7 +2,7 @@
 
 using System.Reflection;
 
-namespace WampSharp.V2.System.Reflection.DispatchProxy
+namespace WampSharp.V2.ReflectionDispatchProxy
 {
     internal interface ICalleeProxyInvocationInterceptor
     {

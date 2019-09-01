@@ -1,10 +1,8 @@
-
-
-using WampSharp.V2.System.Reflection.DispatchProxy;
 #if CASTLE || DISPATCH_PROXY
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.V2.ReflectionDispatchProxy;
 using WampSharp.V2.Rpc;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 

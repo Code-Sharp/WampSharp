@@ -1,7 +1,7 @@
 ﻿
-using WampSharp.V2.System.Reflection.DispatchProxy;
 #if CASTLE || DISPATCH_PROXY
 using System.Reflection;
+using WampSharp.V2.ReflectionDispatchProxy;
 
 namespace WampSharp.V2.CalleeProxy
 {
