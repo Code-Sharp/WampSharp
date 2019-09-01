@@ -1,22 +1,15 @@
-﻿#if !CASTLE && !DISPATCH_PROXY
-using System;
+﻿using System;
 
 namespace WampSharp.V2.CalleeProxy
 {
     public class GeneratedCodeException : Exception
     {
-        private readonly string mGeneratedCode;
-
         public GeneratedCodeException(string generatedCode)
             : base("Try the code attached in the GeneratedCode property.")
         {
-            mGeneratedCode = generatedCode;
+            GeneratedCode = generatedCode;
         }
 
-        public string GeneratedCode
-        {
-            get { return mGeneratedCode; }
-        }
+        public string GeneratedCode { get; }
     }
 }
-#endif
