@@ -4,6 +4,9 @@
     <DefineConstants>$(DefineConstants);ASYNC_LOCAL;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.4.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
 </Project>

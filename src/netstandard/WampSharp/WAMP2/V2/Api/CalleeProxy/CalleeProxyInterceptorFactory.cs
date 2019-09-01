@@ -1,9 +1,10 @@
-#if CASTLE || DISPATCH_PROXY
 
+
+using WampSharp.V2.System.Reflection.DispatchProxy;
+#if CASTLE || DISPATCH_PROXY
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Castle.DynamicProxy;
 using WampSharp.V2.Rpc;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
@@ -11,12 +12,12 @@ namespace WampSharp.V2.CalleeProxy
 {
     internal static class CalleeProxyInterceptorFactory
     {
-        public static IInterceptor BuildInterceptor(MethodInfo method, ICalleeProxyInterceptor interceptor, WampCalleeProxyInvocationHandler handler)
+        public static ICalleeProxyInvocationInterceptor BuildInterceptor(MethodInfo method, ICalleeProxyInterceptor interceptor, WampCalleeProxyInvocationHandler handler)
         {
             Type interceptorType = GetRelevantInterceptorType(method);
 
-            IInterceptor result =
-                (IInterceptor)
+            ICalleeProxyInvocationInterceptor result =
+                (ICalleeProxyInvocationInterceptor)
                     Activator.CreateInstance(interceptorType,
                                              method,
                                              handler,

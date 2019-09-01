@@ -1,8 +1,9 @@
-﻿#if DISPATCH_PROXY
+﻿
 
+using WampSharp.V2.System.Reflection.DispatchProxy;
+#if DISPATCH_PROXY
 using System;
 using System.Reflection;
-using Castle.DynamicProxy;
 using WampSharp.Core.Utilities;
 
 // ReSharper disable once CheckNamespace
@@ -10,12 +11,12 @@ namespace WampSharp.V2.CalleeProxy
 {
     public class CalleeProxy : DispatchProxy
     {
-        private readonly SwapDictionary<MethodInfo, IInterceptor> mMethodToInterceptor =
-            new SwapDictionary<MethodInfo, IInterceptor>();
+        private readonly SwapDictionary<MethodInfo, ICalleeProxyInvocationInterceptor> mMethodToInterceptor =
+            new SwapDictionary<MethodInfo, ICalleeProxyInvocationInterceptor>();
 
         protected override object Invoke(MethodInfo targetMethod, object[] args)
         {
-            IInterceptor interceptor;
+            ICalleeProxyInvocationInterceptor interceptor;
 
             if (!mMethodToInterceptor.TryGetValue(targetMethod, out interceptor))
             {

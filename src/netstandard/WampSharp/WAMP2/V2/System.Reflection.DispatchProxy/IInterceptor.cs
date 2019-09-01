@@ -2,10 +2,9 @@
 
 using System.Reflection;
 
-// ReSharper disable once CheckNamespace
-namespace Castle.DynamicProxy
+namespace WampSharp.V2.System.Reflection.DispatchProxy
 {
-    internal interface IInterceptor
+    internal interface ICalleeProxyInvocationInterceptor
     {
         object Invoke(MethodInfo method, object[] arguments);
     }

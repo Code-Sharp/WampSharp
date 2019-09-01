@@ -6,6 +6,7 @@ using WampSharp.Core.Utilities;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.Core.Curie;
 using WampSharp.V1.Core.Proxy;
+using WampSharp.V1.Core.Utilities;
 
 namespace WampSharp.V1.Core.Listener.ClientBuilder
 {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WampSharp.Core.Client;
 using WampSharp.Core.Listener;
 using WampSharp.V1.Auxiliary.Client;
+using WampSharp.V1.Core.Client;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.PubSub.Client;
 using WampSharp.V1.Rpc.Client;
@@ -18,13 +19,13 @@ namespace WampSharp.V1
         private readonly IControlledWampConnection<TMessage> mConnection;
         private readonly IWampRpcClientFactory<TMessage> mRpcClientFactory;
         private readonly IWampPubSubClientFactory<TMessage> mPubSubClientFactory;
-        private readonly WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServer> mServerProxyBuilder;
+        private readonly WampGenericServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServer> mServerProxyBuilder;
         private readonly IWampClientConnectionMonitor mConnectionMonitor;
 
         public WampChannel(IControlledWampConnection<TMessage> connection,
                            IWampRpcClientFactory<TMessage> rpcClientFactory,
                            IWampPubSubClientFactory<TMessage> pubSubClientFactory,
-                           WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServer> serverProxyBuilder,
+                           WampGenericServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServer> serverProxyBuilder,
                            IWampAuxiliaryClientFactory<TMessage> connectionMonitorFactory)
         {
             mConnection = connection;

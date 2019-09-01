@@ -1,6 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Utilities;
+using WampSharp.V1.Core.Utilities;
 
 namespace WampSharp.V1.Rpc.Client
 {

@@ -3,6 +3,7 @@ using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Serialization;
 using WampSharp.V1.Auxiliary.Client;
+using WampSharp.V1.Core.Client;
 using WampSharp.V1.Core.Contracts;
 using WampSharp.V1.PubSub.Client;
 using WampSharp.V1.Rpc.Client;
@@ -13,7 +14,7 @@ namespace WampSharp.V1
     {
         private readonly IWampRpcClientFactory<TMessage> mRpcClientFactory;
         private readonly IWampPubSubClientFactory<TMessage> mPubSubClientFactory;
-        private readonly WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServer> mServerProxyBuilder;
+        private readonly WampGenericServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServer> mServerProxyBuilder;
         private readonly IWampAuxiliaryClientFactory<TMessage> mWampAuxiliaryClientFactory;
 
         public WampChannelFactory(IWampFormatter<TMessage> formatter)
@@ -35,7 +36,7 @@ namespace WampSharp.V1
 
         private WampAuxiliaryClientFactory<TMessage> GetConnectionMonitorFactory()
         {
-            WampServerProxyBuilder<TMessage, IWampAuxiliaryClient, IWampServer> proxyBuilder = 
+            WampGenericServerProxyBuilder<TMessage, IWampAuxiliaryClient, IWampServer> proxyBuilder = 
                 GetServerProxyBuilder<IWampAuxiliaryClient>();
             
             return new WampAuxiliaryClientFactory<TMessage>(proxyBuilder);
@@ -43,7 +44,7 @@ namespace WampSharp.V1
 
         private IWampPubSubClientFactory<TMessage> GetPubSubClientFactory()
         {
-            WampServerProxyBuilder<TMessage, IWampPubSubClient<TMessage>, IWampServer> proxyBuilder = 
+            WampGenericServerProxyBuilder<TMessage, IWampPubSubClient<TMessage>, IWampServer> proxyBuilder = 
                 GetServerProxyBuilder<IWampPubSubClient<TMessage>>();
 
             PubSub.Client.WampServerProxyFactory<TMessage> serverProxyFactory =
@@ -61,7 +62,7 @@ namespace WampSharp.V1
             WampRpcSerializer rpcSerializer = 
                 new WampRpcSerializer(new WampRpcMethodAttributeProcUriMapper());
 
-            WampServerProxyBuilder<TMessage, IWampRpcClient<TMessage>, IWampServer> serverProxyBuilder = 
+            WampGenericServerProxyBuilder<TMessage, IWampRpcClient<TMessage>, IWampServer> serverProxyBuilder = 
                 GetServerProxyBuilder<IWampRpcClient<TMessage>>();
 
             Rpc.Client.WampServerProxyFactory<TMessage> serverProxyFactory =
@@ -78,7 +79,7 @@ namespace WampSharp.V1
             return result;
         }
 
-        private WampServerProxyBuilder<TMessage, TRawClient, IWampServer> GetServerProxyBuilder<TRawClient>()
+        private WampGenericServerProxyBuilder<TMessage, TRawClient, IWampServer> GetServerProxyBuilder<TRawClient>()
         {
             WampOutgoingRequestSerializer<TMessage> outgoingRequestSerializer = 
                 new WampOutgoingRequestSerializer<TMessage>(Formatter);
@@ -89,7 +90,7 @@ namespace WampSharp.V1
             WampServerProxyOutgoingMessageHandlerBuilder<TMessage, TRawClient> outgoingHandlerBuilder = 
                 new WampServerProxyOutgoingMessageHandlerBuilder<TMessage, TRawClient>(incomingHandlerBuilder);
 
-            return new WampServerProxyBuilder<TMessage, TRawClient, IWampServer>
+            return new WampGenericServerProxyBuilder<TMessage, TRawClient, IWampServer>
                 (outgoingRequestSerializer, outgoingHandlerBuilder);
         }
 

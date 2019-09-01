@@ -1,10 +1,11 @@
-﻿#if CASTLE || DISPATCH_PROXY
+﻿
+using WampSharp.V2.System.Reflection.DispatchProxy;
+#if CASTLE || DISPATCH_PROXY
 using System.Reflection;
-using Castle.DynamicProxy;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal abstract class CalleeProxyInterceptorBase : IInterceptor
+    internal abstract class CalleeProxyInterceptorBase : ICalleeProxyInvocationInterceptor
     {
         private readonly ICalleeProxyInterceptor mInterceptor;
 
