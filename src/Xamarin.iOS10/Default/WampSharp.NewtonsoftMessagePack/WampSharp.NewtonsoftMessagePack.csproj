@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{73C8B5F2-0BB7-4319-AEEE-CB1431B9BE7A}</ProjectGuid>
+    <ProjectGuid>{7144960E-0606-49FF-A57E-12DA65045D7B}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{a52b8a63-bc84-4b47-910d-692533484892}</TemplateGuid>
     <OutputType>Library</OutputType>
@@ -41,10 +41,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="..\..\..\netstandard\Default\WampSharp.NewtonsoftMsgpack\**\*.cs" Exclude="..\..\..\netstandard\Default\WampSharp.NewtonsoftMsgpack\**\bin\**;..\..\..\netstandard\Default\WampSharp.NewtonsoftMsgpack\**\obj\**;" />
+    <Compile Include="..\..\..\netstandard\Default\WampSharp.NewtonsoftMessagePack\**\*.cs" Exclude="..\..\..\netstandard\Default\WampSharp.NewtonsoftMessagePack\**\bin\**;..\..\..\netstandard\Default\WampSharp.NewtonsoftMessagePack\**\obj\**;" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Msgpack" Version="0.1.11" />
+    <PackageReference Include="NewtonsoftMessagePack" Version="0.1.11" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">

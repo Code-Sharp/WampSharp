@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{61163988-9FB9-4A50-9B42-08252D9DCF9F}</ProjectGuid>
+    <ProjectGuid>{E07E9E45-BD51-4A99-8D57-5E8086A2B95D}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{a52b8a63-bc84-4b47-910d-692533484892}</TemplateGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>WampSharp.Tests.TestHelpers</RootNamespace>
+    <RootNamespace>WampSharp.NewtonsoftMsgpack</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>WampSharp.Tests.TestHelpers</AssemblyName>
+    <AssemblyName>WampSharp.NewtonsoftMsgpack</AssemblyName>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -41,20 +41,25 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="..\..\..\netstandard\Tests\WampSharp.Tests.TestHelpers\**\*.cs" Exclude="..\..\..\netstandard\Tests\WampSharp.Tests.TestHelpers\**\bin\**;..\..\..\netstandard\Tests\WampSharp.Tests.TestHelpers\**\obj\**;" />
+    <Compile Include="..\..\..\netstandard\Extensions\WampSharp.NewtonsoftCbor\**\*.cs" Exclude="..\..\..\netstandard\Extensions\WampSharp.NewtonsoftCbor\**\bin\**;..\..\..\netstandard\Default\WampSharp.NewtonsoftCbor\**\obj\**;" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
-      <Project>{131b430e-afd7-4a87-a2cd-703fe5f7474b}</Project>
-      <Name>WampSharp.NewtonsoftJson</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
-    </ProjectReference>
     <ProjectReference Include="..\..\WampSharp\WampSharp.csproj">
       <Project>{01f80592-26d3-436e-b8da-e95f1ad6e3a7}</Project>
       <Name>WampSharp</Name>
       <IsAppExtension>false</IsAppExtension>
       <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
+    <ProjectReference Include="..\..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj">
+      <Project>{131b430e-afd7-4a87-a2cd-703fe5f7474b}</Project>
+      <Name>WampSharp.NewtonsoftJson</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json.Cbor">
+      <Version>0.3.4-alpha</Version>
+    </PackageReference>
   </ItemGroup>
 </Project>
