@@ -1,11 +1,10 @@
 ﻿using System;
-using Castle.DynamicProxy;
 using WampSharp.Core.Client;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
-using WampSharp.V1.Core.Proxy;
-using WampSharp.V1.Core.Utilities;
+using WampSharp.V1.Core.Contracts;
+using WampSharp.V1.Core.Listener.ClientBuilder;
 
 namespace WampSharp.V1.Core.Client
 {
@@ -14,51 +13,34 @@ namespace WampSharp.V1.Core.Client
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     /// <typeparam name="TRawClient"></typeparam>
-    /// <typeparam name="TServer"></typeparam>
-    public class WampGenericServerProxyBuilder<TMessage, TRawClient, TServer> : IWampServerProxyBuilder<TMessage, TRawClient, TServer>
-        where TServer : class
+    public class ManualWampServerProxyBuilder<TMessage, TRawClient> : IWampServerProxyBuilder<TMessage, TRawClient, IWampServer>
     {
         private readonly IWampServerProxyOutgoingMessageHandlerBuilder<TMessage, TRawClient> mOutgoingHandlerBuilder;
-        private readonly ProxyGenerator mProxyGenerator = CastleDynamicProxyGenerator.Instance;
         private readonly IWampOutgoingRequestSerializer mOutgoingSerializer;
 
         /// <summary>
-        /// Creates a new instance of <see cref="WampGenericServerProxyBuilder{TMessage,TRawClient,TServer}"/>
+        /// Creates a new instance of <see cref="ManualWampServerProxyBuilder{TMessage}"/>
         /// </summary>
         /// <param name="outgoingSerializer">A <see cref="IWampOutgoingRequestSerializer"/>
         /// used in order to serialize requests into <see cref="WampMessage{TMessage}"/>s.</param>
         /// <param name="outgoingHandlerBuilder">A <see cref="IWampServerProxyOutgoingMessageHandlerBuilder{TMessage,TRawClient}"/>
         /// used in order to build an <see cref="IWampOutgoingMessageHandler"/> that will handle serialized
         /// <see cref="WampMessage{TMessage}"/>s.</param>
-        public WampGenericServerProxyBuilder(IWampOutgoingRequestSerializer outgoingSerializer,
+        public ManualWampServerProxyBuilder(IWampOutgoingRequestSerializer outgoingSerializer,
                                       IWampServerProxyOutgoingMessageHandlerBuilder<TMessage, TRawClient> outgoingHandlerBuilder)
         {
             mOutgoingHandlerBuilder = outgoingHandlerBuilder;
             mOutgoingSerializer = outgoingSerializer;
         }
 
-        public TServer Create(TRawClient client, IWampConnection<TMessage> connection)
+        public IWampServer Create(TRawClient client, IWampConnection<TMessage> connection)
         {
             IWampOutgoingMessageHandler handler =
                 mOutgoingHandlerBuilder.Build(client, connection);
 
-            WampOutgoingInterceptor<TMessage> interceptor =
-                new WampOutgoingInterceptor<TMessage>(mOutgoingSerializer,
-                                                      handler);
+            IDisposable disposable = new DisposableForwarder(connection);
 
-            ProxyGenerationOptions proxyOptions = 
-                new ProxyGenerationOptions()
-                {
-                    Selector = new WampInterceptorSelector<TMessage>()
-                };
-
-            proxyOptions.AddMixinInstance(new DisposableForwarder(connection));
-
-            TServer result =
-                (TServer)mProxyGenerator.CreateInterfaceProxyWithoutTarget
-                (typeof(TServer),
-                    new Type[] {typeof(IDisposable)},
-                    proxyOptions, interceptor);
+            WampServerProxy result = new WampServerProxy(handler, mOutgoingSerializer, disposable);
 
             return result;
         }

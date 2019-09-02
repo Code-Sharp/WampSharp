@@ -19,13 +19,13 @@ namespace WampSharp.V1
         private readonly IControlledWampConnection<TMessage> mConnection;
         private readonly IWampRpcClientFactory<TMessage> mRpcClientFactory;
         private readonly IWampPubSubClientFactory<TMessage> mPubSubClientFactory;
-        private readonly WampGenericServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServer> mServerProxyBuilder;
+        private readonly ManualWampServerProxyBuilder<TMessage, IWampClient<TMessage>> mServerProxyBuilder;
         private readonly IWampClientConnectionMonitor mConnectionMonitor;
 
         public WampChannel(IControlledWampConnection<TMessage> connection,
                            IWampRpcClientFactory<TMessage> rpcClientFactory,
                            IWampPubSubClientFactory<TMessage> pubSubClientFactory,
-                           WampGenericServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServer> serverProxyBuilder,
+                           ManualWampServerProxyBuilder<TMessage, IWampClient<TMessage>> serverProxyBuilder,
                            IWampAuxiliaryClientFactory<TMessage> connectionMonitorFactory)
         {
             mConnection = connection;

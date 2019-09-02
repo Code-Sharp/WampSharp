@@ -100,7 +100,7 @@ namespace WampSharp.Tests
             WampRpcClientFactory<JToken> factory =
                 new WampRpcClientFactory<JToken>(new WampRpcSerializer(new WampDelegateProcUriMapper(x => x.Name)),
                     new WampRpcClientHandlerBuilder<JToken>(mFormatter,
-                        new WampServerProxyFactory<JToken>(new WampGenericServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                        new WampServerProxyFactory<JToken>(new ManualWampServerProxyBuilder<JToken, IWampRpcClient<JToken>>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
                                 new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(mFormatter))))));
 
             listener.Start();
@@ -155,7 +155,7 @@ namespace WampSharp.Tests
             WampRpcClientFactory<JToken> factory =
                 new WampRpcClientFactory<JToken>(new WampRpcSerializer(new WampDelegateProcUriMapper(x => "http://www.yogev.com/pr/" + x.Name)),
                     new WampRpcClientHandlerBuilder<JToken>(mFormatter,
-                        new WampServerProxyFactory<JToken>(new WampGenericServerProxyBuilder<JToken, IWampRpcClient<JToken>, IWampServer>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
+                        new WampServerProxyFactory<JToken>(new ManualWampServerProxyBuilder<JToken, IWampRpcClient<JToken>>(new WampOutgoingRequestSerializer<JToken>(mFormatter),
                                 new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(new WampServerProxyIncomingMessageHandlerBuilder<JToken, IWampRpcClient<JToken>>(mFormatter))))));
 
             listener.Start();
@@ -173,7 +173,7 @@ namespace WampSharp.Tests
         
         private IWampServer GetClient(IWampConnection<JToken> connection, IWampClient<JToken> wampClient)
         {
-            var serverProxyBuilder = new WampGenericServerProxyBuilder<JToken, IWampClient<JToken>, IWampServer>
+            var serverProxyBuilder = new ManualWampServerProxyBuilder<JToken, IWampClient<JToken>>
                 (new WampOutgoingRequestSerializer<JToken>(mFormatter),
                  new WampServerProxyOutgoingMessageHandlerBuilder<JToken, IWampClient<JToken>>
                      (GetHandlerBuilder()));

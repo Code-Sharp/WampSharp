@@ -1,10 +1,8 @@
 using System;
-using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.V1.Core.Contracts;
-using WampSharp.V1.Core.Utilities;
 
 namespace WampSharp.V1.Core.Listener.ClientBuilder
 {
@@ -18,7 +16,6 @@ namespace WampSharp.V1.Core.Listener.ClientBuilder
         #region Members
 
         private readonly IWampClientContainer<TMessage, IWampClient> mContainer;
-        private readonly ProxyGenerator mGenerator = CastleDynamicProxyGenerator.Instance;
         private readonly IWampOutgoingRequestSerializer mOutgoingSerializer;
         private readonly IWampOutgoingMessageHandlerBuilder<TMessage> mOutgoingHandlerBuilder;
 

@@ -5,7 +5,7 @@ using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.V1.Core.Listener.ClientBuilder
 {
-    internal class WampClientProxyBase : ProxyBase
+    internal abstract class WampClientProxyBase : ProxyBase
     {
         private static readonly MethodInfo mWelcome = Method.Get((IWampClient proxy) => proxy.Welcome(default, default, default));
         private static readonly MethodInfo mCallError3 = Method.Get((IWampClient proxy) => proxy.CallError(default, default, default));
