@@ -13,7 +13,7 @@ namespace WampSharp.V2
     /// </summary>
     public class DefaultWampChannelFactory : WampChannelFactory
     {
-        private readonly JTokenMsgpackBinding mMsgpackBinding = new JTokenMsgpackBinding();
+        private readonly JTokenMessagePackBinding mMsgpackBinding = new JTokenMessagePackBinding();
         private readonly JTokenJsonBinding mJsonBinding = new JTokenJsonBinding();
 
         /// <summary>

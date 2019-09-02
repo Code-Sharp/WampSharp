@@ -145,7 +145,7 @@ namespace WampSharp.V2
                                              Func<SslProtocols> getEnabledSslProtocols = null)
             : base(sessionAuthenticationFactory, realmContainer, uriValidator)
         {
-            bindings = bindings ?? new IWampBinding[] { new JTokenJsonBinding(), new JTokenMsgpackBinding() };
+            bindings = bindings ?? new IWampBinding[] { new JTokenJsonBinding(), new JTokenMessagePackBinding() };
 
             this.RegisterTransport(
                 new FleckAuthenticatedWebSocketTransport(location, cookieAuthenticatorFactory, certificate, getEnabledSslProtocols),

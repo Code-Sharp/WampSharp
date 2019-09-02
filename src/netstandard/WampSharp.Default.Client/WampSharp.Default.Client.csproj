@@ -1,17 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <description>WampSharp above Newtonsoft.Json, Newtonsoft.Msgpack and WebSocket4Net</description>
+    <description>WampSharp above Newtonsoft.Json, NewtonsoftMessagePack and System.Net.WebSockets</description>
     <title>WampSharp default client binding</title>
-    <PackageTags>$(PackageTags) newtonsoft json msgpack</PackageTags>
+    <PackageTags>$(PackageTags) newtonsoft json messagepack</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
-    <ProjectReference Include="..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj" />
+    <ProjectReference Include="..\Default\WampSharp.NewtonsoftMessagePack\WampSharp.NewtonsoftMessagePack.csproj" />
     <ProjectReference Include="..\Extensions\WampSharp.WebSockets\WampSharp.WebSockets.csproj" />
   </ItemGroup>
 </Project>

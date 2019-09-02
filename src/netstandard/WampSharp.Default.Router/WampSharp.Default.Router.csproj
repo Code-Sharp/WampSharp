@@ -3,16 +3,19 @@
     <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup>
-    <description>WampSharp above Fleck, Newtonsoft.Json and WebSocket4Net</description>
+    <description>WampSharp above Fleck, Newtonsoft.Json and NewtonsoftMessagePack</description>
     <title>WampSharp default router binding</title>
-    <PackageTags>$(PackageTags) fleck newtonsoft json msgpack wampv2</PackageTags>
+    <PackageTags>$(PackageTags) fleck newtonsoft json messagepack wampv2</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'">
     <DefineConstants>$(DefineConstants);NETCORE;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Default\WampSharp.NewtonsoftJson\WampSharp.NewtonsoftJson.csproj" />
-    <ProjectReference Include="..\Default\WampSharp.NewtonsoftMsgpack\WampSharp.NewtonsoftMsgpack.csproj" />
+    <ProjectReference Include="..\Default\WampSharp.NewtonsoftMessagePack\WampSharp.NewtonsoftMessagePack.csproj" />
     <ProjectReference Include="..\Default\WampSharp.Fleck\WampSharp.Fleck.csproj" />
   </ItemGroup>
 </Project>

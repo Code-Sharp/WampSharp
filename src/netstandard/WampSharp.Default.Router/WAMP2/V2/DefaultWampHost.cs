@@ -92,7 +92,7 @@ namespace WampSharp.V2
             Func<SslProtocols> getEnabledSslProtocols = null)
             : base(realmContainer, uriValidator)
         {
-            bindings = bindings ?? new IWampBinding[] {new JTokenJsonBinding(), new JTokenMsgpackBinding()};
+            bindings = bindings ?? new IWampBinding[] {new JTokenJsonBinding(), new JTokenMessagePackBinding()};
 
             this.RegisterTransport(new FleckWebSocketTransport(location, certificate, getEnabledSslProtocols),
                                    bindings.ToArray());
