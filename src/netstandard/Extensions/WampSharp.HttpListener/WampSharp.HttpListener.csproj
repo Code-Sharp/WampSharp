@@ -1,5 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <title>WampSharp HttpListener based WebSockets support</title>
+    <description>WampSharp HttpListener based WebSockets support</description>
+    <PackageTags>$(PackageTags) wampv1 httplistener</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
   <ItemGroup>

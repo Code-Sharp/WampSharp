@@ -3,6 +3,11 @@
     <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
     <DefineConstants>$(DefineConstants);ASYNC_LOCAL;</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup>
+    <description>WampSharp WAMP1 support</description>
+    <title>WampSharp WAMP1 support</title>
+    <PackageTags>websockets wampws rpc pubsub wampv1</PackageTags>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.0" />
   </ItemGroup>

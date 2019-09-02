@@ -15,4 +15,10 @@
   <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false'">
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" PrivateAssets="All" /> 
   </ItemGroup>
+  <PropertyGroup>
+    <authors>CodeSharp</authors>
+    <RepositoryUrl>https://github.com/Code-Sharp/WampSharp/</RepositoryUrl>
+    <projectUrl>https://wampsharp.net/</projectUrl>
+    <PackageTags>websockets wampws rpc pubsub wampv2</PackageTags>
+  </PropertyGroup>
 </Project>

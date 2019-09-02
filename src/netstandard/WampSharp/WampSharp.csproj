@@ -1,4 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <description>An implementation of WAMP (The Web Application Messaging Protocol). Supports both WAMPv2 and WAMPv1.</description>    
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>

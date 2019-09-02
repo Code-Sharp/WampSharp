@@ -2,6 +2,11 @@
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
+  <PropertyGroup>
+    <description>WampSharp above Fleck, Newtonsoft.Json and WebSocket4Net</description>
+    <title>WampSharp default router binding</title>
+    <PackageTags>$(PackageTags) fleck newtonsoft json msgpack wampv2</PackageTags>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'">
     <DefineConstants>$(DefineConstants);NETCORE;</DefineConstants>
   </PropertyGroup>

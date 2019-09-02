@@ -1,7 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <title>WampSharp NewtonsoftMessagePack binding</title>
+    <description>WampSharp NewtonsoftMessagePack support</description>
+    <PackageTags>$(PackageTags) newtonsoft messagepack</PackageTags>
+  </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.0;netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

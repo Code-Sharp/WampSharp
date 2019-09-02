@@ -1,5 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <description>WampSharp Newtonsoft.Json support</description>
+    <title>WampSharp Newtonsoft.Json binding</title>
+    <PackageTags>websockets wampws rpc pubsub newtonsoft json wampv1 wampv2</PackageTags>
+  </PropertyGroup>
+  <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>

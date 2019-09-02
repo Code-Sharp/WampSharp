@@ -1,4 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <title>WampSharp AspNetCore WebSockets Server support</title>
+    <description>WampSharp Microsoft.AspNetCore.WebSockets support</description>
+    <PackageTags>$(PackageTags) wampv1 aspnetcore</PackageTags>
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>

@@ -8,4 +8,9 @@
     <ProjectReference Include="..\Default\WampSharp.Fleck\WampSharp.Fleck.csproj" />
     <ProjectReference Include="..\Default\WampSharp.WebSocket4Net\WampSharp.WebSocket4Net.csproj" />
   </ItemGroup>
+  <PropertyGroup>
+    <title>WampSharp WAMP1 default binding</title>
+    <description>WampSharp WAMP1 default binding, implemented using Newtonsoft.Json, WebSocket4Net and Fleck</description>
+    <PackageTags>websockets wampws rpc pubsub fleck newtonsoft json websocket4net wampv1</PackageTags>
+  </PropertyGroup>
 </Project>

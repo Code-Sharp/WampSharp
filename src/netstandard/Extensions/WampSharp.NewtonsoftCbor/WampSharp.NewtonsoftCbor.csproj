@@ -1,7 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <title>WampSharp Newtonsoft.Json.Cbor binding</title>
+    <description>WampSharp Newtonsoft.Json.Cbor support</description>
+    <PackageTags>$(PackageTags) newtonsoft cbor</PackageTags>
+  </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.0;netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

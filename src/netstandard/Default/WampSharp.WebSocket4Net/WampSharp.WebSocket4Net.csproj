@@ -1,4 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <title>WampSharp WebSocket4Net connection</title>
+    <description>WampSharp WebSocket4Net support</description>
+    <PackageTags>$(PackageTags) websocket4net wampv1</PackageTags>
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
