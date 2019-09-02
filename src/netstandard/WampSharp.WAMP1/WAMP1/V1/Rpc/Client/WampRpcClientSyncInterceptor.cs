@@ -1,4 +1,4 @@
-﻿using Castle.DynamicProxy;
+﻿using System.Reflection;
 
 namespace WampSharp.V1.Rpc.Client
 {
@@ -8,12 +8,12 @@ namespace WampSharp.V1.Rpc.Client
         {
         }
 
-        public override void Intercept(IInvocation invocation)
+        public override object Invoke(MethodInfo method, object[] arguments)
         {
-            WampRpcCall wampRpcCall = Serializer.Serialize(invocation.Method, invocation.Arguments);
+            WampRpcCall wampRpcCall = Serializer.Serialize(method, arguments);
             object result = ClientHandler.Handle(wampRpcCall);
 
-            invocation.ReturnValue = result;
+            return result;
         }
     }
 }

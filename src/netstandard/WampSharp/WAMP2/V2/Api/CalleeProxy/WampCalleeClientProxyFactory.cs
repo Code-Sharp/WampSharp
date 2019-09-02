@@ -29,9 +29,9 @@ namespace WampSharp.V2.CalleeProxy
                 GenerateCodeAndThrowException<TProxy>();
             }
 
-            TProxy result = DispatchProxy.Create<TProxy, CalleeProxy>();
+            TProxy result = DispatchProxy.Create<TProxy, CalleeDispatchProxy>();
 
-            CalleeProxy casted = result as CalleeProxy;
+            CalleeDispatchProxy casted = result as CalleeDispatchProxy;
 
             casted.Handler = mHandler;
             casted.CalleeProxyInterceptor = interceptor;

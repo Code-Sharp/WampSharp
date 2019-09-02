@@ -1,7 +1,6 @@
-﻿using Castle.DynamicProxy;
+﻿using System.Reflection;
+using System.Threading.Tasks;
 using WampSharp.Core.Listener;
-using WampSharp.Core.Utilities;
-using WampSharp.V1.Core.Utilities;
 
 namespace WampSharp.V1.Rpc.Client
 {
@@ -12,7 +11,6 @@ namespace WampSharp.V1.Rpc.Client
     /// <typeparam name="TMessage"></typeparam>
     public class WampRpcClientFactory<TMessage> : IWampRpcClientFactory<TMessage>
     {
-        private readonly ProxyGenerator mProxyGenerator = CastleDynamicProxyGenerator.Instance;
         private readonly IWampRpcSerializer mSerializer;
         private readonly IWampRpcClientHandlerBuilder<TMessage> mClientHandlerBuilder;
 
@@ -29,6 +27,18 @@ namespace WampSharp.V1.Rpc.Client
             mClientHandlerBuilder = clientHandlerBuilder;
         }
 
+        public WampRpcClientInterceptor SelectInterceptor(MethodInfo method,
+                                                          IWampRpcClientHandler handler)
+        {
+            if (typeof (Task).IsAssignableFrom(method.ReturnType))
+            {
+                return new WampRpcClientSyncInterceptor(mSerializer, handler);
+            }
+
+            return new WampRpcClientSyncInterceptor(mSerializer, handler);
+        }
+
+
         public TProxy GetClient<TProxy>(IWampConnection<TMessage> connection) where TProxy : class
         {
             IWampRpcClientHandler handler = mClientHandlerBuilder.Build(connection);
@@ -39,14 +49,12 @@ namespace WampSharp.V1.Rpc.Client
             WampRpcClientAsyncInterceptor asyncInterceptor =
                 new WampRpcClientAsyncInterceptor(mSerializer, handler);
 
-            ProxyGenerationOptions generationOptions =
-                new ProxyGenerationOptions {Selector = new WampRpcClientInterceptorSelector()};
+            TProxy result = DispatchProxy.Create<TProxy, RpcDispatchProxy>();
 
-            TProxy result =
-                mProxyGenerator.CreateInterfaceProxyWithoutTarget<TProxy>
-                    (generationOptions,
-                     syncInterceptor,
-                     asyncInterceptor);
+            RpcDispatchProxy dispatchProxy = result as RpcDispatchProxy;
+
+            dispatchProxy.SyncInterceptor = syncInterceptor;
+            dispatchProxy.AsyncInterceptor = asyncInterceptor;
 
             return result;
         }

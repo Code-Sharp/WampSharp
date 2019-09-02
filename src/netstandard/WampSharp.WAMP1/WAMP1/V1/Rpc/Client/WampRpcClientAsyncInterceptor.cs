@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Castle.DynamicProxy;
+﻿using System.Reflection;
+using System.Threading.Tasks;
 using WampSharp.Core.Utilities;
 
 namespace WampSharp.V1.Rpc.Client
@@ -11,16 +11,16 @@ namespace WampSharp.V1.Rpc.Client
         {
         }
 
-        public override void Intercept(IInvocation invocation)
+        public override object Invoke(MethodInfo method, object[] arguments)
         {
             WampRpcCall call =
-                Serializer.Serialize(invocation.Method, invocation.Arguments);
+                Serializer.Serialize(method, arguments);
 
             Task<object> task = ClientHandler.HandleAsync(call);
 
             Task convertedTask = task.Cast(call.ReturnType);
 
-            invocation.ReturnValue = convertedTask;
+            return convertedTask;
         }
     }
 }

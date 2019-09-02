@@ -3,7 +3,7 @@ using WampSharp.Core.Utilities;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    public class CalleeProxy : DispatchProxy
+    public class CalleeDispatchProxy : DispatchProxy
     {
         private readonly SwapDictionary<MethodInfo, ICalleeProxyInvocationInterceptor> mMethodToInterceptor =
             new SwapDictionary<MethodInfo, ICalleeProxyInvocationInterceptor>();

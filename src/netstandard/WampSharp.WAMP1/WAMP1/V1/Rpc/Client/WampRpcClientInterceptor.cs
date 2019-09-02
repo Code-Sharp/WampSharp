@@ -1,4 +1,4 @@
-﻿using Castle.DynamicProxy;
+﻿using System.Reflection;
 
 namespace WampSharp.V1.Rpc.Client
 {
@@ -6,10 +6,8 @@ namespace WampSharp.V1.Rpc.Client
     /// A base class interceptor for both synchronous and asynchronous
     /// rpc calls.
     /// </summary>
-    public abstract class WampRpcClientInterceptor : IInterceptor
+    public abstract class WampRpcClientInterceptor
     {
-        private readonly IWampRpcClientHandler mClientHandler;
-
         /// <summary>
         /// Creates a new instance of <see cref="WampRpcClientHandlerBuilder{TMessage}"/>.
         /// </summary>
@@ -18,7 +16,7 @@ namespace WampSharp.V1.Rpc.Client
         public WampRpcClientInterceptor(IWampRpcSerializer serializer, IWampRpcClientHandler clientHandler)
         {
             Serializer = serializer;
-            mClientHandler = clientHandler;
+            ClientHandler = clientHandler;
         }
 
         /// <summary>
@@ -30,12 +28,13 @@ namespace WampSharp.V1.Rpc.Client
         /// The <see cref="IWampRpcClientHandler"/> use in order
         /// to handle serialized <see cref="WampRpcCall"/>s.
         /// </summary>
-        public IWampRpcClientHandler ClientHandler => mClientHandler;
+        public IWampRpcClientHandler ClientHandler { get; }
 
         /// <summary>
-        /// Implementation of <see cref="IInterceptor.Intercept"/>.
+        /// Called when a method is invoked.
         /// </summary>
-        /// <param name="invocation"></param>
-        public abstract void Intercept(IInvocation invocation);
+        /// <param name="method"></param>
+        /// <param name="arguments"></param>
+        public abstract object Invoke(MethodInfo method, object[] arguments);
     }
 }

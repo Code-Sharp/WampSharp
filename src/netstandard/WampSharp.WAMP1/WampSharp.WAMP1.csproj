@@ -8,9 +8,6 @@
     <PackageTags>websockets wampws rpc pubsub wampv1</PackageTags>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.4.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\WampSharp\WampSharp.csproj" />
   </ItemGroup>
 </Project>
