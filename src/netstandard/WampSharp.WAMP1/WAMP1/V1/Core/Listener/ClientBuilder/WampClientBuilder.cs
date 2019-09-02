@@ -1,18 +1,16 @@
+using System;
 using Castle.DynamicProxy;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
-using WampSharp.Core.Utilities;
 using WampSharp.V1.Core.Contracts;
-using WampSharp.V1.Core.Curie;
-using WampSharp.V1.Core.Proxy;
 using WampSharp.V1.Core.Utilities;
 
 namespace WampSharp.V1.Core.Listener.ClientBuilder
 {
     /// <summary>
     /// An implementation of <see cref="IWampClientBuilder{TMessage,TClient}"/>
-    /// that is a bit specific to WAMPv1 (because of curies).
+    /// that is specific to WAMPv1.
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public class WampClientBuilder<TMessage> : IWampClientBuilder<TMessage, IWampClient>
@@ -47,43 +45,25 @@ namespace WampSharp.V1.Core.Listener.ClientBuilder
 
         public IWampClient Create(IWampConnection<TMessage> connection)
         {
-            WampOutgoingInterceptor<TMessage> wampOutgoingInterceptor =
-                new WampOutgoingInterceptor<TMessage>
-                    (mOutgoingSerializer,
-                     mOutgoingHandlerBuilder.Build(connection));
+            IWampOutgoingMessageHandler outgoingHandler =
+                mOutgoingHandlerBuilder.Build(connection);
 
-            ProxyGenerationOptions proxyGenerationOptions =
-                new ProxyGenerationOptions()
-                    {
-                        Selector =
-                            new WampInterceptorSelector<TMessage>()
-                    };
+            WampConnectionMonitor<TMessage> monitor =
+                new WampConnectionMonitor<TMessage>(connection);
 
-            proxyGenerationOptions.AddMixinInstance
-                (new WampClientContainerDisposable<TMessage, IWampClient>
-                    (mContainer, connection));
+            IDisposable disposable =
+                new WampClientContainerDisposable<TMessage, IWampClient>
+                    (mContainer, connection);
 
-            // This is specific to WAMPv1. In WAMPv2 I think no curies
-            // will be supported.
-            proxyGenerationOptions.AddMixinInstance(new WampCurieMapper());
+            WampClientProxy result =
+                new WampClientProxy(outgoingHandler,
+                                    mOutgoingSerializer,
+                                    monitor,
+                                    disposable);
 
-            var monitor = new WampConnectionMonitor<TMessage>(connection);
-            proxyGenerationOptions.AddMixinInstance(monitor);
-
-            SessionIdPropertyInterceptor sessionIdPropertyInterceptor = 
-                new SessionIdPropertyInterceptor();
-            
-            IWampClient result =
-                mGenerator.CreateInterfaceProxyWithoutTarget<IWampClient>
-                    (proxyGenerationOptions, wampOutgoingInterceptor,
-                    sessionIdPropertyInterceptor,
-                    new WampCraAuthenticatorPropertyInterceptor());
+            result.SessionId = (string) mContainer.GenerateClientId(result);
 
             monitor.Client = result;
-
-            object sessiondId = mContainer.GenerateClientId(result);
-
-            sessionIdPropertyInterceptor.SessionId = (string) sessiondId;
 
             return result;
         }
