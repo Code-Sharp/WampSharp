@@ -1,6 +1,4 @@
-﻿
-#if CASTLE || DISPATCH_PROXY
-using System.Reflection;
+﻿using System.Reflection;
 using WampSharp.V2.ReflectionDispatchProxy;
 
 namespace WampSharp.V2.CalleeProxy
@@ -23,16 +21,6 @@ namespace WampSharp.V2.CalleeProxy
         public MethodInfo Method { get; }
 
         public abstract object Invoke(MethodInfo method, object[] arguments);
-
-#if CASTLE
-
-        public void Intercept(IInvocation invocation)
-        {
-            object result = Invoke(invocation.Method, invocation.Arguments);
-            invocation.ReturnValue = result;
-        }
-
-#endif
     }
 
     internal abstract class CalleeProxyInterceptorBase<TResult> : CalleeProxyInterceptorBase
@@ -47,4 +35,3 @@ namespace WampSharp.V2.CalleeProxy
         public IOperationResultExtractor<TResult> Extractor { get; }
     }
 }
-#endif

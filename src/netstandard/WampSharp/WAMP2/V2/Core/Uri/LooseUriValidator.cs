@@ -28,11 +28,7 @@ namespace WampSharp.V2.Core
         /// </summary>
         public LooseUriValidator()
         {
-#if !PCL
             RegexOptions regexOptions = RegexOptions.Compiled;
-#else
-            RegexOptions regexOptions = RegexOptions.None;
-#endif
 
             mUriPatternAllowEmpty = new Regex(@"^(([^\s\.#]+\.)|\.)*([^\s\.#]+)?$", regexOptions);
             mUriPatternDisallowEmpty = new Regex(@"^([^\s\.#]+\.)*([^\s\.#]+)$", regexOptions);

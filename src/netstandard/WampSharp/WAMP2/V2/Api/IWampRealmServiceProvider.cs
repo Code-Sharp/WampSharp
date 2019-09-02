@@ -139,8 +139,6 @@ namespace WampSharp.V2
         /// <see cref="IAsyncDisposable"/>- disposing it will unsubscribe from the topic.</returns>
         Task<IAsyncDisposable> RegisterSubscriber(object instance, ISubscriberRegistrationInterceptor interceptor);
 
-#if !NET40
-
         /// <summary>
         /// Gets a <see cref="ISubject{TTuple}"/> representing a
         /// WAMP topic in the realm.
@@ -150,8 +148,5 @@ namespace WampSharp.V2
         /// and vice versa</param>
         /// <returns>The requested subject.</returns>
         ISubject<TTuple> GetSubject<TTuple>(string topicUri, IWampEventValueTupleConverter<TTuple> tupleConverter);
-
-#endif
-
     }
 }

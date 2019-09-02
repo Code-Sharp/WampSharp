@@ -38,11 +38,9 @@ namespace WampSharp.V2.Transports
             // TODO: If it does, disconnect the client.
         }
 
-
-#if ASYNC
         private void StartPing()
         {
-            Task.Run((Action)Ping);
+            Task.Run(Ping);
         }
 
         // We currently detect only disconnected clients and not "zombies",
@@ -69,31 +67,6 @@ namespace WampSharp.V2.Transports
                 }
             }
         }
-#else
-        private void StartPing()
-        {
-            Observable.Defer
-                (() => Observable.FromAsync
-                     (() =>
-                     {
-                         byte[] ticks = GetCurrentTicks();
-                         return mPinger.SendPing(ticks);
-                     })
-                                 .Concat(Observable.Timer(mAutoSendPingInterval.Value)
-                                                   .Select(y => Unit.Default))
-                )
-                      .Repeat()
-                      .ToTask()
-                      .ContinueWith(x =>
-                      {
-                          if (x.Exception != null)
-                          {
-                              mLogger.WarnException("Failed pinging remote peer", x.Exception);
-                          }
-                      });
-        }
-#endif
-
         private byte[] GetCurrentTicks()
         {
             DateTime now = DateTime.Now;

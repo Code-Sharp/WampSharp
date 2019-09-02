@@ -1,5 +1,4 @@
-﻿#if MANUAL_PROXY
-using System;
+﻿using System;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
@@ -80,5 +79,3 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         }
     }
 }
-
-#endif

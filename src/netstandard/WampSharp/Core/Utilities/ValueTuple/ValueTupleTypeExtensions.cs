@@ -9,7 +9,7 @@ namespace WampSharp.Core.Utilities.ValueTuple
     {
         public static bool IsValueTuple(this Type type)
         {
-            if (!type.IsGenericType())
+            if (!type.IsGenericType)
             {
                 return false;
             }
@@ -58,7 +58,7 @@ namespace WampSharp.Core.Utilities.ValueTuple
 
         public static bool IsLongTuple(this Type tupleType)
         {
-            return tupleType.IsGenericType() &&
+            return tupleType.IsGenericType &&
                    tupleType.GetGenericTypeDefinition() == typeof(ValueTuple<,,,,,,,>);
         }
 

@@ -1,5 +1,4 @@
-﻿#if MANUAL_PROXY
-using WampSharp.Core.Message;
+﻿using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
@@ -30,4 +29,3 @@ namespace WampSharp.Core.Client
         }
     }
 }
-#endif

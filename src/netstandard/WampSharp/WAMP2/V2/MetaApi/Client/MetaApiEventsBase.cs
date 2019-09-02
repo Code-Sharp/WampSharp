@@ -21,11 +21,8 @@ namespace WampSharp.V2.MetaApi
 
         protected Task<IAsyncDisposable> InnerSubscribe(Delegate handler, string topic)
         {
-#if !PCL
             MethodInfo method = handler.Method;
-#else
-            MethodInfo method = handler.GetMethodInfo();
-#endif
+
             return
                 mRealmProxy.TopicContainer.GetTopicByUri(topic)
                            .Subscribe(new MethodInfoSubscriber(handler.Target, method, topic),

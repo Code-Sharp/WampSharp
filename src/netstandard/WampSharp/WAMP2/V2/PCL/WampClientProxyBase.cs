@@ -1,9 +1,7 @@
-#if MANUAL_PROXY
 using System.Collections.Generic;
 using System.Reflection;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Utilities;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Core.Listener.ClientBuilder
@@ -149,4 +147,3 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         }
     }
 }
-#endif

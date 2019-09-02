@@ -142,7 +142,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             await registerTask;
 
             IAddService calleeProxy =
-                callerChannel.RealmProxy.Services.GetCalleeProxyPortable<IAddService>(new CalleeProxyInterceptor(callOptions));
+                callerChannel.RealmProxy.Services.GetCalleeProxy<IAddService>(new CalleeProxyInterceptor(callOptions));
 
             WampException caughtException = null;
 

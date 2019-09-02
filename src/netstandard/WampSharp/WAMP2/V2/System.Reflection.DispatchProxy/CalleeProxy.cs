@@ -1,6 +1,4 @@
-﻿#if DISPATCH_PROXY
-using System;
-using System.Reflection;
+﻿using System.Reflection;
 using WampSharp.Core.Utilities;
 using WampSharp.V2.ReflectionDispatchProxy;
 
@@ -32,5 +30,3 @@ namespace WampSharp.V2.CalleeProxy
         internal WampCalleeProxyInvocationHandler Handler { get; set; }
     }
 }
-
-#endif

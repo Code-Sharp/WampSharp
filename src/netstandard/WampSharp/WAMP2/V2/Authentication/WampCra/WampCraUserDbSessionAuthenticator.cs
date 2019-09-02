@@ -1,4 +1,3 @@
-#if WAMPCRA
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Authentication
@@ -71,4 +70,3 @@ namespace WampSharp.V2.Authentication
         public override string Secret => mUser.Secret;
     }
 }
-#endif

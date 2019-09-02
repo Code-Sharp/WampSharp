@@ -1,4 +1,3 @@
-#if MANUAL_PROXY
 using System.Reflection;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
@@ -28,4 +27,3 @@ namespace WampSharp.V2
         }
     }
 }
-#endif

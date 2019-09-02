@@ -1,4 +1,3 @@
-#if WAMPCRA
 using System.Linq;
 using WampSharp.V2.Core.Contracts;
 
@@ -74,5 +73,3 @@ namespace WampSharp.V2.Authentication
         }
     }
 }
-
-#endif

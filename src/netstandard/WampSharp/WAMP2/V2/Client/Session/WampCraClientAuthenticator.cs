@@ -1,4 +1,3 @@
-#if WAMPCRA
 using WampSharp.Core.Cra;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
@@ -72,4 +71,3 @@ namespace WampSharp.V2.Client
         public string AuthenticationId { get; }
     }
 }
-#endif

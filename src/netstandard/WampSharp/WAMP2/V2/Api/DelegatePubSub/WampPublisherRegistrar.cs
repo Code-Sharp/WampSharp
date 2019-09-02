@@ -35,7 +35,7 @@ namespace WampSharp.V2.DelegatePubSub
 
             foreach (Type type in typesToExplore)
             {
-                foreach (EventInfo @event in type.GetInstanceEvents())
+                foreach (EventInfo @event in type.GetPublicInstanceEvents())
                 {
                     if (interceptor.IsPublisherTopic(@event))
                     {
@@ -122,7 +122,7 @@ namespace WampSharp.V2.DelegatePubSub
                 };
 
             // TODO: add support using the interceptor/an attribute.
-            if (!eventHandlerType.IsGenericType())
+            if (!eventHandlerType.IsGenericType)
             {
                 return actionTypes.Contains(eventHandlerType);
             }

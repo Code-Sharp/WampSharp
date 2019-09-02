@@ -9,8 +9,6 @@ namespace SystemEx
 {
     internal static class AsyncDisposableExtensions
     {
-
-#if ASYNC
         public static async Task<IAsyncDisposable> ToAsyncDisposableTask(
             this IEnumerable<Task<IAsyncDisposable>> disposableTasks)
         {
@@ -21,27 +19,5 @@ namespace SystemEx
 
             return result;
         }
-#else
-        public static Task<IAsyncDisposable> ToAsyncDisposableTask(this IEnumerable<Task<IAsyncDisposable>> disposableTasks)
-        {
-            IObservable<IAsyncDisposable> tasksAsObservables =
-                from task in disposableTasks.ToObservable()
-                from asyncDisposable in task
-                select asyncDisposable;
-
-            var merged =
-                tasksAsObservables.ToList();
-
-            var observableResult =
-                merged.Select(x => new CompositeAsyncDisposable(x))
-                    .Cast<IAsyncDisposable>();
-
-            Task<IAsyncDisposable> result =
-                observableResult.ToTask();
-
-            return result;
-        }
-#endif
-
     }
 }

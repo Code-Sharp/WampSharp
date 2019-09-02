@@ -42,16 +42,7 @@ namespace SystemEx
                 tasks.Add(disposeTask);
             }
 
-#if !NET40
             Task result = Task.WhenAll(tasks);
-#else
-            IObservable<Unit> whenAll = 
-                from currentTask in tasks.ToObservable()
-                from unit in currentTask.ToObservable()
-                select unit;
-
-            Task result = whenAll.ToTask();
-#endif
 
             return result;
         }

@@ -18,12 +18,10 @@ namespace WampSharp.V2.Client
         {
         }
 
-#if !PCL
         protected WampSessionNotEstablishedException(
             SerializationInfo info,
             StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
 }

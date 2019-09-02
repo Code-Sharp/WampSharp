@@ -1,5 +1,4 @@
-﻿#if MANUAL_PROXY
-using WampSharp.Core.Proxy;
+﻿using WampSharp.Core.Proxy;
 using WampSharp.V2;
 
 namespace WampSharp.Core.Serialization
@@ -31,4 +30,3 @@ namespace WampSharp.Core.Serialization
         }
     }
 }
-#endif

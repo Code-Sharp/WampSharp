@@ -1,5 +1,4 @@
-﻿#if DISPATCH_PROXY
-using System;
+﻿using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using WampSharp.V2.Client;
@@ -54,5 +53,3 @@ namespace WampSharp.V2.CalleeProxy
         }
     }
 }
-
-#endif

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
-    <DefineConstants>$(DefineConstants);ASYNC_LOCAL;</DefineConstants>
+    <DefineConstants>$(DefineConstants);ASYNC_LOCAL;NET45</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
     <description>WampSharp WAMP1 support</description>

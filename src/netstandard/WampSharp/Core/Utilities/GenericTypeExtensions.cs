@@ -39,15 +39,15 @@ namespace WampSharp.Core.Utilities
                 return null;
             }
 
-            if (type.IsGenericType() &&
+            if (type.IsGenericType &&
                 type.GetGenericTypeDefinition() == openGenericType)
             {
                 return type;
             }
 
-            if (!openGenericType.IsInterface())
+            if (!openGenericType.IsInterface)
             {
-                return type.BaseType().GetClosedGenericTypeImplementation(openGenericType);
+                return type.BaseType.GetClosedGenericTypeImplementation(openGenericType);
             }
             else
             {

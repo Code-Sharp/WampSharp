@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SystemEx;
+using System.Threading.Tasks.Dataflow;
 using WampSharp.Core.Message;
 using WampSharp.Logging;
 
@@ -24,8 +24,6 @@ namespace WampSharp.Core.Listener
         {
             mSendBlock.Post(message);
         }
-
-#if ASYNC
 
         protected async Task InnerSend(WampMessage<object> message)
         {
@@ -53,43 +51,6 @@ namespace WampSharp.Core.Listener
                 }
             }
         }
-
-#else
-        protected Task InnerSend(WampMessage<object> message)
-        {
-            const string errorMessage =
-                "An error occurred while attempting to send a message to remote peer.";
-
-            if (IsConnected)
-            {
-                Task sendAsync = SendAsync(message);
-
-                if (sendAsync == null)
-                {
-                    mLogger.Error(errorMessage + " Got null Task.");
-                }
-                else
-                {
-                    Task result = sendAsync.ContinueWith(task =>
-                    {
-                        var ex = task.Exception;
-
-                        if (ex != null)
-                        {
-                            mLogger.Error(errorMessage, ex);
-                        }
-                    });
-
-                    return result;
-                }
-            }
-
-            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
-            tcs.SetResult(null);
-            return tcs.Task;
-        }
-
-#endif
 
         protected abstract bool IsConnected { get; }
 
@@ -133,8 +94,6 @@ namespace WampSharp.Core.Listener
 
         protected abstract void Dispose();
 
-#if ASYNC
-
         async ValueTask IAsyncDisposable.DisposeAsync()
         {
             if (Interlocked.CompareExchange(ref mDisposeCalled, 1, 0) == 0)
@@ -144,16 +103,6 @@ namespace WampSharp.Core.Listener
                 this.Dispose();
             }
         }
-
-#else
-
-        Task IAsyncDisposable.DisposeAsync()
-        {
-            mSendBlock.Complete();
-            return mSendBlock.Completion.ContinueWith(x => x.Dispose());
-        }
-
-#endif
 
         // TODO: move this to another file (after making it more generic)
         // TODO: or get rid of this.

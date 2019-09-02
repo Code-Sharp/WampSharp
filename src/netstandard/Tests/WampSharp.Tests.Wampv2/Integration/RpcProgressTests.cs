@@ -1,5 +1,4 @@
-﻿#if !NET40
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,7 +51,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             MyOperation myOperation = new MyOperation();
 
             await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, new RegisterOptions());
-            ILongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxyPortable<ILongOpService>();
+            ILongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ILongOpService>();
 
             List<int> results = new List<int>();
             MyProgress<int> progress = new MyProgress<int>(i => results.Add(i));
@@ -189,4 +188,3 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
     }
 }
-#endif

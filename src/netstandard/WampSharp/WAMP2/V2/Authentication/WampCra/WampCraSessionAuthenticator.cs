@@ -1,5 +1,4 @@
-﻿#if WAMPCRA
-using System;
+﻿using System;
 using WampSharp.Core.Cra;
 using WampSharp.V2.Core.Contracts;
 
@@ -70,4 +69,3 @@ namespace WampSharp.V2.Authentication
         public override string AuthenticationMethod => WampAuthenticationMethods.WampCra;
     }
 }
-#endif

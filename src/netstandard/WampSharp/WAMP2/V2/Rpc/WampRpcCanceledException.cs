@@ -37,12 +37,9 @@ namespace WampSharp.V2.Rpc
         {
         }
 
-#if !PCL
         protected WampRpcCanceledException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-#endif
     }
-
 }

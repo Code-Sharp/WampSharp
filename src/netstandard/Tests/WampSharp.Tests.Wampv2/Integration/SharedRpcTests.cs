@@ -131,7 +131,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             await channel.Open();
 
             IPingService pingService =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<IPingService>();
+                channel.RealmProxy.Services.GetCalleeProxy<IPingService>();
 
             return pingService;
         }

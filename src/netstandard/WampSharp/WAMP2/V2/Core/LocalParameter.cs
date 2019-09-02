@@ -46,7 +46,7 @@ namespace WampSharp.V2.Core
             this(parameter.Name,
                 parameter.ParameterType,
                 parameter.DefaultValue,
-                parameter.HasDefaultValue(),
+                parameter.HasDefaultValue,
                 parameter.Position)
         {
         }

@@ -28,11 +28,7 @@ namespace WampSharp.V2.Core
         /// </summary>
         public StrictUriValidator()
         {
-#if !PCL
             RegexOptions regexOptions = RegexOptions.Compiled;
-#else
-            RegexOptions regexOptions = RegexOptions.None;
-#endif
 
             mUriPatternAllowEmpty = new Regex(@"^(([0-9a-z_]+\.)|\.)*([0-9a-z_]+)?$", regexOptions);
             mUriPatternDisallowEmpty = new Regex(@"^([0-9a-z_]+\.)*([0-9a-z_]+)$", regexOptions);

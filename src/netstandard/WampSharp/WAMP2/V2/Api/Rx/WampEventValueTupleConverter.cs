@@ -70,13 +70,13 @@ namespace WampSharp.V2
 
         private void ValidateConverterType(Type converterType)
         {
-            if (converterType.IsGenericType())
+            if (converterType.IsGenericType)
             {
                 Type genericTypeDefinition = 
                     converterType.GetGenericTypeDefinition();
 
                 Type genericTypeDefinitionBase =
-                    genericTypeDefinition.BaseType();
+                    genericTypeDefinition.BaseType;
 
                 Type genericTypeDefinitionBaseTupleType =
                     genericTypeDefinitionBase.GetGenericArguments()[0];
@@ -126,9 +126,9 @@ namespace WampSharp.V2
 
             Type baseType = typeof(WampEventValueTupleConverter<TTuple>);
 
-            while (currentType.BaseType() != baseType)
+            while (currentType.BaseType != baseType)
             {
-                currentType = currentType.BaseType();
+                currentType = currentType.BaseType;
             }
 
             return currentType;

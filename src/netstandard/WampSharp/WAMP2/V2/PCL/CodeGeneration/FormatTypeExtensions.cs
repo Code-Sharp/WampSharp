@@ -13,7 +13,7 @@ namespace WampSharp.CodeGeneration
     {
         public static string FormatType(Type type)
         {
-            if (!type.IsGenericType() && !type.IsArray)
+            if (!type.IsGenericType && !type.IsArray)
             {
                 return Prettify(type.FullName);
             }
@@ -21,7 +21,7 @@ namespace WampSharp.CodeGeneration
             {
                 return $"{FormatType(type.GetElementType())}[{new string(',', type.GetArrayRank() - 1)}]";
             }
-            else if (type.IsGenericType())
+            else if (type.IsGenericType)
             {
                 string truncatedName = type.FullName.Substring(0, type.FullName.IndexOf('`'));
 

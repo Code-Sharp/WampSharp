@@ -1,4 +1,3 @@
-#if CASTLE || DISPATCH_PROXY
 using System;
 using System.Linq;
 using System.Reflection;
@@ -44,4 +43,3 @@ namespace WampSharp.V2.CalleeProxy
         }
     }
 }
-#endif

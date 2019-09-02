@@ -23,7 +23,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ArgumentsService>(playground);
 
             IArgumentsService proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<IArgumentsService>();
+                channel.RealmProxy.Services.GetCalleeProxy<IArgumentsService>();
 
             int five = proxy.Add2(2, 3);
 
@@ -38,7 +38,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ArgumentsService>(playground);
 
             IArgumentsService proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<IArgumentsService>();
+                channel.RealmProxy.Services.GetCalleeProxy<IArgumentsService>();
 
             Task<int> task = proxy.Add2Async(2, 3);
             
@@ -91,7 +91,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ErrorsService>(playground);
 
             IErrorsService proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<IErrorsService>();
+                channel.RealmProxy.Services.GetCalleeProxy<IErrorsService>();
 
             Task<int> result = proxy.SqrtAsync(number);
 
@@ -123,7 +123,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ArgumentsService>(playground);
 
             IArgumentsService proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<IArgumentsService>();
+                channel.RealmProxy.Services.GetCalleeProxy<IArgumentsService>();
 
             string[] orders = 
                 proxy.Orders("Book", 3);
@@ -139,7 +139,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ComplexResultService>(playground);
 
             IComplexResultService proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<IComplexResultService>();
+                channel.RealmProxy.Services.GetCalleeProxy<IComplexResultService>();
             proxy.AddComplex(2, 3, 4, 5, out int c, out int ci);
 
             Assert.That(c, Is.EqualTo(6));
@@ -147,11 +147,6 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
 
-#if PCL
-        [Ignore("Can't get ValueTuple compiler to work")]
-#endif
-        // TODO: Move these to a separate file
-#if !NET40
         [Test]
         public async Task ComplexServiceTupleSplitName()
         {
@@ -160,20 +155,14 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ComplexResultService>(playground);
 
             IPositionalTupleComplexResultService proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<IPositionalTupleComplexResultService>();
+                channel.RealmProxy.Services.GetCalleeProxy<IPositionalTupleComplexResultService>();
 
-            var splitName = proxy.SplitName("Homer Simpson");
-            // var (firstName, surName) = proxy.SplitName("Homer Simpson");
-            string firstName = splitName.Item1;
-            string surName = splitName.Item2;
+            var (firstName, surName) = proxy.SplitName("Homer Simpson");
 
             Assert.That(firstName, Is.EqualTo("Homer"));
             Assert.That(surName, Is.EqualTo("Simpson"));
         }
 
-#if PCL
-        [Ignore("Can't get ValueTuple compiler to work")]
-#endif
         [Test]
         public async Task ComplexServiceTupleSplitNameTask()
         {
@@ -182,20 +171,14 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ComplexResultService>(playground);
 
             IPositionalTupleComplexResultService proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<IPositionalTupleComplexResultService>();
+                channel.RealmProxy.Services.GetCalleeProxy<IPositionalTupleComplexResultService>();
 
-            var splitName = await proxy.SplitNameAsync("Homer Simpson");
-            // var (firstName, surName) = await proxy.SplitNameAsync("Homer Simpson");
-            string firstName = splitName.Item1;
-            string surName = splitName.Item2;
+            var (firstName, surName) = await proxy.SplitNameAsync("Homer Simpson");
 
             Assert.That(firstName, Is.EqualTo("Homer"));
             Assert.That(surName, Is.EqualTo("Simpson"));
         }
 
-#if PCL
-        [Ignore("Can't get ValueTuple compiler to work")]
-#endif
         [Test]
         public async Task ComplexServiceAddComplex_TupleCalleeProxy()
         {
@@ -204,22 +187,14 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ComplexResultService>(playground);
 
             INamedTupleComplexResultService proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<INamedTupleComplexResultService>();
+                channel.RealmProxy.Services.GetCalleeProxy<INamedTupleComplexResultService>();
 
-            int c;
-            int ci;
-            ValueTuple<int, int> result = proxy.AddComplex(2, 3, 4, 5);
-            c = result.Item1;
-            ci = result.Item2;
-            //var (c, ci) = proxy.AddComplex(2, 3, 4, 5);
+            var (c, ci) = proxy.AddComplex(2, 3, 4, 5);
 
             Assert.That(c, Is.EqualTo(6));
             Assert.That(ci, Is.EqualTo(8));
         }
 
-#if PCL
-        [Ignore("Can't get ValueTuple compiler to work")]
-#endif
         [Test]
         public async Task ComplexServiceAddComplex_TupleCalleeProxyTask()
         {
@@ -228,14 +203,9 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ComplexResultService>(playground);
 
             INamedTupleComplexResultService proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<INamedTupleComplexResultService>();
+                channel.RealmProxy.Services.GetCalleeProxy<INamedTupleComplexResultService>();
 
-            int c;
-            int ci;
-            ValueTuple<int, int> result = await proxy.AddComplexAsync(2, 3, 4, 5);
-            c = result.Item1;
-            ci = result.Item2;
-            //var (c, ci) = await proxy.AddComplexAsync(2, 3, 4, 5);
+            var (c, ci) = await proxy.AddComplexAsync(2, 3, 4, 5);
 
             Assert.That(c, Is.EqualTo(6));
             Assert.That(ci, Is.EqualTo(8));
@@ -250,7 +220,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<NamedTupleComplexResultService>(playground);
 
             IComplexResultService proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<IComplexResultService>();
+                channel.RealmProxy.Services.GetCalleeProxy<IComplexResultService>();
             proxy.AddComplex(2, 3, 4, 5, out int c, out int ci);
 
             Assert.That(c, Is.EqualTo(6));
@@ -286,9 +256,6 @@ namespace WampSharp.Tests.Wampv2.Integration
                         Is.EquivalentTo(new[] {6, 8}));
         }
 
-#if PCL
-        [Ignore("Can't get ValueTuple compiler to work")]
-#endif
         [Test]
         public async Task LongPositionalTupleServiceCalleeProxy()
         {
@@ -297,35 +264,18 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<LongValueTuplesService>(playground);
 
             ILongValueTuplesServiceProxy proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<ILongValueTuplesServiceProxy>();
+                channel.RealmProxy.Services.GetCalleeProxy<ILongValueTuplesServiceProxy>();
 
             string name = "Homer Simpson";
 
-            //(string item1, string item2, string item3, string item4, string item5, string item6, string item7, string item8, string item9, string item10, int length) =
-            //    proxy.GetLongPositionalTuple(name);
-            ValueTuple<string, string, string, string, string, string, string, ValueTuple<string, string, string, int>> expr_3E = 
+            (string item1, string item2, string item3, string item4, string item5, string item6, string item7, string item8, string item9, string item10, int length) =
                 proxy.GetLongPositionalTuple(name);
-
-            string item1 = expr_3E.Item1;
-            string item2 = expr_3E.Item2;
-            string item3 = expr_3E.Item3;
-            string item4 = expr_3E.Item4;
-            string item5 = expr_3E.Item5;
-            string item6 = expr_3E.Item6;
-            string item7 = expr_3E.Item7;
-            string item8 = expr_3E.Rest.Item1;
-            string item9 = expr_3E.Rest.Item2;
-            string item10 = expr_3E.Rest.Item3;
-            int length = expr_3E.Rest.Item4;
 
             Assert.That(item1, Is.EqualTo(name + " " + 0));
             Assert.That(item10, Is.EqualTo(name + " " + 9));
             Assert.That(length, Is.EqualTo(name.Length));
         }
 
-#if PCL
-        [Ignore("Can't get ValueTuple compiler to work")]
-#endif
         [Test]
         public async Task LongKeywordTupleServiceCalleeProxy()
         {
@@ -342,26 +292,12 @@ namespace WampSharp.Tests.Wampv2.Integration
             IWampChannel callerChannel = dualChannel.CallerChannel;
 
             ILongValueTuplesServiceProxy proxy =
-                callerChannel.RealmProxy.Services.GetCalleeProxyPortable<ILongValueTuplesServiceProxy>();
+                callerChannel.RealmProxy.Services.GetCalleeProxy<ILongValueTuplesServiceProxy>();
 
             string name = "Homer Simpson";
 
-            //(string item1, string item2, string item3, string item4, string item5, string item6, string item7, string item8, int count, string item9, string item10) =
-            //    proxy.GetLongPositionalTuple(name);
-            ValueTuple < string, string, string, string, string, string, string, ValueTuple<string, int, string, string>> expr_3E = 
+            var (item1, item2, item3, item4, item5, item6, item7, item8, length, item9, item10) =
                 proxy.GetLongKeywordTuple(name);
-
-            string item1 = expr_3E.Item1;
-            string item2 = expr_3E.Item2;
-            string item3 = expr_3E.Item3;
-            string item4 = expr_3E.Item4;
-            string item5 = expr_3E.Item5;
-            string item6 = expr_3E.Item6;
-            string item7 = expr_3E.Item7;
-            string item8 = expr_3E.Rest.Item1;
-            int length = expr_3E.Rest.Item2;
-            string item9 = expr_3E.Rest.Item3;
-            string item10 = expr_3E.Rest.Item4;
 
             Assert.That(item1, Is.EqualTo(name + " " + 0));
             Assert.That(item10, Is.EqualTo(name + " " + 9));
@@ -441,8 +377,6 @@ namespace WampSharp.Tests.Wampv2.Integration
                         Is.Empty);
         }
 
-#endif
-
         [Test]
         public async Task ComplexServiceSplitName()
         {
@@ -451,7 +385,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             var channel = await SetupService<ComplexResultService>(playground);
 
             IComplexResultService proxy =
-                channel.RealmProxy.Services.GetCalleeProxyPortable<IComplexResultService>();
+                channel.RealmProxy.Services.GetCalleeProxy<IComplexResultService>();
 
             string[] splitName = proxy.SplitName("Homer Simpson");
 

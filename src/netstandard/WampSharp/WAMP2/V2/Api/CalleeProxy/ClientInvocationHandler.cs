@@ -1,8 +1,4 @@
 using System;
-#if NET40
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
-#endif
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -81,13 +77,8 @@ namespace WampSharp.V2.CalleeProxy
 
         #region Overridden
 
-#if ASYNC
         protected override async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback, CancellationTokenRegistration registration)
-#else
-        protected override Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback, CancellationTokenRegistration registration)
-#endif
         {
-#if ASYNC
             Task<T> operationTask = asyncOperationCallback.Task;
 
             Task<Exception> disconnectionTask = mDisconnectionTaskCompletionSource.Task;
@@ -108,20 +99,6 @@ namespace WampSharp.V2.CalleeProxy
             T result = await operationTask.ConfigureAwait(false);
 
             return result;
-
-#else
-            IObservable<T> merged =
-                Observable.Amb
-                (asyncOperationCallback.Task.ToObservable(),
-                 mDisconnectionTaskCompletionSource.Task.ToObservable()
-                                                   .SelectMany(x => Observable.Throw<T>(x)));
-                
-            Task<T> task = merged.ToTask();
-
-            task.ContinueWith(x => registration.Dispose());
-
-            return task;
-#endif
         }
 
 

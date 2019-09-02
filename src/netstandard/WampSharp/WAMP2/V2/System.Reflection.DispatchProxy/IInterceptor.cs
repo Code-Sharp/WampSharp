@@ -1,6 +1,4 @@
-﻿#if DISPATCH_PROXY
-
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace WampSharp.V2.ReflectionDispatchProxy
 {
@@ -9,5 +7,3 @@ namespace WampSharp.V2.ReflectionDispatchProxy
         object Invoke(MethodInfo method, object[] arguments);
     }
 }
-
-#endif

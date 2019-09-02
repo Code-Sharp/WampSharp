@@ -2,9 +2,7 @@ using System;
 
 namespace WampSharp.RawSocket
 {
-#if !NETCORE
     [Serializable]
-#endif
     public class RawSocketProtocolException : Exception
     {
         public RawSocketProtocolException(HandshakeErrorCode errorCode) :

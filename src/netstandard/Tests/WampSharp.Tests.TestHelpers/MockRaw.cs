@@ -60,8 +60,6 @@ namespace WampSharp.Tests.TestHelpers
             return value;
         }
 
-#if !NETCORE
-
         private static bool TryClone(object value, out object result)
         {
             result = null;
@@ -74,15 +72,6 @@ namespace WampSharp.Tests.TestHelpers
 
             return false;
         }
-
-#else
-        private static bool TryClone(object value, out object result)
-        {
-            result = null;
-            return false;
-        }
-
-#endif
 
         public object Value { get; }
     }

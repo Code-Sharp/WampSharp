@@ -32,17 +32,6 @@ namespace WampSharp.RawSocket
             }
         }
 
-#if NETSTANDARD1_4
-
-        // TODO: Move to a different class
-        public static byte[] GetBuffer(this MemoryStream stream)
-        {
-            ArraySegment<byte> result;
-            stream.TryGetBuffer(out result);
-            return result.Array;
-        }
-
-#endif
         public static byte[] GetBufferWorkaround(this MemoryStream stream)
         {
             RecyclableMemoryStream memoryStream = stream as RecyclableMemoryStream;

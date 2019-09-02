@@ -30,11 +30,7 @@ namespace WampSharp.V1.Rpc.Server
             mRpcMetadataCatalog = rpcMetadataCatalog;
         }
 
-#if !NET45
-        public void Call(IWampClient client, string callId, string procUri, params TMessage[] arguments)
-#else
         public async void Call(IWampClient client, string callId, string procUri, params TMessage[] arguments)
-#endif
         {
             procUri = ResolveUri(client, procUri);
 
@@ -50,25 +46,17 @@ namespace WampSharp.V1.Rpc.Server
                                   mFormatter.Deserialize(type, argument))
                              .ToArray();
 
-#if !NET45
-                InnerCall(client, callId, method.InvokeAsync(client, parameters));
-            }
-#else
-
                 object result = await method.InvokeAsync(client, parameters).ConfigureAwait(false);
                 client.CallResult(callId, result);
             }
-#endif
             catch (Exception ex)
             {
                 HandleException(client, callId, ex);
             }
-#if NET45
             finally
             {
                 WampRequestContext.Current = null;
             }
-#endif
         }
 
         private static void HandleException(IWampClient client, string callId, Exception innerException)
@@ -93,46 +81,6 @@ namespace WampSharp.V1.Rpc.Server
         {
             client.CallError(callId, callException.ErrorUri, callException.Message, callException.ErrorDetails);
         }
-
-#if !NET45
-        private void InnerCall(IWampClient client, string callId, Task<object> task)
-        {
-            // I guess there is a prettier way.
-            if (task.IsCompleted)
-            {
-                InnerCallCallback(client, callId, task);
-            }
-            else
-            {
-                task.ContinueWith
-                    (x => InnerCallCallback(client, callId, x));                
-            }
-        }
-
-        private static void InnerCallCallback(IWampClient client, string callId, Task<object> task)
-        {
-            WampRequestContext.Current = null;    
-
-            if (task.Exception == null)
-            {
-                client.CallResult(callId, task.Result);
-            }
-            else
-            {
-                CallError(client, callId, task.Exception);
-            }
-        }
-
-        // TODO: Don't repeat yourself: duplicated code that appears also in the framework 4.5 version
-        // TODO: (Method Call)
-        private static void CallError(IWampClient client, string callId, AggregateException taskException)
-        {
-            Exception innerException =
-                taskException.InnerException;
-
-            HandleException(client, callId, innerException);
-        }
-#endif
 
         private static string ResolveUri(IWampClient client, string procUri)
         {

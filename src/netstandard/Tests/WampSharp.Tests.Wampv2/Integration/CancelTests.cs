@@ -13,8 +13,6 @@ namespace WampSharp.Tests.Wampv2.Integration
 {
     public class CancelTests
     {
-#if !NET40
-
         [Test]
         public async Task CancelProgressiveCallsCalleeCancellationToken()
         {
@@ -56,7 +54,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             MyCancellableOperation myOperation = new MyCancellableOperation("com.myapp.longop");
 
             await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, new RegisterOptions());
-            ICancellableLongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxyPortable<ICancellableLongOpService>();
+            ICancellableLongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ICancellableLongOpService>();
 
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             MyProgress<int> progress = new MyProgress<int>(x => { });
@@ -68,7 +66,6 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             Assert.That(myOperation.CancellableInvocation.InterruptCalled, Is.True);
         }
-#endif
 
         [Test]
         public async Task CancelCallsCalleeCancellationToken()
@@ -111,7 +108,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             MyCancellableOperation myOperation = new MyCancellableOperation("com.myapp.cancellable");
 
             await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, new RegisterOptions());
-            ICancellableLongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxyPortable<ICancellableLongOpService>();
+            ICancellableLongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ICancellableLongOpService>();
 
             CancellationTokenSource tokenSource = new CancellationTokenSource();
 
@@ -193,7 +190,6 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             public CancellationToken CancellationToken { get; private set; }
 
-#if !NET40
             [WampProcedure("com.myapp.longop")]
             [WampProgressiveResultProcedure]
             public Task<int> LongOp(int n, IProgress<int> progress, CancellationToken cancellationToken)
@@ -202,7 +198,6 @@ namespace WampSharp.Tests.Wampv2.Integration
 
                 return new TaskCompletionSource<int>().Task;
             }
-#endif
 
             [WampProcedure("com.myapp.cancellable")]
             public Task<int> Cancellable(int n, CancellationToken cancellationToken)
@@ -216,17 +211,14 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         public interface ICancellableLongOpService
         {
-#if !NET40
             [WampProcedure("com.myapp.longop")]
             [WampProgressiveResultProcedure]
             Task<int> LongOp(int n, IProgress<int> progress, CancellationToken cancellationToken);
-#endif
 
             [WampProcedure("com.myapp.cancellable")]
             Task<int> Cancellable(int n, CancellationToken cancellationToken);
         }
 
-#if !NET40
         private class MyProgress<T> : IProgress<T>
         {
             private readonly Action<T> mAction;
@@ -241,7 +233,6 @@ namespace WampSharp.Tests.Wampv2.Integration
                 mAction(value);
             }
         }
-#endif
 
         private class MyCancellableInvocation : IWampCancellableInvocation
         {
