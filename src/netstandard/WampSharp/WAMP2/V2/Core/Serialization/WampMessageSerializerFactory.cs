@@ -1,18 +1,17 @@
 ﻿using WampSharp.Core.Proxy;
-using WampSharp.V2;
+using WampSharp.Core.Serialization;
 
-namespace WampSharp.Core.Serialization
+namespace WampSharp.V2.Core.Serialization
 {
     /// <summary>
     /// An implementation of <see cref="IWampMessageSerializerFactory"/>.
     /// </summary>
-    /// <typeparam name="TMessage"></typeparam>
-    public class WampMessageSerializerFactory<TMessage> : IWampMessageSerializerFactory
+    public class WampMessageSerializerFactory : IWampMessageSerializerFactory
     {
         private readonly WampProtocol mProtocol;
 
         /// <summary>
-        /// Creates a new instance of <see cref="WampMessageSerializerFactory{TMessage}"/>
+        /// Creates a new instance of <see cref="WampMessageSerializerFactory"/>
         /// given a <see cref="IWampOutgoingRequestSerializer"/>, used to serialize
         /// message.
         /// </summary>

@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using WampSharp.V2.Client;
 using WampSharp.CodeGeneration;
 
-// ReSharper disable once CheckNamespace
 namespace WampSharp.V2.CalleeProxy
 {
     internal class WampCalleeClientProxyFactory : IWampCalleeProxyFactory

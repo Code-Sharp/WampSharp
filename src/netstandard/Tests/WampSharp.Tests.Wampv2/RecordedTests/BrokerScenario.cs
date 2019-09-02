@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
-using WampSharp.Core.Serialization;
 using WampSharp.Tests.TestHelpers;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Core.Serialization;
 using WampSharp.V2.PubSub;
 
 namespace WampSharp.Tests.Wampv2.IntegrationTests
@@ -26,8 +26,8 @@ namespace WampSharp.Tests.Wampv2.IntegrationTests
 
         protected override object CreateServer()
         {
-            WampMessageSerializerFactory<MockRaw> serializerGenerator =
-                new WampMessageSerializerFactory<MockRaw>
+            WampMessageSerializerFactory serializerGenerator =
+                new WampMessageSerializerFactory
                     (new WampOutgoingRequestSerializer<MockRaw>(Binding.Formatter));
 
             IWampEventSerializer eventSerializer =

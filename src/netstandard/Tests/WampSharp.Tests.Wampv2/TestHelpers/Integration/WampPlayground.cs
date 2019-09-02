@@ -23,7 +23,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
     public class WampPlayground<TMessage>
     {
         private readonly MockConnectionListener<TMessage> mListener;
-        private readonly WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy> mProxyFactory;
+        private readonly ManualWampServerProxyBuilder<TMessage> mProxyFactory;
 
         public WampPlayground(IWampBinding<TMessage> binding)
             : this(binding, new MockConnectionListener<TMessage>(binding.Formatter),
@@ -57,7 +57,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
             IWampFormatter<TMessage> formatter = binding.Formatter;
 
             mProxyFactory =
-                new WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy>(
+                new ManualWampServerProxyBuilder<TMessage>(
                     new WampOutgoingRequestSerializer<TMessage>(formatter),
                     new WampServerProxyOutgoingMessageHandlerBuilder<TMessage, IWampClient<TMessage>>
                         (new WampServerProxyIncomingMessageHandlerBuilder<TMessage, IWampClient<TMessage>>(formatter)));

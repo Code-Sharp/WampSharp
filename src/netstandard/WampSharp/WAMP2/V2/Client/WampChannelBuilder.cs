@@ -11,7 +11,7 @@ namespace WampSharp.V2.Client
     internal class WampChannelBuilder<TMessage>
     {
         private readonly IWampBinding<TMessage> mBinding;
-        private readonly WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy> mFactory;
+        private readonly ManualWampServerProxyBuilder<TMessage> mFactory;
 
         public WampChannelBuilder(IWampBinding<TMessage> binding)
         {
@@ -20,7 +20,7 @@ namespace WampSharp.V2.Client
             IWampFormatter<TMessage> formatter = mBinding.Formatter;
 
             mFactory =
-                new WampServerProxyBuilder<TMessage, IWampClient<TMessage>, IWampServerProxy>(
+                new ManualWampServerProxyBuilder<TMessage>(
                     new WampOutgoingRequestSerializer<TMessage>(formatter),
                     new WampServerProxyOutgoingMessageHandlerBuilder<TMessage, IWampClient<TMessage>>
                         (new WampServerProxyIncomingMessageHandlerBuilder<TMessage, IWampClient<TMessage>>(formatter)));

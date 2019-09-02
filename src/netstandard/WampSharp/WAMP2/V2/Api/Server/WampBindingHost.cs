@@ -10,6 +10,7 @@ using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Core.Dispatch;
 using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Core.Listener.ClientBuilder;
+using WampSharp.V2.Core.Serialization;
 using WampSharp.V2.Realm;
 using WampSharp.V2.Realm.Binded;
 
@@ -52,8 +53,8 @@ namespace WampSharp.V2
         private static IWampEventSerializer GetEventSerializer(
             IWampOutgoingRequestSerializer outgoingSerializer)
         {
-            WampMessageSerializerFactory<TMessage> serializerGenerator =
-                new WampMessageSerializerFactory<TMessage>(outgoingSerializer);
+            WampMessageSerializerFactory serializerGenerator =
+                new WampMessageSerializerFactory(outgoingSerializer);
 
             return serializerGenerator.GetSerializer<IWampEventSerializer>();
         }

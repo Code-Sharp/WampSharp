@@ -3,10 +3,9 @@ using System.Reflection;
 using WampSharp.Core.Message;
 using WampSharp.Core.Proxy;
 using WampSharp.Core.Utilities;
-using WampSharp.V2.Authentication;
 using WampSharp.V2.Core.Contracts;
 
-namespace WampSharp.V2
+namespace WampSharp.V2.Core.Serialization
 {
     internal class WampProtocol : IWampEventSerializer
     {

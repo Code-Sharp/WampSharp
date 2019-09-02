@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using WampSharp.V2.ReflectionDispatchProxy;
 
 namespace WampSharp.V2.CalleeProxy
 {

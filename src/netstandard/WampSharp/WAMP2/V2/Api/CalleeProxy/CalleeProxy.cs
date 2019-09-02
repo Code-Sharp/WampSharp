@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
 using WampSharp.Core.Utilities;
-using WampSharp.V2.ReflectionDispatchProxy;
 
-// ReSharper disable once CheckNamespace
 namespace WampSharp.V2.CalleeProxy
 {
     public class CalleeProxy : DispatchProxy
