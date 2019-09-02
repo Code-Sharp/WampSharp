@@ -1,7 +1,5 @@
 using System;
 using System.Net.WebSockets;
-using System.Text;
-using WampSharp.Core.Message;
 using WampSharp.V2.Authentication;
 using WampSharp.V2.Binding;
 

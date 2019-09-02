@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SystemEx;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using WampSharp.Core.Serialization;

@@ -3,7 +3,6 @@ using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using SystemEx;
 using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;

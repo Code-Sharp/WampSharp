@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SystemEx;
 using NUnit.Framework;
 using WampSharp.Core.Serialization;
 using WampSharp.Tests.Wampv2.TestHelpers.Integration;

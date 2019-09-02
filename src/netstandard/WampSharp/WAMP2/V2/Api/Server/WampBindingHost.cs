@@ -3,7 +3,6 @@ using WampSharp.Core.Dispatch;
 using WampSharp.Core.Dispatch.Handler;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Proxy;
-using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core;
 using WampSharp.V2.Core.Contracts;

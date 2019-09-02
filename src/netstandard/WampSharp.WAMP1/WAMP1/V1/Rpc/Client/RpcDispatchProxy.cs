@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using System.Threading.Tasks;
-using WampSharp.Core.Utilities;
 
 namespace WampSharp.V1.Rpc.Client
 {

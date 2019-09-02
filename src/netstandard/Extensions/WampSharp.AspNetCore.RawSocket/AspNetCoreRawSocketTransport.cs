@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Connections;
 using WampSharp.Core.Listener;
 using WampSharp.RawSocket;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Binding.Parsers;
 using WampSharp.V2.Transports;
 
 namespace WampSharp.AspNetCore.RawSocket

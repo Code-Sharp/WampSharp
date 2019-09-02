@@ -3,7 +3,6 @@ using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
 using WampSharp.V2.Binding;
 using WampSharp.V2.Core;
-using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2.Authentication

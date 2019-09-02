@@ -1,5 +1,4 @@
 ﻿using System;
-using SystemEx;
 using WampSharp.Core.Dispatch;
 using WampSharp.Core.Message;
 using WampSharp.Logging;

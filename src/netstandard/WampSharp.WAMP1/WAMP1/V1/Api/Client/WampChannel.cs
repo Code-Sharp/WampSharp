@@ -4,7 +4,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using WampSharp.Core.Client;
 using WampSharp.Core.Listener;
 using WampSharp.V1.Auxiliary.Client;
 using WampSharp.V1.Core.Client;

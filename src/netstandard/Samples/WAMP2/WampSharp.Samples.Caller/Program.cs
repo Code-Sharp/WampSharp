@@ -1,9 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CliFx;
-using CliFx.Attributes;
-using CliFx.Services;
-using WampSharp.V2;
 
 namespace WampSharp.Samples.Caller
 {

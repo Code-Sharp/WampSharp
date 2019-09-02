@@ -2,7 +2,6 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using SystemEx;
 using WampSharp.Core.Utilities;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;

@@ -7,7 +7,6 @@ using Microsoft.IO;
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
 using WampSharp.V2.Binding;
-using WampSharp.V2.Binding.Parsers;
 using WampSharp.V2.Binding.Transports;
 using WampSharp.V2.Transports;
 
