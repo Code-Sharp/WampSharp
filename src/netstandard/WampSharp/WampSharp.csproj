@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <DefineConstants>$(DefineConstants);NET45;DISPATCH_PROXY;MANUAL_PROXY;LIBLOG_PUBLIC;TPL;ASYNC_LOCAL;ASYNC;WAMPCRA;ASYNC_DISPOSABLE;</DefineConstants>
+    <DefineConstants>$(DefineConstants);LIBLOG_PUBLIC;</DefineConstants>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
