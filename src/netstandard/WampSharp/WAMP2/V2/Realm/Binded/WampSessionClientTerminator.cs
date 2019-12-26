@@ -16,12 +16,7 @@ namespace WampSharp.V2.Realm.Binded
 
         public override void Disconnect(GoodbyeDetails details, string reason)
         {
-            using (mClientProxy as IDisposable)
-            {
-                mClientProxy.GoodbyeSent = true;
-                mClientProxy.Goodbye(details, reason);
-                mClientProxy.Realm.Goodbye(mClientProxy.Session, details, reason);
-            }
+            mClientProxy.SendGoodbye(details, reason);
         }
     }
 
