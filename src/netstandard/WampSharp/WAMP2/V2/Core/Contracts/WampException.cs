@@ -8,7 +8,6 @@ namespace WampSharp.V2.Core.Contracts
     [Serializable]
     public class WampException : Exception
     {
-        private readonly object[] mArguments;
         private static readonly IDictionary<string, object> mEmptyDetails =
             new ReadOnlyDictionary<string, object>(new Dictionary<string, object>());
 
@@ -35,7 +34,7 @@ namespace WampSharp.V2.Core.Contracts
         {
             ErrorUri = errorUri;
             Details = details ?? mEmptyDetails;
-            mArguments = arguments;
+            Arguments = arguments;
             ArgumentsKeywords = argumentsKeywords;
         }
 
@@ -45,7 +44,7 @@ namespace WampSharp.V2.Core.Contracts
         {
             ErrorUri = errorUri;
             Details = details ?? mEmptyDetails;
-            mArguments = new object[] {message};
+            Arguments = new object[] {message};
             ArgumentsKeywords = argumentsKeywords;
         }
 
@@ -54,7 +53,7 @@ namespace WampSharp.V2.Core.Contracts
         {
             ErrorUri = errorUri;
             Details = mEmptyDetails;
-            mArguments = new object[] {messageDetails};
+            Arguments = new object[] {messageDetails};
         }
 
         public WampException(IDictionary<string, object> details, string errorUri, object[] arguments,
@@ -63,7 +62,7 @@ namespace WampSharp.V2.Core.Contracts
         {
             ErrorUri = errorUri;
             Details = details ?? mEmptyDetails;
-            mArguments = arguments;
+            Arguments = arguments;
             ArgumentsKeywords = argumentsKeywords;
         }
 
@@ -76,7 +75,7 @@ namespace WampSharp.V2.Core.Contracts
 
         public IDictionary<string, object> Details { get; }
 
-        public object[] Arguments => mArguments;
+        public object[] Arguments { get; private set; }
 
         public IDictionary<string, object> ArgumentsKeywords { get; }
     }

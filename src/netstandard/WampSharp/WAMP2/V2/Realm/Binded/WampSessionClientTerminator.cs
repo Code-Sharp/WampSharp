@@ -6,7 +6,6 @@ namespace WampSharp.V2.Realm.Binded
     internal class WampSessionClientTerminator<TMessage> : WampSessionClientTerminator
     {
         private readonly IWampClientProxy<TMessage> mClientProxy;
-        private readonly long mSessionId;
 
         public WampSessionClientTerminator(IWampClientProxy<TMessage> clientProxy) :
             base(clientProxy.Session)

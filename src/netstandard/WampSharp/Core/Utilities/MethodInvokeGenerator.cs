@@ -19,6 +19,7 @@ namespace WampSharp.Core.Utilities
                 return mInvokeGenerator.CreateInvokeMethod(method);
             }
             else
+#pragma warning disable 162
             {
                 return (instance, arguments) =>
                        {
@@ -32,6 +33,7 @@ namespace WampSharp.Core.Utilities
                            }
                        };
             }
+#pragma warning restore 162
         }
 
         public static Func<object, object[], Task> CreateTaskInvokeMethod(MethodInfo method)

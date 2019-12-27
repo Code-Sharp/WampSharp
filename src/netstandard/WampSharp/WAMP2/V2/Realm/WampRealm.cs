@@ -5,8 +5,6 @@ namespace WampSharp.V2.Realm
 {
     public class WampRealm : IWampRealm
     {
-        private readonly IWampRealmServiceProvider mServices;
-
         public WampRealm(string name, IWampRpcOperationCatalog catalog, IWampTopicContainer topicContainer)
         {
             Name = name;
@@ -19,7 +17,5 @@ namespace WampSharp.V2.Realm
         public IWampRpcOperationCatalog RpcCatalog { get; }
 
         public IWampTopicContainer TopicContainer { get; }
-
-        public IWampRealmServiceProvider Services => mServices;
     }
 }

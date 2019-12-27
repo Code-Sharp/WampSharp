@@ -33,7 +33,8 @@ namespace WampSharp.Core.Listener
         /// is present.
         /// </summary>
         /// <param name="connection">The given connection.</param>
-        /// <returns>A client proxy.</returns>
+        /// <param name="client">The requested client.</param>
+        /// <returns>A value indicating whether the client was resolved successfully.</returns>
         bool TryGetClient(IWampConnection<TMessage> connection, out TClient client);
 
         /// <summary>

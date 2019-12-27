@@ -214,9 +214,9 @@ namespace WampSharp.V2.MetaApi
             throw new WampException(mMissingErrorUri);
         }
 
-        protected interface IDescriptorSubscriber<TDetails>
+        protected interface IDescriptorSubscriber<TSubscriberDetails>
         {
-            void OnCreate(long sessionId, TDetails details);
+            void OnCreate(long sessionId, TSubscriberDetails details);
 
             void OnJoin(long sessionId, long groupId);
 

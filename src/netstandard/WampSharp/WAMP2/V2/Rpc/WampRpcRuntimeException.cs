@@ -8,33 +8,33 @@ namespace WampSharp.V2.Rpc
     [Serializable]
     public class WampRpcRuntimeException : WampException
     {
-        private const string ErrorUri = "wamp.error.runtime_error";
+        private const string RuntimeErrorUri = "wamp.error.runtime_error";
 
         public WampRpcRuntimeException(params object[] arguments)
-            : base(ErrorUri, arguments)
+            : base(RuntimeErrorUri, arguments)
         {
         }
 
         public WampRpcRuntimeException(object[] arguments, IDictionary<string, object> argumentsKeywords) :
-            base(ErrorUri, arguments, argumentsKeywords)
+            base(RuntimeErrorUri, arguments, argumentsKeywords)
         {
         }
 
         public WampRpcRuntimeException(IDictionary<string, object> details, object[] arguments,
                                        IDictionary<string, object> argumentsKeywords)
-            : base(details, ErrorUri, arguments, argumentsKeywords)
+            : base(details, RuntimeErrorUri, arguments, argumentsKeywords)
         {
         }
 
         public WampRpcRuntimeException(IDictionary<string, object> details, string message,
                                        IDictionary<string, object> argumentsKeywords) :
-                                           base(details, ErrorUri, message, argumentsKeywords)
+                                           base(details, RuntimeErrorUri, message, argumentsKeywords)
         {
         }
 
         public WampRpcRuntimeException(IDictionary<string, object> details, object[] arguments,
                                        IDictionary<string, object> argumentsKeywords, string message, Exception inner) :
-                                           base(details, ErrorUri, arguments, argumentsKeywords, message, inner)
+                                           base(details, RuntimeErrorUri, arguments, argumentsKeywords, message, inner)
         {
         }
 

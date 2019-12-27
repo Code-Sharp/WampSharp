@@ -24,7 +24,7 @@ namespace WampSharp.V2.Rpc
         #region Metadata
 
         long RegistrationId { get; set; }
-        string Procedure { get; }
+
         RegisterOptions RegisterOptions { get; }
 
         event EventHandler<WampCalleeAddEventArgs> CalleeRegistering;

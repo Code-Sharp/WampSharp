@@ -11,7 +11,6 @@ using WampSharp.V2.Core.Listener;
 using WampSharp.V2.Core.Listener.ClientBuilder;
 using WampSharp.V2.Core.Serialization;
 using WampSharp.V2.Realm;
-using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2
 {
@@ -23,7 +22,6 @@ namespace WampSharp.V2
     {
         private WampListener<TMessage> mListener;
         private readonly IWampSessionServer<TMessage> mSession;
-        private readonly WampBindedRealmContainer<TMessage> mRealmContainer;
 
         /// <summary>
         /// Creates a new instance of <see cref="WampBindingHost{TMessage}"/>

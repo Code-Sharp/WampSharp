@@ -7,33 +7,33 @@ namespace WampSharp.V2.Rpc
 {
     public class WampRpcCanceledException : WampException
     {
-        private const string ErrorUri = WampErrors.Canceled;
+        private const string CancellationErrorUri = WampErrors.Canceled;
 
         public WampRpcCanceledException(params object[] arguments)
-            : base(ErrorUri, arguments)
+            : base(CancellationErrorUri, arguments)
         {
         }
 
         public WampRpcCanceledException(object[] arguments, IDictionary<string, object> argumentsKeywords) :
-            base(ErrorUri, arguments, argumentsKeywords)
+            base(CancellationErrorUri, arguments, argumentsKeywords)
         {
         }
 
         public WampRpcCanceledException(IDictionary<string, object> details, object[] arguments,
                                        IDictionary<string, object> argumentsKeywords)
-            : base(details, ErrorUri, arguments, argumentsKeywords)
+            : base(details, CancellationErrorUri, arguments, argumentsKeywords)
         {
         }
 
         public WampRpcCanceledException(IDictionary<string, object> details, string message,
                                        IDictionary<string, object> argumentsKeywords) :
-            base(details, ErrorUri, message, argumentsKeywords)
+            base(details, CancellationErrorUri, message, argumentsKeywords)
         {
         }
 
         public WampRpcCanceledException(IDictionary<string, object> details, object[] arguments,
                                        IDictionary<string, object> argumentsKeywords, string message, Exception inner) :
-            base(details, ErrorUri, arguments, argumentsKeywords, message, inner)
+            base(details, CancellationErrorUri, arguments, argumentsKeywords, message, inner)
         {
         }
 

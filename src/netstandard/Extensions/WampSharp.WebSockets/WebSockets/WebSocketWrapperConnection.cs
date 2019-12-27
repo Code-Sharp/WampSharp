@@ -52,7 +52,7 @@ namespace WampSharp.WebSockets
 
         protected abstract WebSocketMessageType WebSocketMessageType { get; }
 
-        protected async void Connect()
+        protected async void InnerConnect()
         {
             bool connected = await TryConnect();
 
