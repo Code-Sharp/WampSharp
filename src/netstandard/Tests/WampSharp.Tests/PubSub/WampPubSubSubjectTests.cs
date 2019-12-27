@@ -187,15 +187,15 @@ namespace WampSharp.Tests.PubSub
 
             ISubject<object> subject = clientFactory.GetSubject<object>(topicUri, DummyConnection<MockRaw>.Instance);
 
-            bool onCompleted = false;
             IDisposable cancelation = subject.Subscribe(x => { });
-
             Assert.That(requestManager.SubscriptionRemovals.Count, Is.EqualTo(0));
+            
             subject.OnCompleted();
             Assert.That(requestManager.SubscriptionRemovals.Count, Is.EqualTo(1));
             
             WampSubscribeRequest<MockRaw> removal = 
                 requestManager.SubscriptionRemovals.First();
+
             Assert.That(removal.TopicUri, Is.EqualTo(topicUri));
         }
 

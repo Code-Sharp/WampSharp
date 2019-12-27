@@ -55,8 +55,6 @@ namespace WampSharp.Tests.Wampv2.Integration
             MockSessionAuthenticationFactory mockSessionAuthenticationFactory =
                 new MockSessionAuthenticationFactory();
 
-            WampPendingClientDetails authenticatorFactoryParameters = null;
-
             mockSessionAuthenticationFactory.SetGetSessionAuthenticator
                 ((clientDetails, transportAuthenticator) =>
                 {
@@ -243,10 +241,6 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             playground.Host.Open();
 
-            string clientAuthMethod = null;
-
-            ChallengeDetails clientChallengeDetails = null;
-
             Mock<IWampClient<JToken>> clientMock = new Mock<IWampClient<JToken>>();
 
             IWampServerProxy serverProxy =
@@ -283,10 +277,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                     MockSessionAuthenticator mockSessionAuthenticator = new MockSessionAuthenticator();
                     mockSessionAuthenticator.SetAuthenticationMethod("ticket");
 
-                    mockSessionAuthenticator.SetAuthenticate((signature, extraData) =>
-                    {
-                        throw new WampAuthenticationException(new MyAbortDetails() {Message = "aborted!", Year = 2015}, "com.myapp.abortreason");
-                    });
+                    mockSessionAuthenticator.SetAuthenticate((signature, extraData) => throw new WampAuthenticationException(new MyAbortDetails() {Message = "aborted!", Year = 2015}, "com.myapp.abortreason"));
 
                     return mockSessionAuthenticator;
                 });
@@ -527,10 +518,10 @@ namespace WampSharp.Tests.Wampv2.Integration
         private class HelloDetailsHack : HelloDetails
         {
             [DataMember(Name = "authmethods")]
-            public string[] AuthenticationMethods { get; set; }
+            public new string[] AuthenticationMethods { get; set; }
 
             [DataMember(Name = "authid")]
-            public string AuthenticationId { get; set; }
+            public new string AuthenticationId { get; set; }
         }
 
         private class MyChallenge : ChallengeDetails

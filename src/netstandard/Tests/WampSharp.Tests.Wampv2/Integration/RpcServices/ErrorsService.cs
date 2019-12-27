@@ -69,33 +69,33 @@ namespace WampSharp.Tests.Wampv2.Integration.RpcServices
 
         public class AppException1 : WampException
         {
-            private const string ErrorUri = "com.myapp.error1";
+            private const string AppErrorUri = "com.myapp.error1";
 
             public AppException1(params object[] arguments)
-                : base(ErrorUri, arguments)
+                : base(AppErrorUri, arguments)
             {
             }
 
             public AppException1(object[] arguments, IDictionary<string, object> argumentsKeywords) :
-                base(ErrorUri, arguments, argumentsKeywords)
+                base(AppErrorUri, arguments, argumentsKeywords)
             {
             }
 
             public AppException1(IDictionary<string, object> details, object[] arguments,
                                  IDictionary<string, object> argumentsKeywords)
-                : base(details, ErrorUri, arguments, argumentsKeywords)
+                : base(details, AppErrorUri, arguments, argumentsKeywords)
             {
             }
 
             public AppException1(IDictionary<string, object> details, string message,
                                  IDictionary<string, object> argumentsKeywords) :
-                                     base(details, ErrorUri, message, argumentsKeywords)
+                                     base(details, AppErrorUri, message, argumentsKeywords)
             {
             }
 
             public AppException1(IDictionary<string, object> details, object[] arguments,
                                  IDictionary<string, object> argumentsKeywords, string message, Exception inner) :
-                                     base(details, ErrorUri, arguments, argumentsKeywords, message, inner)
+                                     base(details, AppErrorUri, arguments, argumentsKeywords, message, inner)
             {
             }
         }

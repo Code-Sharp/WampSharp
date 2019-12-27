@@ -182,7 +182,7 @@ namespace WampSharp.V1.Cra
                         ThrowHelper.AuthenticationKeyDoesNotExist(authKey);
                     }
                 }
-                catch (WampRpcCallException e)
+                catch (WampRpcCallException)
                 {
                     throw;
                 }
@@ -202,7 +202,7 @@ namespace WampSharp.V1.Cra
             {
                 permissions = GetAuthPermissions(authKey, extraAuth);
             }
-            catch (WampRpcCallException e)
+            catch (WampRpcCallException)
             {
                 throw;
             }
@@ -288,7 +288,7 @@ namespace WampSharp.V1.Cra
             {
                 OnAuthenticated(authKey, perms);
             }
-            catch (WampRpcCallException e)
+            catch (WampRpcCallException)
             {
                 IsAuthenticated = false;
                 throw;

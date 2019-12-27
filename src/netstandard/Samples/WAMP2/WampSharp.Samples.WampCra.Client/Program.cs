@@ -14,23 +14,12 @@ namespace WampSharp.Samples.WampCra.Client
         {
             DefaultWampChannelFactory channelFactory = new DefaultWampChannelFactory();
 
-            IWampClientAuthenticator authenticator;
-
-            if (false)
-            {
-                authenticator = new WampCraClientAuthenticator(authenticationId: "joe", secret: "secret2");
-            }
-            else
-            {
-                authenticator =
-                    new WampCraClientAuthenticator(authenticationId: "peter", secret: "secret1");
-            }
-
             IWampChannel channel =
                 channelFactory.ConnectToRealm("realm1")
                               .WebSocketTransport(new Uri("ws://127.0.0.1:8080/ws"))
                               .JsonSerialization()
                               .CraAuthentication("peter", "secret1")
+                              //.CraAuthentication("joe", "secret2")
                               .Build();
 
             channel.RealmProxy.Monitor.ConnectionEstablished +=
@@ -94,7 +83,6 @@ namespace WampSharp.Samples.WampCra.Client
                 "com.foobar.topic1",
                 "com.foobar.topic2"
             };
-
 
             foreach (string topic in topics)
             {

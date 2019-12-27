@@ -85,7 +85,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
                     successfulTopics.Add(topic);
                 }
-                catch (WampException ex)
+                catch (WampException)
                 {
                 }
             }

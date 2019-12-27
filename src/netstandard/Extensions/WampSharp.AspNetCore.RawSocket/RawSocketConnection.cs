@@ -123,7 +123,7 @@ namespace WampSharp.AspNetCore.RawSocket
                     HandleWampFrame(message);
                     break;
                 case FrameType.Ping:
-                    HandlePingFrame(message);
+                    Task task = HandlePingFrame(message);
                     break;
                 case FrameType.Pong:
                     HandlePongFrame(message);

@@ -95,12 +95,12 @@ namespace WampSharp.Tests.Wampv2.Integration
             CollectionAssert.AreEquivalent(Enumerable.Range(0, 2), mySubscriber.Results);
         }
 
-        private static Task<long?> Publish(IWampChannel publisherChannel, string topicUri, object[] arguments)
+        private static void Publish(IWampChannel publisherChannel, string topicUri, object[] arguments)
         {
             IWampTopicProxy topicProxy = 
                 publisherChannel.RealmProxy.TopicContainer.GetTopicByUri(topicUri);
             
-            return topicProxy.Publish(new PublishOptions(), arguments);
+            Task<long?> task = topicProxy.Publish(new PublishOptions(), arguments);
         }
 
         private class MyPrefixSubscriber

@@ -12,6 +12,8 @@ namespace WampSharp.Core.Utilities
         private static readonly MethodInvokeGenerator<object> mInvokeGenerator = new MethodInvokeGenerator<object>();
         private static readonly TaskMethodInvokeGenerator mTaskInvokeGenerator = new TaskMethodInvokeGenerator(); 
 
+#pragma warning disable 162
+
         public static Func<object, object[], object> CreateInvokeMethod(MethodInfo method)
         {
             if (RuntimeFeature.IsDynamicCodeCompiled)
@@ -19,7 +21,6 @@ namespace WampSharp.Core.Utilities
                 return mInvokeGenerator.CreateInvokeMethod(method);
             }
             else
-#pragma warning disable 162
             {
                 return (instance, arguments) =>
                        {
@@ -33,7 +34,6 @@ namespace WampSharp.Core.Utilities
                            }
                        };
             }
-#pragma warning restore 162
         }
 
         public static Func<object, object[], Task> CreateTaskInvokeMethod(MethodInfo method)
@@ -58,6 +58,7 @@ namespace WampSharp.Core.Utilities
             }
         }
     }
+#pragma warning restore 162
 
     internal class MethodInvokeGenerator<TResult>
     {

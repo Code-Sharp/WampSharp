@@ -126,8 +126,6 @@ namespace WampSharp.CraServerSample
                     if (topic.HasObservers)
                         topic.OnNext("Hello, world!");
                 }
-
-                Console.ReadLine();
             }
         }
     }

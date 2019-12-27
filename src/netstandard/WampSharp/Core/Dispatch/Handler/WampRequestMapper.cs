@@ -92,7 +92,6 @@ namespace WampSharp.Core.Dispatch.Handler
 
         public WampMethodInfo Map(WampMessage<TMessage> request)
         {
-
             if (!mMapping.TryGetValue(request.MessageType, out ICollection<WampMethodInfo> candidates))
             {
                 return mMissingMethod;

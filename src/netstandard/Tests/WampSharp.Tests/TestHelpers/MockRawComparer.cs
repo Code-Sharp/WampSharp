@@ -5,7 +5,7 @@ namespace WampSharp.Tests.TestHelpers
 {
     public class MockRawComparer : IEqualityComparer, IEqualityComparer<MockRaw>
     {
-        public bool Equals(object x, object y)
+        public new bool Equals(object x, object y)
         {
             return Equals(x as MockRaw, y as MockRaw);
         }

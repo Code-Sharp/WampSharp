@@ -35,9 +35,12 @@ namespace WampSharp.CraClientSample
             {
                 IWampCraProcedures proxy = channel.GetRpcProxy<IWampCraProcedures>();
 
-                //TODO: This can authenticates as a user, or as anonymous based on conditional.
+                //TODO: This authenticates as a user, or as anonymous based on a conditional.
                 WampCraPermissions permissions;
-                if (true)
+
+                bool authenticateAsUser = true;
+
+                if (authenticateAsUser)
                 {
                     permissions = Authenticate(proxy, formatter, "foobar", null, "secret");
                 }

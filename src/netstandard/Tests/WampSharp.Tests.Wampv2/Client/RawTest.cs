@@ -66,7 +66,7 @@ namespace WampSharp.Tests.Wampv2.Client
                 mEqualityComparer = equalityComparer;
             }
 
-            public bool Equals(object x, object y)
+            public new bool Equals(object x, object y)
             {
                 if (x is TMessage[] && y is TMessage[])
                 {
@@ -82,8 +82,6 @@ namespace WampSharp.Tests.Wampv2.Client
                 {
                     return object.Equals(x, y);
                 }
-
-                return false;
             }
 
             public int GetHashCode(object obj)

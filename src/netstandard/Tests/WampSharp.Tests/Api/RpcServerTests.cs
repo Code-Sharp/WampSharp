@@ -60,14 +60,10 @@ namespace WampSharp.Tests.Api
 
             IWampHost host = playground.Host;
 
-            WampRequestContext context = null;
-
             Mock<INumberProcessor> mock = new Mock<INumberProcessor>();
 
             mock.Setup(x => x.ProcessNumber(It.IsAny<int>()))
-                          .Returns(async (int x) =>
-                              {
-                              });
+                          .Returns(async (int x) => { await Task.CompletedTask; });
 
             host.HostService(mock.Object);
 
