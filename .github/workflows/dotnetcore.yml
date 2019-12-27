@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v1
@@ -16,3 +16,6 @@ jobs:
     - name: Build with dotnet
       working-directory: src/netstandard/
       run: dotnet build --configuration Release
+    - name: Test with dotnet
+      working-directory: src/netstandard/
+      run: dotnet test --configuration Release
