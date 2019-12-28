@@ -2,6 +2,7 @@
 using WampSharp.Core.Listener;
 using WampSharp.Logging;
 using WampSharp.V2.Core.Contracts;
+using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Core.Listener
 {
@@ -47,6 +48,18 @@ namespace WampSharp.V2.Core.Listener
             mLogger.DebugFormat("Client connected, session id: {SessionId}", client.Session);
 
             mSessionHandler.OnNewClient(client);
+        }
+
+        public override void Stop()
+        {
+            base.Stop();
+
+            GoodbyeDetails details = new GoodbyeDetails();
+
+            foreach (IWampClientProxy<TMessage> clientProxy in this.ClientContainer.GetAllClients())
+            {
+                clientProxy.SendGoodbye(details, WampErrors.SystemShutdown);
+            }
         }
 
         protected override void OnCloseConnection(IWampConnection<TMessage> connection)

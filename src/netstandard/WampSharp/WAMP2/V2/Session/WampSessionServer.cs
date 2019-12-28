@@ -89,14 +89,7 @@ namespace WampSharp.V2.Session
 
             if (!wampClient.GoodbyeSent)
             {
-                using (IDisposable disposable = client as IDisposable)
-                {
-                    wampClient.GoodbyeSent = true;
-
-                    client.Goodbye(details, WampErrors.CloseNormal);
-
-                    wampClient.Realm.Goodbye(wampClient.Session, details, reason);
-                }
+                wampClient.SendGoodbye(details, WampErrors.CloseNormal);
             }
         }
 
