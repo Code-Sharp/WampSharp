@@ -10,7 +10,7 @@ namespace WampSharp.V2.Core.Contracts
     public class ResultDetails : WampDetailsOptions
     {
         /// <summary>
-        /// If <see cref="bool.True"/>, this result is a progressive call result, and subsequent results (or a final error) will follow.
+        /// If <see langword="true"/>, this result is a progressive call result, and subsequent results (or a final error) will follow.
         /// </summary>
         [DataMember(Name = "progress")]
         public bool? Progress { get; internal set; }

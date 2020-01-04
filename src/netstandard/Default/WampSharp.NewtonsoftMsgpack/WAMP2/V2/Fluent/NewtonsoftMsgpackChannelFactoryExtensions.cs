@@ -22,6 +22,7 @@ namespace WampSharp.V2.Fluent
         /// <summary>
         /// Indicates that the user wants to use Msgpack serialization.
         /// </summary>
+        /// <param name="transportSyntax">The current fluent syntax state.</param>
         /// <param name="serializer">The <see cref="JsonSerializer"/> to serialize messages with.</param>
         public static ChannelFactorySyntax.ISerializationSyntax MsgpackSerialization(this ChannelFactorySyntax.ITransportSyntax transportSyntax, JsonSerializer serializer)
         {

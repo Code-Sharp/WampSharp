@@ -70,7 +70,7 @@ namespace WampSharp.V2.Core.Contracts
         /// Sends a YIELD message.
         /// </summary>
         /// <param name="requestId">The request id (given in 
-        ///     <see cref="IWampCallee{TMessage}.Invocation(long,long,TMessage)"/> message).</param>
+        ///     <see cref="IWampCallee{TMessage}.Invocation(long,long,InvocationDetails)"/> message).</param>
         /// <param name="options">Additional options.</param>
         [WampHandler(WampMessageType.v2Yield)]
         void Yield(long requestId, YieldOptions options);
@@ -79,7 +79,7 @@ namespace WampSharp.V2.Core.Contracts
         /// Sends a YIELD message.
         /// </summary>
         /// <param name="requestId">The request id (given in 
-        ///     <see cref="IWampCallee{TMessage}.Invocation(long,long,TMessage)"/> message).</param>
+        ///     <see cref="IWampCallee{TMessage}.Invocation(long,long,InvocationDetails)"/> message).</param>
         /// <param name="options">Additional options.</param>
         /// <param name="arguments">The arguments of the current result.</param>
         [WampHandler(WampMessageType.v2Yield)]
@@ -89,7 +89,7 @@ namespace WampSharp.V2.Core.Contracts
         /// Sends a YIELD message.
         /// </summary>
         /// <param name="requestId">The request id (given in 
-        ///     <see cref="IWampCallee{TMessage}.Invocation(long,long,TMessage)"/> message).</param>
+        ///     <see cref="IWampCallee{TMessage}.Invocation(long,long,InvocationDetails)"/> message).</param>
         /// <param name="options">Additional options.</param>
         /// <param name="arguments">The arguments of the current result.</param>
         /// <param name="argumentsKeywords">The argument keywords of the current result.</param>

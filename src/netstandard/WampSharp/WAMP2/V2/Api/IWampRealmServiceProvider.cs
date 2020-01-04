@@ -143,7 +143,7 @@ namespace WampSharp.V2
         /// WAMP topic in the realm.
         /// </summary>
         /// <param name="topicUri">The WAMP topic uri.</param>
-        /// <param name="tupleConverter">An interface responsible for converting <see cref="IWampEvent"/>s into <see cref="TTuple"/>s 
+        /// <param name="tupleConverter">An interface responsible for converting <see cref="IWampEvent"/>s into <typeparamref name="TTuple"/>s
         /// and vice versa</param>
         /// <returns>The requested subject.</returns>
         ISubject<TTuple> GetSubject<TTuple>(string topicUri, IWampEventValueTupleConverter<TTuple> tupleConverter);

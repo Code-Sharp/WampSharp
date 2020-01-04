@@ -91,6 +91,7 @@ namespace WampSharp.V2.MetaApi
         /// Hosts a WAMP session management service for the given realm.
         /// </summary>
         /// <param name="hostedRealm">The given realm.</param>
+        /// <param name="uriValidator">The <see cref="IWampUriValidator"/> to use to verify GOODBYE message reason uri (see also <see cref="GoodbyeMessage.Reason"/>).</param>
         /// <returns>A disposable: disposing it will unregister the hosted session management service.</returns>
         public static IDisposable HostSessionManagementService(this IWampHostedRealm hostedRealm, IWampUriValidator uriValidator = null)
         {

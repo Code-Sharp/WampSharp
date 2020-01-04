@@ -19,7 +19,7 @@ namespace WampSharp.V1.Core.Client
         private readonly IWampOutgoingRequestSerializer mOutgoingSerializer;
 
         /// <summary>
-        /// Creates a new instance of <see cref="ManualWampServerProxyBuilder{TMessage}"/>
+        /// Creates a new instance of <see cref="ManualWampServerProxyBuilder{TMessage, TClient}"/>
         /// </summary>
         /// <param name="outgoingSerializer">A <see cref="IWampOutgoingRequestSerializer"/>
         /// used in order to serialize requests into <see cref="WampMessage{TMessage}"/>s.</param>

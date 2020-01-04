@@ -22,7 +22,7 @@ namespace WampSharp.V2.Core.Contracts
         }
 
         /// <summary>
-        /// If <see cref="bool.True"/>, the (registering) callee requests to disclose the identity of callers whenever called.
+        /// If <see langword="true"/>, the (registering) callee requests to disclose the identity of callers whenever called.
         /// </summary>
         [DataMember(Name = "disclose_caller")]
         public bool? DiscloseCaller { get; set; }

@@ -28,6 +28,7 @@ namespace WampSharp.V2
         /// </summary>
         /// <param name="realmContainer">The <see cref="IWampRealmContainer"/> this binding host
         /// is associated with.</param>
+        /// <param name="builder">The <see cref="IWampRouterBuilder"/> to use for this host.</param>
         /// <param name="connectionListener">The <see cref="IWampConnectionListener{TMessage}"/> this 
         /// binding host listens to.</param>
         /// <param name="binding">The <see cref="IWampBinding{TMessage}"/> associated with this binding host.</param>

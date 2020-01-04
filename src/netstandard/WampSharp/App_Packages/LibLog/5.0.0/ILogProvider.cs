@@ -34,6 +34,8 @@ namespace WampSharp.Logging
         /// <param name="key">A key.</param>
         /// <param name="value">A value.</param>
         /// <returns>A disposable that when disposed removes the map from the context.</returns>
+#pragma warning disable 1573
         IDisposable OpenMappedContext(string key, object value, bool destructure = false);
+#pragma warning restore 1573
     }
 }

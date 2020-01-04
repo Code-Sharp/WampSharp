@@ -65,7 +65,7 @@ namespace WampSharp.V1.Rpc.Server
         }
 
         /// <summary>
-        /// Gets the instance used for <see cref="System.Reflection.MethodInfo.Invoke(object, object[])"></see>
+        /// Gets the instance used for <see cref="MethodBase.Invoke(object,object[])"/>
         /// call.
         /// </summary>
         /// <param name="client">The <see cref="IWampClient"/> requesting this call.</param>

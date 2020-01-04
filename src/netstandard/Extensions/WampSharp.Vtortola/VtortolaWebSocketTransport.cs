@@ -33,6 +33,7 @@ namespace WampSharp.Vtortola
         /// <param name="endpoint"></param>
         /// <param name="perMessageDeflate">A value indicating whether to support permessage-deflate
         /// compression extension or not.</param>
+        /// <param name="options">The <see cref="WebSocketListenerOptions"/> to use for the created <see cref="WebSocketListener"/>.</param>
         public VtortolaWebSocketTransport(IPEndPoint endpoint, bool perMessageDeflate, WebSocketListenerOptions options)
             : this(endpoint, perMessageDeflate, null, options)
         {
@@ -45,6 +46,8 @@ namespace WampSharp.Vtortola
         /// <param name="endpoint"></param>
         /// <param name="perMessageDeflate">A value indicating whether to support permessage-deflate
         /// compression extension or not.</param>
+        /// <param name="certificate">The <see cref="X509Certificate2"/> to use for this transport.</param>
+        /// <param name="options">The <see cref="WebSocketListenerOptions"/> to use for the created <see cref="WebSocketListener"/>.</param>
         public VtortolaWebSocketTransport(IPEndPoint endpoint, bool perMessageDeflate, X509Certificate2 certificate = null, WebSocketListenerOptions options = null)
             : this(endpoint, perMessageDeflate, null, certificate, options)
         {

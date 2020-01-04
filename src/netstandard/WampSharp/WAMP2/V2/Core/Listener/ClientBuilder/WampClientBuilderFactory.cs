@@ -25,6 +25,7 @@ namespace WampSharp.V2.Core.Listener.ClientBuilder
         /// <param name="outgoingHandlerBuilder">The <see cref="IWampOutgoingMessageHandler"/>
         /// used to create the <see cref="IWampOutgoingMessageHandler"/> used to
         /// handle outgoing <see cref="WampMessage{TMessage}"/>s.</param>
+        /// <param name="binding">The <see cref="IWampBinding{TMessage}"/> to use.</param>
         public WampClientBuilderFactory(IWampOutgoingRequestSerializer outgoingSerializer,
                                         IWampOutgoingMessageHandlerBuilder<TMessage> outgoingHandlerBuilder, IWampBinding<TMessage> binding)
         {

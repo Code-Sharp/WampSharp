@@ -28,8 +28,9 @@ namespace WampSharp.RawSocket
         /// Creates a new instance of <see cref="RawSocketTransport"/>.
         /// </summary>
         /// <param name="listener">The <see cref="TcpListener"/> to use.</param>
+        /// <param name="sslConfiguration">The <see cref="SslConfiguration"/> to use for SSL security options.</param>
         /// <param name="autoPingInterval">The auto pings send interval.</param>
-        /// <param name="maxSize">The max message size to receive: </param>
+        /// <param name="maxSize">The max message size to receive.</param>
         public RawSocketTransport(TcpListener listener, ServerSslConfiguration sslConfiguration = null, TimeSpan? autoPingInterval = null, byte maxSize = 15)
         {
             mListener = listener;

@@ -7,7 +7,8 @@ namespace WampSharp.V2.Fluent
         /// <summary>
         /// Indicates that the user wants to connect to a given realm.
         /// </summary>
-        /// <param name="realm">The requested realm to connect to</param>
+        /// <param name="factory">The WAMP channel factory to use.</param>
+        /// <param name="realm">The requested realm to connect to.</param>
         public static ChannelFactorySyntax.IRealmSyntax ConnectToRealm(this IWampChannelFactory factory, string realm)
         {
             return new ChannelState()
@@ -20,6 +21,7 @@ namespace WampSharp.V2.Fluent
         /// <summary>
         /// Indicates that the user wants to use a given <see cref="IWampClientAuthenticator"/>.
         /// </summary>
+        /// <param name="serializationSyntax">The given fluent syntax state.</param>
         /// <param name="authenticator">The given <see cref="IWampClientAuthenticator"/>.</param>
         public static ChannelFactorySyntax.IAuthenticationSyntax Authenticator(this ChannelFactorySyntax.ISerializationSyntax serializationSyntax,
             IWampClientAuthenticator authenticator)
