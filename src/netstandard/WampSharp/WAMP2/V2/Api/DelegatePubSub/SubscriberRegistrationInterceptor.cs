@@ -18,17 +18,17 @@ namespace WampSharp.V2
             mSubscriptionOptions = subscriptionOptions;
         }
 
-        public bool IsSubscriberHandler(MethodInfo method)
+        public virtual bool IsSubscriberHandler(MethodInfo method)
         {
             return method.IsDefined(typeof (WampTopicAttribute));
         }
 
-        public string GetTopicUri(MethodInfo method)
+        public virtual string GetTopicUri(MethodInfo method)
         {
             return method.GetCustomAttribute<WampTopicAttribute>().Topic;
         }
 
-        public SubscribeOptions GetSubscribeOptions(MethodInfo method)
+        public virtual SubscribeOptions GetSubscribeOptions(MethodInfo method)
         {
             return mSubscriptionOptions;
         }
