@@ -1,5 +1,8 @@
+using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using WampSharp.V2;
 using WampSharp.V2.CalleeProxy;
 using WampSharp.V2.Client;
 
@@ -15,18 +18,42 @@ namespace WampSharp.V2.MetaApi
     //------------------------------------------------------------------------------
     internal class WampRegistrationDescriptorProxyProxy : CalleeProxyBase, global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy
     {
-        private static readonly MethodInfo mMethod0 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetAllRegistrationsAsync());
-        private static readonly MethodInfo mMethod1 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.LookupRegistrationIdAsync(default(string), default(global::WampSharp.V2.Core.Contracts.RegisterOptions)));
-        private static readonly MethodInfo mMethod2 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetBestMatchingRegistrationIdAsync(default(string)));
-        private static readonly MethodInfo mMethod3 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetRegistrationDetailsAsync(default(long)));
-        private static readonly MethodInfo mMethod4 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetCalleesIdsAsync(default(long)));
-        private static readonly MethodInfo mMethod5 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.CountCalleesAsync(default(long)));
-        private static readonly MethodInfo mMethod6 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetAllRegistrations());
-        private static readonly MethodInfo mMethod7 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.LookupRegistrationId(default(string), default(global::WampSharp.V2.Core.Contracts.RegisterOptions)));
-        private static readonly MethodInfo mMethod8 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetBestMatchingRegistrationId(default(string)));
-        private static readonly MethodInfo mMethod9 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetRegistrationDetails(default(long)));
-        private static readonly MethodInfo mMethod10 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetCalleesIds(default(long)));
-        private static readonly MethodInfo mMethod11 = GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.CountCallees(default(long)));
+        private static readonly InvokeAsyncDelegate<global::WampSharp.V2.MetaApi.AvailableGroups> mMethodHandler0 = GetInvokeAsync<global::WampSharp.V2.MetaApi.AvailableGroups>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetAllRegistrationsAsync())
+        );
+        private static readonly InvokeAsyncDelegate<global::System.Nullable<long>> mMethodHandler1 = GetInvokeAsync<global::System.Nullable<long>>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.LookupRegistrationIdAsync(default(string), default(global::WampSharp.V2.Core.Contracts.RegisterOptions)))
+        );
+        private static readonly InvokeAsyncDelegate<global::System.Nullable<long>> mMethodHandler2 = GetInvokeAsync<global::System.Nullable<long>>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetBestMatchingRegistrationIdAsync(default(string)))
+        );
+        private static readonly InvokeAsyncDelegate<global::WampSharp.V2.MetaApi.RegistrationDetails> mMethodHandler3 = GetInvokeAsync<global::WampSharp.V2.MetaApi.RegistrationDetails>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetRegistrationDetailsAsync(default(long)))
+        );
+        private static readonly InvokeAsyncDelegate<long[]> mMethodHandler4 = GetInvokeAsync<long[]>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.GetCalleesIdsAsync(default(long)))
+        );
+        private static readonly InvokeAsyncDelegate<long> mMethodHandler5 = GetInvokeAsync<long>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptorProxy instance) => instance.CountCalleesAsync(default(long)))
+        );
+        private static readonly InvokeSyncDelegate<global::WampSharp.V2.MetaApi.AvailableGroups> mMethodHandler6 = GetInvokeSync<global::WampSharp.V2.MetaApi.AvailableGroups>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptor instance) => instance.GetAllRegistrations())
+        );
+        private static readonly InvokeSyncDelegate<global::System.Nullable<long>> mMethodHandler7 = GetInvokeSync<global::System.Nullable<long>>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptor instance) => instance.LookupRegistrationId(default(string), default(global::WampSharp.V2.Core.Contracts.RegisterOptions)))
+        );
+        private static readonly InvokeSyncDelegate<global::System.Nullable<long>> mMethodHandler8 = GetInvokeSync<global::System.Nullable<long>>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptor instance) => instance.GetBestMatchingRegistrationId(default(string)))
+        );
+        private static readonly InvokeSyncDelegate<global::WampSharp.V2.MetaApi.RegistrationDetails> mMethodHandler9 = GetInvokeSync<global::WampSharp.V2.MetaApi.RegistrationDetails>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptor instance) => instance.GetRegistrationDetails(default(long)))
+        );
+        private static readonly InvokeSyncDelegate<long[]> mMethodHandler10 = GetInvokeSync<long[]>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptor instance) => instance.GetCalleesIds(default(long)))
+        );
+        private static readonly InvokeSyncDelegate<long> mMethodHandler11 = GetInvokeSync<long>(
+            GetMethodInfo((global::WampSharp.V2.MetaApi.IWampRegistrationDescriptor instance) => instance.CountCallees(default(long)))
+        );
 
         public WampRegistrationDescriptorProxyProxy
                 (IWampRealmProxy realmProxy,
@@ -34,65 +61,65 @@ namespace WampSharp.V2.MetaApi
             : base(realmProxy, interceptor)
         {
         }
-
+        
         public Task<global::WampSharp.V2.MetaApi.AvailableGroups> GetAllRegistrationsAsync()
         {
-            return SingleInvokeAsync<global::WampSharp.V2.MetaApi.AvailableGroups>(mMethod0);
+            return mMethodHandler0(this, global::System.Threading.CancellationToken.None);
         }
-
+        
         public Task<global::System.Nullable<long>> LookupRegistrationIdAsync(string procedureUri, global::WampSharp.V2.Core.Contracts.RegisterOptions options)
         {
-            return SingleInvokeAsync<global::System.Nullable<long>>(mMethod1, procedureUri, options);
+            return mMethodHandler1(this, global::System.Threading.CancellationToken.None, procedureUri, options);
         }
-
+        
         public Task<global::System.Nullable<long>> GetBestMatchingRegistrationIdAsync(string procedureUri)
         {
-            return SingleInvokeAsync<global::System.Nullable<long>>(mMethod2, procedureUri);
+            return mMethodHandler2(this, global::System.Threading.CancellationToken.None, procedureUri);
         }
-
+        
         public Task<global::WampSharp.V2.MetaApi.RegistrationDetails> GetRegistrationDetailsAsync(long registrationId)
         {
-            return SingleInvokeAsync<global::WampSharp.V2.MetaApi.RegistrationDetails>(mMethod3, registrationId);
+            return mMethodHandler3(this, global::System.Threading.CancellationToken.None, registrationId);
         }
-
+        
         public Task<long[]> GetCalleesIdsAsync(long registrationId)
         {
-            return SingleInvokeAsync<long[]>(mMethod4, registrationId);
+            return mMethodHandler4(this, global::System.Threading.CancellationToken.None, registrationId);
         }
-
+        
         public Task<long> CountCalleesAsync(long registrationId)
         {
-            return SingleInvokeAsync<long>(mMethod5, registrationId);
+            return mMethodHandler5(this, global::System.Threading.CancellationToken.None, registrationId);
         }
-
+        
         public global::WampSharp.V2.MetaApi.AvailableGroups GetAllRegistrations()
         {
-            return SingleInvokeSync<global::WampSharp.V2.MetaApi.AvailableGroups>(mMethod6);
+            return mMethodHandler6(this);
         }
-
+        
         public global::System.Nullable<long> LookupRegistrationId(string procedureUri, global::WampSharp.V2.Core.Contracts.RegisterOptions options)
         {
-            return SingleInvokeSync<global::System.Nullable<long>>(mMethod7, procedureUri, options);
+            return mMethodHandler7(this, procedureUri, options);
         }
-
+        
         public global::System.Nullable<long> GetBestMatchingRegistrationId(string procedureUri)
         {
-            return SingleInvokeSync<global::System.Nullable<long>>(mMethod8, procedureUri);
+            return mMethodHandler8(this, procedureUri);
         }
-
+        
         public global::WampSharp.V2.MetaApi.RegistrationDetails GetRegistrationDetails(long registrationId)
         {
-            return SingleInvokeSync<global::WampSharp.V2.MetaApi.RegistrationDetails>(mMethod9, registrationId);
+            return mMethodHandler9(this, registrationId);
         }
-
+        
         public long[] GetCalleesIds(long registrationId)
         {
-            return SingleInvokeSync<long[]>(mMethod10, registrationId);
+            return mMethodHandler10(this, registrationId);
         }
-
+        
         public long CountCallees(long registrationId)
         {
-            return SingleInvokeSync<long>(mMethod11, registrationId);
+            return mMethodHandler11(this, registrationId);
         }
     }
 }
