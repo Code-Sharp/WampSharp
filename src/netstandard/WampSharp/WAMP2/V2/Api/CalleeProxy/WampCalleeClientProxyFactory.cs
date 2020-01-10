@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using WampSharp.V2.Client;
 using WampSharp.CodeGeneration;
 
@@ -24,28 +23,31 @@ namespace WampSharp.V2.CalleeProxy
                 return (TProxy) Activator.CreateInstance(typeof(TProxy), mProxy, interceptor);
             }
 
-            if (!RuntimeFeature.IsDynamicCodeSupported)
+            try
             {
-                GenerateCodeAndThrowException<TProxy>();
+                TProxy result = DispatchProxy.Create<TProxy, CalleeDispatchProxy>();
+
+                CalleeDispatchProxy casted = result as CalleeDispatchProxy;
+
+                casted.Handler = mHandler;
+                casted.CalleeProxyInterceptor = interceptor;
+
+                return result;
             }
-
-            TProxy result = DispatchProxy.Create<TProxy, CalleeDispatchProxy>();
-
-            CalleeDispatchProxy casted = result as CalleeDispatchProxy;
-
-            casted.Handler = mHandler;
-            casted.CalleeProxyInterceptor = interceptor;
-
-            return result;
+            catch (NotImplementedException)
+            {
+                Exception exception = CreateExceptionWithGeneratedCode<TProxy>();
+                throw exception;
+            }
         }
 
-        private static void GenerateCodeAndThrowException<T>() where T : class
+        private static Exception CreateExceptionWithGeneratedCode<T>() where T : class
         {
             CalleeProxyCodeGenerator generator = new CalleeProxyCodeGenerator(typeof (T).Namespace + ".Generated");
 
             string generatedCode = generator.GenerateCode(typeof(T));
 
-            throw new NotSupportedException
+            return new NotSupportedException
                 ("No runtime type code generation available on this platform." +
                  " You might want to try using GetProxy with the type declared in the inner exception.",
                  new GeneratedCodeException(generatedCode));
