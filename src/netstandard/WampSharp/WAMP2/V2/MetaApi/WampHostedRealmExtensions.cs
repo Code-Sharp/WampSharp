@@ -95,7 +95,7 @@ namespace WampSharp.V2.MetaApi
         /// <returns>A disposable: disposing it will unregister the hosted session management service.</returns>
         public static IDisposable HostSessionManagementService(this IWampHostedRealm hostedRealm, IWampUriValidator uriValidator = null)
         {
-            WampSessionManagmentService service = new WampSessionManagmentService(hostedRealm, uriValidator);
+            WampSessionManagementService service = new WampSessionManagementService(hostedRealm, uriValidator);
 
             RegisterOptions registerOptions = new RegisterOptions { DiscloseCaller = true };
 

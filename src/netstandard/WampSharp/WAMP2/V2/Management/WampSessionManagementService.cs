@@ -9,7 +9,7 @@ using WampSharp.V2.Realm.Binded;
 
 namespace WampSharp.V2.Management
 {
-    internal class WampSessionManagmentService : IWampSessionManagementService, IDisposable
+    internal class WampSessionManagementService : IWampSessionManagementService, IDisposable
     {
         private readonly IWampHostedRealm mRealm;
         private readonly IWampUriValidator mUriValidator;
@@ -25,7 +25,7 @@ namespace WampSharp.V2.Management
         private ImmutableDictionary<string, ImmutableList<IWampSessionTerminator>> mAuthRoleToTerminator =
             ImmutableDictionary<string, ImmutableList<IWampSessionTerminator>>.Empty;
 
-        public WampSessionManagmentService(IWampHostedRealm realm, IWampUriValidator uriValidator = null)
+        public WampSessionManagementService(IWampHostedRealm realm, IWampUriValidator uriValidator = null)
         {
             mRealm = realm;
             mUriValidator = uriValidator ?? new LooseUriValidator();
