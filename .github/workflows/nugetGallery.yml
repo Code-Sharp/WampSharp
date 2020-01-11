@@ -1,4 +1,4 @@
-name: NuGet Generation
+name: NuGet Gallery NuGet generation
 
 on:
   release:
@@ -15,7 +15,7 @@ jobs:
 
       - name: Build solution and generate NuGet package
         run: |  
-          cd src/netstandard
+          cd src\netstandard
           dotnet pack -c Release -o out  
 
       - name: Install NuGet client
@@ -24,5 +24,5 @@ jobs:
       - name: Add NuGet gallery registry
         run: nuget sources add -Name "NuGet Gallery" -Source https://api.nuget.org/v3/index.json
 
-      - name: Push generated package to GitHub registry
+      - name: Push generated package to NuGet gallery
         run: nuget push .\**\out\*.nupkg -Source "NuGet Gallery" -SkipDuplicate -k ${{ secrets.NUGET_TOKEN }}
