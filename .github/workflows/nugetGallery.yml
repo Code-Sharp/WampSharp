@@ -1,0 +1,28 @@
+name: NuGet Generation
+
+on:
+  release:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+    name: Update NuGet 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+
+      - name: Build solution and generate NuGet package
+        run: |  
+          cd src/netstandard
+          dotnet pack -c Release -o out  
+
+      - name: Install NuGet client
+        uses: warrenbuckley/Setup-Nuget@v1
+
+      - name: Add NuGet gallery registry
+        run: nuget sources add -Name "NuGet Gallery" -Source https://api.nuget.org/v3/index.json
+
+      - name: Push generated package to GitHub registry
+        run: nuget push .\**\out\*.nupkg -Source "NuGet Gallery" -SkipDuplicate -k ${{ secrets.NUGET_TOKEN }}
