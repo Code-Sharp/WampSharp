@@ -1,4 +1,6 @@
 #if CASTLE
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Castle.DynamicProxy;
@@ -24,7 +26,7 @@ namespace WampSharp.V2.CalleeProxy
             };
 
             IInterceptor[] interceptors =
-                typeof (TProxy).GetMethods()
+                GetAllInterfaceMethods(typeof(TProxy))
                     .Select(method => BuildInterceptor(method, interceptor))
                     .ToArray();
 
@@ -37,6 +39,17 @@ namespace WampSharp.V2.CalleeProxy
         private IInterceptor BuildInterceptor(MethodInfo method, ICalleeProxyInterceptor interceptor)
         {
             return CalleeProxyInterceptorFactory.BuildInterceptor(method, interceptor, mHandler);
+        }
+
+        private List<MethodInfo> GetAllInterfaceMethods(Type type)
+        {
+            List<MethodInfo> methods = new List<MethodInfo>(type.GetMethods());
+            foreach (Type interf in type.GetInterfaces())
+                foreach (MethodInfo method in interf.GetMethods())
+                    if (!methods.Contains(method))
+                        methods.Add(method);
+
+            return methods;
         }
     }
 }
