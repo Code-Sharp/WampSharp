@@ -31,4 +31,6 @@ jobs:
         run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/Code-Sharp/index.json -Username Code-Sharp -Password ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push generated package to GitHub registry
-        run: nuget push .\out\*.nupkg -Source "GPR" -SkipDuplicate
+        run: |
+          cd src\netstandard\        
+          nuget push .\out\*.nupkg -Source "GPR" -SkipDuplicate
