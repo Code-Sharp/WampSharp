@@ -77,15 +77,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.NewtonsoftCbor", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.Samples.AspNetCore.Router", "Samples\WAMP2\WampSharp.Samples.AspNetCore.Router\WampSharp.Samples.AspNetCore.Router.csproj", "{7B57E4CD-99B2-463B-A24F-2008D4515EB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.CraClientSample", "Samples\WAMP1\WampSharp.CraClientSample\WampSharp.CraClientSample.csproj", "{9DC84D95-BC60-4E97-B882-D72612957548}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.CraClientSample", "Samples\WAMP1\WampSharp.CraClientSample\WampSharp.CraClientSample.csproj", "{9DC84D95-BC60-4E97-B882-D72612957548}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.CraServerSample", "Samples\WAMP1\WampSharp.CraServerSample\WampSharp.CraServerSample.csproj", "{62FB7CD5-00F6-4131-8623-53C2E44B8ABE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.CraServerSample", "Samples\WAMP1\WampSharp.CraServerSample\WampSharp.CraServerSample.csproj", "{62FB7CD5-00F6-4131-8623-53C2E44B8ABE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.PubSubServerSample", "Samples\WAMP1\WampSharp.PubSubServerSample\WampSharp.PubSubServerSample.csproj", "{1CC3952F-22AB-4EDF-9A3D-6B2A47F96AFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.PubSubServerSample", "Samples\WAMP1\WampSharp.PubSubServerSample\WampSharp.PubSubServerSample.csproj", "{1CC3952F-22AB-4EDF-9A3D-6B2A47F96AFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RpcClientSample", "Samples\WAMP1\WampSharp.RpcClientSample\WampSharp.RpcClientSample.csproj", "{380AED0D-BF1F-4E0E-91D6-AEF79D6EEA16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.RpcClientSample", "Samples\WAMP1\WampSharp.RpcClientSample\WampSharp.RpcClientSample.csproj", "{380AED0D-BF1F-4E0E-91D6-AEF79D6EEA16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.RpcServerSample", "Samples\WAMP1\WampSharp.RpcServerSample\WampSharp.RpcServerSample.csproj", "{2C38F531-C060-4AEB-AB65-3F2BF412D19F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WampSharp.RpcServerSample", "Samples\WAMP1\WampSharp.RpcServerSample\WampSharp.RpcServerSample.csproj", "{2C38F531-C060-4AEB-AB65-3F2BF412D19F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WampSharp.Default", "WampSharp.Default\WampSharp.Default.csproj", "{5006AB4D-2677-4CEF-BFE4-63D258650C8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -585,6 +587,22 @@ Global
 		{2C38F531-C060-4AEB-AB65-3F2BF412D19F}.Release|x64.Build.0 = Release|Any CPU
 		{2C38F531-C060-4AEB-AB65-3F2BF412D19F}.Release|x86.ActiveCfg = Release|Any CPU
 		{2C38F531-C060-4AEB-AB65-3F2BF412D19F}.Release|x86.Build.0 = Release|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Debug|x64.Build.0 = Debug|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Debug|x86.Build.0 = Debug|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Release|ARM.Build.0 = Release|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Release|x64.ActiveCfg = Release|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Release|x64.Build.0 = Release|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Release|x86.ActiveCfg = Release|Any CPU
+		{5006AB4D-2677-4CEF-BFE4-63D258650C8F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

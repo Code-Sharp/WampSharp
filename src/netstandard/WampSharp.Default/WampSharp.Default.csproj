@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <title>WampSharp.Default</title>
+    <description>WampSharp above Fleck, Newtonsoft.Json, NewtonsoftMessagePack, and System.Net.WebSockets</description>
+    <PackageTags>websockets wampws rpc pubsub fleck wampv2 json msgpack</PackageTags>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WampSharp.Default.Client\WampSharp.Default.Client.csproj" />
+    <ProjectReference Include="..\WampSharp.Default.Router\WampSharp.Default.Router.csproj" />
+  </ItemGroup>
+
+</Project>
