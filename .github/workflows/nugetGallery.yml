@@ -21,9 +21,6 @@ jobs:
       - name: Install NuGet client
         uses: warrenbuckley/Setup-Nuget@v1
 
-      - name: Add NuGet gallery registry
-        run: nuget sources add -Name "NuGet Gallery" -Source https://api.nuget.org/v3/index.json
-
       - name: Push generated package to NuGet gallery
         run: |
           cd src\netstandard          
