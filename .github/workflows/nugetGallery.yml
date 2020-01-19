@@ -2,6 +2,7 @@ name: NuGet Gallery NuGet generation
 
 on:
   release:
+    types: [published]
     branches:
       - master
 
