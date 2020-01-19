@@ -16,11 +16,11 @@ Your donations help keep this project's development alive.
 
 ## Documentation
 
-Documentation has been moved to [its own site](https://wampsharp.net)!
+Documentation is available at [https://wampsharp.net](https://wampsharp.net)!
 
-## WampSharp v18.6.1
+## WampSharp v20.1.1
 
-WampSharp v18.6.1 released, see version [release notes](http://wampsharp.net/release-notes/wampsharp-v18.6.1-release-notes/).
+WampSharp v20.1.1 is available, see version [release notes](https://wampsharp.net/release-notes/wampsharp-v20.1.1-release-notes/).
 
 ## Get Started
 
@@ -30,11 +30,11 @@ See [Get started tutorial](http://wampsharp.net/wamp2/getting-started-with-wampv
 * [Getting started with Publisher](http://wampsharp.net/wamp2/roles/publisher/getting-started-with-publisher/)
 * [Getting started with Subscriber](http://wampsharp.net/wamp2/roles/subscriber/getting-started-with-subscriber/)
 
-See [documentation](https://wampsharp.net) for more help.
+See the [documentation](https://wampsharp.net) for more help.
 
 ## WAMPv1 support
 
-WAMPv1 support is still available. You can read about it on the [Documentation site](https://wampsharp.net).
+WAMPv1 support is still available. You can read about it on the [documentation site](https://wampsharp.net/categories/wamp1/).
 
 In order to use it, Install WampSharp.WAMP1.Default from NuGet.
 
@@ -44,18 +44,7 @@ If you're updating from a previous WampSharp version and you're not interested y
 
 Poloniex no longer uses WAMP for its WebSockets api. Please don't open issues specific to Poloniex api. These will be closed without any comment. If you are still interested in connecting to Poloniex WebSockets api, take a look at [PoloniexWebSocketsApi](https://github.com/Code-Sharp/PoloniexWebSocketsApi).
 
-[WampLink]:http://wamp.ws
+[WampLink]:http://wamp-proto.org
 
 [NuGetImgMaster]:http://img.shields.io/nuget/v/WampSharp.Default.svg
 [NuGetLinkMaster]:http://www.nuget.org/packages/WampSharp.Default/
-[WinImgMaster]:https://img.shields.io/teamcity/codebetter/WampSharp_NetCore_Wampv2_Build.svg
-[WinLinkMaster]:http://teamcity.codebetter.com/project.html?projectId=WampSharp_NetCore_Wampv2_Build&guest=1
-[MonoImgMaster]:https://img.shields.io/travis/Code-Sharp/WampSharp/wampv2.svg
-[MonoLinkMaster]:https://travis-ci.org/Code-Sharp/WampSharp
-[AppVeyorLinkMaster]:https://ci.appveyor.com/project/darkl/wampsharp-759
-[AppVeyorImgMaster]:https://ci.appveyor.com/api/projects/status/fgbqbgwqx4j8jain
-
-[JetBrains]:http://www.jetbrains.com/
-[CodeBetter]:http://codebetter.com/
-[travis-ci]:https://travis-ci.org/
-[AppVeyor]:http://www.appveyor.com/
