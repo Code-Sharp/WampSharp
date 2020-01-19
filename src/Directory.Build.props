@@ -22,6 +22,6 @@
     <RepositoryUrl>https://github.com/Code-Sharp/WampSharp/</RepositoryUrl>
     <projectUrl>https://wampsharp.net/</projectUrl>
     <PackageTags>websockets wampws rpc pubsub wampv2</PackageTags>
-    <VersionPrefix>20.0.0</VersionPrefix>
+    <VersionPrefix>20.1.1</VersionPrefix>
   </PropertyGroup>
 </Project>

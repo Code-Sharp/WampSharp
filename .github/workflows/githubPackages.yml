@@ -3,7 +3,7 @@ name: GitHub packages NuGet generation
 on:
   push:
     branches:
-      - develop
+      - master
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
       - name: Build solution and generate NuGet package
         run: |  
           cd src\netstandard\
-          dotnet pack -c Release -o out /p:Version=20.0.${env:BUILD_NUMBER}-develop
+          dotnet pack -c Release -o out /p:Version=21.0.${env:BUILD_NUMBER}-develop
 
       - name: Install NuGet client
         uses: warrenbuckley/Setup-Nuget@v1
@@ -31,4 +31,4 @@ jobs:
         run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/Code-Sharp/index.json -Username Code-Sharp -Password ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push generated package to GitHub registry
-        run: nuget push .\**\out\*.nupkg -Source "GPR" -SkipDuplicate
+        run: nuget push .\out\*.nupkg -Source "GPR" -SkipDuplicate
