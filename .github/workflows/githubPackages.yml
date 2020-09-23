@@ -11,7 +11,7 @@ jobs:
     name: Update NuGet 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@blazor-changes
+        uses: actions/checkout@master
 
       - name: Build solution and generate NuGet package
         run: |  
