@@ -90,7 +90,7 @@ namespace WampSharp.AspNetCore.RawSocket
                 mIsConnected = false;
             }
 
-            RaiseConnectionClosed();
+            await RaiseConnectionClosed().ConfigureAwait(false);
         }
 
         private void ProcessBuffer(in ReadOnlySequence<byte> buffer)

@@ -76,7 +76,7 @@ namespace WampSharp.WebSockets
             catch (Exception ex)
             {
                 RaiseConnectionError(ex);
-                RaiseConnectionClosed();
+                await RaiseConnectionClosed().ConfigureAwait(false);
             }
 
             return false;
@@ -134,7 +134,7 @@ namespace WampSharp.WebSockets
                 await CloseWebSocket().ConfigureAwait(false);
             }
 
-            RaiseConnectionClosed();
+            await RaiseConnectionClosed().ConfigureAwait(false);
         }
 
         private async Task CloseWebSocket()

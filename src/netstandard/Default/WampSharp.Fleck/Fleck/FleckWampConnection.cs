@@ -45,9 +45,9 @@ namespace WampSharp.Fleck
             RaiseConnectionError(exception);
         }
 
-        private void OnConnectionClose()
+        private async void OnConnectionClose()
         {
-            RaiseConnectionClosed();
+            await RaiseConnectionClosed().ConfigureAwait(false);
         }
 
         protected override void Dispose()

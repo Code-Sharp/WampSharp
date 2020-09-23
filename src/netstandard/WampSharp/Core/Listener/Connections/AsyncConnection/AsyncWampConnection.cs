@@ -7,7 +7,7 @@ using WampSharp.Logging;
 
 namespace WampSharp.Core.Listener
 {
-    public abstract class AsyncWampConnection<TMessage> : IWampConnection<TMessage>,
+    public abstract class AsyncWampConnection<TMessage> : IAsyncWampConnection<TMessage>,
         IAsyncDisposable
     {
         private readonly ActionBlock<WampMessage<object>> mSendBlock;
@@ -56,7 +56,14 @@ namespace WampSharp.Core.Listener
 
         public event EventHandler ConnectionOpen;
         public event EventHandler<WampMessageArrivedEventArgs<TMessage>> MessageArrived;
-        public event EventHandler ConnectionClosed;
+        public event AsyncEventHandler<EventArgs> ConnectionClosedAsync;
+        
+        public event EventHandler ConnectionClosed
+        {
+            add => ConnectionClosedAsync += value.ConvertToAsync();
+            remove => ConnectionClosedAsync -= value.ConvertToAsync();
+        }
+
         public event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
         protected abstract Task SendAsync(WampMessage<object> message);
 
@@ -70,10 +77,10 @@ namespace WampSharp.Core.Listener
             MessageArrived?.Invoke(this, new WampMessageArrivedEventArgs<TMessage>(message));
         }
 
-        protected virtual void RaiseConnectionClosed()
+        protected virtual async Task RaiseConnectionClosed()
         {
             mLogger.Debug("Connection has been closed");
-            ConnectionClosed?.Invoke(this, EventArgs.Empty);
+            await ConnectionClosedAsync?.InvokeAsync(this, EventArgs.Empty);
         }
 
         protected virtual void RaiseConnectionError(Exception ex)

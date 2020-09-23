@@ -111,7 +111,7 @@ namespace WampSharp.RawSocket
                     }
                 }
 
-                RaiseConnectionClosed();
+                await RaiseConnectionClosed().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
