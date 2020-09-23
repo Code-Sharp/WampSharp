@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Listener
@@ -28,11 +29,26 @@ namespace WampSharp.Core.Listener
             IControlledWampConnection<TMessage> result = mFactory();
 
             result.ConnectionOpen += OnConnectionOpen;
-            result.ConnectionClosed += OnConnectionClosed;
             result.ConnectionError += OnConnectionError;
             result.MessageArrived += OnMessageArrived;
 
+            if (result is IAsyncWampConnection<TMessage> asyncWampConnection)
+            {
+                asyncWampConnection.ConnectionClosedAsync += OnConnectionClosedAsync;
+            }
+            else
+            {
+                result.ConnectionClosed += OnConnectionClosed;
+            }
+
             return result;
+        }
+
+        private async Task OnConnectionClosedAsync(object sender, EventArgs e)
+        {
+            await DestroyConnectionAsync().ConfigureAwait(false);
+
+            RaiseConnectionClosed();
         }
 
         private void OnMessageArrived(object sender, WampMessageArrivedEventArgs<TMessage> e)
@@ -52,15 +68,31 @@ namespace WampSharp.Core.Listener
             RaiseConnectionClosed();
         }
 
+        private async Task DestroyConnectionAsync()
+        {
+            UnwireEvents();
+            IAsyncWampConnection<TMessage> connection = mConnection as IAsyncWampConnection<TMessage>;
+
+            connection.ConnectionClosedAsync -= OnConnectionClosedAsync;
+            await connection.DisposeAsync().ConfigureAwait(false);
+
+            mConnection = null;
+        }
+
         private void DestroyConnection()
         {
-            mConnection.ConnectionOpen -= OnConnectionOpen;
-            mConnection.ConnectionClosed -= OnConnectionClosed;
-            mConnection.ConnectionError -= OnConnectionError;
-            mConnection.MessageArrived -= OnMessageArrived;
+            UnwireEvents();
 
             mConnection.Dispose();
             mConnection = null;
+        }
+
+        private void UnwireEvents()
+        {
+            mConnection.ConnectionOpen -= OnConnectionOpen;
+            mConnection.ConnectionError -= OnConnectionError;
+            mConnection.MessageArrived -= OnMessageArrived;
+            mConnection.ConnectionClosed -= OnConnectionClosed;
         }
 
         private void OnConnectionOpen(object sender, EventArgs e)

@@ -49,7 +49,7 @@ namespace WampSharp.Vtortola
                     }
                 }
 
-                RaiseConnectionClosed();
+                await RaiseConnectionClosed().ConfigureAwait(false);
             }
             catch (Exception ex)
             {

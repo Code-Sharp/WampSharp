@@ -48,4 +48,18 @@ namespace WampSharp.Core.Listener
         /// </summary>
         event EventHandler<WampConnectionErrorEventArgs> ConnectionError;
     }
+
+
+    /// <summary>
+    /// A <see cref="IWampConnection{TMessage}"/> with async features
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
+    internal interface IAsyncWampConnection<TMessage> : IWampConnection<TMessage>,
+                                                        IAsyncDisposable
+    {
+        /// <summary>
+        /// Occurs when this connection closes.
+        /// </summary>
+        event AsyncEventHandler<EventArgs> ConnectionClosedAsync;
+    }
 }
