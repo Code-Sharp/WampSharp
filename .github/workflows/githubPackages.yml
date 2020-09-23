@@ -10,19 +10,13 @@ jobs:
     runs-on: windows-latest
     name: Update NuGet 
     steps:
-
-      - name: Generate build number
-        uses: einaregilsson/build-number@v2 
-        with:
-          token: ${{secrets.github_token}}        
-
       - name: Checkout repository
         uses: actions/checkout@master
 
       - name: Build solution and generate NuGet package
         run: |  
           cd src\netstandard\
-          dotnet pack -c Release -o out /p:Version=21.0.${env:BUILD_NUMBER}-develop
+          dotnet pack -c Release -o out /p:Version="${{ secrets.PACKAGE_VERSION }}-develop-${{ github.run_number }}"
 
       - name: Install NuGet client
         uses: warrenbuckley/Setup-Nuget@v1
