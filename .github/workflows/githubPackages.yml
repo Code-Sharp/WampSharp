@@ -1,9 +1,9 @@
-name: GitHub packages NuGet generation
+name: GitHub packages Blazor NuGet generation
 
 on:
   push:
     branches:
-      - master
+      - blazor-changes
 
 jobs:
   build:
@@ -11,12 +11,12 @@ jobs:
     name: Update NuGet 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@master
+        uses: actions/checkout@blazor-changes
 
       - name: Build solution and generate NuGet package
         run: |  
           cd src\netstandard\
-          dotnet pack -c Release -o out /p:Version="${{ secrets.PACKAGE_VERSION }}-develop-${{ github.run_number }}"
+          dotnet pack -c Release -o out /p:Version="${{ secrets.PACKAGE_VERSION }}-blazor-${{ github.run_number }}"
 
       - name: Install NuGet client
         uses: warrenbuckley/Setup-Nuget@v1
