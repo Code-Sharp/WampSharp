@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Reactive.Concurrency;
+using System.Threading;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.V2
@@ -32,7 +33,7 @@ namespace WampSharp.V2
             
             channel.RealmProxy.Monitor.ConnectionEstablished += connectionEstablished;
 
-            channel.Open();
+            channel.Open(CancellationToken.None);
 
             channel.RealmProxy.Monitor.ConnectionEstablished -= connectionEstablished;
 

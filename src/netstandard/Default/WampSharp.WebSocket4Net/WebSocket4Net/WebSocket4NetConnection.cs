@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using SuperSocket.ClientEngine;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
@@ -67,7 +68,7 @@ namespace WampSharp.WebSocket4Net
             RaiseConnectionError(e.Exception);
         }
 
-        public void Connect()
+        public void Connect(CancellationToken cancellationToken)
         {
             mWebSocket.Open();
         }

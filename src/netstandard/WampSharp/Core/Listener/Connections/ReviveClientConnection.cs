@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using WampSharp.Core.Message;
 
 namespace WampSharp.Core.Listener
@@ -13,14 +14,14 @@ namespace WampSharp.Core.Listener
             mFactory = factory;
         }
 
-        public void Connect()
+        public void Connect(CancellationToken cancellationToken)
         {
             if (mConnection == null)
             {
                 mConnection = SetupConnection();
             }
 
-            mConnection.Connect();
+            mConnection.Connect(cancellationToken);
         }
 
         private IControlledWampConnection<TMessage> SetupConnection()

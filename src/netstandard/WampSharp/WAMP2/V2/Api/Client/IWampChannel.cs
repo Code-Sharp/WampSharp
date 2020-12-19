@@ -1,9 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using WampSharp.V2.Client;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2
 {
+    public static class WampChannelExtensions
+    {
+        public static Task Open(this IWampChannel channel)
+        {
+            return channel.Open(CancellationToken.None);
+        }   
+    }
+
     /// <summary>
     /// Represents a WAMP client session.
     /// </summary>
@@ -19,7 +28,7 @@ namespace WampSharp.V2
         /// </summary>
         /// <returns>A task that is complete when the connection is
         /// established.</returns>
-        Task Open();
+        Task Open(CancellationToken cancellationToken);
 
         /// <summary>
         /// Closes the session violently.

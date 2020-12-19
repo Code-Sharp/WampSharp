@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using Newtonsoft.Json.Linq;
 using WampSharp.Binding;
 using WampSharp.Core.Client;
@@ -87,7 +88,7 @@ namespace WampSharp.Tests.Wampv2.TestHelpers.Integration
         public IWampServerProxy CreateRawConnection(IWampClient<TMessage> client)
         {
             IControlledWampConnection<TMessage> connection = CreateClientConnection();
-            connection.Connect();
+            connection.Connect(CancellationToken.None);
             return mProxyFactory.Create(client, connection);
         }
 

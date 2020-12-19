@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.IO;
 using WampSharp.Core.Listener;
@@ -83,17 +84,17 @@ namespace WampSharp.RawSocket
             RaiseConnectionClosed();
         }
 
-        public async void Connect()
+        public async void Connect(CancellationToken cancellationToken)
         {
             if (mConnection == null)
             {
-                await InnerConnect().ConfigureAwait(false);
+                await InnerConnect(cancellationToken).ConfigureAwait(false);
             }
         }
 
-        private async Task InnerConnect()
+        private async Task InnerConnect(CancellationToken cancellationToken)
         {
-            bool connected = await TryConnect().ConfigureAwait(false);
+            bool connected = await TryConnect(cancellationToken).ConfigureAwait(false);
 
             if (connected)
             {
@@ -101,7 +102,7 @@ namespace WampSharp.RawSocket
             }
         }
 
-        private async Task<bool> TryConnect()
+        private async Task<bool> TryConnect(CancellationToken cancellationToken)
         {
             try
             {
@@ -119,9 +120,9 @@ namespace WampSharp.RawSocket
 
                 Handshake handshakeRequest = GetHandshakeRequest();
 
-                await mHandshaker.SendHandshake(stream, handshakeRequest).ConfigureAwait(false);
+                await mHandshaker.SendHandshake(stream, handshakeRequest, cancellationToken).ConfigureAwait(false);
 
-                Handshake handshakeResponse = await mHandshaker.GetHandshakeMessage(stream).ConfigureAwait(false);
+                Handshake handshakeResponse = await mHandshaker.GetHandshakeMessage(stream, cancellationToken).ConfigureAwait(false);
 
                 if (handshakeResponse.IsError)
                 {

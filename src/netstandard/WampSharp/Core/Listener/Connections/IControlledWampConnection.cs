@@ -1,3 +1,5 @@
+using System.Threading;
+
 namespace WampSharp.Core.Listener
 {
     /// <summary>
@@ -15,6 +17,7 @@ namespace WampSharp.Core.Listener
         /// <summary>
         /// Tries to establish a connection to the remote server.
         /// </summary>
-        void Connect();
+        /// <param name="cancellationToken"></param>
+        void Connect(CancellationToken cancellationToken);
     }
 }

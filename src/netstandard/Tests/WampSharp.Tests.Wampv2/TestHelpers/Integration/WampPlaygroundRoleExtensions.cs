@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using WampSharp.Tests.Wampv2.Integration;
+using WampSharp.V2;
 using WampSharp.V2.Realm;
 
 namespace WampSharp.Tests.Wampv2.TestHelpers.Integration

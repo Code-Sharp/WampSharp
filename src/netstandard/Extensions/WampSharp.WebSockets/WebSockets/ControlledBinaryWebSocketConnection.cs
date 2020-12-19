@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.WebSockets;
+using System.Threading;
 using WampSharp.Core.Listener;
 using WampSharp.V2.Binding;
 
@@ -17,9 +18,9 @@ namespace WampSharp.WebSockets
         {
         }
 
-        public void Connect()
+        public void Connect(CancellationToken cancellationToken)
         {
-            base.InnerConnect();
+            base.InnerConnect(cancellationToken);
         }
     }
 }

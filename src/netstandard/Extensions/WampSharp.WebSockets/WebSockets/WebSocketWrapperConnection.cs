@@ -52,9 +52,9 @@ namespace WampSharp.WebSockets
 
         protected abstract WebSocketMessageType WebSocketMessageType { get; }
 
-        protected async void InnerConnect()
+        protected async void InnerConnect(CancellationToken cancellationToken)
         {
-            bool connected = await TryConnect();
+            bool connected = await TryConnect(cancellationToken);
 
             if (connected)
             {
@@ -62,11 +62,11 @@ namespace WampSharp.WebSockets
             }
         }
 
-        private async Task<bool> TryConnect()
+        private async Task<bool> TryConnect(CancellationToken cancellationToken)
         {
             try
             {
-                await this.ClientWebSocket.ConnectAsync(mAddressUri, mCancellationToken)
+                await this.ClientWebSocket.ConnectAsync(mAddressUri, cancellationToken)
                           .ConfigureAwait(false);
 
                 RaiseConnectionOpen();

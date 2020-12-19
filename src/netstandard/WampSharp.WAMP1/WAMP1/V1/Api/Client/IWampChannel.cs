@@ -1,10 +1,19 @@
 ﻿using System.Reactive.Subjects;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.V1.Auxiliary.Client;
 using WampSharp.V1.Core.Contracts;
 
 namespace WampSharp.V1
 {
+    public static class WampChannelExtensions
+    {
+        public static Task OpenAsync<TMessage>(this IWampChannel<TMessage> channel)
+        {
+            return channel.OpenAsync(CancellationToken.None);
+        }
+    }
+
     public interface IWampChannel<TMessage>
     {
         IWampServer GetServerProxy(IWampClient<TMessage> callbackClient);
@@ -24,7 +33,7 @@ namespace WampSharp.V1
 
         void Open();
 
-        Task OpenAsync();
+        Task OpenAsync(CancellationToken cancellationToken);
 
         void Close();
     }

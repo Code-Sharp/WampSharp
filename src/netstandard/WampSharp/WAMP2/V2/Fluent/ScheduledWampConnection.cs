@@ -2,6 +2,7 @@
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Threading;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 
@@ -65,9 +66,9 @@ namespace WampSharp.V2.Fluent
                 .ToEventPattern();
         }
 
-        public void Connect()
+        public void Connect(CancellationToken cancellationToken)
         {
-            mConnection.Connect();
+            mConnection.Connect(cancellationToken);
         }
 
         public void Dispose()

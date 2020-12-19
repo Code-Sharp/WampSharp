@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Subjects;
+using System.Threading;
 using WampSharp.Core.Listener;
 
 namespace WampSharp.Tests
@@ -21,7 +22,7 @@ namespace WampSharp.Tests
 
             if (value is IControlledWampConnection<TMessage> casted)
             {
-                casted.Connect();
+                casted.Connect(CancellationToken.None);
             }
         }
 

@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.Core.Listener;
 using WampSharp.V1.Auxiliary.Client;
@@ -66,7 +67,7 @@ namespace WampSharp.V1
 
         public void Open()
         {
-            Task task = OpenAsync();
+            Task task = OpenAsync(CancellationToken.None);
 
             try
             {
@@ -78,7 +79,7 @@ namespace WampSharp.V1
             }
         }
 
-        public Task OpenAsync()
+        public Task OpenAsync(CancellationToken cancellationToken)
         {
             var connectedObservable =
                 Observable.FromEventPattern<WampConnectionEstablishedEventArgs>
@@ -109,7 +110,7 @@ namespace WampSharp.V1
 
             Task task = firstConnectionOrError.ToTask();
 
-            mConnection.Connect();
+            mConnection.Connect(cancellationToken);
 
             return task;
         }

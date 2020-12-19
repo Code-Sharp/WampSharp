@@ -44,7 +44,7 @@ namespace WampSharp.V2.Client
 
         public IWampRealmProxy RealmProxy => mClient.Realm;
 
-        public Task Open()
+        public Task Open(CancellationToken cancellationToken)
         {
             if (Interlocked.CompareExchange(ref mConnectCalled, 1, 0) != 0)
             {
@@ -54,7 +54,7 @@ namespace WampSharp.V2.Client
             else
             {
                 Task openTask = mClient.OpenTask;
-                mConnection.Connect();
+                mConnection.Connect(cancellationToken);
                 return openTask;
             }
         }

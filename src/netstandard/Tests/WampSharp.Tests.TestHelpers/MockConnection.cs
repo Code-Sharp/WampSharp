@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Subjects;
+using System.Threading;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.Core.Serialization;
@@ -58,7 +59,7 @@ namespace WampSharp.Tests.TestHelpers
                 this.MessageArrived?.Invoke(this, new WampMessageArrivedEventArgs<TMessage>(wampMessage));
             }
 
-            public void Connect()
+            public void Connect(CancellationToken cancellationToken)
             {
                 this.RaiseConnectionOpen();
             }

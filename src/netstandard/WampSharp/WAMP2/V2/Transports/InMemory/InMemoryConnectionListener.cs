@@ -4,6 +4,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading;
 using WampSharp.Core.Listener;
 using WampSharp.Core.Message;
 using WampSharp.V2.Binding;
@@ -109,7 +110,7 @@ namespace WampSharp.V2.Transports
                 this.MessageArrived?.Invoke(this, new WampMessageArrivedEventArgs<TMessage>(wampMessage));
             }
 
-            public void Connect()
+            public void Connect(CancellationToken cancellationToken)
             {
                 mConnectionOpen.OnNext(Unit.Default);
             }
