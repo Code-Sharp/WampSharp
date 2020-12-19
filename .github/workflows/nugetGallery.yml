@@ -20,7 +20,7 @@ jobs:
           dotnet pack -c Release -o out  
 
       - name: Install NuGet client
-        uses: warrenbuckley/Setup-Nuget@v1
+        uses: nuget/setup-nuget@v1
 
       - name: Push generated package to NuGet gallery
         run: |
