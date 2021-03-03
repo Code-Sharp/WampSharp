@@ -29,21 +29,37 @@ namespace WampSharp.V2.Rpc
                                argumentsKeywords,
                                out IDictionary<string, object> outputs);
 
-                CallResult(caller, result, outputs);
+                return OnResult(caller, result, outputs);
             }
             catch (WampException ex)
             {
-                mLogger.ErrorFormat(ex, "An error occurred while calling {ProcedureUri}", this.Procedure);
-                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
-                callback.Error(ex);
+                HandleException(caller, ex);
             }
             catch (Exception ex)
             {
-                WampException wampException = ConvertExceptionToRuntimeException(ex);
-                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
-                callback.Error(wampException);
+                HandleException(caller, ex);
             }
 
+            return null;
+        }
+
+        protected void HandleException(IWampRawRpcOperationRouterCallback caller, WampException ex)
+        {
+            mLogger.ErrorFormat(ex, "An error occurred while calling {ProcedureUri}", this.Procedure);
+            IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+            callback.Error(ex);
+        }
+
+        protected void HandleException(IWampRawRpcOperationRouterCallback caller, Exception ex)
+        {
+            WampException wampException = ConvertExceptionToRuntimeException(ex);
+            IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+            callback.Error(wampException);
+        }
+
+        protected virtual IWampCancellableInvocation OnResult(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs)
+        {
+            CallResult(caller, result, outputs);
             return null;
         }
 
@@ -52,7 +68,7 @@ namespace WampSharp.V2.Rpc
             yieldOptions = yieldOptions ?? new YieldOptions();
             object[] resultArguments = GetResultArguments(result);
 
-            IDictionary<string, object> argumentKeywords = 
+            IDictionary<string, object> argumentKeywords =
                 GetResultArgumentKeywords(result, outputs);
 
             CallResult(caller,

@@ -42,6 +42,57 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
+        public async Task ProgressiveCallsCallerProgressObservable()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            var service = new LongOpObsService();
+            await calleeChannel.RealmProxy.Services.RegisterCallee(service);
+
+            MyCallback callback = new MyCallback();
+
+            callerChannel.RealmProxy.RpcCatalog.Invoke
+                (callback,
+                    new CallOptions() { ReceiveProgress = true },
+                    "com.myapp.longop",
+                    new object[] { 10, false });
+
+            Assert.That(service.State, Is.EqualTo(LongOpObsService.EState.Called));
+            Assert.That(callback.Task.Result, Is.EqualTo(-1));
+            CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), callback.ProgressiveResults);
+            Assert.That(service.State, Is.EqualTo(LongOpObsService.EState.Completed));
+        }
+
+        [Test]
+        public async Task ProgressiveCallsCallerProgressCancelObservable()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            var service = new LongOpObsService();
+            await calleeChannel.RealmProxy.Services.RegisterCallee(service);
+
+            MyCallback callback = new MyCallback();
+
+            var invocation = callerChannel.RealmProxy.RpcCatalog.Invoke
+                (callback,
+                    new CallOptions() { ReceiveProgress = true },
+                    "com.myapp.longop",
+                    new object[] { 10, false });
+
+            Assert.That(service.State, Is.EqualTo(LongOpObsService.EState.Called));
+            invocation.Cancel(new CancelOptions());
+            Assert.That(service.State, Is.EqualTo(LongOpObsService.EState.Cancelled));
+        }
+
+        [Test]
         public async Task ProgressiveCallsCalleeProxyProgress()
         {
             WampPlayground playground = new WampPlayground();
@@ -180,19 +231,35 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         public class LongOpObsService : ILongOpObsService
         {
-            public IObservable<int> LongOp(int n, bool endWithError) => Observable.Create<int>(async obs =>
+            public enum EState
             {
+                Nothing,
+                Called,
+                Completed,
+                Cancelled
+            }
+
+            public EState State { get; set; } = EState.Nothing;
+
+            public IObservable<int> LongOp(int n, bool endWithError) => Observable.Create<int>(async (obs, ct) =>
+            {
+                State = EState.Called;
+                ct.Register(() =>
+                {
+                    if (State == EState.Called)
+                        State = EState.Cancelled;
+                });
                 for (int i = 0; i < n; i++)
                 {
                     obs.OnNext(i);
-                    await Task.Delay(100);
+                    await Task.Delay(100, ct);
+                    ct.ThrowIfCancellationRequested();
                 }
+                State = EState.Completed;
                 if (endWithError)
                     obs.OnError(new WampException("wamp.error", "Something bad happened"));
                 else
                     obs.OnCompleted();
-
-                return Disposable.Empty;
             });
         }
 
@@ -206,7 +273,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
             {
-                throw new NotImplementedException();
+                mTask.SetResult(-1); // -1 indicates no final return value
             }
 
             public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
