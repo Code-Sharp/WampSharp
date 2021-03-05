@@ -59,6 +59,7 @@ namespace WampSharp.V2.Rpc
 
             if (method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(IObservable<>))
             {
+                MethodInfoValidation.ValidateProgressiveObservableMethod(method);
                 return CreateProgressiveObservableOperation(instanceProvider, method, procedureUri);
             }
             else if (!typeof (Task).IsAssignableFrom(method.ReturnType))

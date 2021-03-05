@@ -31,6 +31,8 @@ namespace WampSharp.V2.CalleeProxy
 
             if (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(IObservable<>))
             {
+                MethodInfoValidation.ValidateProgressiveObservableMethod(method);
+
                 genericArgument = returnType.GetGenericArguments()[0];
                 interceptorType = typeof(ObservableCalleeProxyInterceptor<>);
             }
