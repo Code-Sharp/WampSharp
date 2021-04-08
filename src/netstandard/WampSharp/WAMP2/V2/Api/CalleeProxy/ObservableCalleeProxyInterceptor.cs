@@ -10,13 +10,25 @@ namespace WampSharp.V2.CalleeProxy
         {
         }
 
-        public override object Invoke(MethodInfo method, object[] arguments) => Observable.Create<T>(async (obs, cancellationToken) =>
+        // We can't use Observable.FromAsync, as there is no overload that receives IObserver, and therefore we can't convert it into
+        // an IProgress instance and forward it to as the IProgress argument of InvokeProgressiveAsync.
+        // However, Observable.FromAsync and Observable.Create both use TaskObservableExtensions.Subscribe, which
+        // eventually uses EmitTaskResult so this is not a big deal.
+        public override object Invoke(MethodInfo method, object[] arguments)
         {
-            var last = await Handler.InvokeProgressiveAsync
-                (Interceptor, method, Extractor, arguments, obs.ToProgress(), cancellationToken);
-            if (last != null)
-                obs.OnNext(last);
-            obs.OnCompleted();
-        });
+            return Observable.Create<T>(async (observer, cancellationToken) =>
+                                        {
+                                            T last = await Handler.InvokeProgressiveAsync
+                                                (Interceptor, method, Extractor, arguments, observer.ToProgress(),
+                                                 cancellationToken);
+
+                                            if (last != null)
+                                            {
+                                                observer.OnNext(last);
+                                            }
+
+                                            observer.OnCompleted();
+                                        });
+        }
     }
 }
