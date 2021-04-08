@@ -29,7 +29,7 @@ namespace WampSharp.V2.Rpc
                                argumentsKeywords,
                                out IDictionary<string, object> outputs);
 
-                return OnResult(caller, result, outputs);
+                return HandleMethodOutput(caller, result, outputs);
             }
             catch (WampException ex)
             {
@@ -57,7 +57,14 @@ namespace WampSharp.V2.Rpc
             callback.Error(wampException);
         }
 
-        protected virtual IWampCancellableInvocation OnResult(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs)
+        /// <summary>
+        /// Handles the output received from the MethodInfo invocation.
+        /// </summary>
+        /// <param name="caller">A proxy to the caller that requested this method invocation.</param>
+        /// <param name="result">The method's return value.</param>
+        /// <param name="outputs">A dictionary mapping the out/ref parameter names to their values.</param>
+        /// <returns></returns>
+        protected virtual IWampCancellableInvocation HandleMethodOutput(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs)
         {
             CallResult(caller, result, outputs);
             return null;

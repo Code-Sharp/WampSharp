@@ -77,7 +77,7 @@ namespace WampSharp.V2.Rpc
             {
                 caller.Result(ObjectFormatter, options, arguments, argumentKeywords);
             }
-            else if (!this.HasResult || arguments == null)
+            else if (!this.HasResult)
             {
                 caller.Result(ObjectFormatter, options);
             }
