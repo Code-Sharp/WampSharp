@@ -62,7 +62,8 @@ namespace WampSharp.Tests.Wampv2.Integration
                     new object[] { 10 });
 
             Assert.That(service.State, Is.EqualTo(LongOpObservableService.OperationState.Called));
-            Assert.That(callback.Task.Result, Is.EqualTo(null));
+            int? result = await callback.Task;
+            Assert.That(result, Is.EqualTo(null));
             CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), callback.ProgressiveResults);
             Assert.That(service.State, Is.EqualTo(LongOpObservableService.OperationState.Completed));
         }
