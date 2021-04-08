@@ -16,20 +16,11 @@ namespace WampSharp.V2.Rpc
 
         public override bool SupportsCancellation => false;
 
-        protected override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected sealed override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
-
-                object result =
-                    InvokeSync(caller,
-                               formatter,
-                               details,
-                               arguments,
-                               argumentsKeywords,
-                               out IDictionary<string, object> outputs);
-
-                return HandleMethodOutput(caller, result, outputs);
+                return MethodInvocation(caller, formatter, details, arguments, argumentsKeywords);
             }
             catch (WampException ex)
             {
@@ -39,6 +30,26 @@ namespace WampSharp.V2.Rpc
             {
                 HandleException(caller, ex);
             }
+
+            return null;
+        }
+
+        protected virtual IWampCancellableInvocation MethodInvocation<TMessage>(
+            IWampRawRpcOperationRouterCallback caller,
+            IWampFormatter<TMessage> formatter,
+            InvocationDetails details,
+            TMessage[] arguments,
+            IDictionary<string, TMessage> argumentsKeywords)
+        {
+            object result =
+                InvokeSync(caller,
+                           formatter,
+                           details,
+                           arguments,
+                           argumentsKeywords,
+                           out IDictionary<string, object> outputs);
+
+            CallResult(caller, result, outputs);
 
             return null;
         }
@@ -55,19 +66,6 @@ namespace WampSharp.V2.Rpc
             WampException wampException = ConvertExceptionToRuntimeException(ex);
             IWampErrorCallback callback = new WampRpcErrorCallback(caller);
             callback.Error(wampException);
-        }
-
-        /// <summary>
-        /// Handles the output received from the MethodInfo invocation.
-        /// </summary>
-        /// <param name="caller">A proxy to the caller that requested this method invocation.</param>
-        /// <param name="result">The method's return value.</param>
-        /// <param name="outputs">A dictionary mapping the out/ref parameter names to their values.</param>
-        /// <returns></returns>
-        protected virtual IWampCancellableInvocation HandleMethodOutput(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs)
-        {
-            CallResult(caller, result, outputs);
-            return null;
         }
 
         protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs, YieldOptions yieldOptions = null)

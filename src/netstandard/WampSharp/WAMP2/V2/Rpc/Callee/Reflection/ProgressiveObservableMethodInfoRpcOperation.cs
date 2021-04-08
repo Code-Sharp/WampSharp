@@ -2,26 +2,45 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
+using WampSharp.Core.Serialization;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
     public class ProgressiveObservableMethodInfoRpcOperation<T> : SyncMethodInfoRpcOperation
     {
-        public ProgressiveObservableMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) :
+        public ProgressiveObservableMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method,
+                                                           string procedureName) :
             base(instanceProvider, method, procedureName)
         {
         }
 
-        protected override IWampCancellableInvocation HandleMethodOutput(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs)
+        protected override IWampCancellableInvocation MethodInvocation<TMessage>(
+            IWampRawRpcOperationRouterCallback caller,
+            IWampFormatter<TMessage> formatter,
+            InvocationDetails details,
+            TMessage[] arguments,
+            IDictionary<string, TMessage> argumentsKeywords)
         {
+            object methodInfoResult =
+                InvokeSync(caller,
+                           formatter,
+                           details,
+                           arguments,
+                           argumentsKeywords,
+                           out IDictionary<string, object> outputs);
+
             CancellationTokenSource tokenSource = new CancellationTokenSource();
 
-            IObservable<T> resultAsObservable = (IObservable<T>) result;
+            IObservable<T> resultAsObservable = (IObservable<T>)methodInfoResult;
 
             resultAsObservable.Subscribe
                 (
-                 value => CallResult(caller, value, outputs, new YieldOptions {Progress = true}),
+                 value =>
+                 {
+                     IDictionary<string, object> resultArgumentsKeywords = GetResultArgumentKeywords(value, null);
+                     CallResult(caller, value, resultArgumentsKeywords, new YieldOptions { Progress = true });
+                 },
                  ex =>
                  {
                      if (ex is WampException wampException)
