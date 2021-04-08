@@ -35,10 +35,10 @@ namespace WampSharp.Tests.Wampv2.Integration
                     "com.myapp.longop",
                     new object[] {10});
 
-            callback.Task.Wait(2000);
+            int result = await callback.Task;
 
             CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), callback.ProgressiveResults);
-            Assert.That(callback.Task.Result, Is.EqualTo(10));
+            Assert.That(result, Is.EqualTo(10));
         }
 
         [Test]
@@ -109,12 +109,11 @@ namespace WampSharp.Tests.Wampv2.Integration
             List<int> results = new List<int>();
             MyProgress<int> progress = new MyProgress<int>(i => results.Add(i));
 
-            Task<int> result = proxy.LongOp(10, progress);
-            result.Wait();
+            int result = await proxy.LongOp(10, progress);
 
             CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), results);
 
-            Assert.That(result.Result, Is.EqualTo(10));
+            Assert.That(result, Is.EqualTo(10));
         }
 
         [Test]
@@ -131,7 +130,9 @@ namespace WampSharp.Tests.Wampv2.Integration
             await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, new RegisterOptions());
             ILongOpObsService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ILongOpObsService>();
 
-            IEnumerable<int> results = proxy.LongOp(9, false).ToEnumerable(); // it will emit one more than asked
+            IObservable<int> proxyResult = proxy.LongOp(9); // it will emit one more than asked
+
+            IEnumerable<int> results = proxyResult.ToEnumerable(); 
 
             CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), results);
         }
@@ -145,12 +146,12 @@ namespace WampSharp.Tests.Wampv2.Integration
             IWampChannel calleeChannel = dualChannel.CalleeChannel;
             IWampChannel callerChannel = dualChannel.CallerChannel;
 
-            MyOperation myOperation = new MyOperation();
+            MyOperation myOperation = new MyOperation {EndWithError = true};
 
             await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, new RegisterOptions());
             ILongOpObsService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ILongOpObsService>();
 
-            Assert.Throws(typeof(WampException), () => proxy.LongOp(9, true).ToEnumerable().Count());
+            Assert.Throws(typeof(WampException), () => proxy.LongOp(9).ToEnumerable().Count());
         }
 
         public class MyOperation : IWampRpcOperation
@@ -169,8 +170,6 @@ namespace WampSharp.Tests.Wampv2.Integration
                 TMessage number = arguments[0];
                 int n = formatter.Deserialize<int>(number);
 
-                bool endWithError = arguments.Length > 1 && formatter.Deserialize<bool>(arguments[1]);
-
                 for (int i = 0; i < n; i++)
                 {
                     caller.Result(WampObjectFormatter.Value,
@@ -178,7 +177,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                         new object[] {i});
                 }
 
-                if (endWithError)
+                if (EndWithError)
                 {
                     caller.Error(WampObjectFormatter.Value,
                         new Dictionary<string, string>(),
@@ -194,8 +193,10 @@ namespace WampSharp.Tests.Wampv2.Integration
                 return null;
             }
 
+            public bool EndWithError { get; set; }
+
             public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
-                TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+                                                               TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
             {
                 return null;
             }
@@ -226,7 +227,7 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             [WampProcedure("com.myapp.longop")]
             [WampProgressiveResultProcedure]
-            IObservable<int> LongOp(int n, bool endWithError);
+            IObservable<int> LongOp(int n);
         }
 
         public class LongOpObsService : ILongOpObsService
@@ -241,26 +242,36 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             public EState State { get; set; } = EState.Nothing;
 
-            public IObservable<int> LongOp(int n, bool endWithError) => Observable.Create<int>(async (obs, ct) =>
+            public IObservable<int> LongOp(int n) => Observable.Create<int>(async (observer, cancellationToken) =>
             {
                 State = EState.Called;
-                ct.Register(() =>
+
+                cancellationToken.Register(() =>
                 {
                     if (State == EState.Called)
                         State = EState.Cancelled;
                 });
+
                 for (int i = 0; i < n; i++)
                 {
-                    obs.OnNext(i);
-                    await Task.Delay(100, ct);
-                    ct.ThrowIfCancellationRequested();
+                    observer.OnNext(i);
+                    await Task.Delay(100, cancellationToken);
+                    cancellationToken.ThrowIfCancellationRequested();
                 }
+
                 State = EState.Completed;
-                if (endWithError)
-                    obs.OnError(new WampException("wamp.error", "Something bad happened"));
+
+                if (EndWithError)
+                {
+                    observer.OnError(new WampException("wamp.error", "Something bad happened"));
+                }
                 else
-                    obs.OnCompleted();
+                {
+                    observer.OnCompleted();
+                }
             });
+
+            public bool EndWithError { get; set; }
         }
 
         public class MyCallback : IWampRawRpcOperationClientCallback
