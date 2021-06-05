@@ -7,11 +7,15 @@ namespace WampSharp.WebSockets
 {
     public class TextWebSocketConnection<TMessage> : TextWebSocketWrapperConnection<TMessage>
     {
-        public TextWebSocketConnection(WebSocket webSocket, IWampTextBinding<TMessage> binding, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) : base(new WebSocketWrapper(webSocket), binding, cookieProvider, cookieAuthenticatorFactory)
+        public TextWebSocketConnection(WebSocket webSocket, IWampTextBinding<TMessage> binding,
+                                       ICookieProvider cookieProvider,
+                                       ICookieAuthenticatorFactory cookieAuthenticatorFactory, int? maxFrameSize) : base(new WebSocketWrapper(webSocket), binding, cookieProvider, cookieAuthenticatorFactory, maxFrameSize)
         {
         }
 
-        protected TextWebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri, IWampTextBinding<TMessage> binding) : base(new ClientWebSocketWrapper(clientWebSocket), addressUri, binding)
+        protected TextWebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri,
+                                          IWampTextBinding<TMessage> binding, int? maxFrameSize) :
+            base(new ClientWebSocketWrapper(clientWebSocket), addressUri, binding, maxFrameSize)
         {
         }
     }

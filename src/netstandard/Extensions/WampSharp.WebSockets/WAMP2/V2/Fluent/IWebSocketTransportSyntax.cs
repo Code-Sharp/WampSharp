@@ -5,7 +5,9 @@ namespace WampSharp.V2.Fluent
 {
     public interface IWebSocketTransportSyntax : ChannelFactorySyntax.ITransportSyntax
     {
-        ChannelFactorySyntax.ITransportSyntax SetClientWebSocketOptions
+        IWebSocketTransportSyntax SetClientWebSocketOptions
             (Action<ClientWebSocketOptions> configureClientWebSocketOptions);
+
+        IWebSocketTransportSyntax SetMaxFrameSize(int maxFrameSize);
     }
 }

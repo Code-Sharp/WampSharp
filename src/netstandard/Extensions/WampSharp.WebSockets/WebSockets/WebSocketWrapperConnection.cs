@@ -20,28 +20,64 @@ namespace WampSharp.WebSockets
         private CancellationTokenSource mCancellationTokenSource;
         private readonly Uri mAddressUri;
         private readonly CancellationToken mCancellationToken;
+        private readonly int? mMaxFrameSize;
 
-        public WebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampMessageParser<TMessage, TRaw> parser, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) :
+        public WebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampMessageParser<TMessage, TRaw> parser,
+                                          ICookieProvider cookieProvider,
+                                          ICookieAuthenticatorFactory cookieAuthenticatorFactory, int? maxFrameSize) :
             base(cookieProvider, cookieAuthenticatorFactory)
         {
             mWebSocket = webSocket;
             mParser = parser;
+            mMaxFrameSize = maxFrameSize;
             mCancellationTokenSource = new CancellationTokenSource();
             mCancellationToken = mCancellationTokenSource.Token;
         }
 
-        protected WebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri, string protocolName, IWampMessageParser<TMessage, TRaw> parser) :
-            this(clientWebSocket, parser, null, null)
+        protected WebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri,
+                                             string protocolName, IWampMessageParser<TMessage, TRaw> parser,
+                                             int? maxFrameSize) :
+            this(clientWebSocket, parser, null, null, maxFrameSize)
         {
             clientWebSocket.Options.AddSubProtocol(protocolName);
             mAddressUri = addressUri;
         }
 
-        protected override Task SendAsync(WampMessage<object> message)
+        protected override async Task SendAsync(WampMessage<object> message)
         {
             mLogger.Debug("Attempting to send a message");
             ArraySegment<byte> messageToSend = GetMessageInBytes(message);
-            return mWebSocket.SendAsync(messageToSend, WebSocketMessageType, true, mCancellationToken);
+
+            if (mMaxFrameSize == null)
+            {
+                await mWebSocket.SendAsync(messageToSend, WebSocketMessageType, true, mCancellationToken)
+                                .ConfigureAwait(false);
+            }
+            else
+            {
+                int maxFrameSize = mMaxFrameSize.Value;
+
+                int numberOfFrames = messageToSend.Count / maxFrameSize;
+
+                for (int i = 0; i < numberOfFrames; i++)
+                {
+                    bool endOfMessage = false;
+                    int currentFrameSize = maxFrameSize;
+
+                    if (i == numberOfFrames - 1)
+                    {
+                        endOfMessage = true;
+                        currentFrameSize = messageToSend.Count - maxFrameSize * i;
+                    }
+
+                    ArraySegment<byte> partialMessage = new ArraySegment<byte>(messageToSend.Array, 
+                                                                               i * maxFrameSize,
+                                                                               currentFrameSize);
+
+                    await mWebSocket.SendAsync(partialMessage, WebSocketMessageType, endOfMessage, mCancellationToken)
+                                    .ConfigureAwait(false);
+                }
+            }
         }
 
         private ArraySegment<byte> GetMessageInBytes(WampMessage<object> message)

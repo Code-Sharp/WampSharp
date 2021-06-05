@@ -18,6 +18,7 @@ namespace WampSharp.HttpListener
         private readonly string mUrl;
         private readonly Action<HttpListenerContext> mOnUnknownRequest;
         private System.Net.HttpListener mHttpListener;
+        private int? mMaxFrameSize;
 
         /// <exclude />
         public HttpListenerWebSocketTransport
@@ -65,7 +66,8 @@ namespace WampSharp.HttpListener
             return new BinaryWebSocketConnection<TMessage>(connection.Context.WebSocket,
                                                            binding,
                                                            new HttpListenerCookieProvider(connection.Context), 
-                                                           AuthenticatorFactory);
+                                                           AuthenticatorFactory,
+                                                           mMaxFrameSize);
         }
 
         /// <exclude />
@@ -76,7 +78,8 @@ namespace WampSharp.HttpListener
             return new TextWebSocketConnection<TMessage>(connection.Context.WebSocket,
                                                          binding,
                                                          new HttpListenerCookieProvider(connection.Context),
-                                                         AuthenticatorFactory);
+                                                         AuthenticatorFactory,
+                                                         mMaxFrameSize);
         }
 
         /// <exclude />

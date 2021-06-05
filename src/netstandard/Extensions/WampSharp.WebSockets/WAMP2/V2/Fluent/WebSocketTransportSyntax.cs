@@ -10,9 +10,15 @@ namespace WampSharp.V2.Fluent
             State = state;
         }
 
-        public ChannelFactorySyntax.ITransportSyntax SetClientWebSocketOptions(Action<ClientWebSocketOptions> configureClientWebSocketOptions)
+        public IWebSocketTransportSyntax SetClientWebSocketOptions(Action<ClientWebSocketOptions> configureClientWebSocketOptions)
         {
             ((WebSocketActivator) State.ConnectionActivator).ConfigureOptions = configureClientWebSocketOptions;
+            return this;
+        }
+
+        public IWebSocketTransportSyntax SetMaxFrameSize(int maxFrameSize)
+        {
+            ((WebSocketActivator) State.ConnectionActivator).MaxFrameSize = maxFrameSize;
             return this;
         }
 
