@@ -57,25 +57,29 @@ namespace WampSharp.WebSockets
             {
                 int maxFrameSize = mMaxFrameSize.Value;
 
-                int numberOfFrames = messageToSend.Count / maxFrameSize;
+                int remainingSize = messageToSend.Count;
 
-                for (int i = 0; i < numberOfFrames; i++)
+                bool endOfMessage = false;
+                int currentFrameSize = maxFrameSize;
+                int offset = 0;
+
+                while (remainingSize > 0)
                 {
-                    bool endOfMessage = false;
-                    int currentFrameSize = maxFrameSize;
-
-                    if (i == numberOfFrames - 1)
+                    if (remainingSize < maxFrameSize)
                     {
                         endOfMessage = true;
-                        currentFrameSize = messageToSend.Count - maxFrameSize * i;
+                        currentFrameSize = remainingSize;
                     }
 
                     ArraySegment<byte> partialMessage = new ArraySegment<byte>(messageToSend.Array, 
-                                                                               i * maxFrameSize,
+                                                                               offset,
                                                                                currentFrameSize);
 
                     await mWebSocket.SendAsync(partialMessage, WebSocketMessageType, endOfMessage, mCancellationToken)
                                     .ConfigureAwait(false);
+
+                    offset += maxFrameSize;
+                    remainingSize -= maxFrameSize;
                 }
             }
         }
