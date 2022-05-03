@@ -17,7 +17,7 @@ jobs:
       - name: Build solution and generate NuGet package
         run: |  
           cd src\netstandard\
-          dotnet pack -c Release -o out /p:Version="${{ secrets.PACKAGE_VERSION }}.${{ github.run_number }}"
+          dotnet pack -c Release -o out /p:Version="${{ secrets.PACKAGE_VERSION }}"
       - name: Install NuGet client
         uses: nuget/setup-nuget@v1
 
