@@ -1,14 +1,18 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
     internal class CancellationTokenSourceInvocation : IWampCancellableInvocation
     {
+        private readonly Task mTask;
         private readonly CancellationTokenSource mCancellationTokenSource;
 
-        public CancellationTokenSourceInvocation(CancellationTokenSource cancellationTokenSource)
+        public CancellationTokenSourceInvocation(Task task,
+                                                 CancellationTokenSource cancellationTokenSource)
         {
+            mTask = task;
             mCancellationTokenSource = cancellationTokenSource;
         }
 
@@ -16,5 +20,7 @@ namespace WampSharp.V2.Rpc
         {
             mCancellationTokenSource.Cancel();
         }
+
+        public bool IsInvocationCompleted => mTask.IsCompleted;
     }
 }

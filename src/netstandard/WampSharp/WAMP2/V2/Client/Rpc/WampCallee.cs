@@ -215,7 +215,15 @@ namespace WampSharp.V2.Client
 
                     lock (mLock)
                     {
-                        mRegistrationsToInvocations.Add(registrationId, requestId);
+                        if (!invocation.IsInvocationCompleted)
+                        {
+                            mRegistrationsToInvocations.Add(registrationId, requestId);
+                        }
+                    }
+
+                    if (invocation.IsInvocationCompleted)
+                    {
+                        CleanupInvocationData(requestId);
                     }
                 }
             }

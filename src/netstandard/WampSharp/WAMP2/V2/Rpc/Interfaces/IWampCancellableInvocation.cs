@@ -5,5 +5,7 @@ namespace WampSharp.V2.Rpc
     public interface IWampCancellableInvocation
     {
         void Cancel(InterruptDetails details);
+
+        bool IsInvocationCompleted { get; }
     }
 }
