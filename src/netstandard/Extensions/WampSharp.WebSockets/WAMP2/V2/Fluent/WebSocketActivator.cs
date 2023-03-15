@@ -20,6 +20,8 @@ namespace WampSharp.V2.Fluent
 
         public Action<ClientWebSocketOptions> ConfigureOptions { get; set; }
 
+        public int? MaxFrameSize { get; set; }
+
         public IControlledWampConnection<TMessage> Activate<TMessage>(IWampBinding<TMessage> binding)
         {
             Func<IControlledWampConnection<TMessage>> factory = 
@@ -36,22 +38,24 @@ namespace WampSharp.V2.Fluent
             switch (binding)
             {
                 case IWampTextBinding<TMessage> textBinding:
-                    return CreateTextConnection(textBinding);
+                    return CreateTextConnection(textBinding, MaxFrameSize);
                 case IWampBinaryBinding<TMessage> binaryBinding:
-                    return CreateBinaryConnection(binaryBinding);
+                    return CreateBinaryConnection(binaryBinding, MaxFrameSize);
             }
 
             throw new Exception();
         }
 
-        protected IControlledWampConnection<TMessage> CreateBinaryConnection<TMessage>(IWampBinaryBinding<TMessage> binaryBinding)
+        protected IControlledWampConnection<TMessage> CreateBinaryConnection<TMessage>(
+            IWampBinaryBinding<TMessage> binaryBinding, int? maxFrameSize)
         {
-            return new ControlledBinaryWebSocketConnection<TMessage>(ActivateWebSocket(), mServerAddress, binaryBinding);
+            return new ControlledBinaryWebSocketConnection<TMessage>(ActivateWebSocket(), mServerAddress, binaryBinding, maxFrameSize);
         }
 
-        protected IControlledWampConnection<TMessage> CreateTextConnection<TMessage>(IWampTextBinding<TMessage> textBinding)
+        protected IControlledWampConnection<TMessage> CreateTextConnection<TMessage>(
+            IWampTextBinding<TMessage> textBinding, int? maxFrameSize)
         {
-            return new ControlledTextWebSocketConnection<TMessage>(ActivateWebSocket(), mServerAddress, textBinding);
+            return new ControlledTextWebSocketConnection<TMessage>(ActivateWebSocket(), mServerAddress, textBinding, maxFrameSize);
         }
 
         private ClientWebSocket ActivateWebSocket()

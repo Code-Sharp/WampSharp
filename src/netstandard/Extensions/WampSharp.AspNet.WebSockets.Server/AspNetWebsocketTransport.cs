@@ -18,6 +18,7 @@ namespace WampSharp.AspNet.WebSockets.Server
         private readonly string mUrl;
         private readonly object mLock = new object();
         private Route mRoute;
+        private readonly int? mMaxFrameSize;
 
         /// <exclude />
         public AspNetWebSocketTransport(string url,
@@ -55,7 +56,8 @@ namespace WampSharp.AspNet.WebSockets.Server
             return new BinaryWebSocketConnection<TMessage>(connection.WebSocket,
                                                            binding,
                                                            new AspNetCookieProvider(connection.HttpContext),
-                                                           AuthenticatorFactory);
+                                                           AuthenticatorFactory,
+                                                           mMaxFrameSize);
         }
 
         /// <exclude />
@@ -66,7 +68,8 @@ namespace WampSharp.AspNet.WebSockets.Server
             return new TextWebSocketConnection<TMessage>(connection.WebSocket,
                                                          binding,
                                                          new AspNetCookieProvider(connection.HttpContext),
-                                                         AuthenticatorFactory);
+                                                         AuthenticatorFactory,
+                                                         mMaxFrameSize);
         }
 
         /// <exclude />

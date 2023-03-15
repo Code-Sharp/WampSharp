@@ -21,8 +21,8 @@ namespace WampSharp.V2.Rpc
         private readonly IDictionary<IWampCaller, ICollection<WampRpcInvocation>> mCallerToInvocations =
             new Dictionary<IWampCaller, ICollection<WampRpcInvocation>>();
 
-        private readonly IDictionary<IWampRawRpcOperationRouterCallback, WampRpcInvocation> mCallbackToInvocation =
-            new Dictionary<IWampRawRpcOperationRouterCallback, WampRpcInvocation>();
+        private readonly IDictionary<WampCallerRequestKey, WampRpcInvocation> mCallbackToInvocation =
+            new Dictionary<WampCallerRequestKey, WampRpcInvocation>();
 
         private readonly object mLock = new object();
         private readonly TMessage mEmptyDetails;
@@ -63,7 +63,7 @@ namespace WampSharp.V2.Rpc
 
                 if (properties.HelloDetails?.Roles?.Callee?.Features?.CallCanceling == true)
                 {
-                    mCallbackToInvocation.Add(callback, invocation);
+                    mCallbackToInvocation.Add(GetRequestKey(caller, callback.RequestId), invocation);
                 }
 
                 return invocationId;                
@@ -83,18 +83,24 @@ namespace WampSharp.V2.Rpc
 
         public void Cancel(IWampCaller caller, long requestId, CancelOptions options)
         {
-
-            WampRpcOperationCallback callback = new WampRpcOperationCallback(caller, requestId);
+            WampCallerRequestKey key = GetRequestKey(caller, requestId);
 
             lock (mLock)
             {
-                if (mCallbackToInvocation.TryGetValue(callback, out WampRpcInvocation invocation))
+                if (mCallbackToInvocation.TryGetValue(key, out WampRpcInvocation invocation))
                 {
                     IWampCallee callee = invocation.Operation.Callee;
 
                     callee.Interrupt(invocation.InvocationId, new InterruptDetails() { Mode = options.Mode });
                 }
             }
+        }
+
+        private static WampCallerRequestKey GetRequestKey(IWampCaller caller, long requestId)
+        {
+            IWampClientProperties wampClientProperties = caller as IWampClientProperties;
+            WampCallerRequestKey callback = new WampCallerRequestKey(wampClientProperties.Session, requestId);
+            return callback;
         }
 
         private void RegisterDisconnectionNotifier(IWampRawRpcOperationRouterCallback callback)
@@ -247,7 +253,7 @@ namespace WampSharp.V2.Rpc
                 }
 
                 mOperationToInvocations.Remove(invocation.Operation, invocation);
-                mCallbackToInvocation.Remove(invocation.Callback);
+                mCallbackToInvocation.Remove(GetRequestKey(caller, invocation.Callback.RequestId));
             }
         }
 
@@ -275,6 +281,39 @@ namespace WampSharp.V2.Rpc
             }
 
             return null;
+        }
+
+        private class WampCallerRequestKey
+        {
+            public WampCallerRequestKey(long session, long requestId)
+            {
+                Session = session;
+                RequestId = requestId;
+            }
+
+            public long Session { get; }
+            public long RequestId { get; }
+
+            protected bool Equals(WampCallerRequestKey other)
+            {
+                return Session == other.Session && RequestId == other.RequestId;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != this.GetType()) return false;
+                return Equals((WampCallerRequestKey)obj);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return (Session.GetHashCode() * 397) ^ RequestId.GetHashCode();
+                }
+            }
         }
     }
 }

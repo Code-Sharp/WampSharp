@@ -18,14 +18,17 @@ namespace WampSharp.Owin
         private const string SecWebSocketProtocolHeader = "Sec-WebSocket-Protocol";
 
         private Func<IOwinContext, Func<Task>, Task> mHandler;
+        private int? mMaxFrameSize;
 
         public OwinWebSocketTransport
-            (IAppBuilder app,
-             ICookieAuthenticatorFactory authenticatorFactory = null) :
+        (IAppBuilder app,
+         int? maxFrameSize,
+         ICookieAuthenticatorFactory authenticatorFactory = null) :
                  base(authenticatorFactory)
         {
             mHandler = this.EmptyHandler;
             app.Use(HttpHandler);
+            mMaxFrameSize = maxFrameSize;
         }
 
         public override void Dispose()
@@ -55,7 +58,8 @@ namespace WampSharp.Owin
                 (new OwinWebSocketWrapper(connection.WebSocketContext),
                  binding,
                  new OwinCookieProvider(connection.OwinContext),
-                 AuthenticatorFactory);
+                 AuthenticatorFactory,
+                 mMaxFrameSize);
         }
 
         protected override IWampConnection<TMessage> CreateTextConnection<TMessage>
@@ -66,7 +70,8 @@ namespace WampSharp.Owin
                 (new OwinWebSocketWrapper(connection.WebSocketContext),
                  binding,
                  new OwinCookieProvider(connection.OwinContext),
-                 AuthenticatorFactory);
+                 AuthenticatorFactory,
+                 mMaxFrameSize);
         }
 
         public override void Open()

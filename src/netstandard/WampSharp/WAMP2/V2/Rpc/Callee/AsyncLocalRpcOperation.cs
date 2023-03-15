@@ -22,11 +22,11 @@ namespace WampSharp.V2.Rpc
         {
             CancellationTokenSourceInvocation result = null;
             CancellationToken token = CancellationToken.None;
+            CancellationTokenSource cancellationTokenSource = null;
 
             if (SupportsCancellation)
             {
-                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-                result = new CancellationTokenSourceInvocation(cancellationTokenSource);
+                cancellationTokenSource = new CancellationTokenSource();
                 token = cancellationTokenSource.Token;
             }
 
@@ -37,7 +37,12 @@ namespace WampSharp.V2.Rpc
                                  arguments,
                                  argumentsKeywords,
                                  token);
-
+            
+            if (SupportsCancellation)
+            {
+                result = new CancellationTokenSourceInvocation(task ,cancellationTokenSource);
+            }
+            
             return result;
         }
 

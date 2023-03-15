@@ -28,7 +28,7 @@ namespace WampSharp.V2
                                                     IWampTextBinding<TMessage> binding)
         {
             Func<IControlledWampConnection<TMessage>> connectionFactory =
-                () => new ControlledTextWebSocketConnection<TMessage>(new Uri(address), binding);
+                () => new ControlledTextWebSocketConnection<TMessage>(new Uri(address), binding, null);
 
             return this.CreateChannel(realm, connectionFactory, binding);
         }
@@ -48,7 +48,7 @@ namespace WampSharp.V2
                                                     IWampClientAuthenticator authenticator)
         {
             Func<IControlledWampConnection<TMessage>> connectionFactory =
-                () => new ControlledTextWebSocketConnection<TMessage>(new Uri(address), binding);
+                () => new ControlledTextWebSocketConnection<TMessage>(new Uri(address), binding, null);
 
             return this.CreateChannel(realm, connectionFactory, binding, authenticator);
         }
@@ -66,7 +66,7 @@ namespace WampSharp.V2
                                                     IWampBinaryBinding<TMessage> binding)
         {
             Func<IControlledWampConnection<TMessage>> connectionFactory =
-                () => new ControlledBinaryWebSocketConnection<TMessage>(new Uri(address), binding);
+                () => new ControlledBinaryWebSocketConnection<TMessage>(new Uri(address), binding, null);
 
             return this.CreateChannel(realm, connectionFactory, binding);
         }
@@ -86,7 +86,7 @@ namespace WampSharp.V2
                                                     IWampClientAuthenticator authenticator)
         {
             Func<IControlledWampConnection<TMessage>> connectionFactory =
-                () => new ControlledBinaryWebSocketConnection<TMessage>(new Uri(address), binding);
+                () => new ControlledBinaryWebSocketConnection<TMessage>(new Uri(address), binding, null);
 
             return this.CreateChannel(realm, connectionFactory, binding, authenticator);
         }

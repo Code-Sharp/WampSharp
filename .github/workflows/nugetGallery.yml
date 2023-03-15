@@ -16,21 +16,12 @@ jobs:
 
       - name: Build solution and generate NuGet package
         run: |  
-          cd src\netstandard
-          dotnet pack -c Release -o out  
-
+          cd src\netstandard\
+          dotnet pack -c Release -o out /p:Version="${{ secrets.PACKAGE_VERSION }}"
       - name: Install NuGet client
-        uses: warrenbuckley/Setup-Nuget@v1
+        uses: nuget/setup-nuget@v1
 
-      - name: Push generated package to NuGet gallery
+      - name: Push generated package to NuGet Gallery
         run: |
-          cd src\netstandard          
-          dotnet nuget push .\out\*.nupkg --skip-duplicate -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_TOKEN }} -n true
-
-      - name: Add private GitHub registry to NuGet
-        run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/Code-Sharp/index.json -Username Code-Sharp -Password ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push generated package to GitHub registry
-        run: |
-          cd src\netstandard          
-          nuget push .\out\*.nupkg -Source "GPR" -SkipDuplicate
+          cd src\netstandard\        
+          nuget push .\out\*.nupkg -SkipDuplicate -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_TOKEN }} -NoSymbols

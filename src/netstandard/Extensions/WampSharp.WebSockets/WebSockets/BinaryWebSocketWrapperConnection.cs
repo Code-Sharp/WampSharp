@@ -9,14 +9,18 @@ namespace WampSharp.WebSockets
     {
         private readonly IWampBinaryBinding<TMessage> mBinding;
 
-        public BinaryWebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampBinaryBinding<TMessage> binding, ICookieProvider cookieProvider, ICookieAuthenticatorFactory cookieAuthenticatorFactory) : 
-            base(webSocket, binding, cookieProvider, cookieAuthenticatorFactory)
+        public BinaryWebSocketWrapperConnection(IWebSocketWrapper webSocket, IWampBinaryBinding<TMessage> binding,
+                                                ICookieProvider cookieProvider,
+                                                ICookieAuthenticatorFactory cookieAuthenticatorFactory,
+                                                int? maxFrameSize) : 
+            base(webSocket, binding, cookieProvider, cookieAuthenticatorFactory, maxFrameSize)
         {
             mBinding = binding;
         }
 
-        protected BinaryWebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri, IWampBinaryBinding<TMessage> binding) :
-            base(clientWebSocket, addressUri, binding.Name, binding)
+        protected BinaryWebSocketWrapperConnection(IClientWebSocketWrapper clientWebSocket, Uri addressUri,
+                                                   IWampBinaryBinding<TMessage> binding, int? maxFrameSize) :
+            base(clientWebSocket, addressUri, binding.Name, binding, maxFrameSize)
         {
             mBinding = binding;
         }

@@ -7,11 +7,13 @@ namespace WampSharp.WebSockets
 {
     public class ControlledTextWebSocketConnection<TMessage> : TextWebSocketConnection<TMessage>, IControlledWampConnection<TMessage>
     {
-        public ControlledTextWebSocketConnection(Uri addressUri, IWampTextBinding<TMessage> binding) : this(new ClientWebSocket(), addressUri, binding)
+        public ControlledTextWebSocketConnection(Uri addressUri, IWampTextBinding<TMessage> binding, int? maxFrameSize) : 
+            this(new ClientWebSocket(), addressUri, binding, maxFrameSize)
         {
         }
 
-        public ControlledTextWebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri, IWampTextBinding<TMessage> binding) : base(clientWebSocket, addressUri, binding)
+        public ControlledTextWebSocketConnection(ClientWebSocket clientWebSocket, Uri addressUri,
+                                                 IWampTextBinding<TMessage> binding, int? maxFrameSize) : base(clientWebSocket, addressUri, binding, maxFrameSize)
         {
         }
 

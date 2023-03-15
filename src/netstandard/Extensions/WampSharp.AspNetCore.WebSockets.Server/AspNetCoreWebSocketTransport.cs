@@ -15,6 +15,7 @@ namespace WampSharp.AspNetCore.WebSockets.Server
     public class AspNetCoreWebSocketTransport : WebSocketTransport<WebSocketData>
     {
         private Func<HttpContext, Func<Task>, Task> mHandler;
+        private int? mMaxFrameSize;
 
         public AspNetCoreWebSocketTransport
             (IApplicationBuilder app,
@@ -54,7 +55,8 @@ namespace WampSharp.AspNetCore.WebSockets.Server
                 (connection.WebSocket,
                  binding,
                  new AspNetCoreCookieProvider(connection.HttpContext),
-                 AuthenticatorFactory);
+                 AuthenticatorFactory,
+                 mMaxFrameSize);
         }
 
         protected override IWampConnection<TMessage> CreateTextConnection<TMessage>
@@ -67,7 +69,8 @@ namespace WampSharp.AspNetCore.WebSockets.Server
                 (connection.WebSocket,
                  binding,
                  new AspNetCoreCookieProvider(connection.HttpContext),
-                 AuthenticatorFactory);
+                 AuthenticatorFactory,
+                 mMaxFrameSize);
         }
 
         private void ConfigureComputeBytes<TMessage, TRaw>(IWampTransportBinding<TMessage, TRaw> binding)

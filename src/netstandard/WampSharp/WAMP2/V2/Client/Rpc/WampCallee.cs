@@ -2,6 +2,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using SystemEx;
 using WampSharp.Core.Listener;
@@ -159,9 +161,9 @@ namespace WampSharp.V2.Client
             return null;
         }
 
-        private IWampRawRpcOperationRouterCallback GetCallback(long requestId)
+        private IWampRawRpcOperationRouterCallback GetCallback(long requestId, ISubject<Unit> onCompleted)
         {
-            return new ServerProxyCallback(mProxy, requestId);
+            return new ServerProxyCallback(mProxy, requestId, this, onCompleted);
         }
 
         public void Invocation(long requestId, long registrationId, InvocationDetails details)
@@ -200,7 +202,8 @@ namespace WampSharp.V2.Client
 
             if (operation != null)
             {
-                IWampRawRpcOperationRouterCallback callback = GetCallback(requestId);
+                ReplaySubject<Unit> onOperationDone = new ReplaySubject<Unit>();
+                IWampRawRpcOperationRouterCallback callback = GetCallback(requestId, onOperationDone);
 
                 InvocationDetails modifiedDetails = new InvocationDetails(details)
                 {
@@ -217,6 +220,12 @@ namespace WampSharp.V2.Client
                     {
                         mRegistrationsToInvocations.Add(registrationId, requestId);
                     }
+
+                    onOperationDone.Subscribe(x =>
+                                              {
+                                                  this.CleanupInvocationData(requestId);
+                                                  onOperationDone.Dispose();
+                                              });
                 }
             }
         }
@@ -277,11 +286,21 @@ namespace WampSharp.V2.Client
 
         public void Interrupt(long requestId, InterruptDetails details)
         {
-
             if (mInvocations.TryRemove(requestId, out InvocationData invocation))
             {
                 invocation.Cancellation.Cancel(details);
 
+                lock (mLock)
+                {
+                    mRegistrationsToInvocations.Remove(invocation.RegistrationId, requestId);
+                }
+            }
+        }
+
+        private void CleanupInvocationData(long requestId)
+        {
+            if (mInvocations.TryRemove(requestId, out InvocationData invocation))
+            {
                 lock (mLock)
                 {
                     mRegistrationsToInvocations.Remove(invocation.RegistrationId, requestId);
@@ -342,43 +361,63 @@ namespace WampSharp.V2.Client
         private class ServerProxyCallback : IWampRawRpcOperationRouterCallback
         {
             private readonly IWampServerProxy mProxy;
+            private readonly WampCallee<TMessage> mParent;
+            private readonly ISubject<Unit> mOnCompleted;
 
-            public ServerProxyCallback(IWampServerProxy proxy, long requestId)
+            public ServerProxyCallback(IWampServerProxy proxy, long requestId, WampCallee<TMessage> parent,
+                                       ISubject<Unit> onCompleted)
             {
                 mProxy = proxy;
                 RequestId = requestId;
+                mParent = parent;
+                mOnCompleted = onCompleted;
             }
 
             public long RequestId { get; }
 
+            private void Cleanup(YieldOptions yieldOptions = null)
+            {
+                if (yieldOptions?.Progress != true)
+                {
+                    mParent.CleanupInvocationData(RequestId);
+                    mOnCompleted.OnNext(Unit.Default);
+                }
+            }
+
             public void Result<TResult>(IWampFormatter<TResult> formatter, YieldOptions options)
             {
                 mProxy.Yield(RequestId, options);
+                Cleanup(options);
             }
 
             public void Result<TResult>(IWampFormatter<TResult> formatter, YieldOptions options, TResult[] arguments)
             {
                 mProxy.Yield(RequestId, options, arguments.Cast<object>().ToArray());
+                Cleanup(options);
             }
 
             public void Result<TResult>(IWampFormatter<TResult> formatter, YieldOptions options, TResult[] arguments, IDictionary<string, TResult> argumentsKeywords)
             {
                 mProxy.Yield(RequestId, options, arguments.Cast<object>().ToArray(), argumentsKeywords.ToDictionary(x => x.Key, x => (object)x.Value));
+                Cleanup(options);
             }
 
             public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error)
             {
                 mProxy.InvocationError(RequestId, details, error);
+                Cleanup();
             }
 
             public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments)
             {
                 mProxy.InvocationError(RequestId, details, error, arguments.Cast<object>().ToArray());
+                Cleanup();
             }
 
             public void Error<TResult>(IWampFormatter<TResult> formatter, TResult details, string error, TResult[] arguments, TResult argumentsKeywords)
             {
                 mProxy.InvocationError(RequestId, details, error, arguments.Cast<object>().ToArray(), argumentsKeywords);
+                Cleanup();
             }
         }
 
