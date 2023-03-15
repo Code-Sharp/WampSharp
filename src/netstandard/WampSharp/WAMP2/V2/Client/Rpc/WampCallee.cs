@@ -2,6 +2,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using SystemEx;
 using WampSharp.Core.Listener;
@@ -159,9 +161,9 @@ namespace WampSharp.V2.Client
             return null;
         }
 
-        private IWampRawRpcOperationRouterCallback GetCallback(long requestId)
+        private IWampRawRpcOperationRouterCallback GetCallback(long requestId, ISubject<Unit> onCompleted)
         {
-            return new ServerProxyCallback(mProxy, requestId, this);
+            return new ServerProxyCallback(mProxy, requestId, this, onCompleted);
         }
 
         public void Invocation(long requestId, long registrationId, InvocationDetails details)
@@ -200,7 +202,8 @@ namespace WampSharp.V2.Client
 
             if (operation != null)
             {
-                IWampRawRpcOperationRouterCallback callback = GetCallback(requestId);
+                ReplaySubject<Unit> onOperationDone = new ReplaySubject<Unit>();
+                IWampRawRpcOperationRouterCallback callback = GetCallback(requestId, onOperationDone);
 
                 InvocationDetails modifiedDetails = new InvocationDetails(details)
                 {
@@ -215,16 +218,14 @@ namespace WampSharp.V2.Client
 
                     lock (mLock)
                     {
-                        if (!invocation.IsInvocationCompleted)
-                        {
-                            mRegistrationsToInvocations.Add(registrationId, requestId);
-                        }
+                        mRegistrationsToInvocations.Add(registrationId, requestId);
                     }
 
-                    if (invocation.IsInvocationCompleted)
-                    {
-                        CleanupInvocationData(requestId);
-                    }
+                    onOperationDone.Subscribe(x =>
+                                              {
+                                                  this.CleanupInvocationData(requestId);
+                                                  onOperationDone.Dispose();
+                                              });
                 }
             }
         }
@@ -361,12 +362,15 @@ namespace WampSharp.V2.Client
         {
             private readonly IWampServerProxy mProxy;
             private readonly WampCallee<TMessage> mParent;
+            private readonly ISubject<Unit> mOnCompleted;
 
-            public ServerProxyCallback(IWampServerProxy proxy, long requestId, WampCallee<TMessage> parent)
+            public ServerProxyCallback(IWampServerProxy proxy, long requestId, WampCallee<TMessage> parent,
+                                       ISubject<Unit> onCompleted)
             {
                 mProxy = proxy;
                 RequestId = requestId;
                 mParent = parent;
+                mOnCompleted = onCompleted;
             }
 
             public long RequestId { get; }
@@ -376,6 +380,7 @@ namespace WampSharp.V2.Client
                 if (yieldOptions?.Progress != true)
                 {
                     mParent.CleanupInvocationData(RequestId);
+                    mOnCompleted.OnNext(Unit.Default);
                 }
             }
 

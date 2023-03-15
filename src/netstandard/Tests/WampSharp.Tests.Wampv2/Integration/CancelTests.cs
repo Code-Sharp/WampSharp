@@ -241,14 +241,6 @@ namespace WampSharp.Tests.Wampv2.Integration
                 InterruptCalled = true;
             }
 
-            public bool IsInvocationCompleted
-            {
-                get
-                {
-                    return false;
-                }
-            }
-
             public bool InterruptCalled { get; set; }
         }
     }

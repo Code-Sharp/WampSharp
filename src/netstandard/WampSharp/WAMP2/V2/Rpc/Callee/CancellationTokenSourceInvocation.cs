@@ -20,7 +20,5 @@ namespace WampSharp.V2.Rpc
         {
             mCancellationTokenSource.Cancel();
         }
-
-        public bool IsInvocationCompleted => mTask.IsCompleted;
     }
 }

@@ -17,13 +17,5 @@ namespace WampSharp.V2.Rpc
         {
             Callee.Interrupt(RequestId, details);
         }
-
-        public bool IsInvocationCompleted
-        {
-            get
-            {
-                return false;
-            }
-        }
     }
 }
