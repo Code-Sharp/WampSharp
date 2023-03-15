@@ -19,9 +19,11 @@ namespace WampSharp.AspNetCore.WebSockets.Server
 
         public AspNetCoreWebSocketTransport
             (IApplicationBuilder app,
-             ICookieAuthenticatorFactory authenticatorFactory = null) :
+             ICookieAuthenticatorFactory authenticatorFactory = null,
+             int? maxFrameSize = null) :
                  base(authenticatorFactory)
         {
+            mMaxFrameSize = maxFrameSize;
             mHandler = this.EmptyHandler;
             app.Use(HttpHandler);
         }

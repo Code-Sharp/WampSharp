@@ -24,10 +24,12 @@ namespace WampSharp.HttpListener
         public HttpListenerWebSocketTransport
         (string url,
          Action<HttpListenerContext> onUnknownRequest = null,
-         ICookieAuthenticatorFactory authenticatorFactory = null)
+         ICookieAuthenticatorFactory authenticatorFactory = null,
+         int? maxFrameSize = null)
             : base(authenticatorFactory)
         {
             mUrl = url;
+            mMaxFrameSize = maxFrameSize;
             mOnUnknownRequest = onUnknownRequest ?? CancelRequest;
         }
 

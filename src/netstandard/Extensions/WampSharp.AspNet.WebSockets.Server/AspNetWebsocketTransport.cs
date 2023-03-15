@@ -22,10 +22,12 @@ namespace WampSharp.AspNet.WebSockets.Server
 
         /// <exclude />
         public AspNetWebSocketTransport(string url,
-                                        ICookieAuthenticatorFactory authenticatorFactory = null)
+                                        ICookieAuthenticatorFactory authenticatorFactory = null,
+                                        int? maxFrameSize = null)
             : base(authenticatorFactory)
         {
             mUrl = url;
+            mMaxFrameSize = maxFrameSize;
         }
 
         /// <exclude />
