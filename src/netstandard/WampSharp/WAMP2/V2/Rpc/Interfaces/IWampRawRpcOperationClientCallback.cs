@@ -9,6 +9,7 @@ namespace WampSharp.V2.Rpc
     /// </summary>
     public interface IWampRawRpcOperationRouterCallback : IWampRawRpcOperationCallback<YieldOptions>
     {
+        public long RequestId { get; }
     }
 
     /// <summary>
