@@ -40,7 +40,7 @@ namespace WampSharp.V2.Rpc
             
             if (SupportsCancellation)
             {
-                result = new CancellationTokenSourceInvocation(task ,cancellationTokenSource);
+                result = new CancellationTokenSourceInvocation(cancellationTokenSource);
             }
             
             return result;
