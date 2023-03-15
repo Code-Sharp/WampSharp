@@ -32,7 +32,7 @@ namespace WampSharp.V2.Rpc
 
                     IList<string> transformNames = attribute.TransformNames;
 
-                    List<string> tupleNames = 
+                    List<string> tupleNames =
                         transformNames.Take(tupleLength).ToList();
 
                     ValidateTupleReturnType(method, tupleNames);
@@ -47,7 +47,7 @@ namespace WampSharp.V2.Rpc
                 method.GetParameters().Where(x => x.IsOut || x.ParameterType.IsByRef)
                   .Select(x => x.Name);
 
-            ICollection<string> intersection = 
+            ICollection<string> intersection =
                 tupleNames.Intersect(outOrRefNames).ToList();
 
             if (intersection.Count > 0)
@@ -72,6 +72,14 @@ namespace WampSharp.V2.Rpc
             }
 
             ValidateTupleReturnType(method);
+        }
+
+        internal static void ValidateProgressiveObservableMethod(MethodInfo method)
+        {
+            if (!method.IsDefined(typeof(WampProgressiveResultProcedureAttribute)))
+            {
+                ThrowHelper.ObservableMethodNotDeclaredProgressive(method);
+            }
         }
 
         public static void ValidateAsyncMethod(MethodInfo method)
@@ -160,6 +168,12 @@ namespace WampSharp.V2.Rpc
             {
                 throw new ArgumentException
                     ($"Method {method.Name} of type {method.DeclaringType.FullName} is declared as a progressive WAMP procedure, but its last (or second to last) parameter is not a IProgress of its return type. Expected: IProgress<{returnType.FullName}>");
+            }
+
+            public static void ObservableMethodNotDeclaredProgressive(MethodInfo method)
+            {
+                throw new ArgumentException
+                    ($"Method {method.Name} of type {method.DeclaringType.FullName} is returning an IObservable and therefore is required to be declared as a progressive WAMP procedure, but it is not. Please use the [WampProgressiveResultProcedure] attribute.");
             }
 
             public static void ProgressiveParameterTupleMismatch(MethodInfo method)

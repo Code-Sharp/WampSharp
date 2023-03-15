@@ -77,7 +77,7 @@ namespace WampSharp.V2.Rpc
             {
                 caller.Result(ObjectFormatter, options, arguments, argumentKeywords);
             }
-            else if (!this.HasResult)
+            else if (!this.HasResult || arguments == null)
             {
                 caller.Result(ObjectFormatter, options);
             }
@@ -93,7 +93,7 @@ namespace WampSharp.V2.Rpc
         {
             ArgumentUnpacker unpacker = new ArgumentUnpacker(Parameters);
 
-            IEnumerable<object> result = 
+            IEnumerable<object> result =
                 unpacker.UnpackParameters(formatter, arguments, argumentsKeywords);
 
             return result;

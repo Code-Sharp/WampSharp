@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using WampSharp.Core.Serialization;
@@ -40,6 +42,57 @@ namespace WampSharp.Tests.Wampv2.Integration
         }
 
         [Test]
+        public async Task ProgressiveCallsCallerProgressObservable()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            var service = new LongOpObsService();
+            await calleeChannel.RealmProxy.Services.RegisterCallee(service);
+
+            MyCallback callback = new MyCallback();
+
+            callerChannel.RealmProxy.RpcCatalog.Invoke
+                (callback,
+                    new CallOptions() { ReceiveProgress = true },
+                    "com.myapp.longop",
+                    new object[] { 10, false });
+
+            Assert.That(service.State, Is.EqualTo(LongOpObsService.EState.Called));
+            Assert.That(callback.Task.Result, Is.EqualTo(-1));
+            CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), callback.ProgressiveResults);
+            Assert.That(service.State, Is.EqualTo(LongOpObsService.EState.Completed));
+        }
+
+        [Test]
+        public async Task ProgressiveCallsCallerProgressCancelObservable()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            var service = new LongOpObsService();
+            await calleeChannel.RealmProxy.Services.RegisterCallee(service);
+
+            MyCallback callback = new MyCallback();
+
+            var invocation = callerChannel.RealmProxy.RpcCatalog.Invoke
+                (callback,
+                    new CallOptions() { ReceiveProgress = true },
+                    "com.myapp.longop",
+                    new object[] { 10, false });
+
+            Assert.That(service.State, Is.EqualTo(LongOpObsService.EState.Called));
+            invocation.Cancel(new CancelOptions());
+            Assert.That(service.State, Is.EqualTo(LongOpObsService.EState.Cancelled));
+        }
+
+        [Test]
         public async Task ProgressiveCallsCalleeProxyProgress()
         {
             WampPlayground playground = new WampPlayground();
@@ -64,6 +117,42 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(result.Result, Is.EqualTo(10));
         }
 
+        [Test]
+        public async Task ProgressiveCallsCalleeProxyObservable()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            MyOperation myOperation = new MyOperation();
+
+            await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, new RegisterOptions());
+            ILongOpObsService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ILongOpObsService>();
+
+            IEnumerable<int> results = proxy.LongOp(9, false).ToEnumerable(); // it will emit one more than asked
+
+            CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), results);
+        }
+
+        [Test]
+        public async Task ProgressiveCallsCalleeProxyObservableError()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            MyOperation myOperation = new MyOperation();
+
+            await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, new RegisterOptions());
+            ILongOpObsService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ILongOpObsService>();
+
+            Assert.Throws(typeof(WampException), () => proxy.LongOp(9, true).ToEnumerable().Count());
+        }
+
         public class MyOperation : IWampRpcOperation
         {
             public string Procedure => "com.myapp.longop";
@@ -80,6 +169,8 @@ namespace WampSharp.Tests.Wampv2.Integration
                 TMessage number = arguments[0];
                 int n = formatter.Deserialize<int>(number);
 
+                bool endWithError = arguments.Length > 1 && formatter.Deserialize<bool>(arguments[1]);
+
                 for (int i = 0; i < n; i++)
                 {
                     caller.Result(WampObjectFormatter.Value,
@@ -87,9 +178,18 @@ namespace WampSharp.Tests.Wampv2.Integration
                         new object[] {i});
                 }
 
-                caller.Result(WampObjectFormatter.Value,
-                    new YieldOptions(),
-                    new object[] {n});
+                if (endWithError)
+                {
+                    caller.Error(WampObjectFormatter.Value,
+                        new Dictionary<string, string>(),
+                        "Something bad happened");
+                }
+                else
+                {
+                    caller.Result(WampObjectFormatter.Value,
+                        new YieldOptions(),
+                        new object[] { n });
+                }
 
                 return null;
             }
@@ -122,6 +222,47 @@ namespace WampSharp.Tests.Wampv2.Integration
             }
         }
 
+        public interface ILongOpObsService
+        {
+            [WampProcedure("com.myapp.longop")]
+            [WampProgressiveResultProcedure]
+            IObservable<int> LongOp(int n, bool endWithError);
+        }
+
+        public class LongOpObsService : ILongOpObsService
+        {
+            public enum EState
+            {
+                Nothing,
+                Called,
+                Completed,
+                Cancelled
+            }
+
+            public EState State { get; set; } = EState.Nothing;
+
+            public IObservable<int> LongOp(int n, bool endWithError) => Observable.Create<int>(async (obs, ct) =>
+            {
+                State = EState.Called;
+                ct.Register(() =>
+                {
+                    if (State == EState.Called)
+                        State = EState.Cancelled;
+                });
+                for (int i = 0; i < n; i++)
+                {
+                    obs.OnNext(i);
+                    await Task.Delay(100, ct);
+                    ct.ThrowIfCancellationRequested();
+                }
+                State = EState.Completed;
+                if (endWithError)
+                    obs.OnError(new WampException("wamp.error", "Something bad happened"));
+                else
+                    obs.OnCompleted();
+            });
+        }
+
         public class MyCallback : IWampRawRpcOperationClientCallback
         {
             private readonly TaskCompletionSource<int> mTask = new TaskCompletionSource<int>();
@@ -132,7 +273,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
             {
-                throw new NotImplementedException();
+                mTask.SetResult(-1); // -1 indicates no final return value
             }
 
             public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details, TMessage[] arguments)
