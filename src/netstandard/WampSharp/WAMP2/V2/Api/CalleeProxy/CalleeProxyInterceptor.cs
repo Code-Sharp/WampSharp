@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using WampSharp.V2.Core.Contracts;
 using WampSharp.V2.Rpc;
@@ -37,7 +38,7 @@ namespace WampSharp.V2
 
         public virtual string GetProcedureUri(MethodInfo method)
         {
-            WampProcedureAttribute attribute = 
+            WampProcedureAttribute attribute =
                 method.GetCustomAttribute<WampProcedureAttribute>();
 
             if (attribute == null)

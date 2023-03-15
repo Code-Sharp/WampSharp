@@ -57,7 +57,12 @@ namespace WampSharp.V2.Rpc
             string procedureUri =
                 interceptor.GetProcedureUri(method);
 
-            if (!typeof (Task).IsAssignableFrom(method.ReturnType))
+            if (method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(IObservable<>))
+            {
+                MethodInfoValidation.ValidateProgressiveObservableMethod(method);
+                return CreateProgressiveObservableOperation(instanceProvider, method, procedureUri);
+            }
+            else if (!typeof (Task).IsAssignableFrom(method.ReturnType))
             {
                 MethodInfoValidation.ValidateSyncMethod(method);
                 return new SyncMethodInfoRpcOperation(instanceProvider, method, procedureUri);
@@ -91,6 +96,26 @@ namespace WampSharp.V2.Rpc
 
             IWampRpcOperation operation =
                 (IWampRpcOperation) Activator.CreateInstance(operationType,
+                    instanceProvider,
+                    method,
+                    procedureUri);
+
+            return operation;
+        }
+
+        private static IWampRpcOperation CreateProgressiveObservableOperation(Func<object> instanceProvider, MethodInfo method, string procedureUri)
+        {
+            //return new ProgressiveObservableMethodInfoRpcOperation<returnType>
+            // (instance, method, procedureUri);
+
+            Type returnType = method.ReturnType.GetGenericArguments()[0];
+
+            Type operationType =
+                typeof(ProgressiveObservableMethodInfoRpcOperation<>)
+                    .MakeGenericType(returnType);
+
+            IWampRpcOperation operation =
+                (IWampRpcOperation)Activator.CreateInstance(operationType,
                     instanceProvider,
                     method,
                     procedureUri);

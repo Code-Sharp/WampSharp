@@ -93,7 +93,7 @@ namespace WampSharp.V2.Rpc
         {
             ArgumentUnpacker unpacker = new ArgumentUnpacker(Parameters);
 
-            IEnumerable<object> result = 
+            IEnumerable<object> result =
                 unpacker.UnpackParameters(formatter, arguments, argumentsKeywords);
 
             return result;

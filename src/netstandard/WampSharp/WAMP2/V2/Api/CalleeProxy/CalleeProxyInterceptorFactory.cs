@@ -1,4 +1,5 @@
 using System;
+using System.Reactive;
 using System.Reflection;
 using System.Threading.Tasks;
 using WampSharp.V2.Rpc;
@@ -28,7 +29,14 @@ namespace WampSharp.V2.CalleeProxy
             Type genericArgument;
             Type interceptorType;
 
-            if (!typeof(Task).IsAssignableFrom(returnType))
+            if (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(IObservable<>))
+            {
+                MethodInfoValidation.ValidateProgressiveObservableMethod(method);
+
+                genericArgument = returnType.GetGenericArguments()[0];
+                interceptorType = typeof(ObservableCalleeProxyInterceptor<>);
+            }
+            else if (!typeof(Task).IsAssignableFrom(returnType))
             {
                 MethodInfoValidation.ValidateSyncMethod(method);
 

@@ -16,35 +16,56 @@ namespace WampSharp.V2.Rpc
 
         public override bool SupportsCancellation => false;
 
-        protected override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+        protected sealed override IWampCancellableInvocation InnerInvoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
         {
             try
             {
-
-                object result =
-                    InvokeSync(caller,
-                               formatter,
-                               details,
-                               arguments,
-                               argumentsKeywords,
-                               out IDictionary<string, object> outputs);
-
-                CallResult(caller, result, outputs);
+                return MethodInvocation(caller, formatter, details, arguments, argumentsKeywords);
             }
             catch (WampException ex)
             {
-                mLogger.ErrorFormat(ex, "An error occurred while calling {ProcedureUri}", this.Procedure);
-                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
-                callback.Error(ex);
+                HandleException(caller, ex);
             }
             catch (Exception ex)
             {
-                WampException wampException = ConvertExceptionToRuntimeException(ex);
-                IWampErrorCallback callback = new WampRpcErrorCallback(caller);
-                callback.Error(wampException);
+                HandleException(caller, ex);
             }
 
             return null;
+        }
+
+        protected virtual IWampCancellableInvocation MethodInvocation<TMessage>(
+            IWampRawRpcOperationRouterCallback caller,
+            IWampFormatter<TMessage> formatter,
+            InvocationDetails details,
+            TMessage[] arguments,
+            IDictionary<string, TMessage> argumentsKeywords)
+        {
+            object result =
+                InvokeSync(caller,
+                           formatter,
+                           details,
+                           arguments,
+                           argumentsKeywords,
+                           out IDictionary<string, object> outputs);
+
+            CallResult(caller, result, outputs);
+
+            return null;
+        }
+
+        protected void HandleException(IWampRawRpcOperationRouterCallback caller, WampException ex)
+        {
+            mLogger.ErrorFormat(ex, "An error occurred while calling {ProcedureUri}", this.Procedure);
+            IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+            callback.Error(ex);
+        }
+
+        protected void HandleException(IWampRawRpcOperationRouterCallback caller, Exception ex)
+        {
+            WampException wampException = ConvertExceptionToRuntimeException(ex);
+            IWampErrorCallback callback = new WampRpcErrorCallback(caller);
+            callback.Error(wampException);
         }
 
         protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs, YieldOptions yieldOptions = null)
@@ -52,7 +73,7 @@ namespace WampSharp.V2.Rpc
             yieldOptions = yieldOptions ?? new YieldOptions();
             object[] resultArguments = GetResultArguments(result);
 
-            IDictionary<string, object> argumentKeywords = 
+            IDictionary<string, object> argumentKeywords =
                 GetResultArgumentKeywords(result, outputs);
 
             CallResult(caller,
