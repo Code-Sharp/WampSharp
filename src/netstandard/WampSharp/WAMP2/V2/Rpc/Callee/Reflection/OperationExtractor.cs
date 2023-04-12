@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using WampSharp.V2.Core.Contracts;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
@@ -62,14 +64,14 @@ namespace WampSharp.V2.Rpc
                 MethodInfoValidation.ValidateProgressiveObservableMethod(method);
                 return CreateProgressiveObservableOperation(instanceProvider, method, procedureUri);
             }
-            else if (!typeof (Task).IsAssignableFrom(method.ReturnType))
+            else if (!typeof(Task).IsAssignableFrom(method.ReturnType))
             {
                 MethodInfoValidation.ValidateSyncMethod(method);
                 return new SyncMethodInfoRpcOperation(instanceProvider, method, procedureUri);
             }
             else
             {
-                if (method.IsDefined(typeof (WampProgressiveResultProcedureAttribute)))
+                if (method.IsDefined(typeof(WampProgressiveResultProcedureAttribute)))
                 {
                     MethodInfoValidation.ValidateProgressiveMethod(method);
                     return CreateProgressiveOperation(instanceProvider, method, procedureUri);
@@ -89,13 +91,23 @@ namespace WampSharp.V2.Rpc
 
             Type returnType =
                 TaskExtensions.UnwrapReturnType(method.ReturnType);
+            ParameterInfo[] parameters = method.GetParameters();
+            ParameterInfo lastParameter = parameters.LastOrDefault();
+            ParameterInfo progressParameter = lastParameter;
+
+            if ((lastParameter != null) &&
+                (lastParameter.ParameterType == typeof(CancellationToken)))
+            {
+                progressParameter =
+                    parameters.Take(parameters.Length - 1).LastOrDefault();
+            }
 
             Type operationType =
-                typeof (ProgressiveAsyncMethodInfoRpcOperation<>)
-                    .MakeGenericType(returnType);
+                typeof(ProgressiveAsyncMethodInfoRpcOperation<,>)
+                    .MakeGenericType(returnType, progressParameter.ParameterType.GetGenericArguments().First());
 
             IWampRpcOperation operation =
-                (IWampRpcOperation) Activator.CreateInstance(operationType,
+                (IWampRpcOperation)Activator.CreateInstance(operationType,
                     instanceProvider,
                     method,
                     procedureUri);

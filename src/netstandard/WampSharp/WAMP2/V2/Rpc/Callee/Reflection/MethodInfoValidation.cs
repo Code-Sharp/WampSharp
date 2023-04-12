@@ -104,9 +104,6 @@ namespace WampSharp.V2.Rpc
         {
             ValidateAsyncMethod(method);
 
-            Type returnType =
-                TaskExtensions.UnwrapReturnType(method.ReturnType);
-
             ParameterInfo[] parameters = method.GetParameters();
             ParameterInfo lastParameter = parameters.LastOrDefault();
             ParameterInfo progressParameter = lastParameter;
@@ -118,41 +115,9 @@ namespace WampSharp.V2.Rpc
                     parameters.Take(parameters.Length - 1).LastOrDefault();
             }
 
-            Type expectedParameterType =
-                typeof(IProgress<>).MakeGenericType(returnType);
-
-            if ((progressParameter == null) || (progressParameter.ParameterType != expectedParameterType))
+            if ((progressParameter == null) || (progressParameter.ParameterType.GetGenericTypeDefinition() != typeof(IProgress<>)))
             {
-                ThrowHelper.ProgressiveParameterTypeMismatch(method, returnType);
-            }
-
-            ValidateTupleReturnTypeOfProgressiveMethod(method, progressParameter);
-        }
-
-        private static void ValidateTupleReturnTypeOfProgressiveMethod(MethodInfo method, ParameterInfo lastParameter)
-        {
-            TupleElementNamesAttribute methodAttribute =
-                method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
-
-            TupleElementNamesAttribute parameterAttribute =
-                lastParameter.GetCustomAttribute<TupleElementNamesAttribute>();
-
-            bool methodHasAttribute = methodAttribute != null;
-            bool parameterHasAttributte = parameterAttribute != null;
-
-            bool attributesMatch = methodHasAttribute == parameterHasAttributte;
-
-            if (methodHasAttribute && parameterHasAttributte)
-            {
-                IList<string> methodTransformNames = methodAttribute.TransformNames;
-                IList<string> parameterTransformNames = parameterAttribute.TransformNames;
-
-                attributesMatch = methodTransformNames.SequenceEqual(parameterTransformNames);
-            }
-
-            if (!attributesMatch)
-            {
-                ThrowHelper.ProgressiveParameterTupleMismatch(method);
+                ThrowHelper.ProgressiveParameterTypeMismatch(method);
             }
         }
 
@@ -164,22 +129,16 @@ namespace WampSharp.V2.Rpc
                     ($"Method {method.Name} of type {method.DeclaringType.FullName} is declared as a WAMP procedure, but it is both asynchronous and has out/ref parameters");
             }
 
-            public static void ProgressiveParameterTypeMismatch(MethodInfo method, Type returnType)
+            public static void ProgressiveParameterTypeMismatch(MethodInfo method)
             {
                 throw new ArgumentException
-                    ($"Method {method.Name} of type {method.DeclaringType.FullName} is declared as a progressive WAMP procedure, but its last (or second to last) parameter is not a IProgress of its return type. Expected: IProgress<{returnType.FullName}>");
+                    ($"Method {method.Name} of type {method.DeclaringType.FullName} is declared as a progressive WAMP procedure, but its last (or second to last) parameter is not an IProgress<TProgress>");
             }
 
             public static void ObservableMethodNotDeclaredProgressive(MethodInfo method)
             {
                 throw new ArgumentException
                     ($"Method {method.Name} of type {method.DeclaringType.FullName} is returning an IObservable and therefore is required to be declared as a progressive WAMP procedure, but it is not. Please use the [WampProgressiveResultProcedure] attribute.");
-            }
-
-            public static void ProgressiveParameterTupleMismatch(MethodInfo method)
-            {
-                throw new ArgumentException
-                    ($"Method {method.Name} of type {method.DeclaringType.FullName} is declared as a progressive WAMP procedure that returns a tuple, but its last parameter tuple definition does not match its return type tuple definition.");
             }
 
             public static void InvalidTupleReturnType(MethodInfo method)

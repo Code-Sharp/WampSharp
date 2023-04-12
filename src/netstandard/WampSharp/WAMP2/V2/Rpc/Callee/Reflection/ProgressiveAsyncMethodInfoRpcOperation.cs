@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using WampSharp.Core.Utilities;
 using WampSharp.Core.Serialization;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class ProgressiveAsyncMethodInfoRpcOperation<T> : AsyncMethodInfoRpcOperation
+    public class ProgressiveAsyncMethodInfoRpcOperation<TResult, TProgress> : AsyncMethodInfoRpcOperation
     {
         private readonly RpcParameter[] mRpcParameters;
 
-        public ProgressiveAsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) : 
+        public ProgressiveAsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) :
             base(instanceProvider, method, procedureName)
         {
             RpcParameter[] baseParameters = base.Parameters;
@@ -45,21 +45,21 @@ namespace WampSharp.V2.Rpc
 
         public override RpcParameter[] Parameters => mRpcParameters;
 
-        private class CallerProgress : IProgress<T>
+        private class CallerProgress : IProgress<TProgress>
         {
             private readonly IWampRawRpcOperationRouterCallback mCaller;
-            private readonly ProgressiveAsyncMethodInfoRpcOperation<T> mParent;
+            private readonly ProgressiveAsyncMethodInfoRpcOperation<TResult, TProgress> mParent;
 
             public CallerProgress(IWampRawRpcOperationRouterCallback caller,
-                                  ProgressiveAsyncMethodInfoRpcOperation<T> parent)
+                                  ProgressiveAsyncMethodInfoRpcOperation<TResult, TProgress> parent)
             {
                 mCaller = caller;
                 mParent = parent;
             }
 
-            public void Report(T value)
+            public void Report(TProgress value)
             {
-                mParent.CallResult(mCaller, value, new YieldOptions() {Progress = true});
+                mParent.CallResult(mCaller, value, new YieldOptions() { Progress = true });
             }
         }
     }
