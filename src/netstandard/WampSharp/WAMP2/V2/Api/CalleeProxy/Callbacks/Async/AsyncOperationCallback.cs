@@ -11,11 +11,11 @@ namespace WampSharp.V2.CalleeProxy
     internal class AsyncOperationCallback<TResult> : IWampRawRpcOperationClientCallback
     {
         private readonly TaskCompletionSource<TResult> mTask = new TaskCompletionSource<TResult>();
-        private readonly IOperationResultExtractor<TResult> mExtractor;
+        private readonly IOperationResultExtractor<TResult> mResultExtractor;
 
-        public AsyncOperationCallback(IOperationResultExtractor<TResult> extractor)
+        public AsyncOperationCallback(IOperationResultExtractor<TResult> resultExtractor)
         {
-            mExtractor = extractor;
+            mResultExtractor = resultExtractor;
         }
 
         public Task<TResult> Task => mTask.Task;
@@ -23,11 +23,6 @@ namespace WampSharp.V2.CalleeProxy
         protected virtual void SetResult(ResultDetails details, TResult result)
         {
             mTask.SetResult(result);
-        }
-
-        protected virtual TResult GetResult<TMessage>(IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
-        {
-            return mExtractor.GetResult(formatter, arguments, argumentsKeywords);
         }
 
         public void Result<TMessage>(IWampFormatter<TMessage> formatter, ResultDetails details)
@@ -46,12 +41,26 @@ namespace WampSharp.V2.CalleeProxy
             SetResult(details, formatter, arguments, argumentsKeywords);
         }
 
-        private void SetResult<TMessage>(ResultDetails details, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords = null)
+        protected virtual void SetResult<TMessage>(ResultDetails details, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords = null)
+        {
+            void ReportAction(ResultDetails resultDetails, TResult result)
+            {
+                SetResult(resultDetails, result);
+            }
+
+            SetResultValue(details, formatter, arguments, argumentsKeywords, mResultExtractor,
+                           ReportAction);
+        }
+
+        protected void SetResultValue<TResultType, TMessage>(ResultDetails details, IWampFormatter<TMessage> formatter, TMessage[] arguments, 
+                                                      IDictionary<string, TMessage> argumentsKeywords,
+                                                      IOperationResultExtractor<TResultType> extractor,
+                                                      Action<ResultDetails, TResultType> setResultAction)
         {
             try
             {
-                TResult result = GetResult(formatter, arguments, argumentsKeywords);
-                SetResult(details, result);
+                TResultType result = extractor.GetResult(formatter, arguments, argumentsKeywords);
+                setResultAction(details, result);
             }
             catch (Exception ex)
             {

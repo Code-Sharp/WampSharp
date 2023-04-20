@@ -53,12 +53,12 @@ namespace WampSharp.V2.CalleeProxy
             return task;
         }
 
-        public Task<T> InvokeProgressiveAsync<T>(ICalleeProxyInterceptor interceptor, MethodInfo method, IOperationResultExtractor<T> extractor, object[] arguments, IProgress<T> progress, CancellationToken cancellationToken)
+        public Task<TResult> InvokeProgressiveAsync<TProgress, TResult>(ICalleeProxyInterceptor interceptor, MethodInfo method, IOperationResultExtractor<TProgress> progressExtractor, IOperationResultExtractor<TResult> resultExtractor, object[] arguments, IProgress<TProgress> progress, CancellationToken cancellationToken)
         {
-            ProgressiveAsyncOperationCallback<T> asyncOperationCallback =
-                new ProgressiveAsyncOperationCallback<T>(progress, extractor);
+            ProgressiveAsyncOperationCallback<TProgress, TResult> asyncOperationCallback =
+                new ProgressiveAsyncOperationCallback<TProgress, TResult>(progress, progressExtractor,resultExtractor);
 
-            Task<T> task = InnerInvokeAsync<T>(asyncOperationCallback, interceptor, method, arguments, cancellationToken);
+            Task<TResult> task = InnerInvokeAsync(asyncOperationCallback, interceptor, method, arguments, cancellationToken);
 
             return task;
         }

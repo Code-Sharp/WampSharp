@@ -9,17 +9,17 @@ namespace WampSharp.V2.CalleeProxy
 {
     internal class SyncCallback<TResult> : SyncCallbackBase
     {
-        private readonly IOperationResultExtractor<TResult> mExtractor;
+        private readonly IOperationResultExtractor<TResult> mResultExtractor;
         private readonly ILog mLogger;
         protected readonly MethodInfoHelper mMethodInfoHelper;
         private readonly object[] mArguments;
 
-        public SyncCallback(string procedureUri, MethodInfoHelper methodInfoHelper, object[] arguments, IOperationResultExtractor<TResult> extractor)
+        public SyncCallback(string procedureUri, MethodInfoHelper methodInfoHelper, object[] arguments, IOperationResultExtractor<TResult> resultExtractor)
         {
             mMethodInfoHelper = methodInfoHelper;
             mLogger = LogProvider.GetLogger(typeof (SyncCallback<TResult>) + "." + procedureUri);
             mArguments = arguments;
-            mExtractor = extractor;
+            mResultExtractor = resultExtractor;
         }
 
         public TResult OperationResult { get; private set; }
@@ -59,7 +59,7 @@ namespace WampSharp.V2.CalleeProxy
         {
             try
             {
-                TResult result = mExtractor.GetResult(formatter, arguments, argumentKeywords);
+                TResult result = mResultExtractor.GetResult(formatter, arguments, argumentKeywords);
                 SetResult(result);
             }
             catch (Exception ex)

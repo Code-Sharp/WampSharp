@@ -19,7 +19,7 @@ namespace WampSharp.V2.CalleeProxy
             return Observable.Create<T>(async (observer, cancellationToken) =>
                                         {
                                             T last = await Handler.InvokeProgressiveAsync
-                                                (Interceptor, method, Extractor, arguments, observer.ToProgress(),
+                                                (Interceptor, method, ResultExtractor, ResultExtractor, arguments, observer.ToProgress(),
                                                  cancellationToken);
 
                                             if (last != null)

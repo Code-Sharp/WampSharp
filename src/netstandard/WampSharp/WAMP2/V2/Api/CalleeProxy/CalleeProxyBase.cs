@@ -12,7 +12,7 @@ namespace WampSharp.V2.CalleeProxy
     {
         protected delegate T InvokeSyncDelegate<T>(CalleeProxyBase proxy, params object[] arguments);
         protected delegate Task<T> InvokeAsyncDelegate<T>(CalleeProxyBase proxy, CancellationToken cancellationToken, params object[] arguments);
-        protected delegate Task<T> InvokeProgressiveAsyncDelegate<T>(CalleeProxyBase proxy, IProgress<T> progress, CancellationToken cancellationToken, params object[] arguments);
+        protected delegate Task<TResult> InvokeProgressiveAsyncDelegate<TProgress, TResult>(CalleeProxyBase proxy, IProgress<TProgress> progress, CancellationToken cancellationToken, params object[] arguments);
 
         private readonly WampCalleeProxyInvocationHandler mHandler;
         private readonly ICalleeProxyInterceptor mInterceptor;
@@ -36,10 +36,11 @@ namespace WampSharp.V2.CalleeProxy
             return GetInvokeAsync(method, extractor);
         }
 
-        protected static InvokeProgressiveAsyncDelegate<T> GetInvokeProgressiveAsync<T>(MethodInfo method)
+        protected static InvokeProgressiveAsyncDelegate<TProgress, TResult> GetInvokeProgressiveAsync<TProgress, TResult>(MethodInfo method)
         {
-            IOperationResultExtractor<T> extractor = GetExtractor<T>(method);
-            return GetInvokeProgressiveAsync(method, extractor);
+            IOperationResultExtractor<TResult> resultExtractor = GetExtractor<TResult>(method);
+            IOperationResultExtractor<TProgress> progressExtractor = GetExtractor<TProgress>(method);
+            return GetInvokeProgressiveAsync(method, progressExtractor, resultExtractor);
         }
 
         private static IOperationResultExtractor<T> GetExtractor<T>(MethodInfo method)
@@ -66,13 +67,14 @@ namespace WampSharp.V2.CalleeProxy
             return result;
         }
 
-        private static InvokeProgressiveAsyncDelegate<T>
-            GetInvokeProgressiveAsync<T>(MethodBase method,
-                                         IOperationResultExtractor<T> extractor)
+        private static InvokeProgressiveAsyncDelegate<TProgress, TResult>
+            GetInvokeProgressiveAsync<TProgress, TResult>(MethodBase method,
+                                                          IOperationResultExtractor<TProgress> progressExtractor,
+                                                          IOperationResultExtractor<TResult> resultExtractor)
         {
-            InvokeProgressiveAsyncDelegate<T> result =
+            InvokeProgressiveAsyncDelegate<TProgress, TResult> result =
                 (proxy, progress, cancellationToken, arguments) =>
-                        proxy.InvokeProgressiveAsync(method, progress, cancellationToken, extractor, arguments);
+                        proxy.InvokeProgressiveAsync(method, progress, cancellationToken, progressExtractor, resultExtractor, arguments);
 
             return result;
         }
@@ -107,16 +109,16 @@ namespace WampSharp.V2.CalleeProxy
             return InvokeAsync(method, new MultiValueExtractor<T>(), arguments);
         }
 
-        protected Task<T> SingleInvokeProgressiveAsync<T>(MethodBase method, IProgress<T> progress,
+        protected Task<TResult> SingleInvokeProgressiveAsync<TProgress, TResult>(MethodBase method, IProgress<TProgress> progress,
                                                           params object[] arguments)
         {
-            return InvokeProgressiveAsync<T>(method, progress, new SingleValueExtractor<T>(true), arguments);
+            return InvokeProgressiveAsync<TProgress, TResult>(method, progress, new SingleValueExtractor<TProgress>(true), new SingleValueExtractor<TResult>(true), arguments);
         }
 
-        protected Task<T[]> MultiInvokeProgressiveAsync<T>(MethodBase method, IProgress<T[]> progress,
+        protected Task<TResult[]> MultiInvokeProgressiveAsync<TProgress, TResult>(MethodBase method, IProgress<TProgress[]> progress,
                                                            params object[] arguments)
         {
-            return InvokeProgressiveAsync<T[]>(method, progress, new MultiValueExtractor<T>(), arguments);
+            return InvokeProgressiveAsync<TProgress[], TResult[]>(method, progress, new MultiValueExtractor<TProgress>(), new MultiValueExtractor<TResult>(), arguments);
         }
 
         private T InvokeSync<T>(MethodBase method,
@@ -154,25 +156,28 @@ namespace WampSharp.V2.CalleeProxy
                  cancellationToken);
         }
 
-        private Task<T> InvokeProgressiveAsync<T>
+        private Task<TResult> InvokeProgressiveAsync<TProgress, TResult>
         (MethodBase method,
-         IProgress<T> progress,
-         IOperationResultExtractor<T> resultExtractor,
+         IProgress<TProgress> progress,
+         IOperationResultExtractor<TProgress> progressExtractor,
+         IOperationResultExtractor<TResult> resultExtractor,
          params object[] arguments)
         {
-            return InvokeProgressiveAsync<T>
+            return InvokeProgressiveAsync
             (method,
              progress,
              CancellationToken.None,
+             progressExtractor,
              resultExtractor,
              arguments);
         }
 
-        private Task<T> InvokeProgressiveAsync<T>
+        private Task<TResult> InvokeProgressiveAsync<TProgress, TResult>
             (MethodBase method,
-             IProgress<T> progress,
+             IProgress<TProgress> progress,
              CancellationToken cancellationToken,
-             IOperationResultExtractor<T> resultExtractor,
+             IOperationResultExtractor<TProgress> progressExtractor,
+             IOperationResultExtractor<TResult> resultExtractor,
              params object[] arguments)
         {
             MethodInfo methodInfo = (MethodInfo) method;
@@ -180,6 +185,7 @@ namespace WampSharp.V2.CalleeProxy
             return mHandler.InvokeProgressiveAsync
                 (mInterceptor,
                  methodInfo,
+                 progressExtractor,
                  resultExtractor,
                  arguments,
                  progress,

@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal class ProgressiveAsyncCalleeProxyInterceptor<T> : CalleeProxyInterceptorBase<T>
+    internal class ProgressiveAsyncCalleeProxyInterceptor<TProgress, TResult> : CalleeProxyInterceptorBase<TResult>
     {
+        public IOperationResultExtractor<TProgress> ProgressExtractor { get; }
+
         public bool SupportsCancellation { get; }
 
         public ProgressiveAsyncCalleeProxyInterceptor(MethodInfo method, IWampCalleeProxyInvocationHandler handler, ICalleeProxyInterceptor interceptor) : base(method, handler, interceptor)
         {
+            ProgressExtractor = OperationResultExtractor.Get<TProgress>(method);
+
             SupportsCancellation = 
                 method.GetParameters().LastOrDefault()?.ParameterType == typeof(CancellationToken);
         }
@@ -33,11 +37,11 @@ namespace WampSharp.V2.CalleeProxy
 
             Array.Copy(arguments, argumentsWithoutProgress, argumentsWithoutProgress.Length);
 
-            IProgress<T> progress = arguments[progressPosition] as IProgress<T>;
+            IProgress<TProgress> progress = arguments[progressPosition] as IProgress<TProgress>;
 
             Task result =
                 Handler.InvokeProgressiveAsync
-                    (Interceptor, method, Extractor, argumentsWithoutProgress, progress, cancellationToken);
+                    (Interceptor, method, ProgressExtractor, ResultExtractor, argumentsWithoutProgress, progress, cancellationToken);
 
             return result;
         }

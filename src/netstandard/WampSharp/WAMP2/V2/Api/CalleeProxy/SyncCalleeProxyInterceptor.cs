@@ -11,7 +11,7 @@ namespace WampSharp.V2.CalleeProxy
         public override object Invoke(MethodInfo method, object[] arguments)
         {
             TResult result =
-                Handler.Invoke<TResult>(Interceptor, Method, Extractor, arguments);
+                Handler.Invoke<TResult>(Interceptor, Method, ResultExtractor, arguments);
 
             return result;
         }

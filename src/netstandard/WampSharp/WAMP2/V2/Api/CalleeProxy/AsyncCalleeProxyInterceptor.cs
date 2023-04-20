@@ -29,7 +29,7 @@ namespace WampSharp.V2.CalleeProxy
             }
 
             Task result =
-                Handler.InvokeAsync<TResult>(Interceptor, method, Extractor, methodArguments, cancellationToken);
+                Handler.InvokeAsync<TResult>(Interceptor, method, ResultExtractor, methodArguments, cancellationToken);
 
             return result;
         }

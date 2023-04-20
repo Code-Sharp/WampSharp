@@ -28,9 +28,9 @@ namespace WampSharp.V2.CalleeProxy
             ICalleeProxyInterceptor interceptor)
             : base(method, handler, interceptor)
         {
-            Extractor = OperationResultExtractor.Get<TResult>(method);
+            ResultExtractor = OperationResultExtractor.Get<TResult>(method);
         }
 
-        public IOperationResultExtractor<TResult> Extractor { get; }
+        public IOperationResultExtractor<TResult> ResultExtractor { get; }
     }
 }
