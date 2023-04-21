@@ -1,10 +1,9 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using NUnit.Framework;
 using WampSharp.Core.Serialization;
 using WampSharp.Tests.Wampv2.TestHelpers.Integration;
 using WampSharp.V2;
@@ -31,9 +30,9 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             callerChannel.RealmProxy.RpcCatalog.Invoke
                 (callback,
-                    new CallOptions() {ReceiveProgress = true},
+                    new CallOptions() { ReceiveProgress = true },
                     MyOperation.ProcedureUri,
-                    new object[] {10});
+                    new object[] { 10 });
 
             int? result = await callback.Task;
 
@@ -110,11 +109,11 @@ namespace WampSharp.Tests.Wampv2.Integration
             List<int> results = new List<int>();
             MyProgress<int> progress = new MyProgress<int>(i => results.Add(i));
 
-            int result = await proxy.LongOp(10, progress);
+            string result = await proxy.LongOp(10, progress);
 
             CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), results);
 
-            Assert.That(result, Is.EqualTo(10));
+            Assert.That(result, Is.EqualTo("10"));
         }
 
         [Test]
@@ -133,7 +132,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             IObservable<int> proxyResult = proxy.LongOp(9); // it will emit one more than asked
 
-            IEnumerable<int> results = proxyResult.ToEnumerable(); 
+            IEnumerable<int> results = proxyResult.ToEnumerable();
 
             CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), results);
         }
@@ -147,7 +146,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             IWampChannel calleeChannel = dualChannel.CalleeChannel;
             IWampChannel callerChannel = dualChannel.CallerChannel;
 
-            MyOperation myOperation = new MyOperation {EndWithError = true};
+            MyOperation myOperation = new MyOperation { EndWithError = true };
 
             await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, new RegisterOptions());
             ILongOpObservableService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ILongOpObservableService>();
@@ -176,8 +175,8 @@ namespace WampSharp.Tests.Wampv2.Integration
                 for (int i = 0; i < n; i++)
                 {
                     caller.Result(WampObjectFormatter.Value,
-                        new YieldOptions {Progress = true},
-                        new object[] {i});
+                        new YieldOptions { Progress = true },
+                        new object[] { i });
                 }
 
                 if (EndWithError)
@@ -185,7 +184,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                     caller.Error(WampObjectFormatter.Value,
                                  new Dictionary<string, string>(),
                                  "longop.error",
-                                 new object[] {"Something bad happened"});
+                                 new object[] { "Something bad happened" });
                 }
                 else
                 {
@@ -210,12 +209,12 @@ namespace WampSharp.Tests.Wampv2.Integration
         {
             [WampProcedure(MyOperation.ProcedureUri)]
             [WampProgressiveResultProcedure]
-            Task<int> LongOp(int n, IProgress<int> progress);
+            Task<string> LongOp(int n, IProgress<int> progress);
         }
 
         public class LongOpService : ILongOpService
         {
-            public async Task<int> LongOp(int n, IProgress<int> progress)
+            public async Task<string> LongOp(int n, IProgress<int> progress)
             {
                 for (int i = 0; i < n; i++)
                 {
@@ -223,7 +222,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                     await Task.Delay(100);
                 }
 
-                return n;
+                return n.ToString();
             }
         }
 
