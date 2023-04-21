@@ -40,6 +40,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(result, Is.EqualTo(10));
         }
 
+
         [Test]
         public async Task ProgressiveCallsCallerProgressObservable()
         {
@@ -115,6 +116,31 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             Assert.That(result, Is.EqualTo("10"));
         }
+
+        [Test]
+        public async Task ProgressiveCallsCalleeProxyProgressValueTuples()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            MyValueTupleOperation myOperation = new MyValueTupleOperation();
+
+            await calleeChannel.RealmProxy.RpcCatalog.Register(myOperation, new RegisterOptions());
+            ILongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ILongOpService>();
+
+            List<(int a, int b)> results = new List<(int a, int b)>();
+            MyProgress<(int a, int b)> progress = new MyProgress<(int a, int b)>(i => results.Add(i));
+
+            var result = await proxy.LongOpValueTuple(10, progress);
+
+            CollectionAssert.AreEquivalent(Enumerable.Range(0, 10).Select(x => (a:x,b:x)), results);
+
+            Assert.That(result, Is.EqualTo((10, "10")));
+        }
+
 
         [Test]
         public async Task ProgressiveCallsCalleeProxyObservable()
@@ -205,11 +231,72 @@ namespace WampSharp.Tests.Wampv2.Integration
             }
         }
 
+        public class MyValueTupleOperation : IWampRpcOperation
+        {
+            public const string ProcedureUri = "com.myapp.longopvaluetuple";
+
+            public string Procedure => ProcedureUri;
+
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details)
+            {
+                return null;
+            }
+
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter,
+                InvocationDetails details,
+                TMessage[] arguments)
+            {
+                TMessage number = arguments[0];
+                int n = formatter.Deserialize<int>(number);
+
+                for (int i = 0; i < n; i++)
+                {
+                    caller.Result(WampObjectFormatter.Value,
+                        new YieldOptions { Progress = true },
+                       new object[]{},
+                        new Dictionary<string, object>
+                        {
+                            { "a", i },
+                            { "b", i }
+                        });
+                }
+
+                if (EndWithError)
+                {
+                    caller.Error(WampObjectFormatter.Value,
+                                 new Dictionary<string, string>(),
+                                 "longop.error",
+                                 new object[] { "Something bad happened" });
+                }
+                else
+                {
+                    caller.Result(WampObjectFormatter.Value,
+                        new YieldOptions(),
+                        new object[] { n, n.ToString() });
+                }
+
+                return null;
+            }
+
+            public bool EndWithError { get; set; }
+
+            public IWampCancellableInvocation Invoke<TMessage>(IWampRawRpcOperationRouterCallback caller, IWampFormatter<TMessage> formatter, InvocationDetails details,
+                                                               TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
+            {
+                return null;
+            }
+        }
+
         public interface ILongOpService
         {
             [WampProcedure(MyOperation.ProcedureUri)]
             [WampProgressiveResultProcedure]
             Task<string> LongOp(int n, IProgress<int> progress);
+
+            [WampProcedure(MyValueTupleOperation.ProcedureUri)]
+            [WampProgressiveResultProcedure]
+            Task<(int, string)> LongOpValueTuple(int n, IProgress<(int a, int b)> progress);
+
         }
 
         public class LongOpService : ILongOpService
@@ -223,6 +310,17 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
 
                 return n.ToString();
+            }
+
+            public async Task<(int, string)> LongOpValueTuple(int n, IProgress<(int a, int b)> progress)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    progress.Report((i, i));
+                    await Task.Delay(100);
+                }
+
+                return (n, n.ToString());
             }
         }
 
