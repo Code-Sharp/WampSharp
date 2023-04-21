@@ -9,7 +9,7 @@ using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
 {
-    public class ProgressiveAsyncMethodInfoRpcOperation<TResult, TProgress> : AsyncMethodInfoRpcOperation
+    public class ProgressiveAsyncMethodInfoRpcOperation<TProgress, TResult> : AsyncMethodInfoRpcOperation
     {
         private readonly RpcParameter[] mRpcParameters;
 
@@ -48,10 +48,10 @@ namespace WampSharp.V2.Rpc
         private class CallerProgress : IProgress<TProgress>
         {
             private readonly IWampRawRpcOperationRouterCallback mCaller;
-            private readonly ProgressiveAsyncMethodInfoRpcOperation<TResult, TProgress> mParent;
+            private readonly ProgressiveAsyncMethodInfoRpcOperation<TProgress, TResult> mParent;
 
             public CallerProgress(IWampRawRpcOperationRouterCallback caller,
-                                  ProgressiveAsyncMethodInfoRpcOperation<TResult, TProgress> parent)
+                                  ProgressiveAsyncMethodInfoRpcOperation<TProgress, TResult> parent)
             {
                 mCaller = caller;
                 mParent = parent;

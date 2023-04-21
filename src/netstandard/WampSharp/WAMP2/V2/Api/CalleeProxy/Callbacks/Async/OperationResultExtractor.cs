@@ -11,48 +11,92 @@ namespace WampSharp.V2.CalleeProxy
 {
     internal class OperationResultExtractor
     {
-        public static IOperationResultExtractor<T> Get<T>(MethodInfo method)
+        public static IOperationResultExtractor<TResult> GetResultExtractor<TResult>(MethodInfo method)
         {
-            IOperationResultExtractor<T> extractor;
+            IOperationResultExtractor<TResult> extractor;
 
-            if (typeof(T).IsValueTuple())
+            if (typeof(TResult).IsValueTuple())
             {
-                extractor = GetValueTupleOperationResultExtractor<T>(method);
-            }
-            else if (!method.HasMultivaluedResult())
-            {
-                bool hasReturnValue = method.HasReturnValue();
-                extractor = new SingleValueExtractor<T>(hasReturnValue);
+                extractor = GetValueTupleOperationResultExtractor<TResult>(method);
             }
             else
             {
-                Type elementType = typeof(T).GetElementType();
-
-                Type extractorType =
-                    typeof(MultiValueExtractor<>).MakeGenericType(elementType);
-
-                extractor =
-                    (IOperationResultExtractor<T>)Activator.CreateInstance(extractorType);
+                extractor = GetNonTupleExtractor<TResult>(method);
             }
 
             return extractor;
         }
 
-        private static IOperationResultExtractor<T> GetValueTupleOperationResultExtractor<T>(MethodInfo method)
+        public static IOperationResultExtractor<TProgress> GetProgressExtractor<TProgress>(MethodInfo method)
+        {
+            IOperationResultExtractor<TProgress> extractor;
+
+            if (typeof(TProgress).IsValueTuple())
+            {
+                extractor = GetValueTupleOperationResultExtractor<TProgress>(method.GetProgressParameter());
+            }
+            else
+            {
+                extractor = GetNonTupleExtractor<TProgress>(method);
+            }
+
+            return extractor;
+        }
+
+        private static IOperationResultExtractor<TResult> GetNonTupleExtractor<TResult>(MethodInfo method)
+        {
+            IOperationResultExtractor<TResult> extractor;
+            
+            if (!method.HasMultivaluedResult(typeof(TResult)))
+            {
+                bool hasReturnValue = method.HasReturnValue();
+                extractor = new SingleValueExtractor<TResult>(hasReturnValue);
+            }
+            else
+            {
+                Type elementType = typeof(TResult).GetElementType();
+
+                Type extractorType =
+                    typeof(MultiValueExtractor<>).MakeGenericType(elementType);
+
+                extractor =
+                    (IOperationResultExtractor<TResult>)Activator.CreateInstance(extractorType);
+            }
+
+            return extractor;
+        }
+
+        private static IOperationResultExtractor<TProgress> GetValueTupleOperationResultExtractor<TProgress>(ParameterInfo progressParameter)
+        {
+            Type tupleType = progressParameter.ParameterType.GetGenericArguments()[0];
+            
+            ArgumentUnpacker unpacker = GetTupleArgumentUnpacker(progressParameter, tupleType);
+
+            return new ValueTupleValueExtractor<TProgress>(unpacker);
+        }
+
+        private static IOperationResultExtractor<TResult> GetValueTupleOperationResultExtractor<TResult>(MethodInfo method)
         {
             ArgumentUnpacker unpacker = GetTupleArgumentUnpacker(method);
 
-            return new ValueTupleValueExtractor<T>(unpacker);
+            return new ValueTupleValueExtractor<TResult>(unpacker);
         }
 
         private static ArgumentUnpacker GetTupleArgumentUnpacker(MethodInfo method)
         {
             Type tupleType = TaskExtensions.UnwrapReturnType(method.ReturnType);
 
+            ParameterInfo valueTupleParameterInfo = method.ReturnParameter;
+            
+            return GetTupleArgumentUnpacker(valueTupleParameterInfo, tupleType);
+        }
+
+        private static ArgumentUnpacker GetTupleArgumentUnpacker(ParameterInfo valueTupleParameterInfo, Type tupleType)
+        {
             IEnumerable<string> transformNames = null;
 
             TupleElementNamesAttribute attribute =
-                method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
+                valueTupleParameterInfo.GetCustomAttribute<TupleElementNamesAttribute>();
 
             if (attribute != null)
             {

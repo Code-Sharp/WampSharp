@@ -6,12 +6,12 @@ namespace WampSharp.V2.Rpc
 {
     internal static class WampResultAttributeExtensions
     {
-        public static bool HasMultivaluedResult(this MethodInfo method)
+        public static bool HasMultivaluedResult(this MethodInfo method, Type typeToCheck)
         {
             WampResultAttribute resultAttribute = 
                 method.ReturnParameter.GetCustomAttribute<WampResultAttribute>(true);
 
-            Type unwrapped = TaskExtensions.UnwrapReturnType(method.ReturnType);
+            Type unwrapped = typeToCheck;
 
             if (!unwrapped.IsArray)
             {

@@ -45,7 +45,7 @@ namespace WampSharp.V2.CalleeProxy
 
         private static IOperationResultExtractor<T> GetExtractor<T>(MethodInfo method)
         {
-            return OperationResultExtractor.Get<T>(method);
+            return OperationResultExtractor.GetResultExtractor<T>(method);
         }
 
 

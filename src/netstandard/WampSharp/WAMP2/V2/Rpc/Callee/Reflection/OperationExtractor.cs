@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using WampSharp.Core.Utilities;
 using WampSharp.V2.Core.Contracts;
 using TaskExtensions = WampSharp.Core.Utilities.TaskExtensions;
 
@@ -91,20 +92,12 @@ namespace WampSharp.V2.Rpc
 
             Type returnType =
                 TaskExtensions.UnwrapReturnType(method.ReturnType);
-            ParameterInfo[] parameters = method.GetParameters();
-            ParameterInfo lastParameter = parameters.LastOrDefault();
-            ParameterInfo progressParameter = lastParameter;
 
-            if ((lastParameter != null) &&
-                (lastParameter.ParameterType == typeof(CancellationToken)))
-            {
-                progressParameter =
-                    parameters.Take(parameters.Length - 1).LastOrDefault();
-            }
+            Type progressType = method.GetProgressParameterType();
 
             Type operationType =
                 typeof(ProgressiveAsyncMethodInfoRpcOperation<,>)
-                    .MakeGenericType(returnType, progressParameter.ParameterType.GetGenericArguments().First());
+                    .MakeGenericType(progressType, returnType);
 
             IWampRpcOperation operation =
                 (IWampRpcOperation)Activator.CreateInstance(operationType,

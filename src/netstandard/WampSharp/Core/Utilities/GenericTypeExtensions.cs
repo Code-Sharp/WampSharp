@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
+using System.Threading;
 
 namespace WampSharp.Core.Utilities
 {
@@ -54,6 +56,29 @@ namespace WampSharp.Core.Utilities
                            .Select(x => GetClosedGenericTypeImplementation(x, openGenericType))
                            .FirstOrDefault(x => x != null);
             }
+        }
+
+        public static Type GetProgressParameterType(this MethodInfo method)
+        {
+            ParameterInfo progressParameter = GetProgressParameter(method);
+
+            return progressParameter.ParameterType.GetGenericArguments()[0];
+        }
+
+        public static ParameterInfo GetProgressParameter(this MethodInfo method)
+        {
+            ParameterInfo[] parameters = method.GetParameters();
+            ParameterInfo lastParameter = parameters.LastOrDefault();
+            ParameterInfo progressParameter = lastParameter;
+
+            if ((lastParameter != null) &&
+                (lastParameter.ParameterType == typeof(CancellationToken)))
+            {
+                progressParameter =
+                    parameters.Take(parameters.Length - 1).LastOrDefault();
+            }
+
+            return progressParameter;
         }
     }
 }

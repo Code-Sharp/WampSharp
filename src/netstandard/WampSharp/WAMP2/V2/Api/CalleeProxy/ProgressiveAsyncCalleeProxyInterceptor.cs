@@ -14,7 +14,7 @@ namespace WampSharp.V2.CalleeProxy
 
         public ProgressiveAsyncCalleeProxyInterceptor(MethodInfo method, IWampCalleeProxyInvocationHandler handler, ICalleeProxyInterceptor interceptor) : base(method, handler, interceptor)
         {
-            ProgressExtractor = OperationResultExtractor.Get<TProgress>(method);
+            ProgressExtractor = OperationResultExtractor.GetProgressExtractor<TProgress>(method);
 
             SupportsCancellation = 
                 method.GetParameters().LastOrDefault()?.ParameterType == typeof(CancellationToken);

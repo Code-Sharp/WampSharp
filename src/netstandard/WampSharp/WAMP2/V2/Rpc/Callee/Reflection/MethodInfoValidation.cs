@@ -104,16 +104,7 @@ namespace WampSharp.V2.Rpc
         {
             ValidateAsyncMethod(method);
 
-            ParameterInfo[] parameters = method.GetParameters();
-            ParameterInfo lastParameter = parameters.LastOrDefault();
-            ParameterInfo progressParameter = lastParameter;
-
-            if ((lastParameter != null) &&
-                (lastParameter.ParameterType == typeof(CancellationToken)))
-            {
-                progressParameter =
-                    parameters.Take(parameters.Length - 1).LastOrDefault();
-            }
+            ParameterInfo progressParameter = method.GetProgressParameter();
 
             if ((progressParameter == null) || (progressParameter.ParameterType.GetGenericTypeDefinition() != typeof(IProgress<>)))
             {
