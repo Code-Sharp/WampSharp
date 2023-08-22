@@ -41,14 +41,38 @@ namespace WampSharp.V2.Rpc
             return extractor;
         }
 
+        public static IWampResultExtractor GetResultExtractor(LocalRpcOperation operation, bool hasResult)
+        {
+            IWampResultExtractor extractor = new EmptyResultExtractor();
+
+            if (hasResult)
+            {
+                if (operation.CollectionResultTreatment == CollectionResultTreatment.SingleValue)
+                {
+                    extractor = new SingleResultExtractor();
+                }
+                else
+                {
+                    extractor = new MultiResultExtractor();
+                }
+            }
+
+            return extractor;
+        }
+
         public static IWampResultExtractor GetValueTupleResultExtractor(MethodInfo method)
         {
             Type tupleType = TaskExtensions.UnwrapReturnType(method.ReturnType);
 
+            return GetValueTupleResultExtractor(tupleType, method.ReturnParameter);
+        }
+
+        public static IWampResultExtractor GetValueTupleResultExtractor(Type tupleType, ParameterInfo valueTupleParameter)
+        {
             IWampResultExtractor result = new PositionalTupleExtractor(tupleType);
 
             TupleElementNamesAttribute attribute =
-                method.ReturnParameter.GetCustomAttribute<TupleElementNamesAttribute>();
+                valueTupleParameter.GetCustomAttribute<TupleElementNamesAttribute>();
 
             if (attribute != null)
             {

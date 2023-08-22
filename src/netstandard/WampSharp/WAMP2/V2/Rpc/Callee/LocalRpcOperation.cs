@@ -64,7 +64,7 @@ namespace WampSharp.V2.Rpc
             return InnerInvoke(caller, formatter, details, arguments, argumentsKeywords);
         }
 
-        protected virtual object[] GetResultArguments(object result)
+        protected virtual object[] GetResultArguments(object result, YieldOptions yieldOptions)
         {
             IWampResultExtractor extractor = WampResultExtractor.GetResultExtractor(this);
 
@@ -77,7 +77,7 @@ namespace WampSharp.V2.Rpc
             {
                 caller.Result(ObjectFormatter, options, arguments, argumentKeywords);
             }
-            else if (!this.HasResult)
+            else if (options.Progress != true && !this.HasResult)
             {
                 caller.Result(ObjectFormatter, options);
             }

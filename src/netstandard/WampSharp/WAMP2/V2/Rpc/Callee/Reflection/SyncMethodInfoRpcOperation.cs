@@ -94,7 +94,7 @@ namespace WampSharp.V2.Rpc
             }
         }
 
-        protected override object[] GetResultArguments(object result)
+        protected override object[] GetResultArguments(object result, YieldOptions yieldOptions)
         {
             return mResultExtractor.GetArguments(result);
         }

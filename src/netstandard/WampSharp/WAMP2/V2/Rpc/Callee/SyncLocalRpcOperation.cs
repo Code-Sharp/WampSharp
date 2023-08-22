@@ -71,7 +71,7 @@ namespace WampSharp.V2.Rpc
         protected void CallResult(IWampRawRpcOperationRouterCallback caller, object result, IDictionary<string, object> outputs, YieldOptions yieldOptions = null)
         {
             yieldOptions = yieldOptions ?? new YieldOptions();
-            object[] resultArguments = GetResultArguments(result);
+            object[] resultArguments = GetResultArguments(result, yieldOptions);
 
             IDictionary<string, object> argumentKeywords =
                 GetResultArgumentKeywords(result, outputs);

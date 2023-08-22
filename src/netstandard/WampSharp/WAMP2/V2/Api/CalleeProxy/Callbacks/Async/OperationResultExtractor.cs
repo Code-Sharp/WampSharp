@@ -21,7 +21,7 @@ namespace WampSharp.V2.CalleeProxy
             }
             else
             {
-                extractor = GetNonTupleExtractor<TResult>(method);
+                extractor = GetNonTupleExtractor<TResult>(method, method.HasReturnValue());
             }
 
             return extractor;
@@ -37,19 +37,18 @@ namespace WampSharp.V2.CalleeProxy
             }
             else
             {
-                extractor = GetNonTupleExtractor<TProgress>(method);
+                extractor = GetNonTupleExtractor<TProgress>(method, true);
             }
 
             return extractor;
         }
 
-        private static IOperationResultExtractor<TResult> GetNonTupleExtractor<TResult>(MethodInfo method)
+        private static IOperationResultExtractor<TResult> GetNonTupleExtractor<TResult>(MethodInfo method, bool hasReturnValue)
         {
             IOperationResultExtractor<TResult> extractor;
             
             if (!method.HasMultivaluedResult(typeof(TResult)))
             {
-                bool hasReturnValue = method.HasReturnValue();
                 extractor = new SingleValueExtractor<TResult>(hasReturnValue);
             }
             else

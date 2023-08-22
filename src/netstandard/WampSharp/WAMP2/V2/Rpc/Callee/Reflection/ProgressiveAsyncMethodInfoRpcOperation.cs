@@ -12,6 +12,7 @@ namespace WampSharp.V2.Rpc
     public class ProgressiveAsyncMethodInfoRpcOperation<TProgress, TResult> : AsyncMethodInfoRpcOperation
     {
         private readonly RpcParameter[] mRpcParameters;
+        private readonly IWampResultExtractor mProgressExtractor;
 
         public ProgressiveAsyncMethodInfoRpcOperation(Func<object> instanceProvider, MethodInfo method, string procedureName) :
             base(instanceProvider, method, procedureName)
@@ -23,6 +24,15 @@ namespace WampSharp.V2.Rpc
             Array.Copy(baseParameters,
                 mRpcParameters,
                 mRpcParameters.Length);
+
+            mProgressExtractor = WampResultExtractor.GetResultExtractor(this, true);
+
+            ParameterInfo progressParameter = method.GetProgressParameter();
+            
+            if (progressParameter.ParameterType.IsValueType)
+            {
+                mProgressExtractor = WampResultExtractor.GetValueTupleResultExtractor(progressParameter.ParameterType, progressParameter);
+            }
         }
 
         protected override object[] GetMethodParameters<TMessage>(IWampRawRpcOperationRouterCallback caller, CancellationToken cancellationToken, IWampFormatter<TMessage> formatter, TMessage[] arguments, IDictionary<string, TMessage> argumentsKeywords)
@@ -41,6 +51,30 @@ namespace WampSharp.V2.Rpc
             object[] result = parameters.ToArray();
 
             return result;
+        }
+
+        protected override object[] GetResultArguments(object result, YieldOptions yieldOptions)
+        {
+            if (yieldOptions.Progress == true)
+            {
+                return mProgressExtractor.GetArguments(result);
+            }
+            else
+            {
+                return base.GetResultArguments(result, yieldOptions);
+            }
+        }
+
+        protected override IDictionary<string, object> GetResultArgumentKeywords(object result, YieldOptions yieldOptions)
+        {
+            if (yieldOptions.Progress == true)
+            {
+                return mProgressExtractor.GetArgumentKeywords(result);
+            }
+            else
+            {
+                return base.GetResultArgumentKeywords(result, yieldOptions);
+            }
         }
 
         public override RpcParameter[] Parameters => mRpcParameters;

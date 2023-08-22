@@ -87,10 +87,10 @@ namespace WampSharp.V2.Rpc
         {
             yieldOptions = yieldOptions ?? new YieldOptions();
 
-            object[] resultArguments = GetResultArguments(result);
+            object[] resultArguments = GetResultArguments(result, yieldOptions);
 
             IDictionary<string, object> resultArgumentKeywords =
-                GetResultArgumentKeywords(result);
+                GetResultArgumentKeywords(result, yieldOptions);
 
             CallResult(caller,
                        yieldOptions,
@@ -98,7 +98,8 @@ namespace WampSharp.V2.Rpc
                        resultArgumentKeywords);
         }
 
-        protected virtual IDictionary<string, object> GetResultArgumentKeywords(object result)
+        protected virtual IDictionary<string, object> GetResultArgumentKeywords(
+            object result, YieldOptions yieldOptions)
         {
             return null;
         }

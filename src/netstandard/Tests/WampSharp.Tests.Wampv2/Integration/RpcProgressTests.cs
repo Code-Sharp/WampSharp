@@ -141,6 +141,29 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(result, Is.EqualTo((10, "10")));
         }
 
+        [Test]
+        public async Task ProgressiveCallsCalleeProxyProgressTask()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            LongOpService myOperation = new LongOpService();
+
+            await calleeChannel.RealmProxy.Services.RegisterCallee(myOperation);
+            ILongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ILongOpService>();
+
+            List<int> results = new List<int>();
+            MyProgress<int> progress = new MyProgress<int>(i => results.Add(i));
+
+            await proxy.LongOpTask(10, progress);
+
+            CollectionAssert.AreEquivalent(Enumerable.Range(0, 10), results);
+        }
+
+
 
         [Test]
         public async Task ProgressiveCallsCalleeProxyObservable()
@@ -297,6 +320,9 @@ namespace WampSharp.Tests.Wampv2.Integration
             [WampProgressiveResultProcedure]
             Task<(int, string)> LongOpValueTuple(int n, IProgress<(int a, int b)> progress);
 
+            [WampProcedure(MyOperation.ProcedureUri + "task")]
+            [WampProgressiveResultProcedure]
+            Task LongOpTask(int n, IProgress<int> progress);
         }
 
         public class LongOpService : ILongOpService
@@ -321,6 +347,15 @@ namespace WampSharp.Tests.Wampv2.Integration
                 }
 
                 return (n, n.ToString());
+            }
+
+            public async Task LongOpTask(int n, IProgress<int> progress)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    progress.Report(i);
+                    await Task.Delay(100);
+                }
             }
         }
 
