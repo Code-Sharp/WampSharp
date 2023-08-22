@@ -141,6 +141,30 @@ namespace WampSharp.Tests.Wampv2.Integration
             Assert.That(result, Is.EqualTo((10, "10")));
         }
 
+
+        [Test]
+        public async Task ProgressiveCallsCalleeProxyProgressValueTuplesReflectionCallee()
+        {
+            WampPlayground playground = new WampPlayground();
+
+            CallerCallee dualChannel = await playground.GetCallerCalleeDualChannel();
+            IWampChannel calleeChannel = dualChannel.CalleeChannel;
+            IWampChannel callerChannel = dualChannel.CallerChannel;
+
+            await calleeChannel.RealmProxy.Services.RegisterCallee(new LongOpService());
+            ILongOpService proxy = callerChannel.RealmProxy.Services.GetCalleeProxy<ILongOpService>();
+
+            List<(int a, int b)> results = new List<(int a, int b)>();
+            MyProgress<(int a, int b)> progress = new MyProgress<(int a, int b)>(i => results.Add(i));
+
+            var result = await proxy.LongOpValueTuple(10, progress);
+
+            CollectionAssert.AreEquivalent(Enumerable.Range(0, 10).Select(x => (a:x,b:x)), results);
+
+            Assert.That(result, Is.EqualTo((10, "10")));
+        }
+
+
         [Test]
         public async Task ProgressiveCallsCalleeProxyProgressTask()
         {

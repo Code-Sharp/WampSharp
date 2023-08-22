@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading;
 using WampSharp.Core.Serialization;
 using WampSharp.Core.Utilities;
+using WampSharp.Core.Utilities.ValueTuple;
 using WampSharp.V2.Core.Contracts;
 
 namespace WampSharp.V2.Rpc
@@ -28,10 +29,12 @@ namespace WampSharp.V2.Rpc
             mProgressExtractor = WampResultExtractor.GetResultExtractor(this, true);
 
             ParameterInfo progressParameter = method.GetProgressParameter();
+
+            Type progressType = progressParameter.ParameterType.GetGenericArguments()[0];
             
-            if (progressParameter.ParameterType.IsValueType)
+            if (progressType.IsValueTuple())
             {
-                mProgressExtractor = WampResultExtractor.GetValueTupleResultExtractor(progressParameter.ParameterType, progressParameter);
+                mProgressExtractor = WampResultExtractor.GetValueTupleResultExtractor(progressType, progressParameter);
             }
         }
 
