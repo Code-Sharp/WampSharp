@@ -8,7 +8,7 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal abstract class SyncCallbackBase : IWampRawRpcOperationClientCallback
+    internal abstract class SyncCallbackBase : IWampRawRpcOperationClientCallback, IDisposable
     {
         private readonly ManualResetEvent mWaitHandle = new ManualResetEvent(false);
 
@@ -57,6 +57,11 @@ namespace WampSharp.V2.CalleeProxy
         {
             Exception = exception;
             mWaitHandle.Set();
+        }
+
+        public void Dispose()
+        {
+            mWaitHandle?.Dispose();
         }
     }
 }

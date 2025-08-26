@@ -95,7 +95,7 @@ namespace WampSharp.Tests.Wampv2.Client.Caller
             IWampChannel channel =
                 playground.GetChannel(mServerMock, "realm1", mBinding);
 
-            channel.Open();
+            channel.Open().Wait();
 
             mCallAction(channel.RealmProxy.RpcCatalog, mCallbackMock);
         }

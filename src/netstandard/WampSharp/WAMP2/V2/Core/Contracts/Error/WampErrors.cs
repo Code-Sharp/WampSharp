@@ -63,6 +63,11 @@
         public const string GoodbyeAndOut = "wamp.error.goodbye_and_out";
 
         /// <summary>
+        /// A *Peer* received invalid WAMP protocol message (e.g. HELLO message after session was already established) - used as a `ABORT` reply reason.
+        /// </summary>
+        public const string ProtocolViolation = "wamp.error.protocol_violation";
+
+        /// <summary>
         /// A *Dealer* could not perform a call, since the procedure called does not exist.
         /// </summary>
         public const string NoSuchProcedure = "wamp.error.no_such_procedure";

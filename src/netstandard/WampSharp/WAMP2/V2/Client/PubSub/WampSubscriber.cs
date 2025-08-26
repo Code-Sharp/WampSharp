@@ -61,7 +61,7 @@ namespace WampSharp.V2.Client
 
         private Task Unsubscribe(Subscription subscription)
         {
-            TaskCompletionSource<bool> completionSource = new TaskCompletionSource<bool>();
+            TaskCompletionSource<bool> completionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             Task result = completionSource.Task;
 
             lock (mLock)

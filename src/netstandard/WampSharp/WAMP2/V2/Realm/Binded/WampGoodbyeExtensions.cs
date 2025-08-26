@@ -11,7 +11,7 @@ namespace WampSharp.V2.Realm.Binded
             {
                 clientProxy.GoodbyeSent = true;
                 clientProxy.Goodbye(details, reason);
-                clientProxy.Realm.Goodbye(clientProxy.Session, details, reason);
+                clientProxy.Realm?.Goodbye(clientProxy.Session, details, reason);
             }
         }
     }

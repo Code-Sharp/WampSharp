@@ -92,13 +92,13 @@ namespace WampSharp.WebSockets
 
         protected abstract WebSocketMessageType WebSocketMessageType { get; }
 
-        protected async void InnerConnect()
+        protected void InnerConnect()
         {
-            bool connected = await TryConnect();
+            bool connected = Task.Run(TryConnect, mCancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
             if (connected)
             {
-                await Task.Run(this.RunAsync, mCancellationToken).ConfigureAwait(false);
+                Task.Run(RunAsync, mCancellationToken);
             }
         }
 
@@ -138,7 +138,7 @@ namespace WampSharp.WebSockets
                 // Buffer for received bits.
                 ArraySegment<byte> receivedDataBuffer = new ArraySegment<byte>(new byte[maxMessageSize]);
 
-                MemoryStream memoryStream = new MemoryStream();
+                using MemoryStream memoryStream = new MemoryStream();
 
                 // Checks WebSocket state.
                 while (IsConnected && !mCancellationToken.IsCancellationRequested)

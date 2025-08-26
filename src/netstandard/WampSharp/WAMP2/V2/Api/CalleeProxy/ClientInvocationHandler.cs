@@ -10,7 +10,7 @@ using WampSharp.V2.Rpc;
 
 namespace WampSharp.V2.CalleeProxy
 {
-    internal class ClientInvocationHandler : WampCalleeProxyInvocationHandler
+    internal class ClientInvocationHandler : WampCalleeProxyInvocationHandler, IDisposable
     {
         #region Data Members
 
@@ -19,7 +19,7 @@ namespace WampSharp.V2.CalleeProxy
 
         private TaskCompletionSource<Exception> mDisconnectionTaskCompletionSource;
 
-        private ManualResetEvent mDisconnectionWaitHandle;
+        private readonly ManualResetEvent mDisconnectionWaitHandle;
 
         private Exception mDisconnectionException;
         private readonly CallOptions mEmptyOptions = new CallOptions();
@@ -34,7 +34,7 @@ namespace WampSharp.V2.CalleeProxy
             mCatalogProxy = catalogProxy;
             mMonitor = monitor;
 
-            mDisconnectionTaskCompletionSource = new TaskCompletionSource<Exception>();
+            mDisconnectionTaskCompletionSource = new TaskCompletionSource<Exception>(TaskCreationOptions.RunContinuationsAsynchronously);
             mDisconnectionWaitHandle = new ManualResetEvent(false);
 
             mMonitor.ConnectionError += OnConnectionError;
@@ -56,8 +56,8 @@ namespace WampSharp.V2.CalleeProxy
             Exception exception = new WampConnectionBrokenException(e);
             SetException(exception);
 
-            mDisconnectionTaskCompletionSource = new TaskCompletionSource<Exception>();
-            mDisconnectionWaitHandle = new ManualResetEvent(false);
+            mDisconnectionTaskCompletionSource = new TaskCompletionSource<Exception>(TaskCreationOptions.RunContinuationsAsynchronously);
+            mDisconnectionWaitHandle.Reset();
         }
 
         private void OnConnectionError(object sender, WampConnectionErrorEventArgs e)
@@ -127,7 +127,13 @@ namespace WampSharp.V2.CalleeProxy
                                         procedureUri,
                                         arguments);
         }
-
-#endregion
+        public void Dispose()
+        {
+            mMonitor.ConnectionError -= OnConnectionError;
+            mMonitor.ConnectionBroken -= OnConnectionBroken;
+            mDisconnectionWaitHandle?.Dispose();
+        }
+        
+        #endregion
     }
 }

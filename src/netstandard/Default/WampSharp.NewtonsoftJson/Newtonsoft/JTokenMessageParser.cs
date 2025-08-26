@@ -39,13 +39,13 @@ namespace WampSharp.Newtonsoft
 
         public string Format(WampMessage<object> message)
         {
-            StringWriter writer = new StringWriter();
-            JsonTextWriter jsonWriter = new JsonTextWriter(writer);
+            using StringWriter writer = new StringWriter();
+            using JsonTextWriter jsonWriter = new JsonTextWriter(writer);
             jsonWriter.Formatting = Formatting.None;
             object[] array = mMessageFormatter.Format(message);
             mSerializer.Serialize(jsonWriter, array);
             string result = writer.ToString();
-            
+
             mLogger.DebugFormat("Formatted message {JsonMessage}", result);
             return result;
         }
@@ -59,17 +59,15 @@ namespace WampSharp.Newtonsoft
         {
             try
             {
-                using (JsonReader reader = new JsonTextReader(new StreamReader(stream)) {CloseInput = false})
+                using JsonReader reader = new JsonTextReader(new StreamReader(stream)) {CloseInput = false};
+                JToken parsed = JToken.ReadFrom(reader);
+
+                if (mLogger.IsDebugEnabled())
                 {
-                    JToken parsed = JToken.ReadFrom(reader);
-
-                    if (mLogger.IsDebugEnabled())
-                    {
-                        mLogger.DebugFormat("Trying to parse message {JsonMessage}", parsed.ToString(Formatting.None));
-                    }
-
-                    return mMessageFormatter.Parse(parsed);
+                    mLogger.DebugFormat("Trying to parse message {JsonMessage}", parsed.ToString(Formatting.None));
                 }
+
+                return mMessageFormatter.Parse(parsed);
             }
             catch (Exception ex)
             {

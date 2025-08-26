@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using WampSharp.Binding;
@@ -25,7 +26,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 new CustomAuthenticator
                 {
                     AuthenticationId = "peter",
-                    AuthenticationMethods = new string[] {"ticket"}
+                    AuthenticationMethods = new string[] { "ticket" }
                 };
 
             HelloMock mock = new HelloMock();
@@ -41,6 +42,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             channel.Open();
 
+            mock.HelloCalled.Task.Wait();
             IDictionary<string, ISerializedValue> deserializedDetails =
                 mock.Details.OriginalValue.Deserialize<IDictionary<string, ISerializedValue>>
                     ();
@@ -84,8 +86,9 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             channel.Open();
 
+            authenticator.Authenticated.Task.Wait();
             Assert.That(authenticator.AuthMethod, Is.EqualTo("ticket"));
-            
+
             Assert.That(authenticator.Extra.OriginalValue.Deserialize<MyChallengeDetails>(),
                 Is.EqualTo(myChallengeDetails));
         }
@@ -101,13 +104,13 @@ namespace WampSharp.Tests.Wampv2.Integration
                     {
                         return new AuthenticationResponse()
                         {
-                            Extra = new MyAuthenticateExtraData() {Secret1 = 3},
+                            Extra = new MyAuthenticateExtraData() { Secret1 = 3 },
                             Signature = "secretsignature"
                         };
                     })
                 {
                     AuthenticationId = "peter",
-                    AuthenticationMethods = new string[] {"ticket"}
+                    AuthenticationMethods = new string[] { "ticket" }
                 };
 
             AuthenticateMock mock = new AuthenticateMock("ticket");
@@ -123,10 +126,11 @@ namespace WampSharp.Tests.Wampv2.Integration
 
             channel.Open();
 
+            mock.Authenticated.Task.Wait();
             Assert.That(mock.Signature,
                 Is.EqualTo("secretsignature"));
 
-            IDictionary<string, ISerializedValue> deserializedExtra = 
+            IDictionary<string, ISerializedValue> deserializedExtra =
                 mock.Extra.OriginalValue.Deserialize<IDictionary<string, ISerializedValue>>();
 
             Assert.That(deserializedExtra["secret1"].Deserialize<int>(),
@@ -166,7 +170,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                         jsonBinding,
                         authenticator);
 
-            channel.Open();
+            Assert.ThrowsAsync<WampAuthenticationException>(channel.Open);
 
             Assert.That(mock.Reason,
                 Is.EqualTo("some reason"));
@@ -194,7 +198,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 if (ReferenceEquals(null, obj)) return false;
                 if (ReferenceEquals(this, obj)) return true;
                 if (obj.GetType() != this.GetType()) return false;
-                return Equals((MyAbortDetails) obj);
+                return Equals((MyAbortDetails)obj);
             }
 
             public override int GetHashCode()
@@ -221,6 +225,7 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         private class AuthenticateMock : ChallengeMock
         {
+            public TaskCompletionSource<int> Authenticated { get; } = new TaskCompletionSource<int>();
             public string Signature { get; private set; }
             public AuthenticateExtraData Extra { get; private set; }
 
@@ -232,6 +237,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
                 Extra = extra;
                 Signature = signature;
+                Authenticated.SetResult(1);
             }
         }
 
@@ -262,12 +268,14 @@ namespace WampSharp.Tests.Wampv2.Integration
 
         private class HelloMock<TMessage> : MockServer<TMessage>
         {
+            public TaskCompletionSource<int> HelloCalled { get; } = new TaskCompletionSource<int>();
 
             public HelloDetails Details { get; private set; }
 
             public override void Hello(IWampSessionClient client, string realm, HelloDetails details)
             {
                 Details = details;
+                HelloCalled.SetResult(0);
             }
         }
 
@@ -392,8 +400,9 @@ namespace WampSharp.Tests.Wampv2.Integration
         private class CustomAuthenticator : IWampClientAuthenticator
         {
             private readonly Func<string, ChallengeDetails, AuthenticationResponse> mAuthenticate;
+            public TaskCompletionSource<int> Authenticated { get; } = new TaskCompletionSource<int>();
 
-            public CustomAuthenticator() : 
+            public CustomAuthenticator() :
                 this((authMethod, extra) => new AuthenticationResponse())
             {
             }
@@ -407,6 +416,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             {
                 Extra = extra;
                 AuthMethod = authmethod;
+                Authenticated.SetResult(0);
                 return mAuthenticate(authmethod, extra);
             }
 
@@ -435,7 +445,7 @@ namespace WampSharp.Tests.Wampv2.Integration
                 if (ReferenceEquals(null, obj)) return false;
                 if (ReferenceEquals(this, obj)) return true;
                 if (obj.GetType() != this.GetType()) return false;
-                return Equals((MyChallengeDetails) obj);
+                return Equals((MyChallengeDetails)obj);
             }
 
             public override int GetHashCode()

@@ -44,7 +44,7 @@ namespace WampSharp.V2.Client
 
         public IWampRealmProxy RealmProxy => mClient.Realm;
 
-        public Task Open()
+        public async Task Open()
         {
             if (Interlocked.CompareExchange(ref mConnectCalled, 1, 0) != 0)
             {
@@ -54,8 +54,9 @@ namespace WampSharp.V2.Client
             else
             {
                 Task openTask = mClient.OpenTask;
+                await Task.Yield(); // avoid the blocking mConnection.Connect() to block us from returning the task early.
                 mConnection.Connect();
-                return openTask;
+                await openTask.ConfigureAwait(false);
             }
         }
 

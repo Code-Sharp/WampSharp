@@ -10,7 +10,7 @@ namespace WampSharp.V2.CalleeProxy
 {
     internal class AsyncOperationCallback<TResult> : IWampRawRpcOperationClientCallback
     {
-        private readonly TaskCompletionSource<TResult> mTask = new TaskCompletionSource<TResult>();
+        private readonly TaskCompletionSource<TResult> mTask = new TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously);
         private readonly IOperationResultExtractor<TResult> mResultExtractor;
 
         public AsyncOperationCallback(IOperationResultExtractor<TResult> resultExtractor)

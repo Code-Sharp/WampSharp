@@ -27,7 +27,7 @@ namespace WampSharp.Owin
                  base(authenticatorFactory)
         {
             mHandler = this.EmptyHandler;
-            app.Use(HttpHandler);
+            AppBuilderUseExtensions.Use(app, HttpHandler);
             mMaxFrameSize = maxFrameSize;
         }
 

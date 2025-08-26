@@ -7,7 +7,7 @@ namespace WampSharp.V2.Client
 {
     internal class WampPendingRequestBase<TMessage, TResult> : IWampPendingRequest
     {
-        private readonly TaskCompletionSource<TResult> mTaskCompletionSource = new TaskCompletionSource<TResult>();
+        private readonly TaskCompletionSource<TResult> mTaskCompletionSource = new TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously);
         private readonly IWampFormatter<TMessage> mFormatter;
 
         public WampPendingRequestBase(IWampFormatter<TMessage> formatter)

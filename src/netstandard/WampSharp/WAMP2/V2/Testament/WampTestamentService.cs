@@ -35,7 +35,7 @@ namespace WampSharp.V2.Testament
             {
                 if (mSessionIdToTestaments.TryGetValue(sessionId, out testaments))
                 {
-                    mSessionIdToTestaments.Remove(sessionId);
+                    mSessionIdToTestaments = mSessionIdToTestaments.Remove(sessionId);
                 }
             }
 

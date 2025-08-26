@@ -14,7 +14,7 @@ namespace WampSharp.V2.CalleeProxy
         {
             Type unwrapped = TaskExtensions.UnwrapReturnType(method.ReturnType);
 
-            SyncCallback<T> callback = InnerInvokeSync<T>(interceptor, method, extractor, arguments, unwrapped);
+            using SyncCallback<T> callback = InnerInvokeSync<T>(interceptor, method, extractor, arguments, unwrapped);
 
             WaitForResult(callback);
 
@@ -80,9 +80,16 @@ namespace WampSharp.V2.CalleeProxy
             callback.Wait(Timeout.Infinite);
         }
 
-        protected virtual Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback, CancellationTokenRegistration registration)
+        protected virtual async Task<T> AwaitForResult<T>(AsyncOperationCallback<T> asyncOperationCallback, CancellationTokenRegistration registration)
         {
-            return asyncOperationCallback.Task;
+            try
+            {
+                return await asyncOperationCallback.Task.ConfigureAwait(false);
+            }
+            finally
+            {
+                registration.Dispose();
+            }
         }
     }
 }

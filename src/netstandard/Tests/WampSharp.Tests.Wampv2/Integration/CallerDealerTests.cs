@@ -102,6 +102,7 @@ namespace WampSharp.Tests.Wampv2.Integration
             }
             else
             {
+                await Task.WhenAny(result);
                 AggregateException exception = result.Exception;
                 Exception actualException = exception.InnerException;
                 Assert.That(actualException, Is.TypeOf<WampException>());

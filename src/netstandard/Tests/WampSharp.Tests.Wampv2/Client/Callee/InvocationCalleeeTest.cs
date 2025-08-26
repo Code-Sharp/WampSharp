@@ -129,7 +129,7 @@ namespace WampSharp.Tests.Wampv2.Client.Callee
             IWampChannel channel =
                 playground.GetChannel(mDealer, "realm1", mBinding);
 
-            channel.Open();
+            channel.Open().Wait();
 
             Task register = 
                 channel.RealmProxy.RpcCatalog.Register(mOperation, new RegisterOptions());

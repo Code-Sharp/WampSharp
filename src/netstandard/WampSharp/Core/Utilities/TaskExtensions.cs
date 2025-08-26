@@ -136,7 +136,7 @@ namespace WampSharp.Core.Utilities
                 throw new ArgumentNullException(nameof(transform));
             }
 
-            TaskCompletionSource<TResult> taskResult = new TaskCompletionSource<TResult>();
+            TaskCompletionSource<TResult> taskResult = new TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             task.ContinueWith(_ =>
             {
