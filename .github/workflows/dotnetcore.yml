@@ -5,14 +5,14 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: windows-2019
+    runs-on: windows-2025
 
     steps:
     - uses: actions/checkout@v1
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.x'
+        dotnet-version: '9.0.x'
     - name: Build with dotnet
       working-directory: src/netstandard/
       run: dotnet build --configuration Release
