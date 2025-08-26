@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using CliFx;
 using CliFx.Attributes;
-using CliFx.Services;
+using CliFx.Infrastructure;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,7 +21,7 @@ namespace WampSharp.Samples.AspNetCore.Router
         [CommandOption("port", 'p', Description = "The port to listen on for requests. Default value is 8080.", IsRequired = false)]
         public int Port { get; set; } = 8080;
 
-        public async Task ExecuteAsync(IConsole console)
+        public async ValueTask ExecuteAsync(IConsole console)
         {
             WampHost wampHost = new WampHost();
 

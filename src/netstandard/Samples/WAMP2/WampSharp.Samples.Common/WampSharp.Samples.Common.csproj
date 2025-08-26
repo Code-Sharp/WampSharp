@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CliFx" Version="0.0.5" />
+    <PackageReference Include="CliFx" Version="2.3.6" />
   </ItemGroup>
 
   <ItemGroup>

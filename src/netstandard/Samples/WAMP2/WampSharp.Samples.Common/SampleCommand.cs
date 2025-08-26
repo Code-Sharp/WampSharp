@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using CliFx;
 using CliFx.Attributes;
-using CliFx.Services;
+using CliFx.Infrastructure;
 using WampSharp.V2;
 using WampSharp.V2.Client;
 using WampSharp.V2.Fluent;
@@ -46,7 +46,7 @@ namespace WampSharp.Samples.Common
             set => mAddress = value;
         }
 
-        public async Task ExecuteAsync(IConsole console)
+        public async ValueTask ExecuteAsync(IConsole console)
         {
             IWampChannel channel = CreateChannel();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CliFx;
+using CliFx.Attributes;
 using WampSharp.V2;
 using WampSharp.Samples.Common;
 
@@ -17,6 +18,7 @@ namespace WampSharp.Samples.Callee
         }
     }
 
+    [Command]
     public class CalleeCommand<TService> : SampleCommand
         where TService : new()
     {

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CliFx.Attributes;
 using WampSharp.Samples.Common;
 using WampSharp.V2;
 
 namespace WampSharp.Samples.Subscriber.Reflection
 {
+    [Command]
     public class SubscriberCommand<TService> : SampleCommand
         where TService : new()
     {
